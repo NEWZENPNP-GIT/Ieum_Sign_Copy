@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="febsystem">
+	<typeAlias alias="ys010VO" type="com.ezsign.feb.system.vo.YS010VO" />
+	<resultMap id="ys010ListMap" class="ys010VO">
+		<result property="계약ID" column="계약ID"/>
+		<result property="사업장관리여부" column="사업장관리여부"/>
+		<result property="중간관리자여부" column="중간관리자여부"/>
+		<result property="국세청PDF유형코드" column="국세청PDF유형코드"/>
+		<result property="사내기부금여부" column="사내기부금여부"/>
+		<result property="공제불가회사지원금여부" column="공제불가회사지원금여부"/>
+		<result property="근로자부서표시여부코드" column="근로자부서표시여부코드"/>
+		<result property="근로자접속기간_FROM" column="근로자접속기간_FROM"/>
+		<result property="근로자접속기간_TO" column="근로자접속기간_TO"/>
+		<result property="관리자접속기간_FROM" column="관리자접속기간_FROM"/>
+		<result property="관리자접속기간_TO" column="관리자접속기간_TO"/>
+		<result property="근로자데이터입력수정여부" column="근로자데이터입력수정여부"/>
+		<result property="근로자확정기능여부" column="근로자확정기능여부"/>
+		<result property="근로자출력설정_원천징수영수증" column="근로자출력설정_원천징수영수증"/>
+		<result property="근로자출력설정_소득공제신고서" column="근로자출력설정_소득공제신고서"/>
+		<result property="근로자출력설정_의료비명세서" column="근로자출력설정_의료비명세서"/>
+		<result property="근로자출력설정_기부금명세서" column="근로자출력설정_기부금명세서"/>
+		<result property="IP관리사용여부" column="IP관리사용여부"/>
+		<result property="등록일시" column="등록일시"/>
+		<result property="수정일시" column="수정일시"/>
+	</resultMap>
+	
+	<select id="ys010DAO.getYS010List" resultClass="ys010VO" resultMap="ys010ListMap">
+		SELECT 계약ID, 사업장관리여부, 중간관리자여부, 국세청PDF유형코드, 사내기부금여부, 공제불가회사지원금여부, 근로자부서표시여부코드, 
+			       근로자접속기간_FROM, 근로자접속기간_TO, 관리자접속기간_FROM, 관리자접속기간_TO, 근로자데이터입력수정여부, 근로자확정기능여부, 
+			       근로자출력설정_원천징수영수증, 근로자출력설정_소득공제신고서, 근로자출력설정_의료비명세서, 근로자출력설정_기부금명세서, IP관리사용여부,
+			       등록일시, 수정일시 
+		FROM tbl_ys010
+		WHERE	계약ID = #계약ID#
+	</select>
+	
+	<insert id="ys010DAO.insYS010" parameterClass="ys010VO">
+		INSERT INTO tbl_ys010 (
+			계약ID, 사업장관리여부, 중간관리자여부, 국세청PDF유형코드, 사내기부금여부, 공제불가회사지원금여부, 근로자부서표시여부코드, 
+		       근로자접속기간_FROM, 근로자접속기간_TO, 관리자접속기간_FROM, 관리자접속기간_TO, 근로자데이터입력수정여부, 근로자확정기능여부, 
+		       근로자출력설정_원천징수영수증, 근로자출력설정_소득공제신고서, 근로자출력설정_의료비명세서, 근로자출력설정_기부금명세서, IP관리사용여부,
+		       등록일시, 수정일시 
+		) VALUES (
+			#계약ID#, #사업장관리여부#, #중간관리자여부#, #국세청PDF유형코드#, #사내기부금여부#, #공제불가회사지원금여부#, #근로자부서표시여부코드#, 
+		   #근로자접속기간_FROM#, #근로자접속기간_TO#, #관리자접속기간_FROM#, #관리자접속기간_TO#, #근로자데이터입력수정여부#, #근로자확정기능여부#, 
+		   #근로자출력설정_원천징수영수증#, #근로자출력설정_소득공제신고서#, #근로자출력설정_의료비명세서#, #근로자출력설정_기부금명세서#, #IP관리사용여부#,
+		   DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<update id="ys010DAO.updYS010" parameterClass="ys010VO">
+		UPDATE tbl_ys010
+		SET	
+		<isNotNull property="사업장관리여부">
+		    <isNotEmpty property="사업장관리여부">
+			사업장관리여부			= #사업장관리여부#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="중간관리자여부">
+		    <isNotEmpty property="중간관리자여부">
+			중간관리자여부			= #중간관리자여부#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="국세청PDF유형코드">
+		    <isNotEmpty property="국세청PDF유형코드">
+			국세청PDF유형코드			= #국세청PDF유형코드#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사내기부금여부">
+		    <isNotEmpty property="사내기부금여부">
+			사내기부금여부			= #사내기부금여부#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="공제불가회사지원금여부">
+		    <isNotEmpty property="공제불가회사지원금여부">
+			공제불가회사지원금여부			= #공제불가회사지원금여부#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="근로자부서표시여부코드">
+		    <isNotEmpty property="근로자부서표시여부코드">
+			근로자부서표시여부코드			= #근로자부서표시여부코드#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="근로자접속기간_FROM">
+		    <isNotEmpty property="근로자접속기간_FROM">
+			근로자접속기간_FROM			= #근로자접속기간_FROM#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="근로자접속기간_TO">
+		    <isNotEmpty property="근로자접속기간_TO">
+			근로자접속기간_TO			= #근로자접속기간_TO#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="관리자접속기간_FROM">
+		    <isNotEmpty property="관리자접속기간_FROM">
+			관리자접속기간_FROM			= #관리자접속기간_FROM#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="관리자접속기간_TO">
+		    <isNotEmpty property="관리자접속기간_TO">
+			관리자접속기간_TO			= #관리자접속기간_TO#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="근로자데이터입력수정여부">
+		    <isNotEmpty property="근로자데이터입력수정여부">
+			근로자데이터입력수정여부			= #근로자데이터입력수정여부#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="근로자확정기능여부">
+		    <isNotEmpty property="근로자확정기능여부">
+			근로자확정기능여부			= #근로자확정기능여부#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="근로자출력설정_원천징수영수증">
+		    <isNotEmpty property="근로자출력설정_원천징수영수증">
+			근로자출력설정_원천징수영수증			= #근로자출력설정_원천징수영수증#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="근로자출력설정_소득공제신고서">
+		    <isNotEmpty property="근로자출력설정_소득공제신고서">
+			근로자출력설정_소득공제신고서			= #근로자출력설정_소득공제신고서#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="근로자출력설정_의료비명세서">
+		    <isNotEmpty property="근로자출력설정_의료비명세서">
+			근로자출력설정_의료비명세서			= #근로자출력설정_의료비명세서#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="근로자출력설정_기부금명세서">
+		    <isNotEmpty property="근로자출력설정_기부금명세서">
+			근로자출력설정_기부금명세서			= #근로자출력설정_기부금명세서#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="IP관리사용여부">
+		    <isNotEmpty property="IP관리사용여부">
+			IP관리사용여부			= #IP관리사용여부#,
+			</isNotEmpty>
+		</isNotNull>
+			수정일시			= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	계약ID    = #계약ID#
+	</update>
+	
+	<select id="ys010DAO.getWorkerDateCheck" parameterClass="ys010VO" resultClass="java.lang.Integer">
+		<![CDATA[
+		SELECT IF( (VAL1 + VAL2) = 2, 1, 0) AS CNT
+			FROM (
+				SELECT IF(B.근로자접속기간_FROM <= DATE_FORMAT(SYSDATE(),'%Y%m%d') , 1, 0) AS VAL1
+					, IF(B.근로자접속기간_TO >= DATE_FORMAT(SYSDATE(),'%Y%m%d') , 1, 0) AS VAL2
+			  	FROM tbl_ye000 A
+			  	LEFT OUTER JOIN tbl_ys010 B on A.계약ID = B.계약ID
+			 	WHERE A.계약ID = #계약ID#
+			   	AND A.사용자ID = #사용자ID#
+			) X;     
+		]]>
+	</select>
+	
+</sqlMap>

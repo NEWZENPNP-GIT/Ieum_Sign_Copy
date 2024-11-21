@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/personnel_management.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/font_awesome/css/all.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<!-- bootPag -->
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/ui.biz.core.js"></script>
+
+<script type="text/javascript">
+	
+	$(document).ready(function(){
+		
+		$('#searchValue').keypress(function(event){
+			var keycode = (event.keyCode ? event.keyCode : event.which);
+			if(keycode == '13'){
+				fn_searchList(1);
+			}
+			event.stopPropagation();
+		});
+		
+		fn_searchList(1);
+		
+	});
+
+
+	//***************					체크박스 전체 선택					***************//
+
+
+	function fn_checkAll() {
+		if ($("#checkall").prop("checked"))	{ $("input[name=chk]").prop("checked",true); }
+		else 								{ $("input[name=chk]").prop("checked",false); }
+	}
+	
+	function fn_searchList(page) {
+		
+		var url = rootPath+"biz/getBizList.do";
+		
+		var viewPage = $("#viewPage").val();
+		if(viewPage==""||viewPage=="0") viewPage = 10;
+
+		if (page==0)
+			curPage=0;
+		else 
+			curPage = page-1;
+		
+		if (curPage<0) {
+			curPage=0;
+			return;
+		}
+		if (curPage*viewPage>totPage) {
+			curPage-=1;
+			return;
+		}
+		
+		var bizStatus = $("#bizStatus").val();
+		var funnel = $("#funnel").val();
+		var searchKey = $("#searchKey").val();
+		var searchValue = $("#searchValue").val();
+		var startPage = (curPage*viewPage);
+		var endPage = viewPage;
+		var sortName = $("#sortName").val();
+		var sortOrder = $("#sortOrder").val();
+
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				bizStatus:bizStatus,
+				funnel:funnel,
+				searchKey:searchKey,
+				searchValue:searchValue,
+				startPage:startPage,
+				endPage:endPage,
+				sortName:sortName,
+				sortOrder:sortOrder
+			},
+			success:function(result)
+			{
+				var htmlData = "";
+
+				$("#dataList").html(htmlData);
+				
+				if (result.success==true) {
+					totPage = result.total;
+					var totalPage = Math.ceil(totPage/viewPage);
+					console.log(result.funnel);
+					$.each(result.data, function(i, row) {
+						var num = (curPage * viewPage) + i + 1;
+						htmlData += '<tr> ';
+						htmlData += ' <td><input type="checkbox" id="chk" name="chk" value="'+row.bizId+'"></td> ';
+						htmlData += ' <td>'+num+'</td> ';
+						if(row.funnel != ""){
+							$.each(result.funnel, function(r, data) {
+								if(data.commCode==row.funnel) {
+									htmlData += ' <td>'+data.commName+'</td> ';
+								}
+							});
+						}else{
+							htmlData += ' <td></td> ';
+						}
+						
+						htmlData += ' <td>'+row.bizName+'</td> ';
+						htmlData += ' <td>'+row.businessNo+'</td> ';
+						if(!isNull(row.ownerName)) {
+							htmlData += ' <td>'+row.ownerName+'</td> ';
+						} else {
+							htmlData += ' <td></td> ';
+						}
+						if(!isNull(row.addr1)) {
+							htmlData += ' <td>'+row.addr1+'</td> ';
+						} else {
+							htmlData += ' <td></td> ';
+						}
+						if(!isNull(row.personUserTelNum)) {
+							htmlData += ' <td>'+row.personUserTelNum+'</td> ';
+						} else {
+							htmlData += ' <td></td> ';
+						}
+						if(!isNull(row.personEMail)) {
+							htmlData += ' <td>'+row.personEMail+'</td> ';
+						} else {
+							htmlData += ' <td></td> ';
+						}
+						
+						// 진행상태가 등록완료인지 체크하여 데이터 제공
+						//if(row.bizStatus == 'Z90' || row.bizStatus == 'B00'){
+						//	htmlData += ' <td></td>';
+						//}
+						//else{
+						//	htmlData += '<td><span style="cursor:pointer;" onclick="fn_complete(\''+row.bizId+'\', '+row.funnel+')" ><i class="far fa-check-square fa-2x"></i></span></td> ';
+						//}
+
+						if(!isNull(row.insDate)) {
+							htmlData += ' <td>'+convertDate(row.insDate).format("yyyy-MM-dd")+'</td> ';
+						} else {
+							htmlData += ' <td></td>';
+						}
+						
+						/*
+						htmlData += '<td><span style="cursor:pointer;" onclick="fn_edit(\''+row.bizId+'\')"><i class="fas fa-edit fa-2x"></i></span></td> ';
+						*/
+						htmlData += '</tr> ';
+					})
+					
+					$('#bizStatus').children('option').remove();
+	                var bizStatusOption = $('<option value="">진행상태</option>');
+	                $('#bizStatus').append(bizStatusOption);
+					$.each(result.bizStatus, function(r, data) {
+						var seletedcode = "";
+						if(bizStatus == data.commCode) seletedcode = "selected";
+						var bizStatusOption = $('<option value="'+data.commCode + '" ' + seletedcode + '>'+data.commName+'</option>');
+		                $('#bizStatus').append(bizStatusOption);
+					})
+					
+					$('#funnel').children('option').remove();
+	                var funnelOption = $('<option value="">유입경로</option>');
+	                $('#funnel').append(funnelOption);
+					$.each(result.funnel, function(r, data) {
+						var seletedcode = "";
+						if(funnel == data.commCode) seletedcode = "selected";
+						var funnelOption = $('<option value="'+data.commCode + '" ' + seletedcode + '>'+data.commName+'</option>');
+		                $('#funnel').append(funnelOption);
+					})
+					
+					if(page==1) {
+						$('#page-selection').bootpag({
+								total: totalPage,          // total pages
+								page: page,            // default page
+								maxVisible: 10,     // visible pagination
+								firstLastUse: true,
+								leaps: true,        // next/prev leaps through maxVisible
+								first: '',
+							    last: '',
+							    wrapClass: 'pagination',
+							    activeClass: 'active',
+							    disabledClass: 'disabled',
+							    nextClass: 'btn_next',
+							    prevClass: 'btn_prev',
+							    lastClass: 'end_page',
+							    firstClass: 'first_page'
+							}).on("page", function(event, num){
+								fn_searchList(num);
+						});
+					}
+				} else {
+					htmlData += '<tr> <td colspan="9">요청하신 자료가 존재하지 않습니다.</td></tr>';
+					
+				}
+				$("#dataList").html(htmlData);
+
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				goInvalidPage(request, error);
+			}
+		});
+	}
+
+</script>
+</head>
+<body>
+	
+<!-- *********************************************  회원가입내역 관리  *********************************************  -->
+<div id="personList_wrap" class="">
+	<div class="container">
+		<div class="location"><span class="loc_main NanumGothic">기업관리 > </span><span class="loc_sub NanumGothic">기업가입내역</span></div>
+		
+		<div class="field_area">
+			<div class="selBox NanumGothic">
+				<select id="searchKey">
+					<option value="bizName" class="lt">회사명</option>
+					<option value="businessNo" class="lt">사업자번호</option>
+					<option value="ownerName" class="lt">대표자명</option>
+					<option value="addr1" class="lt">주소</option>
+				</select>
+			</div>
+			<div class="inputBox">
+				<fieldset>
+					<input type="text" id="searchValue" class="word_input NanumGothic">
+					<a class="btn_search btn_type Material_icons" onclick="fn_searchList(1)">search</a>
+				</fieldset>
+			</div>
+			<div class="selBox NanumGothic">
+				<select id="bizStatus" onchange="fn_searchList(1)">
+				</select>
+			</div>
+			<div class="selBox NanumGothic">
+				<select id="funnel" onchange="fn_searchList(1)">
+				</select>
+			</div>
+			<div class="selBox NanumGothic">
+				<select id="sortName" onchange="fn_searchList(1)">
+					<option value="A.INS_DATE" selected>정렬항목</option>
+					<option value="A.BUSINESS_NO">사업자번호</option>
+					<option value="A.BIZ_NAME">회사명</option>
+					<option value="A.OWNER_NAME">대표자명</option>
+					<option value="A.COMPANY_TEL_NUM">연락처</option>
+					<option value="A.ADDR1">주소</option>
+					<option value="A.INS_DATE">등록일시</option>
+				</select>
+			</div>
+			<div class="selBox NanumGothic">
+				<select id="sortOrder" onchange="fn_searchList(1)">
+					<option value="DESC" selected>정렬기준</option>
+					<option value="DESC">내림차순</option>
+					<option value="ASC">올림차순</option>
+				</select>
+			</div>
+			<div class="selBox NanumGothic">
+				<select id="viewPage" onchange="fn_searchList(1)">
+					<option value="10" selected>조회건수</option>
+					<option value="10">10건</option>
+					<option value="50">50건</option>
+					<option value="100">100건</option>
+					<option value="250">250건</option>
+				</select>
+			</div>
+		</div>
+		<div class="table_contents">
+			<div class="list">
+				<table class="NanumGothic">
+					<colgroup>
+						<col width="3%">
+						<col width="3%">
+						<col width="10%">
+						<col width="15%">
+						<col width="10%">
+						<col width="5%">
+						<col width="15%">
+						<col width="10%">
+						<col width="20%">
+						<col width="9%">
+					</colgroup>
+					<thead>
+						<tr>
+							<th class="chk_area"><input type="checkbox" id="checkall" onclick="fn_checkAll()"></th>
+							<th>순번</th>
+							<th>유입경로</th>
+							<th>회사명</th>
+							<th>사업자번호</th>
+							<th>대표자명</th>
+							<th>주소</th> 
+							<th>연락처</th>
+							<th>이메일</th>
+							<th>등록일시</th>
+						</tr>
+					</thead>
+					<tbody id="dataList">
+						<tr class="databox">
+							<td class=""></td>
+							<td colspan="9">
+								정보가 존재하지 않습니다.
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div id="page-selection" class="pagingnav_wrap"></div>
+			
+		</div>
+		<div class="btn_footGroup NanumGothic">
+		</div>
+	</div>
+</div>
+</body>
+
+</html>

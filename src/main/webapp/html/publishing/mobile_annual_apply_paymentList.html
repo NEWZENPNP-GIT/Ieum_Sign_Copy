@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<title> 연차관리</title>
+<link rel="stylesheet" type="text/css" href="/css/font.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/mobile_common.css">
+<link rel="stylesheet" type="text/css" href="/css/mobile_annual.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/jquery.bpopup.js"></script> <!-- layer popup library -->
+</head>
+<body>
+	<header class="header">
+		<ul class="gnb">
+			<li class="prev"><a class="btn_type btn_prev" href="mobile_annual_apply_step01.html" target="_self"></a></li>
+			<li class="head_text NanumBarunGothic">연차신청</li>
+			<li class="menu"><a class="btn_type btn_menu"></a></li>
+		</ul>
+	</header>
+	<div id="container" class="NanumBarunGothic annual_apply paymentLine">
+		<section class="wrap">
+		
+			<div class=" top_info paylist">
+				<div class="search_box">
+					<input type="text" placeholder="이름 검색" class="NanumBarunGothic"><a class="btn_type btn_search"></a>
+				</div>
+				<div class="search_result">검색 결과가 없습니다.</div>
+				<div class="payment_head"><div class="part">부서</div><div class="com_no">사번</div><div class="name">이름</div><div class="rank">직급</div></div>
+			</div>
+			<div class="list_wrap">
+				<ul class="payment_list">
+					<li><div class="ck_num"></div><div class="part">임원</div><div class="com_no">1234569</div><div class="name">홍길동</div><div class="rank">수석연구원</div></li>
+					<li class="ck_no1"><div class="ck_num"><span>1</span></div><div class="part">임원</div><div class="com_no">12346789</div><div class="name">홍길동</div><div class="rank">차장</div></li>
+					<li><div class="ck_num"></div><div class="part">마케팅본부</div><div class="com_no">12346789</div><div class="name">홍길동형</div><div class="rank">책임영구원</div></li>
+					<li class="ck_no2"><div class="ck_num"><span>2</span></div><div class="part">경영지원본부</div><div class="com_no">12346789</div><div class="name">호동이형</div><div class="rank">부장</div></li>
+					<li class="ck_no3"><div class="ck_num"><span>3</span></div><div class="part">임원</div><div class="com_no">12345679</div><div class="name">홍길동</div><div class="rank">이사</div></li>
+					<li><div class="ck_num"></div><div class="part">마케팅본부</div><div class="com_no">12345789</div><div class="name">김연말</div><div class="rank">책임영구원</div></li>
+					<li><div class="ck_num"></div><div class="part">마케팅본부</div><div class="com_no">123489</div><div class="name">박박사</div><div class="rank">수석연구연</div></li>
+					<li><div class="ck_num"></div><div class="part">마케팅본부</div><div class="com_no">1234689</div><div class="name">김캔디</div><div class="rank">본부장</div></li>
+					<li><div class="ck_num"></div><div class="part">마케팅본부</div><div class="com_no">1289</div><div class="name">네글자야</div><div class="rank">부장</div></li>
+					<li><div class="ck_num"></div><div class="part">마케팅본부</div><div class="com_no">1289</div><div class="name">네글자야</div><div class="rank">부장</div></li>
+				</ul>
+			</div>
+			<div class="NanumBarunGothic footer type2">
+				<a class="btn_type btn_close" href="mobile_annual_apply_step01.html">닫기</a>
+				<a class="btn_type btn_add">추가</a></div>
+		</section>
+		<div id="bpopupLayer"></div>
+		
+	</div>
+	<aside id="aside" class="">
+		<div class="bg"></div>
+		<div class="wrap NanumBarunGothic" id="ani_wrap">
+			<ul class="left_menu">
+				<li class="top"><div class="btn_wrap"><a class="btn_type btn_home"></a></div>
+								<div class="tit">전체보기</div>
+								<div class="btn_wrap"><a class="btn_type btn_close"></a></div></li>
+				<li class="tit">서비스관리</li>
+				<li class="menu"><a class="btn_type btn_annual"><span class="icon"></span><span class="menu_name">연차관리</span></a></li>
+				<li class="menu"><a class="btn_type btn_pay"><span class="icon"></span><span class="menu_name">급여명세서관리</span></a></li>
+				<li class="menu"><a class="btn_type btn_commute"><span class="icon"></span><span class="menu_name">출퇴근 관리</span></a></li>
+				<li class="menu"><a class="btn_type btn_contract"><span class="icon"></span><span class="menu_name">전자 근로계약 관리</span></a></li>
+				<li class="menu"><a class="btn_type btn_yearTax"><span class="icon"></span><span class="menu_name">연말 정산 관리</span></a></li>
+				<li class="tit">인증관리</li>
+				<li class="menu"><a class="btn_type btn_certificateType"><span class="icon"></span><span class="menu_name">인증수단관리</span></a></li>
+				<li class="menu"><a class="btn_type btn_certificateCenter"><span class="icon"></span><span class="menu_name">공인인증센터</span></a></li>
+				<li class="menu"><a class="btn_type btn_accredit"><span class="icon"></span><span class="menu_name">본인인증하기</span></a></li>
+				<li class="tit">문의하기</li>
+				<li class="menu"><a class="btn_type btn_qnaboard"><span class="icon"></span><span class="menu_name">문의게시판</span></a></li>
+				<li class="menu"><a class="btn_type btn_questionboard"><span class="icon"></span><span class="menu_name">1:1문의사항</span></a></li>
+				<li class="tit">새소식</li>
+				<li class="bottom">
+					<div class="btn_wrap"><a class="btn_type btn_mypage"><span class="icon"></span><span class="menu_name">마이페이지</span></a></div>
+					<div class="btn_wrap"><a class="btn_type btn_logout"><span class="icon"></span><span class="sub_name">로그아웃</span></a></div>
+				</li>
+			</ul>
+		</div>
+	</aside>
+</body>
+<script type="text/javascript">
+
+//side바의 영역 이벤트
+var aniWrap=document.getElementById("ani_wrap");
+
+aniWrap.addEventListener("webkitAnimationEnd", viewerHide);
+aniWrap.addEventListener("animationend", viewerHide);
+function viewerHide(){
+	if($("#aside").hasClass("hide")){
+		$("#aside").removeClass("hide");
+	}
+}
+
+//메뉴 보기 animation
+$(".btn_menu").click(function(){
+	if(!$("#aside").hasClass("show")){
+		$("#aside").removeClass("hide").addClass("show");	
+	}
+})
+$(".btn_close").click(function(){
+	$("#aside").removeClass("show").addClass("hide");
+})
+
+//연차내역
+$(".btn_annualList").click(function(){
+	$('#bpopupLayer').bPopup({
+		position: [0, 0],
+		opacity: 0.6,
+		closeClass:"btn_close",
+		transitionClose  : false,
+		follow: [false, false], //x, y
+		modal:false,
+		speed:100,
+		contentContainer:'#bpopupLayer',
+		loadUrl: 'mobile_annual_list.html', //Uses jQuery.load()
+		onClose: function() {
+			$('#bpopupLayer').removeClass("show");
+			$('#bpopupLayer').removeAttr("style");
+		    
+		},
+		onOpen: function() {
+			$('#bpopupLayer').addClass("show");
+			//$(".btn_annualList").addClass("active");
+		},
+		loadCallback: function() {} 
+	});
+})
+</script>
+</html>

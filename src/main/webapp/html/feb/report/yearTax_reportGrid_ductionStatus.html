@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<META http-equiv="Pragma" content="no-cache">
+<META http-equiv="Expires" content="-1">
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>연말정산 현황 : 공제현황 </title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+<link rel="stylesheet" type="text/css" href="/css/ScrollTable.css"  media="screen" />
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type='text/javascript' src="/js/excelexportjs.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/jquery.table2excel.js"></script>
+
+</head>
+<body>
+	<div id="yearTax_wrap" class="yearTax">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연말정산 > 연말정산 관리  > </span><span class="loc_sub NanumSquare_R">연말정산 현황물</span></div>
+			<div class="pagtit NanumSquare_R">
+				<span class="">공제현황</span>
+			</div>
+			
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">공제현황</span>
+					</div>
+				
+					<div class="grid_field full">
+						<ul class="gridRow2">
+							<li class="search_wrap">
+								<div class="group_row row4">
+									<dl class="NanumSquare_R rat3n-7">
+										<dt><label class="label_txt NanumSquare_R">사업장 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R" id="사업장ID">
+												<option value="" >전체</option>
+											</select>
+										</dd>
+									</dl>
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">부서 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R" id="부서ID">
+												<option value="" >전체</option>
+											</select>
+										</dd>
+									</dl>
+									<dl class="NanumSquare_R rat4n-6">
+										<dt><label class="label_txt NanumSquare_R">근무상태 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R" id="근무상태">
+												<!-- 
+												<option value="" >전체</option>
+												<option value="" >계속근로</option>
+												<option value="" >중도퇴사</option> 
+												-->
+											</select>
+										</dd>
+									</dl>
+								</div>
+								<div class="group_row row4">
+									<dl class="NanumSquare_R rat3n-7">
+										<dt><label class="label_txt NanumSquare_R">성명 : </label></dt>
+										<dd class="input_box"><input class="" type="text" id="성명"></dd>
+									</dl>
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">사번 : </label></dt>
+										<dd class="input_box"><input class="" type="text" id="사번"></dd>
+									</dl>
+									<dl class="NanumSquare_R rat4n-6">
+										<dt><label class="label_txt NanumSquare_R">직책(직급) : </label></dt>
+										<dd class="input_box"><input class="" type="text" id="직책"></dd>
+									</dl>
+									<div class="btns"><a class="btn_type btn_grid_search NanumSquare_R" id="search"><span class="icon Material_icons">search</span> 검색</a></div>
+								</div>
+							</li>
+							<li class="NanumSquare_R btns sort_right sort_bottom">
+								<div class="sortWrap ">
+									<a class="btn_type excelDown" id="excelDown">다운로드</a>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<!--  셀 넓이 조정 class w70/w90/w100/w120/w150/w180-/w200/w220/w250/w260/w280/w300 -->
+					<div class="fix-table-container NanumSquare_R">
+						<div class="ContenedorTabla h600" >
+							<table id="pruebatabla" class="fht-table">
+								<thead>
+									<tr>
+										<th rowspan="2">법인명</th>
+										<th rowspan="2">사업장 (단위사업장)</th>
+										<th rowspan="2">부서</th>
+										<th rowspan="2">사원코드</th>
+										<th rowspan="2">사원명</th>
+										<th rowspan="2">주민등록번호</th>
+										<th rowspan="2">분납신청 여부</th>
+										<th rowspan="2">정산년월</th>
+										<th rowspan="2">귀속년도 시작일</th>
+										<th rowspan="2">귀속년도 종료일</th>
+										<th colspan="4">근로소득금액</th>
+										<th rowspan="2">근로소득금액</th>
+										<th colspan="3">인적공제(기본공제)</th>
+										<th colspan="4">인적공제(추가공제)</th>
+										<th colspan="2">연금보험료공제</th>
+										<th colspan="2">특별소득공제 -보험료</th>
+										<th colspan="12">특별소득공제 -주택자금</th>
+										<th>특별소득공제 -기부금</th>
+										<th>특별소득공제</th>
+										<th rowspan="2">차감소득금액</th>
+										<th colspan="15">그 밖의 소득공제</th>
+										<th colspan="8">세액감면</th>
+										<th colspan="10">세액공제</th>
+										<th colspan="21">세액공제-특별세액공제</th>
+										<th rowspan="2">표준세액공제</th>
+										<th colspan="6">세액공제</th>
+										<th colspan="3">결정세액</th>
+										<th colspan="6">기납부세액</th>
+										<th colspan="3">납부특례세액</th>
+										<th colspan="3">차감징수세액</th>
+									</tr>
+									<tr>
+										<th>과세소득</th><th>비과세소득</th><th>감면소득</th><th>근로소득공제</th>
+										<th>본인공제</th><th>배우자공제</th><th>부양가족공제</th><th>경로우대</th><th>장애인</th><th>부녀자</th><th>한부모가족</th><th>국민연금</th><th>공적연금</th><th>건강/장기요양보험료</th><th>고용보험료</th>
+										<th class="w150">주택임차차입금원리금 상환액 거주자</th>
+										<th class="w150">주택임차차입금원리금 상환액 대출기관</th>
+										<th class="w220">장기주택저당차임금이자상환액 (15년미만) -2011년 이전 차입분</th>
+										<th class="w220">장기주택저당차임금이자상환액 (15년~29년) -2011년 이전 차입분</th>
+										<th class="w220">장기주택저당차임금이자상환액 (30년이상) -2011년 이전 차입분</th>
+										<th class="w250">장기주택저당차임금이자상환액 (고정금리·비거치상환) -2012년 이후 차입분(15년이상)</th>
+										<th class="w220">장기주택저당차임금이자상환액 (기타대출) -2012년 이후 차입분(15년이상)</th>
+										<th class="w250">장기주택저당차임금이자상환액 (15년이상 _고정금리&비거치상환대출) -2015년 이후 차입분</th>
+										<th class="w250">장기주택저당차임금이자상환액 (15년이상 _고정금리OR비거치상환대출) -2015년 이후 차입분</th>
+										<th class="w260">장기주택저당차임금이자상환액 (15년이상 _기타대출)-2015년 이후 차입분</th>
+										<th class="w280">장기주택저당차임금이자상환액 (10년~15년 _고정금리OR비거치상환대출) -2015년 이후 차입분</th>
+										<th class="w220">장기주택저당차입금이자상환액- 합계</th><th>기부금(이월분)</th><th>계</th>
+										<th>개인연금저축 납입액</th><th>소기업소상공인 공제부금</th>
+										<th>근로자주택마련</th><th>주택청약</th><th>청약저축</th>
+										<th>투자조합출자</th><th>투자조합출자 조합</th>
+										<th>신용카드등</th><th>우리사주조합 출연금</th><th>고용유지 중소기업</th>
+										<th>장기집합 투자증권저축</th><th>그밖의 소득공제계</th><th>소득공제종합 한도초과액</th><th>종합소득 과세표준</th><th>산출세액</th><th>납세조합공제</th><th>조세특례제한법(52제외)</th>
+										<th>세액감면 조세특례30조(50%)</th><th>세액감면 조세특례30조(70%)</th><th>세액감면 조세특례30조(90%)</th><th>세액감면 조세특례30조(100%)</th>										
+										<th>조세조약</th><th>세액감면계</th><th>근로소득세액공제</th><th>자녀세액공제</th><th>6세이하공제</th><th>출산입양공제</th>
+										
+										<th>연금계좌 과학기술</th><th>연금계좌 과학기술세액</th>
+										<th>연금계좌 연금저축</th><th>연금계좌 연금저축세액</th>
+										<th>연금계좌 퇴직연금</th><th>연금계좌 퇴직연금세액</th>
+										
+										<th>보장성 보험료공제</th><th>보장성 보험료세액</th><th>장애인전용 보험료공제</th><th>장애인전용 보험료세액</th><th>의료비공제</th>
+										<th>의료비세액</th><th>교육비공제</th><th>교육비세액</th><th>정치자금 10만원이하공제</th><th>정치자금 10만원이하세액</th><th>정치자금 10만원초과공제</th><th>정치자금10만원초과세액</th>
+										<th>법정 기부금소득</th><th>법정 기부금세액</th><th>우리사주조합 기부금공제</th><th>우리사주조합 기부금세액</th><th>지정(종교외) 기부금소득</th><th>지정(종교외) 기부금세액</th><th>지정(종교) 기부금소득</th><th>지정(종교) 기부금세액</th><th>특별세액 공제계</th>
+										<th>납세조합공제</th><th>주택차입금</th><th>외국납부</th><th>월세 소득공제</th><th>월세 소득공제세액</th><th>세액공제계</th>
+										
+										<th>소득세</th><th>지방소득세</th><th>농특세</th>
+										<th>주근무지 소득세</th><th>주근무지 지방소득세</th><th>주근무지 농특세</th>
+										<th>종근무지 소득세</th><th>종근무지 지방소득세</th><th>종근무지 농특세</th>
+										
+										<th>소득세</th><th>지방소득세</th><th>농특세</th>
+										<th>소득세</th><th>지방소득세</th><th>농특세</th>
+									</tr> 
+								</thead>
+								<tbody id="tbody">									
+								</tbody>
+							</table>
+						</div> <!-- ContenedorTabla  -->
+					</div><!-- fix-table-container -->
+				</div>
+			</div><!--  content -->
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="/js/jquery.CongelarFilaColumna.js"></script> <!--  table plugin -->
+<script type="text/javascript">
+	var fixedLeftColumn=5;
+	var contractId;
+	
+	$(document).ready(function(){
+
+		contractId = getCookie('yearContractId');
+		//Set_table();
+		
+		$("#사업장ID").on("change", function(e){
+			getDept();
+		});
+		
+		$("#search").on("click", function(e){
+			e.preventDefault();
+			
+			//기존 조회 데이터 삭제
+			if( $("#pruebatabla").find("tbody").children().length != 0 ){
+				$(".fht-table").find("tbody").empty();
+			}
+			
+			getList();
+		});
+		
+		/*
+		$("#excelDown").on("click", function(e){
+			ExportToExcel("pruebatabla");
+			e.preventDefault();
+		});
+		*/
+		
+		$("#excelDown").on("click", function(e){
+			$("#pruebatabla").table2excel({
+				exclude: ".noExl",
+				name: "export_date",
+				filename: "export_date",
+				fileext: ".xls",
+				exclude_img: true,
+				exclude_links: true,
+				exclude_inputs: true
+			});
+			e.preventDefault();
+		});
+		
+		init();
+		getWorkState();
+	});
+	
+	$(window).resize(function(){
+		Set_table();
+	});
+	
+	function init() {
+		if ((contractId.length <=  0) || (contractId === undefined) || (contractId === 'undefined')) {
+			alert( '사용불가 메뉴 입니다. 기본설정값을 확인 해주세요' );
+			location.href = "/";
+			return;
+	    }
+		
+		getCodeList()
+	}
+
+	function getList(){
+		var url = rootPath + 'febreport/getYE700List.do';
+	    var params = {
+			"계약ID": contractId,
+			"사업장ID": $("#사업장ID").val(),
+			"부서ID": $("#부서ID").val(),
+			"성명": $("#성명").val(),
+			"사번": $("#사번").val(),
+			"직책": $("#직책").val(),
+			"근무상태": $("#근무상태").val()
+		};
+
+		$.blockUI();
+	    
+	    request = $.ajax({
+			url: url,
+	        type: "get",
+	        cache: false,
+	        dataType:"json",
+	        data: params
+	    });
+		
+	    request.done(function(res){
+
+			if(res.success){
+				$("#tbody tr").remove();
+				$("#pruebatabla > thead").find(".sum-cell").remove();
+				
+				var tbodyHtml = "";
+				var tHeadHtml = "";
+				if(!$.isEmptyObject(res.list)){
+				
+					var list = res.list;
+					var sum = res.sum;
+
+					$.each(list, function(i, data){
+
+						tbodyHtml += "<tr>";
+						tbodyHtml += "<td>" + data.bizName + "</td>";
+						tbodyHtml += "<td>" + data.사업장명 + "</td>";
+						tbodyHtml += "<td>" + data.부서명 + "</td>";
+						tbodyHtml += "<td>" + data.사번 + "</td>";
+						tbodyHtml += "<td>" + data.성명 + "</td>";
+						tbodyHtml += "<td>" + data.개인식별번호 + "</td>";
+						tbodyHtml += "<td>" + get분납신청여부(data.연말정산분납여부) + "</td>";
+						tbodyHtml += "<td>" + data.정산년월 + "</td>";
+						tbodyHtml += "<td>" + data.근무시작일 + "</td>";
+						tbodyHtml += "<td>" + data.근무종료일 + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.총급여) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.비과세소득) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.감면소득) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.근로소득공제) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.근로소득금액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.기본공제_본인) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.기본공제_배우자) + "</td>";						
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.기본공제_부양가족) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.추가공제_경로우대) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.추가공제_장애인) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.추가공제_부녀자) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.추가공제_한부모) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.연금보험_국민연금) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.연금보험_공무원연금 + data.연금보험_군인연금 + data.연금보험_별정우체국 + data.연금보험_사립학교) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별소득_건강보험) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별소득_고용보험) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별소득_주택원리금_거주자) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별소득_주택원리금_대출기관) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별소득_장기주택_2011년이전_15년미만) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별소득_장기주택_2011년이전_15년29년) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별소득_장기주택_2011년이전_30년이상) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별소득_장기주택_2012년이후_고정이거나비거치) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별소득_장기주택_2012년이후_그밖에) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별소득_장기주택_2015년이후_15년이상_고정이면서비거치) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별소득_장기주택_2015년이후_15년이상_고정이거나비거치) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별소득_장기주택_2015년이후_15년이상_그밖에) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별소득_장기주택_2015년이후_10년15년_고정이거나비거치) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별소득_장기주택저당차입금이자상환액_합계) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별소득_기부금_이월분) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별소득_계) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.차감소득금액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.그밖에소득공제_개인연금) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.그밖에소득공제_소기업소상공인) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.그밖에소득공제_주택마련_청약저축) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.그밖에소득공제_주택마련_주택청약) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.그밖에소득공제_주택마련_근로자주택마련) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.그밖에소득공제_투자조합출자) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.그밖에소득공제_투자조합출자_조합) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.그밖에소득공제_신용카드등) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.그밖에소득공제_우리사주조합) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.그밖에소득공제_고용유지근로자) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.그밖에소득공제_장기집합투자) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.그밖에소득공제_계) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.소득공제종합한도초과액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.종합소득과세표준) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.산출세액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.세액공제_납세조합공제) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.세액감면_조세특례52제외) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.세액감면_조세특례30조_50) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.세액감면_조세특례30조_70) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.세액감면_조세특례30조_90) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.세액감면_조세특례30조_100) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.세액감면_조세조약) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.세액감면_계) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.세액공제_근로소득) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.세액공제_자녀) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.세액공제_6세이하) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.세액공제_출산입양) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.세액공제_연금계좌_과학기술_공제대상금액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.세액공제_연금계좌_과학기술_세액공제액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.세액공제_연금계좌_연금저축_공제대상금액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.세액공제_연금계좌_연금저축_세액공제액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.세액공제_연금계좌_퇴직연금_공제대상금액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.세액공제_연금계좌_퇴직연금_세액공제액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별세액_보험료_보장성_공제대상금액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별세액_보험료_보장성_세액공제액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별세액_보험료_장애인전용_공제대상금액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별세액_보험료_장애인전용_세액공제액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별세액_의료비_공제대상금액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별세액_의료비_세액공제액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별세액_교육비_공제대상금액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별세액_교육비_세액공제액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별세액_기부금_정치자금_10만이하_공제대상금액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별세액_기부금_정치자금_10만이하_세액공제액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별세액_기부금_정치자금_10만초과_공제대상금액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별세액_기부금_정치자금_10만초과_세액공제액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별세액_기부금_법정_공제대상금액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별세액_기부금_법정_세액공제액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별세액_기부금_우리사주_공제대상금액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별세액_기부금_우리사주_세액공제액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별세액_기부금_지정_종교외_공제대상금액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별세액_기부금_지정_종교외_세액공제액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별세액_기부금_지정_종교_공제대상금액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별세액_기부금_지정_종교_세액공제액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별세액_계) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.특별세액_표준세액공제) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.세액공제_납세조합공제) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.세액공제_주택차입금) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.세액공제_외국납부) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.세액공제_월세액_공제대상금액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.세액공제_월세액_세액공제액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.세액공제_계) + "</td>";
+						
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.결정세액_소득세) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.결정세액_지방소득세) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.결정세액_농어촌특별세) + "</td>";
+						
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.주근무지_소득세) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.주근무지_지방소득세) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.주근무지_농어촌특별세) + "</td>";
+						
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.종근무지_소득세) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.종근무지_지방소득세) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.종근무지_농어촌특별세) + "</td>";
+						
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.납부특례_소득세) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.납부특례_지방소득세) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.납부특례_농어촌특별세) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.차감징수_소득세) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.차감징수_지방소득세) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.차감징수_농어촌특별세) + "</td>";
+						
+						tbodyHtml += "</tr>"
+					});
+					
+					tHeadHtml += "<tr class='sum-cell'>";
+					
+					tHeadHtml += "<th colspan='"+fixedLeftColumn+"'>합 계</th>";
+					tHeadHtml += "<th colspan='5'></th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.총급여) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.비과세소득) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.감면소득) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.근로소득공제) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.근로소득금액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.기본공제_본인) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.기본공제_배우자) + "</th>";						
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.기본공제_부양가족) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.추가공제_경로우대) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.추가공제_장애인) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.추가공제_부녀자) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.추가공제_한부모) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.연금보험_국민연금) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.연금보험_공무원연금 + sum.연금보험_군인연금 + sum.연금보험_별정우체국 + sum.연금보험_사립학교) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별소득_건강보험) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별소득_고용보험) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별소득_주택원리금_거주자) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별소득_주택원리금_대출기관) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별소득_장기주택_2011년이전_15년미만) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별소득_장기주택_2011년이전_15년29년) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별소득_장기주택_2011년이전_30년이상) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별소득_장기주택_2012년이후_고정이거나비거치) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별소득_장기주택_2012년이후_그밖에) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별소득_장기주택_2015년이후_15년이상_고정이면서비거치) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별소득_장기주택_2015년이후_15년이상_고정이거나비거치) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별소득_장기주택_2015년이후_15년이상_그밖에) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별소득_장기주택_2015년이후_10년15년_고정이거나비거치) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별소득_장기주택저당차입금이자상환액_합계) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별소득_기부금_이월분) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별소득_계) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.차감소득금액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.그밖에소득공제_개인연금) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.그밖에소득공제_소기업소상공인) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.그밖에소득공제_주택마련_청약저축) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.그밖에소득공제_주택마련_주택청약) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.그밖에소득공제_주택마련_근로자주택마련) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.그밖에소득공제_투자조합출자) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.그밖에소득공제_투자조합출자_조합) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.그밖에소득공제_신용카드등) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.그밖에소득공제_우리사주조합) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.그밖에소득공제_고용유지근로자) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.그밖에소득공제_장기집합투자) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.그밖에소득공제_계) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.소득공제종합한도초과액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.종합소득과세표준) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.산출세액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.세액공제_납세조합공제) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.세액감면_조세특례52제외) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.세액감면_조세특례30조_50) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.세액감면_조세특례30조_70) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.세액감면_조세특례30조_90) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.세액감면_조세특례30조_100) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.세액감면_조세조약) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.세액감면_계) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.세액공제_근로소득) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.세액공제_자녀) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.세액공제_6세이하) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.세액공제_출산입양) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.세액공제_연금계좌_과학기술_공제대상금액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.세액공제_연금계좌_과학기술_세액공제액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.세액공제_연금계좌_연금저축_공제대상금액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.세액공제_연금계좌_연금저축_세액공제액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.세액공제_연금계좌_퇴직연금_공제대상금액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.세액공제_연금계좌_퇴직연금_세액공제액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별세액_보험료_보장성_공제대상금액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별세액_보험료_보장성_세액공제액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별세액_보험료_장애인전용_공제대상금액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별세액_보험료_장애인전용_세액공제액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별세액_의료비_공제대상금액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별세액_의료비_세액공제액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별세액_교육비_공제대상금액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별세액_교육비_세액공제액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별세액_기부금_정치자금_10만이하_공제대상금액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별세액_기부금_정치자금_10만이하_세액공제액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별세액_기부금_정치자금_10만초과_공제대상금액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별세액_기부금_정치자금_10만초과_세액공제액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별세액_기부금_법정_공제대상금액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별세액_기부금_법정_세액공제액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별세액_기부금_우리사주_공제대상금액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별세액_기부금_우리사주_세액공제액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별세액_기부금_지정_종교외_공제대상금액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별세액_기부금_지정_종교외_세액공제액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별세액_기부금_지정_종교_공제대상금액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별세액_기부금_지정_종교_세액공제액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별세액_계) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.특별세액_표준세액공제) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.세액공제_납세조합공제) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.세액공제_주택차입금) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.세액공제_외국납부) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.세액공제_월세액_공제대상금액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.세액공제_월세액_세액공제액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.세액공제_계) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.결정세액_소득세) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.결정세액_지방소득세) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.결정세액_농어촌특별세) + "</th>";
+					
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.주근무지_소득세) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.주근무지_지방소득세) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.주근무지_농어촌특별세) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.종근무지_소득세) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.종근무지_지방소득세) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.종근무지_농어촌특별세) + "</th>";
+					
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.납부특례_소득세) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.납부특례_지방소득세) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.납부특례_농어촌특별세) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.차감징수_소득세) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.차감징수_지방소득세) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.차감징수_농어촌특별세) + "</th>";
+					
+					tHeadHtml += "</tr>";
+				}
+				
+	        
+	        	$("#tbody").html(tbodyHtml);
+	        	$("#pruebatabla > thead").append(tHeadHtml);
+	        	
+				Set_table();
+				
+				$.unblockUI();
+			}
+		});
+	    
+	    request.fail(function (request, textStatus, error) {
+	    	$.unblockUI();
+	    	
+			if (request.status=="401") {
+				alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+				location.href=rootPath;
+			} else {
+				alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+		        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	};
+	
+	function getCodeList(){
+		
+		var url = rootPath + 'febreport/getCodeList.do';
+	    var params = {
+			"계약ID": contractId
+		};
+		
+	    request = $.ajax({
+			url: url,
+	        type: "get",
+	        cache: false,
+	        dataType:"json",
+	        data: params
+	    });
+	    
+	    request.done(function(res){
+	    	if(res.success){
+		    	var ys030 = res.ys030;
+				$.each(ys030, function(i, data){
+					$("#사업장ID").append($("<option>", {
+						value: data.사업장ID,
+						text: data.사업장명
+					}));
+				});
+
+	        	//getList();
+	    	}
+		});
+	    
+	    request.fail(function (request, textStatus, error) {
+			if (request.status=="401") {
+				alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+				location.href=rootPath;
+			} else {
+				alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+		        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	function getDept(){
+		var 사업장ID = $("#사업장ID").val();
+
+		$("#부서ID option").remove();
+		$("#부서ID").append($("<option>", {
+			value: "",
+			text: "전체"
+		}));
+		
+	    if(사업장ID === ""){
+	    	return;
+	    }
+		
+		var url = rootPath + 'febsystem/getYS031List.do';
+	    var params = {
+			"계약ID": contractId,
+			"사업장ID": 사업장ID,
+			startPage: 0,
+		    endPage: 100
+		};
+
+	    request = $.ajax({
+			url: url,
+	        type: "get",
+	        cache: false,
+	        dataType:"json",
+	        data: params
+	    });
+	    
+	    request.done(function(res){
+	    	if(res.success){
+	    		var 부서 = res.data;
+				$.each(부서, function(i, data){
+					$("#부서ID").append($("<option>", {
+						value: data.부서ID,
+						text: data.부서명
+					}));
+				});
+	    	}
+		});
+	    
+	    request.fail(function (request, textStatus, error) {
+			if (request.status=="401") {
+				alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+				location.href=rootPath;
+			} else {
+				alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+		        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	function get분납신청여부(code){
+		var 분납신청 = "";
+		if(code == '1'){
+			분납신청 = "신청"
+		}else if(code == '2'){
+			분납신청 = "미신청"
+		}
+		return 분납신청;
+	}
+	
+	function Set_table(){
+		//$("#pruebatabla").CongelarFilaColumna({Columnas:fixedLeftColumn,coloreacelda:true});
+	}
+	
+	// 근무상태코드 조회
+	function getWorkState() {
+		console.log("근무상태");
+		var url = rootPath+"code/getCodeList.do";
+		var grpCommCode = "420";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				grpCommCode:grpCommCode
+			},
+			success:function(result)
+			{
+				if(result.success){
+		    		var workStatus = result.data;
+					$.each(workStatus, function(i, data){
+						$("#근무상태").append($("<option>", {
+							value: data.commCode,
+							text: data.commName
+						}));
+					});
+		    	}
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+</script>
+</html>

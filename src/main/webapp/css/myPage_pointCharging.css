@@ -1,0 +1,140 @@
+@charset "utf-8";
+/*>>>>>>  default <<<<<*/
+body,p,span,a,input,ul,li,article,dl,img{margin: 0px; padding:0px; -webkit-margin:0px;-webkit-padding:0px;}
+ul{list-style-type: none}
+
+.btn_type{cursor: pointer;}
+.none{display: none;}
+.hidden{visibility: hidden}
+
+/* ******************************** point Charging ******************************** */
+@media all and (max-width: 360px) {
+    #pointCharging_wrap{width: 100% !important; height: 100% !important;}
+    #pointCharging_wrap .point_box .point_view{float:none !important; display:block !important;}
+    #pointCharging_wrap .point_box{display:block !important;}
+    #pointCharging_wrap .point_box .point_view{margin:0 30px 15px 0 !important;}
+    #pointCharging_wrap .price_wrap{width:315px !important;}
+    #pointCharging_wrap .footer_txtBox ul{padding:30px 20px 20px 20px !important; width:275px !important;}
+    #pointCharging_wrap .footer_txtBox ul li{margin-bottom:5px !important;}
+    #pointCharging_wrap .choiceGroup select{width:190px !important;}
+    #pointCharging_wrap .choiceGroup .btn_type{width:110px !important;}
+    #pointCharging_wrap .footer_txtBox{margin-bottom:20px !important;}
+    #pointCharging_wrap .price_wrap .priceBox{padding: 17px 15px 0 15px !important;}
+    #pointCharging_wrap .price_wrap .priceBox .selfBox{margin-right:3px !important;}
+    #pointCharging_wrap .price_wrap .priceBox .userIn{width: 110px !important;}
+    #pointCharging_wrap .price_wrap .priceBox .chargPrice{font-size:16px !important;}
+    #pointCharging_wrap .price_wrap .priceBox .addPrice{font-size:16px !important;}
+    #pointCharging_wrap .price_wrap .priceBox .selfBox{font-size:12px !important;}
+}
+
+
+@media all and (min-width: 361px) and (max-width: 380px) {
+	#pointCharging_wrap{width: 100% !important; height: 100% !important; padding: 20px 0 0 30px !important;}
+    #pointCharging_wrap .point_box .point_view{float:none !important; display:block !important;}
+    #pointCharging_wrap .point_box{display:block !important;}
+    #pointCharging_wrap .point_box .point_view{margin:0 30px 15px 0 !important;}
+    #pointCharging_wrap .price_wrap{width:315px !important;}
+    #pointCharging_wrap .footer_txtBox ul{padding:30px 20px 20px 20px !important; width:275px !important;}
+    #pointCharging_wrap .footer_txtBox ul li{margin-bottom:5px !important;}
+    #pointCharging_wrap .choiceGroup select{width:190px !important;}
+    #pointCharging_wrap .choiceGroup .btn_type{width:110px !important;}
+    #pointCharging_wrap .footer_txtBox{margin-bottom:20px !important;}
+    #pointCharging_wrap .price_wrap .priceBox{padding: 17px 15px 0 15px !important;}
+    #pointCharging_wrap .price_wrap .priceBox .selfBox{margin-right:3px !important;}
+    #pointCharging_wrap .price_wrap .priceBox .userIn{width: 110px !important;}
+    #pointCharging_wrap .price_wrap .priceBox .chargPrice{font-size:16px !important;}
+    #pointCharging_wrap .price_wrap .priceBox .addPrice{font-size:16px !important;}
+    #pointCharging_wrap .price_wrap .priceBox .selfBox{font-size:12px !important;}
+}
+
+@media all and (min-width: 381px) and (max-width: 768px) {
+	#pointCharging_wrap{width: 100% !important; height: 100% !important; padding: 20px 0 0 50px !important;}
+    #pointCharging_wrap .point_box .point_view{float:none !important; display:block !important;}
+    #pointCharging_wrap .point_box{display:block !important;}
+    #pointCharging_wrap .point_box .point_view{margin:0 30px 15px 0 !important;}
+    #pointCharging_wrap .price_wrap{width:315px !important;}
+    #pointCharging_wrap .footer_txtBox ul{padding:30px 20px 20px 20px !important; width:275px !important;}
+    #pointCharging_wrap .footer_txtBox ul li{margin-bottom:5px !important;}
+    #pointCharging_wrap .choiceGroup select{width:190px !important;}
+    #pointCharging_wrap .choiceGroup .btn_type{width:110px !important;}
+    #pointCharging_wrap .footer_txtBox{margin-bottom:20px !important;}
+    #pointCharging_wrap .price_wrap .priceBox{padding: 17px 15px 0 15px !important;}
+    #pointCharging_wrap .price_wrap .priceBox .selfBox{margin-right:3px !important;}
+    #pointCharging_wrap .price_wrap .priceBox .userIn{width: 110px !important;}
+    #pointCharging_wrap .price_wrap .priceBox .chargPrice{font-size:16px !important;}
+    #pointCharging_wrap .price_wrap .priceBox .addPrice{font-size:16px !important;}
+    #pointCharging_wrap .price_wrap .priceBox .selfBox{font-size:12px !important;}
+}
+
+#pointCharging_wrap{position:relative;  width: 862px; height: 586px; display:inline-block; padding: 20px 0 0 20px; background-color: #fff;}
+#pointCharging_wrap .point_box{display:inline-block; margin-bottom: 32px;}
+#pointCharging_wrap .point_box .point_view{width: 310px; display:inline-block; float: left; margin:0 30px 0 0;}
+#pointCharging_wrap .point_box .point_view .point_blueBox{display:inline-block; background-color: #0ea7e1; width: 310px; height: 245px; border-radius: 8px; text-align:center;
+box-sizing: border-box;
+-moz-box-sizing: border-box;
+-webkit-box-sizing: border-box; margin-bottom: 23px;
+/* outline: 1px solid #85d6f5; */
+/* outline-offset: -5px;
+outline-radius:8px; */
+}
+#pointCharging_wrap .point_blueBox .innerLine{display:inline-block; width:298px; height:233px; margin-top:5px; border: 1px solid #85d6f5; border-radius: 8px;}
+#pointCharging_wrap .point_blueBox .innerLine ul{margin-top: 73px;}
+#pointCharging_wrap .point_blueBox .innerLine li:first-child{margin-bottom: 18px;}
+#pointCharging_wrap .point_blueBox .innerLine .txt{color:#fff; font-size: 16px;}
+#pointCharging_wrap .point_blueBox .innerLine .icon{display: inline-block; vertical-align: sub; background: url(image/point/icon_point.png) no-repeat 50% 0; width: 34px; height: 34px; margin-right: 15px;}
+#pointCharging_wrap .point_blueBox .innerLine .score{color:#f6ff00; font-size: 40px; font-weight: bold; margin-right:5px;}
+#pointCharging_wrap .point_blueBox .innerLine .txt2{color:#fff; font-size: 15px;}
+#pointCharging_wrap .point_txt {width: 100%;}
+#pointCharging_wrap .point_txt .dot{font-size: 14px; font-weight: bold;}
+#pointCharging_wrap .point_txt .txt{font-size: 14px} 
+#pointCharging_wrap .point_txt .txtBold{font-size: 13px; font-weight: bold;} 
+#pointCharging_wrap .price_wrap{width:480px; display: inline-block; /* margin:0 9px; */}
+#pointCharging_wrap .price_wrap .priceBox {/* width: 100%;  */height: 252px; border:1px solid #dcdcdc; border-radius:8px; margin-bottom: 17px; padding: 17px 28px 0 28px;}
+#pointCharging_wrap .price_wrap .priceBox .tit{height: 21px; margin-bottom: 10px;}
+#pointCharging_wrap .price_wrap .priceBox .tit .icon{background:url(image/point/icon_point_chargprice.png) no-repeat; vertical-align: middle; display:inline-block; width: 21px; height: 21px; margin-right: 7px;}
+#pointCharging_wrap .price_wrap .priceBox .tit .txt{color:#00a9e9; font-size: 16px; display: inline-block; vertical-align: bottom;}
+#pointCharging_wrap .price_wrap .priceBox table{border-collapse: collapse; width: 100%;}
+#pointCharging_wrap .price_wrap .priceBox table tr th{background-color: #f6f6f6; border-top:1px solid #5c9dda; border-bottom:1px solid #e1e1e1; height: 34px; font-size: 13px;}
+#pointCharging_wrap .price_wrap .priceBox table tr td{font-size: 13px; height: 42px; border-bottom:1px solid #ebf2f5;}
+#pointCharging_wrap .price_wrap .priceBox table tr span{vertical-align: middle;}
+#pointCharging_wrap .price_wrap .priceBox .chargPrice{font-size: 20px; color:#333333; font-weight: bold;}
+#pointCharging_wrap .price_wrap .priceBox .price .chargPrice{line-height: 46px;}
+#pointCharging_wrap .price_wrap .priceBox .addTxt{color:#38bcee;}
+#pointCharging_wrap .price_wrap .priceBox .addTxt.icon:before{content:url(image/point/icon_add_circle.png);color:#38bcee; margin-right:6px; position: relative; top: 2px}
+#pointCharging_wrap .price_wrap .priceBox .addPrice{font-size: 20px; color:#00a9e9; font-weight: bold;}
+#pointCharging_wrap .price_wrap .priceBox .selfBox{font-size: 14px; margin-right: 15px;}
+#pointCharging_wrap .price_wrap .priceBox .userIn{width: 122px; height: 28px; border: 1px solid #dcdcdc; padding-left: 10px;}
+#pointCharging_wrap .price_wrap .priceBox .userIn:focus{outline: none}
+#pointCharging_wrap .price_wrap .priceBox .price{float: right; margin-right: 10px;}
+
+#pointCharging_wrap .selBox input[type="radio"]{background:url(image/point/btn_radio_default.png) no-repeat 50% 50%; cursor:pointer;
+display:inline-block; width:20px; height:20px; vertical-align:middle; 
+appearance: none; -moz-appearance: none;-webkit-appearance: none;}
+#pointCharging_wrap .selBox input[type="radio"]:focus{outline: none;}
+#pointCharging_wrap .selBox input[type="radio"]:checked {background:url(image/point/btn_radio_checked.png) no-repeat  50% 50%;}
+#pointCharging_wrap .selBox input[type="radio"]::-ms-expand,#pointCharging_wrap .selBox input[type="radio"]::-ms-check {display: none;}
+#pointCharging_wrap .choiceGroup select{width: 278px; height: 44px; border:1px solid #00a9e9; float:left; margin-right: 13px; outline: none }
+#pointCharging_wrap .choiceGroup .btn_wrap{display: inline-block;}
+#pointCharging_wrap .choiceGroup .btn_type{display: inline-block; background-color:#00a9e9; color:#fff; font-size:16px; width:188px; height: 44px; text-align: center; line-height: 42px;}
+#pointCharging_wrap .footer_txtBox{font-size:14px}
+#pointCharging_wrap .footer_txtBox ul{background-color: #fafafa; padding:30px 0 30px 50px; border:1px solid #d3d3d3; width: 768px; line-height: 18px;}
+#pointCharging_wrap .footer_txtBox ul li{display:inline-block;}
+#pointCharging_wrap .footer_txtBox .font_sky{color:#00a9e9;}
+
+#pointCharging_wrap .taxBillDiv select{width: 150px; height: 30px; border:1px solid #00a9e9; margin-right: 13px; outline: none }
+#pointCharging_wrap .taxBillDiv table{width: 100%;}
+#pointCharging_wrap .taxBillDiv table th{text-align: left;}
+#pointCharging_wrap .taxBillDiv table td{text-align: center;}
+#pointCharging_wrap .taxBillDiv table input{width: 90%; height: 28px; border: 1px solid #dcdcdc; outline: none; padding-left: 10px;}
+
+#pointCharging_wrap .taxBillDiv .btn_type{width:60px; height: 28px; margin-left: 8px; float:left; color:#3d3d3d; background-color:#aaaaaa; border: 1px solid #5f5f5f; cursor: pointer; text-decoration: none;
+    font-size:13px; font-weight:bold;
+    display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex;
+    justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;
+    align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#pointCharging_wrap .taxBillDiv .btn_type:hover{color:#00a9e9; background-color:#e0f6ff; border: 1px solid #00a9e9;}
+
+#pointCharging_wrap .taxBillDiv .down_file .file_icon{vertical-align: middle; display: inline-block; margin-top: 2px;}
+#pointCharging_wrap .taxBillDiv .down_file .icon_excel{background: url(image/personnel/btn_exceldown.png) no-repeat; width: 30px; height: 25px; margin-right: 5px;}
+#pointCharging_wrap .taxBillDiv .down_file .file_name{color: #0000ff; font-size: 13px; text-decoration: underline; font-weight: bold;}
+#pointCharging_wrap .taxBillDiv .default_box{width:calc(90% - 62px); float: left; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; height: 28px;  border: 1px solid #dcdcdc; color:#666666; padding-left:5px; margin-left: 5px;}

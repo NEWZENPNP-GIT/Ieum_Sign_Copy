@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>부서 등록</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+</head>
+<body>
+	<div id="yearTax_wrap" class="yearTax">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연말정산 > 시스템관리 > </span><span class="loc_sub NanumSquare_R">부서 등록</span></div>
+			<div class="pagtit NanumSquare_R">
+				<span class="">부서 등록</span>
+				<ul class="top_items NanumSquare_R">
+					<li><a class="btn_type icon_file NanumSquare_R">엑셀업로드 <span class="icon icon_file"></span></a></li>
+				</ul>
+			</div>
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">부서등록</span>
+					</div>
+					<div class="grid_field">
+						<ul class="between">
+							<li class="label_before">
+								<label class="NanumSquare_R label_sort_right">부서명 : </label>
+								<fieldset class="">
+									<input class="" type="text"><a class="btn_type btn_search Material_icons">search</a>
+								</fieldset>
+							</li>
+							<li class="NanumSquare_R"><a class="btn_type type1">라인추가<span class="icon add"></span></a></li>
+							<li class="NanumSquare_R"><a class="btn_type type2">선택삭제</a></li>
+						</ul>
+					</div>
+				
+					<div class="grid_paging">
+						<div class="select_box">
+							<dl>
+								<dt><label class="label_txt NanumSquare_R">Rows</label></dt>
+								<dd class="select_box">
+									<select class="NanumSquare_R">
+										<option value="" >10</option>
+									</select>
+								</dd>
+							</dl>
+						</div>
+						<div id="page-selection" class="pagingnav_wrap_mid"></div>
+					</div>
+					<div class="group_table">
+						<table class="NanumSquare_R">
+							<colgroup>
+								<col width="4%">
+								<col width="23%">
+								<col width="20%">
+								<col width="23%">
+								<col width="20%">
+							</colgroup>
+							<tbody>
+								<tr>
+									<td class="chk_area"><input type="checkbox"> </td>
+									<td class="tit">사업장</td>
+									<td class="value">
+										<select class="NanumSquare_R">
+											<option value="" >Y</option>
+										</select>
+									</td>
+									<td class="tit">부서명</td>
+									<td class="value"><input type="text" class="input_txt kor"></td>
+								</tr>
+								<tr>
+									<td class="chk_area"><input type="checkbox"> </td>
+									<td class="tit">사업장</td>
+									<td class="value">
+										<select class="NanumSquare_R">
+											<option value="" >Y</option>
+										</select>
+									</td>
+									<td class="tit">부서명</td>
+									<td class="value"><input type="text" class="input_txt kor"></td>
+								</tr>
+								<tr>
+									<td class="chk_area"><input type="checkbox"> </td>
+									<td class="tit">사업장</td>
+									<td class="value">
+										<select class="NanumSquare_R">
+											<option value="" >Y</option>
+										</select>
+									</td>
+									<td class="tit">부서명</td>
+									<td class="value"><input type="text" class="input_txt kor"></td>
+								</tr>
+								<tr>
+									<td class="chk_area"><input type="checkbox"> </td>
+									<td class="tit">사업장</td>
+									<td class="value">
+										<select class="NanumSquare_R">
+											<option value="" >Y</option>
+										</select>
+									</td>
+									<td class="tit">부서명</td>
+									<td class="value"><input type="text" class="input_txt kor"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+$('#page-selection').bootpag({
+    total: 10,
+    page: 1,
+    maxVisible: 5,
+    leaps: true,
+    firstLastUse: true,
+    first: '',
+    last: '',
+    wrapClass: 'pagination',
+    activeClass: 'active',
+    disabledClass: 'disabled',
+    nextClass: 'btn_next',
+    prevClass: 'btn_prev',
+    lastClass: 'end_page',
+    firstClass: 'first_page'
+}).on("page", function(event, num){}); 
+</script>
+</html>

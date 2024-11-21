@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>게시판</title>
+
+<link rel="stylesheet" type="text/css" href="/css/jquery.alerts.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.alerts.js"></script>
+<script type="text/javascript" src="/js/ezsign/session_storage.js"></script>
+
+<script type="text/javascript" src="/js/jquery.bootpag.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+
+<script type='text/javascript' src="/js/ezsign/board/board_main_notice_view.js"></script>
+
+</head>
+<body>		
+	
+	<div id="boardque_wrap" class="">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumGothic">게시판 > </span><span class="loc_sub NanumGothic">공지사항</span></div>
+			<div class="pagtit"><span class="NanumGothic">공지사항</span></div>
+		</div>
+		<div class="board_con_admin">
+	
+			<div class="tab_con">
+			<table class="tab_data NanumGothic">
+				<tr>
+					<td class="tit title">제목</td>
+					<td class="text" colspan="3" id="model_detail_subject"></td>
+					<td class="tit ">작성자명</td>
+					<td class="text writer" id="model_detail_empName"></td>
+					<td class="tit ">만료일</td>
+					<td class="text writer" id=""><input type="date" max="9999-12-31" id="model_detail_expireDate"></td>
+					<!-- <td class="tit ">사용여부</td>
+					<td class="text writer" id=""><input type="radio" name="showYn" value="Y">사용&nbsp;&nbsp;&nbsp;<input type="radio" name="showYn" value="N">미사용</td> -->
+				</tr>
+				<tr>
+					<td class="tit">첨부파일</td>
+					<td class="con text" colspan="10"><img id="attachFile" src="" height="500px;"></img></td>
+				</tr>
+				</tr>
+			</table>
+			</div>
+			<div class="tab_btnGroup NanumGothic" id="btnGroupDiv">
+					<a class='btn_type' onClick='fn_save()'>저장</a>
+					<a class='btn_type' onClick='doRemove()'>삭제</a>
+					<a class='btn_type' onClick='goList()'>목록</a>
+			</div>
+	
+		</div>
+	</div>
+	
+</body>
+</html>
+	

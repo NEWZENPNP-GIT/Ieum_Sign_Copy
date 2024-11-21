@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/member_companySearch.css">
+<script src="/js/jquery.min.js"></script>
+<script src="/js/common.js"></script>
+<script>
+	
+	$(document).ready(function() {
+		var params = getParams()
+		
+		$("#searchValue").val(params.bizName);
+		
+		fn_findBizId();
+	});
+	
+	function runScript(e) {
+		if (e.keyCode == 13) {
+			fn_findBizId();
+			return false;
+		}
+	}
+
+	function fn_setBizId() {
+		var bizId = "";
+		var bizName = "";
+	    var chk = document.getElementsByName("chk");
+	    var tot = chk.length;
+	    var cnt = 0;
+	    for (i = 0; i < tot; i++) {
+	        if (chk[i].checked == true) {
+	            var bizInfo = chk[i].value;
+	            var bizData = bizInfo.split("_");
+	            bizId = bizData[0];
+	            bizName = bizData[1];
+	            cnt++;
+	        }
+	    }
+	    if(cnt!=1) {
+	    	alert("검색된 회사에서 하나만 선택하여 주시기 바랍니다.");
+	    	return;
+	    }
+	    window.opener.fn_setBiz(bizId, bizName);
+	    window.close();
+	}
+	
+	// 기업 검색
+	function fn_findBizId() {
+		var url = rootPath+"biz/findBiz.do";
+		
+		var startPage = 0;
+		var endPage = 10;
+		var bizName = $("#searchValue").val();
+		var loginType = getCookie('loginType');
+
+		if(bizName.length<2 && loginType != '9') {
+			alert("2자이상 입력해주시기 바랍니다.");
+			return;
+		}
+
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				bizName:bizName,
+				startPage:startPage,
+				endPage:endPage
+			},
+			success:function(result)
+			{
+				if (result.success==true) {
+					var bizId;
+					var htmlData = "";
+					$.each(result.data, function(i, row) {
+						htmlData+="<tr class=\"databox\">";
+						htmlData+="	<td class=\"chk_area\"><input type=\"checkbox\" id=\"chk\" name=\"chk\" value='"+row.bizId+"_"+row.bizName+"'></td>";
+						htmlData+="	<td class=\"title\">"+row.bizName+"</td>";
+						htmlData+="	<td class=\"companyNo\">"+row.businessNo+"</td>"; 
+						htmlData+="	<td class=\"ceoName\">"+row.ownerName+"</td>";
+						htmlData+="</tr>";						
+					});
+					
+					$("#dataList").html(htmlData);
+				} else {
+					alert("입력하신 기업명이 존재하지 않습니다.\r\n 정확히 입력해주시기 바랍니다.");
+				}
+			},
+			error:function(request,status,error){
+				alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+		        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+</script>
+</head>
+<body>
+	
+	<!-- *********************************************  회사검색 html 시작 부분  body안에 붙여 넣으시면 됩니다.  *********************************************  -->
+	<!--  POPUP class(숨기기:hidden) -->
+	<div id="companySearch_wrap" class="">
+		<ul id="popup_bg">
+			<li class="popup_frame popup_name">
+				<div class="icon"></div><div class="text NanumGothic">회사검색</div><div class="btn_type popup_close Material_icons" onclick="window.close()">close</div>
+			</li>
+			<li class="popup_frame popup_tit">
+				<div class="bg"><span class="NanumGothic">재직중이신 회사명을 검색하여 등록하세요. 단, 회사명이 검색되지 않으면 우선 기업담당자가 이음싸인 기업회원으로 가입하셔야 됩니다.</span></div>
+			</li>
+			
+			<li class="popup_frame sehInputBox">
+			<!-- 
+				<select id="searchKey">
+					<option value=""> 회사명</option>
+					<option value=""> 사업자번호</option>
+					<option value=""> 대표자명</option>
+				</select>
+			 -->
+				<form>
+					<fieldset>
+					<input type="text" id="searchValue" class="word_input NanumGothic" placeholder="회사명" onkeypress="return runScript(event)">
+					<a onclick="fn_findBizId()" class="btn_search btn_type Material_icons">search</a>
+					</fieldset>
+				</form>
+			</li>
+			<li class="popup_frame popup_res">
+			<!-- 
+			<div class="txt_area"><span class="seh_word font_black NanumGothic" id="searchName">'뉴젠'</span><span class="res_Word font_black NanumGothic"> 검색결과</span><span class="notfind">'검색결과가 없습니다.'</span></div>
+			 -->
+			<div class="seh_res" style="height : 220px">
+				<table>
+					<colgroup>
+						<col width="6%">
+						<col width="47%">
+						<col width="28%">
+						<col width="20%">
+					</colgroup>
+					<thead>
+						<tr>
+							<th class="chk_area"><input type="checkbox"></th>
+							<th>회사명</th>
+							<th>사업자번호</th> 
+							<th>대표자명</th>
+						</tr>
+					</thead>
+					<tbody id="dataList">
+						<tr class="databox">
+							<td colspan="4">데이터가 존재하지 않습니다.</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- 
+			<div class="pagingnav_wrap">
+			    <ul id="pagingNav">
+			        <li><a class="first_page arr left"></a><a class="btn_prev arr right"></a></li>
+			        <li class="paging_numbers"><a id="p1" class="btn_type">1</a><a id="p2" class="btn_type">2</a><a id="p2" class="btn_type">3</a>
+			        <a id="p2" class="btn_type">4</a><a id="p2" class="btn_type">5</a></li>
+			        <li><a class="btn_next arr left "></a><a class="end_page arr right"></a></li>
+			    </ul>
+			</div>
+			 -->
+			</li>
+			<li class="popup_btnGroup">
+				<a onclick="fn_setBizId()" class="btn_type check">확인</a><a onclick="window.close();" class="btn_type close">닫기</a>
+			</li>
+		</ul>
+	</div><!-- companySearch_wrap -->
+	<!-- *********************************************  회사검색 html 끝  부분  body안에 붙여 넣으시면 됩니다.  *********************************************  -->
+</body>
+</html>

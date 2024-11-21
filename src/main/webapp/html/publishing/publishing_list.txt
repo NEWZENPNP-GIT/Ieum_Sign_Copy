@@ -1,0 +1,96 @@
+==================================== 이음싸인 추가 페이지
+마이페이지: myPage_memberInfo.html
+마이페이지_기업정보수정: myPage_edit_companyInfo.html
+마이페이지 > 비빌먼호 변경 팝업: myPage_popup_pwchange.html
+마이페이지 > 비밀번호 확인 팝업: myPage_popup_pwCheck.html
+
+기업관리 : company_management.html
+
+그룹관리 : group_management.html ===== =======> 추가 페이지 (관련팝업창 링크됨.) 
+중간관리자 검색 팝업 : group_popup_middleManager.html ===== =======> 추가 페이지 
+관리자 정보 등록 : group_popup_addManager.html ===== =======> 추가 페이지 
+그룹 검색 : group_popup_groupSearch.html ===== =======> 추가 페이지 
+근로자 검색 : group_popup_employeeSearch.html ===== =======> 추가 페이지 
+
+==================================== 게시판 관련 추가페이지
+문의글 등록 : bbs/board_question.html(수정)
+문의하기(관리자) : bbs/board_question_admin.html(수정)
+
+자주묻는 질문 등록하기 : board_faq_writePopup.html
+자주묻는 질문 list : board_faq_list.html
+공지사항 list : board_notice_list.html
+문의사항 list : board_question_list.html
+
+==================================== 근태/휴가
+근태) 오늘의 근무 현황 : commute_todayReport.html
+
+==================================== 캔디 Mobile
+인트로 : 
+인트로(최초) : mobile_index.html
+인트로 로그인 : mobile_login_types.html
+로그인 (id&pw) : mobile_login_type_idnpw.html
+메인: mobile_main.html
+==================================== 연말정산 관리자 
+
+관리자 입력 현황 : yearTax_progressReport.html
+근로자 도움 : yearTax_popup_employeeHelp.html
+세무사 도움 : yearTax_popup_taxofficeHelp.html
+법정동 도움 (지방소득세납세지): yearTax_popup_areaIncomeHelp.html
+시스템 관리 > 고객사 정보: yearTax_system_customer.html
+시스템 관리 > 기본 설정 : yearTax_system_default.html
+시스템 관리 > 회사 정보 : yearTax_system_company.html
+시스템 관리 > 사업장 정보 : yearTax_system_workplace.html
+시스템 관리 > 사업장 상세 정보 : yearTax_system_workplace_detail.html
+시스템 관리 > 부서등록 : yearTax_system_department.html
+시스템 관리 > 중간관리자 설정 : yearTax_system_middleManager.html
+시스템 관리 > 중간관리자 상세 : yearTax_system_middleManager_detail.html
+시스템 관리 > 급여항목 관리 : yearTax_system_payItemManager.html
+시스템 관리 > 이미지 관리 : yearTax_system_imageManager.html
+시스템 관리 > 버전 정보 관리 :yearTax_system_RevisionControl.html
+시스템 관리 > 접속IP 관리 :yearTax_system_accessIpManager.html
+시스템 관리 > 버전 정보 관리 :yearTax_system_RevisionControl.html
+기초자료 설정 > 근로자 정보 : yearTax_basicsData_employee.html
+기초자료 설정 > 근로자 상세 : yearTax_basicsData_employee_detail.html
+기초자료 설정 > 부양가족  : yearTax_basicsData_familyDependent.html
+기초자료 설정 > 부양가족 상세  : yearTax_basicsData_familyDependent_detail.html
+기초자료 설정 > 종(전) 근무지 : yearTax_basicsData_beforeWorkplace.html
+기초자료 설정 > 종(전) 근무지 상세 :yearTax_basicsData_beforeWorkplace_detail.html
+기초자료 설정 > 국세청pdf : yearTax_basicsData_taxService_pdf.html
+기초자료 설정 > 이월기부금 : yearTax_basicsData_carryDonation.html
+기초자료 설정 > 이월기부금 상세 : yearTax_basicsData_carryDonation_detail.html
+기초자료 설정 > 사내기부금 :yearTax_basicsData_inCompanyDonation.html
+기초자료 설정 > 공제불가 회사지원금 : yearTax_basicsData_nonDeduct.html
+기초자료 설정 > 공제불가 회사지원금 상세 : yearTax_basicsData_nonDeduct_detail.html
+추가 제출 서류 : yearTax_addDocument.html
+추가 제출 서류 상세: yearTax_addDocument_detail.html
+전자 신고 : yearTax_electronicReport.html
+
+==================================== 연말정산 근로자
+
+근로자 입력 현황 : e_yearTax_progressReport.html
+근로자 정보 : e_yearTax_employeeInfo.html
+종(전) 근무지 : e_yearTax_basicsData_beforeWorkplace.html
+종(전) 근무지 자료추가 : e_yearTax_basicsData_beforeWorkplace_detail.html
+소득명세합계 개별: e_yearTax_basicsData_totalIncome.html
+부양가족 관리 : e_yearTax_basicsData_familyDependent.html
+부양가족 첨부파일: yearTax_popup_attachmentFile.html
+국세청PDF업로드 : e_yearTax_basicsData_taxService_pdf.html
+연말정산Map근로자 : e_yearTax_basicsData_map_empolyee.html
+연말정산Map근로자 pdf업로드관리자 : e_yearTax_basicsData_map_empolyee_pdf.html
+연말정산Map관리자 : e_yearTax_basicsData_map_admin.html
+연말정산Map관리자 pdf업로드관리자: e_yearTax_basicsData_map_admin_pdf.html
+연금보험료공제 : e_yearTax_basicsData_map_annuity.html
+주택소득공제신청확인서 : e_yearTax_popup_application_form.html
+특별소득공제 : e_yearTax_basicsData_map_special_Income.html
+개인연금저축 : e_yearTax_basicsData_map_personalSavings.html
+주택마련저축 : e_yearTax_basicsData_map_saveforHousing.html
+신용카드등 : e_yearTax_basicsData_map_creditCard.html
+장기집합투자증권 : e_yearTax_basicsData_map_longInvestment.html
+그밖의소득공제 : e_yearTax_basicsData_map_other_Income.html
+연금계좌 : e_yearTax_basicsData_map_annuity_Account.html
+특별세액공제  :e_yearTax_basicsData_map_specialTax.html
+세액감면 : e_yearTax_basicsData_map_taxConcessions.html
+기타세액공제 : e_yearTax_basicsData_map_otherTax.html
+연말정산요약 : e_yearTax_basicsData_map_summary.html
+연말정산요약축소1 : yearTax_popup_summary_01.html
+연말정산요약축소2 : yearTax_popup_summary_02.html

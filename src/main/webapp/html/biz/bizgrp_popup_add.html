@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>기업 배정 등록</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/company_manage.css">
+
+<script type='text/javascript' src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+
+<script>	
+
+	$(document).ready(function(){
+		$('input[type=text]').on('keydown', function(e) {
+		    if (e.which == 13) {
+		        e.preventDefault();
+		        fn_getBizList();
+		    }
+		});
+
+		var bizId = getURLParameters("bizId");
+		
+		$("#bizId").val(bizId);
+		
+		fn_getBizList();	
+	});
+	
+	function fn_getBizList() {
+		
+		var searchKey = $("#searchKey").val();
+		var searchValue = $("#searchValue").val();
+		
+		var url = rootPath+"biz/getBizList.do";
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				searchKey:searchKey,
+				searchValue:searchValue,
+				startPage:0,
+				endPage:99999
+			},
+			success:function(result) {
+
+				var htmlData = "";
+
+				if (result.success==true) {
+					$.each(result.data, function(i, row) {
+						htmlData += '<tr> <td class=""><input type="checkbox" name="chk" value="'+row.bizId+'"></td>';
+						htmlData += '     <td>'+row.bizName+'</td>';
+						htmlData += '     <td>'+row.businessNo+'</td>';
+						if(row.insDate.length > 0) {
+							htmlData += '	  <td>'+convertDateTime(row.insDate).format("yyyy-MM-dd HH:mm:ss")+'</td>';
+						} else {
+							htmlData += '     <td></td>';
+						}
+						htmlData += '</tr>';
+					});
+					
+				}
+				$("#bizList").html(htmlData);
+				
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+				}
+			}
+		});		
+	}
+	
+	function fn_addBizGrp() {
+
+		var cnt = 0;
+		var bizId = $("#bizId").val();
+		var bizGrpList = "";
+
+		$("input:checkbox[name=chk]:checked").each(function (){
+			var key = this.value;
+			bizGrpList += key + "-";
+	    	cnt++;
+		});
+		
+		if(cnt==0) {
+			alert("배정할 기업을 선택해주시기 바랍니다.");
+			return;
+		}
+		
+		if(!confirm("해당 선택된 기업을 배정하시겠습니까?")) return;
+		
+		var url = rootPath+"biz/addBizGrpList.do";
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				bizId:bizId,
+				refId:bizGrpList
+			},
+			success:function(result) {
+
+				var htmlData = "";
+
+				$.unblockUI();
+				if (result.success==true) {
+					opener.fn_getBizGrpList();
+					alert("기업배정을 하였습니다.");
+					window.close();
+					return;
+				}
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+				}
+			}
+		});	
+	}
+	
+</script>
+</head>
+<body>
+<input type="hidden" id="bizId" value="">
+	<div id="company_popup" class="_popup">
+		<div class="container">
+			<div id="popup_tit">
+				<div class="tit_icon"><span class="NanumGothic Material_icons">search</span></div>
+				<div class="tit_text col_skyblue NanumGothic">기업 배정 등록 </div>
+				<div id="popup_close" class="btn_type col_skyblue" onclick="window.close();"></div>
+			</div>
+			<div class="contents">
+				<div class="grid_field">
+					<div class="select_box">
+						<select class="NanumGothic" id="searchKey">
+							<option value="bizName" >기업명</option>
+							<option value="businessNo" >사업자번호</option>
+						</select>
+					</div>
+					<div class="input_box">
+						<fieldset>
+							<input class="" type="text" placeholder="검색" id="searchValue" ><div class="btn_type btn_search Material_icons" onClick="fn_getBizList()">search</div>
+						</fieldset>
+					</div>
+				</div>
+			
+				<div class="group_table">
+					<table class="NanumGothic">
+						<colgroup>
+							<col width="6%">
+							<col width="34%">
+							<col width="30%">
+							<col width="30%">
+						</colgroup>
+						<thead>
+							<tr>
+								<th class="chk_area"></th>
+								<th>기업명</th>
+								<th>사업자번호</th>
+								<th>처리일시</th>
+							</tr>
+						</thead>
+						<tbody id="bizList">
+						</tbody>
+					</table>
+				</div>
+			
+				<div class="result_text NanumGothic">
+				</div>
+				<div class="btns sort-center">
+					<div><div class="type3 btn_type Material_icons" onClick="fn_addBizGrp()">추가</div></div>
+					<div><div class="type4 btn_type Material_icons" onClick="window.close()">닫기</div></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

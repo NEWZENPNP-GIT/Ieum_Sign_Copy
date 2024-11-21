@@ -1,0 +1,635 @@
+@charset "utf-8";
+
+
+/** -------------------- media ----------------------------- **/
+@media all and (max-width: 320px){
+	/****************** 연말정산 진행현황 *******************/
+	#container.yearTax ul.progress .userInfo{font-size: 14px !important;}
+	#container.yearTax ul.progress .userInfo div{height: auto;}
+	#container.yearTax ul.progress .userInfo div:first-child { margin-bottom: 8px;}
+	#container.yearTax ul.progress .stateBar .box .no{top:10px !important;}
+	#container.yearTax ul.progress .stateBar .box .bar{padding-top:10px !important}
+	#container.yearTax ul.progress .stateBar .box .txt{font-size: 12px !important;}
+	#container.yearTax ul.progress .stateBar .box .lastData{font-size: 11px !important;}
+	#container.yearTax ul.board_list .board_item .category{font-size: 15px !important; width: 65px !important; }
+	#container.yearTax ul.board_list .board_item .text{width: calc(100% - 155px) !important;}
+	
+	#container.yearTax .process-item{height: 206px !important;}
+	#container.yearTax ul.progress .progressBox{height: 325px !important;}
+	#container.yearTax .process-item .process_btns{width: calc(100% - 85px) !important; height: 135px !important; margin: 23px 10px 0 75px !important;}
+	#container.yearTax .process-item .process_btns li{width:65px !important; height: 135px !important; }
+	#container.yearTax .process-item .process_btns li .btn_type{width:65px !important;}
+	#container.yearTax .process-item .process_btns li .btn_type .btn_name{font-size: 13px !important; margin-top: 5px !important; line-height:16px !important;}
+	#container.yearTax .process-item .process_btns li:nth-child(1){left:calc(0% - 65px) !important;}
+	#container.yearTax .process-item .process_btns li:nth-child(2){left:calc(33% - 65px) !important;}
+	#container.yearTax .process-item .process_btns li:nth-child(3){left:calc(66% - 65px) !important;}
+	#container.yearTax .process-item .process_btns li:nth-child(4){left:calc(100% - 65px) !important;}
+	
+	#container.yearTax .process-item .process_btns li .btn_type .icon{width: 60px !important; height: 60px !important; left:2px !important; }
+	#container.yearTax .process-item .process_btns li .btn_type .icon:after{-webkit-transform: scale(0.24) !important; -o-transform:scale(0.24) !important; -ms-transform:scale(0.24) !important; transform:scale(0.24) !important;}
+	
+	#container.yearTax .process_btns li .btn_type.clear .icon:before{left: 39px !important; -webkit-transform: scale(0.90) !important; -o-transform:scale(0.90) !important; -ms-transform:scale(0.90) !important; transform:scale(0.90) !important;}
+	#container.yearTax .process_btns li .btn_type.clear .state{ margin-top: 5px !important; font-size: 11px !important;}
+	
+	/****************** 소득명세 합계 *******************/
+	#container.yearTax ul .summary{font-size: 14px !important; }
+	#container.yearTax ul .summary div{width: 100% !important; padding-left: 0px !important;}
+	
+	#container.yearTax ul.income .summary div{height: auto !important; margin-bottom: 8px; line-height: 20px; margin-left: 3px !important;}
+	#container.yearTax ul.income .summary span{word-break: break-all !important; }
+
+	#container.yearTax .footer .btn_type.btn_cancel:before{top: calc(50% - 15px) !important; left: 15px; -webkit-transform: scale(0.30) !important; -o-transform: scale(0.30) !important; -ms-transform: scale(0.30) !important; transform: scale(0.30) !important;}
+	#container.yearTax .footer .btn_save:after{top: calc(50% - 15px) !important; right: -60px !important; -webkit-transform: scale(0.30) !important; -o-transform: scale(0.30) !important; -ms-transform: scale(0.30) !important; transform: scale(0.30) !important;}
+	/****************** 추가증빙서류 제출 *******************/
+	#container.yearTax .attach_type ul.column{padding: 15px 0 10px 0px !important;  width: 100% !important}
+	#container.yearTax .attach_type ul.column div{font-size: 14px !important;}
+	#container.yearTax .attach_type ul.column .checkmark{margin-right: 3px !important;}
+	#container.yearTax ul.column .row3 div:nth-child(1){width: calc(33% - 3px) !important; margin-left: 3px !important;}
+	#container.yearTax ul.column .row3 div:nth-child(2){width: calc(44% - 3px) !important; margin-left: 3px !important;}
+	#container.yearTax ul.column .row3 div:nth-child(3){width: calc(23% - 3px) !important; margin-left: 3px !important;}
+	
+	#container.yearTax .boxWrap .addType a.btn_type .icon{height: 115px !important}
+	#container.yearTax .boxWrap .addType a.btn_type .icon:after{top: 16% !important; left: 16% !important; -webkit-transform: scale(0.30) !important; -o-transform: scale(0.30) !important; -ms-transform: scale(0.30) !important;   transform: scale(0.30) !important; }
+	
+	/****************** 결과 확인 *******************/
+	#container.yearTax .group-cell.result .fix_viewer{width: 200px !important;}
+	#container.yearTax .group-cell.result .column_viewer{ width: calc(100% - 200px) !important;}
+	#container.yearTax .group-cell.result ul li .add{width: 40% !important; min-width: calc(35% - 7px) !important; margin-left: 7px !important;}
+	#container.yearTax .group-cell.result ul li.nav.h55{font-size: 12px !important;}
+	
+	/****************** 영수증 조회  *******************/
+	#container .receipt_menu ul.list li.btn_type{background-size: 46% !important;}
+	#container .receipt_menu ul.list li.btn_type .btn_title{ margin: 30px 0 0px 21px !important; height:26px !important; }
+	#container .receipt_menu ul.list li.btn_type .year{font-size: 20px !important; height:26px !important;}
+	#container .receipt_menu ul.list li.btn_type .month{font-size: 20px !important; height:26px !important; }
+	#container .receipt_menu ul.list li.btn_type .tit{width: calc(100% - 140px) !important; margin: 0px 0 0px 21px !important; font-size: 18px !important; height:20px !important;}
+	#container .receipt_menu ul.list li.btn_type .date{ margin:5px 0 3px 26px !important; font-size: 13px !important; height:18px !important;}
+}
+
+@media all and (min-width: 321px) and (max-width: 360px) {
+	/****************** 연말정산 진행현황 *******************/
+	#container.yearTax ul.progress .userInfo{font-size: 14px !important;}
+	#container.yearTax ul.progress .userInfo div{height: auto;}
+	#container.yearTax ul.progress .userInfo div:first-child { margin-bottom: 8px;}
+	#container.yearTax ul.progress .stateBar .box .no{top:10px !important;}
+	#container.yearTax ul.progress .stateBar .box .bar{padding-top:10px !important}
+	#container.yearTax ul.progress .stateBar .box .txt{font-size: 13px !important;}
+	#container.yearTax ul.progress .stateBar .box .lastData{font-size: 12px !important;}
+	#container.yearTax ul.board_list .board_item .category{font-size: 15px !important; width: 65px !important;}
+	#container.yearTax ul.board_list .board_item .text{width: calc(100% - 155px) !important;}
+	
+	#container.yearTax .footer .btn_type.btn_cancel:before{top: calc(50% - 17px) !important; -webkit-transform: scale(0.33) !important; -o-transform: scale(0.33) !important; -ms-transform: scale(0.33) !important; transform: scale(0.33) !important;}
+	#container.yearTax .footer .btn_save:after{top: calc(50% - 17px) !important; right: -55px !important; -webkit-transform: scale(0.33) !important; -o-transform: scale(0.33) !important; -ms-transform: scale(0.33) !important; transform: scale(0.33) !important;}
+	
+	#container.yearTax .process-item{height: 221px !important;}
+	#container.yearTax ul.progress .progressBox{height: 340px !important;}
+	#container.yearTax .process-item .process_btns{width: calc(100% - 90px) !important; height: 140px !important;margin: 20px 10px 20px 80px !important;}
+	#container.yearTax .process-item .process_btns li{width:70px !important; height: 140px !important; }
+	#container.yearTax .process-item .process_btns li .btn_type{width:70px !important;  }
+	#container.yearTax .process-item .process_btns li .btn_type .btn_name{font-size: 14px !important; margin-top: 5px !important; line-height:16px !important;}
+	#container.yearTax .process-item .process_btns li:nth-child(1){left:calc(0% - 70px) !important;}
+	#container.yearTax .process-item .process_btns li:nth-child(2){left:calc(33% - 70px) !important;}
+	#container.yearTax .process-item .process_btns li:nth-child(3){left:calc(66% - 70px) !important;}
+	#container.yearTax .process-item .process_btns li:nth-child(4){left:calc(100% - 70px) !important;}
+	
+	#container.yearTax .process-item .process_btns li .btn_type .icon{width: 70px !important; height: 70px !important;}
+	#container.yearTax .process-item .process_btns li .btn_type .icon:after{-webkit-transform: scale(0.28) !important; -o-transform:scale(0.28) !important; -ms-transform:scale(0.28) !important; transform:scale(0.28) !important;}
+	
+	#container.yearTax .process_btns li .btn_type.clear .icon:before{left: 49px !important; -webkit-transform: scale(0.94) !important; -o-transform:scale(0.94) !important; -ms-transform:scale(0.94) !important; transform:scale(0.94) !important;}
+	#container.yearTax .process_btns li .btn_type.clear .state{ margin-top: 5px !important; font-size: 12px !important;}
+	
+	/****************** 추가증빙서류 제출 *******************/
+	#container.yearTax .attach_type ul.column{padding: 15px 0 10px 3px !important;  width: calc(100% - 3px) !important}
+	#container.yearTax .attach_type ul.column div{font-size: 14px !important;}
+	
+	#container.yearTax .boxWrap .addType a.btn_type .icon{height: 125px !important}
+	#container.yearTax .boxWrap .addType a.btn_type .icon:after{top: 18% !important; left: 18% !important; -webkit-transform: scale(0.32) !important; -o-transform: scale(0.32) !important; -ms-transform: scale(0.32) !important;   transform: scale(0.32) !important; }
+	
+	/****************** 결과 확인 *******************/
+	#container.yearTax .group-cell.result .fix_viewer{width: 200px !important;}
+	#container.yearTax .group-cell.result .column_viewer{ width: calc(100% - 200px) !important;}
+	#container.yearTax .group-cell.result ul li .add{width: 40% !important; min-width: calc(35% - 7px) !important; margin-left: 7px !important;}
+	#container.yearTax .group-cell.result ul li.nav.h55{font-size: 12px !important;}
+	
+	
+	/****************** 영수증 조회  *******************/
+	#container .receipt_menu ul.list li.btn_type{background-size: 45% !important;}
+	#container .receipt_menu ul.list li.btn_type .btn_title{ margin: 33px 0 0px 21px !important;}
+	#container .receipt_menu ul.list li.btn_type .year{font-size: 22px !important;}
+	#container .receipt_menu ul.list li.btn_type .month{font-size: 22px !important;}
+	#container .receipt_menu ul.list li.btn_type .tit{width: calc(100% - 150px) !important; margin: 0px 0 0px 21px !important; font-size: 21px !important;}
+	#container .receipt_menu ul.list li.btn_type .date{ margin:5px 0 4px 26px !important; font-size: 14px !important;}
+}
+
+@media all and (min-width: 361px) and (max-width: 410px) {
+	/****************** 연말정산 진행현황 *******************/
+	#container.yearTax ul.progress .userInfo{font-size: 14px !important; }
+	#container.yearTax ul.progress .userInfo div{height: auto;}
+	#container.yearTax ul.progress .stateBar .box .no{top:10px !important;}
+	#container.yearTax ul.progress .stateBar .box .bar{padding-top:10px !important}
+	#container.yearTax ul.progress .stateBar .box .txt{font-size: 13px !important;}
+	#container.yearTax ul.progress .stateBar .box .lastData{font-size: 12px !important;}
+	#container.yearTax ul.board_list .board_item .category{font-size: 15px !important; width: 65px !important;}
+	#container.yearTax ul.board_list .board_item .text{width: calc(100% - 155px) !important;}
+	
+	#container.yearTax .process-item{height: 221px !important;}
+	#container.yearTax ul.progress .progressBox{height: 340px !important;}
+	#container.yearTax .process-item .process_btns{width: calc(100% - 90px) !important; height: 140px !important; margin: 20px 10px 20px 80px !important;}
+	#container.yearTax .process-item .process_btns li{width:70px !important; height: 140px !important; }
+	#container.yearTax .process-item .process_btns li .btn_type{width:70px !important;}
+	#container.yearTax .process-item .process_btns li .btn_type .btn_name{font-size: 14px !important; margin-top: 5px !important; line-height:16px !important;}
+	#container.yearTax .process-item .process_btns li:nth-child(1){left:calc(0% - 70px) !important;}
+	#container.yearTax .process-item .process_btns li:nth-child(2){left:calc(33% - 70px) !important;}
+	#container.yearTax .process-item .process_btns li:nth-child(3){left:calc(66% - 70px) !important;}
+	#container.yearTax .process-item .process_btns li:nth-child(4){left:calc(100% - 70px) !important;}
+	
+	#container.yearTax .process-item .process_btns li .btn_type .icon{width: 70px !important; height: 70px !important;}
+	#container.yearTax .process-item .process_btns li .btn_type .icon:after{-webkit-transform: scale(0.28) !important; -o-transform:scale(0.28) !important; -ms-transform:scale(0.28) !important; transform:scale(0.28) !important;}
+	
+	#container.yearTax .process_btns li .btn_type.clear .icon:before{left: 49px !important; -webkit-transform: scale(0.94) !important; -o-transform:scale(0.94) !important; -ms-transform:scale(0.94) !important; transform:scale(0.94) !important;}
+	#container.yearTax .process_btns li .btn_type.clear .state{ margin-top: 5px !important; font-size: 12px !important;}
+	
+	
+	#container.yearTax .boxWrap .addType a.btn_type .icon:after{top: 20% !important; left: 20% !important; -webkit-transform: scale(0.32) !important; -o-transform: scale(0.32) !important; -ms-transform: scale(0.32) !important;   transform: scale(0.32) !important; }
+	
+	/****************** 결과 확인 *******************/
+	#container.yearTax .group-cell.result .fix_viewer{width: 200px !important;}
+	#container.yearTax .group-cell.result .column_viewer{ width: calc(100% - 200px) !important;}
+	#container.yearTax .group-cell.result ul li .add{width: 40% !important; min-width: calc(35% - 7px) !important; margin-left: 7px !important;}
+	#container.yearTax .group-cell.result ul li.nav.h55{font-size: 12px !important;}
+	
+	/****************** 영수증 조회  *******************/
+	#container .receipt_menu ul.list li.btn_type{background-size: 44% !important;}
+	#container .receipt_menu ul.list li.btn_type .btn_title{ margin: 36px 0 0px 21px !important;}
+	#container .receipt_menu ul.list li.btn_type .tit{width: calc(100% - 155px) !important; margin: 0px 0 0px 21px !important; }
+	#container .receipt_menu ul.list li.btn_type .date{ margin: 6px 0 2px 26px !important;}
+	
+}
+@media all and (min-width: 1024px){
+	#container.yearTax .boxWrap .addType{justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+	#container.yearTax .boxWrap .addType a.btn_type{width: calc(25% - 20px) !important;}	
+	#container.yearTax .boxWrap .addType a.btn_type{margin:0 10px !important;}	
+	
+	/****************** 영수증 조회  *******************/
+	#container .receipt_menu ul.list li.btn_type{background-size: 16% !important;}
+	#container .receipt select{background-size: 4% !important; background-position: 98% 50% !important;}
+	
+}
+				
+@media all and (max-height: 640px) {
+	/****************** 영수증 조회  *******************/
+	#container .top_select{padding: 18px 20px 15px 20px !important;}
+	#container .receipt_view{height: calc(100% - 83px) !important;}
+}
+
+@media all and (min-height: 641px) and (max-height: 730px) {
+	/****************** 영수증 조회  *******************/
+	#container .top_select{padding: 18px 20px 15px 20px !important;}
+	#container .receipt_view{height: calc(100% - 83px) !important;}
+}
+
+/****************** 연말정산 진행현황 *******************/
+@media all and (min-width: 768px) {
+	#container.yearTax ul.progress .yearSelect > div{width: 400px !important; float:right !important;}
+	#container.yearTax ul.progress .yearSelect select {background-size: 7% !important;}
+}
+header.yearTax{ background-color: #5f50b9;}
+#container.yearTax{position:relative; float:left; padding:0; width:100%;  min-height: calc(100% - 65px); background: #f3f3f3;}
+#container.yearTax .wrap{position:relative; float:left;  width:100%; height: 100%; }
+#container.yearTax ul.boxWrap{position:relative;  margin:13px 10px 0px 10px; width:calc(100% - 20px); float:left; padding-bottom:8px; background-color: #ffffff; border: 1px solid #dddddd; border-radius: 4px; box-sizing: border-box;}
+#container.yearTax ul.boxWrap{display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: column;}
+#container.yearTax ul:not(.swiper-wrapper) li{position:relative; width:calc(100% - 16px); margin: 2px 8px; float: left;}
+#container.yearTax ul.boxWrap .tit{height: 45px; border-bottom:1px solid #e6e6e6;}
+#container.yearTax ul.boxWrap .tit .txt{position:relative;  width: calc(100% - 10px); height:24px; padding:13px 0 8px 10px;  float: left; color:#444444; font-size: 17px; font-weight: bold;}
+
+#container.yearTax ul .tit.que .txt{width: calc(100% - 80px);}
+#container.yearTax ul .tit.que .btn{width: 70px; }
+
+#container.yearTax ul .tit.more .txt{width: calc(100% - 90px);}
+#container.yearTax ul .tit.more .btn{width: 80px; }
+
+#container.yearTax ul .tit .btn{position:relative; float: left; padding:7px 0px 7px 0px; }
+#container.yearTax ul .tit .btn .btn_type{position:relative; width: 100%; height: 31px; letter-spacing: 1px; background-color: #4bbeff; border-radius: 6px; color:#ffffff; font-size: 15px; font-weight: bold;}
+#container.yearTax ul .tit .btn .btn_type{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+
+#container.yearTax ul.progress{padding-bottom:0px;}
+#container.yearTax ul.progress .yearSelect { height: 40px; margin: 8px 8px; }
+#container.yearTax ul.progress .yearSelect > div{width: 100%; height: 100%;}
+#container.yearTax ul.progress .yearSelect span{display:inline-block;  color: #00a9e9; width:90px; padding-left:10px; padding-top:12px; font-size:15px; font-weight:bold; float:left; box-sizing: border-box;}
+#container.yearTax ul.progress .yearSelect select{width: calc(100% - 150px); height: 100%; background-image: url('image/mobile/select_focus_arrow_new.png'); background-size:9%;  background-repeat: no-repeat; background-position: 95% 50%; color: #666666; box-sizing: border-box;  font-size: 17px; letter-spacing: 0.5px;  outline: none; border:1px solid #00a9e9; padding-left: 5px; -webkit-appearance: none; -moz-appearance: none; -o-appearance: none; appearance: none; float:left;}
+#container.yearTax ul.progress .yearSelect .btn_type{width: 60px; height:100%; color:#ffffff; font-size: 15px; background-color: #00a9ea; float:left; }
+#container.yearTax ul.progress .yearSelect .btn_type{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container.yearTax ul.progress .userInfo{height: 60px; font-size:15px; font-weight:bold; letter-spacing: 0.2px; color:#666666; /* border-bottom: 1px solid #e6e6e6;  */ padding-top: 15px; }
+#container.yearTax ul.progress .userInfo{display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: column;}
+#container.yearTax ul.progress .userInfo div{height: 27px; }
+#container.yearTax ul.progress .userInfo div{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container.yearTax ul.progress .userInfo span{word-break: keep-all;}
+#container.yearTax ul.progress .userInfo .date{color:#4bbeff;}
+#container.yearTax ul.progress .userInfo .stateTxt{color:#ff0000; text-align: center;}
+
+#container.yearTax ul.progress .progressBox{height: 355px; width: 100%; margin: 0px;}
+#container.yearTax .stateBar{position:relative; width: calc(100% - 10px); padding:0 5px; margin: 2px 0px; height:auto; display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: row; -ms-flex-grow:row;}
+#container.yearTax .stateBar label{position: absolute; display: block; width: 80%; left:10%; height: 100px;  z-index: 1; cursor: pointer;}
+#container.yearTax .stateBar .box{position:static; width:25%; margin:0px !important; min-width: 25%; font-size: 12px; font-weight:bold; color:#959595; }
+#container.yearTax .stateBar .process-step{position: relative; display: inline-block; width: 100%; height: auto; }
+#container.yearTax .stateBar .box .bar{position:relative; width:100%; height: 26px; padding-top: 15px; float: left;}
+#container.yearTax .stateBar .box .line{position:relative; display: inline-block; top:11px; height: 3px; width: 100%; background-color: #e3e3e3; float:left}
+#container.yearTax .stateBar .box:first-child .line{width: 50%; float: right;}
+#container.yearTax .stateBar .box:last-child .line{width: 50%; float: left;}
+#container.yearTax .stateBar .box .no{position:absolute; left: calc(50% - 10px); top: 14px; width: 20px; height: 20px; font-size: 15px; font-weight:normal; color:#ffffff;  background-color:#bbbbbb;  box-sizing: content-box; border: 3px solid #dcdcdc; border-radius: 25px;}
+#container.yearTax .stateBar .box .no{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container.yearTax .stateBar .box .txt{position:relative; float:left; width:100%; height: 28px; font-size:14px; word-break: keep-all; text-align: center; line-height: 18px;  display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container.yearTax .stateBar .box .lastData{position: relative; float: left; font-weight:bold; font-size:12px; width: 100%; height: 32px; text-align: center;line-height: 15px; padding-top: 2px; word-break: keep-all; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center; }
+#container.yearTax .stateBar .box .lastData span{width: 100%;}
+#container.yearTax .stateBar .box .process-arrow{display:none;}
+
+#container.yearTax .stateBar .box.current{}
+#container.yearTax .stateBar .box.current .no{background-color:#00a9e9; color:#ffffff; border:3px solid #92d1e8;  }
+#container.yearTax .stateBar .box.current .txt{font-family:'NanumSquareRegular'; color: #00a9e9; text-underline-position: under; text-decoration: underline; }
+#container.yearTax .stateBar .box.current .line{background: linear-gradient(90deg, #53bfe8, #e5e5e5) no-repeat;}
+
+#container.yearTax .stateBar .box.clear .no{background-color:#00a9e9; color:#ffffff; border:3px solid #92d1e8; }
+#container.yearTax .stateBar .box.clear .txt{font-family:'NanumSquareRegular'; color: #00a9e9; text-underline-position: under; text-decoration: underline; }
+#container.yearTax .stateBar .box.clear .line{background-color: #53bfe8;}
+
+#container.yearTax .stateBar .box input[type="radio"]{display: none;}
+
+#container.yearTax .stateBar .box input[type="radio"]:checked + .process-step .bar .no{top: 14px; left: calc(50% - 10px); background-color:#00a9e9; color:#ffffff; border:3px solid #92d1e8; box-sizing: content-box; }
+#container.yearTax .stateBar .box input[type="radio"]:checked + .process-step .bar .line{background: linear-gradient(90deg, #53bfe8, #e5e5e5) no-repeat;}
+#container.yearTax .stateBar .box.clear input[type="radio"]:checked + .process-step .bar .line{background:#53bfe8;}
+#container.yearTax .stateBar .box:last-child input[type="radio"]:checked + .process-step .bar .line{background:#53bfe8;}
+#container.yearTax .stateBar .box input[type="radio"]:checked + .process-step .txt{color: #00a9e9; text-underline-position: under; text-decoration: underline; }
+#container.yearTax .stateBar .box input[type="radio"]:checked + .process-step .process-arrow{position: absolute; display:inline-block; float:left; top:105px; left:calc(50% - 9px); background: url(image/mobile/tab_arrow.png) no-repeat; background-position:50% 50%; width: 18px; height: 10px; z-index: 1; margin-top: 3px;}
+#container.yearTax .stateBar .box input[type="radio"]:checked ~ .process-item{display: inline-block;}
+#container.yearTax .stateBar .box:not(.clear) + .box > input[type="radio"]:checked ~ .process-step .bar .line{background:#e3e3e3;}
+#container.yearTax .process-item{position: absolute; display:none; top: 117px; left: 0; width: 100%; height: 236px; background-color:#f6fcff; border: 1px solid #dddddd; border-left:none; border-right:none; border-bottom:none; border-radius:8px; border-bottom-left-radius:0; border-bottom-right-radius:0px; padding:5px 0px 0px 0px; box-sizing: border-box; }
+#container.yearTax .process-item .tabTitle{position:relative; width:calc(100% - 25px); height:35px; margin:0px 10px 0px 10px; padding-left:5px; color:#00a9e9; font-weight: bold; font-size: 15px; border-bottom:1px solid #e0e0e0; box-sizing:border-box;  float:left; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#container.yearTax .process-item .process_btns{position:relative; width: calc(100% - 105px); height:155px; margin:20px 10px 20px 95px; float:left; /* display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: row; -ms-flex-grow:row; */}
+#container.yearTax .process-item ul.process_btns li{position:absolute !important; display:inline-block; float:left; width:85px; height: 155px; text-align: center; margin: 0px;}
+#container.yearTax .process-item .process_btns li:nth-child(1){left:calc(0% - 85px)}
+#container.yearTax .process-item .process_btns li:nth-child(2){left:calc(33% - 85px)}
+#container.yearTax .process-item .process_btns li:nth-child(3){left:calc(66% - 85px)}
+#container.yearTax .process-item .process_btns li:nth-child(4){left:calc(100% - 85px)}
+
+#container.yearTax .process-item .process_btns li .btn_type{width:85px; display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center; flex-direction: column; -ms-flex-grow:column; box-sizing: border-box;}
+#container.yearTax .process-item .process_btns li .btn_type .icon{width: 100%; }
+#container.yearTax .process-item .process_btns li .btn_type .state{display:none; }
+#container.yearTax .process-item .process_btns li .btn_type .icon{display:inline-block; position:relative; width: 80px; height: 80px; overflow: hidden; }
+#container.yearTax .process-item .process_btns li .btn_type .icon:after{position:relative; display:inline-block;  width: 249px; height: 249px; -webkit-transform: scale(0.32); -o-transform:scale(0.32); -ms-transform:scale(0.32); transform:scale(0.32); transform-origin:0 0;  -o-transform-origin:0 0; -webkit-transform-origin:0 0; -ms-transform-origin:0 0;}
+#container.yearTax .process-item .process_btns li .btn_type .btn_name{font-size: 15px; color:#a5a5a5; word-break: keep-all;}
+
+#container.yearTax .process_btns li .btn_type.current .btn_name{font-family: 'NanumBarunGothic'; line-height:19px; margin-top:8px; padding:5px; max-height:36px; font-size: 15px; background-color:#4bbeff; color:#ffffff; border-radius:5px; box-shadow:1px 2px 3px 1px rgba(0,0,0,0.2)}
+#container.yearTax .process_btns li .btn_type:not(.current) .btn_name{font-family: 'NanumBarunGothic'; width:100%; margin-top:8px; padding:0px; height:36px; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+ 
+#container.yearTax .process_btns li .btn_type.clear .icon:before{position:absolute; top:0px; left:59px; display: inline-block; content: url(image/yearTax/icon_clear_check.png); width: 21px; height: 21px; z-index: 1} 
+#container.yearTax .process_btns li .btn_type.clear .btn_name{color:#666666; background-color:#f6fcff; word-break: keep-all;}
+#container.yearTax .process_btns li .btn_type.clear .state{margin-top:8px; font-size:12px; font-weight:bold; background-color: #aae6ff; color:#00a9e9; width: 64px; height: 21px; border-radius: 5px; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+
+#container.yearTax .process_btns li .btn_type.btn_income .icon:after{content: url(image/yearTax/icon_progress_totalIncome.png);}
+#container.yearTax .process_btns li .btn_type.btn_family .icon:after{content: url(image/yearTax/icon_progress_family.png);}
+#container.yearTax .process_btns li .btn_type.btn_addSubmit .icon:after{content: url(image/yearTax/icon_progress_docSubmit.png);}
+#container.yearTax .process_btns li .btn_type.btn_summary .icon:after{content: url(image/yearTax/icon_progress_summary.png);}
+#container.yearTax .process_btns li .btn_type.btn_result .icon:after{content: url(image/yearTax/icon_progress_result.png);}
+
+#container.yearTax .process_btns li .btn_type.btn_income:not(.clear):not(.current) .icon:after{content: url(image/yearTax/icon_progress_totalIncome_gray.png);}
+#container.yearTax .process_btns li .btn_type.btn_family:not(.clear):not(.current) .icon:after{content: url(image/yearTax/icon_progress_family_gray.png);}
+#container.yearTax .process_btns li .btn_type.btn_addSubmit:not(.clear):not(.current) .icon:after{content: url(image/yearTax/icon_progress_docSubmit_gray.png);}
+#container.yearTax .process_btns li .btn_type.btn_summary:not(.clear):not(.current) .icon:after{content: url(image/yearTax/icon_progress_summary_gray.png);}
+#container.yearTax .process_btns li .btn_type.btn_result:not(.clear):not(.current) .icon:after{content: url(image/yearTax/icon_progress_result_gray.png);}
+
+
+/* #container.yearTax ul.progress .stateBar{position:relative; width: calc(100% - 4px); margin: 2px 2px; height:auto; display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: row;}
+#container.yearTax ul.progress .stateBar .box{position:relative; min-width: 25%; font-size: 12px; font-weight:bold; color:#959595; }
+#container.yearTax ul.progress .stateBar .box .bar{position:relative; width:100%; height: 25px; padding-top: 15px; margin-bottom: 7px; float: left;}
+#container.yearTax ul.progress .stateBar .box .line{position:relative; top:11px; height: 3px; width: 100%; background-color: #e3e3e3;}
+#container.yearTax ul.progress .stateBar .box:first-child .line{width: 50%; display: inline-block; float: right;}
+#container.yearTax ul.progress .stateBar .box:last-child .line{width: 50%; display: inline-block; float: left;}
+#container.yearTax ul.progress .stateBar .box .no{ position:absolute; left: calc(50% - 12px); top: 15px; width: 25px; height: 25px; font-size: 16px; font-weight:normal; color:#ffffff;  background-color:#bbbbbb;  box-sizing: border-box; border: 2px solid #e2e2e2; border-radius: 25px;}
+#container.yearTax ul.progress .stateBar .box .no{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container.yearTax ul.progress .stateBar .box:last-child .no{left: calc(50% - 12px);}
+#container.yearTax ul.progress .stateBar .box .txt{position:relative; float:left; width:100%; height: 36px; font-size:13px; word-break: keep-all; text-align: center; line-height: 18px;  display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container.yearTax ul.progress .stateBar .box .lastData{position: relative; float: left; width: 100%; height: 32px; text-align: center;line-height: 15px; padding-top: 5px; display: flex; display: -ms-flex; display: -webkit-flex; flex-direction:column; }
+#container.yearTax ul.progress .stateBar .box .lastData span{width: 100%;}
+#container.yearTax ul.progress .stateBar .box.active .no,
+#container.yearTax ul.progress .stateBar .box.clear .no{background-color:#00a9e9; border:2px solid #92d1e8;}
+#container.yearTax ul.progress .stateBar .box.active .txt,
+#container.yearTax ul.progress .stateBar .box.clear .txt{color: #00a9e9; text-underline-position: under; text-decoration: underline; }
+#container.yearTax ul.progress .stateBar .box.active .line{background: linear-gradient(90deg, #53bfe8, #e5e5e5) no-repeat;}
+#container.yearTax ul.progress .stateBar .box.clear .line{background-color: #53bfe8;}
+#container.yearTax ul.progress .stateBar .box.active:first-child .line{background: linear-gradient(90deg, #53bfe8, #e5e5e5) no-repeat;}
+#container.yearTax ul.progress .stateBar .box.active:last-child .line{background-color: #53bfe8;}
+ */#container.yearTax ul.progress li.data{margin: 6px 8px;}
+#container.yearTax ul.progress li.multi dl{width: calc(100% - 110px);}
+#container.yearTax ul.progress li.multi .btn_type{width: 100px; height:35px; background-color:#ffffff; color:#4bbeff; border:1px solid #4bbeff; box-sizing: border-box; font-size: 14px; font-weight: bold; float:right;}
+#container.yearTax ul.progress li.multi .btn_type{display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container.yearTax ul.progress dl{display:inline-block; width: 100%; height:100%; float: left;}
+#container.yearTax ul.progress dl dt{width:58px; height: 35px; padding-left:15px; color:#4bbeff; font-size:14px; font-weight:bold;  float: left;}
+#container.yearTax ul.progress dl dt{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#container.yearTax ul.progress dl dd{ width:calc(100% - 73px); height: 35px;  color:#666666; float: left; word-break: break-word; white-space: pre-line; font-size: 16px; font-weight:bold; text-align: center; float: left; }
+#container.yearTax ul.progress dl dd{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#container.yearTax ul.progress .row2 dl{width: 50%;}
+#container.yearTax ul.progress dd input{width:100%; border:none; height:100%; outline: none; color:#666666; font-size:16px;}
+#container.yearTax ul.inputList,
+#container.yearTax ul.board_list{margin-top: 8px;  }
+#container.yearTax ul.board_list{margin-bottom: 10px;}
+#container.yearTax ul.inputList .array{position:relative; width: calc(100% - 16px); margin: 18px 8px 5px 8px; }
+#container.yearTax ul.inputList .btn_type{position:relative;  width:calc(25% - 10px); margin:0 5px; float:left; color:#666666; font-size: 17px; font-weight: bold;}
+#container.yearTax ul.inputList .btn_type {flex-direction:column; display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container.yearTax ul.inputList .btn_type .icon{position:relative; display:inline-block; width:85px; height: 85px; overflow: hidden; margin-bottom: 3px; float: left;}
+#container.yearTax ul.inputList .btn_type .txt{width: 100%; text-align: center; padding-top:8px; height: 50px; font-size:15px; line-height: 20px; float: left; word-break: keep-all;}
+#container.yearTax ul.inputList .btn_type .txt{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container.yearTax ul.inputList .btn_type .icon:after{position:absolute; top:0; left:0px; display:inline-block; -webkit-transform: scale(0.33); -o-transform:scale(0.33); -ms-transform:scale(0.33); transform:scale(0.33); transform-origin:0 0;  -o-transform-origin:0 0; -webkit-transform-origin:0 0; -ms-transform-origin:0 0;}
+#container.yearTax ul.inputList .icon.income:after{content:url(image/mobile/icon_yearTax_totalIncome.png); width: 251px; height: 251px;}
+#container.yearTax ul.inputList .icon.addDoc:after{content:url(image/mobile/icon_yearTax_addDocument.png); width: 251px; height: 251px;}
+#container.yearTax ul.inputList .icon.family:after{content:url(image/mobile/icon_yearTax_familyDependent.png); width: 251px; height: 251px;}
+#container.yearTax ul.inputList .icon.resultView:after{content:url(image/mobile/icon_yearTax_resultView.png); width: 251px; height: 251px;}
+
+#container.yearTax ul.board_list .tit{margin: 0 8px 5px 8px;}
+#container.yearTax ul.board_list .board_item{margin:5px 8px;}
+#container.yearTax ul.board_list .board_item .category{position:relative; display:inline-block; width: 75px; color:#00a3ff; font-size:17px; font-weight:bold; padding: 12px 5px 0 2px; float:left;}
+#container.yearTax ul.board_list .board_item .text{position:relative; display:inline-block; width: calc(100% - 165px); padding: 7px 5px 0 3px; float:left}
+#container.yearTax ul.board_list .board_item .board_tit{position:relative; width: 100%; height:27px; float:left; line-height: 27px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+#container.yearTax ul.board_list .board_item .date{position:relative; width: 100%; height:18px; float:left; }
+#container.yearTax ul.board_list .board_item .date{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#container.yearTax ul.board_list .board_tit{color:#666666; font-weight: bold; font-size: 15px; }
+#container.yearTax ul.board_list .date{color:#9d9d9d; font-weight: bold; font-size: 13px; }
+#container.yearTax ul.board_list .state{display: flex; display: -ms-flex; display: -webkit-flex;  justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container.yearTax ul.board_list .state{position:relative; width:75px; height: 34px; font-size:13px; font-weight:bold; margin-top: 8px; border:1px solid red; box-sizing: border-box; float:right;}
+#container.yearTax ul.board_list .state .date{position: absolute; bottom: 0px; color:#4bbeff; width:calc(100% - 13px); padding-right:11px; font-size: 12px; justify-content: flex-end; -ms-justify-content: flex-end; -webkit-justify-content: flex-end;}
+#container.yearTax ul.board_list .state.waiting{border:1px solid #b1b2b2; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#container.yearTax ul.board_list .state.waiting:after{content:"답변대기"; display: inline-block; color:#b1b2b2; }
+#container.yearTax ul.board_list .state.nonAnswer{border:1px solid #b1b2b2; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#container.yearTax ul.board_list .nonAnswer:after{content:"미답변"; display: inline-block; color:#b1b2b2; }
+#container.yearTax ul.board_list .state.complete{border:1px solid #4bbeff;}
+#container.yearTax ul.board_list .state.complete:after{position: relative; top: 2px; content:"답변완료"; display: inline-block; color:#4bbeff; }
+
+/****************** 소득명세 합계 *******************/
+#container.yearTax ul .summary{font-size:15px; font-weight:bold; color:#666666; padding-top: 15px; }
+#container.yearTax ul .summary{flex-direction: column; display: flex; display: -ms-flex; display: -webkit-flex;  align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container.yearTax ul .summary div{height: 25px; width: calc(100% - 10px); padding-left: 10px}
+#container.yearTax ul .summary span{word-break: keep-all;}
+#container.yearTax ul .summary .year,
+#container.yearTax ul .summary .count{color:#4bbeff}
+#container.yearTax ul .summary .impact{color:#4bbeff; font-size: 18px;}
+#container.yearTax ul .summary .impact + sapn{font-size: 18px;}
+/****************** group-cell *******************/
+#container.yearTax .group-cell{position: relative; float: left; margin-top: 5px;}
+#container.yearTax .group-cell .fix_viewer{width: 150px; display: flex; display: -ms-flex; display: -webkit-flex;  flex-direction: column; float: left;}
+#container.yearTax .group-cell .column_viewer{width:calc(100% - 150px); float:left; /* overflow: hidden; */ overflow-x: auto; }
+#container.yearTax .group-cell ul li{position:relative; /* min-height: 36px; */ color: #666666; font-size: 13px; font-weight:bold; }
+#container.yearTax .group-cell ul li.thead{color: #333333; height:37px; box-sizing:border-box;  border-right: 1px solid #e1e1e1; border-bottom: 1px solid #e1e1e1; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#container.yearTax .group-cell ul.fix_column{position:relative; width: 100%; float:left; border-top:1px solid #5c9dda; display: flex; display: -ms-flex; display: -webkit-flex; flex-direction:column;}
+#container.yearTax .group-cell ul.fix_column li.thead{width: 100%; background-color: #e5eff3; margin: 0; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container.yearTax .group-cell ul.fix_column li.tbody{width: 100%; padding-left:10px; color: #666666; border-right: 1px solid #e1e1e1; margin: 0px;}
+#container.yearTax .group-cell ul.fix_column li.tbody.itemgroup{width: 100%; box-sizing:border-box; padding-left: 0px;}
+#container.yearTax .group-cell ul li.tbody:not(.itemgroup){display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; border-bottom: 1px solid #e1e1e1;}
+#container.yearTax .group-cell ul li.tbody:not(.itemgroup):not(.cell_part){height: 35px; padding:0 8px; background-color: #f4fafd; box-sizing:border-box;}
+#container.yearTax .group-cell ul.data-list{width: 100%; display: flex; display: -ms-flex; display: -webkit-flex; flex-direction:column; border-top:1px solid #5c9dda;}
+#container.yearTax .group-cell ul.data-list li{width: 100%; margin: 0px; }
+#container.yearTax .group-cell ul.data-list li.thead{padding-right: 0; background-color: #e5eff3; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container.yearTax .group-cell ul.data-list li.tbody{min-width: 85px; border-right: 1px solid #e1e1e1; }
+#container.yearTax .group-cell ul.data-list li.tbody{justify-content: flex-end; -ms-justify-content: flex-end; -webkit-justify-content: flex-end;}
+#container.yearTax .group-cell ul.data-list li.tbody.itemgroup{box-sizing:border-box; padding-right: 0px}
+#container.yearTax .group-cell .item-gnb.data{padding:0 8px; justify-content: flex-end; -ms-justify-content: flex-end; -webkit-justify-content: flex-end;}
+#container.yearTax .group-cell .item-list-data{width: 100%; height: 100%; max-height: 0; overflow: hidden; -webkit-transition: max-height 0.2s ease-in-out; transition: max-height 0.2s ease-in-out;}
+#container.yearTax .group-cell .item-list-data{border-right: 1px solid #e1e1e1;}
+#container.yearTax .group-cell .item-list-data li.data{padding:0 8px; box-sizing: border-box; height:35px; border-bottom: 1px solid #e1e1e1; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: flex-end; -ms-justify-content: flex-end; -webkit-justify-content: flex-end;}
+#container.yearTax .group-cell .item-list-data li.data.last-child{border-bottom: 1px solid #a6a6a6; }
+#container.yearTax .group-cell ul.data-list.sum li.tbody{background-color:#f4f4f4; color:#009bd5; font-weight: bold;}
+#container.yearTax .group-cell ul.data-list.sum .item-list-data li.data{color:#009bd5;}
+#container.yearTax .group-cell ul.data-list.sum .tbody.itemgroup .item-gnb{background-color: #c7deec;}
+#container.yearTax .group-cell ul.data-list:not(.sum) li.tbody{background-color:#ffffff;}
+#container.yearTax .group-cell .data.accent{color:#000000 !important; font-weight: bold;}
+
+#container.yearTax .group-cell ul li.sort_center{justify-content: center !important; -ms-justify-content: center !important; -webkit-justify-content: center !important;}
+#container.yearTax .group-cell ul li.sort_right{justify-content: flex-end !important; -ms-justify-content: flex-end !important; -webkit-justify-content: flex-end !important; padding-right: 5px;}
+#container.yearTax .group-cell ul li.sort_left{justify-content: flex-start !important; -ms-justify-content: flex-start !important; -webkit-justify-content: flex-start !important; padding-left: 5px;}
+#container.yearTax .group-cell .tbody .btn_edit{position:absolute; right:5px; top:8px; width: 32px; height: 18px; background-color:#def5ff; border:1px solid #00acff; color:#00a9e9; display: flex; display: -ms-flex; display: -webkit-flex; z-index:2; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center; }
+#container.yearTax .group-cell {width:calc(100% - 20px); height: 100%; margin: 10px 10px 0 10px;}
+#container.yearTax .group-cell .column_data{width: 100%; height: 100%; float:left; display: flex; /* display: -ms-flex; display: -webkit-flex; flex-direction: row; */}
+
+#container.yearTax .group-cell .col_merger2{height: 70px !important;}
+#container.yearTax .group-cell .col_merger2 + .cell_headbox{top:72px; height: calc(100% - 73px); }
+
+#container.yearTax .group-cell ul.fix_column li.cell_part{padding-left: 0px; width:100%; box-sizing: border-box; display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: row;}
+#container.yearTax .group-cell ul li.cell_part .col_merger3{height: 104px; border-right:1px solid #e1e1e1; background-color:#d8f3ff; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container.yearTax .group-cell ul li.cell_part .cell-child{box-sizing:border-box; width:100%; background-color: #f4fafd; padding-left:10px; height: 35px; border-bottom:1px solid #e1e1e1; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; }
+#container.yearTax .group-cell ul li.cell_part .cell-child:last-child{border-bottom: none; height: 34px;}
+#container.yearTax .group-cell ul li.cell_part .block2:first-child{width:calc(40% - 10px); padding-left:10px;}
+#container.yearTax .group-cell ul li.cell_part .block2:last-child{width:60%; padding-left:0px;}
+
+#container.yearTax .group-cell .tbody .item-gnb{position:relative; width: 100%; box-sizing:border-box; height: 35px;  display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#container.yearTax .group-cell .tbody.itemgroup .item-gnb{background-color: #d8f3ff; border-bottom: 1px solid #e1e1e1; }
+#container.yearTax .group-cell .tbody.itemgroup.last-child .item-gnb{border-bottom: 1px solid #a6a6a6;}
+#container.yearTax .group-cell .tbody.itemgroup.last-child.show .item-gnb{border-bottom: 1px solid #e1e1e1;}
+#container.yearTax .group-cell .tbody.itemgroup:last-child .dep-1[type=checkbox] + .item-gnb{border-bottom: 1px solid #a6a6a6; }
+#container.yearTax .group-cell .tbody.itemgroup:last-child .dep-1[type=checkbox]:checked + .item-gnb{border-bottom: 1px solid #e1e1e1;}
+#container.yearTax .group-cell .tbody.itemgroup:last-child .item-list .nav:last-child{border-bottom: 1px solid #a6a6a6; }
+
+#container.yearTax .group-cell .item-gnb .label{cursor: pointer; width: calc(100% - 35px); padding-left:10px; height: 100%; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#container.yearTax .group-cell .item-gnb .btn_type.icon{position:absolute; top:7px; right:0; width: 20px; height: 20px; background-color: #00a0e9; margin-right: 5px; text-align: center; overflow: hidden;}
+#container.yearTax .group-cell .item-gnb .btn_type.icon:after{position: relative; content:"+"; display: inline-block; color:#ffffff; font-weight: normal; font-size: 21px;}
+
+#container.yearTax .group-cell .item-list{width: calc(100% - 1px); height: 100%; max-height: 0; overflow: hidden; -webkit-transition: max-height 0.2s ease-in-out; transition: max-height 0.2s ease-in-out;}
+#container.yearTax .group-cell .item-list li.nav{width:100%; height: 35px; background-color: #f4fafd; box-sizing:border-box; padding-left:18px; padding-right: 5px; margin:0; color:#7a7a7a; border-bottom: 1px solid #e1e1e1;}
+#container.yearTax .group-cell .item-list li.nav{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#container.yearTax .group-cell .dep-1[type=checkbox]{display: none !important;}
+#container.yearTax .group-cell .dep-1[type=checkbox]:checked + div + .item-list{max-height: 1000px;}
+#container.yearTax .group-cell .dep-1[type=checkbox]:checked + div .icon{background-color: #ffffff; border: 1px solid #00a0e9; box-sizing: border-box;}
+#container.yearTax .group-cell .dep-1[type=checkbox]:checked + div .icon.btn_type:after{content:"-"; color:#00a0e9; top: -2px;}
+#container.yearTax .group-cell .show > .item-list-data{max-height: 1000px;}
+
+/****************** 부양가족 정보 *******************/
+#container.yearTax .tabBtns{margin:9px 8px 5px 8px;  display: flex; display: -ms-flex; display: -webkit-flex; justify-content: flex-end; -ms-justify-content: flex-end; -webkit-justify-content: flex-end;}
+#container.yearTax .tabBtns .btn_type{position:relative;  width:110px; height:32px; font-size: 15px; border-radius: 5px; margin-right: 5px;}
+#container.yearTax .tabBtns .btn_type{display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content:center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container.yearTax .tabBtns .btn_type:first-child{width: 133px;}
+#container.yearTax .tabBtns .btn_type:last-child{margin-right: 0px;}
+#container.yearTax .tabBtns .btn_type.type1{background-color: #def5ff; border:1px solid #00acff; color:#00acff}
+#container.yearTax .tabBtns .btn_type.type2{background-color: #fff2f2; border:1px solid #fe7d7d; color:#ff0000}
+#container.yearTax .tabBtns .btn_type .icon_add{width: 19px; height: 19px; margin-left: 5px;}
+#container.yearTax .tabBtns .btn_type .icon_add:after{position: relative; display: inline-block; top: 0px; left: 0px; content: url(image/mobile/icon_add_cell.png); width: 57px; height: 57px;} 
+#container.yearTax .tabBtns .btn_type .icon_add:after{-webkit-transform: scale(0.33); -o-transform: scale(0.33); -ms-transform: scale(0.33); transform: scale(0.33); transform-origin: 0 0; -o-transform-origin: 0 0; -webkit-transform-origin: 0 0; -ms-transform-origin: 0 0;}
+
+#container.yearTax .boxWrap .group-cell{width: calc(100% - 16px)}
+#container.yearTax .group-cell .fix_viewer.vertical{width: 75px}
+#container.yearTax .group-cell .fix_viewer.vertical .thead{height: 38px; padding-left: 8px; word-break: keep-all; justify-content: flex-start; -ms-justify-content: flex-start; -webkit-justify-content: flex-start;}
+#container.yearTax .group-cell .fix_viewer.vertical + .column_viewer{width:calc(100% - 75px);} 
+
+#container.yearTax .group-cell ul.set-list{width: 100%; display: flex; display: -ms-flex; display: -webkit-flex; flex-direction:column; border-top: 1px solid #5c9dda;}
+#container.yearTax .group-cell ul.set-list li.tbody.data{width:100%; min-width: 95px; height:38px; z-index: 0; margin: 0px; padding:3px; text-align: center; word-break: keep-all; box-sizing: border-box; background-color:#ffffff; border-bottom: 1px solid #e1e1e1; border-right: 1px solid #e1e1e1;}
+#container.yearTax .group-cell ul.set-list li.tbody.data{justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container.yearTax .group-cell ul.set-list li.tbody.data.disabled{/* background-color: #e5e5e5; */ /* outline: 1px solid #dcdcdc; outline-offset: -4px;  */padding:4px}
+#container.yearTax .group-cell ul.set-list li.tbody.data.disabled:before{content: ""; position: absolute; left: 3px; top: 3px; width: calc(100% - 6px); height: calc(100% - 6px); background: #e5e5e5; z-index: -1; border:1px solid #dcdcdc; box-sizing: border-box;}
+#container.yearTax .group-cell ul.set-list select{width: 100%; height:100%; border:1px solid #dcdcdc; box-sizing:border-box; color: #666666; font-weight: bold; margin: 0; background-color:#ffffff;}
+#container.yearTax .group-cell ul.set-list select:disabled{background-color: #e5e5e5; }
+#container.yearTax .group-cell ul.set-list select:focus{outline: none; }
+#container.yearTax .group-cell ul.set-list input[type="checkbox"]{position:relative; top:1px; width: 20px; height: 20px; margin: 0 3px; vertical-align: middle;}
+#container.yearTax .group-cell ul.set-list input[type="checkbox"] + select{border: none;}
+#container.yearTax .group-cell ul.set-list input[type="text"]{position: relative; top: 0; width: 100%; height: 100%; padding: 0; margin: 0; border:1px solid #dcdcdc; font-weight: bold; color: #666666; text-align: center; box-sizing: border-box;}
+#container.yearTax .group-cell ul.set-list input[type="text"]:focus{outline: none; background-color: #ebf9ff; border: 1px solid #00a9e9; }
+
+#container.yearTax .page-selection{position:relative; display:inline-block; width: 100%; height: 20px; margin-top: 22px; float: left;}
+#container.yearTax .page-selection{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container.yearTax .page-selection .circle{display:inline-block; width: 15px; height: 15px; background-color: #bbbbbb; border-radius: 10px; margin: 0 17px 0 0;}
+#container.yearTax .page-selection .circle:last-child {margin: 0px;}
+#container.yearTax .page-selection .circle.active {background-color: #4bbeff;}
+
+#container.yearTax .footer{position: relative; width: 100%; height: 75px; float: left; margin-top: 10px;}
+#container.yearTax .footer.type2 .btn_type{width: 50%;}
+#container.yearTax .footer .btn_type{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container.yearTax .footer .btn_type{position:relative; width: 100%; height: 75px; color: #ffffff; float: left; font-size: 19px; letter-spacing: 1px; border-radius: 0 !important;}
+#container.yearTax .footer .btn_type.btn_cancel,
+#container.yearTax .footer .btn_type.btn_edit{background-color: #999999;}
+#container.yearTax .footer .btn_type.btn_cancel:before{display:inline-block; position:absolute; left:20px; top:calc(50% - 18px);  content:url(image/mobile/icon_close_round.png); width: 106px; height: 105px; -webkit-transform:scale(0.34); -o-transform:scale(0.34); -ms-transform:scale(0.34); transform:scale(0.34); transform-origin:0 0;  -o-transform-origin:0 0; -webkit-transform-origin:0 0; -ms-transform-origin:0 0;}
+#container.yearTax .footer .btn_type.btn_save,
+#container.yearTax .footer .btn_type.btn_listView{background-color: #00a3ff;}
+
+#container.yearTax .footer .btn_save:after{display: inline-block; position: absolute; top:calc(50% - 18px); right: -50px; content: url(image/mobile/icon_check_white.png); width: 104px; height: 104px; -webkit-transform: scale(0.35); -o-transform: scale(0.35); -ms-transform: scale(0.35);   transform: scale(0.35); transform-origin:0 0;  -o-transform-origin:0 0; -webkit-transform-origin:0 0; -ms-transform-origin:0 0;}
+
+/****************** 추가증빙서류 제출 *******************/
+#container.yearTax .attach_file .file{min-height: 150px; margin-top: 8px;  margin-bottom: 15px;}
+#container.yearTax .attach_file .file img{width: 100%; position: relative;}
+#container.yearTax .attach_file .btn_attachFile{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;} 
+#container.yearTax .attach_file .btn_attachFile{width: 100%; height:46px; background-color: #ceedff; border-radius: 20px; font-size: 17px; font-weight: bold; color:#666666;}
+#container.yearTax .attach_file .btn_attachFile .icon{width: 29px; height:24px; overflow: hidden; margin-right: 8px;}
+#container.yearTax .attach_file .btn_attachFile .icon:after{position:absolute; content:url(image/mobile/icon_attachFile.png); display:inline-block; width:87px; height:72px; display:inline-block; -webkit-transform: scale(0.33); -o-transform:scale(0.33); -ms-transform:scale(0.33); transform:scale(0.33); transform-origin:0 0; -o-transform-origin:0 0; -webkit-transform-origin:0 0; -ms-transform-origin:0 0;}
+
+#container.yearTax .boxWrap ul.column{position: relative; padding: 15px 0 10px 8px; width:calc(100% - 8px); display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: column;}
+#container.yearTax .boxWrap ul.column li{width: 100%; margin: 0px;}
+#container.yearTax ul.column div{position: relative; height:30px; float: left; color:#666666; font-size: 15px; word-break: keep-all;}
+#container.yearTax ul.column div{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#container.yearTax .boxWrap .type_column{position: relative; padding: 15px 0 10px 8px; width:calc(100% - 8px); display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: column;}
+#container.yearTax .boxWrap .type_column div{position: relative; width:100%; height:30px; float: left; color:#666666; font-size: 15px; word-break: keep-all; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;} 
+#container.yearTax ul.column .row2 div{width: 50%;}
+#container.yearTax ul.column .row3 div:nth-child(1){width: 32%}
+#container.yearTax ul.column .row3 div:nth-child(2){width: calc(42% - 3px); margin-left: 3px;}
+#container.yearTax ul.column .row3 div:nth-child(3){width: calc(26% - 3px); margin-left: 3px;}
+#container.yearTax .radio_type input{position: absolute; opacity: 0; top: calc(50% - 7px); left: 0; width: 13px; height:13px; cursor: pointer; z-index: 1} 
+#container.yearTax .radio_type .checkmark{position: relative; left: 0; height: 13px; margin-right:5px; width: 13px; background-color: #fff; border:1px solid #666; box-sizing:border-box; border-radius: 50%;}
+#container.yearTax .radio_type input:checked ~ .checkmark { background-color: #4bbeff; border: none;}
+#container.yearTax .attach_content textarea{width: calc(100% - 16px); min-height: 60px; color: #666666; font-size: 15px; font-weight: bold; outline: none; padding: 0 8px; border: none; line-height: 25px; margin-top: 8px;}
+#container.yearTax .attach_content textarea::placeholder{color:#b8b8b8;}
+
+/****************** 추가증빙서류 *******************/
+#container.yearTax .boxWrap .addType{position:relative; margin:10px 8px; display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: row;}
+#container.yearTax .boxWrap .addType a.btn_type{position:relative; width:calc(50% - 5px); display: inline-block;}
+#container.yearTax .boxWrap .addType a.btn_type:nth-child(1) {margin-right: 5px;}
+#container.yearTax .boxWrap .addType a.btn_type:nth-child(2) {margin-left: 5px;}
+#container.yearTax .boxWrap .addType a.btn_type .icon{position:relative; float:left; width: 100%; height: 137px; background-color: #e7e3ff; border-top-left-radius: 5px; border-top-right-radius: 5px; overflow: hidden;}
+#container.yearTax .boxWrap .addType a.btn_type .icon:after{top: 20%; left: 24%; -webkit-transform: scale(0.34); -o-transform: scale(0.34); -ms-transform: scale(0.34);   transform: scale(0.34); transform-origin:0 0;  -o-transform-origin:0 0; -webkit-transform-origin:0 0; -ms-transform-origin:0 0;}
+#container.yearTax .boxWrap .addType a.btn_type .icon.photo:after{position:relative; content:url(image/mobile/icon_photo.png); width:573px; height:484px; display:inline-block;}
+#container.yearTax .boxWrap .addType a.btn_type .icon.gallery:after{position:relative; content:url(image/mobile/icon_gallery.png); width:566px; height:474px; display:inline-block;}
+#container.yearTax .boxWrap .addType a.btn_type .text{position:relative; float:left; width: 100%; height: 35px; font-size:15px; color:#ffffff; background-color: #9b92d0; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;}
+#container.yearTax .boxWrap .addType a.btn_type .text{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+
+/****************** 결과 확인 *******************/
+#container.yearTax .group-cell li.nav.h55{height: 50px;}
+#container.yearTax .group-cell.result li.nav.h55 .add{height: 50px; }
+#container.yearTax .group-cell.result li.nav{word-break:keep-all;}
+#container.yearTax .group-cell.result .fix_viewer{width: 240px;}
+#container.yearTax .group-cell.result .fix_column .tbody.itemgroup .item-gnb{background-color: #f4fafd;}
+#container.yearTax .group-cell.result .fix_column .tbody.subTit{background-color:#d8f3ff;}
+#container.yearTax .group-cell.result .column_viewer{ width: calc(100% - 240px)}
+#container.yearTax .group-cell.result .column_viewer .tbody.itemgroup .item-gnb{background-color: #ffffff;}
+#container.yearTax .group-cell.result .column_viewer .tbody.subTit{background-color:#f4f4f4}
+#container.yearTax .group-cell.result ul li .add{position: relative; top: 0; right: 0px;  width: 60%; min-width:60px; height:35px; margin-left: 12px; word-break:keep-all;}
+#container.yearTax .group-cell.result ul li .add{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#container.yearTax .group-cell ul.data-list.sign{width: 40px;}
+#container.yearTax .group-cell ul.data-list.sign li.thead{width: 40px; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container.yearTax .group-cell ul.data-list.sign li.tbody{width: 40px; min-width: 40px; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container.yearTax .group-cell ul.data-list.sign li.tbody .item-gnb{justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container.yearTax .group-cell ul.data-list.sign .item-list-data li.data{justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container.yearTax .group-cell .fix_column .tbody.green{background-color: #d4e3cc !important;}
+#container.yearTax .group-cell .column_data .tbody.green{background-color: #e8f5e1 !important;}
+
+#container.yearTax .taxResult{position: relative; margin: 8px 10px 0 10px; width: calc(100% - 20px); padding:0 8px 0 18px; color:#ffffff; float: left; background: linear-gradient(180deg, #7f72cf 30%, #5b3bab); border-radius: 4px; box-sizing: border-box; height: 63px;}
+#container.yearTax .taxResult{display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: row; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#container.yearTax .taxResult div{}
+#container.yearTax .taxResult .tit{font-size: 17px; font-weight: bold; width:calc(100% - 222px)}
+#container.yearTax .value {font-size: 24px; width: 200px; text-align: right;}
+#container.yearTax .unit{font-size: 17px; width: 22px; text-align: center;}
+#container.yearTax .boxWrap li.dec{font-size: 12px; padding: 8px; width: calc(100% - 32px); letter-spacing: 0.2px; line-height: 15px; word-break: keep-all;}
+#container.yearTax .apply{padding-left: 10px; width: calc(100% - 26px); font-weight: bold;}
+#container.yearTax .apply div{position: relative; height: 30px; float: left; color: #666666; font-size: 15px; word-break: keep-all; float:left; display: flex;  display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#container.yearTax .comment{position:relative; margin: 10px 120px 0px 12px; width: calc(100% - 24px); float:left; font-size: 14px; color:#666666; line-height: 20px; }
+#container.yearTax .comment dl{position:relative; top:0; left:0; padding-left: 5px; width: calc(100% - 5px)}
+#container.yearTax .comment dt{float: left; min-height: 42px; width: 14px; }
+#container.yearTax .comment dd{float: left; min-height: 42px; width: calc(100% - 14px); text-align: left; word-break: keep-all;}
+#container.yearTax .foot_btns{position:relative; width:100%; float:left; margin: 13px 10px 10px 10px; width: calc(100% - 20px);}
+#container.yearTax .foot_btns.row2{display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: row;}
+#container.yearTax .foot_btns.row2 .btn_type{position:relative; width: calc(50% - 4px); float:left; box-sizing: border-box; font-size: 17px;}
+#container.yearTax .foot_btns.row2 .btn_type{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#container.yearTax .foot_btns.row2 .btn_type:nth-child(1){margin-right: 4px; color:#00a3ff; background-color: #ffffff; border:1px solid #00a3ff;}
+#container.yearTax .foot_btns.row2 .btn_type:nth-child(2){margin-left: 4px; color:#ffffff;  background-color: #00a3ff; border:1px solid #00a3ff; float:right;}
+#container.yearTax .foot_btns .btn_type{height: 48px;}
+#container.yearTax .foot_btns .btn_type{justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+.w33{width:33%;}
+#container.yearTax .foot_btns .btn_type .icon_check {display:inline-block; width: 26px; height: 26px; margin-left: 15px; overflow: hidden;}
+#container.yearTax .foot_btns .btn_type .icon_check:after{display: inline-block; position: relative; top:0; right:0; content: url(image/mobile/icon_check_white.png); width: 104px; height: 104px; -webkit-transform: scale(0.25); -o-transform: scale(0.25); -ms-transform: scale(0.25); transform: scale(0.25); transform-origin:0 0;  -o-transform-origin:0 0; -webkit-transform-origin:0 0; -ms-transform-origin:0 0;}
+
+
+/****************** 영수증 조회  *******************/
+#container .top_select{display: inline-block; position:relative; width: calc(100% - 40px); height:50px; padding:28px 20px 25px 20px; background: linear-gradient(180deg, #725fc2 15%, #6246b2 85%); float:left;}
+#container .top_select .tit{width:80px; height:100%; color:#ffffff; font-size: 17px; float: left;}
+#container .top_select .tit{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; }
+#container .top_select .select_box{display:inline-block; width: calc(100% - 80px); float: left; height: 100%;}
+#container .top_select .select_box.row2 select{width: calc(50% - 2px); float:left}
+#container .top_select .select_box.row2 select:last-child{float:right;}
+#container .receipt select{width:100%; height: 100%; color:#666666; box-sizing:border-box; font-weight: bold; font-size:17px; letter-spacing:0.5px; outline: none; border: 1px solid #dadada; border-radius:5px; padding-left:5px; -webkit-appearance: none; -moz-appearance: none; -o-appearance: none; appearance: none;}
+#container .receipt select{background-color:#f5f5f5; background-image: url('image/mobile/select_arrow_purple.png'); background-size:10%;  background-repeat: no-repeat; background-position: 95% 50%}
+#container .receipt select:focus{background-color:#ebf2f5; border:1px solid #00a9e9; background-image: url('image/mobile/select_focus_arrow.png'); }
+#container .receipt select::-ms-expand { display: none; }
+
+#container .receipt_menu{display: inline-block; position: relative; float: left; width: 100%; background: linear-gradient(180deg, #6449b4 10%, #f2f0fd 10%, #cbc4f5 75%); }
+#container .receipt_menu ul.list{background-color:#ffffff; width:calc(100% - 20px); margin:0 10px; border-radius:5px; display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: column; margin-bottom:10px;}
+#container .receipt_menu ul.list li.title{width: calc(100% - 24px); height: 45px; margin: 0 8px 12px 8px; padding-left:8px; font-size:18px; color:#444444; float: left; border-bottom: 1px solid #e6e6e6;}
+#container .receipt_menu ul.list li.title{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#container .receipt_menu ul.list li.btn_type{position:relative; width:calc(100%  - 24px); margin:0 12px 12px 12px; height:138px; display:inline-block; overflow:hidden; border-radius:5px; float:left; box-shadow: 0px 1px 5px 1px rgba(0,0,0,0.2);}
+#container .receipt_menu ul.list li.btn_type{background-color: #f8f4fd; background-position: 100% 50%; background-repeat: no-repeat;}
+#container .receipt_menu ul.list li.btn_type{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#container .receipt_menu ul.list li.btn_receipt{background-image: url(image/mobile/icon_yearTax_receipt.png); background-size: 38%; }
+#container .receipt_menu ul.list li.btn_reportIncome{background-image: url(image/mobile/icon_yearTax_reportIncome.png); background-size: 41%;}
+#container .receipt_menu ul.list li.btn_medical{background-image: url(image/mobile/icon_yearTax_medical.png); background-size: 39%;}
+#container .receipt_menu ul.list li.btn_donation{background-image: url(image/mobile/icon_yearTax_donation.png); background-size: 38%;}
+#container .receipt_menu ul.list li.btn_type .tit{position:relative; width:calc(100% - 25px); height:24px; margin-left: 25px; font-size: 24px; font-weight:bold; letter-spacing: 1.2px; color:#5f50b9; float: left; }
+#container .receipt_menu ul.list li.btn_type .tit{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#container .receipt_menu ul.list li.btn_type .tit .black{color:#5f5f5f; margin-left: 5px;}
+#container .receipt_menu ul.list li.btn_type .icon{position:absolute; bottom:5px; right:5px; width:38px; height:38px; background-color: #494949; border-radius: 35px; overflow: hidden;}
+#container .receipt_menu ul.list li.btn_type .icon:after{display:inline-block; position:relative; top:8px; left:9px;  content:url('image/mobile/icon_plus_purple.png'); width: 61px; height: 61px; -webkit-transform: scale(0.34); -ms-transform:scale(0.34); -o-transform:scale(0.34); transform: scale(0.34); transform-origin:0 0;  -o-transform-origin:0 0; -webkit-transform-origin:0 0; -ms-transform-origin:0 0;}
+.col_skyblue{color:#00a3ff !important;}
+
+#container .receipt_view{display: inline-block; width: 100%; height:calc(100% - 103px); position: relative; float: left;  background: linear-gradient(180deg, #6449b4 10%, #f2f0fd 10%,#cbc4f5 75%);}
+#container .wrap .btn_type{/* display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;  */}
+
+.receipt_view .btns{position: absolute; top: -12px; right: 24px; z-index: 2}
+.receipt_view .btn_zoom{display: inline-block; background-color:#494949; width: 48px; height: 48px; border-radius: 35px; overflow: hidden}
+.receipt_view .btn_zoom:after{position: relative; top: 12px; left: 11px; content:url(image/mobile/icon_zoom_purple.png); width: 72px; height:60px; display: inline-block;   -webkit-transform: scale(0.36); -ms-transform:scale(0.36); -o-transform:scale(0.36); transform: scale(0.36); transform-origin:0 0;  -o-transform-origin:0 0; -webkit-transform-origin:0 0; -ms-transform-origin:0 0;}
+
+.receipt_view .swiper-container {height:100%; margin: 0 auto; position: relative; overflow: hidden; list-style: none; /* padding: 0 30px;  */}
+.receipt_view .swiper-wrapper { position: relative; width: 100%;height: 100%; display: -webkit-box;display: -webkit-flex; display: -ms-flexbox; display: flex;}
+.receipt_view .swiper-slide {position: relative; width: calc(100% - 60px); height: 100%; background-color:#ffffff; border-radius:5px; overflow:hidden;  -webkit-flex-shrink: 0;  -ms-flex-negative: 0; flex-shrink: 0; margin: 0 30px;}
+.receipt_view .swiper-slide.before{right: -56px; top: 15px; z-index: 0; opacity: 0.4; -webkit-transform: scale(0.95); -o-transform:scale(0.95); -ms-transform:scale(0.95); transform:scale(0.95);}
+.receipt_view .swiper-slide.active{z-index: 1;  box-shadow: 0px 1px 5px 1px rgba(0,0,0,0.2);}
+.receipt_view .swiper-slide.active + .swiper-slide{left: -56px; top: 15px; z-index: 0; opacity: 0.4; -webkit-transform: scale(0.95); -o-transform:scale(0.95); -ms-transform:scale(0.95); transform:scale(0.95); }
+
+.receipt_view .swiper-slide img{position:relative; top:0; left:0; width: 100%; height: 100%; float: left;}
+.receipt_view .swiper-button-next{position: absolute; width:18px; height:36px;  top:calc(50% - 25px); right:10px;}
+.receipt_view .swiper-button-next:after{position:absolute; display: inline-block; width: 52px; height: 105px; top:0; left:0px;  content:url(image/mobile/btn_pageMove_green.png); -webkit-transform: scale(0.34); -o-transform:scale(0.34); -ms-transform:scale(0.34); transform:scale(0.34); transform-origin:0 0; -ms-transform-origin:0 0; -o-transform-origin:0 0; -webkit-transform-origin:0 0;}
+.receipt_view .swiper-button-next.disable{opacity:1 !important;}
+.receipt_view .swiper-button-next.disable:after{content:url(image/mobile/btn_pageMove_disable.png);}
+.receipt_view .swiper-button-prev{position: absolute; width:18px; height:36px; top:calc(50% - 25px); left:10px;}
+.receipt_view .swiper-button-prev:after{position:absolute; display: inline-block;  width: 52px; height: 105px; top:36px; left:17px; content:url(image/mobile/btn_pageMove_green.png); -webkit-transform:rotate(180deg) scale(0.34); -o-transform:rotate(180deg) scale(0.34); -ms-transform:rotate(180deg) scale(0.34); transform:rotate(180deg) scale(0.34); transform-origin:0 0; -ms-transform-origin:0 0; -o-transform-origin:0 0; -webkit-transform-origin:0 0;}
+.receipt_view .swiper-button-prev.disable{opacity:1 !important; }
+.receipt_view .swiper-button-prev.disable:after{content:url(image/mobile/btn_pageMove_disable.png); }
+
+#receipt_layer_popup{position: absolute; top:0; left:0; width: calc(100% - 10px); height: 100%; z-index:2; background: #ffffff; padding:30px 5px 5px 5px;}
+#receipt_layer_popup img{position:relative; top:0; left:0; width: 100%; height: calc(100% - 40px); float: left;}
+#receipt_layer_popup .btn_pop_close{position:absolute; top:10px; right: 10px; width: 35px; height: 35px; z-index: 3; background-color:#dcdcdc; border-radius:20px; box-shadow: 0px 1px 5px 1px rgba(0,0,0,0.2);}
+#receipt_layer_popup .btn_pop_close:after{display:inline-block; position:relative; content:url(image/mobile/icon_close_round.png); -webkit-transform: scale(0.34); -o-transform:scale(0.34); -ms-transform:scale(0.34); transform:scale(0.34);transform-origin:0 0; -ms-transform-origin:0 0; -o-transform-origin:0 0; -webkit-transform-origin:0 0; }
+
+#container .footer.overlap { position: absolute; width: 100%; bottom: 0px; z-index: 2}
+#container .footer.overlap .btn_type.btn_foot_close{background-color: rgba(0,0,0,0.7); }
+#container .footer.overlap .btn_foot_close{width: 100%; height: 75px; color: #ffffff; float: left; font-size: 19px; letter-spacing: 1px;}
+#container .footer.overlap .btn_foot_close:after{content:url(image/mobile/btn_leftmenu_close.png);position:absolute; top:22px; right:0px; width: 64px; height: 61px; display: inline-block; -webkit-transform: scale(0.5); -o-transform:scale(0.5); -ms-transform:scale(0.5); transform:scale(0.5); transform-origin:0 0; -ms-transform-origin:0 0; -o-transform-origin:0 0; -webkit-transform-origin:0 0;}
+

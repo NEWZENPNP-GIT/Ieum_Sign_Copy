@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/member_companySearch.css">
+<script src="/js/jquery.min.js"></script>
+<script src="/js/common.js"></script>
+<script>
+	var bizId = "";
+	$(document).ready(function() {
+		$("#searchValue").val(getURLParameters("empName"));
+		bizId = getURLParameters("bizId");
+	    fn_getCustomerList();
+	});
+	
+	function runScript(e) {
+	    if (e.keyCode == 13) {
+			fn_getCustomerList();
+	        return false;
+	    }
+	}
+	
+	function fn_setData() {
+		var id = "";
+	    var chk = document.getElementsByName("chk");
+	    var tot = chk.length;
+	    var cnt = 0;
+	    for (i = 0; i < tot; i++) {
+	        if (chk[i].checked == true) {
+	            id = chk[i].value;
+	            cnt++;
+	        }
+	    }
+	    if(cnt!=1) {
+	    	alert("검색된 수신자에서 한 분만 선택해 주시기 바랍니다.");
+	    	return;
+	    }
+
+		$.each(dataList, function(i, row) {
+			if(row.customerId==id) {
+				console.log(row);
+			    window.opener.fn_setCustomerId(row);
+			    window.close();
+			}
+		});
+		
+	}
+	
+	// 기업 검색
+	function fn_getCustomerList() {
+		
+		var url         = rootPath+"emp/getCustomerList.do";
+		var startPage   = 0;
+		var endPage     = 100;
+		var searchValue = $("#searchValue").val();
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				searchKey:"customerName",
+				searchValue:searchValue,
+				startPage:startPage,
+				endPage:endPage,
+				empType:"1",
+				bizId:bizId,
+				searchCompany:bizId
+			},
+			success:function(result)
+			{
+				if (result.success==true) {
+					dataList = result.data;
+					var htmlData = "";
+					$.each(result.data, function(i, row) {
+						htmlData+="<tr class=\"databox\">";
+						htmlData+="	<td class=\"chk_area\"><input type=\"radio\" id=\"chk\" name=\"chk\" value='"+row.customerId+"'></td>";
+						htmlData+="	<td class=\"title\">"+row.customerName+"</td>";
+						htmlData+="	<td class=\"companyNo\">"+row.businessNo+"</td>";
+						htmlData+="	<td class=\"ceoName\">"+row.managerEmail+"</td>";
+						htmlData+="</tr>";						
+					});
+					$("#dataList").html(htmlData);
+				} else {
+					alert("입력하신 성명이 존재하지 않습니다.\r\n 정확히 입력해주시기 바랍니다.");
+				}
+			},
+			error:function(request,status,error){
+				alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+		        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+</script>
+</head>
+<body>
+
+	<!-- *********************************************  회사검색 html 시작 부분  body안에 붙여 넣으시면 됩니다.  *********************************************  -->
+	<!--  POPUP class(숨기기:hidden) -->
+	<div id="companySearch_wrap" class="">
+		<ul id="popup_bg">
+			<li class="popup_frame popup_name">
+				<div class="icon"></div><div class="text NanumGothic">수신자 검색</div><!-- <div class="btn_type popup_close Material_icons">close</div> -->
+			</li>
+			<li class="popup_frame popup_tit">
+				<div class="bg"><span class="NanumGothic">수신자를 선택하세요. 검색이 되지 않는다면, <br>[인사관리]에서 인사등록을 먼저 하셔야 합니다.</span></div>
+			</li>
+			
+			<li class="popup_frame sehInputBox">
+			<!-- 
+				<select id="searchKey">
+					<option value=""> 회사명</option>
+					<option value=""> 사업자번호</option>
+					<option value=""> 대표자명</option>
+				</select>
+			 -->
+					<fieldset style="width: 96%;">
+					<input type="text" id="searchValue" class="word_input NanumGothic" placeholder="수신자명" onkeypress="return runScript(event)">
+					<a onclick="fn_getCustomerList()" class="btn_search btn_type Material_icons">search</a>
+					</fieldset>
+			</li>
+			<li class="popup_frame popup_res">
+			<!-- 
+			<div class="txt_area"><span class="seh_word font_black NanumGothic" id="searchName">'뉴젠'</span><span class="res_Word font_black NanumGothic"> 검색결과</span><span class="notfind">'검색결과가 없습니다.'</span></div>
+			 -->
+			<div class="seh_res" style="height : 220px">
+				<table>
+					<colgroup>
+						<col width="5%">
+						<col width="30%">
+						<col width="25%">
+						<col width="40%">
+					</colgroup>
+					<thead>
+						<tr>
+							<th class="chk_area"></th>
+							<th>거래처명</th>
+							<th>사업자등록번호</th>
+							<th>담당자이메일</th>
+						</tr>
+					</thead>
+					<tbody id="dataList">
+						<tr class="databox">
+							<td colspan="4">데이터가 존재하지 않습니다.</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- 
+			<div class="pagingnav_wrap">
+			    <ul id="pagingNav">
+			        <li><a class="first_page arr left"></a><a class="btn_prev arr right"></a></li>
+			        <li class="paging_numbers"><a id="p1" class="btn_type">1</a><a id="p2" class="btn_type">2</a><a id="p2" class="btn_type">3</a>
+			        <a id="p2" class="btn_type">4</a><a id="p2" class="btn_type">5</a></li>
+			        <li><a class="btn_next arr left "></a><a class="end_page arr right"></a></li>
+			    </ul>
+			</div>
+			 -->
+			</li>
+			<li class="popup_btnGroup">
+				<a onclick="fn_setData()" class="btn_type check">확인</a><a onclick="window.close();" class="btn_type close">닫기</a>
+			</li>
+		</ul>
+	</div><!-- companySearch_wrap -->
+	<!-- *********************************************  회사검색 html 끝  부분  body안에 붙여 넣으시면 됩니다.  *********************************************  -->
+</body>
+</html>

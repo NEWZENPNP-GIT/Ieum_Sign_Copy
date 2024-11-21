@@ -1,0 +1,284 @@
+
+	<!--****************************************************************************************************************
+	* 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+	* 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+	********************************************************************************************************************
+	--------------------------------------------------------------------------------------------------------------------
+	* 회사       : 뉴젠피앤피
+	* 화면명     : 포인트log 팝업창
+	* 화면설명   : 시스템관리 > 포인트 조회
+	* 작성자     :
+	* 생성일     :
+	--------------------------------------------------------------------------------------------------------------------
+	* 수정자     : 이정훈
+	* 수정일     : 2023.10.31
+	* 수정내용   :
+	------------------------------------------------------------------------------------------------------------------->
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache"/>
+	<title>포인트 LOG</title>
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+	<link rel="stylesheet" type="text/css" href="/css/company_manage.css">
+
+	<script type='text/javascript' src="/js/jquery.min.js"></script>
+	<script type='text/javascript' src="/js/common.js"></script>
+	<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+
+	<script>
+
+
+		//***************					윈도우 로딩					***************//
+
+
+		$(document).ready(function(){
+
+			var currentDate = new Date();
+			currentDate.setMonth(currentDate.getMonth() - 3);
+			var formattedDate = currentDate.getFullYear() * 10000 + (currentDate.getMonth() + 1) * 100 + currentDate.getDate();
+
+			$("#searchDateFrom").val(formattedDate);
+			$("#searchDateTo").val(new Date().format("yyyyMMdd"));
+
+			// 엔터 입력시 조회
+			$('input[type=text]').on('keydown', function(e) {
+				if (e.which == 13) {
+					e.preventDefault();
+					fn_getPointLogList();	// 포인트 조회
+				}
+			});
+
+			var bizId = getURLParameters("bizId");
+
+			$("#bizId").val(bizId);
+			getBizGrpCombo();			// 기업 조회
+			fn_getPointLogList();		// 포인트 조회
+
+			$("#searchCompanyPoint").text(addCommas($("#searchPoint option:selected").text()));
+			$("#searchCompany").change(function(){
+				$("#searchPoint").val($(this).val())
+				$("#searchCompanyPoint").text(addCommas($("#searchPoint option:selected").text()));
+			});
+		});
+
+
+		//***************					포인트 조회					***************//
+
+
+		function fn_getPointLogList() {
+			var bizId = $("#searchCompany").val();
+			var searchDateFrom = $("#searchDateFrom").val();
+			var searchDateTo = $("#searchDateTo").val();
+			var url = rootPath+"getPointLogList.do";
+
+			$.blockUI();
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"GET",
+				data: {
+					bizId:bizId,
+					searchDateFrom:searchDateFrom,
+					searchDateTo:searchDateTo,
+					startPage:0,
+					endPage:99999
+				},
+				success:function(result) {
+					var htmlData = "";
+
+					if (result.success==true) {
+						$.each(result.data, function(i, row) {
+							htmlData += '<tr>';
+							if(row.pointType=="0" || row.pointType=="1" ) {
+								htmlData += '     <td>-</td>';
+								htmlData += '     <td>'+addCommasABS(row.pointPrice)+'</td>';
+							} else {
+								htmlData += '     <td>'+addCommasABS(row.pointPrice)+'</td>';
+								htmlData += '     <td>-</td>';
+							}
+							htmlData += '     <td>'+addCommasABS(row.pointResult)+'</td>';
+							htmlData += '     <td>'+row.etcDesc+'</td>';
+							htmlData += '	  <td>'+convertDateTime(row.insDate).format("yyyy-MM-dd HH:mm:ss")+'</td>';
+							htmlData += '</tr>';
+						});
+					}
+					$("#pointList").html(htmlData);
+					$.unblockUI();
+				},
+				error:function(request,status,error) {
+					$.unblockUI();
+					if (request.status=="401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						location.href=rootPath;
+					} else {
+						alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+					}
+				}
+			});
+		}
+
+
+		//***************					기업 조회					***************//
+
+
+		function getBizGrpCombo() {
+
+			var url = rootPath+"biz/getBizGrpCombo2.do";
+			$("#searchCompany").html("");
+			$("#searchPoint").html("");
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				async: false,
+				type:"GET",
+				data: { bizId:$("#bizId").val() },
+				success:function(result) {
+					if(result.success) {
+						var workStatus = result.data;
+						$.each(workStatus, function(i, data){
+							$("#searchCompany").append($("<option>", {
+								value: data.id,
+								text: data.name
+							}));
+							$("#searchPoint").append($("<option>", {
+								value: data.id,
+								text: data.curPoint
+							}));
+						});
+					}
+				},
+				error:function(request,status,error) {
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			});
+		}
+
+	</script>
+	<style>
+		#company_popup .field_area {
+			display: grid;
+			grid-template-columns: auto auto 1fr;
+			align-items: center;
+			column-gap: 12px;
+		}
+		#company_popup .field_area #searchCompany {
+			width: auto;
+			min-width: 100px;
+			padding: 0 24px 0 16px;
+			background-position-x: calc(100% - 8px);
+		}
+		#company_popup .field_area p {
+			font-size: 13px;
+			font-weight: 700;
+		}
+		#company_popup .field_area p > b {
+			display: inline-block;
+			font-family: inherit;
+			font-size: inherit;
+			color: #007fff;
+		}
+		#company_popup .popup_list thead tr {top: 97px;}
+		.search_point_date {
+			display: grid;
+			grid-auto-flow: column;
+			justify-content: start;
+			justify-self: end;
+			align-items: center;
+			column-gap: 6px;
+		}
+		.search_point_date > input {
+			display: block;
+			width: 96px;
+			height: 30px;
+			padding: 0 8px;
+			border: 1px solid #dcdcdc;
+			box-sizing: border-box;
+			font-size: 12px;
+			text-align: center;
+			color: #666666;
+			outline: none;
+		}
+		.search_point_date > span {
+			display: block;
+			padding-bottom: 2px;
+			font-size: 14px;
+			color: #777777;
+		}
+		.search_point_date .btn_ok {
+			display: block;
+			padding: 0 16px;
+			border: 1px solid #00acff;
+			font-size: 12px;
+			line-height: 28px;
+			color: #00acff;
+			background-color: #d4ecf7;
+		}
+	</style>
+	</head>
+	<body>
+
+	<!-- *********************************************  포인트 LOG 팝업창  *********************************************  -->
+
+	<input type="hidden" id="bizId" value="">
+		<div id="company_popup" class="_popup">
+			<div class="container">
+				<div class="popup_sticky">
+					<div id="popup_tit">
+						<div class="tit_icon"><span class="NanumGothic Material_icons">search</span></div>
+						<div class="tit_text col_skyblue NanumGothic">포인트 LOG</div>
+						<div id="popup_close" class="btn_type col_skyblue" onclick="window.close();"></div>
+					</div>
+					<div class="field_area">
+						<div class="selBox NanumGothic">
+							<select id="searchCompany" onchange="fn_getPointLogList()"></select>
+							<select id="searchPoint" style="display:none;"></select>
+						</div>
+						<p class="NanumGothic">잔여 포인트 : <b id="searchCompanyPoint" class="NanumGothic"></b> P</p>
+						<div class="search_point_date">
+							<input type="text" min="1900-01-01" max="2999-01-01" id="searchDateFrom" class="NanumGothic lt">
+							<span>~</span>
+							<input type="text" min="1900-01-01" max="2999-01-01" id="searchDateTo" class="NanumGothic lt">
+							<a class="btn_type btn_ok" onclick="fn_getPointLogList()">조회</a>
+						</div>
+					</div>
+				</div>
+				<table class="popup_list NanumGothic">
+					<colgroup>
+						<col width="15%">
+						<col width="15%">
+						<col width="15%">
+						<col width="40%">
+						<col width="15%">
+					</colgroup>
+					<thead>
+						<tr>
+							<th>차감포인트</th>
+							<th>충전포인트</th>
+							<th>잔여포인트</th>
+							<th>내용</th>
+							<th>처리일시</th>
+						</tr>
+					</thead>
+					<tbody id="pointList">
+					</tbody>
+				</table>
+				<div class="btns sort-center">
+					<div><div class="type4 btn_type Material_icons" onClick="window.close()">닫기</div></div>
+				</div>
+			</div>
+		</div>
+	</body>
+	</html>

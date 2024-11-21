@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>연말정산 현황 : 연금저축 명세서 </title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+<link rel="stylesheet" type="text/css" href="/css/ScrollTable.css"  media="screen" />
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+
+</head>
+<body>
+	<div id="yearTax_wrap" class="yearTax">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연말정산 > 연말정산 관리  > </span><span class="loc_sub NanumSquare_R">연말정산 현황물</span></div>
+			<div class="pagtit NanumSquare_R">
+				<span class="">연금저축 명세서</span>
+			</div>
+			
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">연금저축 명세서</span>
+					</div>
+				
+					<div class="grid_field full">
+						<ul class="gridRow2">
+							<li class="search_wrap">
+								<div class="group_row row4">
+									<dl class="NanumSquare_R rat3n-7">
+										<dt><label class="label_txt NanumSquare_R">정산년월 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R">
+												<option value="" >전체</option>
+											</select>
+										</dd>
+									</dl>
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">사업장 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R">
+												<option value="" >전체</option>
+											</select>
+										</dd>
+									</dl>
+									<dl class="NanumSquare_R rat4n-6">
+										<dt><label class="label_txt NanumSquare_R">부서 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R">
+												<option value="" >전체</option>
+												<option value="" >계속근로</option>
+												<option value="" >중도퇴사</option>
+											</select>
+										</dd>
+									</dl>
+									<dl class="NanumSquare_R rat4n-6">
+										<dt><label class="label_txt NanumSquare_R">마감구분 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R">
+												<option value="" >진행중</option>
+											</select>
+										</dd>
+									</dl>
+								</div>
+								<div class="group_row row4">
+									<dl class="NanumSquare_R rat3n-7">
+										<dt><label class="label_txt NanumSquare_R">성명 : </label></dt>
+										<dd class="input_box"><input class="" type="text" ></dd>
+									</dl>
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">사번 : </label></dt>
+										<dd class="input_box"><input class="" type="text" ></dd>
+									</dl>
+									<dl class="NanumSquare_R rat4n-6">
+										<dt><label class="label_txt NanumSquare_R">직책(직급) : </label></dt>
+										<dd class="input_box"><input class="" type="text" ></dd>
+									</dl>
+									<div class="btns"><a class="btn_type btn_grid_search NanumSquare_R"><span class="icon Material_icons">search</span> 검색</a></div>
+								</div>
+							</li>
+							<li class="NanumSquare_R btns sort_right sort_bottom">
+								<div class="sortWrap ">
+									<a class="btn_type excelDown">다운로드</a>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<!--  셀 넓이 조정 class w70/w90/w100/w120/w150/w180-/w200/w220/w250/w260/w280/w300 -->
+					<div class="fix-table-container NanumSquare_R">
+						<div class="ContenedorTabla h600" >
+							<table id="pruebatabla" class="fht-table">
+								<thead>
+									<tr>
+										<th>법인명</th><th>사업장 (단위사업장)</th><th>부서</th><th>사원코드</th><th>사원명</th><th>주민등록번호</th>
+										<th>공제구분</th><th>항목구분</th><th>금융회사등</th><th>계좌번호</th><th>납입금액</th><th>공제금액</th>
+									</tr>
+									<tr class="sum-cell">
+										<th colspan="5">합계</th><th>6</th><th>7</th><th> 8</th><th>9</th><th>10</th>
+										<th class="sort_right">125,000,000</th><th class="sort_right">12</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>ss1</td><td> 솔루션주식회사사</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td> 8</td><td>9</td><td>10</td>
+										<td class="sort_right">125,000,000</td><td class="sort_right">12</td>
+									</tr>
+									
+								</tbody>
+							</table>
+						</div> <!-- ContenedorTabla  -->
+					</div><!-- fix-table-container -->
+				</div>
+			</div><!--  content -->
+		</div>
+	</div>
+</body>
+	<script type="text/javascript" src="/js/jquery.CongelarFilaColumna.js"></script> <!--  table plugin -->
+	<script type="text/javascript">
+		$(document).ready(function(){
+			Set_table();
+		});
+		
+		$(window).resize(function(){
+			Set_table();
+		});
+		
+		function Set_table(){
+			$("#pruebatabla").CongelarFilaColumna({Columnas:5,coloreacelda:true});
+		}
+	</script>
+</html>

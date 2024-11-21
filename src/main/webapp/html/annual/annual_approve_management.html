@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/annual_manage.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+</head>
+<body>
+	<div id="annual_wrap" class="">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumGothic">연차 관리 > </span><span class="loc_sub NanumGothic">결재 관리</span></div>
+			<div class="pagtit"><span class="NanumGothic">결재 관리</span></div>
+			<div class="tit_dec NanumGothic"><span class="speaker"></span><span> 알림 ㅣ 미승인 연차신청서가 5건 존재합니다. </span></div>
+			
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumGothic">신청내역 열람 및 결재</span>
+					</div>
+					<div class="box_wrap topBlue">
+						<ul class="NanumGothic field_area" >
+							<li class="selBox month">
+								<select>
+									<option value="" class="">2018년 8월</option>
+									<option value="" class="">2018년 7월</option>
+								</select>
+							</li>
+							<li class="_blank"></li>
+							<li class="selBox">
+								<select>
+									<option value="" class="">제목</option>
+									<option value="" class="">작성자</option>
+								</select>
+							</li>
+							<li class="inputBox">
+								<fieldset>
+									<input type="text" class="word_input NanumGothic" placeholder="검색할 내용을 20자 이내로 적어주세요">
+									<a class="btn_search btn_type Material_icons">search</a>
+								</fieldset>
+							</li>
+						</ul>
+						<div class="group_table">
+							<table class="NanumGothic hasChk">
+								<colgroup>
+									<col width="4%">
+									<col width="10%">
+									<col width="12%">
+									<col width="14%">
+									<col width="28%">
+									<col width="8%">
+									<col width="8%">
+									<col width="8%">
+									<col width="8%">
+								</colgroup>
+								<thead>
+								<tr>
+									<th class="chk_area"><input type="checkbox"></th>
+									<th>성명</th>
+									<th>사번</th>
+									<th>부서명</th>
+									<th>기간</th>
+									<th>구분</th>
+									<th>일수</th>
+									<th>상태</th>
+									<th>마지막 결재자</th>
+								</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="chk_area"><input type="checkbox"></td>
+										<td class="value">홍길동</td>
+										<td class="value">1004</td>
+										<td class="value">미래전략개발본부</td>
+										<td class="value">2018년 7월6일(금)~2018년7월10일(화)</td>
+										<td class="value">연차</td>
+										<td class="value">2</td>
+										<td class="value">반려</td>
+										<td class="value">사장님</td>
+									</tr>
+									<tr>
+										<td class="chk_area"><input type="checkbox"></td>
+										<td class="value">홍길동</td>
+										<td class="value">1004</td>
+										<td class="value">개발1팀</td>
+										<td class="value">2018년 7월6일(금)~2018년7월10일(화)</td>
+										<td class="value">연차</td>
+										<td class="value">3</td>
+										<td class="value">승인</td>
+										<td class="value">사장님</td>
+									</tr>
+									<tr>
+										<td class="chk_area"><input type="checkbox"></td>
+										<td class="value">홍길동</td>
+										<td class="value">1004</td>
+										<td class="value">경영지원부</td>
+										<td class="value">2018년 7월6일(금)</td>
+										<td class="value">반차</td>
+										<td class="value">2</td>
+										<td class="value">미열람</td>
+										<td class="value">사장님</td>
+									</tr>
+									
+									
+								</tbody>
+							</table>
+						</div>
+						<div id="page-selection" class="pagingnav_wrap_mid"></div>
+					</div>
+				</div>
+				<div class="NanumGothic btn_group ">
+				<!-- <a class="btn_type type2">SMS/알림톡 발송</a> -->
+					<a class="btn_type type1">승인하기</a>
+					<a class="btn_type type4">반려하기</a>
+				<!-- <a class="btn_type default">다운로드</a> -->
+					
+				</div>
+			</div> <!--  contents -->
+				
+			
+		</div> <!--  container -->
+	</div>
+</body>
+<script  type="text/javascript">
+$('#page-selection').bootpag({
+    total: 10,
+    page: 1,
+    maxVisible: 5,
+    leaps: true,
+    firstLastUse: true,
+    first: '',
+    last: '',
+    wrapClass: 'pagination',
+    activeClass: 'active',
+    disabledClass: 'disabled',
+    nextClass: 'btn_next',
+    prevClass: 'btn_prev',
+    lastClass: 'end_page',
+    firstClass: 'first_page'
+}).on("page", function(event, num){
+    
+});
+</script>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title> 기타세액공제</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+</head>
+<body>
+	<div id="yearTax_wrap" class="yearTax hasEmplist">
+		<input id="btn_left" id="btn_left" type="checkbox" class="hidden">
+		<label class="btn_type btn_emplist" for="btn_left"></label>
+		<div id="employ-list-wrap">
+			<div class="fieldBox">
+				<div class="select_box">
+					<select class="NanumSquare_R">
+						<option value="" >사업장</option>
+					</select>
+				</div>
+				<fieldset>
+					<input type="text" class="word_input NanumSquare_R"><a class="btn_search btn_type Material_icons">search</a>
+				</fieldset>
+			</div>
+			<div class="employ-list NanumSquare_R">
+				<ul>
+					<li class="thead"><div class="no">사번</div><div class="name">이름</div><div class="state code-0">확정</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-0">미입력</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-1">진행중</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-2">근로자 확정</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-3">관리자 확정</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-4">최종 확정</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state"></div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state"></div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state"></div></li>
+				</ul>
+			</div>
+		</div>
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연말정산 > 연말정산입력  > </span><span class="loc_sub NanumSquare_R">연말 정산 MAP</span></div>
+			<div class="pagtit">
+				<span class="NanumSquare_R">연말 정산 MAP - 기타세액공제</span>
+				<ul class="top_items NanumSquare_R">
+					<li><a class="btn_type icon_file ">첨부 파일 <span class="icon icon_file"></span></a></li>
+				</ul>
+			</div>
+			
+			<div class="contents">
+				<div class="group_row row1">
+					<div class="summaryBox wid10n"><dl class="NanumSquare_R rat4-6"><dt>사용자</dt><dd class="default_box"><div class="nonborder userName">홍길동</div></dd></dl></div>
+					<div class="summaryBox wid20"><dl class="NanumSquare_R rat3-7"><dt>총급여</dt><dd  class="default_box col_skyblue"><div class="nonborder sort_right">34,254,000</div></dd></dl></div>
+					<div class="summaryBox wid20n"><dl class="NanumSquare_R rat4-6"><dt>근로소득금액</dt><dd  class="default_box col_blue"><div class="nonborder sort_right">34,254,000</div></dd></dl></div>
+				</div>
+				<div class="notice_wrap bg_skyblue nonborder">
+					<div class="notice_con pad_thin10 nonLine NanumSquare_R bg_skyblue">
+						<ul class="month nonTop">
+							<li><span>1월</span></li><li><span>2월</span></li><li class="active"><span>3월</span></li><li class="active"><span>4월</span></li><li><span>5월</span></li><li><span>6월</span></li>
+							<li><span>7월</span></li><li><span>8월</span></li><li><span>9월</span></li><li><span>10월</span></li><li><span>11월</span></li><li><span>12월</span></li>
+						</ul>
+					</div>
+				</div>
+				
+				<div class="common_btn NanumSquare_R">
+					<a class="btn_type btn_toggle view">모두보기</a>
+				</div>
+	
+				<!--  group-1 -->
+				<div class="group_wrap">
+					<div class="group_tit mar-bot-5">
+						<div class="icon"></div>
+						<div class="text NanumSquare_R">납세조합공제 </div>
+					</div>
+					
+					<!--  show & hide bar -->
+					<input id="group-1" type="checkbox" class="dep-1 hidden" />
+					<div class="sub_header NanumSquare_R">
+						<div><a class="btn_type btn_question">문의 </a></div>
+						<div class="sub_tit NanumSquare_R"></div>
+						<div class="btn_drop">
+							<label for="group-1" class="btn_type btn_fold"></label>
+						</div>
+					</div>
+					
+					<div class="group_fold ">
+						<!-- <div class="sub_field"></div> -->
+						<div class="group_table hasSubType ">
+							<table class="hasHead NanumSquare_R mar-bot-5">
+								<colgroup>
+									<col width="30%">
+									<col width="70%">
+								</colgroup>
+								<thead>
+									<tr>
+										<th>해당금액</th>
+										<th>요약설명</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="value"><input type="text" class="input_txt sort_right"></td>
+										<td class="descript">
+											<dl class="dot v-center"><dt class="mar-top-3">*</dt><dd class="sort_left">납세조합에 의하여 원천징수된 근로소득에 대한 종합소득산출세액의 10% [소득세법 제150조]</dd></dl>
+										</td>
+									</tr>
+									
+								</tbody>
+							</table>
+						</div>
+						
+						<div class="notice_wrap bg_purple mar-bot-40">
+							<div class="notice_tit NanumSquare_R "><span class="icon warning"></span><span class="txt">관리자 정정사유</span></div>
+							<div class="notice_con NanumSquare_R">
+								<textarea></textarea>
+							</div>
+						</div>
+					</div> <!-- group_fold -->
+				</div>
+				
+				<!--  group-2 -->
+				<div class="group_wrap">
+					<div class="group_tit mar-bot-5">
+						<div class="icon"></div>
+						<div class="text NanumSquare_R">주택자금차입금 이자세액공제</div>
+					</div>
+					
+					<!--  show & hide bar -->
+					<input id="group-2" type="checkbox" class="dep-1 hidden" />
+					<div class="sub_header NanumSquare_R">
+						<div><a class="btn_type btn_question">문의 </a></div>
+						<div class="sub_tit NanumSquare_R"></div>
+						<div class="btn_drop">
+							<label for="group-2" class="btn_type btn_fold"></label>
+						</div>
+					</div>
+					
+					<div class="group_fold ">
+						<!-- <div class="sub_field"></div> -->
+						<div class="group_table hasSubType ">
+							<table class="hasHead NanumSquare_R mar-bot-5">
+								<colgroup>
+									<col width="30%">
+									<col width="70%">
+								</colgroup>
+								<thead>
+									<tr>
+										<th>해당금액</th>
+										<th>요약설명</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="value"><input type="text" class="input_txt sort_right"></td>
+										<td class="descript">
+											<dl class="dot"><dt class="mar-top-3">*</dt><dd class="sort_left">국민주택기금으로부터 차입한 대출금의 이자 상환액 중 30%를 공제_농어촌특별세 과세대상</dd></dl>
+											<dl class="dot"><dt class="mar-top-3">*</dt><dd class="sort_left">주택차입금 이자세액공제를 받는 차입금의 이자는 장기주택저당차입금 이자상환액공제를 적용받을 수 없음</dd></dl>
+										</td>
+									</tr>
+									
+								</tbody>
+							</table>
+						</div>
+						
+						<div class="notice_wrap bg_purple mar-bot-40">
+							<div class="notice_tit NanumSquare_R "><span class="icon warning"></span><span class="txt">관리자 정정사유</span></div>
+							<div class="notice_con NanumSquare_R">
+								<textarea></textarea>
+							</div>
+						</div>
+					</div> <!-- group_fold -->
+				</div>
+				
+				<!--  group-3 -->
+				<div class="group_wrap">
+					<div class="group_tit mar-bot-5">
+						<div class="icon"></div>
+						<div class="text NanumSquare_R">외국납부세액공제</div>
+					</div>
+					
+					<!--  show & hide bar -->
+					<input id="group-3" type="checkbox" class="dep-1 hidden" />
+					<div class="sub_header NanumSquare_R">
+						<div><a class="btn_type btn_question">문의 </a></div>
+						<div class="sub_tit NanumSquare_R"></div>
+						<div class="btn_drop">
+							<label for="group-3" class="btn_type btn_fold"></label>
+						</div>
+					</div>
+					
+					<div class="group_fold ">
+						<!-- <div class="sub_field"></div> -->
+						
+						<div class="group_table description mar-bot-5">
+							<table class="hasHead NanumSquare_R mar-bot-5">
+								<colgroup>
+									<col width="30%">
+									<col width="70%">
+								</colgroup>
+								<thead>
+									<tr>
+										<th>입력할 항목</th>
+										<th>항목별 요약설명 및 공제요건</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="subTit">외국납부세액</td>
+										<td class="descript">
+											<dl class="dot">
+												<dt class="mar-top-3">*</dt><dd> 거주자의 근로소득금액에 국외원천소득이 합산되어 있는 경우 그 국외원천소득에 대하여 외국에서 외국납부세액을 납부하였거나 납부할 것이 있을 때</dd>
+											</dl>
+											<dl class="dot">
+												<dt  class="mar-top-3">*</dt><dd>근로소득자의 해당 과세기간의 종합소득 산출세액에 국외원천소득이 그 과세기간의 종합소득금액에서 차지하는 비율을 곱한 금액을 한도로 외국소득세액을 해당 과세기간의 종합소득 산출세액에서 공제
+												</dd>
+											</dl>
+										</td>
+									
+								</tbody>
+							</table>
+						</div>
+						
+						<div class="group_table hasSubType mar-bot-10">
+							<table class="hasHead NanumSquare_R mar-bot-5">
+								<colgroup>
+									<col width="13%">
+									<col width="13%">
+									<col width="13%">
+									<col width="13%">
+									<col width="20%">
+									<col width="28%">
+								</colgroup>
+								<thead>
+									<tr>
+										<th>국외총급여</th>
+										<th>납세액(외화)</th>
+										<th>납세액(원화)</th>
+										<th>세액공제금액</th>
+										<th>납세국가코드/명</th>
+										<th>납부일</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="value"><input type="text" class="input_txt sort_right"></td>
+										<td class="value"><input type="text" class="input_txt sort_right"></td>
+										<td class="value"><input type="text" class="input_txt sort_right"></td>
+										<td class="value"><input type="text" class="input_txt sort_right"></td>
+										<td class="value inbox-2"><input type="text" class="input_txt"> / <input type="text" class="input_txt"></td>
+										<td class="value"><input type="date" max="9999-12-31" class="input_txt sort_right"></td>
+									</tr>
+									
+								</tbody>
+							</table>
+						</div>
+						
+						<div class="notice_wrap bg_purple mar-bot-40">
+							<div class="notice_tit NanumSquare_R "><span class="icon warning"></span><span class="txt">관리자 정정사유</span></div>
+							<div class="notice_con NanumSquare_R">
+								<textarea></textarea>
+							</div>
+						</div>
+					</div> <!-- group_fold -->
+				</div>
+			</div> <!--  contents -->
+			
+			<div class="group_btns foot NanumSquare_R">
+				<a class="btn_type type1">＜  MAP</a>
+				<a class="btn_type type2"><span class="icon_save Material_icons"></span>저장</a>
+				<!-- <a class="btn_type type3">계산하기 ＞</a> -->
+				<!-- <a class="btn_type type4">Map ＞</a> -->
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+/*  *************** 근로자 리스트 스크롤 위치에 따라 이동   ***************  */ 
+$(document).ready(function(){
+	var _scrollTop=$("#main_wrap").scrollTop();
+	var _posY=($("#main_wrap").height()/2 + 40)+_scrollTop-57;
+
+	if($("#yearTax_wrap").height() < $("#main_wrap").height()){
+		$("#employ-list-wrap").css("height",$("#main_contents").height()-10)
+	}
+	$(".btn_emplist").css("top",_posY);
+
+})
+
+$("#main_wrap").scroll(function(){
+	var _scrollTop=$("#main_wrap").scrollTop();
+	var _posY=($("#main_wrap").height()/2 + 40)+_scrollTop-57;
+	$(".btn_emplist").css("top",_posY);
+})
+
+/*  *************** 모두보기 토글 버튼   ***************  */ 
+$(".btn_toggle").click(function(){
+
+	var isState=$(this).hasClass("view") ? true:false;
+	if(isState){
+		$(this).removeClass("view");
+		$(this).text("모두 닫기");
+	}else{
+		$(this).addClass("view");
+		$(this).text("모두 보기");
+	}
+	$(".group_wrap").find('.hidden[type="checkbox"]').each(function(){
+		if(!isState){ //현재 모두 보기 상태
+			$(this).prop('checked',false);
+		}else{
+			$(this).prop('checked',true);
+		} 
+	})	
+})
+</script>
+</html>

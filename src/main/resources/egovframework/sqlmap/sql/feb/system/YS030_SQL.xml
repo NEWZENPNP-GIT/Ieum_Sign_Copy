@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="febsystem">
+	<typeAlias alias="ys030VO" type="com.ezsign.feb.system.vo.YS030VO" />
+	<resultMap id="ys030ListMap" class="ys030VO">
+		<result property="계약ID" column="계약ID"/>
+		<result property="사업장ID" column="사업장ID"/>
+		<result property="지점여부" column="지점여부"/>
+		<result property="사업장명" column="사업장명"/>
+		<result property="대표자명" column="대표자명"/>
+		<result property="사업자등록번호" column="사업자등록번호"/>
+		<result property="법인등록번호_개인식별번호" column="법인등록번호_개인식별번호"/>
+		<result property="회사주소1" column="회사주소1"/>
+		<result property="회사전화1" column="회사전화1"/>
+		<result property="회사팩스1" column="회사팩스1"/>
+		<result property="회사주소2" column="회사주소2"/>
+		<result property="회사전화2" column="회사전화2"/>
+		<result property="회사팩스2" column="회사팩스2"/>
+		<result property="단위과세자여부" column="단위과세자여부"/>
+		<result property="종사업자일련번호" column="종사업자일련번호"/>
+		<result property="관할세무서코드" column="관할세무서코드"/>
+		<result property="지방소득세납세지" column="지방소득세납세지"/>
+		<result property="홈택스아이디" column="홈택스아이디"/>
+		<result property="제출담당부서명" column="제출담당부서명"/>
+		<result property="제출담당자성명" column="제출담당자성명"/>
+		<result property="제출담당자전화번호" column="제출담당자전화번호"/>
+		<result property="대상인원수" column="대상인원수"/>
+		<result property="dbMode" column="DBMODE"/>
+		<result property="bizType" column="BIZ_TYPE"/>
+		<result property="신고대상" column="신고대상"/>
+		<result property="등록일시" column="등록일시"/>
+		<result property="수정일시" column="수정일시"/>
+	</resultMap>
+	
+	<select id="ys030DAO.getYS030List" parameterClass="ys030VO" resultMap="ys030ListMap">
+		SELECT 계약ID, 사업장ID, 지점여부, 사업장명, 대표자명, 사업자등록번호, 법인등록번호_개인식별번호, 
+				회사주소1, 회사전화1, 회사팩스1, 회사주소2, 회사전화2, 회사팩스2, 단위과세자여부, 종사업자일련번호, 신고대상,
+				관할세무서코드, 지방소득세납세지, 홈택스아이디, 제출담당부서명, 제출담당자성명, 제출담당자전화번호, 등록일시, 수정일시,
+				(SELECT COUNT(X.EMP_NO) FROM tbl_emp X 
+				 WHERE X.BIZ_ID = #bizId# AND X.USE_YN = 'Y' AND X.EMP_TYPE IN ('1', '2', '3')) 대상인원수, '0' DBMODE,
+				 (SELECT Y.BIZ_TYPE FROM tbl_biz Y WHERE Y.BIZ_ID = #bizId#) BIZ_TYPE
+		FROM tbl_ys030
+		WHERE	계약ID   = #계약ID#
+		AND		사용여부    = 1
+		<isNotNull property="사업장ID">
+		    <isNotEmpty property="사업장ID">
+			AND		사업장ID = #사업장ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사업장명">
+		    <isNotEmpty property="사업장명">
+			AND		사업장명 LIKE CONCAT('%', #사업장명#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="지점여부">
+		    <isNotEmpty property="지점여부">
+			AND		지점여부	= #지점여부#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사용여부">
+		    <isNotEmpty property="사용여부">
+			AND		사용여부	= #사용여부#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사업자등록번호">
+		    <isNotEmpty property="사업자등록번호">
+			AND		사업자등록번호	= #사업자등록번호#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="종사업자일련번호">
+		    <isNotEmpty property="종사업자일련번호">
+			AND		종사업자일련번호	= #종사업자일련번호#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sortName">
+		    <isNotEmpty property="sortName">
+		ORDER BY $sortName$ $sortOrder$
+			</isNotEmpty>
+		</isNotNull>
+		limit #endPage# offset #startPage#
+	</select>
+	
+	<select id="ys030DAO.getYS030ListCount" parameterClass="ys030VO" resultClass="java.lang.Integer">
+		SELECT COUNT(사업장ID)
+		FROM tbl_ys030
+		WHERE	계약ID   = #계약ID#
+		AND		사용여부    = 1
+		<isNotNull property="사업장ID">
+		    <isNotEmpty property="사업장ID">
+			AND		사업장ID = #사업장ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사업장명">
+		    <isNotEmpty property="사업장명">
+			AND		사업장명 LIKE CONCAT('%', #사업장명#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="지점여부">
+		    <isNotEmpty property="지점여부">
+			AND		지점여부	= #지점여부#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사용여부">
+		    <isNotEmpty property="사용여부">
+			AND		사용여부	= #사용여부#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사업자등록번호">
+		    <isNotEmpty property="사업자등록번호">
+			AND		사업자등록번호	= #사업자등록번호#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="종사업자일련번호">
+		    <isNotEmpty property="종사업자일련번호">
+			AND		종사업자일련번호	= #종사업자일련번호#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<insert id="ys030DAO.insYS030" parameterClass="ys030VO">
+		<selectKey resultClass="java.lang.String" keyProperty="사업장ID">
+			SELECT  getTableKey('TBL_YS030')
+		</selectKey>
+		INSERT INTO tbl_ys030 (
+			계약ID, 사업장ID, 지점여부, 사업장명, 대표자명, 사업자등록번호, 법인등록번호_개인식별번호, 
+			회사주소1, 회사전화1, 회사팩스1, 회사주소2, 회사전화2, 회사팩스2, 단위과세자여부, 종사업자일련번호, 신고대상,
+			관할세무서코드, 지방소득세납세지, 홈택스아이디, 제출담당부서명, 제출담당자성명, 제출담당자전화번호, 등록일시, 수정일시
+		) VALUES (
+			#계약ID#, #사업장ID#, #지점여부#, #사업장명#, #대표자명#, #사업자등록번호#, #법인등록번호_개인식별번호#, 
+		   #회사주소1#, #회사전화1#, #회사팩스1#, #회사주소2#, #회사전화2#, #회사팩스2#, #단위과세자여부#, #종사업자일련번호#, #신고대상#,
+		   #관할세무서코드#, #지방소득세납세지#, #홈택스아이디#, #제출담당부서명#, #제출담당자성명#, #제출담당자전화번호#,
+		   DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<update id="ys030DAO.updYS030" parameterClass="ys030VO">
+		UPDATE tbl_ys030
+		SET	
+		<isNotNull property="지점여부">
+		    <isNotEmpty property="지점여부">
+			지점여부			= #지점여부#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사업장명">
+		    <isNotEmpty property="사업장명">
+			사업장명			= #사업장명#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="대표자명">
+		    <isNotEmpty property="대표자명">
+			대표자명			= #대표자명#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사업자등록번호">
+		    <isNotEmpty property="사업자등록번호">
+			사업자등록번호			= #사업자등록번호#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="법인등록번호_개인식별번호">
+		    <isNotEmpty property="법인등록번호_개인식별번호">
+			법인등록번호_개인식별번호			= #법인등록번호_개인식별번호#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="회사주소1">
+		    <isNotEmpty property="회사주소1">
+			회사주소1			= #회사주소1#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="회사전화1">
+		    <isNotEmpty property="회사전화1">
+			회사전화1			= #회사전화1#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="회사팩스1">
+		    <isNotEmpty property="회사팩스1">
+			회사팩스1			= #회사팩스1#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="회사주소2">
+		    <isNotEmpty property="회사주소2">
+			회사주소2			= #회사주소2#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="회사전화2">
+		    <isNotEmpty property="회사전화2">
+			회사전화2			= #회사전화2#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="회사팩스2">
+		    <isNotEmpty property="회사팩스2">
+			회사팩스2			= #회사팩스2#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="단위과세자여부">
+		    <isNotEmpty property="단위과세자여부">
+			단위과세자여부			= #단위과세자여부#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="종사업자일련번호">
+		    <isNotEmpty property="종사업자일련번호">
+			종사업자일련번호			= #종사업자일련번호#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="관할세무서코드">
+		    <isNotEmpty property="관할세무서코드">
+			관할세무서코드			= #관할세무서코드#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="지방소득세납세지">
+		    <isNotEmpty property="지방소득세납세지">
+			지방소득세납세지			= #지방소득세납세지#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="홈택스아이디">
+		    <isNotEmpty property="홈택스아이디">
+			홈택스아이디			= #홈택스아이디#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="제출담당부서명">
+		    <isNotEmpty property="제출담당부서명">
+			제출담당부서명			= #제출담당부서명#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="제출담당자성명">
+		    <isNotEmpty property="제출담당자성명">
+			제출담당자성명			= #제출담당자성명#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="제출담당자전화번호">
+		    <isNotEmpty property="제출담당자전화번호">
+			제출담당자전화번호			= #제출담당자전화번호#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="신고대상">
+		    <isNotEmpty property="신고대상">
+			신고대상			= #신고대상#,
+			</isNotEmpty>
+		</isNotNull>
+			수정일시			= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	계약ID    = #계약ID#
+		AND		사업장ID	 = #사업장ID#
+	</update>
+	
+	<update id="ys030DAO.delYS030" parameterClass="ys030VO">
+		UPDATE tbl_ys030
+		SET	사용여부	= 0,
+			수정일시			= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	계약ID    = #계약ID#
+		AND		사업장ID	 = #사업장ID#
+	</update>
+	
+	<select id="ys030DAO.getYS030TaxNumber" parameterClass="ys030VO" resultClass="java.lang.String">
+		SELECT LPAD(MAX(종사업자일련번호) + 1,4,0) 종사업자일련번호
+		FROM tbl_ys030
+		WHERE 계약ID = #계약ID#
+	</select>
+
+	<select id="ys030DAO.getYS030ID" parameterClass="ys030VO" resultClass="java.lang.String">
+		SELECT 사업장ID
+		FROM tbl_ys030
+		WHERE 계약ID = #계약ID#
+		 <isNotEmpty property="사업장명">
+		  AND 사업장명 = trim(#사업장명#)
+		 </isNotEmpty> 
+		 <isNotEmpty property="사업자등록번호">
+		  AND 사업자등록번호 = #사업자등록번호#
+		 </isNotEmpty> 
+		  AND 사용여부 = '1'
+		LIMIT 0, 1
+	</select>
+	
+	<!-- 사업장정보 상세조회 -->
+	<select id="ys030DAO.getYS030Detail" parameterClass="ys030VO" resultMap="ys030ListMap">
+	
+		SELECT 
+			계약ID, 사업장ID, 지점여부, 사업장명, 대표자명, 사업자등록번호, 법인등록번호_개인식별번호, 
+			회사주소1, 회사전화1, 회사팩스1, 회사주소2, 회사전화2, 회사팩스2, 단위과세자여부, 종사업자일련번호, 신고대상,
+			관할세무서코드, 지방소득세납세지, 홈택스아이디, 제출담당부서명, 제출담당자성명, 제출담당자전화번호, 등록일시, 수정일시,
+      		(SELECT 
+          		COUNT(X.사용자ID) 
+        	 FROM TBL_YE000 X 
+          		INNER JOIN TBL_YE700 Y
+         		ON X.계약ID = Y.계약ID AND X.사용자ID = Y.사용자ID AND Y.사용여부 = '1'                       
+			 WHERE X.계약ID = #계약ID# AND X.사업장ID = #사업장ID# AND X.사용여부 = '1') AS 대상인원수, '0' AS DBMODE,	
+      		 (SELECT Y.BIZ_TYPE FROM TBL_BIZ Y WHERE Y.BIZ_ID = #bizId#) BIZ_TYPE
+		FROM TBL_YS030
+		WHERE	계약ID   = #계약ID#
+		AND		사용여부    = 1
+		AND 	사업장ID = #사업장ID#
+		
+	</select>
+	
+</sqlMap>

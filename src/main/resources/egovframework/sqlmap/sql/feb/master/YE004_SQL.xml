@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="febmaster">
+	<typeAlias alias="ye004VO" type="com.ezsign.feb.master.vo.YE004VO" />
+
+	<insert id="ye004DAO.insUpdYE004" parameterClass="ye004VO">
+		INSERT INTO tbl_ye004 (
+		  계약ID, 사용자ID, 파일ID, 처리여부, 처리내용, 국세청PDF유형, 등록일시, 수정일시
+		) VALUES (
+		  #계약ID#, #사용자ID#, '1', #처리여부#, #처리내용#, #국세청PDF유형#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+		ON DUPLICATE KEY UPDATE
+		  처리여부 = #처리여부#,
+		  처리내용 = #처리내용#,
+		  국세청PDF유형 = #국세청PDF유형#,
+		  수정일시 = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+	</insert>
+</sqlMap>

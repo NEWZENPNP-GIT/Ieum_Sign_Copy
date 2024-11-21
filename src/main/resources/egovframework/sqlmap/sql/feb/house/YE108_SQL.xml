@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="febhouse">
+	<typeAlias alias="ye108VO" type="com.ezsign.feb.house.vo.YE108VO" />
+	<resultMap id="ye108ListMap" class="ye108VO">
+		<result property="계약ID" column="계약ID"/>
+		<result property="사용자ID" column="사용자ID"/>
+		<result property="작업자ID" column="작업자ID"/>
+		<result property="일련번호" column="일련번호"/>
+		<result property="부양가족ID" column="부양가족ID"/>
+		<result property="자료구분코드" column="자료구분코드"/>
+		<result property="자료구분코드명" column="자료구분코드명"/>
+		<result property="기간구분코드" column="기간구분코드"/>
+		<result property="추가제출서류번호" column="추가제출서류번호"/>
+		<result property="신용카드" column="신용카드"/>
+		<result property="현금영수증" column="현금영수증"/>
+		<result property="직불_선불카드" column="직불_선불카드"/>
+		<result property="도서공연" column="도서공연"/>
+		<result property="전통시장" column="전통시장"/>
+		<result property="대중교통" column="대중교통"/>
+		<result property="신용카드_차감금액" column="신용카드_차감금액"/>
+		<result property="현금영수증_차감금액" column="현금영수증_차감금액"/>
+		<result property="직불_선불카드_차감금액" column="직불_선불카드_차감금액"/>
+		<result property="도서공연_차감금액" column="도서공연_차감금액"/>
+		<result property="전통시장_차감금액" column="전통시장_차감금액"/>
+		<result property="대중교통_차감금액" column="대중교통_차감금액"/>
+		<result property="최종저장여부" column="최종저장여부"/>
+		<result property="사용여부" column="사용여부"/>
+		<result property="등록일시" column="등록일시"/>
+		<result property="수정일시" column="수정일시"/>
+	</resultMap>
+	
+    <select id="ye108DAO.getYE108" parameterClass="ye108VO" resultMap="ye108ListMap">
+        SELECT 계약ID, 사용자ID, 작업자ID, 일련번호, 부양가족ID, 자료구분코드, fn_code_name('416', 자료구분코드) 자료구분코드명, 기간구분코드, 추가제출서류번호, 
+			          신용카드, 현금영수증, 직불_선불카드, 도서공연, 전통시장, 대중교통,
+			          신용카드_차감금액, 현금영수증_차감금액, 직불_선불카드_차감금액, 도서공연_차감금액, 전통시장_차감금액, 대중교통_차감금액,  
+			          최종저장여부, 사용여부, 등록일시, 수정일시
+        FROM tbl_ye108
+        WHERE 계약ID = #계약ID#
+	        AND 사용자ID = #사용자ID#
+	        AND 사용여부 = '1'
+	        <isNotNull property="추가제출서류번호">
+				<isNotEmpty property="추가제출서류번호">
+					AND 추가제출서류번호		 = #추가제출서류번호#
+				</isNotEmpty>
+			</isNotNull>
+        ORDER BY 자료구분코드
+    </select>
+
+    <insert id="ye108DAO.insYE108" parameterClass="ye108VO">
+        <selectKey resultClass="java.lang.String" keyProperty="일련번호">
+            SELECT IFNULL(MAX(일련번호 + 1), 1)
+            FROM tbl_ye108
+        </selectKey>
+        INSERT INTO tbl_ye108 (
+	          계약ID, 사용자ID, 작업자ID, 일련번호, 부양가족ID,  자료구분코드, 기간구분코드, 추가제출서류번호,
+	         신용카드, 현금영수증, 직불_선불카드, 도서공연, 전통시장, 대중교통,
+	         신용카드_차감금액, 현금영수증_차감금액, 직불_선불카드_차감금액, 도서공연_차감금액, 전통시장_차감금액, 대중교통_차감금액,
+	          최종저장여부, 사용여부, 등록일시, 수정일시
+        ) VALUES (
+          #계약ID#, #사용자ID#, #작업자ID#, #일련번호#, #부양가족ID#, #자료구분코드#, #기간구분코드#, #추가제출서류번호#,
+          #신용카드#, #현금영수증#, #직불_선불카드#, #도서공연#, #전통시장#, #대중교통#,
+          #신용카드_차감금액#, #현금영수증_차감금액#, #직불_선불카드_차감금액#, #도서공연_차감금액#, #전통시장_차감금액#, #대중교통_차감금액#,  
+          IF(#사용자ID# = #작업자ID#, '1', '0'), '1', DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        )
+    </insert>
+
+    <update id="ye108DAO.updYE108Disable" parameterClass="ye108VO">
+        UPDATE tbl_ye108
+        SET
+          최종저장여부 = IF(#사용자ID# = #작업자ID#, '0', 최종저장여부),
+          사용여부 = '0',
+          수정일시 = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+          AND 일련번호 = #일련번호#
+          AND 사용여부 = '1'
+    </update>
+
+    <delete id="ye108DAO.allDelYE108" parameterClass="ye108VO">
+        DELETE
+        FROM tbl_ye108
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+        <isNotEmpty property="자료구분코드">
+         AND 자료구분코드 = #자료구분코드#
+        </isNotEmpty>
+    </delete>
+
+    <select id="ye108DAO.getYE108Map" parameterClass="ye108VO" resultMap="ye108ListMap">
+        SELECT 계약ID, 사용자ID, 작업자ID, 일련번호, 부양가족ID, 자료구분코드, fn_code_name('416', 자료구분코드) 자료구분코드명, 기간구분코드, 추가제출서류번호,
+          		신용카드, 현금영수증, 직불_선불카드, 도서공연, 전통시장, 대중교통,
+          		신용카드_차감금액, 현금영수증_차감금액, 직불_선불카드_차감금액, 도서공연_차감금액, 전통시장_차감금액, 대중교통_차감금액,
+          		최종저장여부, 사용여부, 등록일시, 수정일시
+        FROM tbl_ye108
+        WHERE 계약ID = #계약ID#
+        AND 사용자ID = #사용자ID#
+        AND (최종저장여부 = '1' OR 사용여부 = '1')
+        <isNotNull property="추가제출서류번호">
+			<isNotEmpty property="추가제출서류번호">
+				AND 추가제출서류번호		 = #추가제출서류번호#
+			</isNotEmpty>
+		</isNotNull>
+        ORDER BY 자료구분코드, IF(작업자ID = 사용자ID, 0, 1)
+    </select>
+    
+    <update id="ye108DAO.updYE108" parameterClass="ye108VO">
+        UPDATE tbl_ye108
+        SET
+        <isNotNull property="부양가족ID">
+		    <isNotEmpty property="부양가족ID">
+			부양가족ID			 = #부양가족ID#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="자료구분코드">
+		    <isNotEmpty property="자료구분코드">
+			자료구분코드		 = #자료구분코드#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="기간구분코드">
+		    <isNotEmpty property="기간구분코드">
+			기간구분코드		 = #기간구분코드#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="신용카드">
+		    <isNotEmpty property="신용카드">
+			신용카드 	 		 = #신용카드#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="신용카드_차감금액">
+		    <isNotEmpty property="신용카드_차감금액">
+			신용카드_차감금액	 = #신용카드_차감금액#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="현금영수증">
+		    <isNotEmpty property="현금영수증">
+			현금영수증	 	 	 = #현금영수증#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="현금영수증_차감금액">
+		    <isNotEmpty property="현금영수증_차감금액">
+			현금영수증_차감금액 	 	 = #현금영수증_차감금액#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="직불_선불카드">
+		    <isNotEmpty property="직불_선불카드">
+			직불_선불카드 		 = #직불_선불카드#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="직불_선불카드_차감금액">
+		    <isNotEmpty property="직불_선불카드_차감금액">
+			직불_선불카드_차감금액 = #직불_선불카드_차감금액#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="도서공연">
+		    <isNotEmpty property="도서공연">
+			도서공연 			 = #도서공연#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="도서공연_차감금액">
+		    <isNotEmpty property="도서공연_차감금액">
+			도서공연_차감금액	 = #도서공연_차감금액#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="전통시장">
+		    <isNotEmpty property="전통시장">
+			전통시장			 = #전통시장#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="전통시장_차감금액">
+		    <isNotEmpty property="전통시장_차감금액">
+			전통시장_차감금액	 = #전통시장_차감금액#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="대중교통">
+		    <isNotEmpty property="대중교통">
+			대중교통			 = #대중교통#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="대중교통_차감금액">
+		    <isNotEmpty property="대중교통_차감금액">
+			대중교통_차감금액	 = #대중교통_차감금액#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="추가제출서류번호">
+		    <isNotEmpty property="추가제출서류번호">
+			추가제출서류번호 				= #추가제출서류번호#,
+			</isNotEmpty>
+		</isNotNull>
+			 수정일시 			= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE 	계약ID 	= #계약ID#
+		AND 	사용자ID 	= #사용자ID#
+		AND 	일련번호 	= #일련번호#
+    </update>
+    
+    <delete id="ye108DAO.delYE108" parameterClass="ye108VO">
+        DELETE FROM tbl_ye108
+        WHERE 	계약ID 	= #계약ID#
+        AND 	사용자ID	= #사용자ID#
+		AND 	일련번호 	= #일련번호#
+    </delete>
+    
+</sqlMap>

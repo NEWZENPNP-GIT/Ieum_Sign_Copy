@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>간이지급명세서 > 근로자정보</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+<link rel="stylesheet" type="text/css" href="/css/ezsign/feb/febworker/yearTax_basicsData_employee_detail.css">
+<link rel="stylesheet" type="text/css" href="/css/ngx-datatable.css">
+<link rel="stylesheet" type="text/css" href="/css/jquery.alerts.css">
+
+<link rel="stylesheet" href="/css/chosen_v1.8.7/chosen.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.alerts.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/moment.min.js"></script>
+
+<script type="text/javascript" src="/js/ezsign/session_storage.js"></script>
+
+<script type="text/javascript" src="/js/ezsign/yearTax_basicsData_common.js"></script>
+<script type="text/javascript" src="/js/ezsign/yearTax_validate.js"></script>
+<script type="text/javascript" src="/js/ezsign/feb/yearTax_payment_common.js"></script>
+<script type="text/javascript" src="/js/ezsign/feb/employee/yearTax_payment_totalIncome.js"></script>
+<script type="text/javascript" src="/js/ezsign/feb/employee/yearTax_payment_employee_detail.js"></script>
+
+<style type="text/css">
+	input:focus { 
+  		background-color: #E6F6FC;
+	}
+</style>
+
+</head>
+<body>
+	          
+<div id="yearTax_wrap" class="yearTax hasEmplist">
+
+	<input id="btn_left" id="btn_left" type="checkbox" class="hidden">
+	<label class="btn_type btn_emplist" for="btn_left"></label>
+	<div id="employ-list-wrap">
+			
+	</div>
+			
+  <div class="container">
+    <div class="location"><span class="loc_main NanumSquare_R">간이지급명세서  >  </span><span class="loc_sub NanumSquare_R">근로자 정보</span></div>
+    <div class="pagtit">
+      <span class="NanumSquare_R">근로자 정보</span>
+      <ul class="top_items NanumSquare_R" >
+          <li><a class="btn_type" onClick="setemployeeDinfo();" id="saveBtn" ><span class="icon_save Material_icons"></span>저장</a></li>
+        </ul>
+    </div>
+    <!--
+      input을 감싸고 있는 최상위 요소에 appFocusNext 추가
+    -->
+    <div class="contents" appFocusNext>
+      <div class="group_wrap"   >
+        <div class="group_tit">
+          <div class="icon"></div>
+          <div class="text NanumSquare_R">근로자 기본 정보</div>
+        </div>
+
+        <!-- 근로자 사업장 정보 추가  -->
+        <div class="group_row row1">
+          <dl class="NanumSquare_R rat1-9">
+            <dt><label class="label_txt dot_red">사업장</label></dt>
+            <!-- 세로의 길이에 따라 row2 클래스 추가 -->
+			<dd class="select_box">
+				<select id="edinfo_사업장ID" data-placeholder="선택하세요." class="chosen-select" onchange="ngSelectPlace();" workerEditCheck >
+	            	<option value=""></option> 
+	          	</select>
+			</dd>		            
+          </dl>
+        </div>
+
+        <div class="group_row row3">
+          <!-- dafault는 ratio 4:6 (class명 생략) -->
+          <!-- dt의 텍스트 정렬 (defult: left) dt class에 sort_right / sort_center 로 변경 가능-->
+          <dl class="NanumSquare_R">
+            <dt><label class="label_txt dot_red">사원번호</label></dt>
+            <dd class="default_box"><div class="disable" id="edinfo_empNo"></div></dd>
+          </dl>
+          <dl class="NanumSquare_R">
+            <dt><label class="label_txt dot_red">성명</label></dt>
+            <dd class="input_box"><input class="" type="text" id="edinfo_empName" workerEditCheck ></dd>
+          </dl>
+          <dl class="NanumSquare_R">
+            <dt><label class="label_txt dot_red">주민(외국인) 등록번호</label></dt>
+            <dd class="input_box"><input class="" type="text" id="edinfo_개인식별번호" noCommaNumberOnly workerEditCheck ></dd>
+          </dl>
+
+        </div>
+        <div class="group_row row3">
+          <dl class="NanumSquare_R">
+            <dt><label class="label_txt">세대주구분</label></dt>
+            <dd class="select_box">
+            	<select id="edinfo_세대주여부" data-placeholder="선택하세요." class="chosen-select" workerEditCheck >
+	            	<option value=""></option>
+	            	<option value="1">1: Y</option>
+	            	<option value="2">2: N</option>          
+	          	</select>	          	
+			</dd>		
+          </dl>
+          <dl class="NanumSquare_R">
+            <dt><label class="label_txt dot_red">입사일자</label></dt>
+            <dd class="input_box date_box"><input class="" type="date" max="9999-12-31" id="edinfo_joinDate" workerEditCheck ></dd>
+          </dl>
+          <dl class="NanumSquare_R">
+            <dt><label class="label_txt">퇴사일자</label></dt>
+            <dd class="input_box date_box"><input class="leave-date" type="date" max="9999-12-31" id="edinfo_leaveDate" workerEditCheck ></dd>
+          </dl>
+        </div>
+        <div class="group_row row3">
+          <dl class="NanumSquare_R dl_type01"  >
+            <dt><label class="label_txt NanumSquare_R deptName">부서</label></dt>
+            <dd class="input_box row2" >
+              <select id="edinfo_부서ID" data-placeholder="선택하세요." class="chosen-select" workerEditCheck >
+	            	<option value=""></option>          
+	          </select>
+	           
+              <select id="edinfo_부서표시여부" data-placeholder="선택하세요." class="chosen-select" workerEditCheck >
+	            	<option value=""></option>
+	            	<option value="1">1: Y</option>
+	            	<option value="2">2: N</option>          
+	          </select>	          
+            </dd>
+          </dl>
+          <dl class="NanumSquare_R">
+            <dt><label class="label_txt">직책(직급)</label></dt>
+            <dd class="input_box"><input class="" type="text" id="edinfo_positionName" workerEditCheck ></dd>
+          </dl>
+          <dl class="NanumSquare_R">
+            <dt><label class="label_txt dot_red">내외국인 구분</label></dt>
+            <dd class="select_box">
+            	<select id="edinfo_내외국인구분" data-placeholder="선택하세요." class="chosen-select" onChange="onChangeLocalforeigner();" workerEditCheck >
+	            	<option value=""></option>	   
+	            	<option value="1">1: 내국인</option>
+	            	<option value="2">2: 외국인</option>         	      
+	          	</select>	          	
+            </dd>
+          </dl>
+
+        </div>
+        <div class="group_row row3">
+          <dl class="NanumSquare_R">
+            <dt><label class="label_txt dot_red">국적</label></dt>
+            <dd class="input_box">
+            	<select id="edinfo_국가코드" data-placeholder="선택하세요." class="chosen-select" workerEditCheck >
+	            	<option value=""></option>	            	      
+	          	</select>	          	
+            </dd>
+          </dl>
+          <dl class="NanumSquare_R" >
+            <dt><label class="label_txt">외국인단일세율적용</label></dt>
+            <dd class="select_box">
+            	<select id="edinfo_외국인단일세율적용" data-placeholder="선택하세요." class="chosen-select" workerEditCheck >
+	            	<option value=""></option>
+	            	<option value="1">1: Y</option>
+	            	<option value="2">2: N</option>          
+	          	</select>	          	
+            </dd>
+          </dl>
+        </div>
+        <div class="group_row row3">
+          <dl class="NanumSquare_R">
+            <dt><label class="label_txt dot_red">거주구분</label></dt>
+            <dd class="select_box">
+            	<select id="edinfo_거주구분" data-placeholder="선택하세요." class="chosen-select" onChange="onChangeResidence();" workerEditCheck >
+	            	<option value=""></option>
+	            	<option value="1">1: Y</option>
+	            	<option value="2">2: N</option>          
+	          	</select>
+			</dd>
+          </dl>
+          <dl class="NanumSquare_R">
+            <dt><label class="label_txt dot_red">거주지국</label></dt>
+            <dd class="input_box">
+            	<select id="edinfo_거주지국코드" data-placeholder="선택하세요." class="chosen-select" workerEditCheck >
+	            	<option value=""></option>	            	      
+	          	</select>
+            </dd>
+          </dl>
+        </div>
+        <div class="group_row row3">
+          <dl class="NanumSquare_R">
+            <dt><label class="label_txt">외국법인파견근로자</label></dt>
+            <dd class="select_box">
+            	<select id="edinfo_외국법인파견근로자" data-placeholder="선택하세요." class="chosen-select" workerEditCheck >
+	            	<option value=""></option>
+	            	<option value="1">1: Y</option>
+	            	<option value="2">2: N</option>          
+	          	</select>	          	
+            </dd>
+          </dl>
+          <dl class="NanumSquare_R">
+            <dt><label class="label_txt">중소기업 취업감면</label></dt>
+            <dd class="select_box">
+            	<select id="edinfo_중소기업취업감면여부" data-placeholder="선택하세요." class="chosen-select" onChange="selectOption02();" workerEditCheck >
+	            	<option value=""></option>
+	            	<option value="1">1: Y</option>
+	            	<option value="2">2: N</option>          
+	          	</select>	          	
+            </dd>
+          </dl>
+          <dl class="NanumSquare_R">
+            <dt><label class="label_txt">감면기간</label></dt>
+            <dd class="input_box date_box">
+                <input class="" type="date" max="9999-12-31" id="edinfo_감면기간_FROM" workerEditCheck ><span id="edinfo_감면기간"> ~ </span><input class="" type="date" id="edinfo_감면기간_TO" workerEditCheck >
+            </dd>
+          </dl>
+
+        </div>
+        <div class="group_row row3">
+          <dl class="NanumSquare_R " >
+            <dt><label class="label_txt">감면율</label></dt>
+            <dd class="select_box">
+            	<select id="edinfo_감면율" data-placeholder="선택하세요." class="chosen-select" workerEditCheck >
+	            	<option value=""></option>
+	            	<option value="1">1: 100%</option>
+	            	<option value="2">2: 50%</option>
+	            	<option value="3">3: 70%</option>
+	            	<option value="4">4: 90%</option>          
+	          	</select>
+            </dd>
+          </dl>
+          <dl class="NanumSquare_R">
+            <dt><label class="label_txt">국외근로제공여부</label></dt>
+            <dd class="select_box">
+            	<select id="edinfo_국외근로제공여부" data-placeholder="선택하세요." class="chosen-select" workerEditCheck >
+	            	<option value=""></option>
+	            	<option value="1">1: 월 100만원</option>
+	            	<option value="2">2: 월 300만원</option>
+	            	<option value="3">3: 전액</option>
+	            	<option value="4">4: N</option>          
+	          	</select>
+            </dd>
+          </dl>
+          <dl class="NanumSquare_R">
+            <dt><label class="label_txt">생산직 등 야간근로비과세</label></dt>
+            <dd class="select_box">
+            	<select id="edinfo_생산직등야간근로비과세" data-placeholder="선택하세요." class="chosen-select" workerEditCheck >
+	            	<option value=""></option>
+	            	<option value="1">1: Y</option>
+	            	<option value="2">2: N</option>          
+	          	</select>
+            </dd>
+          </dl>
+        </div>
+        <div class="group_row row3">
+          <dl class="NanumSquare_R">
+            <dt><label class="label_txt">소득세 적용률</label></dt>
+            <dd class="select_box">
+            	<select id="edinfo_소득세적용률" data-placeholder="선택하세요." class="chosen-select" workerEditCheck >
+	            	<option value=""></option>
+	            	<option value="1">1: 100%</option>
+	            	<option value="2">2: 80%</option>
+	            	<option value="3">3: 120%</option>          
+	          	</select>
+            </dd>
+          </dl>
+          <dl class="NanumSquare_R">
+            <dt><label class="label_txt">연말정산 분납</label></dt>
+            <dd class="select_box">
+            	<select id="edinfo_연말정산분납여부" data-placeholder="선택하세요." class="chosen-select" workerEditCheck >
+	            	<option value=""></option>
+	            	<option value="1">1: Y</option>
+	            	<option value="2">2: N</option>          
+	          	</select>
+            </dd>
+          </dl>
+          <dl class="NanumSquare_R">
+          <!-- 종(전)근무지 유무 기본값 사용처리-->
+          <!--
+            <dt><label class="label_txt">종(전)근무지/납세조합</label></dt>
+            <dd class="select_box">
+              <ng-select
+                [(ngModel)]="edinfo['종전근무지_납세조합유무']"
+                [options]="selectOptionYN"
+                highlightColor="#9575cd"
+                highlightTextColor="#fff"
+                [disabled]="workerEditCheck==false">
+             </ng-select>
+            </dd>
+          -->
+          </dl>
+        </div>
+        <div class="group_row row3">
+          <dl class="NanumSquare_R">
+            <dt><label class="label_txt dot_red">휴대폰</label></dt>
+            <dd class="input_box"><input class="" type="text" id="edinfo_phoneNum" noCommaNumberOnly workerEditCheck ></dd>
+          </dl>
+          <dl class="NanumSquare_R">
+            <dt><label class="label_txt">사내 전화번호</label></dt>
+            <dd class="input_box"><input class="" type="text" id="edinfo_사내내선번호" noCommaNumberOnly workerEditCheck ></dd>
+          </dl>
+          <dl class="NanumSquare_R merge2 rat2-8">
+            <dt><label class="label_txt dot_red">이메일</label></dt>
+            <dd class="input_box"><input class="" type="text" id="edinfo_EMail" workerEditCheck ></dd>
+          </dl>
+        </div>
+        <div class="group_row row3">
+          <dl class="NanumSquare_R">
+            <dt><label class="label_txt">원천징수영수증 관리번호</label></dt>
+            <dd class="input_box"><input class="" type="text" id="edinfo_원천징수영수증_관리번호" workerEditCheck ></dd>
+          </dl>
+          <dl class="NanumSquare_R">
+            <dt><label class="label_txt"></label></dt>
+            <dd class="input_box"></dd>
+          </dl>
+          <dl class="NanumSquare_R merge2 rat2-8">
+            <dt><label class="label_txt"></label></dt>
+            <dd class="input_box"></dd>
+          </dl>
+        </div>
+        <div class="group_row row1">
+          <dl class="NanumSquare_R rat1-9">
+            <dt><label class="label_txt dot_red">주소</label></dt>
+            <!-- 세로의 길이에 따라 row2 클래스 추가 -->
+            <dd class="search_box column2">
+              <div class="search_zip">
+                <fieldset>
+                  <input type="text" class="ipt-small" id="edinfo_zipCode" readonly workerEditCheck > <!-- onFocus="goAddressSearch()" >  --> 
+                  <a class="btn_type btn_search Material_icons" onClick="goAddressSearch()" workerEditCheck >search</a>
+                </fieldset>
+                <input class="" type="text" id="edinfo_address1" readonly workerEditCheck >
+              </div>
+              <div class="default_box"><input type="text" id="edinfo_address2" workerEditCheck ></div>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="group_wrap">
+        <div class="group_tit pink">
+          <div class="icon"></div>
+          <div class="text NanumSquare_R">근로자 급여 정보</div>
+        </div>
+
+        <ul class="tableRow2 space">
+          <li>
+            <div class="group_table">
+              <div class="subtit NanumSquare_R">1. 과세 대상 급여</div>
+              <table class="hasHead NanumSquare_R"   >
+                <colgroup>
+                  <col width="70%">
+                  <col width="30%">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>소득명세</th>
+                    <th>금액</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr id="taxExList_급여" style="display:none">
+                    <td class="tit must">급여 </td>
+                    <td class="value"><input type="text" class="input_txt sort_right" id="edinfo_급여" commaNumberOnly workerEditCheck ></td>
+                  </tr>
+                  <tr id="taxExList_상여" style="display:none">
+                    <td class="tit">상여</td>
+                    <td class="value"><input type="text" class="input_txt sort_right" id="edinfo_상여" commaNumberOnly workerEditCheck ></td>
+                  </tr>
+                  <tr id="taxExList_인정상여" style="display:none">
+                    <td class="tit">인정상여</td>
+                    <td class="value"><input type="text" class="input_txt sort_right" id="edinfo_인정상여" commaNumberOnly workerEditCheck ></td>
+                  </tr>
+                  <tr id="taxExList_주식매수선택권행사이익" style="display:none">
+                    <td class="tit">주식매수선택권행사이익</td>
+                    <td class="value"><input type="text" class="input_txt sort_right" id="edinfo_주식매수선택권행사이익" commaNumberOnly workerEditCheck ></td>
+                  </tr>
+                  <tr id="taxExList_우리사주조합인출금" style="display:none">
+                    <td class="tit">우리사주조합인출금</td>
+                    <td class="value"><input type="text" class="input_txt sort_right" id="edinfo_우리사주조합인출금" commaNumberOnly workerEditCheck ></td>
+                  </tr>
+                  <tr id="taxExList_임원퇴직소득금액한도초과액" style="display:none">
+                    <td class="tit">임원퇴직소득금액한도초과액</td>
+                    <td class="value"><input type="text" class="input_txt sort_right" id="edinfo_임원퇴직소득금액한도초과액" commaNumberOnly workerEditCheck ></td>
+                  </tr>
+                  <tr id="taxExList_직무발명보상금" style="display:none">
+                    <td class="tit">직무발명보상금</td>
+                    <td class="value"><input type="text" class="input_txt sort_right" id="edinfo_직무발명보상금" commaNumberOnly workerEditCheck ></td>
+                  </tr>                  
+                  <tr id="taxExList_비과세한도초과액" style="display:none">
+                    <td class="tit">비과세한도초과액</td>
+                    <td class="value"><input type="text" class="input_txt sort_right" id="edinfo_비과세한도초과액" commaNumberOnly workerEditCheck ></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </li>
+          <li>
+            <div class="group_table">
+              <div class="subtit NanumSquare_R">2. 공제 대상 급여</div>
+              <table class="hasHead NanumSquare_R"   >
+                <colgroup>
+                  <col width="70%">
+                  <col width="30%">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>공제보험료명세(직장)</th>
+                    <th>금액</th>
+                  </tr>
+                </thead>
+                <tbody>
+                	<tr id="taxExList_소득세" style="display:none">	                  
+                    	<td class="tit">소득세</td>
+                    	<td class="value"><input type="text" class="input_txt sort_right" id="edinfo_소득세" commaNumberOnly onKeyup="calculating();" workerEditCheck ></td>
+                  	</tr>
+                  	<tr id="taxExList_지방소득세" style="display:none">
+                    	<td class="tit">지방소득세</td>
+                    	<td class="value"><input type="text" class="input_txt sort_right" id="edinfo_지방소득세" commaNumberOnly workerEditCheck ></td>
+                  	</tr>
+                  	<tr id="taxExList_국민연금보험료" style="display:none">
+                    	<td class="tit">국민연금보험료</td>
+                    	<td class="value"><input type="text" class="input_txt sort_right" id="edinfo_국민연금보험료" commaNumberOnly workerEditCheck ></td>
+                 	 </tr>
+                 	 <tr id="taxExList_건강보험료" style="display:none">                 	 
+                    	<td class="tit">건강보험료</td>
+                    	<td class="value"><input type="text" class="input_txt sort_right" id="edinfo_건강보험료" commaNumberOnly workerEditCheck ></td>
+                  	</tr>
+                  	<tr id="taxExList_장기요양보험료" style="display:none">                  
+                    	<td class="tit">장기요양보험료</td>
+                    	<td class="value"><input type="text" class="input_txt sort_right" id="edinfo_장기요양보험료" commaNumberOnly workerEditCheck ></td>
+                  	</tr>
+                  	<tr id="taxExList_고용보험료" style="display:none">                  	
+                    	<td class="tit">고용보험료</td>
+                    	<td class="value"><input type="text" class="input_txt sort_right" id="edinfo_고용보험료" commaNumberOnly workerEditCheck ></td>
+                  	</tr>
+                  	<tr id="taxExList_공무원연금" style="display:none">   
+                    	<td class="tit">공무원연금</td>
+                    	<td class="value"><input type="text" class="input_txt sort_right" id="edinfo_공무원연금" commaNumberOnly workerEditCheck ></td>
+                  	</tr>
+                  	<tr id="taxExList_군인연금" style="display:none">
+                    	<td class="tit">군인연금</td>
+                    	<td class="value"><input type="text" class="input_txt sort_right" id="edinfo_군인연금" commaNumberOnly workerEditCheck ></td>
+                  	</tr>
+                  	<tr id="taxExList_사립학교교직원연금" style="display:none">
+                    	<td class="tit">사립학교교직원연금</td>
+                    	<td class="value"><input type="text" class="input_txt sort_right" id="edinfo_사립학교교직원연금" commaNumberOnly workerEditCheck ></td>
+                  	</tr>
+                  	<tr id="taxExList_별정우체국연금" style="display:none">
+                    	<td class="tit">별정우체국연금</td>
+                    	<td class="value"><input type="text" class="input_txt sort_right" id="edinfo_별정우체국연금" commaNumberOnly workerEditCheck ></td>
+                  	</tr>
+                  	<tr id="taxExList_납부특례세액_소득세" style="display:none">
+                    	<td class="tit">납부특례세액_소득세</td>
+                    	<td class="value"><input type="text" class="input_txt sort_right" id="edinfo_납부특례세액_소득세" commaNumberOnly workerEditCheck ></td>
+                  	</tr>
+                  	<tr id="taxExList_납부특례세액_지방소득세" style="display:none">
+                    	<td class="tit">납부특례세액_지방소득세</td>
+                    	<td class="value"><input type="text" class="input_txt sort_right" id="edinfo_납부특례세액_지방소득세" commaNumberOnly workerEditCheck ></td>
+                  	</tr>
+                  	<tr id="taxExList_납부특례세액_농어촌특별세" style="display:none">                  	
+                    	<td class="tit">납부특례세액_농어촌특별세</td>
+                    	<td class="value"><input type="text" class="input_txt sort_right" id="edinfo_납부특례세액_농어촌특별세" commaNumberOnly workerEditCheck ></td>
+                  	</tr>
+                </tbody>
+              </table>
+            </div>
+          </li>
+        </ul>
+
+        <div class="group_table" *ngIf="cntTaxExem > 0">
+            <div class="subtit NanumSquare_R">3. 비과세(감면) 대상 급여</div>
+
+            <div class="box-table-float"   >
+
+                <table class="block2 hasHead NanumSquare_R">
+                    <colgroup>
+                      <col width="62%">
+                      <col width="60px">
+                      <col width="38%">
+                    </colgroup>
+                    <thead>
+                      <tr>
+                        <th>항목명</th>
+                        <th>코드</th>
+                        <th class="row2Txt"><div>금액</div><div>신고금액</div></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    	<tr id="taxExList_m01" style="display:none">
+                        	<td class="tit item">국외근로(월 100만원) - [소득세법 시행령 제16조 제1항 1호] </td>
+                        	<td class="tit code">M01</td>
+                        	<td class="value row2">
+                        		<input type="text" class="input_txt sort_right" id="edinfo_m01" commaNumberOnly workerEditCheck >
+                        		<input type="text" class="input_txt sort_right" id="edinfo_m01_aggre" commaNumberOnly readonly disabled>
+                        	</td>
+                      	</tr>
+                      	<tr id="taxExList_m02" style="display:none">                      	
+                        	<td class="tit item">국외근로(월 300만원) - [소득세법 시행령 제16조 제1항 1호]</td>
+                        	<td class="tit code">M02</td>
+                        	<td class="value row2">
+                            	<input type="text" class="input_txt sort_right" id="edinfo_m02" commaNumberOnly workerEditCheck >                            
+                            	<input type="text" class="input_txt sort_right" id="edinfo_m02_aggre" commaNumberOnly readonly disabled>                            
+                        	</td>
+                      	</tr>
+                      	<tr id="taxExList_m03" style="display:none">                      	                      
+                        	<td class="tit item">국외근로(전액) - [소득세법 시행령 제16조 제1항2호] </td>
+                        	<td class="tit code">M03</td>
+                        	<td class="value row2">
+                            	<input type="text" class="input_txt sort_right" id="edinfo_m03" commaNumberOnly workerEditCheck >
+                            	<input type="text" class="input_txt sort_right" id="edinfo_m03_aggre" commaNumberOnly readonly disabled>                            
+                        	</td>
+                      	</tr>
+                      	<tr id="taxExList_o01" style="display:none">                          	
+                        	<td class="tit item">야간근로수당(년 240만원) - [소득세법 제12조 3호 더목] </td>
+                        	<td class="tit code">O01</td>
+                        	<td class="value row2">
+                            	<input type="text" class="input_txt sort_right" id="edinfo_o01" commaNumberOnly workerEditCheck >
+                            	<input type="text" class="input_txt sort_right" id="edinfo_o01_aggre" commaNumberOnly readonly disabled>
+                        	</td>
+                      	</tr>
+                      	<tr id="taxExList_q01" style="display:none">                      	
+                        	<td class="tit item">출산보육수당(월 10만원) - [소득세법 제12조 3호 머목] </td>
+                        	<td class="tit code">Q01</td>
+                        	<td class="value row2">
+                            	<input type="text" class="input_txt sort_right" id="edinfo_q01" commaNumberOnly workerEditCheck >
+                        		<input type="text" class="input_txt sort_right" id="edinfo_q01_aggre" commaNumberOnly readonly disabled>
+                        	</td>
+                      	</tr>
+                      	<tr id="taxExList_h08" style="display:none">
+                        	<td class="tit item">특별법 연구보조비(월 20만원) - [소득세법 시행령 제12조 12호 가목]</td>
+                        	<td class="tit code">H08</td>
+                        	<td class="value row2">
+                            	<input type="text" class="input_txt sort_right" id="edinfo_h08" commaNumberOnly workerEditCheck >
+                        		<input type="text" class="input_txt sort_right" id="edinfo_h08_aggre" commaNumberOnly readonly disabled>
+                        	</td>
+                      	</tr>
+                      	<tr id="taxExList_h09" style="display:none">                      	
+                        	<td class="tit item">연구기관 등 연구보조비(월 20만원) - [소득세법 시행령 제12조 12호 나목]</td>
+                        	<td class="tit code">H09</td>
+                        	<td class="value row2">
+                            	<input type="text" class="input_txt sort_right" id="edinfo_h09" commaNumberOnly workerEditCheck >                           	
+                        		<input type="text" class="input_txt sort_right" id="edinfo_h09_aggre" commaNumberOnly readonly disabled>
+                        	</td>
+                      	</tr>
+                      	<tr id="taxExList_h10" style="display:none">                      
+                        	<td class="tit">기업부설연구소 연구보조비(월 20만원) - [소득세법 시행령 제12조 12호 다목]</td>
+                        	<td class="tit code">H10</td>
+                        	<td class="value row2">
+                            	<input type="text" class="input_txt sort_right" id="edinfo_h10" commaNumberOnly workerEditCheck >
+                        		<input type="text" class="input_txt sort_right" id="edinfo_h10_aggre" commaNumberOnly readonly disabled>
+                        	</td>
+                      	</tr>
+                      	<tr id="taxExList_g01" style="display:none">                      	
+                        	<td class="tit item">비과세학자금(납입금액) - [소득세법 시행령 제11조] </td>
+                        	<td class="tit code">G01</td>
+                        	<td class="value row2">
+                            	<input type="text" class="input_txt sort_right" id="edinfo_g01" commaNumberOnly workerEditCheck >
+                        		<input type="text" class="input_txt sort_right" id="edinfo_g01_aggre" commaNumberOnly readonly disabled>
+                        	</td>
+                      	</tr>
+                      	<tr id="taxExList_h11" style="display:none">
+                        	<td class="tit item">취재수당(월 20만원) - [소득세법 시행령 제12조 14호]</td>
+                        	<td class="tit code">H11</td>
+                        	<td class="value row2">
+                            	<input type="text" class="input_txt sort_right" id="edinfo_h11" commaNumberOnly workerEditCheck >
+                        		<input type="text" class="input_txt sort_right" id="edinfo_h11_aggre" commaNumberOnly readonly disabled>
+                        	</td>
+                      	</tr>
+                      	<tr id="taxExList_h12" style="display:none">                      	
+                        	<td class="tit item">벽지수당(월 20만원) - [소득세법 시행령 제12조 15호] </td>
+                        	<td class="tit code">H12</td>
+                        	<td class="value row2">
+                            	<input type="text" class="input_txt sort_right" id="edinfo_h12" commaNumberOnly workerEditCheck >
+                        		<input type="text" class="input_txt sort_right" id="edinfo_h12_aggre" commaNumberOnly readonly disabled>
+                        	</td>
+                      	</tr>
+                      	<tr id="taxExList_h13" style="display:none">                      	
+                        	<td class="tit">재해관련급여(전액) - [소득세법 시행령 제12조 16호]</td>
+                        	<td class="tit code">H13</td>
+                        	<td class="value row2">
+                            	<input type="text" class="input_txt sort_right" id="edinfo_h13" commaNumberOnly workerEditCheck >
+                        		<input type="text" class="input_txt sort_right" id="edinfo_h13_aggre" commaNumberOnly readonly disabled>
+                        	</td>
+                      	</tr>
+                      	<tr id="taxExList_h01" style="display:none">
+                        	<td class="tit item">무보수위원수당(전액) - [소득세법 시행령 제12조 1호]</td>
+                        	<td class="tit code">H01</td>
+                        	<td class="value row2">
+                            	<input type="text" class="input_txt sort_right" id="edinfo_h01" commaNumberOnly workerEditCheck >
+                        		<input type="text" class="input_txt sort_right" id="edinfo_h01_aggre" commaNumberOnly readonly disabled>
+                        	</td>
+                      	</tr>
+                      	<tr id="taxExList_k01" style="display:none">                      	
+                        	<td class="tit item">외국주둔군인등(전액) - [소득세법 제12조 3호 파목] </td>
+                        	<td class="tit code">K01</td>
+                        	<td class="value row2">
+                            	<input type="text" class="input_txt sort_right" id="edinfo_k01" commaNumberOnly workerEditCheck >
+                        		<input type="text" class="input_txt sort_right" id="edinfo_k01_aggre" commaNumberOnly readonly disabled>
+                        	</td>
+                      	</tr>
+                      	<tr id="taxExList_s01" style="display:none">
+                        	<td class="tit">주식매수선택권(년 3,000만원) - [구 조세특례제한법 제15조]</td>
+                        	<td class="tit code">S01</td>
+                        	<td class="value row2">
+                            	<input type="text" class="input_txt sort_right" id="edinfo_s01" commaNumberOnly workerEditCheck >
+                        		<input type="text" class="input_txt sort_right" id="edinfo_s01_aggre" commaNumberOnly readonly disabled>
+                        	</td>
+                      	</tr>
+                      	<tr id="taxExList_t01" style="display:none">
+                        	<td class="tit">외국인기술자(년 근로소득세의 50% 한도) - [조세특례제한법 제18조]</td>
+                        	<td class="tit code">T01</td>
+                        	<td class="value row2">
+                            	<input type="text" class="input_txt sort_right" id="edinfo_t01" commaNumberOnly workerEditCheck >
+                        		<input type="text" class="input_txt sort_right" id="edinfo_t01_aggre" commaNumberOnly readonly disabled>
+                        	</td>
+                      	</tr>
+                      	<tr id="taxExList_y02" style="display:none">
+                        	<td class="tit item">우리사주조합인출금50%(년 인출금의 50% 한도) - [조세특례제한법 제88조의4 제6항] </td>
+                        	<td class="tit code">Y02</td>
+                        	<td class="value row2">
+                            	<input type="text" class="input_txt sort_right" id="edinfo_y02" commaNumberOnly workerEditCheck >
+                        		<input type="text" class="input_txt sort_right" id="edinfo_y02_aggre" commaNumberOnly readonly disabled>
+                        	</td>
+                      	</tr>
+                      	<tr id="taxExList_2018_y03" style="display:none">
+                          	<td class="tit item">우리사주조합인출금75%(년 인출금의 75% 한도) - [조세특례제한법 제88조의4 제6항] </td>
+                          	<td class="tit code">Y03</td>
+                          	<td class="value row2">
+                              	<input type="text" class="input_txt sort_right" id="edinfo_2018_y03" commaNumberOnly workerEditCheck >
+                        		<input type="text" class="input_txt sort_right" id="edinfo_2018_y03_aggre" commaNumberOnly readonly disabled>
+                        	</td>
+						</tr>
+                    </tbody>
+                  </table>
+                  <table class="block2 hasHead NanumSquare_R">
+                      <colgroup>
+                        <col width="62%">
+                        <col width="60px">
+                        <col width="38%">
+                      </colgroup>
+                      <thead>
+                        <tr>
+                          <th>항목명</th>
+                          <th>코드</th>
+                          <th class="row2Txt"><div>금액</div><div>신고금액</div></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      		<tr id="taxExList_2017_y03" style="display:none">
+                            	<td class="tit item">우리사주조합인출금75%(년 인출금의 75% 한도) - [조세특례제한법 제88조의4 제6항] </td>
+                            	<td class="tit code">Y03</td>
+                            	<td class="value row2">
+                                	<input type="text" class="input_txt sort_right" id="edinfo_2017_y03" commaNumberOnly workerEditCheck >
+                            		<input type="text" class="input_txt sort_right" id="edinfo_2017_y03_aggre" commaNumberOnly readonly disabled>
+                            	</td>
+                            </tr>
+                            <tr id="taxExList_y04" style="display:none">                            	
+                          		<td class="tit item">우리사주조합인출금100%(년 인출금의 100% 한도) - [조세특례제한법제88조의4 제6항]</td>
+                          		<td class="tit code">Y04</td>
+                          		<td class="value row2">
+                              		<input type="text" class="input_txt sort_right" id="edinfo_y04" commaNumberOnly workerEditCheck >
+                            		<input type="text" class="input_txt sort_right" id="edinfo_y04_aggre" commaNumberOnly readonly disabled>
+                            	</td>
+                        	</tr>
+                        	<tr id="taxExList_h05" style="display:none">                         
+                          		<td class="tit">경호･승선수당 - [소득세법 시행령 제12조 9∼11호] </td>
+                          		<td class="tit code">H05</td>
+                          		<td class="value row2">
+                              		<input type="text" class="input_txt sort_right" id="edinfo_h05" commaNumberOnly workerEditCheck >
+                            		<input type="text" class="input_txt sort_right" id="edinfo_h05_aggre" commaNumberOnly readonly disabled>
+                            	</td>
+                        	</tr>
+                        	<tr id="taxExList_i01" style="display:none">                        
+                          		<td class="tit item">외국정부등근무자(전액) - [소득세법 제12조 3호 차목]</td>
+                          		<td class="tit code">I01</td>
+                          		<td class="value row2">
+                              		<input type="text" class="input_txt sort_right" id="edinfo_i01" commaNumberOnly workerEditCheck >
+                            		<input type="text" class="input_txt sort_right" id="edinfo_i01_aggre" commaNumberOnly readonly disabled>
+                            	</td>
+                        	</tr>
+                        	<tr id="taxExList_r10" style="display:none">
+                          		<td class="tit">근로장학금(전액) - [소득세법 제12조 3호 서목] </td>
+                          		<td class="tit code">R10</td>
+                          		<td class="value row2">
+                              		<input type="text" class="input_txt sort_right" id="edinfo_r10" commaNumberOnly workerEditCheck >
+                            		<input type="text" class="input_txt sort_right" id="edinfo_r10_aggre" commaNumberOnly readonly disabled>
+                            	</td>
+                        	</tr>
+                        	<tr id="taxExList_h14" style="display:none">                        
+                          		<td class="tit item">보육교사 근무환경개선비(전액) - [소득세법 시행령 제12조 13호 가목] </td>
+                          		<td class="tit code">H14</td>
+                          		<td class="value row2">
+                              		<input type="text" class="input_txt sort_right" id="edinfo_h14" commaNumberOnly workerEditCheck >
+                            		<input type="text" class="input_txt sort_right" id="edinfo_h14_aggre" commaNumberOnly readonly disabled>
+                            	</td>
+                        	</tr>
+                        	<tr id="taxExList_h15" style="display:none">                        	
+                          		<td class="tit">사립유치원수석교사･교사의 인건비(전액) - [소득세법 시행령 제12조 13호 나목]</td>
+                          		<td class="tit code">H15</td>
+                          		<td class="value row2">
+                              		<input type="text" class="input_txt sort_right" id="edinfo_h15" commaNumberOnly workerEditCheck >
+                            		<input type="text" class="input_txt sort_right" id="edinfo_h15_aggre" commaNumberOnly readonly disabled>
+                            	</td>
+                        	</tr>
+                        	<tr id="taxExList_t10" style="display:none">
+                          		<td class="tit item">중소기업취업청년 소득세 감면100%(소득세의 100%) - [조세특례제한법 제30조] </td>
+                          		<td class="tit code">T10</td>
+                          		<td class="value row2">
+                              		<input type="text" class="input_txt sort_right" id="edinfo_t10" commaNumberOnly workerEditCheck >
+                            		<input type="text" class="input_txt sort_right" id="edinfo_t10_aggre" commaNumberOnly readonly disabled>
+                            	</td>
+                        	</tr>
+                        	<tr id="taxExList_t11" style="display:none">
+                          		<td class="tit item">중소기업취업청년 소득세 감면50%(소득세의 50%) - [조세특례제한법 제30조]</td>
+                          		<td class="tit code">T11</td>
+                          		<td class="value row2">
+                              		<input type="text" class="input_txt sort_right" id="edinfo_t11" commaNumberOnly workerEditCheck >
+                            		<input type="text" class="input_txt sort_right" id="edinfo_t11_aggre" commaNumberOnly readonly disabled>
+                            	</td>
+                        	</tr>
+                        	<tr id="taxExList_t12" style="display:none">
+                          		<td class="tit item">중소기업취업청년 소득세 감면70%(소득세의 70%) - [조세특례제한법 제30조] </td>
+                          		<td class="tit code">T12</td>
+                          		<td class="value row2">
+                              		<input type="text" class="input_txt sort_right" id="edinfo_t12" commaNumberOnly workerEditCheck >
+                            		<input type="text" class="input_txt sort_right" id="edinfo_t12_aggre" commaNumberOnly readonly disabled>
+                            	</td>
+                        	</tr>
+                        	<tr id="taxExList_t13" style="display:none">
+                            	<td class="tit item">중소기업취업청년 소득세 감면90%(소득세의 90%) - [조세특례제한법 제30조]</td>
+                            	<td class="tit code">T13</td>
+                            	<td class="value row2">
+                                	<input type="text" class="input_txt sort_right" id="edinfo_t13" commaNumberOnly workerEditCheck >
+                            		<input type="text" class="input_txt sort_right" id="edinfo_t13_aggre" commaNumberOnly readonly disabled>
+                            	</td>
+                          	</tr>
+                        	<tr id="taxExList_t20" style="display:none">
+                          		<td class="tit item">조세조약상 교직자감면 (전액) </td>
+                          		<td class="tit code">T20</td>
+                          		<td class="value row2">
+                              		<input type="text" class="input_txt sort_right" id="edinfo_t20" commaNumberOnly workerEditCheck >
+                            		<input type="text" class="input_txt sort_right" id="edinfo_t20_aggre" commaNumberOnly readonly disabled>
+                            	</td>
+                        	</tr>
+                        	<tr id="taxExList_h16" style="display:none">
+                          		<td class="tit item">정부･공공기관지방이전기관 종사자 이주수당(월 20만원) - [소득세법 시행령 제12조 17호] </td>
+                          		<td class="tit code">H16</td>
+                          		<td class="value row2">
+                              		<input type="text" class="input_txt sort_right" id="edinfo_h16" commaNumberOnly workerEditCheck >
+                            		<input type="text" class="input_txt sort_right" id="edinfo_h16_aggre" commaNumberOnly readonly disabled>
+                            	</td>
+                        	</tr>
+                        	<tr id="taxExList_h17" style="display:none">
+                            	<td class="tit item">종교활동비 - [소득세법 시행령 제12조 18호]</td>
+                            	<td class="tit code">H17</td>
+                            	<td class="value row2">
+                                	<input type="text" class="input_txt sort_right" id="edinfo_h17" commaNumberOnly workerEditCheck >
+                            		<input type="text" class="input_txt sort_right" id="edinfo_h17_aggre" commaNumberOnly readonly disabled>
+                            	</td>
+                          	</tr>
+                          	<tr id="taxExList_u01" style="display:none">
+                            	<td class="tit item">벤처기업 주식매수선택권(년 2,000만원) - [조세특례제한법 제16조의2]</td>
+                            	<td class="tit code">U01</td>
+                            	<td class="value row2">
+                                	<input type="text" class="input_txt sort_right" id="edinfo_u01" commaNumberOnly workerEditCheck >
+                            		<input type="text" class="input_txt sort_right" id="edinfo_u01_aggre" commaNumberOnly readonly disabled>
+                            	</td>
+                          	</tr>
+                        	<tr id="taxExList_r11" style="display:none">
+                          		<td class="tit item">직무발명보상금(년 300만원) - [소득세법 제17조 3호]</td>
+                          		<td class="tit code">R11</td>
+                          		<td class="value row2">
+                              		<input type="text" class="input_txt sort_right" id="edinfo_r11" onKeyup="onChangecalc()" commaNumberOnly workerEditCheck >
+                            		<input type="text" class="input_txt sort_right" id="edinfo_r11_aggre" commaNumberOnly readonly disabled>
+                            	</td>
+                        	</tr>
+                        	<tr id="taxExList_h06" style="display:none">
+                          		<td class="tit">유아･초중등 연구보조비(월 20만원) - [소득세법 시행령 제12조 12호 가목] </td>
+                          		<td class="tit code">H06</td>
+                          		<td class="value row2">
+                              		<input type="text" class="input_txt sort_right" id="edinfo_h06" commaNumberOnly workerEditCheck >
+                            		<input type="text" class="input_txt sort_right" id="edinfo_h06_aggre" commaNumberOnly readonly disabled>
+                            	</td>
+                        	</tr>
+                        	<tr id="taxExList_h07" style="display:none">
+                          		<td class="tit item">고등교육법 연구보조비(월 20만원) - [소득세법 시행령 제12조 12호 가목] </td>
+                          		<td class="tit code">H07</td>
+                          		<td class="value row2">
+                              		<input type="text" class="input_txt sort_right" id="edinfo_h07" commaNumberOnly workerEditCheck >
+                            		<input type="text" class="input_txt sort_right" id="edinfo_h07_aggre" commaNumberOnly readonly disabled>
+                            	</td>
+                        	</tr>
+                        	<tr id="taxExList_y22" style="display:none">
+                          		<td class="tit">전공의 수련 보조 수당  </td>
+                          		<td class="tit code">Y22</td>
+                          		<td class="value row2">
+                              		<input type="text" class="input_txt sort_right" id="edinfo_y22" commaNumberOnly workerEditCheck >
+                            		<input type="text" class="input_txt sort_right" id="edinfo_y22_aggre" commaNumberOnly readonly disabled>
+                            	</td>
+                        	</tr>
+                      </tbody>
+                    </table>
+              </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="/js/chosen_v1.8.7/chosen.jquery.js" type="text/javascript"></script>
+<script src="/js/chosen_v1.8.7/docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/chosen_v1.8.7/docsupport/init.js" type="text/javascript" charset="utf-8"></script>
+
+
+<script type="text/javascript">
+	//input,select focus 이동
+	$('input,select').on('keypress', function (e) {
+		if (e.which == 13) {
+			e.preventDefault();    			
+			var nxtIdex = $('input,select').index(this) + 1;    
+			logD("# nxtIdex : " + nxtIdex);
+			
+			if(isNull($('input,select')[nxtIdex])){
+				return;
+			}
+			
+			logD("# nxtIdex ID : " + $('input,select')[nxtIdex].id);
+			logD("# nxtIdex Type : " + $('input,select')[nxtIdex].type);
+			
+			if($('input,select')[nxtIdex].type == 'select-one'){				
+				if($('input,select')[nxtIdex].id == 'edinfo_외국인단일세율적용' && $("#edinfo_내외국인구분").val() == '1'){
+					$('#edinfo_거주구분').trigger('chosen:activate');
+				}else{
+					$('#'+$('input,select')[nxtIdex].id).trigger('chosen:activate');	
+				}							
+			}else{
+				if($('input,select')[nxtIdex].id == 'edinfo_감면기간_FROM' && $("#edinfo_중소기업취업감면여부").val() == '2'){
+					$('#edinfo_국외근로제공여부').trigger('chosen:activate');
+				}else{
+					
+					if(nxtIdex > 45){
+						var nextIdVal = $('input,select')[nxtIdex].id.replace('edinfo_','');
+						
+						if($('#taxExList_'+nextIdVal).css('display') == 'none'){
+							var condition = true;
+							var plusIdx = 1;
+							while (condition) {
+								nextIdVal = $('input,select')[nxtIdex+plusIdx].id.replace('edinfo_','');
+								
+								if($('#taxExList_'+nextIdVal).css('display') != 'none'){
+									$('input,select')[nxtIdex+plusIdx].focus();			
+									condition = false;
+								}else{
+									plusIdx++;
+								}								
+							}
+	
+						}else{
+							$('input,select')[nxtIdex].focus();	
+						}
+					}else{
+						$('input,select')[nxtIdex].focus();	
+					}
+					
+				}
+			}
+		}    		
+	});
+	
+	$('input').on('change', function(e) {
+		
+		if(isNull(this.value)){
+			return;
+		}
+		
+		if(this.id.indexOf("edinfo_") != -1 && this.id.indexOf("_aggre") == -1) {
+		    
+			logD("# change id : " + this.id);
+			// 신고대상금액 재조정
+			var id = this.id.replace('edinfo_', '');
+			edinfo[id] = removeCommas(this.value);		
+			taxAggregation();
+		}
+		
+		// 입/퇴사일자 변경시 재조정
+		if(this.id.indexOf("edinfo_joinDate") != -1 || this.id.indexOf("edinfo_leaveDate") != -1) {	
+			taxAggregation();
+		}
+		
+	});
+	
+</script>
+
+
+</body>
+
+</html>	

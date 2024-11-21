@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="attend">
+    <typeAlias alias="attendPropVO" type="com.ezsign.attend.vo.AttendPropVO"/>
+
+    <resultMap id="attendPropMap" class="attendPropVO">
+        <result property="bizId" column="BIZ_ID"/>
+
+        <result property="detailYn" column="DETAIL_YN"/>
+        <result property="placeYn" column="PLACE_YN"/>
+        <result property="externalCode" column="EXTERNAL_CODE"/>
+        <result property="externalYn" column="EXTERNAL_YN"/>
+        <result property="closeYn" column="CLOSE_YN"/>
+
+        <result property="insDate" column="INS_DATE"/>
+        <result property="updDate" column="UPD_DATE"/>
+    </resultMap>
+
+    <select id="attendPropDAO.getAttendProp" parameterClass="attendPropVO" resultMap="attendPropMap">
+        SELECT A.BIZ_ID,
+          A.DETAIL_YN, A.PLACE_YN, A.EXTERNAL_CODE, A.EXTERNAL_YN, A.CLOSE_YN,
+          A.INS_DATE, A.UPD_DATE
+        FROM tbl_attend_prop A
+        WHERE A.BIZ_ID = #searchCompany#
+		  AND (FIND_IN_SET(A.BIZ_ID, (SELECT GROUP_CONCAT(C.REF_ID) FROM TBL_BIZ_GRP C WHERE C.BIZ_ID  = #bizId#)) OR A.BIZ_ID = #bizId#)
+    </select>
+
+    <insert id="attendPropDAO.insAttendProp" parameterClass="attendPropVO">
+        INSERT INTO tbl_attend_prop (
+          BIZ_ID,
+          DETAIL_YN, PLACE_YN, EXTERNAL_CODE, EXTERNAL_YN, CLOSE_YN,
+          INS_DATE, UPD_DATE
+        ) VALUES (
+          #bizId#,
+          #detailYn#, #placeYn#, #externalCode#, #externalYn#, #closeYn#,
+          DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        )
+        ON DUPLICATE KEY UPDATE
+          DETAIL_YN = VALUES(DETAIL_YN),
+          PLACE_YN = VALUES(PLACE_YN),
+          EXTERNAL_CODE = VALUES(EXTERNAL_CODE),
+          EXTERNAL_YN = VALUES(EXTERNAL_YN),
+          CLOSE_YN = VALUES(CLOSE_YN),
+          UPD_DATE = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+    </insert>
+</sqlMap>

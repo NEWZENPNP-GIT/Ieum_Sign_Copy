@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache"/>
+	<title>일반세액공제 적용으로 자동 선택</title>
+	
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+	<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+	
+	<script type='text/javascript' src="/js/jquery.min.js"></script>
+	<script type='text/javascript' src="/js/common.js"></script>
+	<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+	
+	<script>
+		$(document).ready(function() {
+			계약ID = getCookie("yearContractId");
+			사용자ID = getURLParameters("userId");
+			$('#yearContractId').val(계약ID);
+			$('#userId').val(사용자ID);		
+			// 요약 정보 조회
+			fn_getList();
+		});
+		
+		function fn_getList() {
+			var url = rootPath + 'febworker/yw800.do';
+			
+			$.ajax({
+				url:url,
+			    crossDomain : true,
+				dataType:"json",
+				type:"GET",
+				data: {
+					계약ID:계약ID,
+					사용자ID:사용자ID
+				},
+				success:function(result)
+				{
+					if(result.success) {
+						// 기업내역
+						$.each(result.연말정산요약결과, function(i, row) {
+							//if ( this.dataList[i]['세액공제구분코드'] === '1') {
+							if(row.세액공제구분코드 == '1') {
+								  $('#id11').text(numberWithCommas( Number(row.특별소득_건강보험) + Number(row.특별소득_고용보험) ));		
+								  // Number 
+								  $('#id12').text(numberWithCommas(Number(row.특별소득_주택원리금_대출기관) + Number(row.특별소득_주택원리금_거주자) + Number(row.특별소득_장기주택_2011년이전_15년미만)
+					                                             + Number(row.특별소득_장기주택_2011년이전_15년29년) + Number(row.특별소득_장기주택_2011년이전_30년이상) + Number(row.특별소득_장기주택_2012년이후_고정이거나비거치)
+					                                             + Number(row.특별소득_장기주택_2012년이후_그밖에) + Number(row.특별소득_장기주택_2015년이후_15년이상_고정이면서비거치) + Number(row.특별소득_장기주택_2015년이후_15년이상_고정이거나비거치)
+															     + Number(row.특별소득_장기주택_2015년이후_15년이상_그밖에) + Number(row.특별소득_장기주택_2015년이후_10년15년_고정이거나비거치)));
+								  $('#id13').text(numberWithCommas(row.특별소득_기부금_이월분));
+								  $('#id14').text(numberWithCommas(row.특별소득_계));
+								  $('#id15').text(numberWithCommas(row.차감소득금액));
+								  $('#id16').text(numberWithCommas(row.종합소득과세표준));
+								  $('#id17').text(numberWithCommas(row.산출세액));
+								  
+								  $('#id18').text(numberWithCommas(numberWithCommas(Number(row.특별세액_보험료_보장성_세액공제액) + Number(row.특별세액_보험료_장애인전용_세액공제액))));
+								  $('#id19').text(numberWithCommas(row.특별세액_의료비_세액공제액));
+								  $('#id110').text(numberWithCommas(row.특별세액_교육비_세액공제액));
+								  $('#id111').text(numberWithCommas(Number(row.특별세액_기부금_법정_세액공제액) + Number(row.특별세액_기부금_우리사주_세액공제액) + Number(row.특별세액_기부금_정치자금_10만이하_세액공제액)
+                                          						  + Number(row.특별세액_기부금_정치자금_10만초과_세액공제액) + Number(row.특별세액_기부금_지정_종교_세액공제액) + Number(row.특별세액_기부금_지정_종교외_세액공제액)));
+								  $('#id112').text(numberWithCommas(row.특별세액_계));
+								  $('#id113').text(numberWithCommas(row.세액공제_월세액_세액공제액));
+								  $('#id114').text(numberWithCommas(row.결정세액_소득세));	
+								  if(row.사용여부 == "1"){
+									  $('#maintext').text("일반세액공제 적용으로 자동 선택");
+									  $('#active2').removeClass('active');                                                    
+									  $('#active1').addClass('active');
+								  }
+							} else if(row.세액공제구분코드 == '2') {
+								  $('#id21').text(numberWithCommas(row.종합소득과세표준));
+								  $('#id22').text(numberWithCommas(row.산출세액));
+								  $('#id23').text(numberWithCommas(130000));
+								  $('#id24').text(numberWithCommas(row.결정세액_소득세));
+								  if(row.사용여부 == "1"){
+									  $('#maintext').text("표준세액공제 적용으로 자동 선택");
+									  $('#active1').removeClass('active');                                                    
+									  $('#active2').addClass('active');
+								  }
+							}
+						});	
+						if( Number(result.연말정산요약결과[0].결정세액_소득세) <= Number(result.연말정산요약결과[1].결정세액_소득세) ){
+							// $('#id115').text(numberWithCommas(Number(result.연말정산요약결과[0].결정세액_소득세)));
+							$('#id25').text(numberWithCommas(Number(result.연말정산요약결과[0].결정세액_소득세)));
+						} else {
+							// $('#id115').text(numberWithCommas(Number(result.연말정산요약결과[1].결정세액_소득세)));
+							$('#id25').text(numberWithCommas(Number(result.연말정산요약결과[1].결정세액_소득세)));
+						}
+						
+					}
+				},
+				error:function(request,status,error){
+					if (request.status=="401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						window.close();
+					} else {
+						alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+				        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					}
+				}
+			});
+		}
+			
+		// 세 자릿수 마다 콤마(,) 추가 하는 기능
+        function numberWithCommas(x) {
+    		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
+		
+		// 처리확인
+		function fn_updYW800(val) {
+			var url = rootPath + 'febworker/updYW800.do';
+			계약ID = $('#yearContractId').val();
+			사용자ID = $('#userId').val();	
+
+		    var obj= { "계약ID":계약ID, "사용자ID":사용자ID, "세액공제구분코드":val };    
+		    var obj_st=JSON.stringify(obj);
+			
+			$.ajax({
+				url:url,
+			    crossDomain : true,
+				dataType:"json",
+				headers: { 'Content-Type':  'application/json; charset=UTF-8' },
+				type:"POST",
+		        data: obj_st,
+				success:function(result)
+				{
+					if(result.success) {
+						window.opener.callFunc();
+						window.close();
+					}
+				},
+				error:function(request,status,error){
+					if (request.status=="401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						window.close();
+					} else {
+						alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+				        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					}
+				}
+			});
+		}
+		
+		function fn_close() {
+			window.opener.callFunc();
+			window.close();
+		}
+	</script>
+	</head>
+	<body>
+		<div id="yearTax_wrap_popup" class="yearTax_popup summary">
+			<input type="hidden" id="yearContractId" value=""/>
+			<input type="hidden" id="userId" value=""/>
+			<div class="container">
+				<div id="popup_tit">
+					<div class="tit_icon icon_set"></div>
+					<div class="tit_text NanumSquare_B" id="maintext">일반세액공제 적용으로 자동 선택</div>
+					<div id="popup_close" class="btn_type col_skyblue" onclick="window.close();"></div>
+				</div>
+				<div class="contents">
+					<div class="grid_field NanumSquare_R">
+						<a id="active1" class="btn_type btn_tab active" onclick="fn_updYW800(1);">1.일반세액공제  적용</a>
+						<a id="active2" class="btn_type btn_tab" onclick="fn_updYW800(2);">2.표준세액공제 적용</a>
+					</div>
+					
+					<div class="group-cell NanumSquare_R">
+						<div class="cell_head">일반세액공제 VS 표준세액공제</div>
+						<ul class="fix_viewer cell-div2 ">
+							<li class="thead">구분</li>
+							<li class="r-merge rows5">
+								<div class="column">특별 소득공제</div>
+								<ul class="column">
+									<li>보험료</li>
+									<li>주택자금</li>
+									<li>기부금(이월분)</li>
+									<li>계</li>
+								</ul>
+							</li>
+							<li class="">차감소득금액</li>
+							<li class="">종합소득과세표준</li>
+							<li class="">산출세액</li>
+							<li class="r-merge rows6">
+								<div class="column">특별세액공제</div>
+								<ul class="column">
+									<li>보장성보험료</li>
+									<li>의료비</li>
+									<li>교육비</li>
+									<li>기부금(이월분)</li>
+									<li>계</li>
+									<li>표준세액공제</li>
+								</ul>
+							</li>
+							<li class="cols2">월세세액공제</li>
+							<li class="cols2">결정세액</li>
+						</ul>
+						<div class="column_viewer">
+							<ul class="column_data">
+								<li class="thead">1. 일반세액공제</li>
+								<li id="id11"></li>
+								<li id="id12"></li>
+								<li id="id13"></li>
+								<li id="id14"></li>
+								<li id="id15"></li>
+								<li id="id16"></li>
+								<li id="id17"></li>
+								<li id="id18"></li>
+								<li id="id19"></li>
+								<li id="id110"></li>
+								<li id="id111"></li>
+								<li id="id112"></li>
+								<li></li>
+								<li id="id113"></li>
+								<li id="id114"></li>
+							</ul>
+							<ul class="column_data">
+								<li class="thead">2. 표준세액공제</li>
+								<li></li>
+								<li></li>
+								<li></li>
+								<li></li>
+								<li></li>
+								<li id="id21"></li>
+								<li id="id22"></li>
+								<li></li>
+								<li></li>
+								<li></li>
+								<li></li>
+								<li></li>
+								<li id="id23"></li>
+								<li></li>
+								<li id="id24"></li>
+							</ul>
+						</div> <!-- column_viewer -->
+					<ul><li class="tfoot fix_viewer">결정세액</li><li class="tfoot column_viewer" id="id25" ></li></ul>
+						
+					</div> <!--  group-cell -->
+					
+					<ul class="explain_wrap NanumSquare_R">
+						<li>※ 1과 2중 근로자에게 유리한 쪽을 자동 적용합니다.</li> 
+						<li class="sub">1. 특별소득공제와 특별세액공제(정치자금기부금, 우리사주기부금 제외) 적용 후 결정세액
+						<br>&nbsp;&nbsp;&nbsp;&nbsp;이 경우 표준세액공제 "0" 적용</li> 
+						<li class="sub">2. 표준세액공제(13만원) 적용 후 결정세액_표준세액공제 적용시 월세액공제 불가
+						<br>&nbsp;&nbsp;&nbsp;&nbsp;이 경우 특별소득공제, 특별세액공제(정치자금기부금, 우리사주조합기부금 제외) 항목 "0" 적용</li> 
+					</ul>
+					<div class="foot_btn">
+						<a class="btn_type" onclick="fn_close();">확인</a>
+					</div>
+				</div> <!--  contents -->
+			</div> <!--  container -->
+		</div>
+	</body>
+</html>

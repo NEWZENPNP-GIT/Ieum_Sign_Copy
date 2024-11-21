@@ -1,0 +1,1123 @@
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+	<div id="yearTax_wrap" class="yearTax easy">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연말정산 >  </span><span class="loc_sub NanumSquare_R">소득확인</span></div>
+			
+			<div class="process_wrap mask">
+				<div class="stepBar"> 
+					<div class="box current">
+						<div class="process-step NanumSquare_R">
+							<div class="bar"><span class="line"></span><span class="no">1</span></div>
+							<div class="process-panel">
+									<span class="icon"></span>
+									<span class="name NanumRound">소득확인</span>	
+							</div>
+							<div class="process-arrow"></div>
+						</div>
+					</div>
+					<div class="box">
+						<div class="process-step NanumSquare_R">
+							<div class="bar"><span class="line"></span><span class="no">2</span></div>
+							<div class="process-panel">
+								<span class="icon"></span>
+								<span class="name NanumRound">부양가족</span>
+							</div>
+							<div class="process-arrow"></div>
+						</div>
+					</div>
+					<div class="box">
+						<div class="process-step NanumSquare_R">
+							<div class="bar"><span class="line"></span><span class="no">3</span></div>
+							<div class="process-panel">
+								<span class="icon"></span>
+								<span class="name NanumRound">지출내역 확인</span>
+							</div>
+							<div class="process-arrow"></div>
+						</div>
+					</div>
+					<div class="box">
+						<div class="process-step NanumSquare_R">
+							<div class="bar"><span class="line"></span><span class="no">4</span></div>
+							<div class="process-panel">
+								<span class="icon"></span>
+								<span class="name NanumRound">추가서류 제출</span>
+							</div>
+							<div class="process-arrow"></div>
+						</div>
+					</div>
+					<div class="box">
+						<div class="process-step NanumSquare_R">
+							<div class="bar"><span class="line"></span><span class="no">5</span></div>
+							<div class="process-panel">
+								<span class="icon"></span>
+								<span class="name NanumRound">연말정산 요약</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div> <!--  process_wrap -->
+			<div class="contents">
+				<div class="top_field NanumSquare_R">
+					<div class="work_list">
+					</div>
+					<div class="work_btns">
+						<a class="btn_type btn_add" id="addWorkPlace">추가</a>
+						<a class="btn_type btn_del" id="delWorkPlace">삭제</a>
+					</div>
+				</div>
+				<div class="receipt_wrap">
+					<div class="receipt_panel y2018">
+						<div class="receipt_image"><img src="/css/image/easyTax/receipt_2018.jpg"></div>
+						<ul class="receipt_input">
+							<li class="part1"></li>
+							<li class="part2">
+								<div class="block1">
+									<select class="NanumBarunGothic" id="근무지구분">
+										<option value="2">1: 종(전)근무지</option>
+										<option value="3">2: 납세조합</option>
+									</select>
+									<input type="text" id="회사명" maxlength="50"/>
+									<input type="text" id="사업자등록번호" class="num label_sort_center" maxlength="10"/>
+									<span><input type="text" id="근무시작일" class="date" maxlength="10"/><input type="text" id="근무종료일" class="date" maxlength="10"/></span>
+									<span><input type="text" id="감면시작일" class="date" maxlength="10"/><input type="text" id="감면종료일" class="date" maxlength="10"/></span>
+									<input type="text" id="급여" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="상여" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="인정상여" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="주식매수선택권행사이익" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="우리사주조합인출금" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="임원퇴직소득금액한도초과액" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="직무발명보상금" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="근무처별소득명세계" class="label_sort_right num" maxlength="10"/>
+								</div>
+								<div class="block2">
+									<input type="text" id="국민연금보험료" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="건강보험료" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="장기요양보험료" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="고용보험료" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="공무원연금" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="군인연금" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="사립학교교직원연금" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="별정우체국연금" class="label_sort_right num" maxlength="10"/>
+								</div>
+							</li>
+							<li class="part3">
+								<div class="block1">
+									<input type="text" id="m01" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="o01" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="q01" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="h06" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="g01" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="h11" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="h12" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="h13" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="h01" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="k01" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="s01" class="label_sort_right num" maxlength="10"/>
+								</div>
+								<div class="block2">
+									<input type="text" id="t01" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="y02" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="y03" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="y04" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="h05" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="i01" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="r10" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="h14" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="h15" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="t10" class="label_sort_right num" maxlength="10"/>
+								</div>
+								<div class="block3">
+									<input type="text" id="t11" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="t12" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="t13" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="t20" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="h16" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="h17" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="u01" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="r11" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="y22" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="비과세소득계" class="label_sort_right num" maxlength="10"/>
+									<input type="text" id="감면소득계" class="label_sort_right num" maxlength="10"/>
+								</div>
+							</li>
+							
+							<li class="part4">
+								<div class="_line1 flex_between"><input type="text" id="소득세" class="label_sort_right num" maxlength="10"/><input type="text" id="지방소득세" class="label_sort_right num" maxlength="10"/><input type="text" id="농어촌특별세" class="label_sort_right num" maxlength="10"/></div>
+							</li> 
+							<li class="part5 sign">
+								<div class="_line1 flex_between"><input type="text" /><input type="text" /><input type="text" /></div>
+								<div class="_line2"><input type="text" placeholder="서명 또는 인"/></div>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="group_btns foot NanumSquare_R">
+					<a class="btn_type type1">＜  이전</a>
+					<a class="btn_type type2" id="save"><span class="icon_save Material_icons"></span>적용</a>
+					<a class="btn_type type3">다음 ＞</a>
+				</div>
+			</div>	
+		</div> <!--  container -->
+		
+		<!--  layer popup -->
+		<div class="layerPop_wrap workCheck">
+			<div class="popup_bg small">
+			
+				<div class="popup_tit">
+					<div class="popup_close"><a class="btn_type btn_close workCheck"></a></div>
+				</div>
+				<ul class="popup_content">
+					<li class="icon"></li>
+					<li class="text NanumRound">
+						<span>1.종(전) 근무지가 있나요?</span>
+					</li>
+				</ul>
+				<div id="foot_btns" class="NanumRound">
+					<a class="btn_type type1 yes">예</a>
+					<a class="btn_type type2 no">아니오</a>
+				</div>
+			</div>
+		</div>
+		<!--  layer popup -->
+		<div class="layerPop_wrap hidden alert_guide">
+			<div class="popup_bg">
+				<div class="popup_tit">
+					<div class="popup_close"><a class="btn_type btn_close alert_guide"></a></div>
+				</div>
+				<ul class="popup_content">
+					<li class="icon"></li>
+					<li class="text NanumRound">
+						<span>종전 근무지에서 발급받은 원천징수영수증에 </span>
+						<span>내용을 입력해주세요.</span>
+					</li>
+					<li class="dec NanumRound">
+						<span>전 근무지가 여러곳이라면</span>
+						<span><span class="col_red inline">추가</span>를 눌러 계속 입력해주시기 바랍니다.</span>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+<script type="text/javascript" src="/js/jquery.inputmask.bundle.min.js"></script>
+<script type="text/javascript">
+
+	var selectedWorkPlaceId = 0;
+
+	var isChanged = false;
+	var newWorkPlaceSaved = true;
+	var newWorkPlaceId = "";
+	var differ;
+	
+	// select
+	var selectOptionBeforeWPType;
+	
+	var workPlace = [];
+
+	var workPlaceCode;
+	
+	// 계약 ID
+	var contractId
+	// 2018 분기
+	// 계약 년도
+	var febYear;
+	// 사용자 ID
+	var 사용자ID;
+	// 근로자번호
+	var 원천명세ID;
+	
+	var empName;
+	var empNo;
+	
+	
+	// 신규 flag
+	var index = 0;
+	
+	// 근로자 데이터 입력 및 수정 여부 체크
+	var workerEditCheckCode;
+	//var workerEditCheck = false;
+	var workerEditCheck;
+	var workerEditCheck01;
+	var workerEditCheck02;
+	
+	var deletedWorkPlace = [];
+
+	$(document).ready(function(){
+		// 이전화면
+		$(".group_btns.foot.NanumSquare_R .btn_type.type1").on("click", function(){
+			
+			var url = rootPath + "app.html#/e_easyYearTax_index?d=" + (new Date()).getTime();
+			
+			if(isChanged){
+				if(confirm('해당 페이지를 벗어나면 작성중인 내용은 저장되지 않습니다.')){
+					location.href = url;			
+				}
+			}else{
+				location.href = url;
+			}
+		});
+
+		// 다음화면
+		$(".group_btns.foot.NanumSquare_R .btn_type.type3").on("click", function(){
+
+			var url = rootPath + "html/easyFeb/e_easyYearTax_step01_02.html?d=" + (new Date()).getTime();
+			
+			if(isChanged){
+				if(confirm('해당 페이지를 벗어나면 작성중인 내용은 저장되지 않습니다.')){
+					$("#contents_wrap").empty();
+				    $(window).off("resize");
+				    $.ajax({
+				        url : url, 
+				        success : function(result) {
+				            $("#contents_wrap").html(result);
+				        }
+				    });				
+				}
+			}else{
+				$("#contents_wrap").empty();
+			    $(window).off("resize");
+			    $.ajax({
+			        url : url, 
+			        success : function(result) {
+			            $("#contents_wrap").html(result);
+			        }
+			    });
+			}
+		});
+		
+		$(".btn_close").click(function(e){
+			$(this).parent().parent().parent().parent().addClass("hidden");
+		});
+		
+		$("#foot_btns > a.yes").on("click", function(e){
+			$(".alert_guide").removeClass("hidden");
+			$(".workCheck").addClass("hidden");
+		});
+		
+		$("#foot_btns > a.no").on("click", function(e){
+			var url = rootPath + "html/easyFeb/e_easyYearTax_step01_02.html?d=" + (new Date()).getTime();
+			
+			$("#contents_wrap").empty();
+		    $(window).off("resize");
+		    $.ajax({
+		        url : url, 
+		        success : function(result) {
+		            $("#contents_wrap").html(result);
+		        }
+		    });
+		});
+		
+		//추가 삭제버튼 숨김
+		$("div.contents > div > div.work_btns").hide();
+		//저장버튼 숨김
+		$("#save").addClass("hidden");
+		
+		$("#addWorkPlace").on("click", function(e){
+			e.preventDefault();
+			if(isChanged && (newWorkPlaceId != selectedWorkPlaceId)){
+				if(confirm("근무지를 추가하면 작성중인 내용은 저장되지 않습니다.")) {
+					addData();		
+				}
+			}else{
+				addData();
+			}
+		});
+		
+		$("#delWorkPlace").on("click", function(e){
+			e.preventDefault();
+			if(confirm("삭제하시겠습니까?")){
+				delWorkPlaceId = selectedWorkPlaceId;
+				if(workPlace[selectedWorkPlaceId]['dbMode'] == 'C'){
+					workPlace.splice(selectedWorkPlaceId, 1);
+					if(workPlace.length < 1){
+						addData();
+					}
+					$(".top_field.NanumSquare_R > div.work_list > a").remove();
+					for(i = 0; i < workPlace.length; i++){
+						$(".top_field.NanumSquare_R > div.work_list").append($('<a/>').attr("id", i).text("근무지 " + (i + 1)).addClass("btn_type"));		
+					}
+					$(".top_field.NanumSquare_R > div.work_list > a:first").addClass("active");
+					selectedWorkPlaceId = 0;
+					setData(selectedWorkPlaceId);
+				}else{
+					workPlace[selectedWorkPlaceId]['dbMode'] = 'D'
+					saveList();
+				}
+				
+				if(delWorkPlaceId == newWorkPlaceId){
+					newWorkPlaceSaved = true;
+					newWorkPlaceId = "";
+				}
+			}
+		});
+
+		$(".top_field.NanumSquare_R > div.work_list").bind('click', function (e) {
+			e.preventDefault();
+			var target = $(e.target);
+			if (target.is('.top_field.NanumSquare_R > div.work_list > a')) {
+				
+				
+				if(isChanged && (newWorkPlaceId != e.target.id) ){
+					if(confirm("근무지를 변경하면 작성중인 내용은 저장되지 않습니다.")) {
+						var selectedWorkPlaceId = e.target.id
+						isChanged = false;
+						setData(selectedWorkPlaceId);		
+					}
+				}else{
+					var selectedWorkPlaceId = e.target.id
+					isChanged = false;
+					setData(selectedWorkPlaceId);
+				}
+			}
+		});
+/*
+		<input type="text" id="회사명"/>
+			<input type="text" id="사업자등록번호"/>
+			<span><input type="text" id="근무시작일" class="date"/><input type="text" id="근무종료일" class="date"/></span>
+			<span><input type="text" id="감면시작일" class="date"/><input type="text" id="감면종료일" class="date"/></span>
+*/
+
+		$("ul.receipt_input").find("select, input").on("change", function(e){
+			var elId = e.target.id
+
+			if(elId !== ""){
+				if( $("#" + elId).hasClass("num") ){
+					workPlace[selectedWorkPlaceId][elId] = $("#" + elId).val();
+				}else{
+					workPlace[selectedWorkPlaceId][elId] = $("#" + elId).val();
+				}
+				var 근무처별소득명세계 = Number(workPlace[selectedWorkPlaceId]['급여']) + Number(workPlace[selectedWorkPlaceId]['상여'])
+						+ Number(workPlace[selectedWorkPlaceId]['인정상여']) + Number(workPlace[selectedWorkPlaceId]['주식매수선택권행사이익'])
+						+ Number(workPlace[selectedWorkPlaceId]['우리사주조합인출금']) + Number(workPlace[selectedWorkPlaceId]['임원퇴직소득금액한도초과액'])
+						+ Number(workPlace[selectedWorkPlaceId]['직무발명보상금']);
+				var 비과세소득계 = Number(workPlace[selectedWorkPlaceId]['m01']) + Number(workPlace[selectedWorkPlaceId]['o01'])
+						+ Number(workPlace[selectedWorkPlaceId]['q01']) + Number(workPlace[selectedWorkPlaceId]['h06'])
+						+ Number(workPlace[selectedWorkPlaceId]['g01']) + Number(workPlace[selectedWorkPlaceId]['h11'])
+						+ Number(workPlace[selectedWorkPlaceId]['h12']) + Number(workPlace[selectedWorkPlaceId]['h13'])
+						+ Number(workPlace[selectedWorkPlaceId]['h01']) + Number(workPlace[selectedWorkPlaceId]['k01'])
+						+ Number(workPlace[selectedWorkPlaceId]['s01']) + Number(workPlace[selectedWorkPlaceId]['y02'])
+						+ Number(workPlace[selectedWorkPlaceId]['y03']) + Number(workPlace[selectedWorkPlaceId]['y04'])
+						+ Number(workPlace[selectedWorkPlaceId]['h05']) + Number(workPlace[selectedWorkPlaceId]['i01'])
+						+ Number(workPlace[selectedWorkPlaceId]['r10']) + Number(workPlace[selectedWorkPlaceId]['h14'])
+						+ Number(workPlace[selectedWorkPlaceId]['h15']) + Number(workPlace[selectedWorkPlaceId]['h16'])
+						+ Number(workPlace[selectedWorkPlaceId]['h17']) + Number(workPlace[selectedWorkPlaceId]['u01'])
+						+ Number(workPlace[selectedWorkPlaceId]['r11']) + Number(workPlace[selectedWorkPlaceId]['y22'])
+				var 감면소득계 = Number(workPlace[selectedWorkPlaceId]['t01']) + Number(workPlace[selectedWorkPlaceId]['t10'])
+						+ Number(workPlace[selectedWorkPlaceId]['t11']) + Number(workPlace[selectedWorkPlaceId]['t12'])
+						+ Number(workPlace[selectedWorkPlaceId]['t13']) + Number(workPlace[selectedWorkPlaceId]['t20'])
+				
+				$("#근무처별소득명세계").val(근무처별소득명세계);
+				$("#비과세소득계").val(비과세소득계)
+				$("#감면소득계").val(감면소득계)
+
+				if(workPlace[selectedWorkPlaceId]['dbMode'] == 'R'){
+					workPlace[selectedWorkPlaceId]['dbMode'] = 'U'						
+				}
+				
+				isChanged = true;
+			}
+		});
+
+		$("#save").on("click", function(e){
+			e.preventDefault();
+			saveList();
+		});
+
+		$(".num").inputmask({alias: "decimal"});
+		$(".date").inputmask("yyyy-mm-dd");
+
+		ngOnInit();
+	});
+
+	function ngOnInit(){
+
+	    contractId = getCookie('yearContractId');
+	    // 2018 분기
+	    febYear = getCookie('febYear');
+	    // 계약아이디가 없으면 메인으로 이동
+	    if ((contractId.length <=  0) || (contractId === undefined) || (contractId === 'undefined')) {
+			alert( '사용불가 메뉴 입니다. 기본설정값을 확인 해주세요' );
+			location.href = "/";
+	    } else {
+			사용자ID = getCookie('userId');
+
+	      	getUserEditCheck();
+	    };
+	}
+	
+	function getEmpInfo(){
+
+		var url = rootPath + 'febworker/getYE000.do';
+		var params = {
+	      '계약ID': contractId,
+	      '사용자ID': 사용자ID
+	   	};
+
+		request = $.ajax({
+			url: url,
+	        type: "get",
+	        cache: false,
+	        dataType:"json",
+	        data: params
+	    });
+		
+		request.done(function(res){
+	        // 근로자 데이터 입력 및 수정 여부 체크
+	        workerEditCheckCode =  res['data']['진행상태코드'];
+
+	        if ( workerEditCheckCode === 1 || workerEditCheckCode === '1' || workerEditCheckCode == null || workerEditCheckCode === ''  ) {
+				workerEditCheck02 = true;
+	        } else {
+				workerEditCheck02 = false;
+	        }
+	        if ( workerEditCheck01 === false || workerEditCheck02 === false) {
+	          	workerEditCheck = false;
+	        } else if ( workerEditCheck01 === true && workerEditCheck02 === true) {
+	          	workerEditCheck = true;
+	        }
+
+	        if(workerEditCheck){
+	        	$("div.contents > div > div.work_btns").show();
+	        	$("#save").removeClass("hidden");
+	        }
+	        
+	        getList();
+		});
+	}
+	
+	function getUserEditCheck(){
+
+		getEmpStatus();
+	}
+	
+	function getEmpStatus(){
+
+		var url = rootPath + 'febworker/getYE000ChkEdit.do';
+		var params = {
+			'계약ID': contractId,
+			'사용자ID': 사용자ID
+		};
+
+		request = $.ajax({
+			url: url,
+	        type: "get",
+	        cache: false,
+	        dataType:"json",
+	        data: params
+	    });
+		
+		request.done(function(res){
+
+			if ( res['success'] === true ) {
+				workerEditCheck01 = res['data'];
+				if (Number(workerEditCheck01) === 0) {
+					workerEditCheck01 = false;
+				} else {
+					workerEditCheck01 = true;
+				}
+			} else {
+				
+			}
+			getEmpInfo();
+		});
+		
+		request.fail(function (request, textStatus, error) {
+			if (request.status=="401") {
+				alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+				location.href=rootPath;
+			} else {
+				alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+		        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	function getList(){
+
+		deletedWorkPlace = [];
+		
+		var url = rootPath + 'febworker/getYE002List.do';
+	    var params = {
+			계약ID: contractId,
+			사용자ID: 사용자ID,
+			startPage: 0,
+			endPage: 10
+		};
+
+		request = $.ajax({
+			url: url,
+	        type: "get",
+	        cache: false,
+	        dataType:"json",
+	        data: params
+	    });
+		
+		request.done(function(res){
+
+			//if (res['success'] && res['total'] > 0) {
+			if (res['total'] > 0) {
+				workPlace = res['data'];
+				var ye003 = res['ye003'];
+
+				$(".top_field.NanumSquare_R > div.work_list > a").remove();
+				for (i = 0; i < workPlace.length; i++) {
+					if ((workPlace[i].감면시작일 !== undefined) && (workPlace[i].감면시작일 !== '')) {
+						workPlace[i].감면시작일 = convertDate(workPlace[i].감면시작일).format('yyyy-MM-dd');
+					}
+					if ((workPlace[i].감면종료일 !== undefined) && (workPlace[i].감면시작일 !== '')) {
+						workPlace[i].감면종료일 = convertDate(workPlace[i].감면종료일).format('yyyy-MM-dd');
+					}
+					if ((workPlace[i].근무시작일 !== undefined) && (workPlace[i].감면시작일 !== '')) {
+						workPlace[i].근무시작일 = convertDate(workPlace[i].근무시작일).format('yyyy-MM-dd');
+					}
+					if ((workPlace[i].근무종료일 !== undefined) && (workPlace[i].감면시작일 !== '')) {
+						workPlace[i].근무종료일 = convertDate(workPlace[i].근무종료일).format('yyyy-MM-dd');
+					}
+					
+					workPlace[i].급여 = ye003[i].급여;
+					workPlace[i].상여 = ye003[i].상여;
+					workPlace[i].인정상여 = ye003[i].인정상여;
+					workPlace[i].주식매수선택권행사이익 = ye003[i].주식매수선택권행사이익;
+					workPlace[i].우리사주조합인출금 = ye003[i].우리사주조합인출금;
+					workPlace[i].임원퇴직소득금액한도초과액 = ye003[i].임원퇴직소득금액한도초과액;
+					workPlace[i].소득세 = ye003[i].소득세;
+					workPlace[i].지방소득세 = ye003[i].지방소득세;
+					workPlace[i].농어촌특별세 = ye003[i].농어촌특별세;
+					workPlace[i].건강보험료 = ye003[i].건강보험료;
+					workPlace[i].장기요양보험료 = ye003[i].장기요양보험료;
+					workPlace[i].국민연금보험료 = ye003[i].국민연금보험료;
+					workPlace[i].고용보험료 = ye003[i].고용보험료;
+					workPlace[i].공무원연금 = ye003[i].공무원연금;
+					workPlace[i].군인연금 = ye003[i].군인연금;
+					workPlace[i].사립학교교직원연금 = ye003[i].사립학교교직원연금;
+					workPlace[i].별정우체국연금 = ye003[i].별정우체국연금;
+					workPlace[i].m01 = ye003[i].m01;
+					workPlace[i].m02 = ye003[i].m02;
+					workPlace[i].m03 = ye003[i].m03;
+					workPlace[i].o01 = ye003[i].o01;
+					workPlace[i].q01 = ye003[i].q01;
+					workPlace[i].h08 = ye003[i].h08;
+					workPlace[i].h09 = ye003[i].h09;
+					workPlace[i].h10 = ye003[i].h10;
+					workPlace[i].g01 = ye003[i].g01;
+					workPlace[i].h11 = ye003[i].h11;
+					workPlace[i].h12 = ye003[i].h12;
+					workPlace[i].h13 = ye003[i].h13;
+					workPlace[i].h01 = ye003[i].h01;
+					workPlace[i].k01 = ye003[i].k01;
+					workPlace[i].s01 = ye003[i].s01;
+					workPlace[i].t01 = ye003[i].t01;
+					workPlace[i].y02 = ye003[i].y02;
+					workPlace[i].y03 = ye003[i].y03;
+					workPlace[i].y04 = ye003[i].y04;
+					workPlace[i].h05 = ye003[i].h05;
+					workPlace[i].i01 = ye003[i].i01;
+					workPlace[i].r10 = ye003[i].r10;
+					workPlace[i].h14 = ye003[i].h14;
+					workPlace[i].h15 = ye003[i].h15;
+					workPlace[i].t10 = ye003[i].t10;
+					workPlace[i].t11 = ye003[i].t11;
+					workPlace[i].t12 = ye003[i].t12;
+					workPlace[i].t20 = ye003[i].t20;
+					workPlace[i].h16 = ye003[i].h16;
+					workPlace[i].r11 = ye003[i].r11;
+					workPlace[i].h06 = ye003[i].h06;
+					workPlace[i].h07 = ye003[i].h07;
+					workPlace[i].y22 = ye003[i].y22;
+					// 2018 분기
+					workPlace[i].직무발명보상금 = ye003[i].직무발명보상금;
+					workPlace[i].t13 = ye003[i].t13;
+					workPlace[i].h17 = ye003[i].h17;
+					workPlace[i].u01 = ye003[i].u01;
+					
+					$(".top_field.NanumSquare_R > div.work_list").append($('<a/>').attr("id", i).text("근무지 " + (i + 1)).addClass("btn_type"));
+				}
+			} else {
+				addData();
+			}
+
+			selectOptionBeforeWPType = [{
+		        label: '1: ' + '종(전)근무지',
+		        value: '2'
+			}, {
+				label: '2: ' + '납세조합',
+				value: '3'
+			}];
+			isChanged = false;
+			setData(selectedWorkPlaceId);
+		});
+	}
+
+	function saveList(){
+		
+		if ( workPlace[selectedWorkPlaceId]['dbMode'] === 'R' ) {
+			workPlace[selectedWorkPlaceId]['dbMode'] = 'U';
+		}
+		
+		var regExp = /^[0-9]+$/;
+		var msgTax =  '결정세액 소득세가 입력되지 않았습니다.\n결정세액 소득세에 입력하실 금액이 없습니까?';
+		var msgTax1 = '결정세액 지방소득세가 입력되지 않았습니다.\n결정세액 지방소득세에 입력하실 금액이 없습니까?';
+		
+		for (key in workPlace[selectedWorkPlaceId]) {
+			if (key === '근무시작일' || key === '근무종료일') {
+				try{
+					chkDate = convertDate(workPlace[selectedWorkPlaceId][key]).format('yyyyMMdd');
+				}catch(e){
+					chkDate = 'Invalid date';
+				}
+				if ( chkDate === 'Invalid date' ) {
+					alert('필수값이 입력되지 않았습니다.');
+					if (key === '근무시작일') {
+						$('#근무시작일').focus().select();
+					} else if ( key === '근무종료일' ) {
+						$('#근무종료일').focus().select();
+					}
+					return false;
+				}
+			} else if ( key === '회사명' ) {
+				if ( (workPlace[selectedWorkPlaceId][key].replace(/\s*$/, '')).length === 0) {
+					alert('필수값이 입력되지 않았습니다.');
+					$('#회사명').focus().select();
+					return false;
+				}
+			} else if ( key === '사업자등록번호' ) {
+				if ( (workPlace[selectedWorkPlaceId][key].replace(/\s*$/, '')).length === 0) {
+					alert('필수값이 입력되지 않았습니다.');
+					$('#사업자등록번호').focus().select();
+					return false;
+				}
+				if ( !bzSanCheck(workPlace[selectedWorkPlaceId][key] )) {
+					alert('사업자등록번호 형식이 아닙니다.');
+					$('#사업자등록번호').focus().select();
+					return false;
+				}
+			} else if ( key === '급여' ) {
+				if ( !regExp.test( workPlace[selectedWorkPlaceId][key] ) || Number(workPlace[selectedWorkPlaceId][key]) === 0 || Number(workPlace[selectedWorkPlaceId][key]) < 0 ) {
+					alert('필수값이 입력되지 않았습니다.');
+					$('#급여').focus().select();
+					return false;
+				}
+			} else if ( key === '소득세' ) {
+				if ( Number(workPlace[selectedWorkPlaceId][key]) === 0 || Number(workPlace[selectedWorkPlaceId][key]) < 0 ) {
+					if (!confirm(msgTax)) {
+						$('#소득세').focus().select();
+						return false;
+					}
+				}
+			} else if ( key === '지방소득세' ) {
+				if ( Number(workPlace[selectedWorkPlaceId][key]) === 0 || Number(workPlace[selectedWorkPlaceId][key]) < 0 ) {
+					if (!confirm(msgTax1)) {
+						$('#지방소득세').focus().select();
+						return false;
+					}
+				}
+			} else if (key === '감면시작일' || key === '감면종료일') {
+				try{
+					감면시작일 = convertDate(workPlace[selectedWorkPlaceId]['감면시작일']).format('yyyyMMdd');
+				}catch(e){
+					감면시작일 = 'Invalid date'
+				}
+				try{
+					감면종료일 = convertDate(workPlace[selectedWorkPlaceId]['감면종료일']).format('yyyyMMdd');
+				}catch(e){
+					감면종료일 = 'Invalid date'
+				}
+				if (key === '감면시작일') {
+					if ( 감면시작일 !== 'Invalid date' && 감면종료일 === 'Invalid date' ) {
+						alert('감면종료일이 입력되지 않았습니다.');
+						$('#감면시작일').focus().select();
+						return false;
+					}
+				} else {
+					if ( 감면시작일 === 'Invalid date' && 감면종료일 !== 'Invalid date' ) {
+						alert('감면시작일이 입력되지 않았습니다.');
+						$('#감면시작일').focus().select();
+						return false;
+					}
+				}
+
+				if ( 감면시작일 !== 'Invalid date' && 감면종료일 !== 'Invalid date' ) {
+					감면금액합산 = Number(workPlace[selectedWorkPlaceId]['t10']) + Number(workPlace[selectedWorkPlaceId]['t11']) + Number(workPlace[selectedWorkPlaceId]['t12']);
+					if ( Number(감면금액합산) === 0 ) {
+						alert('감면기간이 입력되어 있으나 감면소득에 해당하는 입력 금액이 없습니다.\n감면소득이 있는 경우 감면기간을 입력하시고, 감면소득이 없는 경우는 감면소득을 삭제하시기 바랍니다.\n\n감면소득코드 : T01, T10, T11, T12, T20');
+						$('#t10').focus().select();
+						return false;
+					}
+				}
+			} else if (key === 't10' || key === 't11' || key === 't12') {
+				if ( Number(workPlace[selectedWorkPlaceId][key]) > 0 ) {
+
+					try{
+						startData = convertDate(workPlace[selectedWorkPlaceId]['감면시작일']).format('yyyyMMdd');
+					}catch(e){
+						startData = 'Invalid date'
+					}
+					try{
+						endData = convertDate(workPlace[selectedWorkPlaceId]['감면종료일']).format('yyyyMMdd');
+					}catch(e){
+						endData = 'Invalid date'
+					}
+					
+					
+					if (startData === 'Invalid date' || endData === 'Invalid date') {
+						alert('감면소득이 입력되어 있으나 감면기간을 입력하지 않았습니다.\n감면소득이 있는 경우 감면기간을 입력하시고, 감면소득이 없는 경우는 감면소득을 삭제하시기 바랍니다.\n\n감면소득코드 : T01, T10, T11, T12, T20');
+						if (startData === 'Invalid date') {
+							$('#감면시작일').focus().select();
+						} else if ( endData === 'Invalid date' ) {
+							$('#감면종료일').focus().select();
+						}
+						return false;
+					}
+				}
+			} else if (febYear === '2018' && key === 't13') {
+				if ( Number(workPlace[selectedWorkPlaceId][key]) > 0 ) {
+
+					try{
+						startData = convertDate(workPlace[selectedWorkPlaceId]['감면시작일']).format('yyyyMMdd');
+					}catch(e){
+						startData = 'Invalid date'
+					}
+					try{
+						endData = convertDate(workPlace[selectedWorkPlaceId]['감면종료일']).format('yyyyMMdd');
+					}catch(e){
+						endData = 'Invalid date'
+					}
+					
+					if (startData === 'Invalid date' || endData === 'Invalid date') {
+						alert('감면소득이 입력되어 있으나 감면기간을 입력하지 않았습니다.\n감면소득이 있는 경우 감면기간을 입력하시고, 감면소득이 없는 경우는 감면소득을 삭제하시기 바랍니다.\n\n감면소득코드 : T01, T10, T11, T12, T13, T20');
+						if (startData === 'Invalid date') {
+							$('#감면시작일').focus().select();
+						} else if ( endData === 'Invalid date' ) {
+							$('#감면종료일').focus().select();
+						}
+						return false;
+					}
+				}
+			} else if (key === '소득세') {
+				if ( (workPlace[selectedWorkPlaceId][key].replace(/\s*$/, '')).length === 0) {
+					alert('필수값이 입력되지 않았습니다.');
+					$('#소득세').focus().select();
+					return false;
+				}
+			} else if (key === '지방소득세') {
+				if ( (workPlace[selectedWorkPlaceId][key].replace(/\s*$/, '')).length === 0) {
+					alert('필수값이 입력되지 않았습니다.');
+					$('#지방소득세').focus().select();
+					return false;
+				}
+			}
+		}
+		
+		for (keydata in workPlace[selectedWorkPlaceId]) {
+			if (keydata === '근무시작일' || keydata === '근무종료일' || keydata === '감면시작일' || keydata === '감면종료일') {
+				// alert(keydata + '=[' + workPlace[selectedWorkPlaceId][keydata] + ']' + workPlace[selectedWorkPlaceId][keydata].length);
+				workPlace[selectedWorkPlaceId][keydata] = workPlace[selectedWorkPlaceId][keydata].replace(/-/gi, "")
+
+				if ( workPlace[selectedWorkPlaceId][keydata].length > 0 && workPlace[selectedWorkPlaceId][keydata].length < 11) {
+					workPlace[selectedWorkPlaceId][keydata] = convertDate(workPlace[selectedWorkPlaceId][keydata]).format('yyyyMMdd');
+				} else {
+					workPlace[selectedWorkPlaceId][keydata] = '';
+				}
+			}
+		}
+
+		var url = rootPath + 'febworker/saveYE002.do';
+		var params = JSON.stringify(workPlace[selectedWorkPlaceId]);
+
+		request = $.ajax({
+			url: url,
+	        type: "post",
+	        cache: false,
+	        dataType:"json",
+	        data: params,
+			beforeSend: function( xhr ) {
+				xhr.setRequestHeader("Accept", "application/json");
+				xhr.setRequestHeader("Content-Type", "application/json");
+			}
+	    });
+		
+		request.done(function(res){
+			if ( res['success'] === true ) {
+				newWorkPlaceSaved = true;
+				newWorkPlaceId = "";
+				getList();
+				alert("저장이 완료되었습니다.");
+			} else {
+				alert('저장을 실패하였습니다.');
+			}
+		});
+	}
+	
+	function addData(){
+		
+		if(!newWorkPlaceSaved){
+			alert("근무지" + (newWorkPlaceId + 1) + "를 저장하고 진행해 주세요!");
+			return;
+		}
+	
+		workPlace.push({
+			dbMode: 'C',
+			startPage: 0,
+			endPage: 10,
+			계약ID: '',
+			사용자ID: '',
+			empNo: '',
+			근무지구분: '2',
+			사업자등록번호: '',
+			회사명: '',
+			근무시작일: '',
+			근무종료일: '',
+			감면시작일: '',
+			감면종료일: '',
+			급여: '0',
+			상여: '0',
+			인정상여: '0',
+			주식매수선택권행사이익: '0',
+			우리사주조합인출금: '0',
+			임원퇴직소득금액한도초과액: '0',
+			소득세: '0',
+			지방소득세: '0',
+			농어촌특별세: '0',
+			건강보험료: '0',
+			장기요양보험료: '0',
+			국민연금보험료: '0',
+			고용보험료: '0',
+			공무원연금: '0',
+			군인연금: '0',
+			사립학교교직원연금: '0',
+			별정우체국연금: '0',
+			m01: '0',
+			m02: '0',
+			m03: '0',
+			o01: '0',
+			q01: '0',
+			h08: '0',
+			h09: '0',
+			h10: '0',
+			g01: '0',
+			h11: '0',
+			h12: '0',
+			h13: '0',
+			h01: '0',
+			k01: '0',
+			s01: '0',
+			t01: '0',
+			y02: '0',
+			y03: '0',
+			y04: '0',
+			h05: '0',
+			i01: '0',
+			r10: '0',
+			h14: '0',
+			h15: '0',
+			t10: '0',
+			t11: '0',
+			t12: '0',
+			t20: '0',
+			h16: '0',
+			r11: '0',
+			h06: '0',
+			h07: '0',
+			y22: '0',
+			// 2018 분기
+			직무발명보상금: '0',
+			t13: '0', // 2018신규 중소기업90% -047
+			h17: '0', // 2018신규 종교활동비 -048
+			u01: '0', // 2018신규 벤처기업 주식매수선택권 -049
+		});
+		var idx = workPlace.length - 1;
+		workPlace[idx]['empName'] = empName;
+		workPlace[idx]['empNo'] = empNo;
+		workPlace[idx]['계약ID'] = contractId;
+		workPlace[idx]['사용자ID'] = 사용자ID;
+		$(".top_field.NanumSquare_R > div.work_list").append($('<a/>').attr("id", idx).text("근무지 " + (idx + 1)).addClass("btn_type"));		
+		setData(idx);
+		
+		if(idx != 0){
+			newWorkPlaceSaved = false;
+			newWorkPlaceId = idx;
+		}
+		
+		isChanged = true;
+	}
+
+	
+	function setData(idx){
+		
+		$(".top_field.NanumSquare_R > div.work_list a").removeClass("active");
+		$(".top_field.NanumSquare_R > div.work_list #" + idx).addClass("active");
+
+		$("#근무지구분").val(workPlace[idx].근무지구분).prop("selected", true);
+		$("#회사명").val(workPlace[idx].회사명)
+		$("#사업자등록번호").val(workPlace[idx].사업자등록번호)
+		$("#근무시작일").val(workPlace[idx].근무시작일)
+		$("#근무종료일").val(workPlace[idx].근무종료일)
+		$("#감면시작일").val(workPlace[idx].감면시작일)
+		$("#감면종료일").val(workPlace[idx].감면종료일)
+		$("#급여").val(workPlace[idx].급여)
+		$("#상여").val(workPlace[idx].상여)
+		$("#인정상여").val(workPlace[idx].인정상여)
+		$("#주식매수선택권행사이익").val(workPlace[idx].주식매수선택권행사이익)
+		$("#우리사주조합인출금").val(workPlace[idx].우리사주조합인출금)
+		$("#임원퇴직소득금액한도초과액").val(workPlace[idx].임원퇴직소득금액한도초과액)
+		$("#직무발명보상금").val(workPlace[idx].직무발명보상금)
+		$("#근무처별소득명세계").val(workPlace[idx].근무처별소득명세계)
+		
+		$("#국민연금보험료").val(workPlace[idx].국민연금보험료)
+		$("#건강보험료").val(workPlace[idx].건강보험료)
+		$("#장기요양보험료").val(workPlace[idx].장기요양보험료)
+		$("#고용보험료").val(workPlace[idx].고용보험료)
+		$("#공무원연금").val(workPlace[idx].공무원연금)
+		$("#군인연금").val(workPlace[idx].군인연금)
+		$("#사립학교교직원연금").val(workPlace[idx].사립학교교직원연금)
+		$("#별정우체국연금").val(workPlace[idx].별정우체국연금)
+		
+		$("#m01").val(workPlace[idx].m01)
+		$("#o01").val(workPlace[idx].o01)
+		$("#q01").val(workPlace[idx].q01)
+		$("#h06").val(workPlace[idx].h06)
+		$("#g01").val(workPlace[idx].g01)
+		$("#h11").val(workPlace[idx].h11)
+		$("#h12").val(workPlace[idx].h12)
+		$("#h13").val(workPlace[idx].h13)
+		$("#h01").val(workPlace[idx].h01)
+		$("#k01").val(workPlace[idx].k01)
+		$("#s01").val(workPlace[idx].s01)
+		$("#t01").val(workPlace[idx].t01)
+		$("#y02").val(workPlace[idx].y02)
+		$("#y03").val(workPlace[idx].y03)
+		$("#y04").val(workPlace[idx].y04)
+		$("#h05").val(workPlace[idx].h05)
+		$("#i01").val(workPlace[idx].i01)
+		$("#r10").val(workPlace[idx].r10)
+		$("#h14").val(workPlace[idx].h14)
+		$("#h15").val(workPlace[idx].h15)
+		$("#t10").val(workPlace[idx].t10)
+		$("#t11").val(workPlace[idx].t11)
+		$("#t12").val(workPlace[idx].t12)
+		$("#t13").val(workPlace[idx].t13)
+		$("#t20").val(workPlace[idx].t20)
+		$("#h16").val(workPlace[idx].h16)
+		$("#h17").val(workPlace[idx].h17)
+		$("#u01").val(workPlace[idx].u01)
+		$("#r11").val(workPlace[idx].r11)
+		$("#y22").val(workPlace[idx].y22)
+		
+		$("#소득세").val(workPlace[idx].소득세)
+		$("#지방소득세").val(workPlace[idx].지방소득세)
+		$("#농어촌특별세").val(workPlace[idx].농어촌특별세)
+		
+		var 근무처별소득명세계 = Number(workPlace[selectedWorkPlaceId]['급여']) + Number(workPlace[selectedWorkPlaceId]['상여'])
+				+ Number(workPlace[selectedWorkPlaceId]['인정상여']) + Number(workPlace[selectedWorkPlaceId]['주식매수선택권행사이익'])
+				+ Number(workPlace[selectedWorkPlaceId]['우리사주조합인출금']) + Number(workPlace[selectedWorkPlaceId]['임원퇴직소득금액한도초과액'])
+				+ Number(workPlace[selectedWorkPlaceId]['직무발명보상금']);
+		var 비과세소득계 = Number(workPlace[selectedWorkPlaceId]['m01']) + Number(workPlace[selectedWorkPlaceId]['o01'])
+				+ Number(workPlace[selectedWorkPlaceId]['q01']) + Number(workPlace[selectedWorkPlaceId]['h06'])
+				+ Number(workPlace[selectedWorkPlaceId]['g01']) + Number(workPlace[selectedWorkPlaceId]['h11'])
+				+ Number(workPlace[selectedWorkPlaceId]['h12']) + Number(workPlace[selectedWorkPlaceId]['h13'])
+				+ Number(workPlace[selectedWorkPlaceId]['h01']) + Number(workPlace[selectedWorkPlaceId]['k01'])
+				+ Number(workPlace[selectedWorkPlaceId]['s01']) + Number(workPlace[selectedWorkPlaceId]['y02'])
+				+ Number(workPlace[selectedWorkPlaceId]['y03']) + Number(workPlace[selectedWorkPlaceId]['y04'])
+				+ Number(workPlace[selectedWorkPlaceId]['h05']) + Number(workPlace[selectedWorkPlaceId]['i01'])
+				+ Number(workPlace[selectedWorkPlaceId]['r10']) + Number(workPlace[selectedWorkPlaceId]['h14'])
+				+ Number(workPlace[selectedWorkPlaceId]['h15']) + Number(workPlace[selectedWorkPlaceId]['h16'])
+				+ Number(workPlace[selectedWorkPlaceId]['h17']) + Number(workPlace[selectedWorkPlaceId]['u01'])
+				+ Number(workPlace[selectedWorkPlaceId]['r11']) + Number(workPlace[selectedWorkPlaceId]['y22'])
+		var 감면소득계 = Number(workPlace[selectedWorkPlaceId]['t01']) + Number(workPlace[selectedWorkPlaceId]['t10'])
+				+ Number(workPlace[selectedWorkPlaceId]['t11']) + Number(workPlace[selectedWorkPlaceId]['t12'])
+				+ Number(workPlace[selectedWorkPlaceId]['t13']) + Number(workPlace[selectedWorkPlaceId]['t20'])
+				
+		$("#근무처별소득명세계").val(근무처별소득명세계);
+		$("#비과세소득계").val(비과세소득계)
+		$("#감면소득계").val(감면소득계)
+
+		if(!workerEditCheck){
+			$("#근무지구분").prop("disabled", 'disabled');
+			$("#회사명").attr("disabled", true);
+			$("#사업자등록번호").attr("disabled", true);
+			$("#근무시작일").attr("disabled", true);
+			$("#근무종료일").attr("disabled", true);
+			$("#감면시작일").attr("disabled", true);
+			$("#감면종료일").attr("disabled", true);
+			$("#급여").attr("disabled", true);
+			$("#상여").attr("disabled", true);
+			$("#인정상여").attr("disabled", true);
+			$("#주식매수선택권행사이익").attr("disabled", true);
+			$("#우리사주조합인출금").attr("disabled", true);
+			$("#임원퇴직소득금액한도초과액").attr("disabled", true);
+			$("#직무발명보상금").attr("disabled", true);
+			$("#근무처별소득명세계").attr("disabled", true);
+			
+			$("#국민연금보험료").attr("disabled", true);
+			$("#건강보험료").attr("disabled", true);
+			$("#장기요양보험료").attr("disabled", true);
+			$("#고용보험료").attr("disabled", true);
+			$("#공무원연금").attr("disabled", true);
+			$("#군인연금").attr("disabled", true);
+			$("#사립학교교직원연금").attr("disabled", true);
+			$("#별정우체국연금").attr("disabled", true);
+			
+			$("#m01").attr("disabled", true);
+			$("#o01").attr("disabled", true);
+			$("#q01").attr("disabled", true);
+			$("#h06").attr("disabled", true);
+			$("#g01").attr("disabled", true);
+			$("#h11").attr("disabled", true);
+			$("#h12").attr("disabled", true);
+			$("#h13").attr("disabled", true);
+			$("#h01").attr("disabled", true);
+			$("#k01").attr("disabled", true);
+			$("#s01").attr("disabled", true);
+			$("#t01").attr("disabled", true);
+			$("#y02").attr("disabled", true);
+			$("#y03").attr("disabled", true);
+			$("#y04").attr("disabled", true);
+			$("#h05").attr("disabled", true);
+			$("#i01").attr("disabled", true);
+			$("#r10").attr("disabled", true);
+			$("#h14").attr("disabled", true);
+			$("#h15").attr("disabled", true);
+			$("#t10").attr("disabled", true);
+			$("#t11").attr("disabled", true);
+			$("#t12").attr("disabled", true);
+			$("#t13").attr("disabled", true);
+			$("#t20").attr("disabled", true);
+			$("#h16").attr("disabled", true);
+			$("#h17").attr("disabled", true);
+			$("#u01").attr("disabled", true);
+			$("#r11").attr("disabled", true);
+			$("#y22").attr("disabled", true);
+			$("#비과세소득계").attr("disabled", true);
+			$("#감면소득계").attr("disabled", true);
+			$("#소득세").attr("disabled", true);
+			$("#지방소득세").attr("disabled", true);
+			$("#농어촌특별세").attr("disabled", true);
+		}
+
+		selectedWorkPlaceId = idx;
+	}
+	
+	function bzSanCheck(n) {
+        var re = /-/g;
+        var bizID = n.replace(re,'');
+        var checkID = new Array(1, 3, 7, 1, 3, 7, 1, 3, 5, 1);
+        var tmpBizID, i, chkSum=0, c2, remander;
+
+        for (i=0; i<=7; i++){
+        	chkSum += checkID[i] * bizID.charAt(i);
+        }
+
+        c2 = "0" + (checkID[8] * bizID.charAt(8));
+        c2 = c2.substring(c2.length - 2, c2.length);
+
+        chkSum += Math.floor(c2.charAt(0)) + Math.floor(c2.charAt(1));
+
+        remander = (10 - (chkSum % 10)) % 10 ;
+
+        if (Math.floor(bizID.charAt(9)) == remander){
+        	return true; // OK!
+        }
+        	return false;
+    }
+
+</script>

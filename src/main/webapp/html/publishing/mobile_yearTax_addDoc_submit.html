@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+
+<link rel="stylesheet" type="text/css" href="/css/font.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/mobile_common.css">
+<link rel="stylesheet" type="text/css" href="/css/mobile_yearTax.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+</head>
+<body>
+	<header class="header yearTax">
+		<ul class="gnb">
+			<li class="prev"><a class="btn_type btn_prev" href="mobile_yearTax_progress.html"></a></li>
+			<li class="head_text NanumBarunGothic">추가증빙서류 제출</li>
+			<li class="menu"><a class="btn_type btn_menu"></a></li>
+		</ul>
+	</header>
+	<div id="container" class="yearTax">
+		<section class="wrap">
+			<ul class="boxWrap attach_file">
+				<li class="tit"><div class="NanumSquare_R txt">추가증빙 제출</div></li>
+				<li class="NanumBarunGothic file">
+					<img src="/css/image/resource/capture_sample.jpg">
+				</li>
+				<li>
+					<a class="NanumSquare_R btn_type btn_attachFile"><span class="icon"></span>사진 재첨부</a>
+				</li>
+				
+			</ul>
+			
+			<ul class="boxWrap attach_type">
+				<li class="tit"><div class="NanumSquare_R txt">증빙구분</div></li>
+				<li class="NanumBarunGothic radio_type">
+					<ul class="column">
+						<li class="row3">
+							<div><input type="radio" name="attach" id="attach1"><span class="checkmark"></span><label for="attach1">부양가족</label></div>
+							<div><input type="radio" name="attach" id="attach2"><span class="checkmark"></span><label for="attach2">의료비(안경,렌즈)</label></div>
+							<div><input type="radio" name="attach" id="attach3"><span class="checkmark"></span><label for="attach3">교육비</label></div>
+						</li>
+						<li class="row3">
+							<div><input type="radio" name="attach" id="attach4"><span class="checkmark"></span><label for="attach4">신용카드</label></div>
+							<div><input type="radio" name="attach" id="attach5"><span class="checkmark"></span><label for="attach5">보험료</label></div>
+							<div><input type="radio" name="attach" id="attach6"><span class="checkmark"></span><label for="attach6">기부금</label></div>
+						</li>
+						<li class="row3">
+							<div><input type="radio" name="attach" id="attach7"><span class="checkmark"></span><label for="attach7">종전근무지</label></div>
+							<div><input type="radio" name="attach" id="attach8"><span class="checkmark"></span><label for="attach8">주택관련</label></div>
+							<div><input type="radio" name="attach" id="attach9"><span class="checkmark"></span><label for="attach9">기타</label></div>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			
+			<ul class="boxWrap attach_type">
+				<li class="tit"><div class="NanumSquare_R txt">증빙구분</div></li>
+				<li class="NanumBarunGothic radio_type">
+					<div class="type_column">
+							<div><input type="radio" name="attach-1" id="attach1-1"><span class="checkmark"></span><label for="attach1-1">부양가족</label></div>
+							<div><input type="radio" name="attach-1" id="attach1-2"><span class="checkmark"></span><label for="attach1-2">의료비(안경,렌즈)</label></div>
+							<div><input type="radio" name="attach-1" id="attach1-3"><span class="checkmark"></span><label for="attach1-3">교육비</label></div>
+							<div><input type="radio" name="attach-1" id="attach1-4"><span class="checkmark"></span><label for="attach1-4">신용카드</label></div>
+							<div><input type="radio" name="attach-1" id="attach1-5"><span class="checkmark"></span><label for="attach1-5">보험료</label></div>
+							<div><input type="radio" name="attach-1" id="attach1-6"><span class="checkmark"></span><label for="attach1-6">기부금</label></div>
+							<div><input type="radio" name="attach-1" id="attach1-7"><span class="checkmark"></span><label for="attach1-7">종전근무지</label></div>
+							<div><input type="radio" name="attach-1" id="attach1-8"><span class="checkmark"></span><label for="attach1-8">주택관련</label></div>
+							<div><input type="radio" name="attach-1" id="attach1-9"><span class="checkmark"></span><label for="attach1-9">기타</label></div>
+					</div>
+				</li>
+			</ul>
+			
+			
+			<ul class="boxWrap attach_content">
+				<li class="tit"><div class="NanumSquare_R txt">증빙내용</div></li>
+				<li class="NanumBarunGothic">
+					<textarea class="NanumBarunGothic" placeholder="내용을 입력해주세요"></textarea>
+				</li>
+			</ul>
+			<!-- <ul class="page-selection">
+				<li class="circle active"></li>
+				<li class="circle"></li>
+			</ul> -->
+			
+			<div class="NanumBarunGothic footer type2">
+				<a class="btn_type btn_cancel">취소</a>
+				<a class="btn_type btn_save">제출</a>
+			</div>
+		</section>
+		
+	</div>
+	
+</body>
+<script type="text/javascript">
+/* 페이지 링크 샘플 */
+function pageLink(state){
+	if(state=="wait"){
+		window.location.href="#";
+	}else{
+		window.location.href="#";
+	}
+	
+}
+
+//**** 펼치기 event
+$( "input[type=checkbox]" ).on( "click", function(){
+	var _target=$(this).attr("id");
+	if($(this).is(":checked")){
+		$('[class~="'+_target+'"]').addClass("show");
+		
+	}else{
+		$('[class~="'+_target+'"]').removeClass("show");
+	}
+	console.log(_target)
+});
+
+</script>
+</html>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Content">
+	<typeAlias alias="contentVO" type="com.ezsign.content.vo.ContentVO"/>
+	<resultMap id="contentListMap" class="contentVO">
+		<result property="fileId" column="FILE_ID"/>
+		<result property="fileType" column="FILE_TYPE"/>
+		<result property="fileName" column="FILE_NAME"/>
+		<result property="orgFileName" column="ORG_FILE_NAME"/>
+		<result property="filePath" column="FILE_PATH"/>
+		<result property="fileSize" column="FILE_SIZE"/>
+		<result property="fileTitle" column="FILE_TITLE"/>
+		<result property="classId" column="CLASS_ID"/>
+		<result property="cabinetId" column="CABINET_ID"/>
+		<result property="fileVersion" column="FILE_VERSION"/>
+		<result property="parFileId" column="PAR_FILE_ID"/>
+		<result property="etcDesc" column="ETC_DESC"/>
+		<result property="checkInOut" column="CHECK_INOUT"/>
+		<result property="checkUserId" column="CHECK_USER_ID"/>
+		<result property="checkCount" column="CHECK_COUNT"/>
+		<result property="useYn" column="USE_YN"/>
+		<result property="delYn" column="DEL_YN"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="insEmpNo" column="INS_EMP_NO"/>
+		<result property="updDate" column="UPD_DATE"/>
+		<result property="updEmpNo" column="UPD_EMP_NO"/>
+	</resultMap>
+
+	<insert id="contentDAO.insContent" parameterClass="contentVO">
+		INSERT INTO tbl_content (
+		FILE_ID, FILE_TYPE, FILE_NAME, ORG_FILE_NAME, FILE_PATH, FILE_SIZE, FILE_TITLE, CLASS_ID, CABINET_ID, FILE_VERSION, PAR_FILE_ID, ETC_DESC,
+		CHECK_INOUT, CHECK_USER_ID, CHECK_COUNT, USE_YN, DEL_YN, INS_DATE, INS_EMP_NO, UPD_DATE, UPD_EMP_NO
+		) VALUES (
+		#fileId#, #fileType#, #fileName#, #orgFileName#, #filePath#, #fileSize#, #fileTitle#, #classId#, #cabinetId#, #fileVersion#, #parFileId#, #etcDesc#,
+		'N', '', 0, 'Y', 'N', DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), #insEmpNo#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), #insEmpNo#
+		)
+	</insert>
+
+	<select id="contentDAO.getContentClass" parameterClass="contentVO" resultMap="contentListMap">
+		SELECT  A.FILE_ID, A.FILE_TYPE, A.FILE_NAME, A.ORG_FILE_NAME, A.FILE_PATH, A.FILE_SIZE, A.FILE_TITLE, A.CLASS_ID, A.CABINET_ID, A.FILE_VERSION, A.PAR_FILE_ID, A.ETC_DESC,
+		A.CHECK_INOUT, A.CHECK_USER_ID, A.CHECK_COUNT, A.USE_YN, A.DEL_YN, A.INS_DATE, A.INS_EMP_NO, A.UPD_DATE, A.UPD_EMP_NO
+		FROM    tbl_content A
+		WHERE	A.CLASS_ID = #classId#
+	</select>
+
+	<select id="contentDAO.getContent" parameterClass="contentVO" resultMap="contentListMap">
+		SELECT  A.FILE_ID, A.FILE_TYPE, A.FILE_NAME, A.ORG_FILE_NAME, A.FILE_PATH, A.FILE_SIZE, A.FILE_TITLE, A.CLASS_ID, A.CABINET_ID, A.FILE_VERSION, A.PAR_FILE_ID, A.ETC_DESC,
+		A.CHECK_INOUT, A.CHECK_USER_ID, A.CHECK_COUNT, A.USE_YN, A.DEL_YN, A.INS_DATE, A.INS_EMP_NO, A.UPD_DATE, A.UPD_EMP_NO
+		FROM    tbl_content A
+		WHERE	A.FILE_ID = #fileId#
+	</select>
+
+	<update id="contentDAO.delContent" parameterClass="contentVO">
+		UPDATE  tbl_content
+		SET     USE_YN		= 'N',
+				DEL_YN		= 'Y',
+				UPD_DATE	= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE   FILE_ID		= #fileId#
+	</update>
+</sqlMap>

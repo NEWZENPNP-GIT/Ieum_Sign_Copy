@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+
+<title>인적자원관리 전문IT기업 - 뉴젠P&amp;P</title>
+
+<script>
+	// var deductCode = "";
+	var attachList;
+	var attachCodeList;
+	
+	var $toggleFormText = {
+		scan : function(o){
+			o.find(".hint").each(function(){
+				if(this.value == this.title){
+					$(this).addClass('hintText');
+					this.value = this.title;
+				}
+				if(this.value == ''){
+					$(this).addClass('hintText');
+					this.value = this.title;
+				}
+			});
+			o.find(".hint").focus(function(){
+				if(this.value == this.title){
+					$(this).removeClass('hintText');
+					this.value = '';
+				}
+			});
+			o.find(".hint").blur(function(){
+				if(this.value == ''){
+					$(this).addClass('hintText');
+					this.value = this.title;
+				} else { 
+					$(this).removeClass('hintText');
+				}
+			});
+		},
+		toString : function(){
+			return "toggleFormText";
+		}
+	};
+	
+	$(document).ready(function() {
+		$toggleFormText.scan($("body"));
+		
+		$("#attachFile").change(function() {
+			var file = $("#attachFile")[0].files[0].name;
+			$("#fileName").text(cutStr(file, 27));
+		});
+		
+		
+		계약ID = getParams().yearContractId;
+		사용자ID = getParams().userId;
+		일련번호 = getParams().seqNum;
+		공제구분코드 = getParams().deductCode;
+		공제구분상세코드 = getParams().deductDetailCode;
+		
+		// 사용자 타입
+		userType = getCookie("loginType");
+		
+		// 임직원 이상 일때 첨부파일 수정버튼 none
+		if (userType > 3) {
+			$("#fileBtn").css('display', 'none');
+		}
+		
+		// 추가서류 제출 조회
+		fn_getAttachFile();
+		// 공제구분코드
+		fn_code040List();
+		// 공제구분상세코드
+		fn_code041List();
+	});
+	
+	function fn_fileUpload() {
+		$("#attachFile").click();
+	}
+	
+	// 추가제출서류 수정
+	function fn_fileSave() {
+		var url = rootPath+"febworker/updYE020.do";
+		
+		// 공제구분코드
+		var deCode = $(':radio[name="no1-1"]:checked').val();
+		// 공제구분상세코드
+		var deDetailCode = $(':radio[name="no2-1"]:checked').val();
+		
+		var contentText = $('#contentText').val();
+		
+		if(isNull(공제구분코드)) {
+			alert("공제구분 항목을 선택하여 주세요.");
+			return;
+		}
+		if(isNull(deDetailCode)) {
+			alert("공제상세구분 항목을 선택하여 주세요.");
+			return;
+		}
+		if(isNull(contentText)) {
+			alert("내용을 입력하여 주세요.");
+			return;
+		}		
+		
+		// 데이터설정
+		var formData = new FormData();
+
+		formData.append("계약ID", 계약ID);
+		formData.append("사용자ID", 사용자ID);
+		formData.append("일련번호", 일련번호);
+		formData.append("공제구분코드", deCode); // F100:인적공제, F200:보험료공제, F300:주택자금공제, F400:월세공제, F500:신용카드공제, F500:의료비공제, F700:기부금공제, F800:교육비공제, F900:종(전)근무지, F000:기타공제
+		formData.append("공제구분상세코드", deDetailCode);
+		formData.append("남기실내용", contentText);
+		
+		var file = document.getElementsByName("attachFile");
+		for(var i=0;i<file.length;i++) {
+			if (file[i].files[0] != undefined) {
+				if(checkSpecial(file[i].files[0].name)) {
+					alert("파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.");
+					return;
+				}
+			    formData.append("addFile"+i,file[i].files[0]);
+			} 
+		}
+
+		$.blockUI();
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data:formData,
+			contentType:false,
+			processData:false,
+			cache:false,
+			success:function(result)
+			{
+				$.unblockUI();
+				alert(result.message);
+				if(result.success) {
+					window.opener.fn_getAttachFileList();
+					window.close();
+				}
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					window.close();
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+		
+	}
+	
+	// 추가제출 서류 조회
+	function fn_getAttachFile() {
+		var url = rootPath+"febworker/getYE020FileList.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				계약ID:계약ID,
+				사용자ID:사용자ID,
+				일련번호:일련번호
+			},
+			success:function(result)
+			{
+				console.log(result.data);
+				var data = result.data[0];
+				
+				// data.orgFileName
+				// data.공제구분코드
+				$('#contentText').val(data.남기실내용);
+				
+				$("#fileName").text(cutStr(data.orgFileName, 27));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	function fn_code040List() {
+		var url = rootPath+"code/getCodeList.do";
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				grpCommCode:'040'
+			},
+			success:function(result)
+			{
+				var htmlData = "";
+				
+				if (result.success==true) {
+					attachList = result.data;
+					
+					var htmlData = "";
+					// 공제구분코드
+					$.each(result.data, function(i, row) {
+				        
+				        htmlData += '<li class="chkSet">';
+				        htmlData += '<input type="radio" name="no1-1" id="addCk1-' + (i+1) + '" value="' + row.commCode + '" onclick="fn_changeDecude(this)">';
+				        htmlData += '<label for="addCk1-' + (i+1) + '">' + row.commName + '</label>';
+				        htmlData += '</li>';
+					});
+					
+				}
+				$("#deductCodeList").html(htmlData);
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+	
+	function fn_code041List() {
+		var url = rootPath+"code/getCodeList.do";
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				grpCommCode:'041'
+			},
+			success:function(result)
+			{
+				var htmlData = "";
+				
+				if (result.success==true) {
+					attachCodeList = result.data;
+					var htmlData = "";
+					// 공제구분코드
+					$.each(result.data, function(i, row) {
+						if (row.refCode == 공제구분코드) {
+							htmlData += '<li class="chkSet">';
+					        htmlData += '<input type="radio" name="no2-1" id="addCk2-' + (i+1) + '" value="' + row.commCode + '">';
+					        htmlData += '<label for="addCk2-' + (i+1) + '">' + row.commName + '</label>';
+					        htmlData += '</li>';
+							
+						}
+					});
+					
+				}
+				$("#deductDetailCodeList").html(htmlData);
+				// 공제구분 라디오버튼 표시
+				$(':radio[name="no1-1"]:radio[value="' + 공제구분코드 + '"]').prop('checked', true);
+				// 공제구분상세 라디오버튼 표시
+				$(':radio[name="no2-1"]:radio[value="' + 공제구분상세코드 + '"]').prop('checked', true);
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+	
+	// 공제구분코드 변경
+	function fn_changeDecude(obj) {
+		var refCode = obj.value;
+		
+		var htmlData = "";
+		
+		$("#deductDetailCodeList").empty();
+		$.each(attachCodeList, function(i, row) {
+			
+			if(row.refCode==refCode) {
+				htmlData += '<li class="chkSet">';
+		        htmlData += '<input type="radio" name="no2-1" id="addCk2-' + (i+1) + '" value="' + row.commCode + '">';
+		        htmlData += '<label for="addCk2-' + (i+1) + '">' + row.commName + '</label>';
+		        htmlData += '</li>';
+			}
+		});
+		
+		$("#deductDetailCodeList").html(htmlData);
+	}
+</script>
+</head>
+<body>
+
+<div id="yearTax_wrap_popup" class="yearTax_popup addSubmit">
+	<div class="container">
+		<div id="popup_tit">
+			<div class="tit_icon icon_file"></div>
+			<div class="tit_text NanumSquare_B">추가 증빙서류 제출</div>
+			<div id="popup_close" class="btn_type col_skyblue" onclick="window.close()"></div>
+		</div>
+		<div class="contents">
+			<div class="NanumSquare_R box_wrap">
+				<div class="type">
+					<div class="label_box">공제 구분</div>
+					<ul class="chk_box" id="deductCodeList">
+						<!-- <li class="chkSet"><input type="radio" name="no1-1" id="addCk1-1"><label for="addCk1-1">인적 공제</label></li>
+						<li class="chkSet"><input type="radio" name="no1-1" id="addCk1-2"><label for="addCk1-2">보험료 공제</label></li>
+						<li class="chkSet"><input type="radio" name="no1-1" id="addCk1-3"><label for="addCk1-3">주택자금 공제</label></li>
+						<li class="chkSet"><input type="radio" name="no1-1" id="addCk1-4"><label for="addCk1-4">월세 공제</label></li>
+						<li class="chkSet"><input type="radio" name="no1-1" id="addCk1-5"><label for="addCk1-5">신용카드 공제</label></li>
+						<li class="chkSet"><input type="radio" name="no1-1" id="addCk1-6"><label for="addCk1-6">의료비 공제</label></li>
+						<li class="chkSet"><input type="radio" name="no1-1" id="addCk1-7"><label for="addCk1-7">기부금 공제</label></li>
+						<li class="chkSet"><input type="radio" name="no1-1" id="addCk1-8"><label for="addCk1-8">교육비 공제</label></li>
+						<li class="chkSet"><input type="radio" name="no1-1" id="addCk1-9"><label for="addCk1-9">종(전)근무지</label></li>
+						<li class="chkSet"><input type="radio" name="no1-1" id="addCk1-10"><label for="addCk1-10">기타</label></li> -->
+					</ul>
+				</div>
+				<div class="type">
+					<div class="label_box">공제상세 구분</div>
+					<ul class="chk_box column" id="deductDetailCodeList">
+							<!-- <li class="chkSet"><input type="radio" name="no2-1" id="addCk2-1"><label for="addCk2-1">인적 공제</label></li>
+							<li class="chkSet"><input type="radio" name="no2-1" id="addCk2-2"><label for="addCk2-2">보험료 공제</label></li>
+							<li class="chkSet"><input type="radio" name="no2-1" id="addCk2-3"><label for="addCk2-3">주택자금 공제</label></li>
+							<li class="chkSet"><input type="radio" name="no2-1" id="addCk2-4"><label for="addCk2-4">월세 공제</label></li>
+							<li class="chkSet"><input type="radio" name="no2-1" id="addCk2-5"><label for="addCk2-5">신용카드 공제</label></li>
+							<li class="chkSet"><input type="radio" name="no2-1" id="addCk2-6"><label for="addCk2-6">기부금 공제</label></li>
+							<li class="chkSet"><input type="radio" name="no2-1" id="addCk2-7"><label for="addCk2-7">교육비 공제</label></li>
+							<li class="chkSet"><input type="radio" name="no2-1" id="addCk2-8"><label for="addCk2-8">종(전)근무지</label></li>
+							<li class="chkSet"><input type="radio" name="no2-1" id="addCk2-9"><label for="addCk2-9">기타</label></li> -->
+					</ul>
+				</div>
+				<div class="user_input">
+					<textarea class="NanumSquare_R" id="contentText" placeholder="내용을 입력하세요."></textarea>
+				</div>
+				<div class="attach_btns">
+					<input type="file" id="attachFile" name="attachFile" style="display:none;" />
+					<a class="btn_type type6 btn_add" id="fileBtn" href="javascript:fn_fileUpload()"> 파일첨부 </a>
+					<div class="NanumSquare_R list">
+						<span class="fileName" id="fileName"></span>
+					</div>
+					<div class="sortWrap">
+						<a class="btn_type type2 btn_save" href="javascript:fn_fileSave()">저장</a>
+						<!-- <a class="btn_type type3 btn_edit">수정</a> -->
+						<!-- <a class="btn_type type4 btn_cancel">취소</a> -->
+						<a class="btn_type type4 btn_del" href="javascript:window.close()">취소</a>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div><!-- popup_wrap -->
+
+
+</body>
+
+</html>

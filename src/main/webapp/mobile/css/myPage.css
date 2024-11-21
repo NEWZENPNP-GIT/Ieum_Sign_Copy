@@ -1,0 +1,315 @@
+@charset "utf-8";
+/*>>>>>>  default <<<<<*/
+body,p,span,a,input,ul,li,article,dl,img{margin: 0px; padding:0px; -webkit-margin:0px;-webkit-padding:0px;}
+ul{list-style-type: none}
+html{min-height:100%; min-width:100%; position:relative;}
+
+.btn_type{cursor: pointer;}
+.none{display: none;}
+.hidden{visibility: hidden}
+
+/* ******************************** company search ******************************** */
+/* -------------------- media ----------------------------- */
+@media all and (max-width: 360px) {
+	#popup_wrap{width: 100% !important;} 
+	.pwChange_wrap .col_red{display: block; margin-top: 3px;}
+	.pwCheck_wrap .txt{font-size: 14px !important;}
+}
+@media all and (min-width: 361px) and (max-width: 414px) {
+ 	#popup_wrap{width: 100% !important;} 
+ 	.pwChange_wrap .col_red{display: block; margin-top: 3px;}
+}
+
+@media all and (min-width: 414px) and (max-width: 588px) {
+	#popup_wrap{width: 100% !important;}
+	.pwChange_wrap .col_red{display: block; margin-top: 3px;} 
+}
+
+/* ============================ 마이페이지 ============================ */
+#myPage_wrap{position: relative; left: 0; top: 0; padding:18px 20px 0 20px; min-width: 862px;}
+#myPage_wrap .container .location{font-size: 12px; border-bottom: 1px solid #dddddd; line-height: 28px;}
+#myPage_wrap .container .location .loc_sub{font-weight: bold;}
+#myPage_wrap .container .pagtit {font-size:20px; line-height: 35px; margin-bottom: 15px;}
+#myPage_wrap .container .state{font-size: 20px;}
+#myPage_wrap .container .tit_dec{text-align:center; color:#fff; font-size:14px; background-color:#7c9dbc; height: 33px; border:1px solid #7c9dbc; line-height: 35px; margin-bottom: 35px;}
+#myPage_wrap .container .speaker{position: relative; display: inline-block; background:url(image/myPage/speaker.png) no-repeat; width: 21px; height: 18px; top:5px; margin-right: 10px;}
+#myPage_wrap .container #myReport.column .coltit{height: 29px; color: #00a9e9; font-size: 16px; line-height: 30px; border-bottom: 1px solid #5c9dda; font-weight: bold}
+#myPage_wrap .container #myReport.column .coltit .icon{background: url(image/myPage/icon_pointList.png) no-repeat; vertical-align: middle; display: inline-block; width: 21px; height: 21px; margin-right: 5px}
+#myPage_wrap .container #myReport.column .subtit{height: 34px; font-size: 14px; color:#333333; line-height: 30px;}
+#myPage_wrap .container #myReport.column .subtit span:first-child{font-weight: bold}
+#myPage_wrap .container #myReport.column .con{position: relative; width: 100%; height: 418px; background-color: #e4eef4; border: 1px solid #e1e1e1; }
+#myPage_wrap .container #myReport.column #piechart{/* padding-top: 68px; */margin-bottom: 10px; height: 370px;}
+#myPage_wrap .container #myReport.column #legend {/* position: absolute; top: 0; left: 0;  */padding-top:12px; margin: 0 20px 15px 20px;
+display: flex; display: -ms-flex; display: -webkit-flex; 
+justify-content: space-between; -ms-justify-content: space-between; -webkit-justify-content: space-between;}
+#myPage_wrap .container #myReport.column #legend .rect{width :18px; height: 17px; display: inline-block; vertical-align: middle; margin-right: 5px;  padding:0 !important;}
+#myPage_wrap .container #myReport.column #legend .chartlabel{font-size: 12px; color:#666666; display: inline-block;}
+#myPage_wrap .container #myReport.column .btn_foot .btn_type{width: 100%; height: 41px; display: inline-block; text-align: center; font-size: 15px; line-height: 41px; border: 1px solid #e1e1e1; border-top:none}
+#myPage_wrap .container #myReport.column .chart_wrap{float:left; display: inline-block; width:calc(50% - 12px); min-width: 404px; margin-right: 12px}
+#myPage_wrap .container #myReport.column .point_wrap{float:left; display: inline-block; width:calc(50% - 12px); min-width: 404px;}
+#myPage_wrap .container #myReport.column .point_wrap .subtit{padding-left: 25px;}
+#myPage_wrap .container #myReport.column .point_wrap .list li{height: 35px; border-bottom: 1px solid #ebf2f5; line-height: 32px;}
+#myPage_wrap .container #myReport.column .point_wrap .list li:first-child{border-top: 1px solid #e1e1e1; }
+#myPage_wrap .container #myReport.column .point_wrap .name{padding-left:25px; font-size: 14px; color:#666666; display: inline-block;}
+#myPage_wrap .container #myReport.column .point_wrap .point {float:right;}
+#myPage_wrap .container #myReport.column .point_wrap .score{font-size: 20px; color:#333333; display: inline-block; }
+#myPage_wrap .container #myReport.column .point_wrap .p{font-size: 14px; color:#333333; display: inline-block;}
+
+/* ============================ 서비스 이용관리 ============================ */
+#main_contents{background-color: #fff !important;}
+#contents_wrap{background-color: #fff;}
+#myPage_wrap .container #serviceReport {height:100%; flex-direction: column; display: flex; display: -ms-flex; display: -webkit-flex;  }
+#myPage_wrap .container #serviceReport .row{height: 100%; display: inline-block; margin-top: 17px;}
+#myPage_wrap .container #serviceReport .row .tit{height: 35px; border-bottom: 1px solid #5c9dda; 
+display: flex; display: -ms-flex; display: -webkit-flex; }
+#myPage_wrap .container #serviceReport .tit .text{font-size:16px; color: #00a9e9; font-weight: bold; align-self: center; -ms-align-self: center; -webkit-align-self: center;}
+#myPage_wrap .container #serviceReport .tit .top_btn{position: absolute; right: 20px;}
+#myPage_wrap .container #serviceReport .tit .btn_excelDown{font-size: 12px; font-weight:bold; width: 123px; height: 28px; color:#187b4a; background-color:#e5f5ed; border:1px solid #6bc297; border-radius:6px;
+display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; 
+justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;
+align-items: center; -ms-align-items: center; -webkit-align-items: center}
+#myPage_wrap .container #serviceReport .tit .btn_excelDown:before{content:url(image/myPage/btn_exceldown.png); width: 30px; height: 25px; display: inline-block;}
+#myPage_wrap .container #serviceReport .subtit{height: 33px; border-right: 1px solid #e1e1e1; 
+display: flex; display: -ms-flex; display: -webkit-flex; 
+align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#myPage_wrap .container #serviceReport .subtit .btn_monthly{width: 80px; height: 22px; font-size:12px; color:#00a0e9; background-color:#e9f8ff; border:1px solid #00a0e9; margin-left:15px;
+display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex;
+justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;
+align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#myPage_wrap .container #serviceReport .subtit .btn_monthly:before{content:url(image/myPage/icon_monthly.png); width: 19px; height: 16px; display: inline-block;}
+#myPage_wrap .container #serviceReport .subtit .subtext{font-size: 14px; color:#333333; font-weight: bold;}
+#myPage_wrap .container #serviceReport .column.report_wrap{width: 70%; height:100%; display:inline-block; float: left;}
+#myPage_wrap .container #serviceReport .column.chart_wrap{width: 30%; min-height:131px; height:100%; background-color: #e4eef4; float: left; } 
+#myPage_wrap .container #serviceReport .column.report_wrap .list{width: calc(50% - 1px); float:left; border: 1px solid #e1e1e1; border-left: none; padding: 5px 0px;}
+#myPage_wrap .container #serviceReport .column.report_wrap .list li{height: 29px; color:#666666; font-size: 14px; margin-left:20px;}
+#myPage_wrap .container #serviceReport .column.report_wrap .list li div{height:100%; 			
+display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; 
+align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#myPage_wrap .container #serviceReport .column.report_wrap .list li .valBox{display: inline-block;; float: right; margin-right: 15px; }
+#myPage_wrap .container #serviceReport .column.report_wrap .list li .value{font-size: 20px; color: #333333;}
+#myPage_wrap .container #serviceReport .column.chart_wrap .con{ height: 100%; position: relative; width: 100%; background-color: #e4eef4; 
+display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; }
+#myPage_wrap .container #serviceReport .column.chart_wrap #piechart{width: 60%; height:100%; float: left; }
+#myPage_wrap .container #serviceReport .chart_wrap #piechart{/* padding-top: 68px; */min-height: 131px;  /* margin-bottom: 10px; */ height: 370px;}
+#myPage_wrap .container #serviceReport .chart_wrap #legend {flex-direction:column;
+display: flex; display: -ms-flex; display: -webkit-flex;/* position: absolute; top: 0; left: 0;  */ align-self: center;}
+#myPage_wrap .container #serviceReport .chart_wrap #legend .rect{width :18px; height: 17px; display: inline-block; vertical-align: middle; margin-right: 5px;  padding:0 !important;}
+#myPage_wrap .container #serviceReport .chart_wrap #legend .chartlabel{font-size: 12px; color:#666666; display: inline-block; margin-bottom: 5px;}
+
+#myPage_wrap .container #serviceReport .row.contract .btn_group{float:right; margin-top: 6px;}
+#myPage_wrap .container #serviceReport .row.contract .btn_group .btn_type{font-size: 12px; font-weight:bold; width: 123px; height: 28px; color:#ff0000; background-color:#fff2f2; border:1px solid #fe7d7d; border-radius:6px;
+display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; 
+justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;
+align-items: center; -ms-align-items: center; -webkit-align-items: center}
+#myPage_wrap .container #serviceReport .row.annual .con{font-size: 15px; color: #666666; text-align: center;} 
+#myPage_wrap .container #serviceReport .row.annual .con .notAble{height: 62px; width: 100%; 
+display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; 
+justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;
+align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#myPage_wrap .container #serviceReport .row.annual .con .btn_type{width: 192px; height: 40px; font-size: 13px; text-align: center; border-radius:8px; font-weight: bold;
+display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; 
+justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;
+align-items: center; -ms-align-items: center; -webkit-align-items: center}
+#myPage_wrap .container #serviceReport .row.annual .con .btn_type.btn_detailMore{background-color: #e9f8ff; color:#00a9e9; border: 1px solid #00a0e9; margin-right: 6px;}
+#myPage_wrap .container #serviceReport .row.annual .con .btn_type.btn_apply{background-color: #00a9e9; color:#fff; border: 1px solid #00a0e9;}
+
+/* ============================ 회원정보 ============================ */
+#myPage_wrap.memberInfo .hidden{display: none !important;}
+#myPage_wrap.memberInfo .service_tit .tit {display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; width: calc(100% - 20px); height:25px; margin: 0 0 10px 0px;}
+#myPage_wrap.memberInfo .service_tit .tit .icon {background: url(image/icon_settings.png) no-repeat 50% 50%; width: 16px; height: 16px; display: inline-block;  margin-right: 5px;}
+#myPage_wrap.memberInfo .service_tit .tit .txt {font-size: 15px; color: #00a9e9; font-weight: bold; float: left;}
+
+#myPage_wrap.memberInfo .contents{display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: column;}
+#myPage_wrap.memberInfo .tab_menu{width: 100%; height: 100%; display: inline-block;}
+#myPage_wrap.memberInfo .tab_menu + .box_wrap{border: 1px solid #4698b9;}
+#myPage_wrap.memberInfo .tab_menu.hidden + .box_wrap{border: 1px solid #dcdcdc;}
+#myPage_wrap.memberInfo .tab_menu li{display: inline-block; font-size: 13px; width: 150px; float: left;}
+#myPage_wrap.memberInfo .tab_menu .btn_type{display: inline-block; width: 100%; height: 30px; background-color: #fff; border: 1px solid #4698b9; color:#4698b9; text-align: center; line-height: 28px;}
+#myPage_wrap.memberInfo .tab_menu .btn_type{border-bottom: none;}
+#myPage_wrap.memberInfo .tab_menu .btn_type.active{background-color: #4698b9; color:#fff}
+
+#myPage_wrap.memberInfo .group_wrap{position: relative; width: 100%; display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: column;}
+#myPage_wrap.memberInfo .group_wrap:last-child{margin-bottom: 30px;}
+#myPage_wrap.memberInfo .group_tit{display: inline-block; width: calc(100% - 8px); height: 33px; margin-bottom:3px;}
+#myPage_wrap.memberInfo .group_tit.skyblue{margin-bottom:15px; padding-left:8px; background-color: #ebf9ff; border-bottom: 1px solid #00a9e9;}
+#myPage_wrap.memberInfo .group_tit.pink{margin-bottom:15px; padding-left:8px; background-color: #f2f2f2; border-bottom: 1px solid #00a9e9}
+#myPage_wrap.memberInfo .group_tit .icon{display: inline-block; position:relative; top:8px; margin-right: 5px; height: 16px;  float: left;}
+#myPage_wrap.memberInfo .group_tit .icon:after{content:url(image/yearTax/icon_pagetit.png); width: 16px; height: 16px; display: inline-block;}
+#myPage_wrap.memberInfo .group_tit .text{position:relative; top:8px; font-size: 15px; color:#00a9e9; font-weight: bold; float: left;}
+
+#myPage_wrap.memberInfo .box_wrap{position:relative; width:calc(100% - 42px); float:left; border: 1px solid #dcdcdc; padding:20px 20px 15px 20px; margin-bottom:15px;}
+#myPage_wrap.memberInfo .group_row{margin-bottom: 6px;}
+#myPage_wrap.memberInfo .group_row.row1,.group_row .row1,
+#myPage_wrap.memberInfo .group_row.row2,.group_row .row2,
+#myPage_wrap.memberInfo .group_row.row3,.group_row .row3,
+#myPage_wrap.memberInfo .group_row.row4,.group_row .row4{display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: row;}
+#myPage_wrap.memberInfo .group_row dl{display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; }
+#myPage_wrap.memberInfo .group_row dt{font-size: 13px; font-weight:bold; color: #333333; width: calc(40% - 5px); height: 30px; display: flex; display: -ms-flex; display: -webkit-flex; 
+align-items: center; -ms-align-items: center; -webkit-align-items: center;margin-right: 5px;}
+#myPage_wrap.memberInfo .group_row dt label{width: calc(100% - 10px); padding-left:10px; word-break: keep-all; word-wrap: break-word;  line-height: 14px; }
+#myPage_wrap.memberInfo .group_row dd{position: relative; font-size: 13px; font-weight: bold; color: #666666; width: calc(60% - 7px); display: flex; display: -ms-flex; display: -webkit-flex; margin-left: 0px;}
+#myPage_wrap.memberInfo .group_row dd:not(.image_box){ height: 30px; }
+#myPage_wrap.memberInfo .group_row dd.size3n input[type="text"],
+#myPage_wrap.memberInfo .group_row dd.size3n div{width: calc(35% - 7px) !important;}
+#myPage_wrap.memberInfo .group_row dd.size4 input[type="text"],
+#myPage_wrap.memberInfo .group_row dd.size4 div{width: calc(40% - 7px) !important;}
+#myPage_wrap.memberInfo .group_row dd.size4n input[type="text"],
+#myPage_wrap.memberInfo .group_row dd.size4n div{width: calc(45% - 7px) !important;}
+#myPage_wrap.memberInfo .group_row dd.size5 input[type="text"],
+#myPage_wrap.memberInfo .group_row dd.size5 div{width: calc(50% - 7px) !important;}
+#myPage_wrap.memberInfo .group_row dd.size5n input[type="text"],
+#myPage_wrap.memberInfo .group_row dd.size5n div{width: calc(55% - 7px) !important;}
+#myPage_wrap.memberInfo .group_row dd.size6 input[type="text"],
+#myPage_wrap.memberInfo .group_row dd.size6 div{width: calc(60% - 7px) !important;}
+#myPage_wrap.memberInfo .group_row dd.size6n input[type="text"],
+#myPage_wrap.memberInfo .group_row dd.size6n div{width: calc(65% - 7px) !important;}
+#myPage_wrap.memberInfo .group_row dd.size7 input[type="text"],
+#myPage_wrap.memberInfo .group_row dd.size7 div{width: calc(70% - 7px) !important;}
+#myPage_wrap.memberInfo .group_row dd.size7n input[type="text"],
+#myPage_wrap.memberInfo .group_row dd.size7n div{width: calc(75% - 7px) !important;}
+#myPage_wrap.memberInfo .group_row dd.size8 input[type="text"],
+#myPage_wrap.memberInfo .group_row dd.size8 div{width: calc(80% - 7px) !important;}
+#myPage_wrap.memberInfo .group_row dd.size8n input[type="text"],
+#myPage_wrap.memberInfo .group_row dd.size8n div{width: calc(85% - 7px) !important;}
+#myPage_wrap.memberInfo .group_row dd.size9 input[type="text"],
+#myPage_wrap.memberInfo .group_row dd.size9 div{width: calc(90% - 7px) !important;}
+#myPage_wrap.memberInfo .group_row dd.size9n input[type="text"],
+#myPage_wrap.memberInfo .group_row dd.size9n div{width: calc(95% - 7px) !important;}
+
+#myPage_wrap.memberInfo .group_row dd .btn_type{display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; 
+align-items: center; -ms-align-items: center; -webkit-align-items: center;
+justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#myPage_wrap.memberInfo .group_row dd .btn_type.btn_pwset{width: 90px !important; height: 28px; border: 1px solid #fe7d7d; background-color: #fff2f2; border-radius: 5px; font-weight:bold; color:#e90000; margin-left: 3px;}
+#myPage_wrap.memberInfo .group_row dd .btn_type.btn_image{width: 90px !important; height: 28px; border: 1px solid #1a5fa4; background-color: #1a5fa4; color:#ffffff; border-radius: 5px; font-weight:bold;margin-left: 3px;
+}
+
+
+#myPage_wrap.memberInfo .group_row dd input[type="text"],#myPage_wrap.memberInfo .group_row dd input[type="password"]{width: calc(100% - 7px); height: 28px; border: 1px solid #dcdcdc; padding-left:5px; outline: none;}
+#myPage_wrap.memberInfo .group_row dd.default_box{/* font-weight:bold; */ }
+#myPage_wrap.memberInfo .group_row dd.image_box{min-height: 70px !important; max-height: 160px !important;}
+#myPage_wrap.memberInfo .group_row dd.default_box div{border: 1px solid #dcdcdc; padding-left: 5px; width: calc(100% - 7px); height: calc(100% - 2px); display: flex; display: -ms-flex; display: -webkit-flex; 
+align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#myPage_wrap.memberInfo .group_row dd.image_box div{position: relative; padding: 5px; border: 1px solid #dcdcdc; display: flex; display: -ms-flex; display: -webkit-flex; 
+align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#myPage_wrap.memberInfo .group_row dd.image_box img{/* width: 100%; height: 100%;  */}
+#myPage_wrap.memberInfo .group_row dd.default_box.noborder div{border: none; height: 100% !important; display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex;  align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#myPage_wrap.memberInfo .group_row dd.default_box .disable{background-color: #e5e5e5; border: 1px solid #dcdcdc; color:#666666; font-size:13px; }
+
+#myPage_wrap.memberInfo .group_row.row1 dl,.group_row .row1 dl{width: 100%}
+#myPage_wrap.memberInfo .group_row.row2 dl,.group_row .row2 dl{width: 50%}
+#myPage_wrap.memberInfo .group_row.row3 dl,.group_row .row3 dl{width: 33%}
+#myPage_wrap.memberInfo .group_row.row4 dl,.group_row .row4 dl{width: 25%}
+
+#myPage_wrap.memberInfo .group_row .rat1-9 dt{width: calc(10% - 5px);}
+#myPage_wrap.memberInfo .group_row .rat1-9 dd{width: calc(90% - 7px);}
+#myPage_wrap.memberInfo .group_row .rat1n-9 dt{width: calc(15% - 5px);}
+#myPage_wrap.memberInfo .group_row .rat1n-9 dd{width: calc(85% - 7px);}
+#myPage_wrap.memberInfo .group_row .rat2-8 dt{width: calc(20% - 5px);}
+#myPage_wrap.memberInfo .group_row .rat2-8 dd{width: calc(80% - 7px);}
+#myPage_wrap.memberInfo .group_row .rat2n-8 dt{width: calc(25% - 5px);}
+#myPage_wrap.memberInfo .group_row .rat2n-8 dd{width: calc(75% - 7px);}
+#myPage_wrap.memberInfo .group_row .rat3-7 dt{width: calc(30% - 5px);}
+#myPage_wrap.memberInfo .group_row .rat3-7 dd{width: calc(70% - 7px);}
+#myPage_wrap.memberInfo .group_row .rat3n-7 dt{width: calc(35% - 5px);}
+#myPage_wrap.memberInfo .group_row .rat3n-7 dd{width: calc(65% - 7px);}
+#myPage_wrap.memberInfo .group_row .rat4-6 dt{width: calc(40% - 5px);}
+#myPage_wrap.memberInfo .group_row .rat4-6 dd{width: calc(60% - 7px);}
+#myPage_wrap.memberInfo .group_row .rat4n-6 dt{width: calc(45% - 5px);}
+#myPage_wrap.memberInfo .group_row .rat4n-6 dd{width: calc(55% - 7px);}
+#myPage_wrap.memberInfo .group_row .rat5-5 dt{width: calc(50% - 5px);}
+#myPage_wrap.memberInfo .group_row .rat5-5 dd{width: calc(50% - 7px);}
+#myPage_wrap.memberInfo .group_row .rat5n-5 dt{width: calc(55% - 5px);}
+#myPage_wrap.memberInfo .group_row .rat5n-5 dd{width: calc(45% - 7px);}
+#myPage_wrap.memberInfo .group_row .rat6-4 dt{width: calc(60% - 5px);}
+#myPage_wrap.memberInfo .group_row .rat6-4 dd{width: calc(40% - 7px);}
+#myPage_wrap.memberInfo .group_row .rat6n-4 dt{width: calc(65% - 5px);}
+#myPage_wrap.memberInfo .group_row .rat6n-4 dd{width: calc(35% - 7px);}
+#myPage_wrap.memberInfo .group_row .rat7-3 dt{width: calc(70% - 5px);}
+#myPage_wrap.memberInfo .group_row .rat7-3 dd{width: calc(30% - 7px);}
+#myPage_wrap.memberInfo .group_row .rat7n-3 dt{width: calc(75% - 5px);}
+#myPage_wrap.memberInfo .group_row .rat7n-3 dd{width: calc(25% - 7px);}
+#myPage_wrap.memberInfo .group_row .rat8-2 dt{width: calc(80% - 5px);}
+#myPage_wrap.memberInfo .group_row .rat8-2 dd{width: calc(20% - 7px);}
+#myPage_wrap.memberInfo .group_row .rat8n-2 dt{width: calc(85% - 5px);}
+#myPage_wrap.memberInfo .group_row .rat8n-2 dd{width: calc(15% - 5px);}
+#myPage_wrap.memberInfo .group_row .rat9-1 dt{width: calc(90% - 7px);}
+#myPage_wrap.memberInfo .group_row .rat9-1 dd{width: calc(10% - 7px);}
+#myPage_wrap.memberInfo .group_row .rat9n-1 dt{width: calc(95% - 7px);}
+#myPage_wrap.memberInfo .group_row .rat9n-1 dd{width: calc(5% - 7px);}
+#myPage_wrap.memberInfo .group_row .rat10-0 dt{width: calc(100% - 7px);}
+#myPage_wrap.memberInfo .group_row .rat0-10 dd{width: calc(100% - 7px);}
+
+#myPage_wrap.memberInfo .rows_tit{display: inline-block; margin-bottom: 10px;  width: 100%;}
+#myPage_wrap.memberInfo .rows_tit .speaker{position: relative; display: inline-block; background: url(image/contract/contract_speaker.png) no-repeat; width: 21px; height: 18px; top: 5px; margin-right: 10px;}
+#myPage_wrap.memberInfo .rows_tit .btn_more{float: right; font-size: 12px; color: #8a8d91; padding-top: 6px;  cursor: pointer;}
+#myPage_wrap.memberInfo .rows_tit .btn_more:after{content: url(image/btn_more.png); color: #bcc4ce; width: 16px; height: 16px; display: inline-block;  margin-left: 6px; vertical-align: middle;}
+
+#myPage_wrap.memberInfo .notice_list .subtit{font-size: 15px; font-weight: bold; color:#333333; margin-bottom: 10px;}
+#myPage_wrap.memberInfo .notice_list table{table-layout: fixed; width: 100%; border-collapse: collapse; margin-bottom: 7px;}
+#myPage_wrap.memberInfo .notice_list table tr{font-size: 12px; font-weight: bold}
+#myPage_wrap.memberInfo .notice_list table thead tr{border-top:1px solid #5c9dda;}
+#myPage_wrap.memberInfo .notice_list table thead th{border-top:1px solid #5c9dda; border-right: 1px solid #dedfe0;height: 34px; background-color: #e5eff3; text-align: center;}
+#myPage_wrap.memberInfo .notice_list table thead th:last-child{border-right: none;}
+#myPage_wrap.memberInfo .notice_list table tr td{width: 16%; height: 35px; word-break: keep-all; word-wrap: break-word; border-right: 1px solid #dedfe0; border-bottom: 1px solid #dedfe0; color:#666666;font-weight: bold; text-align: center; line-height: 16px;}
+#myPage_wrap.memberInfo .notice_list table tr td:last-child {border-right: none; }
+
+#myPage_wrap.memberInfo .btn_footGroup {display: flex; display: -ms-flex; display: -webkit-flex; justify-content: flex-end; -ms-justify-content: flex-end; -webkit-justify-content: flex-end; margin-bottom: 20px}
+#myPage_wrap.memberInfo .btn_footGroup.sort_center{justify-content: center !important; -ms-justify-content: center !important; -webkit-justify-content: center !important;}
+#myPage_wrap.memberInfo .btn_footGroup.marginTop{margin-top: 10px;} 
+#myPage_wrap.memberInfo .btn_footGroup .btn_type{width:130px; height: 38px; font-size: 14px; border-radius:8px; color:#ffffff; margin-right:5px;
+display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; 
+justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;
+align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#myPage_wrap.memberInfo .btn_footGroup .btn_type:last-child{margin-right: 0}
+#myPage_wrap.memberInfo .btn_footGroup .btn_type.type1{background-color:#0d94d6;}
+#myPage_wrap.memberInfo .btn_footGroup .btn_type.type2{background-color:#6b71aa;}
+#myPage_wrap.memberInfo .btn_footGroup .btn_type.type3{background-color:#1a5fa4;}
+#myPage_wrap.memberInfo .btn_footGroup .btn_type.type4{background-color:#8c8c8c;}
+
+
+/********** 비빌번호 확인 / 변경  588px; height: 340px;  **********/
+#popup_wrap{width: 588px; height: 425px; display: inline-block; /* border:1px solid red; */}
+#popup_wrap .nonborder{border:none !important;}
+#popup_wrap .container{padding: 15px 20px 20px 20px;  position: relative;}
+#popup_wrap #popup_tit{position: relative; width: 100%; border-bottom: 1px solid #00a9e9; height: 42px; z-index: 4; vertical-align:middle;}
+#popup_wrap #popup_close.btn_type.col_skyblue{position:relative; margin-top:5px; margin-right:-5px; float:right; width:20px; height: 20px;background: url('image/popup_btn_closeSkyblue.png') no-repeat; z-index: 5;}
+
+#popup_wrap #popup_tit .tit_icon{width: 27px; height: 24px; position: relative; display: inline-block; vertical-align:middle;}
+#popup_wrap #popup_tit .tit_icon:after{content:url(image/personnel/icon_popup.png); display: inline-block;}
+#popup_wrap #popup_tit .tit_text{position:relative; font-size: 20px; color:#00acff; display: inline-block; vertical-align: middle;}
+#popup_wrap .contents{ overflow-y:auto; overflow-x:hidden;}
+.pwCheck_wrap{padding-top: 16px; }
+.pwCheck_wrap,.pwChange_wrap{display: flex; display: -ms-flex; display: -webkit-flex; 
+align-items: center; -ms-align-items: center; -webkit-align-items: center;
+justify-content: center; -ms-justify-content: center; -webkit-justify-content: center; flex-direction: column;}
+.pwCheck_wrap .icon{display:inline-block; background: url(image/myPage/icon_pwCheck.png) no-repeat; width:134px; height: 78px; margin-bottom: 15px;}
+.pwCheck_wrap .tit{color:#00a9e9; font-size: 30px; margin-bottom: 20px;}
+.pwCheck_wrap .txt{color:#6e6e6e; font-size:15px; margin-bottom: 15px; font-weight: bold;}
+.pwCheck_wrap .input{width:100%; margin-bottom: 25px; text-align: center;}
+.pwCheck_wrap .input input[type="password"]{max-width: 282px; width:100%; height: 35px; border: 1px solid #dcdcdc; outline: none; box-sizing: border-box;}
+.pwCheck_wrap .input input[type="password"]:focus{border: 1px solid #00a9e9;}
+
+.pwChange_wrap{padding-top: 10px; }
+.pwChange_wrap .col_red{color:#ff5151; font-size: 13px;}
+.pwChange_wrap .icon{display:inline-block; background: url(image/myPage/icon_pwChange.png) no-repeat; width:116px; height: 81px; margin-bottom: 20px;}
+.pwChange_wrap .tit{color:#00a9e9; font-size: 30px; margin-bottom: 15px;}
+.pwChange_wrap .txt{color:#6e6e6e; font-size:15px; margin-bottom: 15px; font-weight: bold;}
+.pwChange_wrap dl{width: 100%;}
+.pwChange_wrap dt{width: 110px; height: 35px; font-size: 14px; color:#333333; font-weight: bold; display: inline-block; float:left; display: flex; display: -ms-flex; display: -webkit-flex; 
+align-items: center; -ms-align-items: center; -webkit-align-items: center;
+justify-content: center; -ms-justify-content: center; -webkit-justify-content: center; }
+.pwChange_wrap dd{display: inline-block;  width: calc(100% - 110px); float:left; margin: 0; }
+.pwChange_wrap .input{margin-bottom: 5px;}
+.pwChange_wrap .input input[type="text"],
+.pwChange_wrap .input input[type="password"]{width: 100%; height: 35px; border: 1px solid #dcdcdc; outline: none; box-sizing: border-box;}
+.pwChange_wrap .input input[type="text"]:focus,
+.pwChange_wrap .input input[type="password"]:focus{border: 1px solid #00a9e9;}
+.pwChange_wrap .txt.noMatch{position:relative; top:-5px; font-size: 12px; color: #ff2b2b; font-weight: normal;}
+.pwChange_wrap .btns{margin-top: 5px;}
+#popup_wrap .btns .btn_type{margin-right: 5px; width: 100px; height: 36px; float:left; border-radius: 8px; font-size:14px; font-weight:bold;
+display: flex; display: -ms-flex; display: -webkit-flex; 
+align-items: center; -ms-align-items: center; -webkit-align-items: center;
+justify-content: center; -ms-justify-content: center; -webkit-justify-content: center; }
+#popup_wrap .btns .btn_type:last-child{margin-right: 0;}
+#popup_wrap .btns .btn_type.type1{background-color:#d4ecf7; color:#00a9e9; border:1px solid #1eb3ec;}
+#popup_wrap .btns .btn_type.type2{background-color:#fff2f2; color:#e90000; border:1px solid #fe7d7d;}

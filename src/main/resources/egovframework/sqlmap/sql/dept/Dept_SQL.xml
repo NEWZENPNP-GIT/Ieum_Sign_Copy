@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Dept">
+	
+	<typeAlias alias="deptVO" type="com.ezsign.dept.vo.DeptVO"/>
+	<resultMap id="deptListMap" class="deptVO">
+		<result property="dbMode" column="DB_MODE"/>
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="deptCode" column="DEPT_CODE"/>
+		<result property="deptName" column="DEPT_NAME"/>
+		<result property="pdeptCode" column="PDEPT_CODE"/>
+		<result property="deptLvl" column="DEPT_LVL"/>
+		<result property="deptOdr" column="DEPT_ODR"/>
+		<result property="loc" column="LOC"/>
+		<result property="useYn" column="USE_YN"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="updDate" column="UPD_DATE"/>
+	</resultMap>
+	
+	<select id="deptDAO.getDeptList" parameterClass="deptVO" resultMap="deptListMap">
+		SELECT  'R' DB_MODE, A.BIZ_ID, A.DEPT_CODE, A.DEPT_NAME, A.PDEPT_CODE, A.DEPT_LVL, 
+		        A.DEPT_ODR, A.LOC, A.USE_YN, A.INS_DATE, A.UPD_DATE
+		FROM    tbl_dept A
+		WHERE	A.BIZ_ID    = #bizId#
+		<isNotNull property="deptCode">
+		    <isNotEmpty property="deptCode">
+			AND     A.DEPT_CODE = #deptCode#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="deptName">
+		    <isNotEmpty property="deptName">
+			AND     A.DEPT_NAME LIKE CONCAT('%', #deptName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sortName">
+		    <isNotEmpty property="sortName">
+		ORDER BY $sortName$ $sortOrder$
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<insert id="deptDAO.insDept" parameterClass="deptVO">
+		<selectKey resultClass="java.lang.String" keyProperty="deptCode">
+			SELECT  getTableKey('TBL_DEPT')
+		</selectKey>
+		INSERT INTO tbl_dept (
+			BIZ_ID, DEPT_CODE, DEPT_NAME, PDEPT_CODE, DEPT_LVL, DEPT_ODR, LOC, USE_YN, INS_DATE, UPD_DATE
+		) VALUES (
+		   #bizId#, #deptCode#, #deptName#, #pdeptCode#, #deptLvl#, #deptOdr#, #loc#, 'Y',  
+		   DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<update id="deptDAO.updDept" parameterClass="deptVO">
+		UPDATE tbl_dept
+		SET	
+		<isNotNull property="deptName">
+		    <isNotEmpty property="deptName">
+			DEPT_NAME		= #deptName#,
+			</isNotEmpty>
+		</isNotNull>
+			UPD_DATE		= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	BIZ_ID		= #bizId#
+		AND		DEPT_CODE	= #deptCode#
+	</update>
+	
+	<update id="deptDAO.delDeptEmp" parameterClass="deptVO">
+		UPDATE tbl_emp
+		SET	DEPT_CODE		= '',
+			UPD_DATE		= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	BIZ_ID		= #bizId#
+		AND		DEPT_CODE	= #deptCode#
+	</update>
+	
+	<delete id="deptDAO.delDept" parameterClass="deptVO">
+		DELETE FROM tbl_dept
+		WHERE	BIZ_ID		= #bizId#
+		<isNotNull property="deptCode">
+		    <isNotEmpty property="deptCode">
+			AND		DEPT_CODE	= #deptCode#
+			</isNotEmpty>
+		</isNotNull>
+	</delete>
+	
+</sqlMap>
+		

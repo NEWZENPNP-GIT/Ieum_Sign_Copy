@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="febworker">
+	<typeAlias alias="ye001VO" type="com.ezsign.feb.worker.vo.YE001VO" />
+
+	<resultMap id="ye001ListMap" class="ye001VO">
+		<result property="empName" column="EMP_NAME"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="사업장명" column="사업장명"/>
+		<result property="계약ID" column="계약ID"/>
+		<result property="사용자ID" column="사용자ID"/>
+		<result property="부양가족ID" column="부양가족ID"/>
+		<result property="가족관계" column="가족관계"/>
+		<result property="내외국인" column="내외국인"/>
+		<result property="성명" column="성명"/>
+		<result property="개인식별번호" column="개인식별번호"/>
+		<result property="나이" column="나이"/>
+		<result property="기본공제" column="기본공제"/>
+		<result property="부녀자" column="부녀자"/>
+		<result property="한부모" column="한부모"/>
+		<result property="경로우대" column="경로우대"/>
+		<result property="장애인" column="장애인"/>
+		<result property="자녀" column="자녀"/>
+		<result property="출산입양" column="출산입양"/>
+		<result property="추가제출서류번호" column="추가제출서류번호"/>
+		<result property="소득확인" column="소득확인"/>
+		<result property="등록일시" column="등록일시"/>
+		<result property="수정일시" column="수정일시"/>
+	</resultMap>
+
+	<resultMap id="ye001ID" class="ye001VO">
+		<result property="사용자ID" column="사용자ID"/>
+		<result property="부양가족ID" column="부양가족ID"/>
+		<result property="가족관계" column="가족관계"/>
+		<result property="성명" column="성명"/>
+		<result property="나이" column="나이"/>
+		<result property="경로우대" column="경로우대"/>
+		<result property="장애인" column="장애인"/>
+	</resultMap>
+
+	<select id="ye001DAO.getYE001List" parameterClass="ye001VO" resultMap="ye001ListMap">
+		SELECT A.사업장명, B.EMP_NAME, B.EMP_NO, C.계약ID, C.사용자ID, C.부양가족ID, C.가족관계, C.내외국인, C.성명, C.개인식별번호, C.나이, C.기본공제, C.부녀자,
+				C.한부모, C.경로우대, C.장애인, C.자녀, C.출산입양, C.추가제출서류번호, C.소득확인, C.수정일시, C.등록일시
+		FROM tbl_ys030 A, tbl_emp B, tbl_ye001 C, tbl_ye000 D 
+		WHERE B.USER_ID	 = C.사용자ID
+		AND C.계약ID		 = D.계약ID
+		AND C.사용자ID	 = D.사용자ID
+		AND D.계약ID		 = A.계약ID
+		AND D.사업장ID	 = A.사업장ID
+		AND C.계약ID		 = #계약ID#
+		<isNotNull property="bizId">
+			<isNotEmpty property="bizId">
+			AND B.BIZ_ID		= #bizId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="근무상태">
+			<isNotEmpty property="근무상태">
+				<isEqual property="근무상태"  compareValue="1">
+					AND   (B.LEAVE_DATE IS NULL OR B.LEAVE_DATE = '')
+				</isEqual>
+				<isEqual property="근무상태"  compareValue="2">
+					AND   (B.LEAVE_DATE IS NOT NULL AND B.LEAVE_DATE != '')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사업장ID">
+			<isNotEmpty property="사업장ID">
+			AND D.사업장ID		= #사업장ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="부서ID">
+			<isNotEmpty property="부서ID">
+			AND D.부서ID			= #부서ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empName">
+			<isNotEmpty property="empName">
+			AND B.EMP_NAME LIKE CONCAT('%', #empName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empNo">
+			<isNotEmpty property="empNo">
+			AND B.EMP_NO LIKE CONCAT('%', #empNo#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사용자ID">
+			<isNotEmpty property="사용자ID">
+			AND B.USER_ID		= #사용자ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="가족관계">
+			<isNotEmpty property="가족관계">
+			AND C.가족관계			= #가족관계#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="부양가족ID">
+			<isNotEmpty property="부양가족ID">
+			AND C.부양가족ID		= #부양가족ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="positionName">
+			<isNotEmpty property="positionName">
+			AND B.POSITION_NAME LIKE CONCAT('%', #positionName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sortName">
+			<isNotEmpty property="sortName">
+		ORDER BY $sortName$ $sortOrder$
+			</isNotEmpty>
+		</isNotNull>
+		limit #endPage# offset #startPage#
+	</select>
+
+	<select id="ye001DAO.getYE001ListCount" parameterClass="ye001VO" resultClass="java.lang.Integer">
+		SELECT COUNT(C.부양가족ID) CNT
+		FROM tbl_ys030 A, tbl_emp B, tbl_ye001 C, tbl_ye000 D
+		WHERE B.USER_ID	 = C.사용자ID
+		AND C.계약ID		 = D.계약ID
+		AND	C.사용자ID	 = D.사용자ID
+		AND	D.계약ID		 = A.계약ID
+		AND D.사업장ID	 = A.사업장ID
+		AND C.계약ID		 = #계약ID#
+		<isNotNull property="bizId">
+			<isNotEmpty property="bizId">
+			AND B.BIZ_ID		= #bizId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="근무상태">
+			<isNotEmpty property="근무상태">
+				<isEqual property="근무상태"  compareValue="1">
+					AND   (B.LEAVE_DATE IS NULL OR B.LEAVE_DATE = '')
+				</isEqual>
+				<isEqual property="근무상태"  compareValue="2">
+					AND   (B.LEAVE_DATE IS NOT NULL AND B.LEAVE_DATE != '')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사업장ID">
+			<isNotEmpty property="사업장ID">
+			AND D.사업장ID		= #사업장ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="부서ID">
+			<isNotEmpty property="부서ID">
+			AND D.부서ID		= #부서ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empName">
+			<isNotEmpty property="empName">
+			AND B.EMP_NAME LIKE CONCAT('%', #empName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empNo">
+			<isNotEmpty property="empNo">
+			AND B.EMP_NO LIKE CONCAT('%', #empNo#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사용자ID">
+			<isNotEmpty property="사용자ID">
+			AND C.사용자ID		= #사용자ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="가족관계">
+			<isNotEmpty property="가족관계">
+			AND C.가족관계			= #가족관계#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="부양가족ID">
+			<isNotEmpty property="부양가족ID">
+			AND C.부양가족ID		= #부양가족ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="positionName">
+			<isNotEmpty property="positionName">
+			AND B.POSITION_NAME LIKE CONCAT('%', #positionName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+
+	<insert id="ye001DAO.insYE001" parameterClass="ye001VO">
+		<selectKey resultClass="java.lang.String" keyProperty="부양가족ID">
+			SELECT  getTableKey('TBL_YE001')
+		</selectKey>
+		INSERT INTO tbl_ye001 (
+			계약ID, 사용자ID, 부양가족ID, 가족관계, 내외국인, 성명, 개인식별번호, 나이, 기본공제, 
+			부녀자, 한부모, 경로우대, 장애인, 자녀, 출산입양, 추가제출서류번호, 소득확인, 등록일시, 수정일시
+		) VALUES (
+			#계약ID#, #사용자ID#, CASE #가족관계# WHEN '0' THEN #사용자ID# ELSE #부양가족ID# END, #가족관계#, #내외국인#, #성명#, #개인식별번호#, #나이#, #기본공제#, 
+			#부녀자#, #한부모#, #경로우대#, #장애인#, #자녀#, #출산입양#, #추가제출서류번호#, #소득확인#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+
+	<update id="ye001DAO.updYE001" parameterClass="ye001VO">
+		UPDATE tbl_ye001
+		SET	
+		<isNotNull property="가족관계">
+			<isNotEmpty property="가족관계">
+			가족관계				= #가족관계#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="내외국인">
+			<isNotEmpty property="내외국인">
+			내외국인				= #내외국인#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="성명">
+			<isNotEmpty property="성명">
+			성명					= #성명#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="개인식별번호">
+			<isNotEmpty property="개인식별번호">
+			개인식별번호			= #개인식별번호#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="나이">
+			<isNotEmpty property="나이">
+			나이					= #나이#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="기본공제">
+			<isNotEmpty property="기본공제">
+			기본공제				= #기본공제#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="부녀자">
+			<isNotEmpty property="부녀자">
+			부녀자				= #부녀자#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="한부모">
+			<isNotEmpty property="한부모">
+			한부모				= #한부모#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="경로우대">
+			<isNotEmpty property="경로우대">
+			경로우대				= #경로우대#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="장애인">
+			<isNotEmpty property="장애인">
+			장애인				= #장애인#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="자녀">
+			<isNotEmpty property="자녀">
+			자녀					= #자녀#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="출산입양">
+			<isNotEmpty property="출산입양">
+			출산입양				= #출산입양#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="추가제출서류번호">
+			<isNotEmpty property="추가제출서류번호">
+			추가제출서류번호				= #추가제출서류번호#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="소득확인">
+			<isNotEmpty property="소득확인">
+			소득확인				= #소득확인#,
+			</isNotEmpty>
+		</isNotNull>
+			수정일시			= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	계약ID	 = #계약ID#
+		AND		사용자ID	 = #사용자ID#
+		AND		부양가족ID = #부양가족ID#
+	</update>
+
+	<delete id="ye001DAO.delYE001" parameterClass="ye001VO">
+		DELETE FROM tbl_ye001
+		WHERE	계약ID	 = #계약ID#
+		AND		사용자ID	 = #사용자ID#
+		<isNotNull property="부양가족ID">
+			<isNotEmpty property="부양가족ID">
+			AND		부양가족ID		= #부양가족ID# 
+			</isNotEmpty>
+		</isNotNull>
+	</delete>
+
+	<select id="ye001DAO.getYE001SubList" parameterClass="ye001VO" resultMap="ye001ListMap">
+		SELECT A.사업장명, B.EMP_NAME, B.EMP_NO, C.계약ID, C.사용자ID, C.부양가족ID, C.가족관계, C.내외국인, C.성명, C.개인식별번호, C.나이, C.기본공제, C.부녀자, C.추가제출서류번호, C.소득확인,
+				C.한부모, C.경로우대, C.장애인, C.자녀, C.출산입양, C.수정일시, C.등록일시
+		FROM tbl_ys030 A, tbl_emp B, tbl_ye001 C, tbl_ye000 D
+		WHERE B.USER_ID	 = C.사용자ID
+		AND C.계약ID		 = D.계약ID
+		AND C.사용자ID	 = D.사용자ID
+		AND D.계약ID		 = A.계약ID
+		AND D.사업장ID	 = A.사업장ID
+		AND C.계약ID		 = #계약ID#
+		AND B.BIZ_ID	 = #bizId#
+		AND B.USER_ID	 = #사용자ID#
+		AND C.가족관계		 NOT IN ('0')
+	</select>
+
+	<select id="ye001DAO.getYE001ID" parameterClass="ye001VO" resultMap="ye001ID">
+		SELECT 사용자ID, 부양가족ID, 가족관계, 성명, 나이, 경로우대, 장애인
+		FROM tbl_ye001 
+		WHERE 계약ID = #계약ID#
+		<isNotNull property="개인식별번호">
+			<isNotEmpty property="개인식별번호">
+		  AND 개인식별번호 = #개인식별번호#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사용자ID">
+			<isNotEmpty property="사용자ID">
+		  AND 사용자ID = #사용자ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="부양가족ID">
+			<isNotEmpty property="부양가족ID">
+		  AND 부양가족ID = #부양가족ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="가족관계">
+			<isNotEmpty property="가족관계">
+		  AND 가족관계 = #가족관계#
+			</isNotEmpty>
+		</isNotNull>
+		LIMIT 0, 1
+	</select>
+</sqlMap>

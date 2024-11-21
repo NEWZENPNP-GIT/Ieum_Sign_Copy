@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="push">
+	<typeAlias alias="pushVO" type="com.ezsign.push.vo.PushVO" />
+	<resultMap id="pushSendListMap" class="pushVO">
+		<result property="pushId" column="PUSH_ID"/>
+		<result property="title" column="TITLE"/>
+		<result property="body" column="BODY"/>
+		<result property="to" column="TO"/>
+		<result property="bookDate" column="BOOK_DATE"/>
+	</resultMap>
+	
+	<resultMap id="pushListMap" class="pushVO">
+		<result property="pushId" column="PUSH_ID"/>
+		<result property="pushType" column="PUSH_TYPE"/>
+		<result property="body" column="BODY"/>
+		<result property="readYn" column="READ_YN"/>
+		<result property="sendDate" column="SEND_DATE"/>
+	</resultMap>
+	
+	<resultMap id="pushMessageMap" class="pushVO">
+		<result property="messageContents" column="MESSAGE_CONTENTS"/>
+	</resultMap>
+
+	<!-- 읽지 않은 푸시 리스트 -->
+	<select id="pushDAO.getPushList" parameterClass="pushVO" resultMap="pushListMap">
+		SELECT a.PUSH_ID, a.PUSH_TYPE, a.BODY, a.SEND_DATE, CASE WHEN b.DEVICE_ID IS NULL THEN 'Y' ELSE 'N' END AS READ_YN
+		FROM tbl_push_send as a left join tbl_push_read as b
+		ON a.PUSH_ID = b.PUSH_ID
+		WHERE 1=1
+		AND a.SEND_DATE IS NOT NULL 
+		AND (a.TO_TYPE = '003' AND a.DEVICE_ID = #deviceId#) 
+		OR (a.TO_TYPE = '002' AND a.`TO` = CONCAT('/topics/', #bizId#)) 
+		OR (a.TO_TYPE = '001' AND a.`TO` = CONCAT('/topics/', 'CANDY'))
+	</select>
+	
+	<!-- 푸쉬 보내야할 목록 가져오기 -->
+	<select id="pushDAO.getPushSendList" parameterClass="pushVO" resultMap="pushSendListMap">
+		SELECT PUSH_ID, TITLE, BODY, `TO`, BOOK_DATE
+		FROM  tbl_push_send
+		WHERE SEND_DATE IS NULL
+		<![CDATA[
+		AND   BOOK_DATE <= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		]]>
+	</select>
+	
+	<!-- 푸시 전송 완료 날짜 등록 -->
+	<update id="pushDAO.updPushSendList" parameterClass="pushVO">
+		UPDATE tbl_push_send SET 
+		SEND_DATE = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE PUSH_ID = #pushId#
+	</update>
+	
+	
+	
+	<!-- 읽지 않은 푸쉬 수 구해오기 -->
+	<select id="pushDAO.getReadCnt" parameterClass="pushVO" resultClass="pushVO">
+		SELECT (A.CNT - B.CNT) AS nonReadPushCnt
+		FROM 
+			(
+				SELECT COUNT(*) AS CNT
+				FROM tbl_push_send 
+				WHERE (TO_TYPE = '003' AND DEVICE_ID = #deviceId#) 
+				OR (TO_TYPE = '002' AND `TO` = CONCAT('/topics/', #bizId#)) 
+				OR (TO_TYPE = '001' AND `TO` = CONCAT('/topics/', 'CANDY'))
+			) AS A, 
+			(
+				SELECT COUNT(*) AS CNT
+				FROM tbl_push_read
+				WHERE DEVICE_ID = #deviceId#
+			) AS B
+	</select>
+	
+	
+	<!-- 푸쉬 메세지 구해오기 -->
+	<select id="pushDAO.getPushMessage" parameterClass="pushVO" resultMap="pushMessageMap">
+	SELECT replace(replace(MESSAGE_CONTENTS, '[value1]', #value1#), '[value2]', #value2#) as MESSAGE_CONTENTS
+	FROM tbl_push_message
+	WHERE message_type = #pushType#
+	</select>
+	
+	<!-- 푸쉬 읽음 처리 전 존재여부 체크 -->
+	<select id="pushDAO.insPushReadYn" parameterClass="pushVO" resultClass="java.lang.Integer">
+		SELECT  COUNT(PUSH_ID)
+		FROM    tbl_push_read 
+		WHERE   PUSH_ID = #pushId#
+		AND     DEVICE_ID = #deviceId#
+	</select>
+	
+	<!-- 푸쉬 읽음 처리 -->
+	<insert id="pushDAO.insPushRead" parameterClass="pushVO">
+		INSERT INTO tbl_push_read
+		(
+			PUSH_ID, DEVICE_ID, READ_DATE
+		) 
+		VALUES
+		(
+			#pushId#
+			, #deviceId#
+			, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<!-- 
+
+	푸쉬 보내야 할 목록 넣기
+	PUSH대상 : 사용자 - toType(003 - 코드표 참고(보내는 대상코드)), pushType(코드표 참고(푸쉬 메세지 코드)), userId(사용자ID-LoginId 아님), bookDate(예약발송일자 - 필요시), body(내용) 
+	
+	TO_TYPE : 
+	001 - CANDY
+	002 - TOPIC
+	003 - TOKEN
+	
+	PUSH_TYPE
+	001 - 공지사항
+	002 - 문의글 답변
+	003 - 켈린더 내용 등록
+	004 - 연말정산 종료일 임박
+	005 - 연말정산 1차 마감
+	
+	-->
+	<insert id="pushDAO.insPushSendUser" parameterClass="pushVO">
+		INSERT INTO tbl_push_send
+		(
+			DEVICE_ID, `TO`, TO_TYPE, PUSH_TYPE, TITLE, BODY, BOOK_DATE, SEND_DATE, INS_DATE, UPD_DATE
+		) 
+		SELECT 
+			b.DEVICE_ID
+			, b.PUSH_TOKEN
+			, #toType#
+			, #pushType#
+			, ''
+			, #body#
+			<isNotNull property="bookDate">
+			    <isNotEmpty property="bookDate">
+					, #bookDate#
+				</isNotEmpty>
+			</isNotNull>
+			<isNull property="bookDate">
+				<isEmpty property="bookDate">
+					, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+				</isEmpty>
+			</isNull>
+			, null
+			, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+			, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		FROM tbl_emp AS a 
+		INNER JOIN tbl_user_device AS b
+		ON a.LOGIN_ID = b.USER_ID
+		WHERE a.USER_ID = #userId#
+		AND b.PUSH_TOKEN IS NOT NULL 
+	</insert>
+	
+	<!-- 
+	
+	푸쉬 보내야 할 목록 넣기
+	PUSH대상 : 회사 - toType(002 - 코드표 참고(보내는 대상코드)), pushType(코드표 참고(푸쉬 메세지 코드)), bizId(회사ID), bookDate(예약발송일자 - 필요시), body(내용)
+	PUSH대상 : 앱 전체 유저 - toType(001 - 코드표 참고(보내는 대상코드)), pushType(코드표 참고(푸쉬 메세지 코드)), bookDate(예약발송일자 - 필요시), body(내용)
+	
+	TO_TYPE : 
+	001 - CANDY
+	002 - TOPIC
+	003 - TOKEN
+	
+	PUSH_TYPE
+	001 - 공지사항
+	002 - 문의글 답변
+	003 - 켈린더 내용 등록
+	004 - 연말정산 종료일 임박
+	005 - 연말정산 1차 마감
+	
+	-->
+	<insert id="pushDAO.insPushSendTopic" parameterClass="pushVO">
+		INSERT INTO tbl_push_send
+		(
+			DEVICE_ID, `TO`, TO_TYPE, PUSH_TYPE, TITLE, BODY, BOOK_DATE, SEND_DATE, INS_DATE, UPD_DATE
+		) 
+		VALUES
+		(
+			null
+			<isNotNull property="bizId">
+				<isNotEmpty property="bizId">
+					, CONCAT('/topics/', #bizId#)
+				</isNotEmpty>
+			</isNotNull>
+			<isNull property="bizId">
+				<isEmpty property="bizId">
+					, #bizId#
+				</isEmpty>
+			</isNull>
+			, #toType#
+			, #pushType#
+			, ''
+			, #body#
+			<isNotNull property="bookDate">
+			    <isNotEmpty property="bookDate">
+					, #bookDate#
+				</isNotEmpty>
+			</isNotNull>
+			<isNull property="bookDate">
+				<isEmpty property="bookDate">
+					, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+				</isEmpty>
+			</isNull>
+			, null
+			, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+			, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	
+	
+</sqlMap>
+		

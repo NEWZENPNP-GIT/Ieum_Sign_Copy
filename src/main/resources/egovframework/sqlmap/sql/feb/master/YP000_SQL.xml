@@ -1,0 +1,677 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="febmaster">
+	
+	<typeAlias alias="yp000VO" type="com.ezsign.feb.master.vo.YP000VO" />
+	
+	<resultMap id="yp000ListMap" class="yp000VO">
+		<result property="계약ID" column="계약ID"/>
+		<result property="사용자ID" column="USER_ID"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="부서ID" column="부서ID"/>
+		<result property="부서명" column="부서명"/>
+		<result property="phoneNum" column="PHONE_NUM"/>
+		<result property="eMail" column="E_MAIL"/>
+		<result property="국세청PDF유형" column="국세청PDF유형"/>
+		<result property="진행상태코드" column="진행상태코드"/>
+		<result property="사용여부" column="사용여부"/>
+		<result property="등록일시" column="등록일시"/>
+		<result property="수정일시" column="수정일시"/>
+	</resultMap>
+	
+	<resultMap id="yp000Worker" class="yp000VO">
+		<result property="empName" column="EMP_NAME"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="phoneNum" column="PHONE_NUM"/>
+		<result property="EMail" column="E_MAIL"/>
+		<result property="joinDate" column="JOIN_DATE"/>
+		<result property="leaveDate" column="LEAVE_DATE"/>
+		<result property="address1" column="ADDR1"/>
+		<result property="address2" column="ADDR2"/>
+		<result property="zipCode" column="ZIP_CODE"/>
+		<result property="positionName" column="POSITION_NAME"/>
+		<result property="부서ID" column="부서ID"/>
+		<result property="부서명" column="부서명"/>
+		<result property="계약ID" column="계약ID"/>
+		<result property="사용자ID" column="사용자ID"/>
+		<result property="근무시기" column="근무시기"/>		
+		<result property="진행상태코드" column="진행상태코드"/>
+		<result property="사용여부" column="사용여부"/>
+		<result property="연말대상" column="연말대상"/>
+		<result property="사업장ID" column="사업장ID"/>
+		<result property="사업장명" column="사업장명"/>
+		<result property="일련번호" column="일련번호"/>
+		<result property="개인식별번호" column="개인식별번호"/>
+		<result property="부서표시여부" column="부서표시여부"/>
+		<result property="사내내선번호" column="사내내선번호"/>
+		<result property="내외국인구분" column="내외국인구분"/>
+		<result property="국가코드" column="국가코드"/>
+		<result property="국적" column="국적"/>
+		<result property="거주구분" column="거주구분"/>
+		<result property="거주지국코드" column="거주지국코드"/>
+		<result property="거주지국" column="거주지국"/>
+		<result property="외국법인파견근로자" column="외국법인파견근로자"/>
+		<result property="외국인단일세율적용" column="외국인단일세율적용"/>
+		<result property="국외근로제공여부" column="국외근로제공여부"/>
+		<result property="중소기업취업감면여부" column="중소기업취업감면여부"/>
+		<result property="감면기간_FROM" column="감면기간_FROM"/>
+		<result property="감면기간_TO" column="감면기간_TO"/>
+		<result property="감면율" column="감면율"/>
+		<result property="생산직등야간근로비과세" column="생산직등야간근로비과세"/>
+		<result property="전년도총급여" column="전년도총급여"/>
+		<result property="세대주여부" column="세대주여부"/>
+		<result property="소득세적용률" column="소득세적용률"/>
+		<result property="연말정산분납여부" column="연말정산분납여부"/>
+		<result property="종전근무지_납세조합유무" column="종전근무지_납세조합유무"/>
+		<result property="원천명세ID" column="원천명세ID"/>
+		<result property="급여" column="급여"/>
+		<result property="상여" column="상여"/>
+		<result property="인정상여" column="인정상여"/>
+		<result property="주식매수선택권행사이익" column="주식매수선택권행사이익"/>
+		<result property="우리사주조합인출금" column="우리사주조합인출금"/>
+		<result property="임원퇴직소득금액한도초과액" column="임원퇴직소득금액한도초과액"/>
+		<result property="소득세" column="소득세"/>
+		<result property="지방소득세" column="지방소득세"/>
+		<result property="농어촌특별세" column="농어촌특별세"/>
+		<result property="건강보험료" column="건강보험료"/>
+		<result property="장기요양보험료" column="장기요양보험료"/>
+		<result property="국민연금보험료" column="국민연금보험료"/>
+		<result property="고용보험료" column="고용보험료"/>
+		<result property="공무원연금" column="공무원연금"/>
+		<result property="군인연금" column="군인연금"/>
+		<result property="사립학교교직원연금" column="사립학교교직원연금"/>
+		<result property="별정우체국연금" column="별정우체국연금"/>
+		<result property="납부특례세액_소득세" column="납부특례세액_소득세"/>
+		<result property="납부특례세액_지방소득세" column="납부특례세액_지방소득세"/>
+		<result property="납부특례세액_농어촌특별세" column="납부특례세액_농어촌특별세"/>
+		<result property="M01" column="M01"/>
+		<result property="M02" column="M02"/>
+		<result property="M03" column="M03"/>
+		<result property="O01" column="O01"/>
+		<result property="Q01" column="Q01"/>
+		<result property="H08" column="H08"/>
+		<result property="H09" column="H09"/>
+		<result property="H10" column="H10"/>
+		<result property="G01" column="G01"/>
+		<result property="H11" column="H11"/>
+		<result property="H12" column="H12"/>
+		<result property="H13" column="H13"/>
+		<result property="H01" column="H01"/>
+		<result property="K01" column="K01"/>
+		<result property="S01" column="S01"/>
+		<result property="T01" column="T01"/>
+		<result property="Y02" column="Y02"/>
+		<result property="Y03" column="Y03"/>
+		<result property="Y04" column="Y04"/>
+		<result property="H05" column="H05"/>
+		<result property="I01" column="I01"/>
+		<result property="R10" column="R10"/>
+		<result property="H14" column="H14"/>
+		<result property="H15" column="H15"/>
+		<result property="T10" column="T10"/>
+		<result property="T11" column="T11"/>
+		<result property="T12" column="T12"/>
+		<result property="T20" column="T20"/>
+		<result property="H16" column="H16"/>
+		<result property="R11" column="R11"/>
+		<result property="H06" column="H06"/>
+		<result property="H07" column="H07"/>
+		<result property="Y22" column="Y22"/>
+		<result property="직무발명보상금" column="직무발명보상금"/>
+		<result property="T13" column="T13"/>
+		<result property="H17" column="H17"/>
+		<result property="U01" column="U01"/>
+		<result property="비과세한도초과액" column="비과세한도초과액"/>
+		<result property="원천징수영수증_관리번호" column="원천징수영수증_관리번호"/>
+		<result property="처리여부" column="처리여부"/>
+		<result property="등록일시" column="등록일시"/>
+		<result property="수정일시" column="수정일시"/>
+	</resultMap>
+	
+	<resultMap id="yp000WorkerListMap" class="yp000VO">
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="empType" column="EMP_Type"/>
+		<result property="phoneNum" column="PHONE_NUM"/>
+		<result property="leaveDate" column="LEAVE_DATE"/>
+		<result property="positionName" column="POSITION_NAME"/>
+		<result property="EMail" column="E_MAIL"/>
+		<result property="부서ID" column="부서ID"/>
+		<result property="부서명" column="부서명"/>
+		<result property="계약ID" column="계약ID"/>
+		<result property="사용자ID" column="사용자ID"/>
+		<result property="근무시기" column="근무시기"/>
+		<result property="사업장ID" column="사업장ID"/>
+		<result property="원천명세ID" column="원천명세ID"/>
+		<result property="사업장명" column="사업장명"/>
+		<result property="사내내선번호" column="사내내선번호"/>
+		<result property="연말대상" column="연말대상"/>
+		<result property="진행상태코드" column="진행상태코드"/>
+		<result property="등록일시" column="등록일시"/>
+		<result property="수정일시" column="수정일시"/>
+	</resultMap>
+	
+	<resultMap id="yp000WorkMonthMap" class="yp000VO">
+		<result property="계약ID" column="계약ID"/>
+		<result property="사용자ID" column="사용자ID"/>
+		<result property="근무시기" column="근무시기"/>	
+		<result property="febYear" column="FEB_YEAR"/>
+		<result property="진행상태코드" column="진행상태코드"/>
+		<result property="세대주여부" column="세대주여부"/>
+		<result property="외국인단일세율적용" column="외국인단일세율적용"/>
+		<result property="M1" column="M1"/>
+		<result property="M2" column="M2"/>
+		<result property="M3" column="M3"/>
+		<result property="M4" column="M4"/>
+		<result property="M5" column="M5"/>
+		<result property="M6" column="M6"/>
+		<result property="M7" column="M7"/>
+		<result property="M8" column="M8"/>
+		<result property="M9" column="M9"/>
+		<result property="M10" column="M10"/>
+		<result property="M11" column="M11"/>
+		<result property="M12" column="M12"/>
+	</resultMap>
+		
+	<select id="yp000DAO.getYP000List" parameterClass="yp000VO" resultMap="yp000WorkerListMap">
+		SELECT A.BIZ_ID, A.EMP_TYPE, A.LEAVE_DATE, A.POSITION_NAME, C.계약ID, A.USER_ID 사용자ID, C.근무시기, E.원천명세ID, C.사업장ID, D.일련번호, G.사업장명, A.EMP_NAME, A.EMP_NO, O.부서ID, O.부서명, A.E_MAIL, A.PHONE_NUM, 
+				 C.사내내선번호, H.COMM_NAME 연말대상, C.진행상태코드, C.등록일시, C.수정일시 
+		FROM tbl_emp A
+			LEFT OUTER JOIN tbl_yp000 C
+			ON A.USER_ID = C.사용자ID AND C.계약ID = #계약ID# AND C.근무시기 = #근무시기#
+			LEFT OUTER JOIN tbl_yp002 D
+			ON C.계약ID = D.계약ID AND C.사용자ID = D.사용자ID AND D.근무지구분 = '1' AND C.근무시기 = D.근무시기
+			LEFT OUTER JOIN tbl_yp003 E
+			ON C.계약ID = E.계약ID AND C.사용자ID = E.사용자ID AND D.원천명세ID = E.원천명세ID AND D.근무시기 = E.근무시기
+            LEFT OUTER JOIN tbl_ys030 G
+            ON C.계약ID = G.계약ID AND C.사업장ID = G.사업장ID
+            LEFT OUTER JOIN tbl_ys031 O
+            ON C.계약ID = O.계약ID AND C.사업장ID = O.사업장ID AND C.부서ID = O.부서ID
+            LEFT OUTER JOIN tbl_code H
+            ON H.GRP_COMM_CODE = '433' AND H.COMM_CODE = C.사용여부
+		WHERE	A.BIZ_ID	= #bizId#
+		AND		A.EMP_TYPE IN ('1','2','3')
+		<isNotNull property="근무상태">
+		    <isNotEmpty property="근무상태">
+			    <isEqual property="근무상태"  compareValue="1">
+					AND   (A.LEAVE_DATE IS NULL OR A.LEAVE_DATE = '')
+				</isEqual>
+			    <isEqual property="근무상태"  compareValue="2">
+					AND   (A.LEAVE_DATE IS NOT NULL AND A.LEAVE_DATE != '')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사업장ID">
+		    <isNotEmpty property="사업장ID">
+			AND	C.사업장ID			= #사업장ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="부서ID">
+		    <isNotEmpty property="부서ID">
+			AND	C.부서ID			= #부서ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사용여부">
+		    <isNotEmpty property="사용여부">
+			AND	C.사용여부			= #사용여부#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empName">
+		    <isNotEmpty property="empName">
+			AND A.EMP_NAME LIKE CONCAT('%', #empName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empNo">
+		    <isNotEmpty property="empNo">
+			AND A.EMP_NO LIKE CONCAT('%', #empNo#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="positionName">
+		    <isNotEmpty property="positionName">
+			AND A.POSITION_NAME LIKE CONCAT('%', #positionName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empType">
+		    <isNotEmpty property="empType">
+			AND A.EMP_TYPE		= #empType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사용자ID">
+		    <isNotEmpty property="사용자ID">
+			AND C.사용자ID		= #사용자ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sortName">
+		    <isNotEmpty property="sortName">
+		ORDER BY $sortName$ $sortOrder$
+			</isNotEmpty>
+		</isNotNull>
+		limit #endPage# offset #startPage#
+	</select>
+	
+	<select id="yp000DAO.getYP000ListCount" parameterClass="yp000VO" resultClass="java.lang.Integer">
+		SELECT COUNT(A.USER_ID) 
+			FROM tbl_emp A
+			LEFT OUTER JOIN tbl_yp000 C
+			ON A.USER_ID = C.사용자ID AND C.계약ID = #계약ID# AND C.근무시기 = #근무시기#
+			LEFT OUTER JOIN tbl_yp002 D
+			ON C.계약ID = D.계약ID AND C.사용자ID = D.사용자ID AND D.근무지구분 = '1' AND C.근무시기 = D.근무시기
+			LEFT OUTER JOIN tbl_yp003 E
+			ON C.계약ID = E.계약ID AND C.사용자ID = E.사용자ID AND D.원천명세ID = E.원천명세ID AND D.근무시기 = E.근무시기
+            LEFT OUTER JOIN tbl_ys030 G
+            ON C.계약ID = G.계약ID AND C.사업장ID = G.사업장ID
+            LEFT OUTER JOIN tbl_ys031 O
+            ON C.계약ID = O.계약ID AND C.사업장ID = O.사업장ID AND C.부서ID = O.부서ID
+            LEFT OUTER JOIN tbl_code H
+            ON H.GRP_COMM_CODE = '433' AND H.COMM_CODE = C.사용여부
+		WHERE	A.BIZ_ID	= #bizId#
+		AND		A.EMP_TYPE IN ('1','2','3')
+		<isNotNull property="근무상태">
+		    <isNotEmpty property="근무상태">
+			    <isEqual property="근무상태"  compareValue="1">
+					AND   (A.LEAVE_DATE IS NULL OR A.LEAVE_DATE = '')
+				</isEqual>
+			    <isEqual property="근무상태"  compareValue="2">
+					AND   (A.LEAVE_DATE IS NOT NULL AND A.LEAVE_DATE != '')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사업장ID">
+		    <isNotEmpty property="사업장ID">
+			AND	C.사업장ID			= #사업장ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="부서ID">
+		    <isNotEmpty property="부서ID">
+			AND	C.부서ID			= #부서ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사용여부">
+		    <isNotEmpty property="사용여부">
+			AND	C.사용여부			= #사용여부#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empName">
+		    <isNotEmpty property="empName">
+			AND A.EMP_NAME LIKE CONCAT('%', #empName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empNo">
+		    <isNotEmpty property="empNo">
+			AND A.EMP_NO LIKE CONCAT('%', #empNo#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="positionName">
+		    <isNotEmpty property="positionName">
+			AND A.POSITION_NAME LIKE CONCAT('%', #positionName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empType">
+		    <isNotEmpty property="empType">
+			AND A.EMP_TYPE		= #empType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사용자ID">
+		    <isNotEmpty property="사용자ID">
+			AND C.사용자ID		= #사용자ID#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<!-- 계약정보 데이타 건수  -->
+	<select id="yp000DAO.getYP000DataCount" parameterClass="yp000VO" resultClass="java.lang.Integer">
+		SELECT COUNT(*) cnt
+		  FROM
+		       TBL_YP000
+		  WHERE 계약ID   = #계약ID#
+		  AND 사용자ID = #사용자ID#
+		  AND 근무시기 = #근무시기#
+	</select>		
+		
+	<select id="yp000DAO.getYP000" parameterClass="yp000VO" resultMap="yp000Worker">
+		SELECT C.계약ID, C.사업장ID, C.근무시기, E.일련번호, fn_사업장명(C.계약ID, C.사업장ID) 사업장명, B.USER_ID 사용자ID, B.EMP_NAME, B.EMP_NO, B.PHONE_NUM, B.E_MAIL, B.JOIN_DATE, B.LEAVE_DATE, B.ADDR1, B.ADDR2, B.ZIP_CODE, B.POSITION_NAME, C.부서ID, fn_부서명(C.계약ID, C.부서ID, C.사용자ID) 부서명,
+				C.진행상태코드, C.사용여부, fn_code_name('433', C.사용여부) 연말대상, C.개인식별번호, C.부서ID, C.부서표시여부, C.사내내선번호, C.내외국인구분, C.국가코드, fn_code_name('405', C.국가코드) 국적, C.거주구분, C.거주지국코드, fn_code_name('405', C.거주지국코드) 거주지국, C.외국법인파견근로자, C.외국인단일세율적용, C.국외근로제공여부,
+				C.중소기업취업감면여부, IFNULL(C.감면기간_FROM,'') AS 감면기간_FROM, IFNULL(C.감면기간_TO,'') AS 감면기간_TO, IFNULL(C.감면율,'') AS 감면율, C.생산직등야간근로비과세, C.전년도총급여, C.세대주여부, C.소득세적용률, C.연말정산분납여부, C.원천징수영수증_관리번호,
+				C.종전근무지_납세조합유무, D.원천명세ID, D.급여, D.상여, D.인정상여, D.주식매수선택권행사이익, D.우리사주조합인출금, D.임원퇴직소득금액한도초과액, 
+				D.소득세, D.지방소득세, D.농어촌특별세, D.건강보험료, D.장기요양보험료, D.국민연금보험료, D.고용보험료, D.공무원연금, D.군인연금, D.사립학교교직원연금, D.별정우체국연금, D.납부특례세액_소득세, D.납부특례세액_지방소득세, D.납부특례세액_농어촌특별세, D.직무발명보상금, D.비과세한도초과액,
+				D.M01, D.M02, D.M03, D.O01, D.Q01, D.H08, D.H09, D.H10, D.G01, D.H11, D.H12, D.H13, D.H01, D.K01, D.S01, D.T01, D.Y02, D.Y03, D.Y04, 
+				D.H05, D.I01, D.R10, D.H14, D.H15, D.T10, D.T11, D.T12, D.T20, D.H16, D.R11, D.H06, D.H07, D.Y22, D.T13, D.H17, D.U01, C.등록일시, C.수정일시 , '' 처리여부
+		FROM tbl_emp B
+          LEFT OUTER JOIN tbl_yp000 C
+          ON B.USER_ID = C.사용자ID AND C.계약ID = #계약ID# AND C.근무시기 = #근무시기#
+          LEFT OUTER JOIN tbl_yp002 E
+          on E.계약ID = C.계약ID AND E.사용자ID = C.사용자ID AND E.근무지구분 = '1' AND C.근무시기 = E.근무시기
+          LEFT OUTER JOIN tbl_yp003 D
+          ON D.계약ID = C.계약ID AND D.사용자ID = C.사용자ID AND D.원천명세ID = E.원천명세ID AND D.근무시기 = E.근무시기
+	    WHERE	B.USE_YN    	= 'Y'
+		AND 	B.BIZ_ID		= #bizId#
+		AND		B.USER_ID		= #사용자ID#
+		<isNotNull property="사업장ID">
+		    <isNotEmpty property="사업장ID">
+			AND		C.사업장ID   = #사업장ID#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<insert id="yp000DAO.insYP000" parameterClass="yp000VO">
+		INSERT INTO TBL_YP000 (
+			계약ID, 사용자ID, 근무시기, 진행상태코드, 사업장ID, 개인식별번호, 부서ID, 부서표시여부, 사내내선번호, 내외국인구분, 국가코드, 거주구분, 거주지국코드, 외국법인파견근로자, 외국인단일세율적용, 국외근로제공여부, 중소기업취업감면여부, 원천징수영수증_관리번호,
+			감면기간_FROM, 감면기간_TO, 감면율, 생산직등야간근로비과세, 전년도총급여, 세대주여부, 소득세적용률, 연말정산분납여부, 종전근무지_납세조합유무, 사용여부, 등록일시, 수정일시 
+		) VALUES (
+			#계약ID#, #사용자ID#, #근무시기#, #진행상태코드#, #사업장ID#, #개인식별번호#, #부서ID#, #부서표시여부#, #사내내선번호#, #내외국인구분#, #국가코드#, #거주구분#, #거주지국코드#, #외국법인파견근로자#, #외국인단일세율적용#, #국외근로제공여부#, #중소기업취업감면여부#, #원천징수영수증_관리번호#,
+			#감면기간_FROM#, #감면기간_TO#, #감면율#, #생산직등야간근로비과세#, #전년도총급여#, #세대주여부#, #소득세적용률#, #연말정산분납여부#, #종전근무지_납세조합유무#, '1', DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<update id="yp000DAO.updYP000" parameterClass="yp000VO">
+		UPDATE TBL_YP000
+		SET	
+		<isNotNull property="진행상태코드">
+		    <isNotEmpty property="진행상태코드">
+			진행상태코드			= #진행상태코드#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사업장ID">
+		    <isNotEmpty property="사업장ID">
+			사업장ID			= #사업장ID#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="개인식별번호">
+		    <isNotEmpty property="개인식별번호">
+			개인식별번호			= #개인식별번호#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="부서ID">
+		    <isNotEmpty property="부서ID">
+			부서ID			= #부서ID#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="부서표시여부">
+		    <isNotEmpty property="부서표시여부">
+			부서표시여부			= #부서표시여부#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사내내선번호">
+		    <isNotEmpty property="사내내선번호">
+			사내내선번호			= #사내내선번호#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="내외국인구분">
+		    <isNotEmpty property="내외국인구분">
+			내외국인구분			= #내외국인구분#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="국가코드">
+		    <isNotEmpty property="국가코드">
+			국가코드			= #국가코드#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="거주구분">
+		    <isNotEmpty property="거주구분">
+			거주구분			= #거주구분#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="거주지국코드">
+		    <isNotEmpty property="거주지국코드">
+			거주지국코드			= #거주지국코드#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="외국법인파견근로자">
+		    <isNotEmpty property="외국법인파견근로자">
+			외국법인파견근로자			= #외국법인파견근로자#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="외국인단일세율적용">
+		    <isNotEmpty property="외국인단일세율적용">
+			외국인단일세율적용			= #외국인단일세율적용#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="국외근로제공여부">
+		    <isNotEmpty property="국외근로제공여부">
+			국외근로제공여부			= #국외근로제공여부#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="중소기업취업감면여부">
+		    <isNotEmpty property="중소기업취업감면여부">
+			중소기업취업감면여부			= #중소기업취업감면여부#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="감면기간_FROM">
+		    <isNotEmpty property="감면기간_FROM">
+				<isEqual property="감면기간_FROM" compareValue="0">
+    				감면기간_FROM			= '',
+				</isEqual> 
+		    	<isNotEqual property="감면기간_FROM" compareValue="0">
+		    		감면기간_FROM			= #감면기간_FROM#,
+				</isNotEqual> 
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="감면기간_TO">
+		    <isNotEmpty property="감면기간_TO">
+				<isEqual property="감면기간_TO" compareValue="0">
+    				감면기간_TO			= '',
+				</isEqual> 
+		    	<isNotEqual property="감면기간_TO" compareValue="0">
+		    		감면기간_TO			= #감면기간_TO#,
+				</isNotEqual> 
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="감면율">
+		    <isNotEmpty property="감면율">
+			감면율			= #감면율#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="생산직등야간근로비과세">
+		    <isNotEmpty property="생산직등야간근로비과세">
+			생산직등야간근로비과세			= #생산직등야간근로비과세#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="전년도총급여">
+		    <isNotEmpty property="전년도총급여">
+			전년도총급여			= #전년도총급여#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="세대주여부">
+		    <isNotEmpty property="세대주여부">
+			세대주여부			= #세대주여부#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="소득세적용률">
+		    <isNotEmpty property="소득세적용률">
+			소득세적용률			= #소득세적용률#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="연말정산분납여부">
+		    <isNotEmpty property="연말정산분납여부">
+			연말정산분납여부			= #연말정산분납여부#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="종전근무지_납세조합유무">
+		    <isNotEmpty property="종전근무지_납세조합유무">
+			종전근무지_납세조합유무			= #종전근무지_납세조합유무#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="원천징수영수증_관리번호">
+		    <isNotEmpty property="원천징수영수증_관리번호">
+		    	<isEqual property="원천징수영수증_관리번호" compareValue="0">
+    				원천징수영수증_관리번호			= '',
+				</isEqual> 
+		    	<isNotEqual property="원천징수영수증_관리번호" compareValue="0">
+		    		원천징수영수증_관리번호			= #원천징수영수증_관리번호#,
+				</isNotEqual> 
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사용여부">
+		    <isNotEmpty property="사용여부">
+			사용여부			= #사용여부#,
+			</isNotEmpty>
+		</isNotNull>
+			수정일시			= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	계약ID    = #계약ID#
+		<isNotNull property="사용자ID">
+		    <isNotEmpty property="사용자ID">
+			AND		사용자ID   = #사용자ID#
+			</isNotEmpty>
+		</isNotNull>
+		AND 근무시기 = #근무시기#
+		
+	</update>
+	
+	
+	<select id="yp000DAO.getPaymentUserStatusList" parameterClass="yp000VO" resultMap="yp000ListMap">
+		SELECT  C.계약ID, B.USER_ID, B.EMP_NAME, B.EMP_NO, C.부서ID, fn_부서명(C.계약ID, C.부서ID, C.사용자ID) 부서명, B.PHONE_NUM, B.E_MAIL,
+				'' AS 국세청PDF유형, C.진행상태코드, C.사용여부, C.수정일시, C.등록일시
+		FROM   tbl_biz A INNER JOIN  tbl_emp B ON  A.BIZ_ID = B.BIZ_ID
+		       INNER JOIN tbl_yp000 C ON B.USER_ID = C.사용자ID AND C.계약ID = #계약ID# AND C.근무시기 = #근무시기#
+		WHERE 	A.BIZ_ID = #bizId#
+		AND		B.USE_YN = 'Y'
+		<isNotNull property="근무상태">
+		    <isNotEmpty property="근무상태">
+			    <isEqual property="근무상태"  compareValue="1">
+					AND   (B.LEAVE_DATE IS NULL OR B.LEAVE_DATE = '')
+				</isEqual>
+			    <isEqual property="근무상태"  compareValue="2">
+					AND   (B.LEAVE_DATE IS NOT NULL AND B.LEAVE_DATE != '')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사업장ID">
+		    <isNotEmpty property="사업장ID">
+			AND	C.사업장ID			= #사업장ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="부서ID">
+		    <isNotEmpty property="부서ID">
+			AND	C.부서ID			= #부서ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="진행상태코드">
+		    <isNotEmpty property="진행상태코드">
+			AND	C.진행상태코드			= #진행상태코드#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empName">
+		    <isNotEmpty property="empName">
+			AND B.EMP_NAME LIKE CONCAT('%', #empName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empNo">
+		    <isNotEmpty property="empNo">
+			AND B.EMP_NO LIKE CONCAT('%', #empNo#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사용자ID">
+		    <isNotEmpty property="사용자ID">
+			AND B.USER_ID = #사용자ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="positionName">
+		    <isNotEmpty property="positionName">
+			AND B.POSITION_NAME LIKE CONCAT('%', #positionName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sortName">
+		    <isNotEmpty property="sortName">
+		ORDER BY $sortName$ $sortOrder$
+			</isNotEmpty>
+		</isNotNull>
+		limit #endPage# offset #startPage#
+	</select>
+	
+	<select id="yp000DAO.getPaymentUserStatusListCount" parameterClass="yp000VO" resultClass="java.lang.Integer">
+		SELECT  COUNT(B.USER_ID)
+		FROM   tbl_biz A INNER JOIN  tbl_emp B ON  A.BIZ_ID = B.BIZ_ID
+		       INNER JOIN tbl_yp000 C ON B.USER_ID = C.사용자ID AND C.계약ID = #계약ID# AND C.근무시기 = #근무시기#
+		WHERE 	A.BIZ_ID = #bizId#
+		AND		B.USE_YN = 'Y'
+		<isNotNull property="근무상태">
+		    <isNotEmpty property="근무상태">
+			    <isEqual property="근무상태"  compareValue="1">
+					AND   (B.LEAVE_DATE IS NULL OR B.LEAVE_DATE = '')
+				</isEqual>
+			    <isEqual property="근무상태"  compareValue="2">
+					AND   (B.LEAVE_DATE IS NOT NULL AND B.LEAVE_DATE != '')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사업장ID">
+		    <isNotEmpty property="사업장ID">
+			AND	C.사업장ID			= #사업장ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="부서ID">
+		    <isNotEmpty property="부서ID">
+			AND	C.부서ID			= #부서ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="진행상태코드">
+		    <isNotEmpty property="진행상태코드">
+			AND	C.진행상태코드			= #진행상태코드#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empName">
+		    <isNotEmpty property="empName">
+			AND B.EMP_NAME LIKE CONCAT('%', #empName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empNo">
+		    <isNotEmpty property="empNo">
+			AND B.EMP_NO LIKE CONCAT('%', #empNo#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사용자ID">
+		    <isNotEmpty property="사용자ID">
+			AND B.USER_ID = #사용자ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="positionName">
+		    <isNotEmpty property="positionName">
+			AND B.POSITION_NAME LIKE CONCAT('%', #positionName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	
+	<select id="yp000DAO.getPaymentUserWorkMonth" parameterClass="yp000VO" resultMap="yp000WorkMonthMap">
+		SELECT A.계약ID, A.사용자ID, A.근무시기, A.FEB_YEAR, A.진행상태코드, A.세대주여부, A.외국인단일세율적용, 
+		      (SELECT COUNT(X.일련번호) FROM tbl_ye002 X WHERE X.계약ID = A.계약ID AND X.사용자ID = A.사용자ID AND A.1M BETWEEN LEFT(X.근무시작일, 6) AND (CASE WHEN X.근무종료일 = '' OR X.근무종료일 IS NULL THEN CONCAT(LEFT(A.1M, 4), '12') ELSE LEFT(X.근무종료일, 6) END)) M1,
+		      (SELECT COUNT(X.일련번호) FROM tbl_ye002 X WHERE X.계약ID = A.계약ID AND X.사용자ID = A.사용자ID AND A.2M BETWEEN LEFT(X.근무시작일, 6) AND (CASE WHEN X.근무종료일 = '' OR X.근무종료일 IS NULL THEN CONCAT(LEFT(A.1M, 4), '12') ELSE LEFT(X.근무종료일, 6) END)) M2,
+		      (SELECT COUNT(X.일련번호) FROM tbl_ye002 X WHERE X.계약ID = A.계약ID AND X.사용자ID = A.사용자ID AND A.3M BETWEEN LEFT(X.근무시작일, 6) AND (CASE WHEN X.근무종료일 = '' OR X.근무종료일 IS NULL THEN CONCAT(LEFT(A.1M, 4), '12') ELSE LEFT(X.근무종료일, 6) END)) M3,
+		      (SELECT COUNT(X.일련번호) FROM tbl_ye002 X WHERE X.계약ID = A.계약ID AND X.사용자ID = A.사용자ID AND A.4M BETWEEN LEFT(X.근무시작일, 6) AND (CASE WHEN X.근무종료일 = '' OR X.근무종료일 IS NULL THEN CONCAT(LEFT(A.1M, 4), '12') ELSE LEFT(X.근무종료일, 6) END)) M4,
+		      (SELECT COUNT(X.일련번호) FROM tbl_ye002 X WHERE X.계약ID = A.계약ID AND X.사용자ID = A.사용자ID AND A.5M BETWEEN LEFT(X.근무시작일, 6) AND (CASE WHEN X.근무종료일 = '' OR X.근무종료일 IS NULL THEN CONCAT(LEFT(A.1M, 4), '12') ELSE LEFT(X.근무종료일, 6) END)) M5,
+		      (SELECT COUNT(X.일련번호) FROM tbl_ye002 X WHERE X.계약ID = A.계약ID AND X.사용자ID = A.사용자ID AND A.6M BETWEEN LEFT(X.근무시작일, 6) AND (CASE WHEN X.근무종료일 = '' OR X.근무종료일 IS NULL THEN CONCAT(LEFT(A.1M, 4), '12') ELSE LEFT(X.근무종료일, 6) END)) M6,
+		      (SELECT COUNT(X.일련번호) FROM tbl_ye002 X WHERE X.계약ID = A.계약ID AND X.사용자ID = A.사용자ID AND A.7M BETWEEN LEFT(X.근무시작일, 6) AND (CASE WHEN X.근무종료일 = '' OR X.근무종료일 IS NULL THEN CONCAT(LEFT(A.1M, 4), '12') ELSE LEFT(X.근무종료일, 6) END)) M7,
+		      (SELECT COUNT(X.일련번호) FROM tbl_ye002 X WHERE X.계약ID = A.계약ID AND X.사용자ID = A.사용자ID AND A.8M BETWEEN LEFT(X.근무시작일, 6) AND (CASE WHEN X.근무종료일 = '' OR X.근무종료일 IS NULL THEN CONCAT(LEFT(A.1M, 4), '12') ELSE LEFT(X.근무종료일, 6) END)) M8,
+		      (SELECT COUNT(X.일련번호) FROM tbl_ye002 X WHERE X.계약ID = A.계약ID AND X.사용자ID = A.사용자ID AND A.9M BETWEEN LEFT(X.근무시작일, 6) AND (CASE WHEN X.근무종료일 = '' OR X.근무종료일 IS NULL THEN CONCAT(LEFT(A.1M, 4), '12') ELSE LEFT(X.근무종료일, 6) END)) M9,
+		      (SELECT COUNT(X.일련번호) FROM tbl_ye002 X WHERE X.계약ID = A.계약ID AND X.사용자ID = A.사용자ID AND A.10M BETWEEN LEFT(X.근무시작일, 6) AND (CASE WHEN X.근무종료일 = '' OR X.근무종료일 IS NULL THEN CONCAT(LEFT(A.1M, 4), '12') ELSE LEFT(X.근무종료일, 6) END)) M10,
+		      (SELECT COUNT(X.일련번호) FROM tbl_ye002 X WHERE X.계약ID = A.계약ID AND X.사용자ID = A.사용자ID AND A.11M BETWEEN LEFT(X.근무시작일, 6) AND (CASE WHEN X.근무종료일 = '' OR X.근무종료일 IS NULL THEN CONCAT(LEFT(A.1M, 4), '12') ELSE LEFT(X.근무종료일, 6) END)) M11,
+		      (SELECT COUNT(X.일련번호) FROM tbl_ye002 X WHERE X.계약ID = A.계약ID AND X.사용자ID = A.사용자ID AND A.12M BETWEEN LEFT(X.근무시작일, 6) AND (CASE WHEN X.근무종료일 = '' OR X.근무종료일 IS NULL THEN CONCAT(LEFT(A.1M, 4), '12') ELSE LEFT(X.근무종료일, 6) END)) M12
+		FROM (SELECT  A.계약ID, A.FEB_YEAR,
+		              B.사용자ID, B.근무시기, B.진행상태코드, B.세대주여부, CASE WHEN IFNULL(B.외국인단일세율적용, '2') = '' THEN '2' ELSE IFNULL(B.외국인단일세율적용, '2') END 외국인단일세율적용,
+		              CONCAT(A.FEB_YEAR, '01') 1M,
+		              CONCAT(A.FEB_YEAR, '02') 2M,
+		              CONCAT(A.FEB_YEAR, '03') 3M,
+		              CONCAT(A.FEB_YEAR, '04') 4M,
+		              CONCAT(A.FEB_YEAR, '05') 5M,
+		              CONCAT(A.FEB_YEAR, '06') 6M,
+		              CONCAT(A.FEB_YEAR, '07') 7M,
+		              CONCAT(A.FEB_YEAR, '08') 8M,
+		              CONCAT(A.FEB_YEAR, '09') 9M,
+		              CONCAT(A.FEB_YEAR, '10') 10M,
+		              CONCAT(A.FEB_YEAR, '11') 11M,
+		              CONCAT(A.FEB_YEAR, '12') 12M
+		      FROM    tbl_ys000 A, tbl_yp000 B
+		      WHERE   A.계약ID  = B.계약ID
+		      AND     A.계약ID  = #계약ID#
+		      AND     B.근무시기 =  #근무시기#
+		      <isNotEmpty property="사용자ID">
+		      AND     B.사용자ID =  #사용자ID#
+		      </isNotEmpty>
+         	  
+    	) A        
+	</select>
+	
+</sqlMap>

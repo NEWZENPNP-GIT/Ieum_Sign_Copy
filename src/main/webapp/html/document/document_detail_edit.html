@@ -1,0 +1,860 @@
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/myPage.css">
+	<link rel="stylesheet" type="text/css" href="/css/contract_electronic.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+	<link rel="stylesheet" type="text/css" href="/css/jquery.alerts.css">
+	<link rel="stylesheet" type="text/css" href="/css/font_awesome/css/all.css">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+	<script type="text/javascript" src="/js/jquery.alerts.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/ui.biz.core.js"></script>
+	<style>
+		#contract_electronic_Wrap .electronic_tableviewdiv td {text-align:left !important;}
+		.ul_list02 > li {min-width: 194px;}
+		.ul_list02 > li input[type="radio"] {display: inline-block; margin-right: 2px; vertical-align: middle;}
+		.ul_list02 > li input[type="password"] {width: 80px;}
+	</style>
+
+	<script type="text/javascript">
+
+		//***************					윈도우 로딩					***************//
+
+
+		var resRList = [];
+		var resTList = [];
+		var domainName = "";
+		var imageList = [];
+		var fieldList = [];
+
+		$(document).ready(function(){
+
+			$('#searchValue').keypress(function(event){
+				var keycode = (event.keyCode ? event.keyCode : event.which);
+				if(keycode == '13'){
+					fn_docuList(1);
+				}
+				event.stopPropagation();
+			});
+
+			fn_docuList(1);
+
+			if(getCookie("systemType") == "2"){ $("#serviceCenter").removeClass("hidden") }
+		});
+
+		function removePop(){ $.unblockUI(); }
+
+		function fn_docuList(page) {
+
+			var url	   = rootPath+"document/getDocument.do";
+			var docuId = getCookie("docuId");
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				data: {
+					OPEN_KEY:getCookie("OPEN_KEY"),
+					docuId:docuId,
+					startPage:"0",
+					endPage:"1"
+				},
+				success:function(result) {
+
+					$("#userName").val(result.master.userName);
+					var htmlData = "";
+
+					$.each(result.detail, function(i, row) {
+						if(row.recvType=="R"){
+							if(i == 0)  htmlData += '<a class="btn_adress" style="float:right;" onclick="getContactList();"> 주소록</a>';
+							htmlData += '<li><input type="text" value="'+row.recvUserName+'/'+row.recvPhone+'/'+row.recvEmail+'"class="inpstyle02 NanumSquare_R" style="width:75%" disabled></li>';
+							var list = {};
+							list.recvOrd = (i+1);
+							list.grpName = "";
+							list.userName=row.recvUserName;
+							list.phoneNumber=row.recvPhone;
+							list.email=row.recvEmail;
+							resRList.push(list);
+						}
+					});
+					$("#rList").html(htmlData);
+
+					var htmlData = "";
+					$.each(result.detail, function(i, row) {
+						var j = 0;
+						if(row.recvType=="T") {
+							htmlData += '<li><input type="text" value="'+row.recvUserName+'/'+row.recvPhone+'/'+row.recvEmail+'"class="inpstyle02 NanumSquare_R" style="width:75%" disabled> </li>';
+							var list = {};
+							list.grpName = "";
+							list.userName=row.recvUserName;
+							list.phoneNumber=row.recvPhone;
+							list.email=row.recvEmail;
+							resTList[j++] = list;
+						}
+					});
+					$("#tList").html(htmlData);
+
+					$("#writeUserName").text(result.master.userName);
+					$("#writeDate").text(convertDateTime(result.master.insDate).format("yyyy년MM월dd일 HH시mm분"));
+
+					//계약문서명
+					$("#docuName").val(result.master.docuName);
+
+					//첨부파일
+					$.each(result.file, function(i, row) {
+						var htmlData = "";
+						htmlData ='<div id="delAttachFile_'+row.fileId+'" style="margin:1px;height:25px;">';
+						htmlData +='<a onclick="fn_fileDownload(\''+row.fileId+'\');">';
+						htmlData += '<i class="fa fa-download" style="font-size:14px;"></i>';
+						htmlData += '</a>';
+						htmlData +='<span class="inpstyle02 NanumSquare_R" style="width:50%" onclick="fn_fileDownload(\''+row.fileId+'\');" readonly>'+ '[' + (row.fileUserName == "" ? (row.fileUserId.includes("@") ? "작성자" : "-"): row.fileUserName)  + '] '+row.fileName+'</span> ';
+						htmlData +='<a onclick="delAttachFile(\''+row.fileId+'\');">';
+						htmlData += '<i class="fa fa-trash-alt" style="font-size:14px;"></i>';
+						htmlData += '</a>';
+						htmlData +='</div>';
+						$("#attachFiles").append(htmlData);
+					});
+
+					//인증구분
+					$("[name=authType][value="+result.master.authType+"]").attr("checked", true);
+					if(result.master.authType != "P"){
+						$("[name=authCode]").attr("disabled", true);
+					}
+					//서명구분
+					$("[name=signType][value="+result.master.signType+"]").attr("checked", true);
+					//발송수단
+					$("[name=sendType][value="+result.master.sendType+"]").attr("checked", true);
+					//발송순서
+					$("[name=sendOrd][value="+result.master.sendOrd+"]").attr("checked", true);
+					//검토여부
+					$("[name=reviewType][value="+result.master.reviewType+"]").attr("checked", true);
+					//타임스탬프 발급여부
+					$("[name=tsaType][value="+result.master.tsaType+"]").attr("checked", true);
+
+					if(result.master.expireType == "Y"){
+						$("#expireType").prop("checked", true);
+						$("#expireDate").val(convertDateTime(result.master.expireDate).format("yyyy-MM-dd"));
+					}
+					$("#reqComment").val(result.master.reqComment);
+
+					//로그
+					var htmlData = "";
+					$.each(result.log, function(i, row) {
+						htmlData+="<tr>";
+						htmlData+="<td>"+row.workUserName+"</td>";
+						htmlData+="<td>"+row.logTypeName+"</td>";
+						htmlData+="<td>"+row.logMessage+"</td>";
+						htmlData+="<td>"+row.insDate+"</td>";
+						htmlData+="</tr>";
+					});
+					$("#logList").html(htmlData);
+				},
+				error:function(request,status,error){
+					$.unblockUI();
+					goInvalidPage(request, error);
+				}
+			});
+		}
+		//리스트로
+		function fn_back(){ fn_loadHtml(getCookie("redirectUrl")); }
+
+		function fn_addSignDocument() {
+
+			var formData = new FormData();
+			var signType = $("[name=signType]:checked").val();
+
+			// 수기서명 PDF TO IMAGE 변환 작업
+			var orgFile  = document.getElementsByName('orgFile');
+			var fileSize = 0;//
+			var maxSize  = 5 * 1024 * 1024 * 10; // 50MB
+
+			if(signType!="T") {
+				jAlert("수기서명인 경우만 지정이 가능합니다.");
+				return false;
+			}
+
+			if(orgFile.length==0) {
+				jAlert("계약서 파일을 선택해주세요.");
+				return false;
+			}
+
+			for (var i = 0; i < orgFile.length; i++) {
+				if (orgFile[i]['files'][0] != undefined && orgFile[i]['files'][0] != null) {
+					if (!checkFileExt(orgFile[i]['files'][0].name, 'pdf')) {
+						jAlert('파일확장자는 pdf파일만 가능합니다.');
+					  return;
+					}
+					fileSize = orgFile[i]['files'][0].size;
+
+					if (checkSpecial(orgFile[i]['files'][0].name)) {
+						jAlert('파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.','');
+						return false;
+					}
+					formData.append('DOCUMENT_FILE' + i, orgFile[i]['files'][0]);
+				} else {
+					jAlert("계약서 파일을 선택해주세요.");
+					return false;
+				}
+			}
+
+			if (fileSize > maxSize) {
+				jAlert('파일은 ' + (maxSize / 1024 / 1024) + 'MB 이하의 파일만 첨부 가능합니다','');
+				return false;
+			}
+
+			var url = rootPath + 'content/getPDFToImage.do';
+
+			$.blockUI();
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				processData: false,
+				contentType: false,
+				data:formData,
+				success:function(result) {
+					$.unblockUI();
+					if(result.success) {
+						domainName = result.domainName;
+						imageList  = result.data;
+
+						if(imageList.length == 0) {
+							jAlert("계약서 불러오기를 정상적으로 수행하지 못했습니다.", "");
+							return false;
+						}
+						var imageRotate = true;
+						$.each(result.data, function(i, row) {
+							if(row.width >= row.height) {
+								jAlert("수기서명에 대한 문서는 세로형식만 지원합니다.");
+								imageRotate = false;
+							}
+						});
+
+						if(imageRotate) { getLayerSignPopup(); }
+					} else {
+						jAlert("계약서 불러오기를 실패하였습니다.", "");
+						return false;
+					}
+				},
+				error:function(request,status,error){
+					$.unblockUI();
+				}
+			});
+		}
+
+
+		function getLayerSignPopup(){
+			$.blockUI({
+				message:'<iframe id="ifrLayerPop" frameborder="0" allowTransparency="true"  width="100%" height="100%" src="/html/document/document_write_mobile_popup_sign_add.html" ></iframe>',
+				css: { top: '5%', left: '15%', width:'1340px', height:'850px', margin:'0px', cursor : 'pointer'}
+			});
+		}
+
+
+		function fn_send(){
+
+			var documentMaster = {};
+			var documentDetail = [];
+			var documentField  = [];
+			var formData	   = new FormData();
+
+			formData.append("OPEN_KEY", getCookie("OPEN_KEY"));
+			documentMaster.bizId = getCookie("bizId");
+			documentMaster.userId = getCookie("loginId");
+			formData.append('documentMaster.userId', documentMaster.userId);
+
+			//수신자, 참조자
+			for(var i=0;i<resTList.length;i++){
+				resTList[i].recvOrd = i+1;
+				resTList[i].recvType='T';
+				resTList[i].recvStatus='0';
+				documentDetail.push(resTList[i]);
+			}
+
+			for(var i=0;i<resRList.length;i++){
+				resRList[i].recvOrd = i+1;
+				resRList[i].recvType='R';
+				resRList[i].recvStatus='0';
+				documentDetail.push(resRList[i]);
+			}
+
+			for(var i=0;i<documentDetail.length;i++){
+				formData.append('documentDetail['+i+'].docuId', getCookie("docuId"));
+				if(documentDetail[i].contactType == "P"){
+					formData.append('documentDetail['+i+'].recvUserName', documentDetail[i].contName);			// 수신/참조자 성명
+				} else if (documentDetail[i].contactType == "C"){
+					formData.append('documentDetail['+i+'].recvUserName', documentDetail[i].corpName);			// 수신/참조자 거래처명
+				}
+				formData.append('documentDetail['+i+'].recvPhone', documentDetail[i].phoneNumber);
+				formData.append('documentDetail['+i+'].recvEmail', documentDetail[i].email);
+				formData.append('documentDetail['+i+'].dbMode', 'C');
+				formData.append('documentDetail['+i+'].recvOrd', documentDetail[i].recvOrd);
+				formData.append('documentDetail['+i+'].recvType', documentDetail[i].recvType);
+				formData.append('documentDetail['+i+'].recvStatus', documentDetail[i].recvStatus);
+				formData.append('documentDetail['+i+'].contactType', documentDetail[i].contactType);	// P:인사 / C:거래처
+			}
+
+			//서명정보 제공
+			for(var i=0;i<fieldList.length;i++){ documentField.push(fieldList[i]) }
+
+			for(var i=0;i<documentField.length;i++){
+				formData.append('documentField['+i+'].dbMode', 'C');
+				formData.append('documentField['+i+'].key', documentField[i].key);
+				formData.append('documentField['+i+'].id', documentField[i].id);
+				formData.append('documentField['+i+'].name', documentField[i].name);
+				formData.append('documentField['+i+'].x', documentField[i].x);
+				formData.append('documentField['+i+'].y', documentField[i].pdfY);
+				formData.append('documentField['+i+'].width', documentField[i].width);
+				formData.append('documentField['+i+'].height', documentField[i].height);
+				formData.append('documentField['+i+'].type', documentField[i].type);
+				formData.append('documentField['+i+'].page', documentField[i].page);
+			}
+
+			//요청자메모
+			formData.append('documentMaster.reqComment', $("#reqComment").val());
+
+			//계약문서명
+			var docuName = $("#docuName").val();
+			formData.append('documentMaster.docuName', docuName);
+
+			//인증구분
+			var authType = $("[name=authType]:checked").val();
+			formData.append('documentMaster.authType', authType);
+
+			//인증코드
+			var authCode = $("[name=authCode]").val();
+			formData.append('documentMaster.authCode',  authCode);
+
+			//서명구분
+			var signType = $("[name=signType]:checked").val();
+			formData.append('documentMaster.signType',  signType);
+
+			//발송수단
+			var sendType = $("[name=sendType]:checked").val();
+			formData.append('documentMaster.sendType', sendType);
+
+			if(signType=="P" && sendType =="K"){ alert("카카오톡으로 계약서 발송 시 공인인증서 서명이 불가능합니다."); }
+
+			//발송순서
+			var sendOrd = $("[name=sendOrd]:checked").val();
+			formData.append('documentMaster.sendOrd', sendOrd);
+
+			//검토여부
+			var reviewType = $("[name=reviewType]:checked").val();
+			formData.append('documentMaster.reviewType', reviewType);
+
+			//문서유효기간설정
+			var expireType = $("#expireType:checked").val();
+			if(expireType == undefined) expireType="N";
+			formData.append('documentMaster.expireType', expireType);
+
+			//문서유효기간
+			var expireDate = $("#expireDate").val().replace(/-/gi, '');
+			formData.append('documentMaster.expireDate', expireDate);
+
+			//타임스탬프 발급여부
+			var tsaType = $("[name=tsaType]:checked").val();
+			formData.append('documentMaster.tsaType', tsaType);
+
+			//저장구분
+			formData.append('documentMaster.tempSaveType', 'S');
+
+			//입력경로
+			formData.append('documentMaster.inputType', '0');
+
+			var imageFile = document.getElementsByName('orgFile');
+			var fileSize  = 0;//
+			var maxSize   = 5 * 1024 * 1024 * 10; // 50MB
+
+			for (var i = 0; i < imageFile.length; i++) {
+				if (imageFile[i]['files'][0] != undefined && imageFile[i]['files'][0] != null) {
+					if (!checkFileExt(imageFile[i]['files'][0].name, 'pdf')) {
+					  alert('파일확장자는 pdf파일만 가능합니다.');
+					  return;
+					}
+					fileSize = imageFile[i]['files'][0].size;
+
+					if (checkSpecial(imageFile[i]['files'][0].name)) {
+						jAlert('파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.','');
+						return false;
+					}
+					formData.append('DOCUMENT_FILE' + i, imageFile[i]['files'][0]);
+				}
+			}
+			if (fileSize > maxSize) {
+				jAlert('파일은 ' + (maxSize / 1024 / 1024) + 'MB 이하의 파일만 첨부 가능합니다','');
+				return false;
+			}
+
+			//원본파일 ID
+			formData.append('documentMaster.orgFileId', $("#orgFileId").val());
+
+			//이전계약서
+			formData.append('documentMaster.prevDocuId', $("#prevDocuId").val());
+
+			formData.append('documentMaster.docuId', getCookie("docuId"));
+
+			//수정구분
+			formData.append("dbMode", 'U');
+
+			maxSize   = 2 * 1024 * 1024 * 100; // 200MB
+			var totalSize = 0;
+			for(var i=0;i<attachFileList.length;i++) {
+				if (attachFileList[i].value != undefined) {
+					totalSize += attachFileList[i].value.size;
+					formData.append("ATTACH_FILE["+i+"]",attachFileList[i].value);
+				}
+			}
+			if(totalSize > maxSize) {
+				alert("첨부파일은 최대 200M까지 등록 가능합니다.");
+				return false;
+			}
+
+			//첨부파일 삭제
+			for(var i=0;i<delAttachList.length;i++){
+				formData.append('documentFile['+i+'].dbMode', 'D');
+				formData.append('documentFile['+i+'].docuId', getCookie("docuId"));
+				formData.append('documentFile['+i+'].fileId', delAttachList[i]);
+			}
+
+			var url = rootPath + 'document/saveDocument.do';
+
+			$.blockUI();
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				async:false,
+				type:"POST",
+				processData: false,
+				contentType: false,
+				data:formData,
+				success:function(res) {
+					$.unblockUI();
+					alert(res.message);
+					setCookie("docuName", docuName);
+					setCookie("resRList", JSON.stringify(documentDetail));
+					if(res.success) fn_loadHtml("/html/document/document_send_success.html");
+				},
+				error:function(request,status,error){
+					$.unblockUI();
+					goInvalidPage(request, error);
+				}
+			});
+		}
+
+		function selectOrgFile(){ $("[name=orgFile]").click(); }
+
+		//계약문서가 변경될 경우
+		$("[name=orgFile]").change(function(e){
+			var file = document.getElementsByName("orgFile");
+			for(var i=0;i<file.length;i++) {
+				if (file[i].files[0] != undefined) {
+					$("[name=orgFileName]").val(file[i].files[0].name);
+					if(isNull($("#docuName").val()))$("#docuName").val(file[i].files[0].name.split('.')[0]);
+				}
+			}
+		});
+
+		//주소록 팝업
+		function getContactList(){ window.open('/html/contact/contact_popup_list.html', '', 'width=920, height=650'); }
+
+		//첨부파일 삭제
+		var delAttachList = [];
+		function delAttachFile(fileId){
+			if(!confirm("첨부파일을 삭제하시겠습니까?")) return false;
+			delAttachList.push(fileId);
+			$("#delAttachFile_"+fileId).remove();
+		}
+
+
+		$("[name=authType]").click(function(e){
+			if($("[name=authType]:checked").val() == "P"){
+				$("[name=authCode]").attr("disabled", false);
+			} else {
+				$("[name=authCode]").attr("disabled", true);
+				$("[name=authCode]").val("");
+			}
+		});
+
+		$("[name=sendType]").change(function(e){
+			var sendType = $("[name=sendType]:checked").val();
+			//카카오톡일 경우 공인인증서 서명 불가능
+			if(sendType == "K"){
+				$("[name=signType][value=P]").attr("disabled", true);
+				$("[name=signType][value=P]").attr("selected", false);
+				$("[name=signType][value=N]").attr("selected", true);
+			} else {
+				$("[name=signType][value=P]").attr("disabled", false);
+			}
+		});
+
+		$("[name=signType]").change(function(e){
+
+			var signType = $("[name=signType]:checked").val();
+			//카카오톡일 경우 공인인증서 서명 불가능
+			if (signType == "P") { $("[name=sendType][value=K]").attr("disabled", true); }
+			else 				 { $("[name=sendType][value=K]").attr("disabled", false); }
+		});
+
+	</script>
+	</head>
+	<body>
+		<div id="contract_electronic_Wrap">
+			<div class="container">
+				<div class="location">
+					<span class="loc_main NanumSquare_R">전자계약 > </span><span class="loc_sub NanumSquare_R"> 전자계약</span>
+					<span onclick="openHelpWindow('detailedit')" class="btn btn-default" style="color:#07a6ff;float:right;"><i class="fa fa-question"></i> 도움말</span>
+				<span id="serviceCenter" class="hidden" style="float:right; color:red;padding-top:5px;">고객센터 02-3270-6285&nbsp;&nbsp;</span>
+				</div>
+				<div class="pagtit">
+					<span class="NanumRound">전자계약 수정</span>
+					<span class="NanumRound" style="float:right;font-size:11px;margin-left:10pt" id="writeDate"></span>
+					<span class="NanumRound" style="float:right;font-size:14px;margin-left:10pt" id="writeUserName"></span>
+				</div>
+			</div>
+			<!--  contents -->
+			<div class="electronic_list_div">
+
+				<div class="electronic_tableviewdiv">
+					<table class="NanumSquare_R">
+						<colgroup>
+							<col width="15%">
+							<col width="85%">
+						</colgroup>
+						<!--
+						<tr>
+							<th>작성자</th>
+							<td>
+								<input type="text" id="userName" value="" class="inpstyle01 NanumSquare_R" style="width: 50%">
+							</td>
+						</tr>
+						 -->
+						<tr>
+							<th>수신자
+								<span class="hidden">( <input type="checkbox" name="isSelf" /> 본인포함 )</span>
+							</th>
+							<td>
+								<ul class="ul_list01" id="rList">
+
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<th>참조자</th>
+							<td id="tList"></td>
+						</tr>
+						<tr>
+							<th>계약명</th>
+							<td>
+								<input type="text" id="docuName" value="" class="inpstyle01 NanumSquare_R" style="width: 50%">
+							</td>
+						</tr>
+						<tr>
+							<th>계약문서</th>
+							<td>
+								<input type="file" class="hidden" name="orgFile" accept=".pdf">
+								<input type="hidden" id="orgFileId" value="" class="inpstyle01 NanumSquare_R" style="width: 75%">
+								<input type="text" name="orgFileName" value="" class="inpstyle01 NanumSquare_R" style="width: 75%">
+								<a class="btn_adress" onclick="selectOrgFile();">계약서선택</a>
+								<p class="attention">* PDF 파일만 가능하며, 최대 50MB 까지 업로드할 수 있습니다.</p>
+							</td>
+						</tr>
+						<tr>
+							<th>이전계약</th>
+							<td>
+								<input type="text" name="prevDocuName" id="prevDocuName" value="" class="inpstyle01 NanumSquare_R" style="width: 75%" readonly>
+								<input type="hidden" id="prevDocuId">
+								<a onclick="window.open('/html/document/document_popup_complete_list.html', '', 'width=400, height=480');" class="btn_adress">계약선택</a>
+							</td>
+						</tr>
+						<tr>
+							<th>첨부파일</th>
+							<td>
+								<!-- <input type="text" name="prevDocuName" value="" class="inpstyle01 NanumSquare_R" style="width: 75%">  -->
+								<!-- <div><a onclick="addAttachFile()" class="btn_adress">추가</a></div> -->
+								<div id="attachFiles">
+								</div>
+
+								<div class="box NanumSquare_R file_list admin" id="attachFileList">
+									<div class="nonfile">
+										<span>첨부파일을 마우스로 옮겨주세요(파일 여러 개 동시 첨부 가능)(최대 5메가)</span>
+									</div>
+								</div>
+								<div id="submitbutton" style="display: none;">
+									<button type="submit">Upload Files</button>
+								</div>
+								<div class="attach_btns">
+									<a class="btn_adress fileselect" style="margin-right:10px;margin-top:2px;" onclick="attachFile();"> 파일첨부</a>
+
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th>인증구분</th>
+							<td>
+								<ul class="ul_list02 NanumSquare_R">
+									<li><label><input type="radio" name="authType" value="M"> <span>휴대폰 본인인증</span></label></li>
+									<li><label><input type="radio" name="authType" value="P"> <span>비밀번호 인증</span></label>
+									<input type="password" name="authCode" value="" maxlength="20"  class="inpstyle01" style="height: 12px;font-family:auto;"></li>
+									<li><label><input type="radio" name="authType" value="N"> <span>인증없음</span></label></li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<th>발송수단</th>
+							<td>
+								<ul class="ul_list02 NanumSquare_R">
+									<li><label><input type="radio" name="sendType" value="E"> <span>이메일</span></label></li>
+									<li><label><input type="radio" name="sendType" value="K"> <span>카카오톡(공인인증서 미지원)</span></label></li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<th>서명구분</th>
+							<td>
+								<ul class="ul_list02 NanumSquare_R">
+									<li><label><input type="radio" name="signType" value="T"> <span>수기서명</span></label>
+									</li>
+									<li>
+									<a class="btn_adress2" style="height:10px;" onclick="fn_addSignDocument();"> 수기서명</a>
+									</li>
+									<li><label><input type="radio" name="signType" value="P"> <span>공인인증서</span></label></li>
+									<li><label><input type="radio" name="signType" value="N"> <span>서명없음</span></label></li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<th>발송순서</th>
+							<td>
+								<ul class="ul_list02 NanumSquare_R">
+									<li><label><input type="radio" name="sendOrd" value="A"> <span>동시발송</span></label></li>
+									<li><label><input type="radio" name="sendOrd" value="S"> <span>순차발송(참조자는 수신자 완료 후 발송)</span></label></li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<th>검토여부</th>
+							<td>
+								<ul class="ul_list02 NanumSquare_R">
+									<li><label><input type="radio" name="reviewType" value="Y"> <span>검토</span></label></li>
+									<li><label><input type="radio" name="reviewType" value="N"> <span>미검토</span></label></li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<th>위변조 방지 여부</th>
+							<td>
+								<ul class="ul_list02 NanumSquare_R">
+									<li><label><input type="radio" name="tsaType" value="Y"> <span>발급</span></label></li>
+									<li><label><input type="radio" name="tsaType" value="N"> <span>미발급</span></label></li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<th>유효기간</th>
+							<td>
+								<ul class="ul_list02 NanumSquare_R">
+									<li><label><input type="checkbox" id="expireType" value="Y"></label>
+									<input type="date" id="expireDate" max="9999-12-31" class="inpstyle01" style="height: 12px;"></li>
+								</ul>
+							</td>
+						</tr>
+						</tr>
+						<tr>
+							<th>작성자 메모</th>
+							<td>
+								<input type="text" id="reqComment" value="" class="inpstyle01 NanumSquare_R" style="width: 50%">
+							</td>
+						</tr>
+					</table>
+				</div>
+
+			</div>
+			<!-- // contents -->
+		</div>
+
+		<div id="contract_electronic_Wrap">
+			<div class="container">
+				<div class="pagtit"></div>
+			</div>
+			<!--  contents -->
+			<div class="electronic_list_div">
+				<div class="btnareadiv footdiv">
+					<a href="javascript:fn_back()" class="electronic_btn03 NanumRound">목록</a>
+					<!--
+					<a href="javascript:fn_save()" class="electronic_btn02 NanumRound">임시저장</a>
+					 -->
+					<a href="javascript:fn_send()" class="electronic_btn02 NanumRound">발송</a>
+				</div>
+			</div>
+			<!-- // contents -->
+		</div>
+	</body>
+	<input type="file" id="attachFile" name="attachFile" style="visibility:hidden; position:absolute; left:-9999px; top:-9999px;" onChange="attachFileOk(event)">
+
+	<script type="text/javascript">
+
+	var fileId = 0;
+	var attachFileList = [];
+	var deductCode = "";
+	var attachList;
+	var attachCodeList;
+
+	function attachFileDel(fileId) {
+		console.log($("#"+fileId));
+		$('*[name=attachFile]').val("");
+		$("#"+fileId).remove();
+
+		if($("#attachFileList").children().length==1){
+			$(".nonfile").removeClass("hidden");
+		}
+
+
+		for(var i=0;i<attachFileList.length;i++) {
+			console.log(attachFileList[i].key);
+			if (attachFileList[i].key == fileId) {
+				attachFileList.splice(i, 1);
+				return;
+			}
+		}
+		//attachFileList=_.reject(attachFileList, {key:fileId});
+	}
+
+	function attachFile() {
+		$('*[name=attachFile]').val("");
+		$('*[name=attachFile]').click();
+	}
+
+	function attachFileOk(event) {
+
+
+		var file = event.target;
+		var maxSize  = 5 * 1024 * 1024; // 5MB
+		var fileName = "";
+		var fileSize = 0;
+		fileName = file.files[0].name;
+		fileSize = file.files[0].size;
+
+		if(checkSpecial(fileName)) {
+			alert("파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.");
+			return;
+		}
+		;
+		//var htmlData = "";
+		//htmlData += '<div class="file" id="'+fileId+'"><span class="name">'+fileName+'</span><div class="btn_type btn_delete" onClick="attachFileDel('+fileId+');"></div></div>';
+
+		//$("#attachFileList").html(htmlData);
+		ParseFile(file.files[0]);
+
+	}
+
+	/*
+	filedrag.js - HTML5 File Drag & Drop demonstration
+	Featured on SitePoint.com
+	Developed by Craig Buckler (@craigbuckler) of OptimalWorks.net
+	*/
+		// getElementById
+		function $id(id) {
+			return document.getElementById(id);
+		}
+
+		// output information
+		function Output(msg) {
+			var m = $id("attachFileList");
+			m.innerHTML = msg + m.innerHTML;
+		}
+
+		// file drag hover
+		function FileDragHover(e) {
+			e.stopPropagation();
+			e.preventDefault();
+			//e.target.className = (e.type == "dragover" ? "hover" : "");
+			if(e.type=="dragover"){
+				$("#attachFileList").addClass("hover");
+			}else{
+				$("#attachFileList").removeClass("hover");
+			}
+		}
+
+		// file selection
+		function FileSelectHandler(e) {
+			// cancel event and hover styling
+			FileDragHover(e);
+
+			// fetch FileList object
+			var files = e.target.files || e.dataTransfer.files;
+
+			// process all File objects
+			for (var i = 0, f; f = files[i]; i++) {
+				ParseFile(f);
+			}
+
+		}
+
+		// output file information
+		function ParseFile(file) {
+			fileId++;
+			var m = $("#attachFileList");
+
+			if(!m.find(".nonfile").hasClass("hidden")){
+				m.find(".nonfile").addClass("hidden");
+			}
+			//Output("<p>File information: <strong>" + file.name + "</strong> type: <strong>" + file.type + "</strong> size: <strong>" + file.size + "</strong> bytes</p>");
+			Output('<div class="file" id="'+fileId+'"><span class="name">'+file.name+'</span><div class="btn_type btn_delete" onClick="attachFileDel('+fileId+');"></div></div>');
+
+			var oFile = {key:fileId, value:file};
+			attachFileList.push(oFile);
+
+			console.log(attachFileList)
+		}
+
+		// initialize
+		function Init() {
+
+			var fileselect = document.querySelector(".fileselect"),
+				filedrag = $id("attachFileList"),
+				submitbutton = $id("submitbutton");
+
+			// file select
+			fileselect.addEventListener("change", FileSelectHandler, false);
+
+			// is XHR2 available?
+			var xhr = new XMLHttpRequest();
+			if (xhr.upload) {
+
+				// file drop
+				filedrag.addEventListener("dragover", FileDragHover, false);
+				filedrag.addEventListener("dragleave", FileDragHover, false);
+				filedrag.addEventListener("drop", FileSelectHandler, false);
+				filedrag.style.display = "block";
+
+				// remove submit button
+				submitbutton.style.display = "none";
+			}
+
+		}
+
+		// call initialization file
+		if (window.File && window.FileList && window.FileReader) {
+			Init();
+		}
+
+	</script>
+	</html>

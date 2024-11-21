@@ -1,0 +1,324 @@
+
+	<!--****************************************************************************************************************
+	* 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+	* 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+	********************************************************************************************************************
+	--------------------------------------------------------------------------------------------------------------------
+	* 회사       : 뉴젠피앤피
+	* 화면명     : 전자계약 이미지 관리 페이지
+	* 화면설명   : 시스템관리 > 이미지 관리
+	* 작성자     :
+	* 생성일     :
+	--------------------------------------------------------------------------------------------------------------------
+	* 수정자     : 이정훈
+	* 수정일     : 2024.01.16
+	* 수정내용   :
+	------------------------------------------------------------------------------------------------------------------->
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache"/>
+
+	<title>시스템관리</title>
+
+	<link rel="stylesheet" type="text/css" href="/css/jquery.alerts.css">
+	<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+	<script type="text/javascript" src="/js/jquery.alerts.js"></script>
+	<script type="text/javascript" src="/js/ezsign/session_storage.js"></script>
+
+	<script type="text/javascript" src="/js/jquery.bootpag.min.js"></script>
+	<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+
+	<script>
+
+		var bizId;
+		var companyLogo;
+		var companyimage;
+		var oEditors;
+
+		$(document).ready(function() {
+			$("#searchCompany").val(bizId);
+			getBizGrpCombo();
+			getBizLogo();
+		});
+
+
+		//***************					기업 조회					***************//
+
+
+		function getBizGrpCombo() {
+
+			var url = rootPath+"biz/getBizGrpCombo.do";
+			$("#searchCompany").html("");
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				async: false,
+				type:"GET",
+				data: {},
+				success:function(result) {
+					if(result.success){
+						var workStatus = result.data;
+						$.each(workStatus, function(i, data){
+							$("#searchCompany").append($("<option>", {
+								value: data.id,
+								text: data.name
+							}));
+						});
+					}
+				},
+				error:function(request,status,error){
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			});
+		}
+
+
+		//***************					선택 기업 로고/인감 조회					***************//
+
+
+		function getBizLogo() {
+
+			var formData = new FormData();
+			bizId = $("#searchCompany").val();
+			formData.append('bizId', bizId );
+			formData.append('startPage', 0 );
+			formData.append('endPage', 10 );
+			var url = rootPath + 'biz/getBizLogo.do';
+			fncOnBlockUI();
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				processData: false,
+				contentType: false,
+				data: formData,
+				success:function(res) {
+					if (res.success) {
+						if(res['companyLogo'] != null && isNotNull(res['companyLogo'])){
+							companyLogo = res['companyLogo'] + '?id=' + moment().format('YYYYMMDDHHmmss');
+							$("#companyLogoDiv").html("<img src='"+rootPath+"images/sign"+companyLogo+"'/>");
+						}else{
+							$("#companyLogoDiv").html("<img src='"+rootPath+"css/image/top_menu/candyBox_logo_main.png'/>");
+						}
+						if(res['companyimage'] != null && isNotNull(res['companyimage'])){
+							companyimage = res['companyimage'] + '?id=' + moment().format('YYYYMMDDHHmmss');
+							$("#companyimageDiv").html("<img src='"+rootPath+"images/sign"+companyimage+"'/>");
+						}else{
+							$("#companyimageDiv").html("<img src='"+rootPath+"images/sign/digitsign.png'/>");
+						}
+						$.unblockUI();
+					} else {
+						$.unblockUI();
+						jAlert('오류가 발생 했습니다. 브라우저를 새로고침 후 다시 시도해 주세요.','');
+					}
+				},
+				error:function(request,status,error){
+					$.unblockUI();
+					if (request.status=="401") {
+						clearSession();
+						jAlert('사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.' , 'System Message', goHome);
+					} else {
+						jAlert("입력하신 정보를 다시 확인해주시기 바랍니다."+error , 'Error Message');
+					}
+				}
+			});
+		}
+
+
+		//***************					회사로고 등록					***************//
+
+
+		function attachImageLogo() {
+			$('*[name=imageLogo]').click();
+		}
+		function attachImageLogoOk($event) {
+
+			var file = $("input[name=imageLogo]")[0].files[0];
+			var maxSize  = 5 * 1024 * 1024; // 5MB
+			var fileSize = 0;
+			fileSize = file.size;
+
+			if (fileSize > maxSize) {
+				jAlert('파일은 ' + (maxSize / 1024 / 1024) + 'MB 이하의 파일만 첨부 가능합니다','');
+				return false;
+			}
+
+			var imageFile = document.getElementsByName('imageLogo');
+			var formData = new FormData();
+
+			for (var i = 0; i < imageFile.length; i++) {
+				if (imageFile[i]['files'][0] != undefined && imageFile[i]['files'][0] != null) {
+					if (checkSpecial(imageFile[i]['files'][0].name)) {
+						jAlert('파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.','');
+						return false;
+					}
+					formData.append('addImageFile' + i, imageFile[i]['files'][0]);
+				}
+			}
+			bizId = $("#searchCompany").val();
+			formData.append('bizId', bizId );
+			var url = rootPath + 'biz/updBizLogo.do';
+			fncOnBlockUI();
+
+			$.ajax({
+				url: url,
+				data: formData,
+				processData: false,
+				contentType: false,
+				type: 'POST',
+				success: function(result){
+					$('#imageLogo').val('');
+					if (result['success']) {
+						jAlert('등록되었습니다','',function(){
+							$.unblockUI();
+							getBizLogo();
+						});
+					} else {
+						$.unblockUI();
+						jAlert('오류가 발생 했습니다. 브라우저를 새로고침 후 다시 시도해 주세요.','');
+					}
+				},
+				error:function(request,status,error){
+					$.unblockUI();
+					if (request.status=="401") {
+						clearSession();
+						jAlert('사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.' , 'System Message', goHome);
+					} else {
+						jAlert("입력하신 정보를 다시 확인해주시기 바랍니다."+error , 'Error Message');
+					}
+				}
+			});
+		}
+
+
+		//***************					회사인감 등록					***************//
+
+
+		function attachImageStamp() {
+			$('*[name=imageStamp]').click();
+		}
+		function attachImageStampOk() {
+
+			var file = $("input[name=imageStamp]")[0].files[0];
+			var maxSize  = 5 * 1024 * 1024; // 5MB
+			var fileSize = 0;
+			fileSize = file.size;
+
+			if (fileSize > maxSize) {
+				jAlert('파일은 ' + (maxSize / 1024 / 1024) + 'MB 이하의 파일만 첨부 가능합니다','');
+				return false;
+			}
+
+			var imageFile = document.getElementsByName('imageStamp');
+			var formData = new FormData();
+
+			for (var i = 0; i < imageFile.length; i++) {
+				if (imageFile[i]['files'][0] != undefined && imageFile[i]['files'][0] != null) {
+					if (checkSpecial(imageFile[i]['files'][0].name)) {
+						jAlert('파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.','');
+						return false;
+					}
+					formData.append('imageStamp' + i, imageFile[i]['files'][0]);
+				}
+			}
+			bizId = $("#searchCompany").val();
+			formData.append('bizId', bizId );
+			var url = rootPath + 'biz/updBizStamp.do';
+			fncOnBlockUI();
+
+			$.ajax({
+				url: url,
+				data: formData,
+				processData: false,
+				contentType: false,
+				bizId: bizId,
+				type: 'POST',
+				success: function(result){
+					$('#imageStamp').val('');
+					if (result['success']) {
+						jAlert('등록되었습니다','',function(){
+							$.unblockUI();
+							getBizLogo();
+						});
+					} else {
+						$.unblockUI();
+						jAlert('오류가 발생 했습니다. 브라우저를 새로고침 후 다시 시도해 주세요.','');
+					}
+				},
+				error:function(request,status,error){
+					$.unblockUI();
+					if (request.status=="401") {
+						clearSession();
+						jAlert('사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.' , 'System Message', goHome);
+					} else {
+						jAlert("입력하신 정보를 다시 확인해주시기 바랍니다."+error , 'Error Message');
+					}
+				}
+			});
+		}
+
+	</script>
+
+	</head>
+	<body>
+		<div id="yearTax_wrap" class="yearTax">
+			<div class="container">
+				<div class="location"><span class="loc_main NanumGothic">연말정산 > 시스템관리 > </span><span class="loc_sub NanumGothic">이미지 관리</span></div>
+				<div class="pagtit NanumGothic">
+					<span class="">이미지 관리</span>
+					<select id="searchCompany" onchange="getBizLogo(1)"></select>
+				</div>
+				<div class="contents">
+					<ul class="imgRow2">
+						<li>
+							<div class="group_wrap">
+								<div class="group_tit skyblue">
+									<div class="icon"></div>
+									<span class="text NanumGothic">이미지(회사 로고)</span>
+								</div>
+							</div>
+							<div class="box_wrap imagebx" id="companyLogoDiv">
+								<!-- companyLogoDiv 영역 -->
+							</div>
+
+							<div class="NanumGothic btns sort_center">
+								<div class="sortWrap center">
+									<a class="btn_type type1"  onClick="attachImageLogo()"> 등록&nbsp; <span class="icon">+</span></a>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="group_wrap">
+								<div class="group_tit skyblue">
+									<div class="icon"></div>
+									<span class="text NanumGothic">이미지(회사 인감)</span>
+								</div>
+							</div>
+							<div class="box_wrap imagebx" id="companyimageDiv">
+								<!-- companyimage 영역 -->
+							</div>
+							<div class="NanumGothic btns sort_center">
+								<div class="sortWrap center">
+									<a class="btn_type type1" onClick="attachImageStamp()">등록&nbsp; <span class="icon">+</span></a>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div> <!-- contents -->
+			</div> <!-- container -->
+		</div><!-- yearTax_wrap -->
+	  <input type="file" id="imageLogo" accept="image/*" name="imageLogo" style="visibility:hidden; position:absolute; left:-9999px; top:-9999px;" onChange="attachImageLogoOk()">
+	  <input type="file" id="imageStamp" accept="image/*" name="imageStamp" style="visibility:hidden; position:absolute; left:-9999px; top:-9999px;" onChange="attachImageStampOk()">
+	</body>
+	</html>

@@ -1,0 +1,72 @@
+/* font */
+@charset "utf-8";
+
+/** font set **/
+.NanumSquare_R{font-family: 'NanumSquareRegular',sans-serif; font-smoothing:antialiased; -webkit-font-smoothing:antialiased; -ms-font-smoothing:antialiased;  text-rendering: optimizeLegibility;}
+.NanumSquare_B{font-family: 'NanumSquareBold',sans-serif; font-smoothing:antialiased; -webkit-font-smoothing:antialiased; -ms-font-smoothing:antialiased; text-rendering: optimizeLegibility;}
+.NanumGothic{font-family: 'NanumGothic',sans-serif; font-smoothing:antialiased; -webkit-font-smoothing:antialiased; -ms-font-smoothing:antialiased; text-rendering: optimizeLegibility;}
+.NanumBarunGothic{font-family: 'NanumBarunGothic',sans-serif; font-smoothing:antialiased; -webkit-font-smoothing:antialiased; -ms-font-smoothing:antialiased; text-rendering: optimizeLegibility;}
+.NanumRound{font-family: 'NanumRound',sans-serif; font-smoothing:antialiased; -webkit-font-smoothing:antialiased; -ms-font-smoothing:antialiased; text-rendering: optimizeLegibility;}
+.HelveticaNeue_th{font-family: 'HelveticaNeue_th',sans-serif; font-smoothing:antialiased; -webkit-font-smoothing:antialiased;- ms-font-smoothing:antialiased; text-rendering: optimizeLegibility;} 
+.Material_icons{font-family: 'MaterialIcons'; font-smoothing:antialiased; -webkit-font-smoothing:antialiased; -ms-font-smoothing:antialiased; text-rendering: optimizeLegibility; font-feature-settings: 'liga';}
+.Dotum{font-family: Dotum;}
+/** PC용 font파일  :: 폰트 그대로 적용 됨.**/
+
+@font-face {
+    font-family: NanumSquareRegular;
+    src: local("☺"),
+    url('fonts/NanumSquareR.eot?#iefix') format('embedded-opentype'),
+    url('fonts/NanumSquareR.woff2') format('woff2'),
+    url('fonts/NanumSquareR.woff') format('woff'),
+    url('fonts/NanumSquareR.ttf') format('truetype');
+}  
+@font-face {
+    font-family: NanumSquareBold;
+    src: local("☺"),
+    url('fonts/NanumSquareB.eot') format('embedded-opentype'),
+    url('fonts/NanumSquareB.woff2') format('woff2'),
+    url('fonts/NanumSquareB.woff') format('woff'),
+    url('fonts/NanumSquareB.ttf') format('truetype');
+}
+@font-face {
+    font-family: NanumBarunGothic;
+    src: local("☺"),
+    url('fonts/NanumBarunGothic.eot') format('embedded-opentype'),
+    url('fonts/NanumBarunGothic.otf') format('opentype'),
+    url('fonts/NanumBarunGothic.woff2') format('woff2'),
+    url('fonts/NanumBarunGothic.woff') format('woff'),
+    url('fonts/NanumBarunGothic.ttf') format('truetype');
+}
+@font-face {
+    font-family: NanumRound;
+    src: local("☺"),
+	url('fonts/NanumSquareRoundL.eot') format('embedded-opentype'),
+    url('fonts/NanumSquareRoundL.otf') format('opentype'),
+    url('fonts/NanumSquareRoundL.woff2') format('woff2'),
+    url('fonts/NanumSquareRoundL.woff') format('woff'),
+    url('fonts/NanumSquareRoundL.ttf') format('truetype');
+}
+@font-face {
+    font-family: NanumGothic;
+    src: local("☺"),
+    url('fonts/NanumGothic.eot') format('embedded-opentype'),
+    url('fonts/NanumGothic.otf') format('opentype'),
+    url('fonts/NanumGothic.woff2') format('woff2'),
+    url('fonts/NanumGothic.woff') format('woff'),
+    url('fonts/NanumGothic.ttf') format('truetype');
+}
+@font-face {
+    font-family: HelveticaNeue_th;
+    src: local("☺"),
+    url('fonts/helvetica-neue-light.eot') format('embedded-opentype'),
+    url('fonts/helvetica-neue-light.woff') format('woff'),
+    url('fonts/helvetica-neue-light.ttf') format('truetype'); 
+    
+}
+@font-face {
+    font-family: MaterialIcons;
+    src: local("☺"),
+    url('fonts/MaterialIcons-Regular.eot') format('embedded-opentype'),
+    url('fonts/MaterialIcons-Regular.woff') format('woff'),
+    url('fonts/MaterialIcons-Regular.ttf') format('truetype'); 
+}

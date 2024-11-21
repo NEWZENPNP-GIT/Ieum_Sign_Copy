@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="statistics">
+	<typeAlias alias="mainGraphVO" type="com.ezsign.statistics.vo.MainGraphVO" />
+	<resultMap id="mainGraphListMap" class="mainGraphVO">
+		<result property="viewMonth" column="VIEW_MONTH"/>
+		<result property="v1" column="V1"/>
+		<result property="v2" column="V2"/>
+		<result property="v3" column="V3"/>
+		<result property="v4" column="V4"/>
+		<result property="v5" column="V5"/>
+	</resultMap>
+	
+	<select id="statisticsDAO.getMainGraphist" parameterClass="mainGraphVO" resultMap="mainGraphListMap">
+	<![CDATA[
+		SELECT  CAST(SUBSTRING(A.CONTRACT_DATE, 5, 2) AS SIGNED) VIEW_MONTH,
+		        SUM(CASE A.STATUS_CODE WHEN '1' THEN 1 ELSE 0 END) V1,
+		        SUM(CASE A.STATUS_CODE WHEN '2' THEN 1 ELSE 0 END) V2,
+		        SUM(CASE A.STATUS_CODE WHEN '3' THEN 1 WHEN '4' THEN 1 WHEN '5' THEN 1 WHEN '6' THEN 1 ELSE 0 END) V3,
+		        SUM(CASE A.STATUS_CODE WHEN '3' THEN DATE_ADD(STR_TO_DATE(A.CONTRACT_DATE, '%Y%m%d'), INTERVAL 3 DAY) <= NOW()  ELSE 0 END) V4,
+		        SUM(CASE A.STATUS_CODE WHEN 'Y' THEN 1 ELSE 0 END) V5
+		FROM    tbl_contract_person A
+		WHERE   A.BIZ_ID     = #bizId#
+		AND		SUBSTRING(A.CONTRACT_DATE, 1, 4) = YEAR(CURDATE())
+		AND     A.TRANS_TYPE = 'Y'
+		GROUP BY CAST(SUBSTRING(A.CONTRACT_DATE, 5, 2) AS SIGNED)
+	]]>
+	</select>
+	
+</sqlMap>    

@@ -1,0 +1,164 @@
+
+<!--  연차내역 페이지는   mobile_annual.html 에서 bpopup으로 띄우므로  css를 별도로 include 하지 않는다  -->
+<!--  만약 bpopup을 사용하지 않고 별도의 페이지로 사용한다면  아래 주석을 해제후 사용한다.-->
+
+<!-- <head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<title> 연차 내역</title>
+<link rel="stylesheet" type="text/css" href="/css/font.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/mobile_common.css">
+<link rel="stylesheet" type="text/css" href="/css/mobile_annual.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+</head>  -->
+
+<body>
+	<div id="annual_lst_wrap">
+		<div class="sort_right NanumBarunGothic"><a class="btn_type btn_annualList btn_close">연차내역<span class="icon"></span></a></div>
+		<div id="annual_list" class="NanumBarunGothic">
+			<table>
+				<colgroup>
+					<col width="8%">
+					<col width="35%">
+					<col width="16%">
+					<col width="11%">
+					<col width="30%">
+				</colgroup>
+				<thead>
+					<tr>
+						<th>순번</th>
+						<th>시작일~종료일</th>
+						<th>구분</th>
+						<th>사용수</th>
+						<th>사유</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="no">1</td>
+						<td class="date">18.01.02~18.01.02</td>
+						<td class="type">연차</td>
+						<td class="count">1</td>
+						<td class="reason">개인사정으로</td>
+					</tr>
+					<tr>
+						<td class="no">2</td>
+						<td class="date">18.01.02~18.01.02</td>
+						<td class="type">경조휴가</td>
+						<td class="count">10</td>
+						<td class="reason">개인사정으로</td>
+					</tr>
+					<tr>
+						<td class="no">3</td>
+						<td class="date">18.01.02~18.01.02</td>
+						<td class="type">경조휴가</td>
+						<td class="count">10</td>
+						<td class="reason">개인사정으로</td>
+					</tr>
+					<tr>
+						<td class="no">4</td>
+						<td class="date">18.01.02~18.01.02</td>
+						<td class="type">경조휴가</td>
+						<td class="count">10</td>
+						<td class="reason">개인사정으로</td>
+					</tr>
+					<tr>
+						<td class="no">5</td>
+						<td class="date">18.01.02~18.01.02</td>
+						<td class="type">경조휴가</td>
+						<td class="count">10</td>
+						<td class="reason">개인사정으로</td>
+					</tr>
+					<tr>
+						<td class="no">6</td>
+						<td class="date">18.01.02~18.01.02</td>
+						<td class="type">경조휴가</td>
+						<td class="count">10</td>
+						<td class="reason">개인사정으로</td>
+					</tr>
+					<tr>
+						<td class="no">7</td>
+						<td class="date">18.01.02~18.01.02</td>
+						<td class="type">경조휴가</td>
+						<td class="count">10</td>
+						<td class="reason">개인사정으로</td>
+					</tr>
+					<tr>
+						<td class="no">8</td>
+						<td class="date">18.01.02~18.01.02</td>
+						<td class="type">경조휴가</td>
+						<td class="count">10</td>
+						<td class="reason">개인사정으로</td>
+					</tr>
+					<tr>
+						<td class="no">9</td>
+						<td class="date">18.01.02~18.01.02</td>
+						<td class="type">경조휴가</td>
+						<td class="count">10</td>
+						<td class="reason">개인사정으로</td>
+					</tr>
+					<tr>
+						<td class="no">10</td>
+						<td class="date">18.01.02~18.01.02</td>
+						<td class="type">경조휴가</td>
+						<td class="count">10</td>
+						<td class="reason">개인사정으로</td>
+					</tr>
+					<tr>
+						<td class="no">11</td>
+						<td class="date">18.01.02~18.01.02</td>
+						<td class="type">경조휴가</td>
+						<td class="count">10</td>
+						<td class="reason">개인사정으로</td>
+					</tr>
+					<tr>
+						<td class="no">12</td>
+						<td class="date">18.01.02~18.01.02</td>
+						<td class="type">경조휴가</td>
+						<td class="count">10</td>
+						<td class="reason">개인사정으로</td>
+					</tr>
+					<tr>
+						<td class="no">13</td>
+						<td class="date">18.01.02~18.01.02</td>
+						<td class="type">경조휴가</td>
+						<td class="count">10</td>
+						<td class="reason">개인사정으로</td>
+					</tr>
+					<tr>
+						<td class="no">14</td>
+						<td class="date">18.01.02~18.01.02</td>
+						<td class="type">경조휴가</td>
+						<td class="count">10</td>
+						<td class="reason">개인사정으로</td>
+					</tr>
+					
+					<tr>
+						<td class="no">15</td>
+						<td class="date">18.01.02~18.01.02</td>
+						<td class="type">경조휴가</td>
+						<td class="count">10</td>
+						<td class="reason">개인사정으로</td>
+					</tr>
+					<tr>
+						<td class="no">16</td>
+						<td class="date">18.01.02~18.01.02</td>
+						<td class="type">경조휴가</td>
+						<td class="count">10</td>
+						<td class="reason">개인사정으로</td>
+					</tr>
+					<tr>
+						<td class="no">17</td>
+						<td class="date">18.01.02~18.01.02</td>
+						<td class="type">경조휴가</td>
+						<td class="count">10</td>
+						<td class="reason">개인사정으로</td>
+					</tr>
+				</tbody>
+						
+			</table>
+		</div>
+	</div>
+</body>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/popup.css">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+	<script type='text/javascript' src="/js/common.js"></script>
+	<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+
+</head>
+<script>
+	$(document).ready(function(){
+		window.focus();
+		var index = getURLParameters("index");
+		$("#img").attr("src", "/images/ieumtax_2023.png");
+
+		$("#todayClose").click(function(){
+			var todayDate = new Date();
+			todayDate.setHours(24,0,0,0);
+			document.cookie = 'todayNotOpen_'+ index + '=' + escape( 'Y' ) + '; path=/; expires=' + todayDate.toGMTString() + ';'
+			window.close();
+		});
+	});
+</script>
+<body>
+
+<div class="common_popup notice">
+	<div class="contents">
+		<div class="notice_box">
+			<img id="img" src="" usemap="#image-map">
+			<map name="image-map">
+				<area target="_blank" alt="qna" title="qna" href="https://newzenpnp.co.kr/service/qna.jsp" coords="238,360,379,406" shape="rect">
+				<area target="_blank" alt="subscrip" title="subscrip" href="https://blog.naver.com/newzen__pnp/223139958650" coords="87,439,285,503" shape="rect">
+				<area target="_blank" alt="develop" title="develop" href="https://blog.naver.com/newzen__pnp/223117650712" coords="337,439,536,503" shape="rect">
+				<area target="_blank" alt="newzenpnp" title="newzenpnp" href="https://newzenpnp.co.kr/" coords="234,584,387,614" shape="rect">
+			</map>
+		</div>
+	</div>
+	<div id="todayClose" style="width: 100%; height: 30px; background-color: #000000; float: left;">
+		<input type="checkbox" style="margin-left: 10px;"><span style="color: #ffffff; margin-left: 5px;">하루동안 이 창을 열지 않음</span>
+	</div>
+</div><!-- popup_wrap -->
+
+
+</body>
+
+</html>

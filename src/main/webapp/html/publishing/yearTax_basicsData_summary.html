@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>연말정산 요약</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+</head>
+<body>
+	<div id="yearTax_wrap" class="yearTax">
+		
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연말정산 > </span><span class="loc_sub NanumSquare_R">연말정산 요약</span></div>
+			<div class="pagtit">
+				<span class="NanumSquare_R">연말정산 요약</span>
+				<ul class="top_items NanumSquare_R">
+					<li><a class="btn_type btn_reCount">선택 재계산 <span class="icon icon_reCount"></span></a></li>
+					<li><a class="btn_type btn_reCount">일괄 재계산 <span class="icon icon_reCount"></span></a></li>
+					<li><a class="btn_type btn_lastConfirm">최종 확정 </a></li>
+					<!-- <li><div class="current">요약설명 및 공제요건</div></li> -->
+				</ul>
+			</div>
+			
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">근로자 정보</span>
+					</div>
+				
+					<div class="grid_field full">
+						<ul class="gridRow2">
+							<li class="search_wrap">
+								<div class="group_row row4">
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">사업장 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R">
+												<option value="" >전체</option>
+											</select>
+										</dd>
+									</dl>
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">부서 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R">
+												<option value="" >전체</option>
+											</select>
+										</dd>
+									</dl>
+									<dl class="NanumSquare_R rat4n-6">
+										<dt><label class="label_txt NanumSquare_R">근무상태 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R">
+												<option value="" >전체</option>
+												<option value="" >계속근로</option>
+												<option value="" >중도퇴사</option>
+											</select>
+										</dd>
+									</dl>
+								</div>
+								<div class="group_row row4">
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">성명 : </label></dt>
+										<dd class="input_box"><input class="" type="text" ></dd>
+									</dl>
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">사번 : </label></dt>
+										<dd class="input_box"><input class="" type="text" ></dd>
+									</dl>
+									<dl class="NanumSquare_R rat4n-6">
+										<dt><label class="label_txt NanumSquare_R">마감상태 : </label></dt>
+										<dd class="input_box"><input class="" type="text" ></dd>
+									</dl>
+									<div class="btns"><a class="btn_type btn_grid_search NanumSquare_R"><span class="icon Material_icons">search</span> 검색</a></div>
+								</div>
+							</li>
+						</ul>
+					</div>
+					
+					<div class="grid_paging">
+						<div class="select_box">
+							<dl>
+								<dt><label class="label_txt NanumSquare_R">Rows</label></dt>
+								<dd class="select_box">
+									<select class="NanumSquare_R">
+										<option value="" >10</option>
+									</select>
+								</dd>
+							</dl>
+						</div>
+						<div id="page-selection" class="pagingnav_wrap_mid"></div>
+					</div>
+					<div class="group_table">
+						<table class="hasHead NanumSquare_R">
+							<colgroup>
+								<col width="4%">
+								<col width="11%">
+								<col width="9%">
+								<col width="12%">
+								<col width="13%">
+								<col width="11%">
+								<col width="10%">
+								<col width="10%">
+								<col width="10%">
+								<col width="10%">
+							</colgroup>
+							<thead>
+								<tr>
+									<th class="chk_area"><input type="checkbox"></th>
+									<th>사업장</th>
+									<th>성명</th>
+									<th>사번</th>
+									<th>부서</th>
+									<th>소득공제 총계</th>
+									<th>세액공제 총계</th>
+									<th>결정세액</th>
+									<th>납부/환급세액</th>
+									<th>마감</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="chk_area"><input type="checkbox"></td>
+									<td class="value">뉴젠</td>
+									<td class="value"><a class="btn_type btn_detailView">이름입니다</a></td>
+									<td class="value">201701010001</td>
+									<td class="value">설계1팀</td>
+									<td class="value">newzen1@newzen.kr</td>
+									<td class="value">02-2000-3011</td>
+									<td class="value">010-1000-1001</td>
+									<td class="value">대상</td>
+									<td class="value">대상</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div> <!--  contents -->
+			
+		</div>
+		
+		<!--  layer popup -->
+		<!--  선택 재계산 popup -->
+		<div class="layerPop_wrap select">
+			<div class="popup_bg small">
+			
+				<div class="popup_tit">
+					<div class="popup_close"><a class="btn_type btn_close workCheck"></a></div>
+				</div>
+				<ul class="popup_content">
+					<li class="icon"></li>
+					<li class="text NanumRound">
+						<span>선택한 사원에 대해  재계산을 수행합니다.</span>
+					</li>
+					<li class="dec NanumRound">
+						<span>※ 환경에 따라 작업시간이 1분 이상<br> 소요될 수 있습니다.</span>
+					</li>
+				</ul>
+				<div id="foot_btns" class="floating NanumRound">
+					<a class="btn_type type1 yes">확인</a>
+					<a class="btn_type type2 no">취소</a>
+				</div>
+			</div>
+		</div>
+		<!--  일괄 재계산 popup -->
+		<div class="layerPop_wrap allSelect">
+			<div class="popup_bg small">
+			
+				<div class="popup_tit">
+					<div class="popup_close"><a class="btn_type btn_close workCheck"></a></div>
+				</div>
+				<ul class="popup_content">
+					<li class="icon"></li>
+					<li class="text NanumRound">
+						<span>모든 사원에 대해  재계산 를 수행합니다.</span>
+					</li>
+					<li class="dec NanumRound">
+						<span>※ 환경에 따라 작업시간이 1분 이상<br> 소요될 수 있습니다.</span>
+					</li>
+				</ul>
+				<div id="foot_btns" class="floating NanumRound">
+					<a class="btn_type type1 yes">확인</a>
+					<a class="btn_type type2 no">취소</a>
+				</div>
+			</div>
+		</div>
+		<!--  마감 안내 확인 요청 popup -->
+		<div class="layerPop_wrap">
+			<div class="popup_bg small">
+			
+				<div class="popup_tit">
+					<div class="popup_close"><a class="btn_type btn_close workCheck"></a></div>
+				</div>
+				<ul class="popup_content">
+					<li class="icon"></li>
+					<li class="text NanumRound">
+						<span>마감되지 않은 사원이 있습니다.<br>전 사원에 대한 마감을 진행해 주세요.</span>
+					</li>
+				</ul>
+				<div id="foot_btns" class="floating NanumRound">
+					<a class="btn_type type1 yes">확인</a>
+				</div>
+			</div>
+		</div>
+		
+		<!--  최종확정 popup -->
+		<div class="layerPop_wrap">
+			<div class="popup_bg small">
+			
+				<div class="popup_tit">
+					<div class="popup_close"><a class="btn_type btn_close workCheck"></a></div>
+				</div>
+				<ul class="popup_content">
+					<li class="icon"></li>
+					<li class="text NanumRound">
+						<span>최종확정이 완료되었습니다.</span>
+					</li>
+				</ul>
+				<div id="foot_btns" class="NanumRound">
+					<a class="btn_type type1 yes">확인</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script type="text/javascript">
+/*  *************** 근로자 리스트 스크롤 위치에 따라 이동   ***************  */ 
+$(document).ready(function(){
+	var _scrollTop=$("#main_wrap").scrollTop();
+	var _posY=($("#main_wrap").height()/2 + 40)+_scrollTop-57;
+
+	if($("#yearTax_wrap").height() < $("#main_wrap").height()){
+		$("#employ-list-wrap").css("height",$("#main_contents").height()-10)
+	}
+	$(".btn_emplist").css("top",_posY);
+
+})
+
+$("#main_wrap").scroll(function(){
+	var _scrollTop=$("#main_wrap").scrollTop();
+	var _posY=($("#main_wrap").height()/2 + 40)+_scrollTop-57;
+	$(".btn_emplist").css("top",_posY);
+})
+
+</script>
+</html>

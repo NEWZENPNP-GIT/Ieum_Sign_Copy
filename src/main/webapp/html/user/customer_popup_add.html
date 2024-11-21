@@ -1,0 +1,284 @@
+
+	<!--****************************************************************************************************************
+	* 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+	* 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+	********************************************************************************************************************
+	--------------------------------------------------------------------------------------------------------------------
+	* 회사       : 뉴젠피앤피
+	* 화면명     : 인사정보등록 팝업창
+	* 화면설명   : 거래처목록 > 개별등록 > 인사정보등록 팝업창
+	* 작성자     :
+	* 생성일     :
+	--------------------------------------------------------------------------------------------------------------------
+	* 수정자     : 이정훈
+	* 수정일     : 2024.02.22
+	* 수정내용   :
+	------------------------------------------------------------------------------------------------------------------->
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/personnel_management.css">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+	<title>거래처정보등록</title>
+	<script>
+
+		//***************					윈도우 로딩					***************//
+
+
+		$(document).ready(function(){
+
+			window.resizeTo(515, 424);
+
+			$('[data-index="1"]').focus();
+
+			$('#inputForm').on('keydown', 'input', function (event) {
+				if (event.which == 13) {
+					event.preventDefault();
+					var $this = $(event.target);
+					var index = parseFloat($this.attr('data-index'));
+					$('[data-index="' + (index + 1).toString() + '"]').focus();
+				}
+			});
+
+			getBizGrpCombo();
+
+			$("#businessNo").blur(function(){
+
+				var businessNo = $("#businessNo").val();
+
+				if(businessNo.length > 0){
+					if (!check_busino(businessNo)) {
+						alert("사업자번호가 맞지 않습니다.");
+						$("#businessNo").val("");
+						return;
+					}
+
+					var url   = rootPath+"emp/getCustomer.do";
+					var bizId = $("#bizId").val();
+
+					$.ajax({
+						url:url,
+						crossDomain : true,
+						dataType:"json",
+						type:"GET",
+						data: {
+							businessNo:businessNo,
+							bizId:bizId,
+							startPage:0,
+							endPage:10
+						},
+						success:function(result) {
+							if (result.success==true) {
+								alert("이미 존재하는 사업자 등록번호 입니다.");
+								$("#businessNo").val("");
+							}
+						},
+						error:function(request,status,error){
+							if (request.status=="401") {
+								alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+								window.close();
+							} else { alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error); }
+						}
+					});
+				}
+			});
+			if (getCookie("loginType")=="5") { $("#bizId").prop("disabled","disabled") }
+		});
+
+
+		//***************					저장하기					***************//
+
+
+		function fn_customerSave() {
+
+			if(!confirm("거래처를 추가하시겠습니까?동일한 사업자등록번호가 존재하는 경우 추가가 되지 않습니다.")) return;
+
+			var url			 	= rootPath+"emp/insCustomer.do";
+			var businessNo	 	= $("#businessNo").val();
+			var customerName 	= $("#customerName").val();
+			var ownerName	 	= $("#ownerName").val();
+			var addr1		 	= $("#addr1").val();
+			var managerName	 	= $("#managerName").val();
+			var managerPhoneNum = $("#managerPhoneNum").val();
+			var managerEmail	= $("#managerEmail").val();
+			var managerDeptName = $("#managerDeptName").val();
+			var bizId			= $("#bizId").val();
+
+			if (businessNo.length == 0) {
+				alert("거래처 사업자등록번호를 입력해주시기 바랍니다.");
+				$("#businessNo").focus();
+				return;
+			}
+
+			if (customerName.length == 0) {
+				alert("거래처명을 입력해주시기 바랍니다.");
+				$("#customerName").focus();
+				return;
+			}
+
+			if (managerEmail.length > 0) {
+				if (!checkEmail(managerEmail)) {
+					alert("이메일 형식이 맞지 않습니다.\r\n다시 입력해주시기 바랍니다.");
+					$("#managerEmail").focus();
+					return;
+				}
+			} else {
+				alert("담당자 이메일을 입력해주시기 바랍니다.");
+				$("#managerEmail").focus();
+				return;
+			}
+
+			if (managerPhoneNum.length == 0) {
+				alert("담당자 전화번호를 입력해주시기 바랍니다.");
+				$("#managerPhoneNum").focus();
+				return;
+			} else {
+				if (!checkPhoneNumNoHypen(managerPhoneNum)) {
+					alert("휴대폰번호 형식이 맞지 않습니다.\r\n다시 입력해주시기 바랍니다.");
+					$("#managerPhoneNum").focus();
+					return;
+				}
+			}
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				data: {
+					businessNo:businessNo,
+					customerName:customerName,
+					ownerName:ownerName,
+					addr1:addr1,
+					managerName:managerName,
+					managerPhoneNum:managerPhoneNum,
+					managerEmail:managerEmail,
+					managerDeptName:managerDeptName,
+					bizId:bizId
+				},
+				success:function(result) {
+					if (result.success==true) {
+						alert("거래처 정보가 추가되었습니다.");
+						opener.fn_customerList(1);
+						window.close();
+					} else { alert("이미 존재하는 거래처입니다."); }
+				},
+				error:function(request,status,error){
+					if (request.status=="401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						window.close();
+					} else { alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error); }
+				}
+			});
+		}
+
+
+		//***************					기업 조회					***************//
+
+
+		function getBizGrpCombo() {
+
+			var url = rootPath+"biz/getBizGrpCombo.do";
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				async: false,
+				type:"GET",
+				data: { },
+				success:function(result) {
+					if(result.success){
+						var workStatus = result.data;
+						$.each(workStatus, function(i, data){
+							$("#bizId").append($("<option>", {
+								value: data.id,
+								text: data.name
+							}));
+						});
+						if (!isNull(getURLParameters("searchCompany"))) { $('#bizId').val(getURLParameters("searchCompany")).prop("selected",true); }
+					}
+				},
+				error:function(request,status,error){ alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); }
+			});
+		}
+
+	</script>
+	</head>
+
+	<body>
+	<input type="hidden" id="userType" value="1">
+	<div id="person_popup" class="edit" style="width: 100%; height: auto;">
+		<div class="container">
+			<div id="popup_tit">
+				<div class="tit_icon"></div>
+				<div class="tit_text col_skyblue NanumGothic">거래처정보등록</div>
+				<div id="popup_close" class="btn_type col_skyblue" onclick="window.close();"></div>
+			</div>
+			<div class="contents" id="inputForm" style="height: auto;">
+				<div class="input_wrap">
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic"><span class="dot_red">*</span>소속기업명</label></dt>
+						<dd>
+							<select class="NanumGothic" id="bizId" data-index="8"></select>
+						</dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic"><span class="dot_red">*</span>거래처<br>사업자번호</label></dt>
+						<dd><input type="text" id="businessNo" value="" name="" class="input_txt" data-index="1"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic"><span class="dot_red">*</span>거래처명</label></dt>
+						<dd><input type="text" id="customerName" value="" data-index="2" class="input_txt"></dd>
+					</dl>
+					<dl class="boxRow NanumGothic">
+						<dt><label class="label_txt NanumGothic">대표자명</label></dt>
+						<dd><input type="text" id="ownerName" value="" data-index="3" class="input_txt"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">주소</label></dt>
+						<dd><input type="text" id="addr1" value="" data-index="4" class="input_txt"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">담당자명</label></dt>
+						<dd><input type="text" id="managerName" value="" data-index="5" class="input_txt"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic"><span class="dot_red">*</span>담당자<br>휴대폰번호</label></dt>
+						<dd><input type="text" id="managerPhoneNum" value="" data-index="6" class="input_txt"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic"><span class="dot_red">*</span>담당자이메일</label></dt>
+						<dd><input type="text" id="managerEmail" value="" data-index="7" class="input_txt"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">담당자부서명</label></dt>
+						<dd><input type="text" id="managerDeptName" value="" data-index="8" class="input_txt"></dd>
+					</dl>
+				</div>
+				<div class="NanumGothic foot_box line1">
+					<dl class="col_red mar_bot_0">
+						<dt><span class="dot_red">*</span></dt>
+						<dd>로 표시된 항목은 필수입력 사항입니다.</dd>
+					</dl>
+				</div>
+			</div>
+			<div class="btn_group">
+				<div class="btn_type type1 NanumGothic" onclick="fn_customerSave()" >저장하기</div>
+				<div class="btn_type type3 NanumGothic" onclick="window.close()">취소하기</div>
+			</div>
+		</div>
+	</div>
+	</body>
+	</html>

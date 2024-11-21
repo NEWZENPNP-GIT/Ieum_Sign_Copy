@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Cabinet">
+	<typeAlias alias="cabinetVO" type="com.ezsign.content.vo.CabinetVO"/>
+	<resultMap id="cabinetListMap" class="cabinetVO">
+		<result property="cabinetId" column="CABINET_ID"/>
+		<result property="classId" column="CLASS_ID"/>
+		<result property="cabinetPath" column="CABINET_PATH"/>
+		<result property="expireCode" column="EXPIRE_CODE"/>
+		<result property="useYn" column="USE_YN"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="insEmpNo" column="INS_EMP_NO"/>
+		<result property="updDate" column="UPD_DATE"/>
+		<result property="updEmpNo" column="UPD_EMP_NO"/>
+	</resultMap>
+	
+	<select id="cabinetDAO.getCabinetClass" parameterClass="cabinetVO" resultMap="cabinetListMap">
+		SELECT  A.CABINET_ID, A.CLASS_ID, A.CABINET_PATH, A.EXPIRE_CODE, A.USE_YN,
+		        A.INS_DATE, A.INS_EMP_NO, A.UPD_DATE, A.UPD_EMP_NO
+		FROM    tbl_cabinet A
+		WHERE   A.USE_YN	= 'Y'
+		AND		A.CLASS_ID	= #classId#
+	</select>
+	
+	<select id="cabinetDAO.getCabinet" parameterClass="cabinetVO" resultMap="cabinetListMap">
+		SELECT  A.CABINET_ID, A.CLASS_ID, A.CABINET_PATH, A.EXPIRE_CODE, A.USE_YN,
+		        A.INS_DATE, A.INS_EMP_NO, A.UPD_DATE, A.UPD_EMP_NO
+		FROM    tbl_cabinet A
+		WHERE   A.CABINET_ID	= #cabinetId#
+	</select>
+	
+</sqlMap>

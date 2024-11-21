@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<META http-equiv="Pragma" content="no-cache">
+<META http-equiv="Expires" content="-1">
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>연말정산 현황 : 기부금 명세서 </title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+<link rel="stylesheet" type="text/css" href="/css/ScrollTable.css"  media="screen" />
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+
+</head>
+<body>
+	<div id="yearTax_wrap" class="yearTax">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연말정산 > 연말정산 관리  > </span><span class="loc_sub NanumSquare_R">연말정산 현황물</span></div>
+			<div class="pagtit NanumSquare_R">
+				<span class="">기부금 명세서</span>
+			</div>
+			
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">기부금 명세서</span>
+					</div>
+				
+					<div class="grid_field full">
+						<ul class="gridRow2">
+							<li class="search_wrap">
+								<div class="group_row row4">
+									<dl class="NanumSquare_R rat3n-7">
+										<dt><label class="label_txt NanumSquare_R">사업장 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R" id="사업장ID">
+												<option value="" >전체</option>
+											</select>
+										</dd>
+									</dl>
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">부서 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R" id="부서ID">
+												<option value="" >전체</option>
+											</select>
+										</dd>
+									</dl>
+								</div>
+								<div class="group_row row4">
+									<dl class="NanumSquare_R rat3n-7">
+										<dt><label class="label_txt NanumSquare_R">성명 : </label></dt>
+										<dd class="input_box"><input class="" type="text" id="성명"></dd>
+									</dl>
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">사번 : </label></dt>
+										<dd class="input_box"><input class="" type="text" id="사번"></dd>
+									</dl>
+									<dl class="NanumSquare_R rat4n-6">
+										<dt><label class="label_txt NanumSquare_R">직책(직급) : </label></dt>
+										<dd class="input_box"><input class="" type="text" id="직책"></dd>
+									</dl>
+									<div class="btns"><a class="btn_type btn_grid_search NanumSquare_R"><span class="icon Material_icons">search</span> 검색</a></div>
+								</div>
+							</li>
+							<li class="NanumSquare_R btns sort_right sort_bottom">
+								<div class="sortWrap ">
+									<a class="btn_type excelDown">다운로드</a>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<!--  셀 넓이 조정 class w70/w90/w100/w120/w150/w180-/w200/w220/w250/w260/w280/w300 -->
+					<div class="fix-table-container NanumSquare_R">
+						<div class="ContenedorTabla h600" >
+							<table id="pruebatabla" class="fht-table">
+								<thead>
+									<tr>
+										<th rowspan="2">법인명</th><th rowspan="2">사업장 (단위사업장)</th><th rowspan="2">부서</th><th rowspan="2">사원코드</th><th rowspan="2">사원명</th><th rowspan="2">주민등록번호</th>
+										<th colspan="3">구분</th><th colspan="3">기부처</th><th colspan="3">기부자</th><th colspan="4">기부내역</th>
+									</tr>
+									<tr>
+										<th>자료구분</th><th>코드</th><th>유형</th>
+										<th>기부내용</th><th>상호</th><th>사업자번호</th>
+										<th>관계</th><th>성명</th><th>주민등록번호</th>
+										<th>건수</th><th>(14)공제대상 기부금액</th><th>(15)기부장려금 신청금액</th><th>(13)기부금 합계금액(14+15)</th>
+									</tr> 
+									<!-- 
+									<tr class="sum-cell">
+										<th colspan="5">합계</th><th>6</th><th>7</th><th> 8</th><th>9</th><th>10</th>
+										<th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th>
+										<th class="sort_right">17</th><th class="sort_right">18</th><th class="sort_right">19</th>
+									</tr>
+									 -->
+								</thead>
+								<tbody id="tbody">									
+								</tbody>
+							</table>
+						</div> <!-- ContenedorTabla  -->
+					</div><!-- fix-table-container -->
+				</div>
+			</div><!--  content -->
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="/js/jquery.CongelarFilaColumna.js"></script> <!--  table plugin -->
+<script type="text/javascript">
+	
+	var contractId;
+	
+	$(document).ready(function(){
+
+		contractId = getCookie('yearContractId');
+		Set_table();
+		
+		$("#사업장ID").on("change", function(e){
+			getDept();
+		});
+		
+		init();
+		
+	});
+	
+	$(window).resize(function(){
+		Set_table();
+	});
+	
+	function init() {
+		if ((contractId.length <=  0) || (contractId === undefined) || (contractId === 'undefined')) {
+			alert( '사용불가 메뉴 입니다. 기본설정값을 확인 해주세요' );
+			location.href = "/";
+			return;
+	    }
+		
+		getCodeList()
+	}
+
+	function getList(){
+		var url = rootPath + 'febworker/status/getDonation.do';
+	    var params = {
+			"계약ID": contractId,
+			"사업장ID": $("#사업장ID").val(),
+			"부서ID": $("#부서ID").val(),
+			"성명": $("#성명").val(),
+			"사번": $("#사번").val(),
+			"직책": $("#직책").val()
+		};
+		
+	    request = $.ajax({
+			url: url,
+	        type: "get",
+	        cache: false,
+	        dataType:"json",
+	        data: params
+	    });
+		
+	    request.done(function(res){
+
+			if(res.success){
+				$("#tbody tr").remove();
+				
+				var tbodyHtml = "";
+				
+				if(!$.isEmptyObject(res.list)){
+				
+					var list = res.list;
+					var sum = res.sum;
+
+					$.each(list, function(i, data){
+
+						tbodyHtml += "<tr>";
+						
+						tbodyHtml += "<td>" + data.bizName + "</td>";
+						tbodyHtml += "<td>" + data.사업장명 + "</td>";
+						tbodyHtml += "<td>" + data.부서명 + "</td>";
+						tbodyHtml += "<td>" + data.사번 + "</td>";
+						tbodyHtml += "<td>" + data.성명 + "</td>";
+						tbodyHtml += "<td>" + data.개인식별번호 + "</td>";	
+						
+						tbodyHtml += "<td>" + data.자료구분코드명 + "</td>";
+						tbodyHtml += "<td>" + data.기부코드 + "</td>";
+						tbodyHtml += "<td>" + data.기부코드명 + "</td>";
+						tbodyHtml += "<td>" + data.기부내용명 + "</td>";
+						tbodyHtml += "<td>" + data.상호 + "</td>";
+						tbodyHtml += "<td>" + data.기부처_사업자등록번호 + "</td>";
+						tbodyHtml += "<td>" + data.가족관계명 + "</td>";
+						tbodyHtml += "<td>" + data.가족명 + "</td>";
+						tbodyHtml += "<td>" + data.가족_개인식별번호 + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.기부명세_건수) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.기부명세_공제대상기부금) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.기부명세_기부장려금) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.합계) + "</td>";
+						tbodyHtml += "</tr>"
+					});
+					
+					tbodyHtml += "<tr class='sum-cell'>";
+					
+					tbodyHtml += "<td colspan='15'>합 계</td>";
+					
+					tbodyHtml += "<td class='sort_right'>" + AddComma(sum.기부명세_건수) + "</td>";
+					tbodyHtml += "<td class='sort_right'>" + AddComma(sum.기부명세_공제대상기부금) + "</td>";
+					tbodyHtml += "<td class='sort_right'>" + AddComma(sum.기부명세_기부장려금) + "</td>";
+					tbodyHtml += "<td class='sort_right'>" + AddComma(sum.합계) + "</td>";
+					
+					tbodyHtml += "</tr>";
+				}
+				
+	        
+	        	$("#tbody").html(tbodyHtml);
+				Set_table();
+			}
+		});
+	    
+	    request.fail(function (request, textStatus, error) {
+			if (request.status=="401") {
+				alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+				location.href=rootPath;
+			} else {
+				alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+		        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	};
+	
+	function getCodeList(){
+		
+		var url = rootPath + 'febworker/status/getCodeList.do';
+	    var params = {
+			"계약ID": contractId
+		};
+		
+	    request = $.ajax({
+			url: url,
+	        type: "get",
+	        cache: false,
+	        dataType:"json",
+	        data: params
+	    });
+	    
+	    request.done(function(res){
+	    	if(res.success){
+		    	var ys030 = res.ys030;
+				$.each(ys030, function(i, data){
+					$("#사업장ID").append($("<option>", {
+						value: data.사업장ID,
+						text: data.사업장명
+					}));
+				});
+
+	        	getList();
+	    	}
+		});
+	    
+	    request.fail(function (request, textStatus, error) {
+			if (request.status=="401") {
+				alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+				location.href=rootPath;
+			} else {
+				alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+		        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	function getDept(){
+		var 사업장ID = $("#사업장ID").val();
+
+		$("#부서ID option").remove();
+		$("#부서ID").append($("<option>", {
+			value: "",
+			text: "전체"
+		}));
+		
+	    if(사업장ID === ""){
+	    	return;
+	    }
+		
+		var url = rootPath + 'febsystem/getYS031List.do';
+	    var params = {
+			"계약ID": contractId,
+			"사업장ID": 사업장ID,
+			startPage: 0,
+		    endPage: 100
+		};
+
+	    request = $.ajax({
+			url: url,
+	        type: "get",
+	        cache: false,
+	        dataType:"json",
+	        data: params
+	    });
+	    
+	    request.done(function(res){
+	    	if(res.success){
+	    		var 부서 = res.data;
+				$.each(부서, function(i, data){
+					$("#부서ID").append($("<option>", {
+						value: data.부서ID,
+						text: data.부서명
+					}));
+				});
+	    	}
+		});
+	    
+	    request.fail(function (request, textStatus, error) {
+			if (request.status=="401") {
+				alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+				location.href=rootPath;
+			} else {
+				alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+		        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	function Set_table(){
+		//$("#pruebatabla").CongelarFilaColumna({Columnas:5,coloreacelda:true});
+	}
+	
+</script>
+</html>

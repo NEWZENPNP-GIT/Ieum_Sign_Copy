@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>마이페이지</title>
+
+<link rel="stylesheet" type="text/css" href="/css/ngx-datatable.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/jquery.alerts.css">
+<link rel="stylesheet" type="text/css" href="/css/myPage.css">
+
+<script type='text/javascript' src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.alerts.js"></script>
+<script type="text/javascript" src="/js/ezsign/session_storage.js"></script>
+
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/ezsign/mypage/myPage_memberInfo.js"></script>
+</head>
+<body>
+	
+	<div id="myPage_wrap" class="memberInfo">
+		<div class="container">
+			<div class="location">
+				<span class="loc_main NanumGothic"></span><span class="loc_sub NanumGothic">마이페이지</span>
+			</div>
+			<div class="pagtit">
+				<span class="NanumGothic">마이페이지</span>
+			</div>
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumGothic">회원 정보</span>
+					</div>
+					<ul class="tab_menu NanumGothic" id="bizInfoTab">
+						
+					</ul>
+	
+			        <div id="viewTab">
+			          
+			        </div>
+			        
+				</div>
+				<!--  회사가 1개일경우 tab_menu에 class : hidden 추가 하면 해당 메뉴 숨김처리됨. -->
+	
+				<div class="btn_footGroup NanumGothic" id="btnGroupDiv" >
+	        		
+				</div>
+
+
+				<!-- sns 로그인 추가 -->
+<!--				<div class="sns_connect">-->
+<!--					<ul class="tab_menu NanumSquare_R">-->
+<!--						<li><a class="btn_type active">SNS로그인</a></li>-->
+<!--					</ul>-->
+<!--					<div>-->
+<!--						<div class="box_wrap">-->
+<!--							<table id="snsViewTab">-->
+<!--							</table>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--				</div>-->
+
+
+
+				<!--// sns 로그인 추가 -->
+				<!-- 문의 게시판 숨김 2019-01-18
+	      <div class="rows_tit">
+					<span class="speaker"></span><span class="NanumGothic text">문의
+						게시판</span><a class="btn_more NanumGothic" (click)="goQuestionList()">more</a>
+				</div>
+				<div class="notice_list NanumGothic">
+					<table>
+						<colgroup>
+							<col width="10%">
+							<col width="15%">
+							<col width="50%">
+							<col width="15%">
+							<col width="10%">
+						</colgroup>
+						<thead>
+							<tr>
+								<th>번호</th>
+								<th>구분</th>
+								<th>제목</th>
+								<th>날짜</th>
+								<th>상태</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let row of bbsInfo; let i = index;">
+								<td>{{bbsInfo.length - i}}</td>
+								<td>{{row.workName}}</td>
+								<td><a (click)="goDetail(row.bbsId, row.bbsNo)">{{row.subject}}</a></td>
+								<td>{{row.insDate | dateFormat: 'YYYY-MM-DD'}}</td>
+								<td>{{row.statusName}}</td>
+							</tr>
+						</tbody>
+					</table>
+	      </div>
+	
+	      <div class="btn_footGroup NanumGothic">
+					<a class="btn_type type3" (click)="goQuestionWrite()">문의하기</a>
+	      </div>
+	      -->
+	
+			</div>
+			<!--  contents -->
+		</div>
+	</div>
+
+</body>
+</html>
+	

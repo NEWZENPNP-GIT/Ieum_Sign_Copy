@@ -1,0 +1,199 @@
+﻿    <!DOCTYPE HTML>
+    <html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="user-scalable=yes, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+
+    <link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+    <link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/contract_write.css">
+
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+    <title>인적자원관리 전문IT기업 - 뉴젠P&amp;P</title>
+    <script>
+        var $toggleFormText = {
+            scan: function (o) {
+                o.find(".hint").each(function () {
+                    if (this.value == this.title) {
+                        $(this).addClass('hintText');
+                        this.value = this.title;
+                    }
+                    if (this.value == '') {
+                        $(this).addClass('hintText');
+                        this.value = this.title;
+                    }
+                });
+                o.find(".hint").focus(function () {
+                    if (this.value == this.title) {
+                        $(this).removeClass('hintText');
+                        this.value = '';
+                    }
+                });
+                o.find(".hint").blur(function () {
+                    if (this.value == '') {
+                        $(this).addClass('hintText');
+                        this.value = this.title;
+                    } else { $(this).removeClass('hintText'); }
+                });
+            },
+            toString: function () { return "toggleFormText"; }
+        };
+
+        $(document).ready(function () {
+            $toggleFormText.scan($("body"));
+
+            var data = decodeURIComponent(getParams().data);
+            if (data.length > 0) {
+                var key = data.split("|");
+                $("#contractCount").val(key.length - 1);
+            }
+            getFormPoint();
+        });
+
+        //재전송 차감 포인트 조회
+        function getFormPoint() {
+            var url = rootPath + "biz/getBizList.do";
+            var id  = getCookie("bizId");
+
+            $.blockUI();
+
+            $.ajax({
+                url: url,
+                crossDomain: true,
+                dataType: "json",
+                type: "GET",
+                data: {
+                    bizId: id,
+                    startPage: 0,
+                    endPage: 99999
+                },
+                success: function (result) {
+                    if (result.success == true) {
+                        if (result.total == 1) {
+                            if (isNull(result.data[0].resendPoint)) { $("#resendPoint").text("0"); }
+                            else                                    { $("#resendPoint").text(result.data[0].resendPoint); }
+                        }
+                    }
+                    $.unblockUI();
+                },
+                error: function (request, status, error) {
+                    $.unblockUI();
+                    if (request.status == "401") {
+                        alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+                        location.href = rootPath;
+                    } else { alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error); }
+                }
+            });
+        }
+
+
+        //***************					계약서 전송					***************//
+
+
+        function fn_sendContract() {
+
+            if (!confirm("전자문서를 전송하시겠습니까?")) return;
+
+            var url       = rootPath + "contract/sendContractMultiComplete.do";
+            var sendType  = $(':radio[name="sendType"]:checked').val();
+            var multiData = decodeURIComponent(getParams().data);
+
+            $.blockUI();
+
+            $.ajax({
+                url: url,
+                crossDomain: true,
+                dataType: "json",
+                type: "POST",
+                data: {
+                    sendType: sendType,
+                    multiData: multiData
+                },
+                success: function (result) {
+                    if (result.success) {
+                        alert("전자문서를 전송하였습니다.");
+                        opener.fn_contractList(opener.curPage);
+                        opener.fn_getPoint();
+                        opener.fn_getPointList();
+                        window.close();
+                    } else { alert("전자문서 전송에 실패하였습니다.") }
+                    $.unblockUI();
+                },
+                error: function (request, status, error) {
+                    $.unblockUI();
+                    if (request.status == "401") {
+                        alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+                        location.href = rootPath;
+                    } else { alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error); }
+                }
+            });
+        }
+
+    </script>
+	<style>
+		#contract_popup {width: 100%;height: auto;}
+		#contract_popup .contents {height: auto;}
+	</style>
+</head>
+
+<body>
+<div id="contract_popup" class="convert_regist">
+    <div class="container">
+        <div id="popup_tit">
+            <div class="tit_icon"></div>
+            <div class="tit_text col_skyblue NanumGothic">완료된 전자문서 재전송</div>
+            <div id="popup_close" class="btn_type col_skyblue" onclick="window.close()"></div>
+        </div>
+        <div class="contents">
+            <div class="input_wrap">
+                <!-- 일반 input 박스 -->
+                <dl class="boxRow w90 input_bx NanumGothic">
+                    <dt><label class="label_txt NanumGothic">전송방식</label></dt>
+                    <dd class="radio_box NanumGothic">
+                        <div class="radSet"><input type="radio" id="sendType" name="sendType" value="KKO"
+                                                   checked><label>카카오알림톡</label></div>
+                        <!-- <div class="radSet"><input type="radio" id="sendType" name="sendType" value="SMS" ><label>SMS</label></div> -->
+                        <div class="radSet"><input type="radio" id="sendType" name="sendType"
+                                                   value="EMAIL"><label>이메일</label></div>
+                        <!-- <div class="radSet"><input type="radio" id="sendType" name="sendType" value="" ><label>캔디모바일</label></div>		 -->
+                    </dd>
+                </dl>
+                <dl class="boxRow w90 default_bx NanumGothic">
+                    <dt><label class="label_txt NanumGothic">전송건수</label></dt>
+                    <dd>
+                        <input type="text" id="contractCount" readonly class="input_txt"/>
+                    </dd>
+                </dl>
+            </div>
+            <div class="notice NanumGothic">※ 주의사항</div>
+            <div class="foot_box NanumGothic">
+                <dl>
+                    <dt class="num">1.</dt>
+                    <dd>체결 완료된 전자문서를 재전송 할 수 있는 기능입니다.</dd>
+                </dl>
+                <dl>
+                    <dt class="num">2.</dt>
+                    <dd>전자문서 재전송에는 건당 <span id="resendPoint"></span>포인트가 차감됩니다.<br>(모바일 캔디로 전송은 무료입니다.)</dd>
+                </dl>
+                <dl>
+                    <dt class="num">3.</dt>
+                    <dd>카카오톡이 설치되어있지 않은 근로자에겐 자동으로 SMS으로 문자가 발송됨으로 다시 보내실 필요가 없습니다.</dd>
+                </dl>
+                <dl>
+                    <dt class="num">4.</dt>
+                    <dd>근로자에게 전자문서를 재전송할때에는 3~5초정도 시간 이 걸리오니 조금만 기다려주시기 바랍니다.</dd>
+                </dl>
+            </div>
+        </div>
+        <div class="btn_group">
+            <a class="btn_type type1 NanumGothic" href="javascript:fn_sendContract();">전송하기</a>
+            <a class="btn_type type3 NanumGothic" href="javascript:window.close();">취소하기</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

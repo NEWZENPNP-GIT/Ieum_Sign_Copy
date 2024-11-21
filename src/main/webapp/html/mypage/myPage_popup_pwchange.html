@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>마이페이지</title>
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+<link rel="stylesheet" type="text/css" href="/css/ngx-datatable.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/jquery.alerts.css">
+
+<link rel="stylesheet" type="text/css" href="/css/myPage.css">
+
+<script type='text/javascript' src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.alerts.js"></script>
+
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/ezsign/mypage/myPage_popup_pwchange.js"></script>
+
+</head>
+<body>		
+	
+	<div id="popup_wrap" class="mypage" *ngIf="isShow">
+		<div class="container">
+			<div id="popup_tit" class="nonborder">
+				<div id="popup_close" class="btn_type col_skyblue" onClick="winClose();"></div>
+			</div>
+			<div class="contents">
+	      <form #pwChange="ngForm"
+	      (ngSubmit)="changePw()"
+	      >
+	        <ul class="pwChange_wrap">
+	          <li class="icon"></li>
+	          <!--  
+	          <li class="tit NanumGothic">비밀번호 변경</li>
+	           -->
+	          <li class="txt NanumGothic">새로 설정할 비밀번호를 입력하세요. <span class="col_red">(영어,한글,특수문자 포함 8~16자리)</span></li>
+	          <li class="input NanumGothic">
+	            <dl>
+	              <dt><label class="label_txt NanumGothic">이전 비밀번호</label></dt>
+	              <dd>
+	                <input type="password" name="userPwd" minlength="8" class="input_txt" id="model_user_prevUserPwd"></dd>
+	            </dl>
+	            <!-- <div *ngIf="userPwd.errors"></div> -->
+	          </li>
+	          <li class="input NanumGothic">
+	            <dl>
+	              <dt><label class="label_txt NanumGothic">새 비밀번호</label></dt>
+	              <dd>
+	                <input type="password" name="userPwd" minlength="8" class="input_txt" id="model_user_userPwd"></dd>
+	            </dl>
+	            <!-- <div *ngIf="userPwd.errors"></div> -->
+	          </li>
+	          <li class="input NanumGothic">
+	            <dl>
+	              <dt><label class="label_txt NanumGothic">비밀번호 확인</label></dt>
+	              <dd><input type="password" value="" name="userPwd" minlength="8" class="input_txt" id="model_user_userPwd1"></dd>
+	            </dl>
+	          </li>
+	          <li class="hidden" ><span class="txt noMatch">* 비밀번호가 일치하지 않습니다.</span></li>
+	          <li class="btns">
+	            <a class="btn_type type1 NanumGothic" onClick="changePw();">확인</a>
+	            <a class="btn_type type2 NanumGothic" onClick="winClose();">닫기</a>
+	          </li>
+	        </ul>
+	    </form>
+			</div>
+		</div>
+	</div>
+	
+</body>
+</html>
+	

@@ -1,0 +1,179 @@
+
+	<!--****************************************************************************************************************
+	* 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+	* 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+	********************************************************************************************************************
+	--------------------------------------------------------------------------------------------------------------------
+	* 회사       : 뉴젠피앤피
+	* 화면명     : 나의 정보 수정 팝업
+	* 화면설명   : 주소록 선택 > 나의정보
+	* 작성자     :
+	* 생성일     :
+	--------------------------------------------------------------------------------------------------------------------
+	* 수정자     : 이정훈
+	* 수정일     : 2023.11.17
+	* 수정내용   :
+	------------------------------------------------------------------------------------------------------------------->
+
+	<!DOCTYPE html>
+	<html>
+	<title>나의 정보 수정</title>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/myPage.css">
+	<link rel="stylesheet" type="text/css" href="/css/contract_electronic.css">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/ui.biz.core.js"></script>
+	<script>
+
+		var g_bizId = "";
+		var g_userId = "";
+
+
+		//***************					저장					***************//
+
+
+		function fn_save(){
+
+			var url = rootPath+"emp/updEmp.do";
+			var userId=getURLParameters("userId");
+			var userName= $("#userName").val();
+			var phoneNum= $("#phoneNum").val();
+			var eMail= $("#eMail").val();
+
+			if(userName.length == 0){
+				alert("이름을 입력해주세요.");
+				return false;
+			}
+			if(phoneNum.length == 0){
+				alert("휴대폰번호을 입력해주세요.");
+				return false;
+			}
+			if(eMail.length == 0){
+				alert("이메일주소를 입력해주세요.");
+				return false;
+			}
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				data: {
+					OPEN_KEY:getCookie("OPEN_KEY"),
+					userId: g_userId,
+					bizId: g_bizId,
+					empName: userName,
+					phoneNum: phoneNum,
+					eMail: eMail
+				},
+				success:function(result) {
+					if (result.success==true) {
+						alert("수정되었습니다.");
+						window.close();
+					}
+				},
+				error:function(request,status,error){
+					$.unblockUI();
+					goInvalidPage(request, error);
+				}
+			});
+		}
+
+
+		//***************					정보 조회					***************//
+
+
+		function fn_search(){
+
+			var url = rootPath+"emp/getEmpList.do";
+			var userId=getURLParameters("userId");
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"GET",
+				data: {
+					searchKey:"loginId",
+					searchValue: userId,
+					endPage: 99
+				},
+				success:function(result) {
+					if (result.success==true) {
+
+						$.each(result.data, function(i, row) {
+							$("#userName").val(row.empName);
+							$("#phoneNum").val(row.phoneNum);
+							$("#eMail").val(row.EMail);
+							g_bizId = row.bizId;
+							g_userId = row.userId;
+						});
+					}
+				},
+				error:function(request,status,error){
+					$.unblockUI();
+					goInvalidPage(request, error);
+				}
+			});
+		}
+
+
+		//***************					윈도우 로딩					***************//
+
+
+		$(document).ready(function(){
+			fn_search();	// 정보 조회
+		});
+
+
+		//***************					팝업 닫기					***************//
+
+
+		function fn_close() { window.close(); }
+
+	</script>
+	</head>
+	<body>
+		<div id="" class="contract_electronic_popup" style="width: 400px">
+			<div class="pop_title">
+				<h3>나의 정보 수정</h3>
+				<a class="col_skyblue" onclick="fn_close()"></a>
+			</div>
+			<div class="tbstyle01">
+				<table class="NanumSquare_R">
+					<tr>
+						<th>이름</th>
+						<td>
+							<input type="text" name="" id="userName" class="inpstyle01">
+						</td>
+					</tr>
+					<tr>
+						<th>핸드폰 번호</th>
+						<td>
+							<input type="text" name="" id="phoneNum" class="inpstyle01">
+						</td>
+					</tr>
+					<tr>
+						<th>이메일</th>
+						<td>
+							<input type="text" name="" id="eMail" class="inpstyle01">
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="btnstyle01">
+				<a class="NanumRound" onclick="fn_save()">저장</a>
+			</div>
+		</div>
+	</body>
+	</html>

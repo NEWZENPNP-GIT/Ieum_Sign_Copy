@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>월세액공제관련 소득공제신청 확인서</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.inputmask.bundle.min.js"></script>
+</head>
+<body>
+	<div id="yearTax_wrap_popup" class="yearTax_popup attach">
+		
+		<div class="container">
+			<div id="popup_tit">
+				<div class="tit_icon icon_file"></div>
+				<div class="tit_text NanumSquare_R"><span class="sky_tit">월세액공제 </span><span class="black_tit">추가 증빙하기</span></div>
+				<div id="popup_close" class="btn_type col_skyblue" onclick="window.close();"></div>
+			</div>
+			<div class="contents">
+				<div class="left_con">
+					<div class="btns_wrap">
+						<div class="top_btns NanumRound">
+							<div class="pag_group">
+								<a class="btn_type btn_prev"></a>
+								<a class="btn_type btn_next"></a>
+							</div>
+							<div class="btnMask">
+								<div class="btn_list">
+								</div>
+							</div>
+						</div>
+						<div class="foot_btns NanumSquare_R">
+							<a class="btn_type btn_del" id="delAttach">삭제</a>
+							<a class="btn_type btn_add" id="addAttach">추가</a>
+						</div>
+					</div>
+					<div class="img_wrap NanumSquare_R">
+						<div class="overlay_txt">
+							<span class="icon"></span>
+							<span class="t_tit">이미지 업로드</span>
+							<span class="s_tit">이미지 파일만 첨부가 가능합니다.</span>
+						</div>
+						<ul class="img_list">
+							<li><img id="imageFile"/></li>
+							<!-- <li><img src="/css/image/resource/sample1.jpg"></li> -->
+							<!-- <li><img src="/css/image/easyTax/receipt_2018.jpg"></li> -->
+						</ul>
+					</div>
+				</div>
+				<input type="file" id="fileUpload" class="hidden">
+				<div class="right_con NanumSquare_R">
+					<ul class="file_info">
+						<li class="no">No.</li>
+						<li class="no_val" id="fileNo">1</li>
+						<li class="name">파일명</li>
+						<li class="name_val NanumRound">
+							<input type="text" value="첫번째 안경구입비영수증" id="fileName" disabled/>
+						</li>
+						<li class="edit"><a class="btn_type btn_edit">수정</a></li>
+					</ul>
+					<div class="file_type">
+						<div class="part_tit">서류구분</div>
+						<div class="part_con column">
+						</div>
+					</div>
+
+					<div class="file_form hidden" id="dataForm">
+						<div class="part_dec">
+							<input type="checkbox" id="reg" class="hidden">
+							<label class="check_box" for="reg"></label><div class="txtarea">아래 자료를 입력하여<span>기타자료</span>를<span>추가</span>로 등록합니다.</div>
+						</div>
+						<div class="part_con NanumSquare_R hidden">
+							<dl class="">
+								<dt><label class="label_txt ">임대인성명 (상호)</label></dt>
+								<dd class="input_box"><input name="임대인성명_상호" class="" type="text" maxlength="50"></dd>
+							</dl>
+							<dl class="">
+								<dt><label class="label_txt ">주민등록번호<br/>(사업자등록번호)</label></dt>
+								<dd class="input_box"><input name="개인식별번호" class="num" type="text" maxlength="13"></dd>
+							</dl>
+							<dl class="">
+								<dt><label class="label_txt">유형</label></dt>
+								<dd class="input_box">
+									<select name="유형코드" class="NanumSquare_R">
+									</select>
+								</dd>
+							</dl>
+							<dl class="">
+								<dt><label class="label_txt ">계약면적(㎡)</label></dt>
+								<dd class="input_box"><input name="계약면적" class="num2" type="text"></dd>
+							</dl>
+							<dl class="">
+								<dt><label class="label_txt ">임대차계약서상 주소지 (물건지)</label></dt>
+								<dd class="input_box"><input name="임대차_주소지_물건지" class="" type="text" maxlength="200"></dd>
+							</dl>
+							<dl class="">
+								<dt><label class="label_txt ">계약서상 임대차 계약기간 개시일</label></dt>
+								<dd class="input_box"><input name="임대차_계약개시일" class="date" type="text"></dd>
+							</dl>
+							<dl class="">
+								<dt><label class="label_txt ">계약서상 임대차 계약기간 종료일</label></dt>
+								<dd class="input_box"><input name="임대차_계약종료일" class="date" type="text"></dd>
+							</dl>
+							<dl class="">
+								<dt><label class="label_txt ">연간 월세액</label></dt>
+								<dd class="input_box"><input name="연간_월세액" class="num" type="text"></dd>
+							</dl>
+						</div>
+					</div>
+					
+					<div class="file_comment">
+						<div class="part_tit">남기실 내용</div>
+						<div class="part_textarea">
+							<textarea class="Dotum" name="남기실내용" placeholder="ex) 안경구입비 영수증입니다."></textarea>
+						</div>
+					</div>
+					<div class="right_foot">
+						<div class="file_save"><a class="btn_type NanumRound" id="save">저장</a></div>
+						<div class="notice">
+							<span>1. 추가증빙하는 지출자가 본인이 아닌경우</span>
+							<span class="dep">꼭 기본공제 및 부양 가족의 급여를 확인하세요.</span>
+							<span>2. 모바일캔디(<a class="btn_type url">App.ezsign.co.kr</a>) 를 설치 하시면</span>
+							<span class="dep">쉽게 증빙을 업로드 하실수 있습니다.</span>
+						</div>
+					</div>
+				</div>
+			</div> <!--  contents -->
+		</div>
+		
+		<div class="layerPop_wrap hidden">
+			<div class="popup_bg small">
+			
+				<div class="popup_tit">
+					<div class="popup_close"><a class="btn_type btn_close"></a></div>
+				</div>
+				<ul class="popup_content">
+					<li class="icon"></li>
+					<li class="text NanumRound">
+						<span>올리실 내용이 더 있나요?</span>
+					</li>
+					<li id="pop_btns" class="NanumRound">
+						<a class="btn_type type1">예</a>
+						<a class="btn_type type2">아니오</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+
+	var selectedAttachFileId = 0;
+	var isChanged = false;
+	var type;
+
+	var newAttachFileSaved = true;
+	var newAttachFileId = "";
+	
+	var 공제구분코드 = "F400";
+	
+	var 증빙서류데이터;
+	var 원본증빙서류데이터;
+	var workerEditCheck = 0;
+
+	var 증빙서류데이터상세  = {
+		"계약ID": "",
+		"사용자ID": "",
+		"작업자ID": "",
+		"일련번호": "",
+		"임대인성명_상호": "",
+		"개인식별번호": "",
+		"유형코드": "",
+		"계약면적": "",
+		"임대차_주소지_물건지": "",
+		"임대차_계약개시일": "",
+		"임대차_계약종료일": "",
+		"연간_월세액": "",
+		"공제대상금액": "",
+		"최종저장여부": "",
+		"사용여부": "",
+		"추가제출서류번호": "",
+		"등록일시": "",
+		"수정일시": "",
+		"공제구분코드": "",
+		"공제구분상세코드": "",
+		"남기실내용": "",
+		"메모": "",
+		"파일ID": "",
+		"처리여부": "",
+		"FILE_TYPE": "",
+		"ORG_FILE_NAME": "",
+		"dbMode": "C"
+	}
+
+	$(document).ready(function(){
+
+		type = getParams().type;
+		
+		$(window).on("beforeunload", function() { 
+			if(isChanged) {
+				return confirm("해당 페이지를 벗어나면 작성중인 내용은 저장되지 않습니다.");
+			} else {
+				return true;	
+			}
+		});
+		
+		//fn_code041List(공제구분코드);
+		getUserEditCheck();
+		
+		$("#addFile").on("click", function(e){
+			$("#fileUpload").click();
+		});
+		
+		$('#fileUpload').change(function () {
+		    var fileName = $('#fileUpload').val();
+		    if (fileName != "") {
+		    	var fileName = $('#fileUpload')[0].files[0]['name'];
+		    	if(checkSpecial(fileName)){
+		    		alert("파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.");
+		    		$('#fileUpload').val("");
+					return;
+		    	}else{
+		    		$("#fileName").val(fileName);
+		    		readURL(this);
+		    		if(증빙서류데이터[selectedAttachFileId]['dbMode'] == 'R'){
+		    			증빙서류데이터[selectedAttachFileId]['dbMode'] = 'U'
+		    		}
+		    		isChanged = true;		    		
+		    	}
+		    }
+		});
+		
+		$(".btn_edit").on("click", function(){
+			$("#fileUpload").click();
+		})
+		
+		$("#save").on("click", function(e){
+			fn_fileSave();
+		})
+
+		$("div.btnMask > div.btn_list").bind("click", function(e){
+			if(e.target.id != ""){
+				var no = $(e.target).index() + 1;
+				if(isChanged && (newAttachFileId != e.target.id) ){
+					if(confirm("관련서류를 변경하면 작성중인 내용은 저장되지 않습니다.")){
+						setData(no, e.target.id);	
+						isChanged = false;
+					}
+				}else{
+					setData(no, e.target.id);
+				}
+			}
+		});
+
+		$(".num").inputmask({alias: "decimal"});
+		$(".date").inputmask("yyyy-mm-dd");
+		$(".num2").inputmask("numeric", {
+			autoGroup: true,
+			digits: 2,
+			repeat: 12
+		});
+		
+		$(".file_form").bind("change", function(e){
+			var elName = $(event.target).attr('name');
+			var elType = event.target.type;
+
+			if(elName !== "" && elType != "checkbox"){
+				증빙서류데이터[selectedAttachFileId][elName] = $("#dataForm :input[name='" + elName + "']").val();
+				isChanged = true;
+			}else if(elName !== "" && elType == "checkbox"){
+				isChecked = $("#dataForm input:checkbox[id='reg']").is(":checked");
+				if(isChecked){
+					$("#dataForm :input").not(':checkbox').attr("disabled", false);
+					$("div.part_con.NanumSquare_R").removeClass("hidden");
+				}else{
+					$("#dataForm :input").not(':checkbox').attr("disabled", true);
+					$("div.part_con.NanumSquare_R").addClass("hidden");
+				}
+			}
+		});
+		
+		$(".file_type, .file_comment").bind("change", function(e){
+			var elName = $(event.target).attr('name');
+			var elType = event.target.type;
+
+			if(!$.isEmptyObject(증빙서류데이터)){				
+				if(elName !== ""){
+
+					if(elType == 'radio'){
+						증빙서류데이터[selectedAttachFileId][elName] = $(":input[name='" + elName + "']:checked").val();	
+					}else{
+						증빙서류데이터[selectedAttachFileId][elName] = $(":input[name='" + elName + "']").val();
+					}						
+					if(증빙서류데이터[selectedAttachFileId]['dbMode'] == 'R'){
+						증빙서류데이터[selectedAttachFileId]['dbMode'] = 'U'						
+					}
+					isChanged = true;
+				}
+			}
+		});
+		
+		$("#addAttach").on("click", function(e){
+			addData();
+		});
+		
+		$("#delAttach").on("click", function(e){
+			if(confirm("삭제하시겠습니까?")){
+				delAttachFileId = selectedAttachFileId;
+				if(증빙서류데이터[selectedAttachFileId]['dbMode'] == 'C'){
+					//증빙서류데이터.splice(selectedAttachFileId[i - 1], 1);
+					증빙서류데이터.splice(selectedAttachFileId, 1);
+					if(증빙서류데이터.length < 1){
+						addData();
+						newAttachFileSaved = false;
+						newAttachFileId = 0;
+					}
+					$("div.btnMask > div.btn_list > a").remove();
+					for(i = 0; i < 증빙서류데이터.length; i++){
+						$("div.btnMask > div.btn_list").append($('<a/>').attr("id", i).addClass("btn_type").addClass("list"));
+					}
+					$("div.btnMask > div.btn_list > a:first").addClass("active");
+					setData(1, 0)
+				}else{
+					증빙서류데이터[selectedAttachFileId]['dbMode'] = 'D'
+					fn_fileSave();
+				}
+				
+				if(delAttachFileId == newAttachFileId && delAttachFileId != 0){
+					newAttachFileSaved = true;
+					newAttachFileId = "";
+				}
+			}
+		});
+		
+		$("div.img_wrap.NanumSquare_R").on("click", function(e){
+			if($('#imageFile').attr('src') == ""){
+				$("#fileUpload").click();	
+			}
+		});
+		
+		$(window).on("beforeunload", function() { 
+			if(isChanged) {
+				return confirm("해당 페이지를 벗어나면 작성중인 내용은 저장되지 않습니다.");
+			} else {
+				return true;	
+			}
+		});
+	});
+
+	function getUserEditCheck(){
+		
+		var url = rootPath+'febworker/getYE000ChkEdit.do';
+		var 계약ID = getCookie("yearContractId");
+		var 사용자ID = getCookie("userId");
+		
+		request = $.ajax({
+			url: url,
+	        type: "get",
+	        cache: false,
+	        dataType:"json",
+	        data: {
+				'계약ID': 계약ID,
+				'사용자ID': 사용자ID
+			}
+	    });
+		
+		request.done(function(res){
+			if ( res['success']  ) {
+		        workerEditCheck = Number(res['data']);
+				if(workerEditCheck > 0){
+					$("#dataForm").removeClass("hidden");
+				}
+		        fn_code041List(공제구분코드);
+		    }
+		});
+		
+		request.fail(function (request, textStatus, error) {
+			if (request.status=="401") {
+				alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+				
+				alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+				window.opener.document.location.href = "/";
+				window.close();
+
+			} else {
+				alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+		        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	// 추가제출서류 저장
+	function fn_fileSave() {
+		
+		var url = rootPath+"easyFeb/insYE020.do";
+		var 사용자ID = getParams().사용자ID;
+		
+		var isValid = true;
+		isValid = validation();
+		if(!isValid){
+			return false;
+		}
+		
+		// 데이터설정
+		var formData = new FormData();
+
+		formData.append("공제구분코드", 공제구분코드);
+		formData.append("계약ID", getCookie("yearContractId"));
+		formData.append("dbMode", 증빙서류데이터[selectedAttachFileId]['dbMode']);
+		formData.append("첨부파일.처리여부", "2");
+		if($("#dataForm input:checkbox[id='reg']").is(":checked")){
+			formData.append("reg", "reg");
+		}
+		
+		if($("#dataForm input:checkbox[id='reg']").is(":checked")){
+			if(증빙서류데이터[selectedAttachFileId]['dbMode'] != 'R' && 증빙서류데이터[selectedAttachFileId]['dbMode'] != 'D') {
+			
+				if(증빙서류데이터[selectedAttachFileId]['dbMode'] == 'C'){
+					formData.append("attachFile", $("#fileUpload")[0].files[0]);
+				}else{
+					formData.append("첨부파일.일련번호", 증빙서류데이터[selectedAttachFileId]['추가제출서류번호']);
+					formData.append("월세액공제.일련번호", 증빙서류데이터[selectedAttachFileId]['일련번호']);
+					if($("#fileUpload")[0].files[0] !== undefined){
+						formData.append("attachFile", $("#fileUpload")[0].files[0]);
+					}
+				}
+	
+				formData.append("첨부파일.공제구분코드", 공제구분코드);
+	
+				formData.append("첨부파일.공제구분상세코드", 증빙서류데이터[selectedAttachFileId]['공제구분상세코드']);
+				formData.append("첨부파일.남기실내용", 증빙서류데이터[selectedAttachFileId]['남기실내용']);
+		
+				formData.append("월세액공제.임대인성명_상호", 증빙서류데이터[selectedAttachFileId]['임대인성명_상호']);
+				formData.append("월세액공제.개인식별번호", 증빙서류데이터[selectedAttachFileId]['개인식별번호']);
+				formData.append("월세액공제.유형코드", 증빙서류데이터[selectedAttachFileId]['유형코드']);
+				formData.append("월세액공제.계약면적", 증빙서류데이터[selectedAttachFileId]['계약면적']);
+				formData.append("월세액공제.임대차_주소지_물건지", 증빙서류데이터[selectedAttachFileId]['임대차_주소지_물건지']);
+
+				formData.append("월세액공제.임대차_계약개시일", 증빙서류데이터[selectedAttachFileId]['임대차_계약개시일'].replace(/-/gi, ""));
+				formData.append("월세액공제.임대차_계약종료일", 증빙서류데이터[selectedAttachFileId]['임대차_계약종료일'].replace(/-/gi, ""));
+				
+				formData.append("월세액공제.연간_월세액", 증빙서류데이터[selectedAttachFileId]['연간_월세액']);
+				
+				공제대상금액 = 0;
+				if(Number(증빙서류데이터[selectedAttachFileId]['연간_월세액']) < 7500000){
+					공제대상금액 = Number(증빙서류데이터[selectedAttachFileId]['연간_월세액']) * 0.1;
+					공제대상금액 = Math.floor(공제대상금액);
+				}else{
+					공제대상금액 = 7500000 * 0.1;
+				}
+				formData.append("월세액공제.공제대상금액", 공제대상금액);
+				공제대상금액 = Math.floor(공제대상금액);
+				
+			}else if(증빙서류데이터[selectedAttachFileId]['dbMode'] == 'D') {
+				formData.append("첨부파일.일련번호", 증빙서류데이터[selectedAttachFileId]['추가제출서류번호']);
+				formData.append("월세액공제.일련번호", 증빙서류데이터[selectedAttachFileId]['일련번호']);
+	
+				selectedAttachFileId = 0;
+			}
+		}else{
+			if(증빙서류데이터[selectedAttachFileId]['dbMode'] != 'R' && 증빙서류데이터[selectedAttachFileId]['dbMode'] != 'D') {
+				
+				if(증빙서류데이터[selectedAttachFileId]['dbMode'] == 'C'){
+					formData.append("attachFile", $("#fileUpload")[0].files[0]);
+				}else{
+					formData.append("첨부파일.일련번호", 증빙서류데이터[selectedAttachFileId]['추가제출서류번호']);
+					formData.append("월세액공제.일련번호", 증빙서류데이터[selectedAttachFileId]['일련번호']);
+					if($("#fileUpload")[0].files[0] !== undefined){
+						formData.append("attachFile", $("#fileUpload")[0].files[0]);
+					}
+				}
+	
+				formData.append("첨부파일.공제구분코드", 공제구분코드);
+	
+				formData.append("첨부파일.공제구분상세코드", 증빙서류데이터[selectedAttachFileId]['공제구분상세코드']);
+				formData.append("첨부파일.남기실내용", 증빙서류데이터[selectedAttachFileId]['남기실내용']);
+				
+			}else if(증빙서류데이터[selectedAttachFileId]['dbMode'] == 'D') {
+				formData.append("첨부파일.일련번호", 증빙서류데이터[selectedAttachFileId]['추가제출서류번호']);
+				formData.append("월세액공제.일련번호", 증빙서류데이터[selectedAttachFileId]['일련번호']);
+	
+				selectedAttachFileId = 0;
+			}
+		}
+
+		$.blockUI();
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data:formData,
+			contentType:false,
+			processData:false,
+			cache:false,
+			success:function(result)
+			{
+				$.unblockUI();
+				if(result.success) {
+					isChanged = false;
+					if(type == 'i'){
+						window.opener.getList();
+						window.opener.getHousing();
+					}else if(type == 'f'){
+						window.opener.getFileCount();
+					}
+					getDataFile();
+				}
+			},
+			error:function(request,status,error){
+
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					window.opener.document.location.href = "/";
+					window.close()
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+
+	function validation(){
+
+		if(증빙서류데이터[selectedAttachFileId]['dbMode'] == 'C'){
+			
+			if($("#fileUpload")[0].files[0] !== undefined){
+				if(checkSpecial($('#fileUpload')[0].files[0]['name'])){
+		    		alert("파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.");
+		    		$('#fileUpload').val("");
+					return false;
+		    	}
+			}else{
+				alert("증빙 파일을 첨부하여 주세요.");
+				return false;
+			}
+
+		}else if(증빙서류데이터[selectedAttachFileId]['dbMode'] == 'U'){
+			
+			if($("#fileUpload")[0].files[0] !== undefined){
+				if(checkSpecial($('#fileUpload')[0].files[0]['name'])){
+		    		alert("파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.");
+		    		$('#fileUpload').val("");
+					return false;
+		    	}
+			}
+		}
+		
+		if($("#dataForm input:checkbox[id='reg']").is(":checked")){
+			//if(증빙서류데이터[selectedAttachFileId]['dbMode'] == 'C' || 증빙서류데이터[selectedAttachFileId]['dbMode'] == 'U'){
+			if(증빙서류데이터[selectedAttachFileId]['dbMode'] !== 'D') {
+				if(isNull(증빙서류데이터[selectedAttachFileId]['공제구분상세코드'])) {
+					alert("서류구분 항목을 선택하여 주세요.");
+					return false;
+				}
+				
+				if(isNull(증빙서류데이터[selectedAttachFileId]['임대인성명_상호'])) {
+					alert("임대인성명 (상호) 항목을 입력해 주세요.");
+					return false;
+				}			
+	
+				if(isNull(증빙서류데이터[selectedAttachFileId]['개인식별번호'])) {
+					alert("주민등록번호 (사업자등록번호)  항목을 입력해 주세요.");
+					return false;
+				}			
+				
+				if(!allCheck(증빙서류데이터[selectedAttachFileId]['개인식별번호'])){
+					alert("주민등록번호 (사업자등록번호)  형식이 아닙니다.");
+					return false;
+				}
+				
+				if(isNull(증빙서류데이터[selectedAttachFileId]['유형코드'])) {
+					alert("유형  항목을 선택해 주세요.");
+					return false;
+				}
+				
+				if(isNull(증빙서류데이터[selectedAttachFileId]['계약면적']) || 증빙서류데이터[selectedAttachFileId]['계약면적'] <= 0) {
+					alert("계약면적  항목을 입력해 주세요.");
+					return false;
+				}
+				
+				if(isNull(증빙서류데이터[selectedAttachFileId]['임대차_주소지_물건지'])) {
+					alert("임대차계약서상 주소지 (물건지)  항목을 입력해 주세요.");
+					return false;
+				}
+				
+				if(isNull(증빙서류데이터[selectedAttachFileId]['임대차_계약개시일'])) {
+					alert("계약서상 임대차 계약기간 개시일  항목을 입력해 주세요.");
+					return false;
+				}
+				
+				if(!checkDateFormat(증빙서류데이터[selectedAttachFileId]['임대차_계약개시일'])){
+					alert("날짜 형식이 아닙니다.");
+					return false;
+				}
+				
+				if(isNull(증빙서류데이터[selectedAttachFileId]['임대차_계약종료일'])) {
+					alert("계약서상 임대차 계약기간 종료일  항목을 입력해 주세요.");
+					return false;
+				}
+				
+				if(!checkDateFormat(증빙서류데이터[selectedAttachFileId]['임대차_계약종료일'])){
+					alert("날짜 형식이 아닙니다.");
+					return false;
+				}
+				
+				if(isNull(증빙서류데이터[selectedAttachFileId]['연간_월세액']) || 증빙서류데이터[selectedAttachFileId]['연간_월세액'] < 0) {
+					alert("연간 월세액  항목을 입력해 주세요.");
+					return false;
+				}
+			}
+		}
+		if(증빙서류데이터[selectedAttachFileId]['dbMode'] !== 'D') {
+			if(isNull(증빙서류데이터[selectedAttachFileId]['남기실내용'])) {
+				alert("남기실내용 항목을 입력해 주세요.");
+				return false;
+			}
+		}
+			
+		if(증빙서류데이터[selectedAttachFileId]['dbMode'] == 'R'){
+			증빙서류데이터[selectedAttachFileId]['dbMode'] = 'U'
+		}
+
+		return true;
+	}
+	
+	function readURL(input) {
+        if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#imageFile').attr('src', e.target.result);
+        }
+
+          reader.readAsDataURL(input.files[0]);
+        }
+    }
+	
+	function fn_code041List(deductDetailCode) {
+		var url = rootPath+"code/getCodeList.do";
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				grpCommCode: '041',
+				refCode: deductDetailCode
+			},
+			success:function(result)
+			{
+				var htmlData = "";
+				
+				if (result.success==true) {
+
+					var codeData = result.data;
+					var $el = $("div.file_type > div.part_con");
+					for(i = 0; i < codeData.length; i++){
+
+						$el.append("<div><input type='radio' name='공제구분상세코드' id='공제구분상세코드" + i + "' value='" + codeData[i].commCode + "'><label for='공제구분상세코드" + i + "'>" + codeData[i].commName + "</label></div>");
+					}
+				}
+				
+				getDataFile();
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					window.opener.document.location.href = "/";
+					window.close();
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+	
+	function getDataFile() {
+
+		var url = rootPath + "easyFeb/getMonthlyRentFile.do"
+		var 계약ID = getCookie("yearContractId");
+		var 사용자ID = getCookie("userId");
+
+		request = $.ajax({
+			url: url,
+	        type: "get",
+	        cache: false,
+	        dataType:"json",
+	        data: {
+				'계약ID': 계약ID,
+				'사용자ID': 사용자ID, 
+				'공제구분코드': 공제구분코드
+			}
+	    });
+		
+		request.done(function(result){
+
+			if (result.success) {
+				newAttachFileSaved = true;
+				newAttachFileId = "";
+				$("div.btnMask > div.btn_list").find("a").remove();
+				set_left_btn();
+
+				$("#dataForm :input[name='유형코드'] option").remove()
+				$.each(result.유형코드, function(index, data) {
+					$("#dataForm :input[name='유형코드']").append($('<option/>', {
+						value: data.code,
+				        text : data.name 
+					}));
+				});
+
+				원본증빙서류데이터 = result.월세액공제;
+				증빙서류데이터 = result.월세액공제;
+				if($.isEmptyObject(result.월세액공제)){
+					//$("div.btnMask > div.btn_list").append($('<a/>').attr("id", 0).addClass("btn_type").addClass("list").addClass("active"));
+					addData();
+					selectedAttachFileId = 0;
+					newAttachFileSaved = false;
+					newAttachFileId = 0;
+				}else{
+					for(i = 0; i < 증빙서류데이터.length; i ++){
+						if(i == 0){
+							$("div.btnMask > div.btn_list").append($('<a/>').attr("id", i).addClass("btn_type").addClass("list").addClass("active"));
+						}else{
+							$("div.btnMask > div.btn_list").append($('<a/>').attr("id", i).addClass("btn_type").addClass("list"));
+						}
+					}					
+					setData(1, selectedAttachFileId);
+				}
+
+			}
+		})
+		
+		request.fail(function (request, textStatus, error) {
+			if (request.status=="401") {
+				alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+				
+				alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+				window.opener.document.location.href = "/";
+				window.close();
+
+			} else {
+				alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+		        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	};
+	
+	function addData(){
+
+		if(!newAttachFileSaved && 증빙서류데이터.length > 0){
+			alert("관련서류" + (newAttachFileId + 1) + "를 저장하고 진행해 주세요!");
+			return;
+		}
+		
+		isChanged = true;
+		증빙서류데이터.push({
+			"계약ID": "",
+			"사용자ID": "",
+			"작업자ID": "",
+			"일련번호": "",
+			"임대인성명_상호": "",
+			"개인식별번호": "",
+			"유형코드": "",
+			"계약면적": "",
+			"임대차_주소지_물건지": "",
+			"임대차_계약개시일": "",
+			"임대차_계약종료일": "",
+			"연간_월세액": "",
+			"공제대상금액": "",
+			"최종저장여부": "",
+			"사용여부": "",
+			"추가제출서류번호": "",
+			"등록일시": "",
+			"수정일시": "",
+			"공제구분코드": "",
+			"공제구분상세코드": "",
+			"남기실내용": "",
+			"메모": "",
+			"파일ID": "",
+			"처리여부": "",
+			"FILE_TYPE": "",
+			"ORG_FILE_NAME": "",
+			"dbMode": "C"
+		});
+		var idx = 증빙서류데이터.length - 1;
+		setData(idx + 1, idx);
+		$("div.btnMask > div.btn_list").append($('<a/>').attr("id", idx).addClass("btn_type").addClass("list").addClass("active"));
+		$('#reg').prop('checked', false);
+		$("#dataForm :input").not(':checkbox').attr("disabled", true);
+		
+		//if(idx != 0){
+			newAttachFileSaved = false;
+			newAttachFileId = idx;
+		//}
+	}
+	
+	function setData(no, idx){
+	
+		$("div.btnMask > div.btn_list a").removeClass("active");
+		$("div.btnMask > div.btn_list #" + idx).addClass("active");
+
+		$(":input[name='공제구분상세코드']:first").prop('checked', true);
+		
+		$("#dataForm :input[name='임대인성명_상호']").val("")
+		$("#dataForm :input[name='개인식별번호']").val("")
+		$("#dataForm :input[name='유형코드']").val("").prop("selected", true);
+		$("#dataForm :input[name='계약면적']").val("")
+		$("#dataForm :input[name='임대차_주소지_물건지']").val("")
+		$("#dataForm :input[name='임대차_계약개시일']").val("")
+		$("#dataForm :input[name='임대차_계약종료일']").val("")
+		$("#dataForm :input[name='연간_월세액']").val("")
+
+		$(":input[name='남기실내용']").val("");
+		$("#fileNo").text("");
+		$("#fileName").val("");
+
+		if(증빙서류데이터[idx].공제구분상세코드 == ""){
+			증빙서류데이터[idx].공제구분상세코드 = $(":input[name='공제구분상세코드']:checked").val();
+		}
+		
+		$(":input[name='공제구분상세코드']").filter('[value="' + 증빙서류데이터[idx].공제구분상세코드  + '"]').prop('checked', true);
+		
+		$("#dataForm :input[name='임대인성명_상호']").val(증빙서류데이터[idx].임대인성명_상호);
+		$("#dataForm :input[name='개인식별번호']").val(증빙서류데이터[idx].개인식별번호);
+		$("#dataForm :input[name='유형코드']").val(증빙서류데이터[idx].유형코드).prop("selected", true);
+		$("#dataForm :input[name='계약면적']").val(증빙서류데이터[idx].계약면적);
+		$("#dataForm :input[name='임대차_주소지_물건지']").val(증빙서류데이터[idx].임대차_주소지_물건지);
+		$("#dataForm :input[name='임대차_계약개시일']").val(증빙서류데이터[idx].임대차_계약개시일);
+		$("#dataForm :input[name='임대차_계약종료일']").val(증빙서류데이터[idx].임대차_계약종료일);
+		$("#dataForm :input[name='연간_월세액']").val(증빙서류데이터[idx].연간_월세액);
+
+		$(":input[name='남기실내용']").val(증빙서류데이터[idx].남기실내용);
+		$("#fileNo").text(no);
+		$("#fileName").val(증빙서류데이터[idx].ORG_FILE_NAME);
+
+		if(증빙서류데이터[idx]['추가제출서류번호'] == ""){
+			//$("#imageFile").addClass("hidden");
+			$("#fileUpload").val("");
+			$("#imageFile").attr("src", "");
+		}else{
+			//$("#imageFile").removeClass("hidden");
+			$("#fileUpload").val("");
+			$("#imageFile").attr("src", "/easyFeb/getImageFile.do?fileId=" + 증빙서류데이터[idx].파일ID);
+		}
+
+		selectedAttachFileId = idx;
+		
+		if(증빙서류데이터[idx].dbMode != "C"){
+			isChanged = false;
+		}
+
+		if(workerEditCheck > 0){
+			if(증빙서류데이터[idx].임대인성명_상호 === ""){
+				$('#reg').prop('checked', false);
+				$("#dataForm :input").not(':checkbox').attr("disabled", true);
+				$("div.part_con.NanumSquare_R").addClass("hidden");
+			}else{
+				$('#reg').prop('checked', true);
+				$("#dataForm :input").not(':checkbox').attr("disabled", false);
+				$("div.part_con.NanumSquare_R").removeClass("hidden");
+			}
+		}
+	}
+
+	$(window).resize(function(){
+		set_left_btn();
+	});
+
+	function set_left_btn(){
+		var _btnsH=$(".btn_list").height();
+		var _maskH=$(".btnMask").height();
+		if( _maskH < _btnsH){
+			var gap=_maskH -_btnsH;
+			$(".top_btns").addClass("pageShow");
+			$(".pag_group > .btn_type").off().on("click",function(e){
+				var obj=$(e.currentTarget);
+				var margin=30;
+				if(obj.hasClass("btn_prev")){
+					var _top=$(".btn_list").position().top;
+					var target;
+					console.log(-((_maskH-margin)-(-_top)));
+					console.log(":_maskH =="+_maskH)
+					if(_top < 0 && -((_maskH-margin)-(-_top)) < (_maskH-margin)){
+						target=0;
+					}else{
+						target=_top + (_maskH) - margin;
+					}
+					if($(".btn_list").position().top < 0){
+						//$(".btn_list").animate({top:target}, 500, function() {} );
+						$(".btn_list").css("top",target);
+					}
+				}else{
+					var target=$(".btn_list").position().top - (_maskH) + margin;
+					if(-(target) < _btnsH){
+						//$(".btn_list").animate({top:target}, 500, function() {} );
+						$(".btn_list").css("top",target);
+					}
+				}
+			})
+		}else{;
+			$(".top_btns").removeClass("pageShow");
+		}
+	}
+
+	function checkDateFormat(d){
+		var pattern = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
+		if(pattern.test(d)) {
+		    return true;
+		} else {
+			return false;
+		}
+	}	
+	
+    function allCheck(rrn){
+        if (rrnCheck(rrn) || fgnCheck(rrn) || bznCheck(rrn) || bzSanCheck(rrn)) {
+            return true;
+        }
+        return false;
+    }
+
+    function rrnCheck(rrn){
+
+        var sum = 0;
+
+        if (rrn.length != 13) {
+            return false;
+        } else if (rrn.substr(6, 1) != 1 && rrn.substr(6, 1) != 2 && rrn.substr(6, 1) != 3 && rrn.substr(6, 1) != 4) {
+            return false;
+        }
+
+        for (var i = 0; i < 12; i++) {
+            sum += Number(rrn.substr(i, 1)) * ((i % 8) + 2);
+        }
+
+        if (((11 - (sum % 11)) % 10) == Number(rrn.substr(12, 1))) {
+            return true;
+        }
+
+        return false;
+
+    }
+
+    function fgnCheck(fgnno){
+      var sum = 0;
+      if (fgnno.length != 13) {
+          return false;
+      } else if (fgnno.substr(6, 1) != 5 && fgnno.substr(6, 1) != 6 && fgnno.substr(6, 1) != 7 && fgnno.substr(6, 1) != 8) {
+          return false;
+      }
+      if (Number(fgnno.substr(7, 2)) % 2 != 0) {
+          return false;
+      }
+      for (var i = 0; i < 12; i++) {
+          sum += Number(fgnno.substr(i, 1)) * ((i % 8) + 2);
+      }
+      if ((((11 - (sum % 11)) % 10 + 2) % 10) == Number(fgnno.substr(12, 1))) {
+          return true;
+      }
+      return false;
+
+    }
+
+    function bzSanCheck(n) {
+        var re = /-/g;
+        var bizID = n.replace(re,'');
+        var checkID = new Array(1, 3, 7, 1, 3, 7, 1, 3, 5, 1);
+        var tmpBizID, i, chkSum=0, c2, remander;
+
+        for (i=0; i<=7; i++){
+        	chkSum += checkID[i] * bizID.charAt(i);
+        }
+
+        c2 = "0" + (checkID[8] * bizID.charAt(8));
+        c2 = c2.substring(c2.length - 2, c2.length);
+
+        chkSum += Math.floor(c2.charAt(0)) + Math.floor(c2.charAt(1));
+
+        remander = (10 - (chkSum % 10)) % 10 ;
+
+        if (Math.floor(bizID.charAt(9)) == remander){
+        return true; // OK!
+        }
+        return false;
+    }
+
+    function bznCheck(bubinNum){
+
+        var as_Biz_no = String(bubinNum);
+        var I_TEMP_SUM = 0;
+        var I_CHK_DIGIT = 0;
+
+        if (bubinNum.length != 13) {
+            return false;
+        }
+
+        for(var index01 = 1; index01 < 13; index01++) {
+            var i = index01 % 2;
+            var j = 0;
+
+            if (i == 1) {
+                j = 1;
+
+            } else if (i == 0) {
+                j = 2;
+
+            }
+
+            I_TEMP_SUM = I_TEMP_SUM + parseInt(as_Biz_no.substring(index01 - 1, index01), 10) * j;
+        }
+
+        I_CHK_DIGIT = I_TEMP_SUM % 10;
+
+        if (I_CHK_DIGIT != 0) {
+            I_CHK_DIGIT = 10 - I_CHK_DIGIT;
+        }
+
+        if (as_Biz_no.substring(12, 13) != String(I_CHK_DIGIT)) {
+            return false;
+
+        } else {
+            return true;
+
+        }
+
+    }
+	
+</script>
+</html>

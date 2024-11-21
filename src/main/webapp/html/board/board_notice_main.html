@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>게시판</title>
+
+<link rel="stylesheet" type="text/css" href="/css/jquery.alerts.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.alerts.js"></script>
+<script type="text/javascript" src="/js/ezsign/session_storage.js"></script>
+
+<script type="text/javascript" src="/js/jquery.bootpag.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+
+<script type='text/javascript' src="/js/ezsign/board/board_notice_main.js"></script>
+
+</head>
+<body>	
+
+	<div id="boardNotice_wrap" class="">
+	    <div class="container">
+	      <div class="location"><span class="loc_main NanumGothic">게시판 > </span><span class="loc_sub NanumGothic">공지사항 및 자주하는 질문</span></div>
+	      <div class="pagtit"><span class="NanumGothic">게시판</span></div>
+	
+	      <div class="rows">
+	        <div class="notice_wrap">
+	          <div class="rows_tit"><span class="speaker"></span><span class="NanumGothic text">공지사항</span><span class="btn_more NanumGothic" onClick="goNoticeList()">more</span></div>
+	          <div class="notice_list">
+	            <table>
+	              <colgroup>
+	                <col width="10%">
+	                <col width="55%">
+	                <col width="20%">
+	                <col width="15%">
+	              </colgroup>
+	              <thead>
+	                <tr>
+	                  <th>번호</th>
+	                  <th>제목</th>
+	                  <th>등록일</th>
+	                  <th>조회수</th>
+	                </tr>
+	              </thead>
+	              <tbody id="noticeInfoTbody">
+	                
+	              </tbody>
+	            </table>
+	          </div>
+	        </div>
+	        <div class="faq_wrap">
+	          <div class="rows_tit">
+	            <div>
+	              <span class="bubble"></span>
+	              <span class="NanumGothic text">자주하는 질문(FAQ)</span>
+	              <form>
+	                <fieldset>
+	                  <input type="text" class="NanumGothic" id="model_search_searchValue" value="" >
+	                  <a class="btn_search btn_type Material_icons" onClick="getFaqSearch()">search</a>
+	                </fieldset>
+	              </form>
+	            </div>
+	            <div><span class="dec">※ 궁금한 사항을 입력해 주세요. 다른 분들이 자주 질문했던<br>&nbsp;&nbsp;&nbsp;내용을 통해 더욱 빠른 답변을 찾아 보실 수 있습니다.</span></div>
+	          </div>
+	          <div class="faq_list">
+	            <ul class="result" id="faqInfoTbody">
+	              
+	            </ul>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	  
+</body>
+</html>	  

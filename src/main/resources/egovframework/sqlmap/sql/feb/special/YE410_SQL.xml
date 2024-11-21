@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="febspecial">
+    <typeAlias alias="ye410VO" type="com.ezsign.feb.special.vo.YE410VO"/>
+    
+    <select id="ye410DAO.getYE410List" parameterClass="ye410VO" resultClass="ye410VO">
+        SELECT 계약ID, 사용자ID, 작업자ID, 일련번호,
+          	구분명, 대상금액, 공제율, 공제율금액, 등록일시, 수정일시
+        FROM tbl_ye410
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+        ORDER BY 일련번호
+    </select>
+
+    <insert id="ye410DAO.insYE410" parameterClass="ye410VO">
+        INSERT INTO tbl_ye410 (
+          	계약ID, 사용자ID, 작업자ID, 일련번호,
+          	구분명, 대상금액, 공제율, 공제율금액, 등록일시, 수정일시
+        ) VALUES (
+          #계약ID#, #사용자ID#, #작업자ID#, #일련번호#,
+          #구분명#, #대상금액#, #공제율#, #공제율금액#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        )
+    </insert>
+
+    <delete id="ye410DAO.allDelYE410" parameterClass="ye410VO">
+        DELETE
+        FROM tbl_ye410
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+    </delete>
+</sqlMap>

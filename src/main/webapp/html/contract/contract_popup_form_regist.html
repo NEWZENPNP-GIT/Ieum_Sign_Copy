@@ -1,0 +1,404 @@
+
+	<!--****************************************************************************************************************
+	* 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+	* 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+	********************************************************************************************************************
+	--------------------------------------------------------------------------------------------------------------------
+	* 회사       : 뉴젠피앤피
+	* 화면명     : 양식등록 팝업창
+	* 화면설명   : 전자문서 > 양식 관리 > 자사양식 등록하기
+	* 작성자     :
+	* 생성일     :
+	--------------------------------------------------------------------------------------------------------------------
+	* 수정자     : 이정훈
+	* 수정일     : 2023.12.14
+	* 수정내용   :
+	------------------------------------------------------------------------------------------------------------------->
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+	<link rel="stylesheet" type="text/css" href="/css/contract_write.css">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/ui.biz.core.js"></script>
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+
+	<title>인적자원관리 전문IT기업 - 뉴젠P&amp;P</title>
+
+	<script>
+
+		var formPoint = 100;
+
+		var $toggleFormText = {
+			scan : function(o){
+				o.find(".hint").each(function(){
+					if(this.value == this.title){
+						$(this).addClass('hintText');
+						this.value = this.title;
+					}
+					if(this.value == ''){
+						$(this).addClass('hintText');
+						this.value = this.title;
+					}
+				});
+				o.find(".hint").focus(function(){
+					if(this.value == this.title){
+						$(this).removeClass('hintText');
+						this.value = '';
+					}
+				});
+				o.find(".hint").blur(function(){
+					if(this.value == ''){
+						$(this).addClass('hintText');
+						this.value = this.title;
+					} else {
+						$(this).removeClass('hintText');
+					}
+				});
+			},
+			toString : function(){
+				return "toggleFormText";
+			}
+		};
+
+		$(document).ready(function(){
+			//resize
+			window.resizeTo(540, 680);
+
+			$toggleFormText.scan($("body"));
+
+			$("#xlsFile").change(function() {
+				var file = $('#xlsFile')[0].files[0].name;
+				$("#fileName").text(file);
+			});
+
+			getFormPoint();
+
+			if(getCookie("openVoucherType") == 1 ){
+				$("#font_convert").addClass("hidden");
+			}
+
+			// 팝업 창 크기를 HTML 크기에 맞추어 자동으로 크기를 조정하는 함수.
+			var strWidth;
+			var strHeight;
+
+			//innerWidth / innerHeight / outerWidth / outerHeight 지원 브라우저
+			if ( window.innerWidth && window.innerHeight && window.outerWidth && window.outerHeight ) {
+				strWidth = $('#contract_popup').outerWidth() + (window.outerWidth - window.innerWidth);
+				strHeight = $('#contract_popup').outerHeight() + (window.outerHeight - window.innerHeight);
+			}
+			else {
+				var strDocumentWidth  = $(document).outerWidth();
+				var strDocumentHeight = $(document).outerHeight();
+
+				window.resizeTo ( strDocumentWidth, strDocumentHeight );
+
+				var strMenuWidth  = strDocumentWidth - $(window).width();
+				var strMenuHeight = strDocumentHeight - $(window).height();
+
+				strWidth  = $('#contract_popup').outerWidth() + strMenuWidth;
+				strHeight = $('#contract_popup').outerHeight() + strMenuHeight;
+			}
+
+			//resize
+			window.resizeTo( strWidth+20, strHeight+20 );
+
+		});
+
+		function getFormPoint(){
+			var url = rootPath+"biz/getBizList.do";
+			var id  = getCookie("bizId");
+			var endPage = 1;
+
+			$.blockUI();
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"GET",
+				data: {
+					bizId:id,
+					endPage:endPage
+				},
+				success:function(result) {
+					if (result.success==true) {
+						if(result.total == 1){
+							formPoint = result.data[0].formPoint;
+							if(isNull(formPoint)){ formPoint = 100; }
+						}
+					}
+					$.unblockUI();
+				},
+				error:function(request,status,error){
+					$.unblockUI();
+					if (request.status=="401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						location.href=rootPath;
+					} else {
+						alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+					}
+				}
+			});
+		}
+
+		function fn_checkLaborType() {
+			if($("#ck2_1").is(":checked")) {
+				alert("첨삭 내용은 귀사의 취업규칙 및 내부상황을 모르는 상태이므로 등록하신 원본파일 내용만으로 검토합니다. 따라서 당사는 첨삭내용에 대해 법적 의무가 없음을 알려드립니다.");
+				return;
+			}
+		}
+
+		function fn_checkConvertType_Y(){
+
+
+			if($("#font_convert_Y").prop('checked')){
+				if(confirm("업로드한 양식의 글꼴이 일괄적으로 [Adobe 명조체]로 변환됩니다.\n글꼴맞춤 요청을 진행하시겠습니까?")){
+					$("#font_convert_N").prop('checked',false);
+				} else{
+					$("#font_convert_Y").prop('checked', false);
+				}
+			}else {
+				$("#font_convert_Y").prop('checked',true);
+			}
+		}
+
+		function fn_checkConvertType_N(){
+
+			if($("#font_convert_N").prop('checked')){
+				$("#font_convert_Y").prop('checked',false);
+			} else {
+				$("#font_convert_N").prop('checked',true);
+				}
+		}
+
+		function fn_checkCorrectionType_Y(){
+
+			if($("#correction_Y").prop('checked')){
+				$("#correction_N").prop('checked',false);
+			}else {
+				$("#correction_Y").prop('checked',true);
+			}
+		}
+
+		function fn_checkCorrectionType_N(){
+
+			if($("#correction_N").prop('checked')){
+				$("#correction_Y").prop('checked',false);
+			} else {
+				$("#correction_N").prop('checked',true);
+			}
+		}
+
+		function fn_checkSignType_Y(){
+
+			if($("#ck1_2").prop('checked')){
+				$("#ck1_3").prop('checked',false);
+			}
+		}
+
+		function fn_checkSignType_N(){
+
+			if($("#ck1_3").prop('checked')){
+				$("#ck1_2").prop('checked',false);
+			}
+		}
+
+		function fn_contractNewUpload() {
+
+			var url = rootPath+"contract/contractNewUpload.do";
+
+			var signUserType	 = "0";
+			var signBizType		 = "0";
+			var signCustomerType = "0";
+			var laborType		 = "0";
+			var fontConvertType  = "";
+			var correctionType	 = "";
+			var signType		 = "";
+
+			signBizType		 = $("#ck1_1").is(":checked") ? "1" : "0";
+			signUserType	 = $("#ck1_2").is(":checked") ? "1" : "0";
+			signCustomerType = $("#ck1_3").is(":checked") ? "1" : "0";
+
+			if(signUserType == "1" && signBizType == "1" && signCustomerType == "0"){
+				signType = "[회사, 근로자]";
+			} else if (signUserType == "0" && signBizType == "1" && signCustomerType == "1"){
+				signType = "[회사, 거래처]";
+			} else if (signUserType == "0" && signBizType == "0" && signCustomerType == "1"){
+				signType = "[거래처]";
+			} else if (signUserType == "1" && signBizType == "0" && signCustomerType == "0"){
+				signType = "[근로자]";
+			} else if (signUserType == "0" && signBizType == "1" && signCustomerType == "0"){
+				signType = "[회사]";
+			} else if (signUserType == "0" && signBizType == "0" && signCustomerType == "0"){
+				signType = "[해당없음]";
+			}
+
+			fontConvertType = $("#font_convert_Y").is(":checked") ? "Y" : "N";
+			correctionType  = $("#correction_Y").is(":checked") ? "Y" : "N";
+
+			var bizId = getURLParameters("bizId");
+
+			if(!confirm(signType+"로 서명 참여자를 선택했습니다.\r\n선택한 서명 참여자로 양식을 등록하시겠습니까?")) return;
+			if(!confirm("전자문서 파일등록을 진행하시겠습니까?\r\n양식등록을 진행하기 위하여 "+formPoint+"포인트가 차감됩니다.")) return;
+			// 데이터설정
+			var formData = new FormData();
+			formData.append("bizId", bizId);
+			formData.append("signBizType", signBizType);
+			formData.append("signUserType", signUserType);
+			formData.append("signCustomerType", signCustomerType);
+			formData.append("fontConvertType", fontConvertType);
+			formData.append("correctionType", correctionType);
+			formData.append("laborType", laborType);
+			var file = document.getElementsByName("xlsFile");
+			for(var i=0;i<file.length;i++) {
+				if (file[i].files[0] != undefined) {
+					if(checkSpecial(file[i].files[0].name)) {
+						alert("파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.");
+						return;
+					}
+					formData.append("addFile"+i,file[i].files[0]);
+				}
+			}
+
+			$.blockUI();
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				data:formData,
+				contentType:false,
+				processData:false,
+				cache:false,
+				success:function(result) {
+					$.unblockUI();
+					console.log(result);
+					alert(result.message);
+
+					// 양식 파일 존재시
+					if(result.success) {
+						opener.fn_contractNewList();
+						window.close();
+						opener.fn_getPoint();
+						opener.fn_getPointList();
+					}
+				},
+				error:function(request,status,error){
+					$.unblockUI();
+					if (request.status=="401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						window.close();
+					} else {
+						alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+					}
+				}
+			});
+
+		}
+
+		function fn_fileUpload() { $("#xlsFile").click(); }
+
+	</script>
+	<style>
+		#contract_popup .container .foot_box dt.num + dd { width: calc(100% - 16px); }
+	</style>
+	</head>
+	<body>
+	<div id="contract_popup" style="width: 100%; height: auto;">
+		<div class="container">
+			<div id="popup_tit">
+				<div class="tit_icon"></div>
+				<div class="tit_text col_skyblue NanumGothic">양식등록</div>
+			</div>
+			<div class="contents NanumGothic" style="height: auto;">
+				<div class="input_wrap">
+					<dl class="boxRow default_bx NanumGothic">
+						<input type="file" id="xlsFile" name="xlsFile" style="display:none;" />
+						<dt><label class="label_txt NanumGothic">자사양식 업로드</label></dt>
+						<dd class="column2">
+							<a class="btn_type type1" href="javascript:fn_fileUpload();">파일선택</a>
+							<div class="default_box down_file">
+								<span class="file_icon"></span> <!-- icon_excel -->
+								<span class="file_name" id="fileName"></span>
+							</div>
+						</dd>
+					</dl>
+					<dl class="boxRow ckStyle NanumGothic">
+						<dt><label class="label_txt NanumGothic">서명참여자 선택</label></dt>
+						<dd>
+							<div class="chBox"><input type="checkbox" id="ck1_1" name="sigin"><label for="ck1_1">회사</label></div>
+							<div class="chBox"><input type="checkbox" id="ck1_2" name="sigin" onclick = "fn_checkSignType_Y()"><label for="ck1_2">근로자</label></div>
+							<div class="chBox"><input type="checkbox" id="ck1_3" name="sigin" onclick = "fn_checkSignType_N()"><label for="ck1_3">거래처</label></div>
+						</dd>
+					</dl>
+					<dl id ="font_convert" class="boxRow ckStyle NanumGothic">
+							<dt><label class="label_txt NanumGothic">글꼴맞춤 요청</label></dt>
+							<dd>
+								<div class="chBox"><input type="checkbox" id="font_convert_Y" name="font_convert_Y" onclick = "fn_checkConvertType_Y()" ><label for="font_convert_Y">신청</label></div>
+								<div class="chBox"><input type="checkbox" id="font_convert_N" name="font_convert_N" onclick = "fn_checkConvertType_N()" checked="checked"><label for="font_convert_N">미신청</label></div>
+							</dd>
+					</dl>
+					<dl class="boxRow ckStyle NanumGothic">
+							<dt><label class="label_txt NanumGothic">정정 요청</label></dt>
+							<dd>
+								<div class="chBox"><input type="checkbox" id="correction_Y" name="correction_Y"  onclick = "fn_checkCorrectionType_Y()" checked="checked"><label for="correction_Y">표시</label></div>
+								<div class="chBox"><input type="checkbox" id="correction_N" name="correction_N"  onclick = "fn_checkCorrectionType_N()" ><label for="correction_N">미표시</label></div>
+							</dd>
+					</dl>
+					<dl class="boxRow ckStyle NanumGothic hidden">
+						<dt><label class="label_txt NanumGothic">노무첨삭지원</label></dt>
+						<dd>
+							<div class="chBox"><input type="radio" id="ck2_1" name="editing" onclick="fn_checkLaborType()"><label for="ck2_1">필요</label></div>
+							<div class="chBox"><input type="radio" id="ck2_2" name="editing"><label for="ck2_2">불필요</label></div>
+						</dd>
+					</dl>
+					<dl class="boxRow ckStyle NanumGothic">
+						<dt><label class="label_txt NanumGothic">샘플파일</label></dt>
+						<dd>
+							<a class="btn_type type2" href="/data/contract/제공_근로계약서_고객작성.hwp" download="제공_근로계약서_고객작성.hwp">샘플 계약서 양식 다운받기</a>
+						</dd>
+					</dl>
+				</div>
+				<div class="notice NanumGothic">※ 주의사항 <!-- (노무첨삭지원은 유료 서비스입니다) --></div>
+				<div class="foot_box NanumGothic">
+					<dl>
+						<dt class="num">1.</dt><dd>업로드한 양식의 파일명으로 계약서가 발송됩니다.<br>기존 양식과 중복되지 않도록 확인하시기 바랍니다.</dd>
+					</dl>
+					<dl>
+						<dt class="num">2.</dt><dd>전자 문서 변환 작업은 평균 2~5시간 정도 소요됩니다.(근무일 기준)<br>단, 계약서 내 입력값이 많을수록 작업 소요시간이 길어질 수 있습니다.</dd>
+					</dl>
+					<dl>
+						<dt class="num">3.</dt><dd>진행 상태가 [처리완료]인 경우 사용이 가능합니다.</dd>
+					</dl>
+					<dl>
+						<dt class="num">4.</dt><dd>양식 수정 요청 시 문서 사용 이력이 존재하는 경우 무료 수정이 불가합니다.</dd>
+					</dl>
+					<dl>
+						<dt class="num">5.</dt><dd>상업사용이 불가능한 저작권 폰트의 경우 양식변환이 불가합니다.
+					<br>예시) HY, !백묵, 양재, 훈민, 태-, FB, 한글아씨-, (환), 창인 등  </dd>
+					</dl>
+					<dl>
+						<dt class="num">6.</dt><dd>기타 문의사항은 [ help@newzenpnp.com ]으로 문의하시기 바랍니다.</dd>
+					</dl>
+				</div>
+			</div>
+			<div class="btn_group">
+				<a class="btn_type type1 NanumGothic" onclick="fn_contractNewUpload();">양식 등록하기</a>
+				<a class="btn_type type3 NanumGothic" onclick="window.close();">취소하기</a>
+			</div>
+		</div>
+	</div>
+	</body>
+	</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/process_history.css">
+
+
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+
+</head>
+<body>
+	<!-- *********************************************   html 시작 부분  body안에 붙여 넣으시면 됩니다.  *********************************************  -->
+	<!--  POPUP class(숨기기:hidden) -->
+	<div id="proHistory_wrap" class="">
+		<ul id="popup_bg">
+			<li class="popup_frame popup_name">
+				<div class="icon note"></div><div class="text NanumSquare_R">진행사항 이력</div><a class="btn_type popup_close" onclick="window.close()"></a> 
+			</li>
+			<li class="popup_frame popup_res">
+				<div class="seh_res NanumSquare_R">
+					<table>
+						<colgroup>
+							<col width="21%"><col width="12%">
+							<col width="40%"><col width="27%">
+						</colgroup>
+						<thead>
+							<tr>
+								<th>주관자</th>
+								<th>진행상태</th>
+								<th>진행내용</th> 
+								<th>처리일자</th>
+							</tr>
+						</thead>
+						<tbody id="sendList">
+							<tr class="databox">
+								<td>슈퍼관리자</td>
+								<td class="state complete">계약완료</td> 
+								<td class="text">이희진님의 2017 12월12일자의 <br>최종 전자근로계약서를 전송하였습니다.</td>
+								<td class="time">2017-12-12 10:25:25</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+            </li>
+            <li class="popup_btnGroup sort_r">
+                <a class="btn_type check" onclick="javascript:window.close();">확인</a>
+            </li>
+        </ul>
+    </div><!-- proHistory_wrap -->
+    <!-- *********************************************  html 끝  부분  body안에 붙여 넣으시면 됩니다.  *********************************************  -->
+</body>
+</html>

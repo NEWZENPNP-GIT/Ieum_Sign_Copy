@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BbsInfo">
+	
+	<typeAlias alias="bbsInfoVO" type="com.ezsign.bbs.vo.BbsInfoVO"/>
+	<resultMap id="bbsInfoListMap" class="bbsInfoVO">
+		<result property="bbsId" column="BBS_ID"/>
+		<result property="bbsName" column="BBS_NAME"/>
+		<result property="bbsType" column="BBS_TYPE"/>
+		<result property="dispLine" column="DISP_LINE"/>
+		<result property="dispPage" column="DISP_PAGE"/>
+		<result property="managerId" column="MANAGER_ID"/>
+		<result property="fileUseYn" column="FILE_USE_YN"/>
+		<result property="fileCount" column="FILE_COUNT"/>
+		<result property="fileLimit" column="FILE_LIMIT"/>
+		<result property="useYn" column="USE_YN"/>
+		<result property="editorYn" column="EDITOR_YN"/>
+		<result property="loginChkYn" column="LOGIN_CHK_YN"/>
+		<result property="bbsComment" column="BBS_COMMENT"/>
+		<result property="newTime" column="NEW_TIME"/>
+		<result property="hotChk" column="HOT_CHK"/>
+		<result property="badWordUseYn" column="BAD_WORD_USE_YN"/>
+		<result property="badWord" column="BAD_WORD"/>
+		<result property="mailToMaster" column="MAIL_TO_MASTER"/>
+		<result property="mailToManager" column="MAIL_TO_MANAGER"/>
+		<result property="commentUseYn" column="COMMENT_USE_YN"/>
+		<result property="scoreUseYn" column="SCORE_USE_YN"/>
+		<result property="viewThreadYn" column="VIEW_THREAD_YN"/>
+		<result property="viewPrevNextYn" column="VIEW_PREV_NEXT_YN"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="updDate" column="UPD_DATE"/>
+	</resultMap>
+	
+	<select id="bbsDAO.getBbsInfoList" parameterClass="bbsInfoVO" resultMap="bbsInfoListMap">
+		SELECT  A.BBS_ID, A.BBS_NAME, A.BBS_TYPE, A.DISP_LINE, A.DISP_PAGE, 
+				A.MANAGER_ID, A.FILE_USE_YN, A.FILE_COUNT, A.FILE_LIMIT, A.USE_YN, A.EDITOR_YN, 
+				A.LOGIN_CHK_YN, A.BBS_COMMENT, A.NEW_TIME, A.HOT_CHK, A.BAD_WORD_USE_YN, A.BAD_WORD, 
+				A.MAIL_TO_MASTER, A.MAIL_TO_MANAGER, A.COMMENT_USE_YN, A.SCORE_USE_YN, A.VIEW_THREAD_YN, 
+				A.VIEW_PREV_NEXT_YN, A.INS_DATE, A.UPD_DATE
+		FROM  tbl_bbs_info A
+		WHERE 1=1
+		<isNotNull property="bbsId">
+		    <isNotEmpty property="bbsId">
+			AND     A.BBS_ID = #bbsId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="bbsType">
+		    <isNotEmpty property="bbsType">
+			AND     A.BBS_TYPE = #bbsType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchKey">
+		    <isNotEmpty property="searchKey">
+		    	<isEqual property="searchKey" compareValue="bbsName">
+					AND		A.BBS_NAME LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="bbsType">
+					AND		B.BBS_TYPE = #bbsType#
+		    	</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sortName">
+		    <isNotEmpty property="sortName">
+		ORDER BY $sortName$ $sortOrder$
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="startPage">
+		    <isNotEmpty property="startPage">
+		limit #endPage# offset #startPage#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<select id="bbsDAO.getBbsInfoListCount" parameterClass="bbsInfoVO" resultClass="java.lang.Integer">
+		SELECT	COUNT(A.BBS_ID)		
+		FROM  tbl_bbs_info A
+		WHERE 1=1
+		<isNotNull property="bbsId">
+		    <isNotEmpty property="bbsId">
+			AND     A.BBS_ID = #bbsId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="bbsType">
+		    <isNotEmpty property="bbsType">
+			AND     A.BBS_TYPE = #bbsType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchKey">
+		    <isNotEmpty property="searchKey">
+		    	<isEqual property="searchKey" compareValue="bbsName">
+					AND		A.BBS_NAME LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="bbsType">
+					AND		B.BBS_TYPE = #bbsType#
+		    	</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<insert id="bbsDAO.insBbsInfo" parameterClass="bbsInfoVO">
+		<selectKey resultClass="java.lang.String" keyProperty="bbsId">
+			SELECT  getTableKey('TBL_BBS_INFO')
+		</selectKey>
+		INSERT INTO tbl_bbs_info (
+			BBS_ID, BBS_NAME, BBS_TYPE, DISP_LINE, DISP_PAGE, MANAGER_ID, FILE_USE_YN, FILE_COUNT, FILE_LIMIT, USE_YN, 
+			EDITOR_YN, LOGIN_CHK_YN, BBS_COMMENT, NEW_TIME, HOT_CHK, BAD_WORD_USE_YN, BAD_WORD, MAIL_TO_MASTER, MAIL_TO_MANAGER, 
+			COMMENT_USE_YN, SCORE_USE_YN, VIEW_THREAD_YN, VIEW_PREV_NEXT_YN, INS_DATE, UPD_DATE
+		) VALUES (
+		   #bbsId#, #bbsName#, #bbsType#, #dispLine#, #dispPage#, #managerId#, #fileUseYn#, #fileCount#,  #fileLimit#, #useYn#,
+		   #editorYn#, #loginChkYn#, #bbsComment#, #newTime#, #hotChk#, #badWordUseYn#, #badWord#, #mailToMaster#, #mailToManager#,
+		   #commentUseYn#, #scoreUseYn#, #viewThreadYn#,  #viewPrevNextYn#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<update id="bbsDAO.updBbsInfo" parameterClass="bbsInfoVO">
+		UPDATE tbl_bbs_info
+		SET	
+		<isNotNull property="bbsName">
+		    <isNotEmpty property="bbsName">
+			BBS_NAME		= #bbsName#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="managerId">
+		    <isNotEmpty property="managerId">
+			MANAGER_ID		= #managerId#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="fileUseYn">
+		    <isNotEmpty property="fileUseYn">
+			FILE_USE_YN		= #fileUseYn#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="fileLimit">
+		    <isNotEmpty property="fileLimit">
+			FILE_LIMIT		= #fileLimit#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="useYn">
+		    <isNotEmpty property="useYn">
+			USE_YN		= #useYn#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="bbsComment">
+		    <isNotEmpty property="bbsComment">
+			BBS_COMMENT		= #bbsComment#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="commentUseYn">
+		    <isNotEmpty property="commentUseYn">
+			COMMENT_USE_YN		= #commentUseYn#,
+			</isNotEmpty>
+		</isNotNull>
+			UPD_DATE		= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	BBS_ID	 = #bbsId#
+	</update>
+	
+	<delete id="bbsDAO.delBbsInfo" parameterClass="bbsInfoVO">
+		DELETE FROM tbl_bbs_info
+		WHERE	BBS_ID	 = #bbsId#
+	</delete>
+	
+	
+</sqlMap>
+		

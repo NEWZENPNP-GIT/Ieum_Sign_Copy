@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>신용카드 등  공제대상금액</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+</head>
+<body>
+	<div id="yearTax_wrap_popup" class="yearTax_popup sheet">
+		<div class="container">
+			<div id="popup_tit">
+				<div class="tit_icon icon_set"></div>
+				<div class="tit_text NanumSquare_R">신용카드 등 공제대상금액</div>
+				<div id="popup_close" class="btn_type col_skyblue" onclick="window.close();"></div>
+			</div>
+			<div class="contents">
+				<div class="part NanumSquare_R">
+					<div class="cellTit"><span class="icon"></span><span class="ttxt">신용카드 등 사용금액 공제액 산출 과정</span></div>
+					<div class="box_wrap">
+						<dl class="">
+							<dt class="">총급여</dt>
+							<dd class="data sort_right">27,100,000</dd>
+						</dl>
+						<dl class="">
+							<dt class="">최저사용금액 (총급여 25%)</dt>
+							<dd class="data sort_right">6,775,000</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="part">
+					<table class="NanumSquare_R">
+						<colgroup>
+							<col width="9%">
+							<col width="12%">
+							<col width="9%">
+							<col width="4%">
+							<col width="9%">
+							<col width="9%">
+							<col width="9%">
+							<col width="9%">
+							<col width="11%">
+							<col width="9%">
+							<col width="10%">
+						</colgroup>
+						<thead>
+							<tr>
+								<th colspan="2">구분</th>	<th>대상금액</th><th colspan="2">공제율금액</th>
+								<th>공제제외금액</th><th>공제가능금액</th><th>공제한도</th><th>일반공제금액</th><th>추가공제금액</th><th>최종공제금액</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td rowspan="3" class="subHead">전통시장 / 대중교통 제외</td><td class="subHead">㉮ 신용카드</td><td class="data sort_right">30,000,000</td><td class="subHead">15%</td><td class="data sort_right">4,500,000</td>
+								<td rowspan="6" class="data sort_right">1,016,250</td><td rowspan="6" class="data sort_right">21,043,750</td><td rowspan="6" class="data sort_right">3,000,000</td><td rowspan="6" class="data sort_right">3,000,000</td><td rowspan="6" class="data sort_right">1,920,000</td><td rowspan="6" class="data sort_right">4,960,000</td>
+							</tr>
+							<tr>
+								<td class="subHead">㉯ 현금영수증</td><td class="data sort_right">2,000,000</td><td rowspan="2" class="subHead">30%</td><td class="data sort_right">600,000</td>
+								
+							</tr>
+							<tr>
+								<td class="subHead">㉰ 직불/선불카드</td><td class="data sort_right">50,000,000</td><td class="data sort_right">15,000,000</td>
+							</tr>
+							<tr>
+								<td colspan="2" class="subHead">㉱ 도서공연사용분</td><td class="data sort_right"></td><td class="subHead">30%</td><td class="data sort_right"></td>
+							</tr>
+							<tr>
+								<td colspan="2" class="subHead">㉲ 전통시장사용분</td><td class="data sort_right">2,400,000</td><td rowspan="2" class="subHead">40%</td><td class="data sort_right">960,000</td>
+							</tr>
+							<tr>
+								<td colspan="2" class="subHead">㉳ 대중교통이용분</td><td class="data sort_right">2,500,000</td><td class="data sort_right">1,000,000</td>
+							</tr>
+							<tr class="subHead">
+								<td colspan="2">신용카드 등 사용액 합계 ( ㉮~㉲ )</td><td class="data sort_right">86,900,000</td><td></td><td class="data sort_right">22,060,000</td>
+								<td>아래참조 *1</td><td>공제율금액－공제제외금액</td><td>아래참조 *2</td><td>MIN[공제가능금액, 공제한도]</td><td>아래참조 ＊3</td><td>일반공제금액 ＋추가공제금액</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="part NanumSquare_R">
+					<div class="cellTit"><span class="icon"></span><span class="ttxt">*1 공제제외금액 산출 방법</span></div>
+				</div>
+				<div class="part">
+					<table class="NanumSquare_R">
+						<colgroup>
+							<col width="10%">
+							<col width="46%">
+							<col width="44%">
+						</colgroup>
+						<tbody>
+							<tr class="subHead">
+								<td rowspan="4">총급여 7천만원 이하</td><td>구분</td><td >계산식</td>
+							</tr>
+							<tr>
+								<td>신용카드사용금액(㉮)≥최저사용액</td><td>최저사용금액×15%</td>
+							</tr>
+							<tr>
+								<td>신용카드＋현금영수증＋직불카드＋도서공연(㉮＋㉯＋㉰＋㉱) ≥ 최저사용액 ＞ 신용카드사용금액(㉮)</td><td>㉮×15%＋[최저사용금액－㉮]×30%</td>
+							</tr>
+							<tr>
+								<td>최저사용액 ＞ 신용카드＋현금영수증＋직불카드＋도서공연(㉮＋㉯＋㉰＋㉱)</td><td>㉮×15%＋[(㉯＋㉰＋㉱)×30%]＋[최저사용금액－㉮－㉯－㉰－㉱]×40%</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="part">
+					<table class="NanumSquare_R">
+						<colgroup>
+							<col width="10%">
+							<col width="46%">
+							<col width="44%">
+						</colgroup>
+						<tbody>
+							<tr class="subHead">
+								<td rowspan="4">총급여 7천만원 초과</td><td>구분</td><td >계산식</td>
+							</tr>
+							<tr>
+								<td>신용카드사용금액(㉮)≥최저사용액</td><td>최저사용금액×15%</td>
+							</tr>
+							<tr>
+								<td>신용카드＋현금영수증＋직불카드＋도서공연(㉮＋㉯＋㉰＋㉱) ≥ 최저사용액 ＞ 신용카드사용금액(㉮)</td><td>㉮×15%＋[최저사용금액－㉮]×30%</td>
+							</tr>
+							<tr>
+								<td>최저사용액 ＞ 신용카드＋현금영수증＋직불카드＋도서공연(㉮＋㉯＋㉰)</td><td>㉮×15%＋[(㉯＋㉰)×30%]＋[최저사용금액－㉮－㉯－㉰]×40%</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="part NanumSquare_R">
+					<div class="cellTit"><span class="icon"></span><span class="ttxt">*2 공제한도 산출 방법</span></div>
+				</div>
+				<div class="part">
+					<table class="rat60 NanumSquare_R">
+						<colgroup>
+							<col width="55%">
+							<col width="50%">
+						</colgroup>
+						<thead>
+							<tr>
+								<th>구분</th>	<th>계산식</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="subHead">총급여 7천만원 이하</td><td>MIN(총급여의 20%, 300만원)</td>
+							</tr>
+							<tr>
+								<td class="subHead">총급여 7천만원 초과 ~ 1.2억원 이하 </td><td>MIN(총급여의 20%, 250만원)</td>
+							</tr>
+							<tr>
+								<td class="subHead">총급여 1.2억원 이하 </td><td>MIN(총급여의 20%, 200만원)</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="part NanumSquare_R">
+					<div class="cellTit"><span class="icon"></span><span class="ttxt">*3 추가공제금액 산출 방법 = (①＋②＋③)</span></div>
+				</div>
+				<div class="part">
+					<table class="NanumSquare_R">
+						<colgroup>
+							<col width="20%">
+							<col width="15%">
+							<col width="65%">
+						</colgroup>
+						<thead>
+							<tr>
+								<th>구분</th>	<th>금액</th><th>계산식</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="subHead">① 도서공연 추가공제금액</td><td class="data sort_right"></td><td>MIN[공제가능금액－공제한도(음수면 0), ㉱×30%, 100만원]</td>
+							</tr>
+							<tr>
+								<td class="subHead">② 전통시장 추가공제금액</td><td class="data sort_right">960,000</td><td>MIN[공제가능금액－공제한도－도서공연(음수면 0), ㉱×30%, 100만원]</td>
+							</tr>
+							<tr>
+								<td class="subHead">③ 대중교통 추가공제금액</td><td class="data sort_right">960,000 </td><td>MIN[공제가능금액－공제한도－도서공연－전통시장(음수면 0), ㉱×30%, 100만원]</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<ul class="explain_wrap NanumSquare_R">
+					<li>※참고사항</li>
+					<li class="sub">1. 신용카드 등 사용금액은 근로기간 중 사용한 금액만 제공대상입니다.
+					<li class="sub">2. 도서공연비지출액은 총급여 7천만원 이하자에 한하여 추가공제 가능합니다. (2018.7.1 이후 지출분 부터 적용)</li>
+					<li class="sub">3. 신용카드등 대상금액은 [부양가족] 탭 신용카드등 사용액공제 항목에서 입력합니다.</li>
+				</ul>
+				<div class="foot_btn NanumSquare_R">
+					<a class="btn_type">확인</a>
+				</div>
+			</div>
+		</div> <!--  container -->
+	</div>
+</body>
+</html>

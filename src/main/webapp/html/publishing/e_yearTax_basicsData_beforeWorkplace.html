@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>종ㆍ전  근무지</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+<script type='text/javascript' src="/js/jquery.min.js"></script>
+</head>
+<body>
+	<div id="yearTax_wrap" class="yearTax hasEmplist">
+		<input id="btn_left" id="btn_left" type="checkbox" class="hidden">
+		<label class="btn_type btn_emplist" for="btn_left"></label>
+		<div id="employ-list-wrap">
+			<div class="fieldBox">
+				<div class="select_box">
+					<select class="NanumSquare_R">
+						<option value="" >사업장</option>
+					</select>
+				</div>
+				<fieldset>
+					<input type="text" class="word_input NanumSquare_R"><a class="btn_search btn_type Material_icons">search</a>
+				</fieldset>
+			</div>
+			<div class="employ-list NanumSquare_R">
+				<ul>
+					<li class="thead"><div class="no">사번</div><div class="name">이름</div><div class="state code-0">확정</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-0">미입력</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-1">진행중</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-2">근로자 확정</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-3">관리자 확정</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-4">최종 확정</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state"></div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state"></div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state"></div></li>
+				</ul>
+			</div>
+		</div>
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연말정산 > 기초등록 > </span><span class="loc_sub NanumSquare_R">종ㆍ전  근무지</span></div>
+			<div class="pagtit">
+				<span class="NanumSquare_R">종ㆍ전  근무지</span>
+				<ul class="top_items NanumSquare_R">
+					<li><a class="btn_type icon_file ">첨부 파일 <span class="icon icon_file"></span></a></li>
+					<!-- <li><div class="current">요약설명 및 공제요건</div></li> -->
+				</ul>
+				
+			</div>
+			
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit skyblue">
+						<div class="icon"></div>
+						<div class="text NanumSquare_R">종ㆍ전  근무지 명세</div>
+						<div class="btns">
+							<a class="btn_type NanumSquare_R">문의 </a>
+						</div>
+					</div>
+				
+					<div class="grid_field full">
+						<ul class="">
+							<li class="btns NanumSquare_R field_sort_right">
+								<a class="btn_type type1">자료추가<span class="icon add"></span></a>
+								<a class="btn_type type2">선택삭제</a>
+							</li>
+						</ul>
+					</div>
+					<div class="group_table">
+						<table class="hasHead NanumSquare_R">
+							<colgroup>
+								<col width="4%">
+								<col width="19%">
+								<col width="19%">
+								<col width="16%">
+								<col width="16%">
+								<col width="13%">
+								<col width="13%">
+							
+							</colgroup>
+							<thead>
+								<tr>
+									<th class="chk_area"><input type="checkbox"> </th>
+									<th>회사명</th>
+									<th>사업자등록번호</th>
+									<th>근무시작일</th>
+									<th>근무종료일</th>
+									<th>총급여</th>
+									<th>결정세액</th>
+								</tr>
+									
+							</thead>
+							<tbody>
+								<tr>
+									<td class="chk_area"><input type="checkbox"></td>
+									<td class="value">주식회사 최고봉</td>
+									<td class="value">11-25-1456321</td>
+									<td class="value">2018-01-05</td>
+									<td class="value">2018-07-05</td>
+									<td class="value">5,000,000</td>
+									<td class="value">1,896,000</td>
+								</tr>
+								
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div> <!--  contents -->
+			
+			<div class="group_btns foot NanumSquare_R">
+				<a class="btn_type type1">＜  이전</a>
+				<a class="btn_type type2"><span class="icon_save Material_icons"></span>저장</a>
+				<a class="btn_type type3">다음 ＞</a>
+				<a class="btn_type type4">Map ＞</a>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+ /*  *************** 근로자 리스트 스크롤 위치에 따라 이동   ***************  */ 
+$(document).ready(function(){
+	var _scrollTop=$("#main_wrap").scrollTop();
+	var _posY=($("#main_wrap").height()/2 + 40)+_scrollTop-57;
+
+	if($("#yearTax_wrap").height() < $("#main_wrap").height()){
+		$("#employ-list-wrap").css("height",$("#main_contents").height()-10)
+	}
+	$(".btn_emplist").css("top",_posY);
+
+})
+
+$("#main_wrap").scroll(function(){
+	var _scrollTop=$("#main_wrap").scrollTop();
+	var _posY=($("#main_wrap").height()/2 + 40)+_scrollTop-57;
+	$(".btn_emplist").css("top",_posY);
+})
+
+</script>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/board_notice.css">
+<link rel="stylesheet" type="text/css" href="/css/contract_write.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script>
+	$(document).ready(function(){
+		fn_getWorkSOSList();
+	});
+	
+	function fn_getWorkSOSList(){
+	    var bbsId = getCookie("bbsId");
+	    var bbsNo = getCookie("bbsNo");
+
+	    var url = rootPath + 'bbs/getBbsContents.do';
+		
+		$.ajax({
+			url:url,
+			dataType:"json",
+			type:"POST",
+			data: {
+				bbsId:bbsId,
+				bbsNo:bbsNo
+			},
+			success:function(res) {		
+				console.log(res);
+				if (res.success) {
+
+					$("#workSOSbizName").text(res.data.bizName);
+					$("#insDate").text(convertDateTime(res.data.insDate).format("yyyy-MM-dd HH:mm:ss"));
+					$("#empName").text(res.data.empName);
+					$("#statusName").text(res.data.statusName);
+					$("#subject").text(res.data.subject);
+					$("#contents").html(res.data.contents);
+					
+
+					$.each(res.file, function(i, row) {
+						$("#fileName").text(row.orgFileName);
+						$("#fileName").attr("value", row.fileNo);
+						var fileHtmlData = '<a class="btn_type btn_download" onclick="doDownload('+row.bbsId+', '+row.bbsNo+', '+row.fileNo+');">다운로드</a></td>';
+						$("#download").html(fileHtmlData);
+					});
+					
+					if(res.data.userId != getCookie("userId")){
+						$("#delWorkSOS").addClass("hidden");
+					}
+					
+					
+					//노무사로 로그인 + 미처리 일 경우 -> 처리 완료 버튼 활성화
+					if (getCookie("loginType") !== "7" || res.data.statusCode !== "0") $("#comWorkSOS").addClass("hidden");
+					
+					//댓글이 존재할 경우
+					var htmlData = "";
+					if(res.comment != undefined){
+						$.each(res.comment, function(i, row) {
+							htmlData += '<li>';
+							htmlData += '<div class="area head_group"><div class="company">'+row.bizName+'</div><div class="userName">'+row.empName+'</div><div class="date">'+convertDateTime(row.insDate).format("yyyy-MM-dd HH:mm:ss")+'</div></div>';
+							htmlData += '<div class="area text_group"><div class="">'+row.commentContents+'</div></div>';
+							htmlData += '<div class="area right_btngroup">';
+							//본인이 작성한 댓글만 삭제 가능
+							if(row.userId == getCookie("userId")){
+								htmlData += '<a class="btn_type btn_del NanumGothic" onclick="doRemoveComment(' + row.commNo +')">삭제</a></div>';
+							}
+							htmlData += '</li>';
+						});
+					}
+					$("#comment_list").html(htmlData);
+					
+				}else{
+					alert('오류가 발생 했습니다. 브라우저를 새로고침 후 다시 시도해 주세요.','');
+				}    
+			},
+			error:function(request,status,error){
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+
+	}
+	
+	//파일 다운로드
+	function doDownload(bbsId, bbsNo, fileNo) {
+		var url = rootPath + 'bbs/getBbsFile.do';
+	    url += '?bbsId=' + bbsId;
+	    url += '&bbsNo=' + bbsNo;
+	    url += '&fileNo=' + fileNo;
+
+	    downloadDataUrlFromJavascript(url);
+	}
+	
+	//노무SOS 리스트 조회로 이동
+	function fn_goWorkSOSList(){
+		$.ajax({
+	        url : "/html/worksos/workSOS_list.html",
+	        success : function(result) {
+	            $("#contents_wrap").html(result);
+	        }
+	    });	 
+	}
+	
+	//댓글등록
+	function fn_insWorkSOSComment(){
+		if($.trim($("#comment").val()) == ''){
+			alert("댓글을 입력해주십시오.","",function(){
+				$("#comment").focus();			
+			});		
+			return false;
+		}
+		
+	    var formData = new FormData();
+	    formData.append('bbsNo', getCookie("bbsNo"));
+	    formData.append('bbsId', getCookie("bbsId"));
+	    formData.append('userId', getCookie("userId"));
+	    formData.append('commentContents', $("#comment").val());
+	
+	    var url = rootPath + 'bbs/insBbsComment.do';
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			processData: false,
+		    contentType: false,
+			data: formData,
+			success:function(res) {		
+				
+				if (res.success) {
+					alert('등록 되었습니다.');
+					$("#comment").val('');
+					fn_getWorkSOSList();
+				}else{
+					alert('오류가 발생 했습니다. 브라우저를 새로고침 후 다시 시도해 주세요.','');
+				}    
+			},
+			error:function(request,status,error){
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+	
+	// 댓글삭제
+	function doRemoveComment(commNo) {
+		var bbsId = getCookie("bbsId");
+	    var bbsNo = getCookie("bbsNo");
+	    
+		var url = rootPath + 'bbs/delBbsComment.do';
+
+		$.blockUI();
+
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				bbsId:bbsId,
+				bbsNo:bbsNo,
+				commNo:commNo
+			},
+			success:function(result)
+			{
+				console.log(result);
+				if (result.success==true) {
+					alert("삭제되었습니다.");
+					fn_getWorkSOSList();
+				}
+				
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+		
+	}
+	
+	
+	//글 삭제
+	function fn_delWorkSOS(){
+		
+		if(!confirm("첨부파일 및 댓글도 같이 삭제됨을 유념하시기 바랍니다.\r\n삭제하시겠습니까?")) return;
+		
+		var url = rootPath+"bbs/delBbsContents.do";
+		
+		var bbsId = getCookie("bbsId"); // 공지사항ID
+		var bbsNo = getCookie("bbsNo");
+		var fileNo = ''; // 첨부파일
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				bbsId:bbsId,
+				bbsNo:bbsNo,
+				fileNo:fileNo
+			},
+			success:function(result)
+			{
+				if (result.success) {
+					alert('삭제 되었습니다.');
+					fn_goWorkSOSList();
+				}else{
+					alert('오류가 발생 했습니다. 브라우저를 새로고침 후 다시 시도해 주세요.','');
+				}    
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});	
+	}
+</script>
+</head>
+<body>
+	
+<!-- *********************************************  게시판  *********************************************  -->
+<div id="boardque_wrap" class="workSOS">
+	<div class="container">
+		<div class="location"><span class="loc_main NanumGothic">노무 SOS > </span><span class="loc_sub NanumGothic">글 보기</span></div>
+		<div class="pagtit"><span class="NanumGothic">글 보기</span></div> 
+	</div>
+	<div class="board_con_admin">
+		<!-- <ul class="tab_menu">
+			<li><a class="btn_type active">인사관리</a></li>
+			<li><a class="btn_type">전자계약</a></li>
+			<li><a class="btn_type">연차관리</a></li>
+			<li><a class="btn_type">급여명세</a></li>
+			<li><a class="btn_type">캔디모바일</a></li>
+			<li><a class="btn_type">포인트 결제</a></li>
+		</ul> -->
+		<div class="tab_con">
+			<table class="tab_data NanumGothic">
+				<tr>
+					<td class="tit">회사명</td>
+					<td class="text company" id="workSOSbizName"></td>
+					<td class="tit">작성일시</td>
+					<td class="text type" id="insDate"></td>
+				</tr>
+				<tr>
+					<td class="tit">작성자</td>
+					<td class="text company" id="empName"></td>
+					<td class="tit">진행상태</td>
+					<td class="text type" id="statusName"></td>
+				</tr>
+				<tr>
+					<td class="tit title">제목</td>
+					<td class="text" colspan="3" id="subject">몰라요 몰라</td>
+				</tr>
+				<tr>
+					<td class="tit">내용</td>
+					<td class="con text" colspan="3" id="contents">
+					</td>
+				</tr>
+				<tr>
+					<td class="tit">첨부파일</td>
+					<td colspan="3" class="attach"><span class="fileName" id="fileName" value=""></span><span id="download"></span>
+				</tr>
+			</table>
+		</div>
+		<div class="tab_btnGroup NanumGothic">
+			<a class="btn_type" onclick="fn_delWorkSOS()" id="delWorkSOS">삭제</a>
+            <a class="btn_type" onclick="fn_goWorkSOSList()">목록</a>
+            <a class="btn_type" id="comWorkSOS"><span class="icon Material_icons">check_circle</span>처리완료</a>
+		</div>
+		<div class="tab_con">
+			<table class="tab_data NanumGothic">
+				<tr>
+					<td class="tit">댓글작성</td>
+					<td class="text company"><input type="text" id="comment"></div></td>
+					<td class="tit"><a class="btn_type" onclick="fn_insWorkSOSComment()">등록</a></td>
+				</tr>
+			</table>
+		</div>
+		<ul class="comment_list" id="comment_list">
+			<!-- <li>
+				<div class="area head_group"><div class="company">(주)뉴젠 솔루션</div><div class="userName">이준겸(gyeom_dung_lee)</div><div class="date">2018-05-03 11:00:00</div></div>
+				<div class="area text_group"><div class=""> 안녕하세요. 준겸이가 해결해 드리겠습니다.감사합니다.</div></div>
+				<div class="area right_btngroup"><a class="btn_type btn_del NanumGothic">삭제</a><a class="btn_type btn_edit NanumGothic">수정</a></div>
+			</li>
+			<li>
+                <div class="area head_group"><div class="company">(주)뉴젠 솔루션</div><div class="userName">이준겸(gyeom_dung_lee)</div><div class="date">2018-05-03 11:00:00</div></div>
+                <div class="area text_group"><div class=""> 안녕하세요. 준겸이가 해결해 드리겠습니다.감사합니다.</div></div>
+                <div class="area right_btngroup"><a class="btn_type btn_del NanumGothic">삭제</a><a class="btn_type btn_edit NanumGothic">수정</a></div>
+            </li> -->
+		</ul>
+	</div>
+</div>
+
+</body>
+
+<!-- SmartEditor -->
+<script type="text/javascript">
+</script>
+
+</html>

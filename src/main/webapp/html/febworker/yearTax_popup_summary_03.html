@@ -1,0 +1,266 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <title>기부금계산결과</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+    <link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+    <link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+	<script type='text/javascript' src="/js/jquery.min.js"></script>
+	<script type='text/javascript' src="/js/common.js"></script>
+	<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+	<script>
+		$(document).ready(function() {
+			계약ID = getCookie("yearContractId");
+			사용자ID = getURLParameters("userId");
+			세액공제구분코드 = getURLParameters("value");
+			$('#yearContractId').val(계약ID);
+			$('#userId').val(사용자ID);		
+			// 요약 정보 조회
+			fn_getList();
+		});
+		
+		function fn_getList() {
+			var url = rootPath + '/febworker/donationYW800.do';
+			$.ajax({
+				url:url,
+			    crossDomain : true,
+				dataType:"json",
+				type:"GET",
+				data: {
+					계약ID:계약ID,
+					사용자ID:사용자ID,
+					세액공제구분코드:세액공제구분코드
+				},
+				success:function(result)
+				{
+					if(result.success) {
+						var htmlData = "";
+						var value1 = 0;
+						var value2 = 0;
+						var value3 = 0;
+						var value4 = 0;
+						var value5 = 0;
+						var value6 = 0;
+						var value7 = 0;
+						var value8 = 0;
+						var value9 = 0;
+						// 합계
+						var sum1 = 0;
+						var sum2 = 0;
+						var sum5 = 0;
+						var sum6 = 0;
+
+						// 기업내역
+						$.each(result.기부금계산결과, function(i, row) {
+							htmlData += '<tr>';
+							htmlData += '	<td>' + row.기부코드 + '</td>';
+							htmlData += '	<td>' + row.구분명 + '</td>';
+							htmlData += '	<td class="expense">' + numberWithCommas( Number(row.지출액))+ '</td>';
+							htmlData += '	<td class="expense">' + numberWithCommas( Number(row.공제대상금액))+ '</td>';
+							if ( row.기부코드 !== '20') {
+								if (( row.구분명 === '종교단체외이월 (2013년 이전)' ) || ( row.구분명 === '종교단체이월 (2013년 이전)' )) { // 종교단체외이월(2013) && 종교단체이월(2013)
+									htmlData += '	<td class="expense back_gray"></td>';
+									htmlData += '	<td class="expense back_gray"></td>';
+									htmlData += '	<td class="expense back_gray">' + numberWithCommas( Number(row.공제액))+ '</td>';
+									htmlData += '	<td class="expense">' + numberWithCommas( Number(row.공제초과이월액))+ '</td>';
+								} else {
+									htmlData += '	<td class="expense">' + numberWithCommas( Number(row.공제율1))+ '</td>';
+									htmlData += '	<td class="expense">' + numberWithCommas( Number(row.공제율2))+ '</td>';
+									htmlData += '	<td class="expense">' + numberWithCommas( Number(row.공제액))+ '</td>';
+									if ( row.일련번호 === 7 ) {
+										htmlData += '	<td class="expense back_gray"></td>';
+									} else {
+										htmlData += '	<td class="expense">' + numberWithCommas( Number(row.공제초과이월액))+ '</td>';
+									}
+								}
+							} else {
+								htmlData += '	<td class="expense back_gray"></td>';
+								htmlData += '	<td class="expense back_gray"></td>';
+								htmlData += '	<td class="expense back_gray">' + numberWithCommas( Number(row.공제액))+ '</td>';
+								htmlData += '	<td class="expense back_gray"></td>';
+							}
+							htmlData += '</tr> ';
+							
+
+							if ( row.기부코드 !== '20') {
+								value2 = Number(value2) + Number(row.공제대상금액);
+								if (( row.기부코드 === '10' )) { // 법정기부금
+										value6 = Number(value6) + Number(row.공제액);
+								} 								
+								if (( row.기부코드 === '40' ) || ( row.기부코드 === '41' )) {
+									if (( row.일련번호 === 8 ) || ( row.일련번호 === 9 )) { // 종교단체외이월(2013) && 종교단체이월(2013)
+										value4 = Number(value4) + Number(row.공제액);
+									} 
+									if (( row.기부코드 === '40' ) && ( row.일련번호 !== 8 )) { // 종교단체외이월(2013) 을 제외한 지정종교단체외 기부금
+										value8 = Number(value8) + Number(row.공제액);
+									} 
+									if (( row.기부코드 === '41' ) && ( row.일련번호 !== 9 )) { // 종교단체이월(2013) 을 제외한 지정종교단체 기부금
+										value9 = Number(value9) + Number(row.공제액);
+									} 
+								}
+								if ( row.기부코드 === '42' ) { // 우리사주조합기부금
+										value7 = Number(value7) + Number(row.공제액);
+								} 
+							} else {
+								if ( row.일련번호 === 1 ) { // 정치기부금10만원 초과 세액공제
+									value5 = Number(value5) + Number(row.공제액);
+								}
+							}
+							
+							value3 = Number(row.세액공제가능액);
+							sum1 = Number(sum1) + Number(row.지출액);
+							sum2 = Number(sum2) + Number(row.공제대상금액);
+							sum5 = Number(sum5) + Number(row.공제액);
+							sum6 = Number(sum6) + Number(row.공제초과이월액);
+						});	
+						// 합계영역
+						htmlData += '<tr class="tfoot"> ';
+						htmlData += '	<td colspan="2">합계</td> ';
+						htmlData += '	<td class="expense">' + numberWithCommas( Number(sum1))+ '</td> ';
+						htmlData += '	<td class="expense">' + numberWithCommas( Number(sum2))+ '</td> ';
+						htmlData += '	<td class="expense back_gray"></td> ';
+						htmlData += '	<td class="expense back_gray"></td> ';
+						htmlData += '	<td class="expense">' + numberWithCommas( Number(sum5))+ '</td> ';
+						htmlData += '	<td class="expense">' + numberWithCommas( Number(sum6))+ '</td> ';
+						htmlData += '</tr> ';
+						value1 = result.근무년월.근로소득금액;
+						$("#dataList").html(htmlData);
+						$("#value1").val(numberWithCommas(value1));
+						$("#value2").val(numberWithCommas(value2));
+						$("#value3").val(numberWithCommas(value3));
+						$("#value4").val(numberWithCommas(value4));
+						$("#value5").val(numberWithCommas(value5));
+						$("#value6").val(numberWithCommas(value6));
+						$("#value7").val(numberWithCommas(value7));
+						$("#value8").val(numberWithCommas(value8));
+						$("#value9").val(numberWithCommas(value9));
+
+					}
+				},
+				error:function(request,status,error){
+					if (request.status=="401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						window.close();
+					} else {
+						alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+				        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					}
+				}
+			});
+		}
+			
+		// 세 자릿수 마다 콤마(,) 추가 하는 기능
+        function numberWithCommas(x) {
+    		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
+		
+		function fn_close() {
+			// window.opener.callFunc(); 앵귤러 조회 호출 숨김 2019-01-23
+			window.close();
+		}
+	</script>
+</head>
+<body>
+	<div id="yearTax_wrap_popup" class="yearTax_popup summary3">
+		<div class="container">
+			<div id="popup_tit">
+				<div class="tit_icon icon_set"></div>
+				<div class="tit_text NanumSquare_R">기부금 공제금액 계산 참조</div>
+				<div id="popup_close" class="btn_type col_skyblue" onclick="window.close();"></div>
+			</div>
+			<div class="contents">
+				<div class="box_wrap  NanumSquare_R">
+					<div class="row">
+						<dl class="rat30">
+							<dt>근로소득 금액</dt>
+							<dd><input type="text" id="value1" class="sort_right" readonly></input></dd>
+						</dl>
+						<dl class="rat40">
+							<dt class="w570">정치자금기부금 외 세액공제대상금액</dt>
+							<dd><input type="text" id="value2" class="sort_right" readonly></input></dd>
+						</dl>
+						<dl class="rat30">
+							<dt>세액공제 가능액</dt>
+							<dd><input type="text" id="value3" class="sort_right" readonly></input></dd>
+						</dl>
+					</div>
+				</div>
+				<div>
+					<table class="NanumSquare_R">
+						<colgroup>
+							<col width="4%">
+							<col width="20%">
+							<col width="11%">
+							<col width="11%">
+							<col width="11%">
+							<col width="11%">
+							<col width="11%">
+							<col width="11%">
+						</colgroup>
+						<thead>
+							<tr>
+								<th>코드</th>	<th>구분</th>	<th>지출액</th><th>공제대상금액</th>
+								<th>공제율1 (15%)</th><th>공제율2<br> (25% or 30%)</th><th>소득/세액 공제액</th><th>공제초과이월액</th>
+							</tr>
+						</thead>
+						<tbody id="dataList">
+							<tr>
+								<td>20</td>
+								<td>정치자금 (10만원 이하)</td>
+								<td class="expense"></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				
+				<div class="box_wrap row NanumSquare_R">
+					<div class="row">
+						<dl class="rat30">
+							<dt class="w350">기부금(이월액) 소득공제</dt>
+							<dd><input type="text" id="value4" class="sort_right" readonly></input></dd>
+						</dl>
+						<dl class="rat40">
+							<dt class="w570">정치자금기부금 외 세액공제대상금액</dt>
+							<dd><input type="text" id="value5" class="sort_right" readonly></input></dd>
+						</dl>
+						<dl class="rat30">
+							<dt class="w400">법정기부금 세액공제</dt>
+							<dd><input type="text" id="value6" class="sort_right" readonly></input></dd>
+						</dl>
+					</div>
+					<div class="row">
+						<dl class="rat30">
+							<dt class="w350">우리사주기부금 세액공제</dt>
+							<dd><input type="text" id="value7" class="sort_right" readonly></input></dd>
+						</dl>
+						<dl class="rat40">
+							<dt class="w570">지정기부금(종교외) 세액공제</dt>
+							<dd><input type="text" id="value8" class="sort_right" readonly></input></dd>
+						</dl>
+						<dl class="rat30">
+							<dt class="w400">지정기부금(종교) 세액공제</dt>
+							<dd><input type="text" id="value9" class="sort_right" readonly></input></dd>
+						</dl>
+					</div>
+				</div>
+				<div class="foot_btn NanumSquare_R">
+					<a class="btn_type" onclick="fn_close();">확인</a>
+				</div>
+			</div> <!--  contents -->
+		</div> <!--  container -->
+	</div>
+</body>
+</html>

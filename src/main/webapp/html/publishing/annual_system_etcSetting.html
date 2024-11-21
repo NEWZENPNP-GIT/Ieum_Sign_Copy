@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/annual_manage.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+
+</head>
+<body>
+	<div id="annual_wrap" class="setting">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연차 관리 ＞ 시스템 설정 ＞ </span><span class="loc_sub NanumSquare_R">기타 설정</span></div>
+			<div class="pagtit"><span class="NanumSquare_R">기타 설정 </span></div>
+			<div class="tit_dec NanumRound"><span class="speaker"></span><span> 알림 ㅣ 미승인 연차신청서가 5건 존재합니다.</span></div>
+			
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">화면 내용 및 기타 내용설정</span>
+					</div>
+					<div class="box_wrap head">
+						<div class="group_row row1">
+							<dl class="w20 NanumSquare_R ">
+								<dt></dt>
+								<dd class="setting_part ">
+									<div class="text_box"><span class="tit">종류</span> <span class="con">내용</span></div>
+									<div class="userCk">사용여부</div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="box_wrap">
+						<div class="group_row row1">
+							<dl class="w20 NanumSquare_R">
+								<dt><input type="checkbox"></dt>
+								<dd class="setting_part">
+									<div class="text_box"><span class="tit">신청 알림</span> <span class="con">휴가를 신청한 경우, 결재자에게 SMS/알림톡 전송이 됩니다.</span></div>
+									<div class="userCk">
+										<div><input type="radio" name="rad1" id="ck1-1"><label for="ck1-1">여</label></div>
+										<div><input type="radio" name="rad1" id="ck1-2" class="orange"><label for="ck1-2">부</label></div>
+									</div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="box_wrap">
+						<div class="group_row row1">
+							<dl class="w20 NanumSquare_R">
+								<dt><input type="checkbox"></dt>
+								<dd class="setting_part">
+									<div class="text_box"><span class="tit">결재 알림</span> <span class="con">결재가 된 휴가의 경우, 신청자에게 SMS/알림톡 전송이 됩니다.</span></div>
+									<div class="userCk">
+										<div><input type="radio" name="rad2" id="ck2-1"><label for="ck2-1">여</label></div>
+										<div><input type="radio" name="rad2" id="ck2-2" class="orange"><label for="ck2-2">부</label></div>
+									</div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<!-- 
+					<div class="box_wrap">
+						<div class="group_row row1">
+							<dl class="w20 NanumSquare_R">
+								<dt><input type="checkbox"></dt>
+								<dd class="setting_part">
+									<div class="text_box"><span class="tit">잔여 연차 표시</span> <span class="con">근로자의 모바일 메인 화면 상단에 총 연차/사용/잔여 일수를 표시합니다.</span></div>
+									<div class="userCk">
+										<div><input type="radio" name="rad3" id="ck3-1"><label for="ck3-1">여</label></div>
+										<div><input type="radio" name="rad3" id="ck3-2" class="orange"><label for="ck3-2">부</label></div>
+									</div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					 -->
+					<div class="box_wrap">
+						<div class="group_row row1">
+							<dl class="w20 NanumSquare_R">
+								<dt><input type="checkbox"></dt>
+								<dd class="setting_part">
+									<div class="text_box"><span class="tit">신청 내역 수정</span> <span class="con">결재가 진행되지 않은 신청 건을 신청자가 수정/삭제 할 수 있습니다.</span></div>
+									<div class="userCk">
+										<div><input type="radio" name="rad4" id="ck4-1"><label for="ck4-1">여</label></div>
+										<div><input type="radio" name="rad4" id="ck4-2" class="orange"><label for="ck4-2">부</label></div>
+									</div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<!-- 
+					<div class="box_wrap">
+						<div class="group_row row1">
+							<dl class="w20 NanumSquare_R">
+								<dt><input type="checkbox"></dt>
+								<dd class="setting_part">
+									<div class="text_box"><span class="tit">연차 차감</span> <span class="con">주말/공휴일 등은 연차를 차감하지 않습니다.</span></div>
+									<div class="userCk">
+										<div><input type="radio" name="rad5" id="ck5-1"><label for="ck5-1">여</label></div>
+										<div><input type="radio" name="rad5" id="ck5-2" class="orange"><label for="ck5-2">부</label></div>
+									</div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					 -->
+				</div>
+				
+				<div class="NanumSquare_R btn_group mar_top_20">
+					<!-- 
+					<a class="btn_type type1">전체선택</a>
+					 -->
+					<a class="btn_type"><span class="icon_check"></span>적용하기</a>
+				</div>
+			</div> <!--  contents -->
+				
+			
+		</div> <!--  container -->
+	</div>
+</body>
+
+</html>

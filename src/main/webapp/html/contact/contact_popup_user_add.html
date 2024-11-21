@@ -1,0 +1,221 @@
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/myPage.css">
+	<link rel="stylesheet" type="text/css" href="/css/contract_electronic.css">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/ui.biz.core.js"></script>
+	<script>
+	var chkId = false;
+	// 아이디 중복확인
+	function fn_checkUserId() {
+		//if(!chkCookie()) return false;
+		var url = rootPath+"user/getUserList.do";
+
+		var loginId = $("#userId").val();
+
+		if (loginId.length==0) {
+			alert("아이디를 입력해주시기 바랍니다.");
+			return;
+		}
+		if(!checkEmail(loginId)) {
+			alert("아이디는 이메일 형식으로 입력해주시기 바랍니다.");
+			return;
+		}
+		chkUserId = false;
+
+		$.blockUI();
+
+		$.ajax({
+			url:url,
+			crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				OPEN_KEY:getCookie("OPEN_KEY"),
+				userId:loginId,
+				loginId:loginId
+			},
+			success:function(result)
+			{
+				if (result.success==true) {
+
+					if(result.total==0) {
+						chkId = true;
+						alert("사용가능하신 아이디입니다.");
+					} else {
+						alert("입력하신 아이디는 사용중인 아이디입니다.\r\n다시 입력해주시기 바랍니다.");
+					}
+				} else {
+					alert("입력하신 아이디는 사용중인 아이디입니다.\r\n다시 입력해주시기 바랍니다.");
+				}
+			},
+			error:function(request,status,error){
+				alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+				//alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+		$.unblockUI();
+
+	}
+
+	$(document).ready(function() {
+		fn_contactList();
+
+		$("#userId").change(function(){
+			chkId = false;
+		});
+	});
+
+	function fn_save(){
+		//if(!chkCookie()) return false;
+
+		var url = rootPath+"contact/addContactUser.do";
+		var bizId= getCookie("bizId");
+		var contId=getURLParameters("contId");
+		var userId= $("#userId").val();
+		var userName= $("#userName").val();
+		var userPwd= $("#userPwd").val();
+		var userPwd2= $("#userPwd2").val();
+
+		if(chkId == false){
+			alert("아이디 중복확인을 해주세요.");
+			return false;
+		}
+
+		if(userName.length <= 0){
+			alert("성명을 입력 해주세요.");
+			return false;
+		}
+
+		if(userPwd.length < 5){
+			alert("비밀번호는 5자리이상 입력해주시기 바랍니다.");
+			return false;
+		}
+
+		if(userPwd2 != userPwd){
+			alert("비밀번호가 올바르지 않습니다.");
+			return false;
+		}
+		$.ajax({
+			url:url,
+			crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				OPEN_KEY:getCookie("OPEN_KEY"),
+				bizId:bizId,
+				contId:contId,
+				contName:userName,
+				loginId:userId,
+				loginPwd:userPwd
+			},
+			success:function(result) {
+				if (result.success==true) {
+					alert("추가되었습니다.");
+					window.close();
+					opener.fn_contactList(1);
+				}
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				goInvalidPage(request, error);
+			}
+		});
+	}
+
+
+	function fn_contactList(page) {
+
+		var url = rootPath+"contact/getContactList.do";
+		var bizId= getCookie("bizId");
+		var contId=getURLParameters("contId");
+		$.ajax({
+			url:url,
+			crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				OPEN_KEY:getCookie("OPEN_KEY"),
+				bizId:bizId,
+				contId:contId,
+				startPage:"0",
+				endPage:"1"
+			},
+			success:function(result) {
+				if (result.success==true) {
+					// 거래처 내역
+					$.each(result.data, function(i, row) {
+						$("#userName").val(row.contName);
+						$("#userId").val(row.mailAddr);
+					});
+				}
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				goInvalidPage(request, error);
+			}
+		});
+	}
+
+	function fn_close() { window.close(); }
+	</script>
+	</head>
+	<body>
+		<div id="" class="contract_electronic_popup" style="width: 400px">
+			<div class="pop_title">
+				<h3>사용자추가</h3>
+				<a class="col_skyblue" onclick="fn_close()"></a>
+			</div>
+
+			<div class="tbstyle01">
+				<table class="NanumSquare_R">
+					<tr>
+						<th>이름</th>
+						<td>
+							<input type="text" name="" id="userName" class="inpstyle01">
+						</td>
+					</tr>
+					<tr>
+						<th>로그인ID</th>
+						<td>
+
+							<div class="filesearch">
+								<input type="text" id="userId" class="inpstyle01" disabled> <a class="btn" onclick="fn_checkUserId()">중복체크</a>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th>비밀번호</th>
+						<td>
+							<input type="password" name="" id="userPwd" class="inpstyle01">
+						</td>
+					</tr>
+
+
+					<tr>
+						<th></th>
+						<td>
+							<input type="password" name="" id="userPwd2" class="inpstyle01">
+						</td>
+					</tr>
+
+				</table>
+			</div>
+			<div class="btnstyle01">
+				<a class="NanumRound" onclick="fn_save()">저장</a>
+			</div>
+		</div>
+	</body>
+	</html>

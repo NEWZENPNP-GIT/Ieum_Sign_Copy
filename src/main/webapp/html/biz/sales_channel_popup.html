@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>영업채널</title>
+
+<link rel="stylesheet" type="text/css" href="/css/jquery.alerts.css">
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/jquery.alerts.css">
+<link rel="stylesheet" type="text/css" href="/css/ngx-datatable.css">
+<link rel="stylesheet" type="text/css" href="/css/ezsign/biz/sales_channel_popup.css">
+
+<script type='text/javascript' src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+</head>
+<body>	
+	<div id="salesChannel_popup" class="_popup">
+	  <div class="container">
+	    <div id="popup_tit">
+	      <div class="tit_icon"><span class="Material_icons">search</span></div>
+	      <div class="tit_text col_skyblue NanumGothic">영업채널 검색</div>
+	      <div id="popup_close" class="btn_type col_skyblue" onClick="winClose();"></div>
+	    </div>
+	    <div class="contents">
+	      <div class="grid_field">
+	        <div class="select_box">
+	        	<select class="NanumGothic" id="searchType">
+                    <option value="all">전체</option>
+                    <option value="saleschannel">영업채널</option>
+                    <option value="channeldetail">채널상세</option>
+                    <option value="personName">담당자</option>
+                </select>           
+	        </div>
+	        <div class="input_box">
+	          <fieldset>
+	          	<input class="" type="text" placeholder="검색" id="searchText">
+	            <a class="btn_type btn_search Material_icons" onClick="getSalesChannelList()">search</a>	            	            
+	          </fieldset>
+	        </div>
+	      </div>
+	      <div class="group_table">
+	        <table class="NanumGothic" id="empTable">
+	          <colgroup>
+	            <!-- <col width="6%">  -->
+	            <col width="20%">
+	            <col width="20%">
+	            <col width="20%">
+	            <col width="20%">
+	            <col width="20%">
+	          </colgroup>
+	          <thead>
+	            <tr>
+	              <!-- <th class="chk_area"></th>  -->
+	              <th>영업채널</th>
+	              <th>채널상세</th>
+	              <th>담당자</th>
+	              <th>연락처</th>
+	              <th>이메일</th>
+	            </tr>
+	          </thead>
+	          <tbody id="modelListTbody">
+	           
+	          </tbody>
+	        </table>
+	      </div>
+	      <div class="btns sort-right">
+	        <div><a class="type4 btn_type Material_icons" onClick="winClose()">취소</a></div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<script>
+	$(document).ready(function () {
+
+        $("#searchText").keyup(function (e) {
+            if (e.keyCode == 13) {
+            	getSalesChannelList();
+            }
+        });
+        
+        getSalesChannelList();
+    });
+	
+	function setSalesChannel(channelId, salesChannel) {
+		opener.setSalesChannel(channelId, salesChannel);
+		winClose();
+	}
+	
+	function winClose(){
+		self.close();
+	}
+	
+	function getSalesChannelList() {
+
+        var formData = new FormData();
+        formData.append('searchType', $("#searchType").val());
+        formData.append('searchText', $("#searchText").val());
+
+        //blockUi 호출
+        fncOnBlockUI();
+
+        var url = rootPath + 'saleschannel/getSalesChannelList.do';
+
+        $.ajax({
+            url: url,
+            crossDomain: true,
+            dataType: "json",
+            type: "POST",
+            async: false,
+            processData: false,
+            contentType: false,
+            data: formData,
+            success: function (res) {
+
+                if (res.success) {
+                    var dataList = res['data'];
+
+                    //초기화
+                    var modelListHtml = "";
+                    $("#modelListTbody").html(modelListHtml);
+
+                    if (dataList != null && dataList.length > 0) {
+                        for (var idx = 0; idx < dataList.length; idx++) {
+                            var row = dataList[idx];
+
+                            modelListHtml += "<tr onClick='setSalesChannel(\""+row.channelId+"\", \"" + row.salesChannel + "\");' style='cursor:pointer;'>";
+                            modelListHtml += "<td>"+row.salesChannel+"</td>";
+                            modelListHtml += "<td>"+row.channelDetail+"</td>";
+                            modelListHtml += "<td>"+row.personUserName+"</td>";
+                            modelListHtml += "<td>"+row.personUserTelNum+"</td>";
+                            modelListHtml += "<td>"+row.personEMail+"</td>";
+                            modelListHtml += "</tr>";
+                        }
+
+                        $("#modelListTbody").html(modelListHtml);
+
+                    } else {
+                        $("#modelListTbody").html("<tr><td colspan='5'>조회 결과가 없습니다.</td></tr>");
+                    }
+
+                    $.unblockUI();
+                } else {
+                    $.unblockUI();
+                    jAlert('오류가 발생 했습니다. 브라우저를 새로고침 후 다시 시도해 주세요.', '');
+                }
+            },
+            error: function (request, status, error) {
+                $.unblockUI();
+                if (request.status == "401") {
+                    clearSession();
+                    jAlert('사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.', 'System Message', goHome);
+                } else {
+                    jAlert("입력하신 정보를 다시 확인해주시기 바랍니다." + error, 'Error Message');
+                }
+            }
+        });
+
+    }
+	</script>
+</body>
+</html>	

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="febhouse">
+    <typeAlias alias="ye102VO" type="com.ezsign.feb.house.vo.YE102VO"/>
+    <resultMap id="ye102ListMap" class="ye102VO">
+        <result property="계약ID" column="계약ID"/>
+        <result property="사용자ID" column="사용자ID"/>
+        <result property="작업자ID" column="작업자ID"/>
+        <result property="일련번호" column="일련번호"/>
+
+        <result property="대주성명" column="대주성명"/>
+        <result property="개인식별번호" column="개인식별번호"/>
+        <result property="금전소비대차_계약개시일" column="금전소비대차_계약개시일"/>
+        <result property="금전소비대차_계약종료일" column="금전소비대차_계약종료일"/>
+        <result property="차입금_이자율" column="차입금_이자율"/>
+        <result property="이자" column="이자"/>
+
+        <result property="등록일시" column="등록일시"/>
+        <result property="수정일시" column="수정일시"/>
+    </resultMap>
+
+    <select id="ye102DAO.getYE102" parameterClass="ye102VO" resultClass="ye102VO">
+        SELECT 계약ID, 사용자ID, 작업자ID, 일련번호,
+          대주성명, 개인식별번호, 금전소비대차_계약개시일, 금전소비대차_계약종료일, 차입금_이자율, 원금, 이자,
+          등록일시, 수정일시
+        FROM tbl_ye102
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+          AND 사용여부 = '1'
+    </select>
+
+    <insert id="ye102DAO.insYE102" parameterClass="ye102VO">
+        <selectKey resultClass="java.lang.String" keyProperty="일련번호">
+            SELECT IFNULL(MAX(일련번호 + 1), 1)
+            FROM tbl_ye102
+        </selectKey>
+        INSERT INTO tbl_ye102 (
+          계약ID, 사용자ID, 작업자ID, 일련번호,
+          대주성명, 개인식별번호, 금전소비대차_계약개시일, 금전소비대차_계약종료일, 차입금_이자율, 원금, 이자,
+          최종저장여부, 사용여부, 등록일시, 수정일시
+        ) VALUES (
+          #계약ID#, #사용자ID#, #작업자ID#, #일련번호#,
+          #대주성명#, #개인식별번호#, #금전소비대차_계약개시일#, #금전소비대차_계약종료일#, #차입금_이자율#, #원금#, #이자#,
+          IF(#사용자ID# = #작업자ID#, '1', '0'), '1', DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        )
+    </insert>
+
+    <update id="ye102DAO.updYE102Disable" parameterClass="ye102VO">
+        UPDATE tbl_ye102
+        SET
+          최종저장여부 = IF(#사용자ID# = #작업자ID#, '0', 최종저장여부),
+          사용여부 = '0',
+          수정일시 = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+          AND 일련번호 = #일련번호#
+          AND 사용여부 = '1'
+    </update>
+
+    <delete id="ye102DAO.allDelYE102" parameterClass="ye102VO">
+        DELETE
+        FROM tbl_ye102
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+    </delete>
+</sqlMap>

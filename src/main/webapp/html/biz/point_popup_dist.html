@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>포인트 분배</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/company_manage.css">
+
+<script type='text/javascript' src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+
+<script>	
+	$(document).ready(function(){
+		$('input[type=text]').on('keydown', function(e) {
+		    if (e.which == 13) {
+		        e.preventDefault();
+		        fn_getPointLogList();
+		    }
+		});
+
+		var bizId = getURLParameters("bizId");
+		
+		$("#bizId").val(bizId);
+		
+		fn_getPointLogList();
+		fn_bizView();
+		
+		$("input[name='adjustGb']").change(function(){
+			$(".adjustInput").each(function(){
+				$(this).val("");
+			});
+			$(".lastInput").each(function(){
+				$(this).text($("#remain"+$(this).attr("id").replace("last","")).text());
+			});
+		});
+	});
+	
+	function fn_getPointLogList() {
+		var bizId = $("#bizId").val();
+		var url = rootPath+"biz/getBizGrpCombo.do";
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+			},
+			success:function(result)
+			{
+				var htmlData = "";
+				
+				if (result.success==true) {
+					$.each(result.data, function(i, row) {
+                    	if(row.id != $("#bizId").val()){
+							htmlData += '<tr>';
+							htmlData += '     <td><input type="hidden" id="bizId'+i+'" value="'+row.id+'">'+row.name+'</td>';
+							htmlData += '     <td><span id="remain'+i+'">'+row.curPoint+'</span></td>';
+							htmlData += '     <td><input type="text" id="adjust'+i+'" class="adjustInput" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\');" onkeyup="changeAdust('+i+')" style="width:90%;"></td>';
+							htmlData += '	  <td><span id="last'+i+'" class="lastInput">'+row.curPoint+'</span></td>';
+							htmlData += '</tr>';
+                    	}
+					});
+					
+				}
+				$("#subBizList").html(htmlData);
+				
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});		
+	}
+	
+	//기업정보 가지고 오기
+    function fn_bizView() {
+        var url = rootPath + "biz/getBizList.do";
+        var bizId = $("#bizId").val();
+
+		$.blockUI();
+
+        $.ajax({
+            url: url,
+            crossDomain: true,
+            dataType: "json",
+            type: "GET",
+            data: {
+                bizId: bizId,
+                startPage: 0,
+                endPage: 1
+            },
+            success: function (result) {
+                if (result.success == true) {
+
+                    // 기업내역
+                    $.each(result.data, function (i, row) {
+                    	$("#companyName").text(row.bizName);
+                        $("#point").text(addCommas(row.curPoint));
+                        $("#curPoint").val(row.curPoint);
+					});
+                }
+
+                $.unblockUI();
+            },
+            error: function (request, status, error) {
+                $.unblockUI();
+                if (request.status == "401") {
+                    alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+                    location.href = rootPath;
+                } else {
+                	alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error);
+                    //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                }
+            }
+        });
+
+    }
+	
+	function fn_save(){
+		
+		var url = rootPath + "updPointAdjust.do";
+		
+		var bizArr = new Array();
+		var bizCnt = $("#subBizList tr").length;
+		var adjustGb = $("input[name='adjustGb']:checked").val();
+		var totalAdjust = 0;
+		
+		for(var i=1; i<=bizCnt; i++){
+			var bizList = new Object();
+			bizList["bizId"] = $("#bizId"+i).val();
+			if(adjustGb == "give"){
+				bizList["chargePoint"] = Number($("#adjust"+i).val());
+				bizList["deduPoint"] = 0;
+				bizList["comment"] = "주사업장 포인트를 종사업장으로 분배";
+			}else{
+				bizList["chargePoint"] = 0;
+				bizList["deduPoint"] = Number($("#adjust"+i).val());
+				bizList["comment"] = "종사업장 포인트를 주사업장으로 회수";
+			}
+			totalAdjust += Number($("#adjust"+i).val());
+			if(Number($("#adjust"+i).val()) > 0){
+				bizArr.push(bizList);
+			}
+		}
+		
+		if(bizArr.length == 0){
+			alert("조정 포인트를 입력하세요.");
+			return;
+		}
+		
+		var bizList = new Object();
+		bizList["bizId"] = $("#bizId").val();
+		if(adjustGb == "give"){
+			bizList["chargePoint"] = 0;
+			bizList["deduPoint"] = totalAdjust;
+			bizList["comment"] = "주사업장 포인트를 종사업장으로 분배";
+		}else{
+			bizList["chargePoint"] = totalAdjust;
+			bizList["deduPoint"] = 0;
+			bizList["comment"] = "종사업장 포인트를 주사업장으로 회수";
+		}
+		bizArr.push(bizList);
+		
+		var data = JSON.stringify(bizArr);
+		
+        $.ajax({
+            url: url,
+            crossDomain: true,
+            dataType: "json",
+            type: "POST",
+            data:JSON.stringify(bizArr),
+            contentType : "application/json; charset=UTF-8",
+            success: function (result) {
+                if (result.success == true) {
+                	alert("포인트가 조정되었습니다.");
+                	window.close();
+                	opener.fn_bizView($("#bizId").val());
+                } else {
+                	alert("문제가 발생하였습니다.\r\n다시 입력해주시기 바랍니다.");
+                }
+            },
+            error: function (request, status, error) {
+            	alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+                //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+        });
+	}
+	
+	function changeAdust(i){
+		var remain = Number($("#remain"+i).text());
+		var adjust = Number($("#adjust"+i).val());
+		var last = $("#last"+i).text();
+		var curPoint = Number(removeCommas($("#point").text()));
+		var totAmount = 0;
+		var adjustGb = $("input[name='adjustGb']:checked").val();
+		
+		$(".adjustInput").each(function(){
+			totAmount += Number($(this).val());
+		});
+
+		if(isNotNull(adjustGb)){
+			if(adjustGb == "give"){
+				if(totAmount > curPoint){
+					alert("제공 가능한 포인트를 초과하여 입력하였습니다.\n주사업장의 잔여 포인트를 확인하시기 바랍니다.");
+					$("#adjust"+i).val("");
+					$("#last"+i).text($("#remain"+i).text());
+					$("#adjust"+i).focus();
+				}else{
+					$("#last"+i).text(remain + adjust);
+				}
+				
+			}else if(adjustGb == "take"){
+				if(adjust > remain){
+					alert("회수 가능한 포인트를 초과하여 입력하였습니다.\n종사업장의 잔여 포인트를 확인하시기 바랍니다.");
+					$("#adjust"+i).val("");
+					$("#last"+i).text($("#remain"+i).text());
+					$("#adjust"+i).focus();
+				}else{
+					$("#last"+i).text(remain - adjust);
+				}
+			}
+		}else{
+			alert("상단의 조정 구분을 선택하시기 바랍니다.");
+			$("#adjust"+i).val("");
+			$("#last"+i).text($("#remain"+i).text());
+			$("#adjust"+i).focus();
+		}
+		
+	}
+	
+	function fn_pointDistAll() {
+
+		var bizId = $("#bizId").val();
+
+        if (isNull(bizId)) {
+        	jAlert("기업을 먼저 선택해주시기 바랍니다.");
+            return;
+        }
+		window.close();
+		opener.fn_pointDistAll();
+	}
+</script>
+<style>
+	#company_popup .popup_sticky > h3 {
+		font-size: 15px;
+		font-weight: 700;
+		margin: 12px 0 6px;
+	}
+	#company_popup .popup_sticky > h3 > b {
+		display: inline-block;
+		font-family: inherit;
+		font-size: inherit;
+		color: #007fff;
+	}
+	#company_popup .popup_sticky > p {
+		margin: 0;
+		font-size: 13px;
+		font-weight: bold;
+		color: #ff0000;
+	}
+	#company_popup .popup_sticky table {
+		margin: 0;
+		border-collapse: separate;
+		border-spacing: 0;
+	}
+	.popup_radio {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		align-items: center;
+		padding: 10px 0 2px;
+	}
+	.popup_radio > span,
+	.popup_radio > ul label {
+		display: block;
+		font-size: 14px;
+		font-weight: bold;
+		color: #333333;
+	}
+	.popup_radio > ul,
+	.popup_radio > ul > li {
+		display: grid;
+		grid-auto-flow: column;
+		justify-content: start;
+		align-items: center;
+		column-gap: 12px;
+	}
+	.popup_radio > ul > li {column-gap: 4px;}
+	#company_popup .popup_sticky table tbody input {width: 90%;}
+	#company_popup .popup_list thead tr {top: 146px;}
+</style>
+</head>
+<body>
+<input type="hidden" id="bizId" value="">
+<input type="hidden" id="curPoint" value="">
+	<div id="company_popup" class="_popup">
+		<div class="container">
+			<div class="popup_sticky">
+				<div id="popup_tit">
+					<div class="tit_icon"><span class="NanumGothic Material_icons">search</span></div>
+					<div class="tit_text col_skyblue NanumGothic">포인트 분배</div>
+					<div id="popup_close" class="btn_type col_skyblue" onclick="window.close();"></div>
+				</div>
+				<h3 class="NanumGothic">주사업장 [<b id="companyName"></b>]&ensp;잔여 포인트 <b id="point"></b> P&ensp;</h3>
+				<p>※ 동일한 포인트를 일괄 분배하는 경우 [일괄 분배] 버튼을 클릭하시기 바랍니다.</p>
+				<div class="popup_radio">
+					<span>조정 구분&ensp;:&ensp;</span>
+					<ul>
+						<li>
+							<input type="radio" name="adjustGb" value="give">
+							<label>제공</label>
+						</li>
+						<li>
+							<input type="radio" name="adjustGb" value="take">
+							<label>회수</label>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<table class="popup_list NanumGothic">
+				<colgroup>
+					<col width="34%">
+					<col width="20%">
+					<col width="26%">
+					<col width="20%">
+				</colgroup>
+				<thead>
+					<tr>
+						<th>종사업장명</th>
+						<th>잔여 포인트</th>
+						<th>조정 포인트</th>
+						<th>최종 포인트</th>
+					</tr>
+				</thead>
+				<tbody id="subBizList">
+				</tbody>
+			</table>
+			<!--<div class="result_text NanumGothic"></div>-->
+			<div class="btns sort-right" style="float: right;">
+				<div><div class="type2 btn_type Material_icons" onClick="fn_pointDistAll()">일괄 분배</div></div>
+				<div><div class="type3 btn_type Material_icons" onClick="fn_save()">저장</div></div>
+				<div><div class="type4 btn_type Material_icons" onClick="window.close()">취소</div></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="febmaster">
+    <typeAlias alias="excelMappingVO" type="com.ezsign.feb.master.vo.ExcelMappingVO"/>
+
+    <resultMap id="excelMappingListMap" class="excelMappingVO">
+        <result property="columnId" column="COLUMN_ID"/>
+
+        <result property="excelType" column="EXCEL_TYPE"/>
+        <result property="columnType" column="COLUMN_TYPE"/>
+        <result property="grpCommCode" column="GRP_COMM_CODE"/>
+        <result property="codeValue" column="CODE_VALUE"/>
+        <result property="required" column="REQUIRED"/>
+        <result property="columnName" column="COLUMN_NAME"/>
+        <result property="displayName" column="DISPLAY_NAME"/>
+
+        <result property="mappingOrder" column="MAPPING_ORDER"/>
+    </resultMap>
+
+    <select id="excelMappingDAO.getExcelMappingList" parameterClass="excelMappingVO" resultMap="excelMappingListMap">
+        SELECT A.COLUMN_ID, A.EXCEL_TYPE, A.COLUMN_TYPE, A.GRP_COMM_CODE, A.CODE_VALUE, A.REQUIRED,
+          IFNULL(A.COLUMN_NAME, A.DISPLAY_NAME) COLUMN_NAME, A.DISPLAY_NAME,
+          IFNULL(B.MAPPING_ORDER, -1) MAPPING_ORDER
+        FROM tbl_excel_column_default A
+          LEFT OUTER JOIN tbl_excel_column_mapping B
+            ON A.COLUMN_ID = B.COLUMN_ID AND B.BIZ_ID = #bizId#
+        WHERE A.EXCEL_TYPE = #excelType#
+        ORDER BY A.DEFAULT_ORDER
+    </select>
+
+	<select id="excelMappingDAO.selectExcelMappingCnt" parameterClass="excelMappingVO" resultClass="java.lang.Integer" >
+    	SELECT COUNT(*) FROM TBL_EXCEL_COLUMN_MAPPING
+		WHERE BIZ_ID = #bizId#
+		AND COLUMN_ID = #columnId#
+    </select>
+    
+    <insert id="excelMappingDAO.insExcelMapping" parameterClass="excelMappingVO">
+        INSERT INTO tbl_excel_column_mapping (
+          BIZ_ID, COLUMN_ID,
+          MAPPING_ORDER,
+          INS_DATE, UPD_DATE
+        ) VALUES (
+          #bizId#, #columnId#,
+          #mappingOrder#,
+          DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        )
+        ON DUPLICATE KEY UPDATE
+          MAPPING_ORDER = VALUES(MAPPING_ORDER),
+          UPD_DATE = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+    </insert>
+    
+     <insert id="excelMappingDAO.insertExcelMapping" parameterClass="excelMappingVO">
+        INSERT INTO TBL_EXCEL_COLUMN_MAPPING (
+          BIZ_ID, COLUMN_ID,
+          MAPPING_ORDER,
+          INS_DATE, UPD_DATE
+        ) VALUES (
+          #bizId#, #columnId#,
+          #mappingOrder#,
+          DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        )
+    </insert>
+    
+    <update id="excelMappingDAO.updateExcelMapping" parameterClass="excelMappingVO">
+    	update TBL_EXCEL_COLUMN_MAPPING
+    	set MAPPING_ORDER = #mappingOrder# ,
+    		UPD_DATE = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+    	where BIZ_ID = #bizId#
+    	and COLUMN_ID = #columnId#	
+    </update>
+    
+</sqlMap>

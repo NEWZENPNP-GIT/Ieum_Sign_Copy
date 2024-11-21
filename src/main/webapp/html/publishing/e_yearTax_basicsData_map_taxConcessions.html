@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>세액감면</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+</head>
+<body>
+	<div id="yearTax_wrap" class="yearTax hasEmplist">
+		<input id="btn_left" id="btn_left" type="checkbox" class="hidden">
+		<label class="btn_type btn_emplist" for="btn_left"></label>
+		<div id="employ-list-wrap">
+			<div class="fieldBox">
+				<div class="select_box">
+					<select class="NanumSquare_R">
+						<option value="" >사업장</option>
+					</select>
+				</div>
+				<fieldset>
+					<input type="text" class="word_input NanumSquare_R"><a class="btn_search btn_type Material_icons">search</a>
+				</fieldset>
+			</div>
+			<div class="employ-list NanumSquare_R">
+				<ul>
+					<li class="thead"><div class="no">사번</div><div class="name">이름</div><div class="state code-0">확정</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-0">미입력</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-1">진행중</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-2">근로자 확정</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-3">관리자 확정</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-4">최종 확정</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state"></div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state"></div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state"></div></li>
+				</ul>
+			</div>
+		</div>
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연말정산 > 연말정산입력  > </span><span class="loc_sub NanumSquare_R">연말 정산 MAP</span></div>
+			<div class="pagtit">
+				<span class="NanumSquare_R">연말 정산 MAP - 세액감면</span>
+				<ul class="top_items NanumSquare_R">
+					<li><a class="btn_type icon_file ">첨부 파일 <span class="icon icon_file"></span></a></li>
+				</ul>
+			</div>
+			
+			<div class="contents">
+				<div class="group_row row1">
+					<div class="summaryBox wid10n"><dl class="NanumSquare_R rat4-6"><dt>사용자</dt><dd class="default_box"><div class="nonborder userName">홍길동</div></dd></dl></div>
+					<div class="summaryBox wid20"><dl class="NanumSquare_R rat3-7"><dt>총급여</dt><dd  class="default_box col_skyblue"><div class="nonborder sort_right">34,254,000</div></dd></dl></div>
+					<div class="summaryBox wid20n"><dl class="NanumSquare_R rat4-6"><dt>근로소득금액</dt><dd  class="default_box col_blue"><div class="nonborder sort_right">34,254,000</div></dd></dl></div>
+				</div>
+				<div class="notice_wrap bg_skyblue nonborder">
+					<div class="notice_con pad_thin10 nonLine NanumSquare_R bg_skyblue">
+						<ul class="month nonTop">
+							<li><span>1월</span></li><li><span>2월</span></li><li class="active"><span>3월</span></li><li class="active"><span>4월</span></li><li><span>5월</span></li><li><span>6월</span></li>
+							<li><span>7월</span></li><li><span>8월</span></li><li><span>9월</span></li><li><span>10월</span></li><li><span>11월</span></li><li><span>12월</span></li>
+						</ul>
+					</div>
+				</div>
+				
+				<div class="group_wrap">
+					<div class="group_tit mar-bot-5">
+						<div class="icon"></div>
+						<div class="text NanumSquare_R">세액감면</div>
+					</div>
+					
+					<div class="sub_header NanumSquare_R">
+						<div><a class="btn_type btn_question">문의 </a></div>
+						<div class="sub_tit NanumSquare_R"></div>
+					</div>
+					
+					<div class="group_fold ">
+						<!-- <div class="sub_field"></div> -->
+						
+						<div class="group_table description mar-bot-5">
+							<table class="hasHead NanumSquare_R mar-bot-10">
+								<colgroup>
+									<col width="15%">
+									<col width="25%">
+									<col width="6%">
+									<col width="64%">
+								</colgroup>
+								<thead>
+									<tr>
+										<th colspan="3">입력할 항목</th>
+										<th>항목별 요약설명 및 공제요건</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="subTit">소득세법</td>
+										<td colspan="2" class="subTit">소득세법에 의한 감면(감면대상 근로소득금액)</td>
+										<td class="descript">
+											<dl class="dot">
+												<dt class="mar-top-3">*</dt>
+												<dd>정부간 협약에 의하여 우리나라에 파견된 외국인이 당사국의 정부로부터 받는 급여</dd>
+											</dl>
+											<dl class="dot">
+												<dt class="mar-top-3">*</dt>
+												<dd>감면세액 계산 : 산출세액 x (감면대상 근로소득금액/근로소득금액)</dd>
+											</dl>
+										</td>
+									</tr>
+									<tr>
+										<td rowspan="4" class="subTit">조세특례제한법</td>
+										<td colspan="2" class="subTit">외국인기술자 등(감면대상 근로소득금액)</td>
+										<td class="descript">
+											<dl class="dot">
+												<dt class="mar-top-3">*</dt>
+												<dd>외국인 기술자가 국내에서 최초로 근로를 제공한 날 부터 2년이 되는 날이 속하는 달까지 발생한 근로소득세의  50%를 감면</dd>
+											</dl>
+											<dl class="dot">
+												<dt>*</dt>
+												<dd>감면세액 계산 : 산출세액 x (감면대상 근로소득금액/근로소득금액) x 50%</dd>
+											</dl>
+										</td>
+									</tr>
+									<tr>
+										<td rowspan="3" class="subTit">중소기업취업자(감면대상 총급여액)</td>
+										<td class="subTit">100%</td>
+										<td rowspan="3" class="descript multiLine">
+											<dl class="dot">
+												<dt class="mar-top-3">*</dt>
+												<dd>다음 감면대상 근로자가 ’12.1.1일부터 ’18.12.31일까지 중소기업에 취업하여 발생한 소득에 대하여 취업일부터 3년간 소득세의 100%, 50% 70%를 세액감면 
+													<br>(단, 60세 이상인 사람, 장애인은 ’14.1.1일 이후, 경력단절여성은  ’17.1.1일 이후 취업한 경우에 적용)
+													<br>- 청년 : 근로계약 체결일 현재 연령이 15세 이상 29세 이하인 사람 (병역근무기간 차감 : 한도 6년)
+													<br>- 60세 이상인 사람 : 근로계약 체결일 현재 연령이 60세 이상인 사람
+													<br>- 장애인 : 장애인복지법에 따른 장애인, 국가유공자 등 예우 및 지원에 관한 법률에 따른 상이자
+													<br>- 경력단절여성 : 해당 중소기업에 임신, 출산, 육아의 사유로 퇴직하였다가 재취업하는 여성
+												</dd>
+											</dl>
+											<dl class="dot">
+												<dt class="mar-top-3">*</dt>
+												<dd>감면율 적용
+													<br>- '12.1.1. ~ ’13.12.31. 취업자 : 100%
+													<br>- '14.1.1. ~ ’15.12.31. 취업자 : 50%
+													<br>- '16.1.1. ~ ’18.12.31. 취업자 : 70%
+												</dd>
+											</dl>
+											<dl class="dot">
+												<dt class="mar-top-3">*</dt>
+												<dd>감면세액 계산 
+													<br> [산출세액×(100%감면대상 총급여액/총급여액)] + [산출세액×(50%감면대상 총급여액/총급여액)] + MIN{[산출세액×(70%감면대상 총급여액/총급여액)], 150만원}
+												</dd>
+											</dl>
+										</td>
+									</tr>
+									<tr>
+										<td class="subTit cols-right">50%</td>
+										
+									</tr>
+									<tr>
+										<td class="subTit cols-right">70%</td>
+										
+									</tr>
+									<tr>
+										<td class="subTit">조세조약</td>
+										<td colspan="2" class="subTit">조세조약에 의한 감면(감면대상 근로소득금액)</td>
+										<td class="descript">
+											<dl class="dot">
+												<dt class="mar-top-3">*</dt>
+												<dd> 조세조약의 교직자 조항으로 소득세를 면제받는 교사 및 교수로서 초·중·고교와 같은 인가된 교육기관 또는 대학  에서 강의 또는 연구를 목적으로 근무하는 자에 한하여 적용</dd>
+											</dl>
+											<dl class="dot">
+												<dt class="mar-top-3">*</dt>
+												<dd>감면세액 계산 : 산출세액 x (감면대상 근로소득금액/근로소득금액)</dd>
+											</dl>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+							
+						<div class="group_table  mar-top-10">
+							<table class="hasHead NanumSquare_R mar-bot-15" >
+								<colgroup>
+									<col width="10%">
+									<col width="18%">
+									<col width="5%">
+									<col width="7%">
+									<col width="40%">
+									<col width="20%">
+								</colgroup>
+								<thead>
+									<tr>
+										<th colspan="3">항목</th>
+										<th>코드</th>
+										<th>감면기간</th>
+										<th>감면대상급여(근로소득금액)</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="subTit">소득세법</td>
+										<td colspan="2" class="subTit">소득세법에 의한 감면</td>
+										<td class="value"></td>
+										<td class="value period"><input type="date" max="9999-12-31" class="input_txt "> ~ <input type="date" class="input_txt "></td>
+										<td class="value"><input type="text" class="input_txt sort_right" value="10,800,800"></td>
+									</tr>
+									<tr>
+										<td rowspan="4" class="subTit">조세특례제한법</td>
+										<td colspan="2" class="subTit">조세특례제한법 외국인기술자 등 감면</td>
+										<td class="value">T01</td>
+										<td class="value period"><input type="date" max="9999-12-31" class="input_txt "> ~ <input type="date" max="9999-12-31" class="input_txt "></td>
+										<td class="value"><input type="text" class="input_txt sort_right" value="10,800,800"></td>
+									</tr>
+									<tr>
+										<td rowspan="3" class="subTit"> 중소기업 취업자에 대한 감면</td>
+										<td class="subTit">100%</td>
+										<td class="value">T10</td>
+										<td class="value period"><input type="date" max="9999-12-31" class="input_txt "> ~ <input type="date" max="9999-12-31" class="input_txt "></td>
+										<td class="value"><input type="text" class="input_txt sort_right" value="10,800,800"></td>
+									</tr>
+									<tr>
+										<td class="subTit">50%</td>
+										<td class="value">T11</td>
+										<td class="value period"><input type="date" max="9999-12-31" class="input_txt "> ~ <input type="date" max="9999-12-31" class="input_txt "></td>
+										<td class="value"><input type="text" class="input_txt sort_right" value="10,800,800"></td>
+									</tr>
+									<tr>
+										<td class="subTit">70%</td>
+										<td class="value">T12</td>
+										<td class="value period"><input type="date" max="9999-12-31" class="input_txt "> ~ <input type="date" max="9999-12-31" class="input_txt "></td>
+										<td class="value"><input type="text" class="input_txt sort_right" value="10,800,800"></td>
+									</tr>
+									<tr>
+										<td class="subTit">조세조약</td>
+										<td colspan="2" class="subTit">  조세조약에 의한 감면 의한 감면</td>
+										<td class="value">T20</td>
+										<td class="value period"><input type="date" max="9999-12-31" class="input_txt "> ~ <input type="date" max="9999-12-31" class="input_txt "></td>
+										<td class="value"><input type="text" class="input_txt sort_right" value="10,800,800"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						
+						<div class="notice_wrap bg_purple mar-bot-40">
+							<div class="notice_tit NanumSquare_R "><span class="icon warning"></span><span class="txt">관리자 정정사유</span></div>
+							<div class="notice_con NanumSquare_R">
+								<textarea></textarea>
+							</div>
+						</div>
+					</div> <!-- group_fold -->
+				</div>
+				
+				
+			</div> <!--  contents -->
+			
+			<div class="group_btns foot NanumSquare_R">
+				<a class="btn_type type1">＜  MAP</a>
+				<a class="btn_type type2"><span class="icon_save Material_icons"></span>저장</a>
+				<!-- <a class="btn_type type3">계산하기 ＞</a> -->
+				<!-- <a class="btn_type type4">Map ＞</a> -->
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+/*  *************** 근로자 리스트 스크롤 위치에 따라 이동   ***************  */ 
+$(document).ready(function(){
+	var _scrollTop=$("#main_wrap").scrollTop();
+	var _posY=($("#main_wrap").height()/2 + 40)+_scrollTop-57;
+
+	if($("#yearTax_wrap").height() < $("#main_wrap").height()){
+		$("#employ-list-wrap").css("height",$("#main_contents").height()-10)
+	}
+	$(".btn_emplist").css("top",_posY);
+
+})
+
+$("#main_wrap").scroll(function(){
+	var _scrollTop=$("#main_wrap").scrollTop();
+	var _posY=($("#main_wrap").height()/2 + 40)+_scrollTop-57;
+	$(".btn_emplist").css("top",_posY);
+})
+
+
+</script>
+</html>

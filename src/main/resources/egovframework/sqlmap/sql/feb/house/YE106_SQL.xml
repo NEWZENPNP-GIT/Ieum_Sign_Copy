@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="febhouse">
+    <typeAlias alias="ye106VO" type="com.ezsign.feb.house.vo.YE106VO"/>
+
+    <select id="ye106DAO.getYE106" parameterClass="ye106VO" resultClass="ye106VO">
+        SELECT 계약ID, 사용자ID, 작업자ID, 일련번호,
+          자료구분코드, fn_code_name('432', 자료구분코드) 자료구분코드명, 연금저축구분, 금융회사등명칭, 계좌번호_증권번호, 납입금액, 차감금액,
+          등록일시, 수정일시
+        FROM tbl_ye106
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+          AND 사용여부 = '1'
+        ORDER BY 자료구분코드
+    </select>
+
+    <insert id="ye106DAO.insYE106" parameterClass="ye106VO">
+        <selectKey resultClass="java.lang.String" keyProperty="일련번호">
+            SELECT IFNULL(MAX(일련번호 + 1), 1)
+            FROM tbl_ye106
+        </selectKey>
+        INSERT INTO tbl_ye106 (
+          계약ID, 사용자ID, 작업자ID, 일련번호,
+          자료구분코드, 연금저축구분, 금융회사등명칭, 계좌번호_증권번호, 납입금액, 차감금액,
+          최종저장여부, 사용여부, 등록일시, 수정일시
+        ) VALUES (
+          #계약ID#, #사용자ID#, #작업자ID#, #일련번호#,
+          #자료구분코드#, #연금저축구분#, #금융회사등명칭#, #계좌번호_증권번호#, #납입금액#, #차감금액#,
+          IF(#사용자ID# = #작업자ID#, '1', '0'), '1', DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        )
+    </insert>
+
+    <update id="ye106DAO.updYE106Disable" parameterClass="ye106VO">
+        UPDATE tbl_ye106
+        SET
+          최종저장여부 = IF(#사용자ID# = #작업자ID#, '0', 최종저장여부),
+          사용여부 = '0',
+          수정일시 = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+          AND 일련번호 = #일련번호#
+          AND 사용여부 = '1'
+    </update>
+
+    <delete id="ye106DAO.allDelYE106" parameterClass="ye106VO">
+        DELETE
+        FROM tbl_ye106
+        WHERE 계약ID = #계약ID#
+        AND 사용자ID = #사용자ID#
+        <isNotEmpty property="자료구분코드">
+         AND 자료구분코드 = #자료구분코드#
+        </isNotEmpty>
+    </delete>
+
+    <select id="ye106DAO.getYE106Map" parameterClass="ye106VO" resultClass="ye106VO">
+        SELECT 계약ID, 사용자ID, 작업자ID, 일련번호,
+          자료구분코드, 연금저축구분, 금융회사등명칭, 계좌번호_증권번호, 납입금액, 차감금액,
+          최종저장여부, 사용여부, 등록일시, 수정일시
+        FROM tbl_ye106
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+          AND (최종저장여부 = '1' OR 사용여부 = '1')
+        ORDER BY 자료구분코드, IF(작업자ID = 사용자ID, 0, 1)
+    </select>
+</sqlMap>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="zipCode">
+	<typeAlias alias="zipCodeVO" type="com.ezsign.zipcode.vo.ZipCodeVO"/>
+	<resultMap id="getZipCodeMap" class="zipCodeVO">
+		<result property="우편번호" column="우편번호"/>
+		<result property="시도" column="시도"/>
+		<result property="시도영문" column="시도영문"/>
+		<result property="시군구" column="시군구"/>
+		<result property="시군구영문" column="시군구영문"/>
+		<result property="읍면" column="읍면"/>
+		<result property="읍면영문" column="읍면영문"/>
+		<result property="도로명코드" column="도로명코드"/>
+		<result property="도로명" column="도로명"/>
+		<result property="도로명영문" column="도로명영문"/>
+		<result property="지하여부" column="지하여부"/>
+		<result property="건물번호본번" column="건물번호본번"/>
+		<result property="건물번호부번" column="건물번호부번"/>
+		<result property="건물관리번호" column="건물관리번호"/>
+		<result property="다량배달처명" column="다량배달처명"/>
+		<result property="시군구용건물명" column="시군구용건물명"/>
+		<result property="법정동코드" column="법정동코드"/>
+		<result property="법정동명" column="법정동명"/>
+		<result property="리명" column="리명"/>
+		<result property="행정동명" column="행정동명"/>
+		<result property="산여부" column="산여부"/>
+		<result property="지번본번" column="지번본번"/>
+		<result property="읍면동일련번호" column="읍면동일련번호"/>
+		<result property="지번부번" column="지번부번"/>
+		<result property="구우편번호" column="구우편번호"/>
+		<result property="우편번호일련번호" column="우편번호일련번호"/>
+	</resultMap>
+	
+	<insert id="zipCodeDAO.insZipCode" parameterClass="zipCodeVO">
+		INSERT INTO tbl_zip_code(
+		   	우편번호, 시도, 시도영문, 시군구, 시군구영문, 읍면, 읍면영문, 도로명코드, 도로명, 도로명영문, 지하여부, 건물번호본번, 건물번호부번, 건물관리번호, 다량배달처명, 시군구용건물명,
+		   	법정동코드, 법정동명, 리명, 행정동명, 산여부, 지번본번, 읍면동일련번호, 지번부번, 구우편번호, 우편번호일련번호
+		) VALUES (
+		  	#우편번호#, #시도#, #시도영문#, #시군구#, #시군구영문#, #읍면#, #읍면영문#, #도로명코드#, #도로명#, #도로명영문#, #지하여부#, #건물번호본번#, #건물번호부번#, #건물관리번호#, #다량배달처명#, #시군구용건물명#, 
+		  	#법정동코드#, #법정동명#, #리명#, #행정동명#, #산여부#, #지번본번#, #읍면동일련번호#, #지번부번#, #우편번호일련번호#, #구우편번호# 
+		)
+	</insert>
+	
+	<select id="zipCodeDAO.getZipCode" parameterClass="zipCodeVO" resultMap="getZipCodeMap">
+		SELECT 우편번호, 시도, 시도영문, 시군구, 시군구영문, 읍면, 읍면영문, 도로명코드, 도로명, 도로명영문, 지하여부, 건물번호본번, 건물번호부번, 건물관리번호, 다량배달처명, 시군구용건물명,
+   				법정동코드, 법정동명, 리명, 행정동명, 산여부, 지번본번, 읍면동일련번호, 지번부번, 구우편번호, 우편번호일련번호
+   		FROM tbl_zip_code
+   		WHERE 우편번호		= #우편번호#
+	</select>
+</sqlMap>
+		

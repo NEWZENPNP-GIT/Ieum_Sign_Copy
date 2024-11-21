@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/main_calender.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/schedule_manage.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script><!--  page plug-in -->
+<script type='text/javascript' src="/js/main_calender.js"></script>
+</head>
+<body>
+	
+<!-- *********************************************    *********************************************  -->
+<div id="scheduleManage_wrap" class="">
+	<div class="container">
+		<div class="con">
+			<div class="row left">
+				<div id="fullcalender"><div class="detail jquery-calendar NanumGothic"></div></div>
+			</div>
+			<div class="row right">
+				<div class="select_box">
+					<select CLASS="NanumGothic">
+						<option value="">일정구분</option>
+						<option value="">일정구분</option>
+					</select>
+				</div>
+				<div class="schedule_list NanumGothic">
+					<table>
+						<colgroup>
+							<col width="25px">
+							<col width="25%">
+							<col width="30%">
+							<col width="45%">
+						</colgroup>
+						<thead>
+							<tr>
+								<th class="chk_area"><input type="checkbox"></th>
+								<th>날짜</th>
+								<th>일정구분</th>
+								<th>상세내용</th>
+							</tr>
+							
+						</thead>
+						<tbody>
+							<tr class="holiday">
+								<td class="chk_area"><input type="checkbox"></td>
+								<td class="date">05.01</td>
+								<td class="type">공휴일</td>
+								<td class="schedule">근로자의 날</td>
+							</tr>
+							<tr>
+								<td class="chk_area"><input type="checkbox"></td>
+								<td class="date">05.01 ~ 05.02</td>
+								<td class="type">회사</td>
+								<td class="schedule">뉴젠 워크샵</td>
+							</tr>
+	                        <tr>
+	                            <td class="chk_area"><input type="checkbox"></td>
+	                            <td class="date">05.01 ~ 05.02</td>
+	                            <td class="type">회사</td>
+	                            <td class="schedule">뉴젠 워크샵</td>
+	                        </tr>
+	                        <tr>
+	                            <td class="chk_area"><input type="checkbox"></td>
+	                            <td class="date">05.01 ~ 05.02</td>
+	                            <td class="type">회사</td>
+	                            <td class="schedule">뉴젠 워크샵</td>
+	                        </tr>
+	                        <tr>
+	                            <td class="chk_area"><input type="checkbox"></td>
+	                            <td class="date">05.01 ~ 05.02</td>
+	                            <td class="type">회사</td>
+	                            <td class="schedule">뉴젠 워크샵</td>
+	                        </tr>
+	                        <tr>
+	                            <td class="chk_area"><input type="checkbox"></td>
+	                            <td class="date">05.01 ~ 05.02</td>
+	                            <td class="type">회사</td>
+	                            <td class="schedule">뉴젠 워크샵</td>
+	                        </tr>
+	                        <tr>
+	                            <td class="chk_area"><input type="checkbox"></td>
+	                            <td class="date">05.01 ~ 05.02</td>
+	                            <td class="type">회사</td>
+	                            <td class="schedule">뉴젠 워크샵</td>
+	                        </tr>
+	                        <tr>
+	                            <td class="chk_area"><input type="checkbox"></td>
+	                            <td class="date">05.01 ~ 05.02</td>
+	                            <td class="type">회사</td>
+	                            <td class="schedule">뉴젠 워크샵</td>
+	                        </tr>
+	                        <tr>
+	                            <td class="chk_area"><input type="checkbox"></td>
+	                            <td class="date">05.01 ~ 05.02</td>
+	                            <td class="type">회사</td>
+	                            <td class="schedule">뉴젠 워크샵</td>
+	                        </tr>
+	                        <tr>
+	                            <td class="chk_area"><input type="checkbox"></td>
+	                            <td class="date">05.01 ~ 05.02</td>
+	                            <td class="type">회사</td>
+	                            <td class="schedule">뉴젠 워크샵</td>
+	                        </tr>
+						</tbody>
+					</table>
+				</div>
+				<div id="page-selection" class="pagingnav_wrap"></div>
+				<div class="btn_group">
+					<div><a class="btn_type Material_icons">일정등록</a></div>
+					<div><a class="btn_type Material_icons">일정수정</a></div>
+					<div><a class="btn_type Material_icons">일정삭제</a></div>
+				</div>
+			</div> <!--  row right -->
+		</div>
+	</div>
+</div>
+</body>
+
+<script  type="text/javascript">
+    <!-- *********** calender ***********  -->
+    $(window).load(function(){
+        /* DATA insert Example */
+        /**  color 4종
+        col_green / col_org / col_blue / col_Greasy  **/
+        //시작일, 종료일, 타이틀, 색상, type순으로 입력 (bar의 경우 생략가능)
+        $.fn.dayTitleInsert(8,15,"팀 회의","col_org");
+        $.fn.dayTitleInsert(14,15,"휴가","col_green");
+        $.fn.dayTitleInsert(15,18,"출장","col_blue");
+        
+        $.fn.dayTitleInsert(31,31,"","col_Greasy",'circle');
+    });
+
+    $('#page-selection').bootpag({
+        total: 10,
+        page: 1,
+        maxVisible: 5,
+        leaps: true,
+        firstLastUse: true,
+        first: '',
+        last: '',
+        wrapClass: 'pagination',
+        activeClass: 'active',
+        disabledClass: 'disabled',
+        nextClass: 'btn_next',
+        prevClass: 'btn_prev',
+        lastClass: 'end_page',
+        firstClass: 'first_page'
+    }).on("page", function(event, num){
+        
+    }); 
+</script>
+</html>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="febworker">
+    <typeAlias alias="ye750VO" type="com.ezsign.feb.worker.vo.YE750VO"/>
+    
+    <resultMap id="ye750ListMap" class="ye750VO">
+        <result property="계약ID" column="계약ID" />
+        <result property="사용자ID" column="사용자ID" />
+        <result property="출력물파일구분코드" column="출력물파일구분코드" />
+        <result property="출력물파일구분명" column="출력물파일구분명" />
+        <result property="파일ID" column="파일ID" />
+        <result property="등록일시" column="등록일시" />
+        <result property="수정일시" column="수정일시" />
+    </resultMap>
+    
+    <resultMap id="ye750UserListMap" class="ye750VO" extends="ye750ListMap">
+    	<result property="empName" column="EMP_NAME" />
+        <result property="eMail" column="E_MAIL" />
+    </resultMap>
+    
+    
+    <resultMap id="ye750UserMap" class="ye750VO">
+    	<result property="계약ID" column="계약ID" />    	
+    	<result property="사용자ID" column="사용자ID" />
+    	<result property="empName" column="EMP_NAME" /> 
+    </resultMap>
+    
+
+    <select id="ye750DAO.getYE750List" parameterClass="ye750VO" resultMap="ye750ListMap">
+        SELECT 
+        	A.계약ID, A.사용자ID, A.출력물파일구분코드,
+            fn_code_name('604', A.출력물파일구분코드) 출력물파일구분명, A.파일ID,
+          	A.등록일시, A.수정일시
+        FROM tbl_ye750 A
+        	INNER JOIN tbl_ye000 C
+        	ON A.사용자ID = C.사용자ID AND A.계약ID = C.계약ID AND C.사용여부 = '1'
+        WHERE A.계약ID = #계약ID#
+        <isNotEmpty property="사용자ID">
+          AND A.사용자ID = #사용자ID#
+        </isNotEmpty>
+        <isNotEmpty property="출력물파일구분코드">
+          AND A.출력물파일구분코드 = #출력물파일구분코드#
+        </isNotEmpty>  
+    </select>
+    
+    <select id="ye750DAO.getYE750UserList" parameterClass="ye750VO" resultMap="ye750UserListMap">
+    	SELECT 
+    		A.계약ID, A.사용자ID, A.출력물파일구분코드,
+    		FN_CODE_NAME('604', A.출력물파일구분코드) 출력물파일구분명, A.파일ID,
+    		A.등록일시, A.수정일시, 
+    		B.EMP_NAME, B.E_MAIL
+		FROM TBL_YE750 A
+    		INNER JOIN TBL_EMP B
+    		ON A.사용자ID = B.USER_ID AND B.USE_YN = 'Y' AND (IFNULL(B.LEAVE_DATE,'') = '' OR B.LEAVE_DATE = '0') AND B.BIZ_ID = #bizId#
+    		INNER JOIN tbl_ye000 C
+        	ON A.사용자ID = C.사용자ID AND A.계약ID = C.계약ID AND C.사용여부 = '1'
+		WHERE A.계약ID = #계약ID#
+		<isNotEmpty property="출력물파일구분코드">
+          AND A.출력물파일구분코드 = #출력물파일구분코드#
+        </isNotEmpty>  
+		ORDER BY B.EMP_NO
+    </select>
+    
+    <insert id="ye750DAO.insYE750" parameterClass="ye750VO">
+        INSERT INTO tbl_ye750 (
+          계약ID, 사용자ID, 출력물파일구분코드,
+          파일ID,
+          등록일시, 수정일시
+        ) VALUES (
+          #계약ID#, #사용자ID#, #출력물파일구분코드#,
+          #파일ID#,
+          IFNULL(#등록일시#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        )
+    </insert>
+
+    <delete id="ye750DAO.allDelYE750" parameterClass="ye750VO">
+        DELETE
+        FROM tbl_ye750
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+    </delete>
+    
+  
+   	<!-- 파일ID의 정보를 검색한다. -->
+   	<select id="ye750DAO.getYE750FileInfo" parameterClass="ye750VO" resultMap="ye750ListMap">
+		SELECT  
+    		계약ID, 사용자ID, 출력물파일구분코드,
+    		fn_code_name('604', 출력물파일구분코드) 출력물파일구분명, 파일ID,
+    		등록일시, 수정일시
+		FROM TBL_YE750    
+		WHERE 계약ID = #계약ID#
+		AND 파일ID = #파일ID#
+   	</select>
+
+	<select id="ye750DAO.getYE750UserId" parameterClass="ye750VO" resultMap="ye750UserMap">
+    	SELECT
+		   	계약ID, 사용자ID, EMP_NAME
+		FROM(
+		  SELECT A.계약ID, A.사용자ID,B.EMP_NAME
+		  FROM TBL_YE750 A
+		    INNER JOIN TBL_EMP B
+		    ON A.사용자ID = B.USER_ID AND B.USE_YN = 'Y' 
+		  WHERE A.계약ID = #계약ID#
+		  ORDER BY B.EMP_NO ASC   
+		) TAB
+		LIMIT 1 OFFSET 0
+    </select>
+
+</sqlMap>

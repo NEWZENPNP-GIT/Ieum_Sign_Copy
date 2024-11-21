@@ -1,0 +1,493 @@
+    <!--****************************************************************************************************************
+    * 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+    * 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+    ********************************************************************************************************************
+    --------------------------------------------------------------------------------------------------------------------
+    * 회사       : 뉴젠피앤피
+    * 화면명     : 주소록 선택 팝업
+    * 화면설명   : 전자문서 > 전자계약 작성 페이지 > 주소록 선택
+    * 작성자     : 이정훈
+    * 생성일     : 2023.10.26
+    --------------------------------------------------------------------------------------------------------------------
+    * 수정자     :
+    * 수정일     :
+    * 수정내용   :
+    ------------------------------------------------------------------------------------------------------------------->
+
+    <!DOCTYPE html>
+    <html>
+    <title>주소록</title>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+        <meta name="viewport" content="width=device-width, user-scalable=no">
+        <meta http-equiv="Cache-Control" content="no-cache">
+        <meta http-equiv="Pragma" content="no-cache">
+
+        <link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+        <link rel="stylesheet" type="text/css" href="/css/electronic_contact.css">
+        <link rel="stylesheet" type="text/css" href="/css/personnel_management.css">
+        <link rel="stylesheet" type="text/css" href="https://fontawesome.com/v4.7.0//assets/css/site.css">
+
+        <script type="text/javascript" src="/js/jquery.min.js"></script>
+        <script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+        <script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+        <script type="text/javascript" src="/js/common.js"></script>
+        <script type="text/javascript" src="/js/ui.biz.core.js"></script>
+    </head>
+    <script>
+        var tList = []; //수신자 리스트
+        var rList = []; //참조자 리스트
+        var selected = {};
+        var contactType = "";
+
+        //***************					윈도우 로딩					***************//
+
+        $(document).ready(function () {
+
+            fn_contactList("P");
+
+            fn_grpList();
+
+            rList = opener.getContactRList();
+            tList = opener.getContactTList();
+
+            draw();
+
+            //본인포함 여부 체크
+            var isSelf = opener.getItSelf();
+            if (isSelf) {
+                $("[name=isSelf]").prop("checked", true);
+            } else {
+                $("[name=isSelf]").prop("checked", false);
+            }
+
+        });
+
+        $(document).keydown(function (event) {
+            if (event.which === 13) {
+                fn_contactList(contactType);
+            }
+        });
+
+        //***************					그룹 조회					***************//
+
+        function fn_grpList() {
+            var url = rootPath + "contact/getContactGrpList.do";
+
+            var bizId = getURLParameters("bizId");
+            var startPage = (curPage * viewPage);
+            var endPage = viewPage;
+
+            $.ajax({
+                url: url,
+                crossDomain: true,
+                dataType: "json",
+                type: "POST",
+                data: {
+                    OPEN_KEY: getCookie("OPEN_KEY"),
+                    bizId: bizId,
+                    startPage: "0",
+                    endPage: "9999"
+                },
+                success: function (result) {
+                    var htmlData = "";
+
+                    $("#grpList").html(htmlData);
+
+                    if (result.success == true) {
+                        // 인사내역
+                        htmlData += "<option value=''>" + "그룹" + "</option>";
+                        $.each(result.data, function (i, row) {
+                            htmlData += "<option value=" + row.grpId + ">" + row.grpName + "</option>";
+                        });
+                        htmlData += "<option value='unReg'>" + "미등록" + "</option>";
+                    }
+
+                    $("#grpList").html(htmlData);
+
+                    $.unblockUI();
+                },
+                error: function (request, status, error) {
+                    $.unblockUI();
+                    goInvalidPage(request, error);
+                }
+            });
+
+            $("#grpList").change(function () {
+                fn_contactList("P");
+            });
+        }
+
+        //***************			데이터 찾기			***************//
+
+        function findData(findData, findList) {
+            var index = -1;
+            for (var i = 0; i < findList.length; i++) {
+                if (findList[i] != null) {
+                    if (findData.contName === findList[i].contName && findData.corpName === findList[i].corpName &&
+                        findData.corpBizNum === findList[i].corpBizNum && findData.phoneNumber === findList[i].phoneNumber &&
+                        findData.mailAddr === findList[i].mailAddr && findData.contactType === findList[i].contactType) {
+                        index = i;
+                    }
+                }
+            }
+            return index;
+        }
+
+        //***************			주소록 선택 > 수신자			***************//
+
+        function gotoR() {
+            if (selected.contactType == "P") {
+                if (selected.contName == undefined) return;
+            } else if (selected.contactType == "C") {
+                if (selected.corpName == undefined) return;
+            }
+            if (findData(selected, rList) >= 0) return;
+            rList.push(selected);
+            selected = {};
+            $("[type=radio]").attr("checked", false);
+            draw();
+        }
+
+        //***************			수신자 > 주소록 선택			***************//
+
+        function resetR() {
+            if (selected.contactType == "P") {
+                if (selected.contName == undefined) return;
+            } else if (selected.contactType == "C") {
+                if (selected.corpName == undefined) return;
+            }
+            var index = findData(selected, rList)
+            rList[index] = null;
+            selected = {};
+            $("[type=radio]").attr("checked", false);
+            draw();
+        }
+
+        //***************			주소록 선택 > 참조자			***************//
+
+        function gotoT() {
+            if (selected.contactType == "P") {
+                if (selected.contName == undefined) return;
+            } else if (selected.contactType == "C") {
+                if (selected.corpName == undefined) return;
+            }
+            if (findData(selected, tList) >= 0) return;
+            tList.push(selected);
+            selected = {};
+            $("[type=radio]").attr("checked", false);
+            draw();
+        }
+
+        //***************			참조자 > 주소록 선택			***************//
+
+        function resetT() {
+            if (selected.contactType == "P") {
+                if (selected.contName == undefined) return;
+            } else if (selected.contactType == "C") {
+                if (selected.corpName == undefined) return;
+            }
+            var index = findData(selected, tList)
+            tList[index] = null;
+            selected = {};
+            $("[type=radio]").attr("checked", false);
+            draw();
+        }
+
+        //***************					주소록 선택 수신자, 참조자 박스 그리기					***************//
+
+        function draw() {
+            $("#rList").html('');
+            $("#tList").html('');
+            for (var i = 0; i < rList.length; i++) {
+                if (rList[i] != null) {
+                    var list = rList[i];
+                    if (list.contactType == 'C') {
+                        $("#rList").append('<li><label class="container" onclick="selectContact(\'' + list.contName + '|' + list.corpName + '|' + list.corpBizNum + '|' + list.phoneNumber + '|' + list.mailAddr + '|C\')"><input type="radio" name="list"><span class="name">' + list.corpName + '</span> ｜ <span class="corpBizNum">' + list.corpBizNum + '</span> ｜ <span class="">' + list.phoneNumber + '</span> ｜<span class="mail">' + list.mailAddr + '</span></label></li>');
+                    } else if (list.contactType == 'P') {
+                        $("#rList").append('<li><label class="container" onclick="selectContact(\'' + list.contName + '|' + list.corpName + '|' + list.corpBizNum + '|' + list.phoneNumber + '|' + list.mailAddr + '|P\')"><input type="radio" name="list"><span class="name">' + list.contName + '</span> ｜ <span class="">' + list.phoneNumber + '</span> ｜ <span class="mail">' + list.mailAddr + '</span></label></li>');
+                    }
+                }
+            }
+            for (var i = 0; i < tList.length; i++) {
+                if (tList[i] != null) {
+                    var list = tList[i];
+                    if (list.contactType == 'C') {
+                        $("#tList").append('<li><label class="container" onclick="selectContact(\'' + list.contName + '|' + list.corpName + '|' + list.corpBizNum + '|' + list.phoneNumber + '|' + list.mailAddr + '|C\')"><input type="radio" name="list"><span class="name">' + list.corpName + '</span> ｜ <span class="corpBizNum">' + list.corpBizNum + '</span> ｜ <span class="">' + list.phoneNumber + '</span> ｜<span class="mail">' + list.mailAddr + '</span></label></li>');
+                    } else if (list.contactType == 'P') {
+                        $("#tList").append('<li><label class="container" onclick="selectContact(\'' + list.contName + '|' + list.corpName + '|' + list.corpBizNum + '|' + list.phoneNumber + '|' + list.mailAddr + '|P\')"><input type="radio" name="list"><span class="name">' + list.contName + '</span> ｜ <span class="">' + list.phoneNumber + '</span> ｜ <span class="mail">' + list.mailAddr + '</span></label></li>');
+                    }
+                }
+            }
+            $(".container").css("background-color", "");
+            $(".container").bind("click", function () {
+                $(".container").css("background-color", "");
+                $(this).css("background-color", "#ebfaff");
+            });
+        }
+
+
+        //***************					선택한 정보					***************//
+
+
+        function selectContact(data) {
+            var datas = data.split('|');
+            selected.contName = datas[0];		// 성명
+            selected.corpName = datas[1];		// 거래처명
+            selected.corpBizNum = datas[2];		// 거래처 사업자 번호
+            selected.phoneNumber = datas[3];	// 전화번호
+            selected.mailAddr = datas[4];		// 이메일 주소
+            selected.contactType = datas[5];	// 인사 / 거래처
+        }
+
+        //***************			나의 정보 팝업			***************//
+
+        function fn_popupUser() {
+            var userId = getCookie("loginId");
+            openWin("/html/contact/contact_popup_user_edit.html?userId=" + userId, "나의정보수정", 400, 255);
+        }
+
+        //주소록 리스트 조회
+        function fn_contactList(X) {
+            if (X == 'C') {
+                $(".groupTab > button").removeClass("active");
+                $(".contactCustomsDiv").addClass("active");
+                contactType = "C";
+            } else if (X == 'P') {
+                $(".groupTab > button").removeClass("active");
+                $(".contactDiv").addClass("active");
+                contactType = "P";
+            }
+            $("#dataList").html('');
+
+
+            var url = rootPath + "contact/getContactList.do";
+
+            var bizId = getURLParameters("bizId");
+
+            if (contactType == "P") {
+                var contName = $("#searchContCorpName").val();
+            } else if (contactType == "C") {
+                var corpName = $("#searchContCorpName").val();
+            }
+            var grpId = $("#grpList :checked").val();
+
+            $.blockUI();
+
+            $.ajax({
+                url: url,
+                crossDomain: true,
+                dataType: "json",
+                type: "POST",
+                data: {
+                    OPEN_KEY: getCookie("OPEN_KEY"),
+                    bizId: bizId,
+                    contName: contName,
+                    corpName: corpName,
+                    startPage: "0",
+                    endPage: "9999",
+                    grpId: grpId,
+                    contactType: contactType
+                },
+                success: function (result) {
+                    var htmlData = "";
+                    if (result.success == true) {
+                        $.each(result.data, function (i, row) {
+                            var num = (curPage * viewPage) + i + 1;
+                            if (contactType == 'C') {			// 거래처
+                                htmlData += '<li>'
+                                htmlData += '<label class="container" onclick="selectContact(\'' + row.contName + '|' + row.corpName + '|' + row.corpBizNum + '|' + row.phoneNumber + '|' + row.mailAddr + '|C' + '\')">'
+                                htmlData += '<input type="radio" name="list">'
+                                htmlData += '<span class="name">' + row.corpName + '</span> ｜ '
+                                htmlData += '<span class="corpBizNum">' + row.corpBizNum + '</span> ｜ '
+                                htmlData += '<span class="">' + row.phoneNumber + '</span> ｜ <br>'
+                                htmlData += '<span class="mail">' + row.mailAddr + '</span>'
+                                htmlData += '</label>';
+                                htmlData += '</li>';
+                            } else if (contactType == 'P') { 	// 인사
+                                htmlData += '<li>'
+                                htmlData += '<label class="container" onclick="selectContact(\'' + row.contName + '|' + row.corpName + '|' + row.corpBizNum + '|' + row.phoneNumber + '|' + row.mailAddr + '|P' + '\')">'
+                                htmlData += '<input type="radio" name="list">'
+                                htmlData += '<span class="name">' + row.contName + '</span> ｜ '
+                                htmlData += '<span class="">' + row.phoneNumber + '</span> ｜'
+                                htmlData += '<span class="mail">' + row.mailAddr + '</span>'
+                                htmlData += '</label>';
+                                htmlData += '</li>';
+                            }
+                        });
+                    } else {
+                        htmlData += '<tr><td colspan="8">요청하신 자료가 존재하지 않습니다.</td></tr>';
+                    }
+                    $("#dataList").html(htmlData);
+                    $(".container").bind("click", function () {
+                        $(".container").css("background-color", "");
+                        $(this).css("background-color", "#ebfaff");
+                    });
+                    $.unblockUI();
+                },
+                error: function (request, status, error) {
+                    $.unblockUI();
+                    goInvalidPage(request, error);
+                }
+            });
+        }
+
+
+        //***************					저장					***************//
+
+
+        function fn_save() {
+            var drawRList = [];
+            var drawTList = [];
+
+            for (i = 0; i < rList.length; i++) {
+                if (rList[i] != null) {
+                    if (contactType == 'P' && rList[i].contName != undefined) {
+                        drawRList.push(rList[i]);
+                    } else if (contactType == 'C' && rList[i].corpName != undefined) {
+                        drawRList.push(rList[i]);
+                    }
+                }
+            }
+
+            for (i = 0; i < tList.length; i++) {
+                if (tList[i] != null) {
+                    if (contactType == 'P' && tList[i].contName != undefined) {
+                        drawTList.push(tList[i]);
+                    } else if (contactType == 'C' && tList[i].corpName != undefined) {
+                        drawTList.push(tList[i]);
+                    }
+                }
+            }
+
+            opener.setContactRList(drawRList);
+            opener.setContactTList(drawTList);
+            //본인포함 여부 세팅
+            var isSelf = $('input[name="isSelf"]').is(":checked");
+            if (isSelf) {
+                opener.setItSelf(true);
+            } else {
+                opener.setItSelf(false);
+            }
+            window.close();
+        }
+
+        var tmpList = [];
+        var myInfo = {}; //본인추가 시 내 정보
+
+        function fn_isSelf() {
+            if ($('input[name="isSelf"]').is(":checked")) {
+                //맨 앞에 본인 추가
+                var url = rootPath + "emp/getEmpList.do";
+                var userId = getCookie("loginId");
+                $.ajax({
+                    url: url,
+                    crossDomain: true,
+                    dataType: "json",
+                    type: "GET",
+                    data: {
+                        searchKey: "loginId",
+                        searchValue: userId,
+                        endPage: 99
+                    },
+
+                    success: function (result) {
+                        if (result.success == true) {
+                            $.each(result.data, function (i, row) {
+                                console.log(row);
+                                myInfo.contName = row.empName;
+                                myInfo.phoneNumber = row.phoneNum;
+                                myInfo.mailAddr = row.EMail;
+                                myInfo.contactType = 'P';
+                            });
+                            //이미 추가되어있을 경우 제외
+                            if (findData(myInfo, rList) >= 0) return;
+                            //내 정보를 맨 앞에 추가한다.
+                            tmpList = rList;
+                            rList = [];
+                            rList.push(myInfo);
+                            for (i = 0; i < tmpList.length; i++) {
+                                if (tmpList[i] != null)
+                                    rList.push(tmpList[i]);
+                            }
+                            draw();
+                        }
+                    }
+                });
+            } else {
+                if (myInfo.contName == undefined) return;
+                var index = findData(myInfo, rList)
+                rList[index] = null;
+                myInfo = {};
+                $("[type=radio]").attr("checked", false);
+                draw();
+            }
+        }
+
+    </script>
+    <body>
+        <!-- *********************************************  계약 관리  *********************************************  -->
+        <div id="electronic_layout">
+            <section class="referrer_group">
+                <article id="popup_tit">
+                    <div class="tit_icon"></div>
+                    <div class="tit_text col_skyblue NanumGothic" id="contactTitle">주소록 선택</div>
+                    <div id="popup_close" class="btn_type col_skyblue" onclick="window.close();"></div>
+                </article>
+
+                <article class="groupSearch">
+                    <input type="text" placeholder="이름 또는 거래처" id="searchContCorpName">
+                    <a class="Material_icons" onclick="fn_contactList(contactType)">search</a>
+                </article>
+
+                <article class="groupMy">
+                    <div class="itSelf">
+                        <input type="checkbox" name="isSelf" id="isSelf" onchange="fn_isSelf();">
+                        <label for="isSelf">본인포함</label>
+                    </div>
+                    <span class="itInfo" onclick="fn_popupUser()">나의정보</span>
+                </article>
+
+                <article class="groupBox">
+                    <div class="groupTab">
+                        <button class="contactDiv active" onclick="fn_contactList('P')">인사</button>
+                        <button class="contactCustomsDiv" onclick="fn_contactList('C')">거래처</button>
+                    </div>
+
+                    <div class="groupList">
+                        <select id="grpList"></select>
+                        <ul id="dataList"></ul>
+                    </div>
+                </article>
+
+                <article class="groupWork">
+                    <div class="arrowdiv">
+                        <span><img src="/css/img/electronic_arrow01.jpg" alt="arrow" onclick="gotoR()"></span>
+                        <span><img src="/css/img/electronic_arrow02.jpg" alt="arrow" onclick="resetR()"></span>
+                    </div>
+                    <div class="naBox">
+                        <h3 class="NanumGothic">수신자 <span>※ 수신자(계약자)는 최대 9명까지 등록할 수 있습니다.</span></h3>
+                        <div>
+                            <ul id="rList"></ul>
+                        </div>
+                    </div>
+                    <div class="arrowdiv">
+                        <span><img src="/css/img/electronic_arrow01.jpg" alt="arrow" onclick="gotoT()"></span>
+                        <span><img src="/css/img/electronic_arrow02.jpg" alt="arrow" onclick="resetT()"></span>
+                    </div>
+                    <div class="naBox">
+                        <h3 class="NanumGothic">참조자</h3>
+                        <div>
+                            <ul id="tList"></ul>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="btn_group">
+                    <a href="javascript:fn_save()" class="NanumRound btn_type type1">추가하기</a>
+                    <a href="javascript:window.close();" class="NanumRound btn_type type3">취소하기</a>
+                </article>
+            </section>
+        </div>
+    </body>
+    </html>

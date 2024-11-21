@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/annual_manage.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+<script>
+	
+	$(document).ready(function(){
+		fn_annualConfig();
+	});
+
+	function runScript(e) {
+	    if (e.keyCode == 13) {
+	    	fn_annualConfig();
+	        return false;
+	    }
+	}
+
+	function fn_annualConfig() {
+
+		var url = rootPath+"vacation/getAnnualConfig.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			success:function(result)
+			{
+				if (result.success==true) {
+					// 연차생성기준코드
+					if(result.data.annualCreateCode=="2") {
+						$("#ck1-2").attr("checked", true);
+					} else if(result.data.annualCreateCode=="3") {
+						$("#ck1-3").attr("checked", true);
+					} else {
+						$("#ck1-1").attr("checked", true);
+					}
+					/*
+					// 연차촉진제 사용여부
+					if(result.data.annualBoostUseYn=="Y") {
+						$("#ck2-1").attr("checked", true);
+					} else {
+						$("#ck2-2").attr("checked", true);
+					}
+					*/
+					// 휴가신청 결재사용여부
+					if(result.data.approvalUseYn=="Y") {
+						$("#ck3-1").attr("checked", true);
+					} else {
+						$("#ck3-2").attr("checked", true);
+					}			
+				}
+			},
+			error:function(request,status,error){
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+		
+	}
+
+	function fn_annualConfigSave() {
+		
+		var url = rootPath+"vacation/saveAnnualConfig.do";
+		var annualCreateCode = "1";
+		var annualBoostUseYn = "N";
+		var approvalUseYn = "N";
+		
+		if($("#ck1-2").is(":checked")) {
+			annualCreateCode = "2";
+		}
+		if($("#ck1-3").is(":checked")) {
+			annualCreateCode = "3";
+		}
+		//if($("#ck2-1").is(":checked")) annualBoostUseYn = "Y";
+		if($("#ck3-1").is(":checked")) approvalUseYn = "Y";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				annualCreateCode:annualCreateCode,
+				annualBoostUseYn:annualBoostUseYn,
+				approvalUseYn:approvalUseYn
+			},
+			success:function(result)
+			{
+				if (result.success==true) {
+					alert("적용하였습니다.");
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+				}
+			},
+			error:function(request,status,error){
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					window.close();
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+		
+	}
+
+	
+	function fn_sendExcel() {
+		if(!confirm("자사기준으로 연차 진행하시겠습니까?\r\n등록과 동시에 대상자들의 연차기준정보가 반영됩니다.")) return;
+		
+		var url = rootPath+"vacation/sendAnnualVacationExcel.do";
+		
+		// 데이터설정
+		var formData = new FormData();
+		var file = document.getElementsByName("xlsFile");
+		for(var i=0;i<file.length;i++) {
+			if (file[i].files[0] != undefined) {
+				if(!checkFileExt(file[i].files[0].name, "xls")) {
+					alert("파일확장자는 xls파일만 가능합니다.");
+					return;
+				}
+				if(checkSpecial(file[i].files[0].name)) {
+					alert("파일명에 특수문자가 포함되어 있습니다. 제거하시어 다시 보내주시기 바랍니다.");
+					return;
+				}
+			    formData.append("addFile"+i,file[i].files[0]);
+			}
+		}
+
+		$.blockUI();
+
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data:formData,
+			contentType:false,
+			processData:false,
+			cache:false,
+			success:function(result)
+			{
+				$.unblockUI();
+				console.log(result);
+				$("#ck1-3").attr("checked", true);
+				alert(result.message);
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					//window.close();
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+		
+	}
+	
+</script>
+
+</head>
+<body>
+	<div id="annual_wrap" class="basic">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumGothic">연차 관리 ＞ 시스템 설정 ＞ </span><span class="loc_sub NanumGothic">연차생성 기준 설정</span></div>
+			<div class="pagtit"><span class="NanumGothic">연차생성 기준 설정 </span></div>
+			<div class="tit_dec NanumGothic"><span class="speaker"></span><span> 알림 ㅣ 미승인 연차신청서가 5건 존재합니다.</span></div>
+			
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumGothic">연차생성 기준 설정</span>
+					</div>
+					<div class="box_wrap">
+						<div class="group_row row1">
+							<dl class="w210 NanumGothic column">
+								<dt>연차생성기준</dt>
+								<dd class="setting_part">
+									<div class="userCk row3">
+										<div><input type="radio" name="rad1" id="ck1-1"><label for="ck1-1">입사일 기준</label></div>
+										<div><input type="radio" name="rad1" id="ck1-2"><label for="ck1-2">회계연도(1월 1일 기준)</label></div>
+										<div><input type="radio" name="rad1" id="ck1-3"><label for="ck1-3">자사기준적용</label></div>
+									</div>
+									<div class="NanumGothic comment">※ 자사기준적용시 ‘자사기준 입력 샘플파일’ 을 다운받아 작성</div>
+									<div class="field">
+										<a class="btn_type btn_sampledown" href="/data/annual/샘플_연차데이터.xls">자사기준 입력 샘플 다운받기</a>
+										<a class="btn_type btn_fileSearch" onclick="fn_openFile()">파일검색<span class="icon"></span></a>
+										<input type="file" id="xlsFile" name="xlsFile" onchange="changeFile()" style="display:none;" />
+										<input type="text" class="NanumGothic" id="xlsFileName" readonly>
+										<a class="btn_type btn_submit" onclick="fn_sendExcel()">등록</a>
+									</div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<!-- 
+					<div class="box_wrap">
+						<div class="group_row row1">
+							<dl class="w210 NanumGothic">
+								<dt>연차촉진제 사용여부</dt>
+								<dd class="setting_part">
+									<div class="half userCk">
+										<div><input type="radio" name="rad2" id="ck2-1"><label for="ck2-1">사용</label></div>
+										<div><input type="radio" name="rad2" id="ck2-2" class="orange"><label for="ck2-2">미사용</label></div>
+									</div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					 -->
+					<div class="box_wrap">
+						<div class="group_row row1">
+							<dl class="w210 NanumGothic">
+								<dt>휴가신청서 결재 사용여부</dt>
+								<dd class="setting_part">
+									<div class="half userCk">
+										<div><input type="radio" name="rad3" id="ck3-1"><label for="ck3-1">사용</label></div>
+										<div><input type="radio" name="rad3" id="ck3-2" class="orange"><label for="ck3-2">미사용</label></div>
+									</div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					
+				</div>
+				
+				<div class="group_wrap notice">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumGothic">주의사항</span>
+					</div>
+					<div class="NanumGothic box_wrap">
+						<div class="text_line">1. 설정된 기준으로 연차가 생성됩니다.</div>
+						<div class="text_line">2. 일괄업로드시 양식을 준수하지 않으시면 연차생성이 이뤄지지 않을 수 있습니다.</div>
+						<!-- <div class="text_line">3. 연차촉진제 실행 여부에 따라 문서출력 서비스가 제한됩니다.</div> -->
+					</div>
+				</div>
+				
+				<div class="NanumGothic btn_group mar_top_20">
+				<!-- 
+					<a class="btn_type type4">초기화</a>
+					<a class="btn_type type1">기준 저장하기</a>
+				 -->
+					<a class="btn_type" onclick="fn_annualConfigSave()"><span class="icon_check"></span>적용하기</a>
+				</div>
+			</div> <!--  contents -->
+				
+			
+		</div> <!--  container -->
+	</div>
+</body>
+
+
+<script type="text/javascript">
+
+function fn_openFile() {
+	$("#xlsFile").click();
+}
+
+function changeFile() {
+	var file = $('#xlsFile')[0].files[0];
+	if (file){
+		$("#xlsFileName").val(file.name);
+	  console.log(file.name);
+	} else {
+		$("#xlsFileName").val("");
+	}
+}
+
+</script>
+
+</html>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="febspecial">
+    <typeAlias alias="ye406VO" type="com.ezsign.feb.special.vo.YE406VO"/>
+
+    <select id="ye406DAO.getYE406" parameterClass="ye406VO" resultClass="ye406VO">
+        SELECT 계약ID, 사용자ID, 작업자ID, 일련번호,
+          소득세법_감면기간_FROM, 소득세업_감면기간_TO, 감면대상급여,
+          T01_감면기간_FROM, T01_감면기간_TO, T01_감면대상급여,
+          T10_감면기간_FROM, T10_감면기간_TO, T10_감면기간_감면대상급여,
+          T11_감면기간_FROM, T11_감면기간_TO, T11_감면기간_감면대상급여,
+          T12_감면기간_FROM, T12_감면기간_TO, T12_감면기간_감면대상급여,
+          T13_감면기간_FROM, T13_감면기간_TO, T13_감면기간_감면대상급여,
+          T20_감면기간_FROM, T20_감면기간_TO, T20_감면대상급여,
+          등록일시, 수정일시
+        FROM tbl_ye406
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+          AND 사용여부 = '1'
+    </select>
+
+    <insert id="ye406DAO.insYE406" parameterClass="ye406VO">
+        <selectKey resultClass="java.lang.String" keyProperty="일련번호">
+            SELECT IFNULL(MAX(일련번호 + 1), 1)
+            FROM tbl_ye406
+        </selectKey>
+        INSERT INTO tbl_ye406 (
+          계약ID, 사용자ID, 작업자ID, 일련번호,
+          소득세법_감면기간_FROM, 소득세업_감면기간_TO, 감면대상급여,
+          T01_감면기간_FROM, T01_감면기간_TO, T01_감면대상급여,
+          T10_감면기간_FROM, T10_감면기간_TO, T10_감면기간_감면대상급여,
+          T11_감면기간_FROM, T11_감면기간_TO, T11_감면기간_감면대상급여,
+          T12_감면기간_FROM, T12_감면기간_TO, T12_감면기간_감면대상급여,
+          T13_감면기간_FROM, T13_감면기간_TO, T13_감면기간_감면대상급여,
+          T20_감면기간_FROM, T20_감면기간_TO, T20_감면대상급여,
+          최종저장여부, 사용여부, 등록일시, 수정일시
+        ) VALUES (
+          #계약ID#, #사용자ID#, #작업자ID#, #일련번호#,
+          REPLACE(#소득세법_감면기간_FROM#, '-', ''), REPLACE(#소득세업_감면기간_TO#, '-', ''), REPLACE(#감면대상급여#, ',', ''),
+          REPLACE(#T01_감면기간_FROM#, '-', ''), REPLACE(#T01_감면기간_TO#, '-', ''), REPLACE(#T01_감면대상급여#, ',', ''),
+          REPLACE(#T10_감면기간_FROM#, '-', ''), REPLACE(#T10_감면기간_TO#, '-', ''), REPLACE(#T10_감면기간_감면대상급여#, ',', ''),
+          REPLACE(#T11_감면기간_FROM#, '-', ''), REPLACE(#T11_감면기간_TO#, '-', ''), REPLACE(#T11_감면기간_감면대상급여#, ',', ''),
+          REPLACE(#T12_감면기간_FROM#, '-', ''), REPLACE(#T12_감면기간_TO#, '-', ''), REPLACE(#T12_감면기간_감면대상급여#, ',', ''),
+          REPLACE(#T13_감면기간_FROM#, '-', ''), REPLACE(#T13_감면기간_TO#, '-', ''), REPLACE(#T13_감면기간_감면대상급여#, ',', ''),
+          REPLACE(#T20_감면기간_FROM#, '-', ''), REPLACE(#T20_감면기간_TO#, '-', ''), REPLACE(#T20_감면대상급여#, ',', ''),
+          IF(#사용자ID# = #작업자ID#, '1', '0'), '1', DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        )
+    </insert>
+
+    <!-- 일련번호 없이 단건으로 처리 -->
+    <update id="ye406DAO.updYE406Disable" parameterClass="ye406VO">
+        UPDATE tbl_ye406
+        SET
+          최종저장여부 = IF(#사용자ID# = #작업자ID#, '0', 최종저장여부),
+          사용여부 = '0',
+          수정일시 = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+          AND 사용여부 = '1'
+    </update>
+
+    <delete id="ye406DAO.allDelYE406" parameterClass="ye406VO">
+        DELETE
+        FROM tbl_ye406
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+    </delete>
+
+    <select id="ye406DAO.getYE406Map" parameterClass="ye406VO" resultClass="ye406VO">
+        SELECT 계약ID, 사용자ID, 작업자ID, 일련번호,
+          소득세법_감면기간_FROM, 소득세업_감면기간_TO, 감면대상급여,
+          T01_감면기간_FROM, T01_감면기간_TO, T01_감면대상급여,
+          T10_감면기간_FROM, T10_감면기간_TO, T10_감면기간_감면대상급여,
+          T11_감면기간_FROM, T11_감면기간_TO, T11_감면기간_감면대상급여,
+          T12_감면기간_FROM, T12_감면기간_TO, T12_감면기간_감면대상급여,
+          T13_감면기간_FROM, T13_감면기간_TO, T13_감면기간_감면대상급여,
+          T20_감면기간_FROM, T20_감면기간_TO, T20_감면대상급여,
+          최종저장여부, 사용여부, 등록일시, 수정일시
+        FROM tbl_ye406
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+          AND (최종저장여부 = '1' OR 사용여부 = '1')
+        ORDER BY IF(작업자ID = 사용자ID, 0, 1)
+    </select>
+</sqlMap>

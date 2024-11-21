@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/contract_write.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/contract_sign_pad.css">
+<link rel="stylesheet" type="text/css" href="/css/font_awesome/css/all.css">
+
+
+<!-- bootPag -->
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+
+<script>
+var recvList = [];
+var recvUserName;
+var recvUserPhone;
+var docuName;
+var recvList = parent.fn_detail();		
+
+	$(document).ready(function() {
+		
+		recvUserName = recvList.recvUserName;
+		$("#recvUserName").append(recvUserName);
+		
+		recvUserPhone = recvList.recvUserPhone;
+		$("#recvUserPhone").append(recvUserPhone);		
+				
+		$("#close").click(function(){
+			parent.removePop();
+		});
+		$('#btn_next').prop("disabled",true);
+		$("#btn_next").css({ 'pointer-events': 'none' });
+	});
+	
+	var isRunning = false;
+	var certCount = 0;
+	// 본인인증 클릭
+	function fn_userCert(){				
+    	// 남은 시간
+    	// 이미 타이머가 작동중이면 중지
+    	if (isRunning){
+    		alert("현재 본인인증 진행중입니다.");
+    	}else{    		
+    		// 본인인증 URL전송 
+    		fn_URLSend();
+    	}    	
+	}
+	
+	// URL전송
+	function fn_URLSend(){		
+		var formData = new FormData();
+		var docuName = recvList.docuName;
+		
+		formData.append("OPEN_KEY", getCookie("OPEN_KEY"));
+		formData.append('recvUserName',recvUserName);
+		formData.append('recvUserPhone',recvUserPhone);
+		formData.append('docuName',docuName);
+		
+		var url = rootPath + 'contact/sendCertURL.do';
+		var timeNum = $('#timeNum');
+		var certTime = 60 * 5;
+		
+		console.log(formData);
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			async:false,
+			type:"POST",
+			processData: false,
+		    contentType: false,
+		    data:formData,
+			success:function(res) {
+				var reqNum = res.reqNum;
+				if(res.success){					
+					fn_checkCert(reqNum,certTime);
+					startTimer(certTime, timeNum);					
+				}
+			},
+			error:function(request,status,error){				
+				goInvalidPage(request, error);
+			}
+		});
+	}	
+		
+	// 인증시간 타이머 
+	function startTimer(count, timeNum) {    	        
+   		var minutes, seconds;
+        timer = setInterval(function () {
+	        minutes = parseInt(count / 60, 10);
+	        seconds = parseInt(count % 60, 10);
+	 
+	        minutes = minutes < 10 ? "0" + minutes : minutes;
+	        seconds = seconds < 10 ? "0" + seconds : seconds;
+	 
+	        timeNum.html(minutes + ":" + seconds);
+	 
+	        // 타이머 끝
+	        if (--count < 0) {
+	        	fn_stopTimer(timer);
+			    alert("본인인증 시간이 초과되었습니다.");
+			    timeNum.html("본인인증 시간이 초과되었습니다.");
+			    $('#btn_chk').prop("disabled",true);
+			    isRunning = false;
+	        }else if(certCount >0){
+	        	fn_stopTimer(timer);
+			    isRunning = false;
+	        }
+        
+        }, 1000);
+        isRunning = true;
+	}
+	
+	function fn_stopTimer(timer){
+		clearInterval(timer);
+	}
+	var sec=0;
+	
+	/* 1초마다 인증여부 체크  */
+	function fn_checkCert(reqNum,secMax){				
+		var chk = setInterval(function(){			
+			var formData = new FormData();			
+			formData.append("OPEN_KEY", getCookie("OPEN_KEY"));
+			formData.append("reqNum", reqNum);
+			
+			var url = rootPath + 'contact/getUserCertCount.do';		
+			
+			$.ajax({
+				url:url,
+			    crossDomain : true,
+				dataType:"json",
+				async:false,
+				type:"POST",
+				processData: false,
+			    contentType: false,
+			    data:formData,
+				success:function(res) {
+					console.log(res);
+					if(res.success){
+						certCount = res.total;		
+						sec++;
+						if(certCount>0){						
+							fn_stopTimer(chk);										
+							$("#btn_chk").css({ 'pointer-events': 'none' });
+							$("#btn_chk").css({'background-color':'#eee'});
+							$('#timeNum').html("인증되었습니다.");
+							$("#btn_next").attr('class','btn_type btn_next');
+							$("#btn_next").css({ 'pointer-events': 'auto' });
+							alert("인증되었습니다");
+						}else if(sec>secMax){
+							fn_stopTimer(chk);	
+							sec = 0;
+						}						
+					}
+				},
+				error:function(request,status,error){				
+					goInvalidPage(request, error);
+				}
+			});	
+			
+		},1000);	    
+	}
+
+
+	//***************					다음 페이지					***************//
+
+
+	function fn_nextPage(){ location.href=""; }
+
+</script>
+
+</head>
+
+<body>
+	
+<!-- *********************************************  HTML  *********************************************  -->
+
+<div id="contract_pad_wrap" class="contract_pad_wrap">
+	<div class="container" id="page1">
+
+        <div class="tit_main NanumGothic pad_fontcolor"><span>프랜차이즈 가맹점 가입 신청서</span>
+        	<a href="#" class="close" id="close"></a>
+        </div>        
+		<div class="nav_menu">
+			<ul class="nav_menuGroup tab3">
+				<li class="active">
+					<div class="nav_line"></div>
+					<div class="nav_btn_tab"><span class="tabBox NanumGothic">계약자 인증</span></div>
+				</li>
+				<li>
+					<div class="nav_line"></div>
+					<div class="nav_btn_tab"><span class="tabBox NanumGothic">계약서 내용 확인</span></div>
+				</li>
+			
+				<li>
+					<div class="nav_line"></div>
+					<div class="nav_btn_tab"><span class="tabBox NanumGothic">계약자 서명</span></div>
+				</li>
+				<li>
+					<div class="nav_line"></div>
+					<div class="nav_btn_tab"><span class="tabBox NanumGothic">계약 완료</span></div>
+				</li>
+			</ul>
+		</div>
+		<div class="tab_contents">
+			<div class="contents_title pad_fontcolor NanumGothic"><h1>계약진행을 위해 휴대폰 본인인증이 필요합니다.</h1></div>
+		
+			<div class="contents_body">
+				<div class="con_box">
+					<div class="con_info">
+					
+					<dl class="boxRow input_bx NanumGothic">	
+						<dt><label class="label_txt NanumGothic" alt="계약자" >계약자</label></dt>	
+						<dd><div class="input_txt_01" id="recvUserName"></div></dd>
+					</dl>
+					
+					<dl class="boxRow input_bx NanumGothic">	
+						<dt><label class="label_txt NanumGothic" alt="전화번호">전화번호</label></dt>	
+						<dd><div class="input_txt_01" id="recvUserPhone"></div></dd>
+					</dl>
+					
+						<div class="btn_footGroup NanumGothic">
+							<a class="btn_type type01" id="btn_chk" onclick="fn_userCert()">본인인증 </a>
+						</div>
+						
+						<dl class="boxRow input_bx endtime NanumGothic">	
+						<dt><label class="label_txt NanumGothic" alt="전화번호">인증시간</label></dt>	
+						<dd><span class="input_txt_01" id="timeNum">05:00</span></dd>
+					</dl>
+					
+					<div class="timeWrtext"><span><i class="fas fa-check-circle fa-sm"></i> <b>계약자 휴대폰으로 본인인증 URL이 발송되오니 <br>5분이내로 진행하여 주시기 바랍니다.</b></span></div>
+					
+					</div>
+					
+					<div class="con_priv NanumGothic hidden">
+						<p><i class="fas fa-circle fa-sm"></i> 전체동의</p>
+						<ul>
+							<li>
+								<span>개인정보 수집/이용 동의</span>
+								<a href="#">더보기</a>
+							</li>
+							<li>
+								<span>고유식별정보처리 동의</span>
+								<a href="#">더보기</a>
+							</li>
+							<li>
+								<span>본인확인서비스</span>
+								<a href="#">더보기</a>
+							</li>
+							
+							<li>
+								<span>서비스이용약관 동의</span>
+								<a href="#">더보기</a>
+							</li>
+							
+						</ul>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		<div class="btn_footGroup NanumGothic" id="contractStep01">
+			<a class="btn_type btn_disable"  id="btn_next" onclick="fn_nextPage();">다 음 </a>
+		</div>
+	</div>	
+</div>
+</body>
+</html>

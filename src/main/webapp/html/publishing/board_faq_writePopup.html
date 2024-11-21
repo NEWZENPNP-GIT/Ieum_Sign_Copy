@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/board_notice.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+
+</head>
+<body>
+	
+<!-- *********************************************  게시판  *********************************************  -->
+<div id="boardque_wrap" class="popup">
+	<div id="popup_tit">
+		<div class="tit_icon"></div>
+		<div class="tit_text col_skyblue NanumSquare_B">FAQ등록하기</div>
+		<div id="popup_close" class="btn_type col_skyblue"></div>
+	</div>
+	<div class="contents">
+		<ul class="board_con">
+			<li class="tit">
+				<div class="selBox">
+					<select>
+		                <option value="">분류</option>
+		                <option value=""></option>
+		                <option value=""></option>
+		            </select>
+	            </div>
+				<div class="userInput">
+					<!--  권한에 따라  숨기기 : none class="noticeChk none"-->
+					<div class="title"><span class="NanumGothic">제목</span><input type="text"/></div>
+				</div>
+			</li>
+			
+			<li class="box editArea" id="editor">
+				<textarea ></textarea> 
+			</li>
+			<li class="box btn_group ">
+				<a class="btn_type NanumSquare_R"><span class="icon Material_icons">check_circle</span>작성완료</a>
+			</li>
+			
+		</ul>
+	</div>
+</div>
+
+</body>
+</script>
+</html>

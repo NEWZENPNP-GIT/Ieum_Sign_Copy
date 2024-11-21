@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="menu">
+	<typeAlias alias="menuVO" type="com.ezsign.menu.vo.MenuVO" />
+	<resultMap id="menuListMap" class="menuVO">
+		<result property="menuType" column="MENU_TYPE"/>
+		<result property="menuCode" column="MENU_CODE"/>
+		<result property="menuName" column="MENU_NAME"/>
+		<result property="pmenuCode" column="PMENU_CODE"/>
+		<result property="pmenuName" column="PMENU_NAME"/>
+		<result property="menuLvl" column="MENU_LVL"/>
+		<result property="menuOdr" column="MENU_ODR"/>
+		<result property="menuUrl" column="MENU_URL"/>
+		<result property="menuInfo" column="MENU_INFO"/>
+		<result property="useYn" column="USE_YN"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="updDate" column="UPD_DATE"/>
+		<result property="childCnt" column="CHILD_CNT"/>
+		<result property="cssId" column="CSS_ID"/>
+		<result property="openType" column="OPEN_TYPE"/>
+		<result property="popupWidth" column="POPUP_WIDTH"/>
+		<result property="popupHeight" column="POPUP_HEIGHT"/>
+	</resultMap>
+	
+	<typeAlias alias="menuPermVO" type="com.ezsign.menu.vo.MenuPermVO" />
+	<resultMap id="menuPermListMap" class="menuPermVO">
+		<result property="menuType" column="MENU_TYPE"/>
+		<result property="userType" column="USER_TYPE"/>
+		<result property="menuCode" column="MENU_CODE"/>
+		<result property="menuName" column="MENU_NAME"/>
+		<result property="pmenuCode" column="PMENU_CODE"/>
+		<result property="pmenuName" column="PMENU_NAME"/>
+		<result property="menuLvl" column="MENU_LVL"/>
+		<result property="menuOdr" column="MENU_ODR"/>
+		<result property="menuUrl" column="MENU_URL"/>
+		<result property="menuInfo" column="MENU_INFO"/>
+		<result property="readPerm" column="READ_PERM"/>
+		<result property="writePerm" column="WRITE_PERM"/>
+		<result property="editPerm" column="EDIT_PERM"/>
+		<result property="deletePerm" column="DELETE_PERM"/>
+		<result property="printPerm" column="PRINT_PERM"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="updDate" column="UPD_DATE"/>
+	</resultMap>
+	
+	<typeAlias alias="menuUserTypeVO" type="com.ezsign.menu.vo.MenuUserTypeVO" />
+	<resultMap id="menuUserTypeListMap" class="menuUserTypeVO">
+		<result property="menuType" column="MENU_TYPE"/>
+		<result property="userType" column="USER_TYPE"/>
+		<result property="userTypeName" column="USER_TYPE_NAME"/>
+		<result property="userTypeInfo" column="USER_TYPE_INFO"/>
+		<result property="userTypeOdr" column="USER_TYPE_ODR"/>
+		<result property="useYn" column="USE_YN"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="updDate" column="UPD_DATE"/>
+	</resultMap>
+	
+	<select id="menuDAO.getMenuMainList" resultClass="menuVO" resultMap="menuListMap">
+		SELECT  A.MENU_TYPE, A.MENU_CODE, A.MENU_NAME, A.PMENU_CODE, A.MENU_LVL, A.MENU_ODR, A.MENU_URL, A.MENU_INFO, A.USE_YN, A.INS_DATE, A.UPD_DATE,
+				A.CSS_ID, A.OPEN_TYPE, A.POPUP_WIDTH, A.POPUP_HEIGHT,
+				(SELECT COUNT(X.MENU_CODE) FROM tbl_menu X WHERE X.PMENU_CODE = A.MENU_CODE AND X.USE_YN = 'Y') CHILD_CNT,
+				(SELECT X.MENU_NAME FROM tbl_menu X WHERE X.MENU_CODE = A.PMENU_CODE) PMENU_NAME
+		FROM  tbl_menu A, tbl_menu_user_type B
+		WHERE A.MENU_TYPE = B.MENU_TYPE
+		AND   A.USE_YN = 'Y'
+		<isNotNull property="userType">
+		    <isNotEmpty property="userType">
+			AND   B.USER_TYPE = #userType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="menuType">
+		    <isNotEmpty property="menuType">
+			AND		A.MENU_TYPE = #menuType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="pmenuCode">
+		    <isNotEmpty property="pmenuCode">
+			AND		A.PMENU_CODE = #pmenuCode#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="menuCode">
+		    <isNotEmpty property="menuCode">
+			AND		A.MENU_CODE = #menuCode#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="menuLvl">
+		    <isNotEmpty property="menuLvl">
+			AND		A.MENU_LVL = #menuLvl#
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY A.MENU_ODR ASC
+	</select>
+	
+	<select id="menuDAO.getMenuList" resultClass="menuVO" resultMap="menuListMap">		
+		SELECT  A.MENU_TYPE, A.MENU_CODE, A.MENU_NAME, A.PMENU_CODE, A.MENU_LVL, A.MENU_ODR, A.MENU_URL, A.MENU_INFO, A.USE_YN, A.INS_DATE, A.UPD_DATE, 
+				A.CSS_ID, A.OPEN_TYPE, A.POPUP_WIDTH, A.POPUP_HEIGHT,
+				(SELECT COUNT(X.MENU_CODE) FROM tbl_menu X WHERE X.PMENU_CODE = A.MENU_CODE
+				<isNotNull property="useYn">
+				    <isNotEmpty property="useYn">
+					AND		X.USE_YN = #useYn#
+					</isNotEmpty>
+				</isNotNull>
+				) CHILD_CNT,
+				(SELECT X.MENU_NAME FROM tbl_menu X WHERE X.MENU_CODE = A.PMENU_CODE) PMENU_NAME
+		FROM  tbl_menu A
+		WHERE 1 = 1
+		<isNotNull property="useYn">
+		    <isNotEmpty property="useYn">
+			AND		A.USE_YN = #useYn#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="menuType">
+		    <isNotEmpty property="menuType">
+			AND		A.MENU_TYPE = #menuType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="pmenuCode">
+		    <isNotEmpty property="pmenuCode">
+			AND		A.PMENU_CODE = #pmenuCode#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="menuCode">
+		    <isNotEmpty property="menuCode">
+			AND		A.MENU_CODE = #menuCode#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="menuLvl">
+		    <isNotEmpty property="menuLvl">
+			AND		A.MENU_LVL = #menuLvl#
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY A.MENU_ODR ASC
+	</select>
+	
+	<insert id="menuDAO.insMenu" parameterClass="menuVO">
+		<selectKey resultClass="java.lang.String" keyProperty="menuCode">
+			SELECT  getTableKey('TBL_MENU')
+		</selectKey>
+		INSERT INTO tbl_menu (
+			MENU_TYPE, MENU_CODE, MENU_NAME, PMENU_CODE, MENU_LVL, MENU_ODR, MENU_URL, MENU_INFO, OPEN_TYPE, POPUP_WIDTH, POPUP_HEIGHT, USE_YN, INS_DATE, UPD_DATE
+		) VALUES (
+		   #menuType#, #menuCode#, #menuName#, #pmenuCode#, #menuLvl#, #menuOdr#, #menuUrl#, #menuInfo#, #openType#, #popupWidth#, #popupHeight#, 'Y', DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<update id="menuDAO.delMenu" parameterClass="menuVO">
+		UPDATE tbl_menu
+		SET		USE_YN = 'N'
+		WHERE	MENU_CODE = #menuCode#
+	</update>
+	
+	<update id="menuDAO.updMenu" parameterClass="menuVO">
+		UPDATE tbl_menu
+		SET	
+		<isNotNull property="menuName">
+		    <isNotEmpty property="menuName">
+			MENU_NAME			= #menuName#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="menuOdr">
+		    <isNotEmpty property="menuOdr">
+			MENU_ODR			= #menuOdr#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="menuUrl">
+		    <isNotEmpty property="menuUrl">
+			MENU_URL			= #menuUrl#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="menuInfo">
+		    <isNotEmpty property="menuInfo">
+			MENU_INFO			= #menuInfo#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="openType">
+		    <isNotEmpty property="openType">
+			OPEN_TYPE			= #openType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="popupWidth">
+		    <isNotEmpty property="popupWidth">
+			POPUP_WIDTH			= #popupWidth#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="popupHeight">
+		    <isNotEmpty property="popupHeight">
+			POPUP_HEIGHT		= #popupHeight#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="useYn">
+		    <isNotEmpty property="useYn">
+			USE_YN			= #useYn#,
+			</isNotEmpty>
+		</isNotNull>
+			UPD_DATE			= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	MENU_CODE = #menuCode#
+	</update>
+	
+	<insert id="menuDAO.insMenuPerm" parameterClass="menuPermVO">
+		INSERT INTO tbl_menu_perm (
+			MENU_TYPE, USER_TYPE, MENU_CODE, READ_PERM, WRITE_PERM, EDIT_PERM, DELETE_PERM, PRINT_PERM, INS_DATE, UPD_DATE
+		) VALUES (
+		   #menuType#, #userType#, #menuCode#, #readPerm#, #writePerm#, #editPerm#, #deletePerm#, #printPerm#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<update id="menuDAO.updMenuPerm" parameterClass="menuPermVO">
+		UPDATE tbl_menu_perm
+		SET		READ_PERM   = #readPerm#, 
+				WRITE_PERM  = #writePerm#,
+				EDIT_PERM   = #editPerm#,
+				DELETE_PERM = #deletePerm#,
+				PRINT_PERM  = #printPerm#,
+				UPD_DATE    = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	MENU_TYPE = #menuType#
+		AND		USER_TYPE = #userType#
+		AND		MENU_CODE = #menuCode#
+	</update>
+	
+	<delete id="menuDAO.delMenuPerm" parameterClass="menuPermVO">
+		DELETE FROM tbl_menu_perm
+		WHERE	MENU_TYPE = #menuType#
+		AND		USER_TYPE = #userType#
+		AND		MENU_CODE = #menuCode#
+	</delete>
+	
+	<select id="menuDAO.getMenuPermList" resultClass="menuPermVO" resultMap="menuPermListMap">
+		SELECT  A.MENU_TYPE, A.MENU_CODE, A.MENU_NAME, A.PMENU_CODE, A.MENU_LVL, A.MENU_ODR, A.MENU_URL, A.MENU_INFO, A.USE_YN, A.INS_DATE, A.UPD_DATE, A.CSS_ID,
+				(SELECT COUNT(X.MENU_CODE) FROM tbl_menu X WHERE X.PMENU_CODE = A.MENU_CODE) CHILD_CNT,
+				(SELECT X.MENU_NAME FROM tbl_menu X WHERE X.MENU_CODE = A.PMENU_CODE) PMENU_NAME,
+		        C.USER_TYPE, C.READ_PERM, C.WRITE_PERM, C.EDIT_PERM, C.DELETE_PERM, C.PRINT_PERM
+		FROM  tbl_menu A
+					LEFT OUTER JOIN tbl_menu_perm C ON C.MENU_TYPE = A.MENU_TYPE AND  C.USER_TYPE =  #userType# AND C.MENU_CODE = A.MENU_CODE , tbl_menu_user_type B
+		WHERE A.MENU_TYPE = B.MENU_TYPE
+		AND   A.USE_YN = 'Y'
+		AND	  B.USER_TYPE = #userType#
+		<isNotNull property="menuType">
+		    <isNotEmpty property="menuType">
+			AND	  A.MENU_TYPE = #menuType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="menuCode">
+		    <isNotEmpty property="menuCode">
+			AND	  A.MENU_CODE = #menuCode#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<insert id="menuDAO.insMenuUserType" parameterClass="menuUserTypeVO">
+		INSERT INTO tbl_menu_user_type (
+			MENU_TYPE, USER_TYPE, USER_TYPE_NAME, USER_TYPE_INFO, USE_YN, INS_DATE, UPD_DATE
+		) VALUES (
+		   #menuType#, #userType#, #userTypeName#, #userTypeInfo#, 'Y', DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<delete id="menuDAO.delMenuUserType" parameterClass="menuUserTypeVO">
+		DELETE FROM tbl_menu_user_type
+		WHERE	MENU_TYPE = #menuType#
+		AND		USER_TYPE = #userType#
+	</delete>
+	
+	<select id="menuDAO.getMenuUserTypeList" resultClass="menuUserTypeVO" resultMap="menuUserTypeListMap">		
+		SELECT  MENU_TYPE, USER_TYPE, USER_TYPE_NAME, USER_TYPE_INFO, USE_YN, INS_DATE, UPD_DATE
+		FROM    tbl_menu_user_type
+		WHERE	MENU_TYPE = #menuType#
+		AND		USER_TYPE = #userType#
+	</select>
+	
+</sqlMap>

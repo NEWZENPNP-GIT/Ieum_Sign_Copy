@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=yes, target-densitydpi=medium-dpi" />
+<title>서비스 이용 약관</title>
+<link rel="stylesheet" type="text/css" href="../../css/font.css">
+<link rel="stylesheet" type="text/css" href="../../css/member_Join.css">
+<link rel="stylesheet" type="text/css" href="../../css/login.css">
+<script src="/js/jquery.min.js"></script>
+</head>
+
+ <body>
+<header id="join_header">
+		<nav>
+			<ul>
+				<li class="logo"></li>
+			</ul>
+		</nav>
+	</header>
+
+<div id="join_wrap">
+		<aside id="join_side" class="fr">
+			<ul>
+				<li><span class="NanumGothic">회원가입</span></li>
+			</ul>
+		</aside>
+		
+		<section id="join_contents" class="fr">
+			<nav id="stateBar" class="NanumGothic">
+				<ul>
+					<li class="step on">
+						<span>STEP 01</span><br>
+						<span>약관동의</span><br>
+					</li>
+					<li class="step">
+						<span>STEP 02</span><br>
+						<span>사용자 정보</span><br>
+					</li>
+					<li class="step">
+						<span>STEP 03</span><br>
+						<span>가입완료</span><br>
+					</li>
+				</ul>
+			</nav>
+			<!--  mobile-btns 영역 보이려면 hidden 클래스 삭제 -->
+			<div class="mobile-btns hidden">
+				<a class="btn_type Material_icons" onclick="history.back(); return false;">
+					<span class="arrow"></span>
+					<span class="text"></span>
+				</a>
+			</div>
+			<!-- end mobile-btns -->
+			<div id="terms_wrap">
+				<div id="terms_inner_step01">
+					<div id="join_title"><span class="txt_tit1 NanumGothic">SNS </span> <span class="txt_tit2 NanumGothic">로그인 성공</span>
+					<ul class="join_type_txt01">
+						<li class="NanumGothic">이음싸인 계정과 연동되어 있지 않습니다.</li>
+					</ul>
+              
+<!--  로그인박스-->	
+<div class="new_join_loginbox">
+<p class="attention NanumGothic">이미 계정이 있으신가요?</p>
+	<div id="login_box" class="">
+	      <div id="input_box">
+					<ul>
+						<li>
+							<label id="label_id" class="input_icon"></label>
+							<input type="text" id="id" value="" placeholder="아이디" name="id" title="아이디" class="inputbx NanumBarunGothic">
+						</li>
+						<li>
+							<label id="label_pw" class="input_icon"></label>
+							<input type="password" id="password" value="" placeholder="비밀번호" name="id" title="비밀번호" class="inputbx NanumBarunGothic">
+						</li>
+						<li>
+						<!-- /** check했을 경우 Class 추가 : on/off **/ -->
+							<div id="save_email" class="btn_type NanumBarunGothic"><a>이메일 저장</a></div>
+						</li>
+						<li>
+							<div id="btn_login" class="btn_type NanumBarunGothic"><a>Login</a></div>
+						</li>
+						<li>
+						    <div id="btn_info" class="NanumBarunGothic"><a id="btn_pw" class="btn_type btn_serach">비밀번호 찾기</a></div>
+						    <span class="NanumBarunGothic division">/</span>
+							<div id="btn_info" class="NanumBarunGothic"><a id="btn_id" class="btn_type btn_serach">아이디 찾기</a></div>
+							
+						</li>
+					</ul>
+				</div>
+</div>
+<!--  //로그인박스-->
+
+<div class="noaccount">
+	<p class="attention NanumGothic">계정이 없으신가요?</p>
+	<p class="join_btncandy"><a href="" class="NanumGothic" >서비스 가입</a></p>
+</div>
+
+				</div>
+
+ 
+			</div><!-- content -->
+			</div>
+		</section>
+	</div>
+
+
+<script  type="text/javascript">
+
+		/** e-Mail Toggle **/
+		$("#save_email").click(function(){
+			
+	        if($(this).hasClass("on")){
+	            $(this).removeClass("on");
+	        }else{
+	        	/** checked true **/
+	            $(this).addClass("on");
+	        }
+	    });
+		
+
+	</script>
+ </body>
+</html>

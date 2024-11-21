@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/commute_manage.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+<script>
+	$(document).ready(function(){
+		$("#externalCode").val("3");
+		getBizGrpCombo();
+		fn_commuteConfig();
+	});
+
+
+	function fn_commuteConfig() {
+
+		var url = rootPath+"attend/getAttendProp.do";
+		var bizId = getCookie("bizId");
+		var searchCompany = $("#searchCompany").val();
+
+		$.blockUI();
+
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				bizId:bizId,
+				searchCompany:searchCompany
+			},
+			success:function(result)
+			{
+				var htmlData = "";
+				if (result.success==true && result.attendProp != null) {
+					// 출/퇴근장소의 자세한 위치를 나타냅니다.
+					console.log(result.attendProp);
+					if(result.attendProp.detailYn=="Y") {
+						$("#detailYn").prop("checked", true);
+					}
+
+					// 출근장소의 위치(주소)를 설정합니다.
+                    if(result.attendProp.placeYn=="Y") {
+                        $("#placeYn").prop("checked", true);
+                    }
+                    if(result.attendPlaces != null) {
+						$('#addrDataList').show();
+					} else{
+						$('#addrDataList').hide();
+					}
+
+					// 주소
+					$.each(result.attendPlaces, function(i, row) {
+						htmlData += '<li class="NanumGothic">';
+						htmlData += '	<div class="adr_name">'+isSetNull(row.placeName, "")+'</div>';
+						htmlData += '	<div class="address">'+row.placeAddr+'</div>';
+						htmlData += '	<div class="btns"><a class="btn_type type4" onclick="fn_commuteConfigAddrDelete('+row.placeId+')">삭제</a><a class="btn_type type5" onclick="fn_commuteConfigAddrUpdate('+row.placeId+')">수정</a></div>';
+						htmlData += '</li>';
+					});
+                    $("#addrDataList").html(htmlData);
+
+                    // 지정한 출근장소에서 반경 를 넘어가면 ‘외부’로 표기됩니다.
+					if(result.attendProp.externalYn=="Y") {
+						$("#externalYn").prop("checked", true);
+					}
+
+					$('#externalCode').val(result.attendProp.externalCode);
+
+					// 출근부 다운로드 시 설정값을 저장합니다.
+					// 근태데이터 다운로드 시 설정값을 저장합니다.
+				} else {
+					$("#detailYn").prop("checked", false);
+					$("#placeYn").prop("checked", false);
+					$("#externalYn").prop("checked", false);
+					$('#externalCode').val("3");
+					$('#addrDataList').hide();
+					$("#addrDataList").html("");
+				    console.log('fn_commuteConfig', result)
+				}
+
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error);
+				}
+			}
+		});
+	}
+
+	// 저장
+	function fn_commuteConfigInsert() {
+
+		var url = rootPath+"attend/insAttendProp.do";
+
+        var detailYn = 'N';
+		var placeYn = 'N';
+		var externalYn = 'N';
+		var externalCode = $("#externalCode").val();
+		var closeYn = 'N';
+		var bizId = $("#searchCompany").val();
+
+        if($("input:checkbox[id='detailYn']").is(":checked")){
+            detailYn = "Y";
+        }
+
+        if($("input:checkbox[id='placeYn']").is(":checked")){
+			placeYn = "Y";
+		}
+
+		if($("input:checkbox[id='externalYn']").is(":checked")){
+			externalYn = "Y";
+		}
+
+		$.blockUI();
+
+		 $.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+                detailYn: detailYn,
+				placeYn: placeYn,
+				externalYn: externalYn,
+				externalCode: externalCode,
+				closeYn: closeYn,
+				bizId:bizId
+			},
+			success:function(result)
+			{
+				if (result.success==true) {
+					alert("적용하였습니다.");
+					fn_commuteConfig();
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+				}
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error);
+				}
+			}
+		});
+	}
+
+	//초기화
+	function fn_commuteConfigReset(){
+		// var url = rootPath+"attend/saveAnnualConfig.do";
+	}
+
+	// 주소등록
+	function fn_commuteConfigAddrInsert(){
+		var url = rootPath+"attend/insAttendPlace.do";
+		var placeName = $("#placeName").val();
+		var placeAddr = $("#placeAddr").val();
+		var latitude = $("#latitude").val();
+		var longitude = $("#longitude").val();
+		var bizId = $("#searchCompany").val();
+
+		if(isNull(placeAddr)){
+			alert('주소를 등록해주세요');
+			$("#placeAddr").focus();
+			return false;
+		}
+
+		if(isNull(placeName)){
+			alert('근무장소명을 등록해주세요');
+			$("#placeName").focus();
+			return false;
+		}
+
+		$.blockUI();
+
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				placeName:placeName,
+				placeAddr:placeAddr,
+				latitude:latitude,
+				longitude:longitude,
+				bizId:bizId
+			},
+			success:function(result)
+			{
+				if (result.success==true) {
+					alert("적용하였습니다.");
+					$("#placeName").val("");
+					$("#placeAddr").val("");
+					fn_commuteConfig();
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+				}
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error);
+				}
+			}
+		});
+	}
+
+	// 주소수정
+	function fn_commuteConfigAddrUpdate(placeId){
+		// var url = rootPath+"attend/updAttendPlace.do";
+		// window.open(rootPath+"html/commute/commute_zipcodePopup.html?placeId="+placeId, "zipcode", "width=710, height=680, scrollbars=no");
+        window.open(rootPath+"html/commute/address.html?placeId=" + placeId, "zipcode", "width=480, height=680");
+	}
+
+
+	// 주소삭제
+	function fn_commuteConfigAddrDelete(placeId){
+		var url = rootPath+"attend/delAttendPlace.do";
+		var bizId = $("#searchCompany").val();
+		if(!confirm("삭제하시겠습니까?")) return;
+
+		$.blockUI();
+
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				placeId:placeId,
+				bizId:bizId
+			},
+			success:function(result)
+			{
+				if (result.success==true) {
+					alert("삭제되었습니다.");
+					fn_commuteConfig();
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+				}
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error);
+				}
+			}
+		});
+	}
+
+	function fn_addrList() {
+		// window.open(rootPath+"html/commute/commute_zipcodePopup.html", "zipcode", "width=710, height=680, scrollbars=no");
+        window.open(rootPath+"html/commute/address.html", "zipcode", "width=450, height=680");
+	}
+
+	function setSearchAddr(result){
+		$('#placeAddr').val(result.addr);
+		$("#latitude").val(result.lat);
+		$("#longitude").val(result.lng);
+	}
+
+	function saveSearchAddr(result){
+        $('#placeAddr').val(result.addr);
+        $("#latitude").val(result.lat);
+        $("#longitude").val(result.lng);
+        var bizId = $("#searchCompany").val();
+
+		var url = rootPath+"attend/updAttendPlace.do";
+
+		$.blockUI();
+
+ 		$.ajax({
+			url: url,
+		    crossDomain: true,
+			dataType: "json",
+			type: "POST",
+			data: {
+				placeId: result.placeId,
+				placeAddr: result.addr,
+				latitude: result.lat,
+				longitude: result.lng,
+				bizId:bizId
+			},
+			success:function(result)
+			{
+				if (result.success==true) {
+					alert("수정되었습니다.");
+					fn_commuteConfig();
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+				}
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error);
+				}
+			}
+		});
+	}
+
+
+	//***************					기업 조회					***************//
+
+
+	function getBizGrpCombo() {
+
+		var url = rootPath+"biz/getBizGrpCombo.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			async: false,
+			type:"GET",
+			data: { },
+			success:function(result) {
+				if(result.success){
+		    		var workStatus = result.data;
+					$.each(workStatus, function(i, data){
+                        $("#searchCompany").append($("<option>", {
+                            value: data.id,
+                            text: data.name
+                        }));
+					});
+		    	}
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+</script>
+</head>
+<body>
+	<div id="commute_wrap" class="">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumGothic">근태 관리 > </span><span class="loc_sub NanumGothic">시스템 설정</span></div>
+			<div class="pagtit"><span class="NanumGothic">시스템 설정 </span></div>
+			<div class="field_area" style="float: left;">
+				<div class="selBox NanumGothic">
+					<select id="searchCompany" onchange="fn_commuteConfig()"></select>
+				</div>
+			</div>
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumGothic">오늘의 근무 현황</span>
+					</div>
+					<div class="box_wrap">
+						<div class="group_row row1 mar_top_10">
+							<dl class="w20 NanumGothic">
+								<dt><input type="checkbox" id="detailYn" name="detailYn" value="Y"></dt>
+								<dd class="text_box">출/퇴근장소의 자세한 위치를 나타냅니다.</dd>
+							</dl>
+						</div>
+						<div class="group_row row1 ">
+							<dl class="w20 NanumGothic">
+								<dt><input type="checkbox" id="placeYn" name="placeYn" value="Y"></dt>
+								<dd class="text_box">출근장소의 위치(주소)를 설정합니다.<span class="comment">※ 여러개의 위치(주소) 등록이 가능합니다.</span></dd>
+							</dl>
+						</div>
+						<div class="group_row row1 indent">
+							<dl class="w90 NanumGothic">
+								<dt><a class="btn_type" onclick="fn_addrList()">주소검색<span class="icon_zoom"></span></a></dt>
+								<dd class="input_box"><div class="address_input"><input type="text" id="placeAddr"><input type="text" id="placeName"></div><a class="btn_type" onclick="fn_commuteConfigAddrInsert()">등록</a></dd>
+								<input type="hidden" id="latitude">
+								<input type="hidden" id="longitude">
+							</dl>
+						</div>
+						<ul class="group_row address_list indent" id="addrDataList">
+						</ul>
+
+						<div class="group_row row1 ">
+							<dl class="w20 NanumGothic">
+								<dt><input type="checkbox" id="externalYn" value="Y"></dt>
+								<dd class="text_box">지정한 출근장소에서 반경
+									<select class="NanumGothic" id="externalCode">
+										<option value="0.1">100m</option>
+										<option value="0.5">500m</option>
+										<option value="1">1km</option>
+										<option value="3">3km</option>
+										<option value="5">5km</option>
+										<option value="10">10km</option>
+									</select> 를 넘어가면 ‘외부’로 표기됩니다.
+								</dd>
+							</dl>
+						</div>
+
+						<!-- <div class="group_row row1 ">
+							<dl class="w20 NanumGothic">
+								<dt><input type="checkbox"></dt>
+								<dd class="text_box">승인/승인취소/마감 클릭 시 패스워드를 입력합니다. <span class="comment">(관리자 로그인 패스워드 사용)</span></dd>
+							</dl>
+						</div>
+						<div class="group_row row1 ">
+							<dl class="w20 NanumGothic">
+								<dt><input type="checkbox"></dt>
+								<dd class="text_box">마감을 사용합니다.</dd>
+							</dl>
+						</div> -->
+					</div>
+				</div>
+
+				<!-- <div class="group_wrap half">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumGothic">출근부 다운로드</span>
+					</div>
+					<div class="box_wrap">
+						<div class="group_row row1 mar_top_10">
+							<dl class="w20 NanumGothic">
+								<dt><input type="checkbox"></dt>
+								<dd class="text_box">다운로드 시 설정값을 저장합니다.</dd>
+							</dl>
+						</div>
+					</div>
+				</div> -->
+
+				<!-- <div class="group_wrap half sort_right">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumGothic">근태데이터 다운로드</span>
+					</div>
+					<div class="box_wrap">
+						<div class="group_row row1 mar_top_10">
+							<dl class="w20 NanumGothic">
+								<dt><input type="checkbox"></dt>
+								<dd class="text_box">다운로드 시 설정값을 저장합니다.</dd>
+							</dl>
+						</div>
+					</div>
+				</div> -->
+
+				<div class="NanumGothic btn_group mar_top_20">
+					<a class="btn_type type4" onclick="fn_commuteConfigReset()">초기화</a>
+					<a class="btn_type" onclick="fn_commuteConfigInsert()"><span class="icon_check"></span>적용하기</a>
+				</div>
+			</div> <!--  contents -->
+
+		</div> <!--  container -->
+	</div>
+</body>
+</html>

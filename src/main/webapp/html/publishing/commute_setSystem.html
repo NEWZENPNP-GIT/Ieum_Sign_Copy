@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/commute_manage.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+
+</head>
+<body>
+	<div id="commute_wrap" class="">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">근태 관리 > </span><span class="loc_sub NanumSquare_R">시스템 설정</span></div>
+			<div class="pagtit"><span class="NanumSquare_R">시스템 설정 </span></div>
+			<div class="tit_dec NanumRound"><span class="speaker"></span><span> 공지 ㅣ 2018년 7월 16일(월)~2018년 7월 20일(금) 단체 여름 휴가 기간입니다.</span></div>
+			
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">오늘의 근무 현황</span>
+					</div>
+					<div class="box_wrap">
+						<div class="group_row row1 mar_top_10">
+							<dl class="w20 NanumSquare_R">
+								<dt><input type="checkbox"></dt>
+								<dd class="text_box">출/퇴근장소의 자세한 위치를 나타냅니다.</dd>
+							</dl>
+						</div>
+						<div class="group_row row1 ">
+							<dl class="w20 NanumSquare_R">
+								<dt><input type="checkbox"></dt>
+								<dd class="text_box">출근장소의 위치(주소)를 설정합니다.<span class="comment">※ 여러개의 위치(주소) 등록이 가능합니다.</span></dd>
+							</dl>
+						</div>
+						<div class="group_row row1 indent">
+							<dl class="w90 NanumSquare_R">
+								<dt><a class="btn_type">주소검색<span class="icon_zoom"></span></a></dt>
+								<dd class="input_box"><div class="address_input"><input type="text"><input type="text"></div><a class="btn_type ">등록</a></dd>
+							</dl>
+						</div>
+						<ul class="group_row address_list indent">
+							<li class="NanumSquare_R">
+								<div class="adr_name">사무실</div>
+								<div class="address">서울특별시 영등포구 경인로 775, 에이스하이테크시티 1동 1009호 </div>
+								<div class="btns"><a class="btn_type type4">삭제</a><a class="btn_type type5">수정</a></div>
+							</li>
+							<li class="NanumSquare_R">
+								<div class="adr_name">제 1연구실</div>
+								<div class="address">서울특별시 영등포구 경인로 775, 에이스하이테크시티 1동 1009호 </div>
+								<div class="btns"><a class="btn_type type4">삭제</a><a class="btn_type type5">수정</a></div>
+							</li>
+						</ul>
+						
+						<div class="group_row row1 ">
+							<dl class="w20 NanumSquare_R">
+								<dt><input type="checkbox"></dt>
+								<dd class="text_box">지정한 출근장소에서 반경 <select class="NanumSquare_R">
+										<option value="">3km</option>
+									</select> 를 넘어가면 ‘외부’로 표기됩니다.</dd>
+							</dl>
+						</div>
+						<div class="group_row row1 ">
+							<dl class="w20 NanumSquare_R">
+								<dt><input type="checkbox"></dt>
+								<dd class="text_box">승인/승인취소/마감 클릭 시 패스워드를 입력합니다. <span class="comment">(관리자 로그인 패스워드 사용)</span></dd>
+							</dl>
+						</div>
+						<div class="group_row row1 ">
+							<dl class="w20 NanumSquare_R">
+								<dt><input type="checkbox"></dt>
+								<dd class="text_box">마감을 사용합니다.</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+				<div class="group_wrap half">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">출근부 다운로드</span>
+					</div>
+					<div class="box_wrap">
+						<div class="group_row row1 mar_top_10">
+							<dl class="w20 NanumSquare_R">
+								<dt><input type="checkbox"></dt>
+								<dd class="text_box">다운로드 시 설정값을 저장합니다.</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+				<div class="group_wrap half sort_right">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">근태데이터 다운로드</span>
+					</div>
+					<div class="box_wrap">
+						<div class="group_row row1 mar_top_10">
+							<dl class="w20 NanumSquare_R">
+								<dt><input type="checkbox"></dt>
+								<dd class="text_box">다운로드 시 설정값을 저장합니다.</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+				<div class="NanumSquare_R btn_group mar_top_20">
+					<a class="btn_type type4">초기화</a>
+					<a class="btn_type "><span class="icon_check"></span>적용하기</a>
+				</div>
+			</div> <!--  contents -->
+				
+			
+		</div> <!--  container -->
+	</div>
+</body>
+<script  type="text/javascript">
+$('#page-selection').bootpag({
+    total: 10,
+    page: 1,
+    maxVisible: 5,
+    leaps: true,
+    firstLastUse: true,
+    first: '',
+    last: '',
+    wrapClass: 'pagination',
+    activeClass: 'active',
+    disabledClass: 'disabled',
+    nextClass: 'btn_next',
+    prevClass: 'btn_prev',
+    lastClass: 'end_page',
+    firstClass: 'first_page'
+}).on("page", function(event, num){
+    
+});
+</script>
+</html>

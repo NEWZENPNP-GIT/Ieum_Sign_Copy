@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>주소  검색</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+</head>
+<body>
+	<div id="yearTax_wrap_popup" class="yearTax_popup address">
+		<div class="container">
+			<div id="popup_tit">
+				<div class="tit_icon icon_set"></div>
+				<div class="tit_text NanumSquare_B">주소 검색</div>
+				<div id="popup_close" class="btn_type col_skyblue" onclick="window.close();"></div>
+			</div>
+			<div class="contents">
+				<ul class="tabs">
+					<li class="btn_type"><input type="radio" name="address"><label>도로명주소+건물번호</label></li>
+					<li class="btn_type"><input type="radio" name="address"><label>동(읍면)+지번</label></li>
+					<li class="btn_type"><input type="radio" name="address"><label>건물명(아파트명)</label></li>
+				</ul>
+				<ul class="tab_container">
+					<li id="tab1" class="tab-content">
+						<div class="text_wrap">
+							<div class="line">검색방법: 도로명 또는 도로명+건물번호를 입력 후 검색 하세요.</div>
+							<div class="line col_gray">예)도로명:버드나무로 또는 도로명+건물번호:버드나무로135(도로명과건물번호 사이 한칸 띄움)</div>
+							<div class="line">*도로명 주소가 검색되지 않는 경우는 행정안전부 새주소안내시스템 (<a class="btn_type col_darkblue" href="http://www.juso.go.kr" target="_blank">http://www.juso.go.kr</a>)<br>&nbsp;에서 확인 바랍니다.</div>
+							<div class="line"><a>*주소표기방법 보기</a></div>
+						</div>
+						<div class="search_wrap">
+							<dl>
+								<dt><label class="NanumSquare_R">시도</label></dt>
+								<dd><select class="NanumSquare_R">
+										<option value="">서울특별시</option>
+									</select>
+								</dd>
+							</dl>
+							<dl>
+								<dt><label class="NanumSquare_R">검색어</label></dt>
+								<dd><input type="text"><a class="NanumSquare_R btn_type btn_search">검색</a></dd>
+							</dl>
+						</div>
+						<!--  검색 전 result_wrap class: hidden 추가  / 검색 후 hidden 클랙스 삭제-->
+						<div class="result_wrap">
+							<div class="thead NanumSquare_R"><div>주소</div><div>선택</div></div>
+							<ul class="list">
+								<li>
+									<div>07299 서울시 영등포구 경인로 775(문래동 3가, 에이스하이테크시티)</div><input type="radio" name="address">
+									<div>07299 서울시 영등포구 문래동 3가 55-20 에이스 하이테크 시티</div><input type="radio" name="address">
+								</li>
+								<li>
+									<div>07299 서울시 영등포구 경인로 775(문래동 3가, 에이스하이테크시티)</div><input type="radio" name="address">
+									<div>07299 서울시 영등포구 문래동 3가 55-20 에이스 하이테크 시티</div><input type="radio" name="address">
+								</li>
+								<li>
+									<div>07299 서울시 영등포구 경인로 775(문래동 3가, 에이스하이테크시티)</div><input type="radio" name="address">
+									<div>07299 서울시 영등포구 문래동 3가 55-20 에이스 하이테크 시티</div><input type="radio" name="address">
+								</li>
+								<li>
+									<div>07299 서울시 영등포구 경인로 775(문래동 3가, 에이스하이테크시티)</div><input type="radio" name="address">
+									<div>07299 서울시 영등포구 문래동 3가 55-20 에이스 하이테크 시티</div><input type="radio" name="address">
+								</li>
+							</ul>
+						</div>
+					</li>
+					<li id="tab2" class="tab-content hidden">
+						<div class="text_wrap">
+							<div class="line">검색방법: 동(읍/면) 또는 동(읍/면) + 지번입력</div>
+							<div class="line col_gray">예)당산동/당산동 121-59</div>
+							<div class="line">*도로명 주소가 검색되지 않는 경우는 행정안전부 새주소안내시스템 (<a class="btn_type col_darkblue" href="http://www.juso.go.kr" target="_blank">http://www.juso.go.kr</a>)<br>&nbsp;에서 확인 바랍니다.</div>
+							<div class="line"><a>*주소표기방법 보기</a></div>
+						</div>
+						<div class="search_wrap">
+							<dl>
+								<dt><label class="NanumSquare_R">시도</label></dt>
+								<dd><select class="NanumSquare_R">
+										<option value="">서울특별시</option>
+									</select>
+								</dd>
+							</dl>
+							<dl>
+								<dt><label class="NanumSquare_R">검색어</label></dt>
+								<dd><input type="text"><a class="NanumSquare_R btn_type btn_search">검색</a></dd>
+							</dl>
+						</div>
+						<!--  검색 전 result_wrap class: hidden 추가  / 검색 후 hidden 클랙스 삭제-->
+						<div class="result_wrap hidden">
+							<div class="thead NanumSquare_R"><div>주소</div><div>선택</div></div>
+							<ul class="list">
+								<li>
+									<div>07299 서울시 영등포구 경인로 775(문래동 3가, 에이스하이테크시티)</div><input type="radio" name="address">
+									<div>07299 서울시 영등포구 문래동 3가 55-20 에이스 하이테크 시티</div><input type="radio" name="address">
+								</li>
+								<li>
+									<div>07299 서울시 영등포구 경인로 775(문래동 3가, 에이스하이테크시티)</div><input type="radio" name="address">
+									<div>07299 서울시 영등포구 문래동 3가 55-20 에이스 하이테크 시티</div><input type="radio" name="address">
+								</li>
+								<li>
+									<div>07299 서울시 영등포구 경인로 775(문래동 3가, 에이스하이테크시티)</div><input type="radio" name="address">
+									<div>07299 서울시 영등포구 문래동 3가 55-20 에이스 하이테크 시티</div><input type="radio" name="address">
+								</li>
+								<li>
+									<div>07299 서울시 영등포구 경인로 775(문래동 3가, 에이스하이테크시티)</div><input type="radio" name="address">
+									<div>07299 서울시 영등포구 문래동 3가 55-20 에이스 하이테크 시티</div><input type="radio" name="address">
+								</li>
+							</ul>
+						</div>
+					</li>
+					<li id="tab3" class="tab-content hidden">
+						<div class="text_wrap">
+							<div class="line">검색방법: 건물명 입력</div>
+							<div class="line col_gray">예)서울시 당산빌딩: 서울 선택 후 당신빌딩(건물명)입력 후 검색</div>
+							<div class="line">*도로명 주소가 검색되지 않는 경우는 행정안전부 새주소안내시스템 (<a class="btn_type col_darkblue" href="http://www.juso.go.kr" target="_blank">http://www.juso.go.kr</a>)<br>&nbsp;에서 확인 바랍니다.</div>
+							<div class="line"><a>*주소표기방법 보기</a></div>
+						</div>
+						<div class="search_wrap">
+							<dl>
+								<dt><label class="NanumSquare_R">시도</label></dt>
+								<dd><select class="NanumSquare_R">
+										<option value="">서울특별시</option>
+									</select>
+								</dd>
+							</dl>
+							<dl>
+								<dt><label class="NanumSquare_R">검색어</label></dt>
+								<dd><input type="text"><a class="NanumSquare_R btn_type btn_search">검색</a></dd>
+							</dl>
+						</div>
+						<!--  검색 전 result_wrap class: hidden 추가  / 검색 후 hidden 클랙스 삭제-->
+						<div class="result_wrap hidden">
+							<div class="thead NanumSquare_R"><div>주소</div><div>선택</div></div>
+							<ul class="list">
+								<li>
+									<div>07299 서울시 영등포구 경인로 775(문래동 3가, 에이스하이테크시티)</div><input type="radio" name="address">
+									<div>07299 서울시 영등포구 문래동 3가 55-20 에이스 하이테크 시티</div><input type="radio" name="address">
+								</li>
+								<li>
+									<div>07299 서울시 영등포구 경인로 775(문래동 3가, 에이스하이테크시티)</div><input type="radio" name="address">
+									<div>07299 서울시 영등포구 문래동 3가 55-20 에이스 하이테크 시티</div><input type="radio" name="address">
+								</li>
+								<li>
+									<div>07299 서울시 영등포구 경인로 775(문래동 3가, 에이스하이테크시티)</div><input type="radio" name="address">
+									<div>07299 서울시 영등포구 문래동 3가 55-20 에이스 하이테크 시티</div><input type="radio" name="address">
+								</li>
+								<li>
+									<div>07299 서울시 영등포구 경인로 775(문래동 3가, 에이스하이테크시티)</div><input type="radio" name="address">
+									<div>07299 서울시 영등포구 문래동 3가 55-20 에이스 하이테크 시티</div><input type="radio" name="address">
+								</li>
+							</ul>
+						</div>
+					</li>
+				</ul>
+				<div class="foot_btn">
+					<a class="btn_type">처음으로</a>
+				</div>
+			</div> <!--  contents -->
+		</div> <!--  container -->
+	</div>
+</body>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+	//Default Action
+	$("ul.tabs li:first").addClass("active").show();
+	$("ul.tabs li:first").find("input[type='radio']").prop("checked",true);
+	 
+	
+	
+	//On Click Event
+	 $("ul.tabs li").click(function() {
+		$("ul.tabs li").removeClass("active"); //Remove any "active" class
+		$(this).addClass("active"); //Add "active" class to selected tab
+		
+		$("ul.tab_container > li.tab-content").each(function(){
+			if(!$(this).hasClass("hidden")){
+				$(this).addClass("hidden");
+			}
+		})
+		
+		$(this).find("input[type='radio']").prop("checked",true);
+		$(this).find("input[type='radio']").prop("checked",true);
+		var _eq=$(this).index();
+		$("ul.tab_container > li.tab-content").eq(_eq).removeClass("hidden");
+		/* var activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
+		//$(activeTab).fadeIn(); //Fade in the active content
+		return false; */
+	}); 
+
+});
+</script>
+</html>

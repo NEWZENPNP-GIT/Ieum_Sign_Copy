@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="schedule">
+	<typeAlias alias="scheduleVO" type="com.ezsign.schedule.vo.ScheduleVO" />
+	<resultMap id="scheduleListMap" class="scheduleVO">
+		<result property="scheduleId" column="SCHEDULE_ID"/>
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="bizName" column="BIZ_NAME"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="dateFrom" column="DATE_FROM"/>
+		<result property="dateTo" column="DATE_TO"/>
+		<result property="scheduleType" column="SCHEDULE_TYPE"/>
+		<result property="openType" column="OPEN_TYPE"/>
+		<result property="subject" column="SUBJECT"/>
+		<result property="comments" column="COMMENTS"/>
+		<result property="location" column="LOCATION"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="updDate" column="UPD_DATE"/>
+	</resultMap>
+	
+	<insert id="scheduleDAO.insSchedule" parameterClass="scheduleVO">
+		INSERT INTO tbl_schedule (
+			BIZ_ID, USER_ID, DATE_FROM, DATE_TO, SCHEDULE_TYPE, OPEN_TYPE, SUBJECT, COMMENTS, LOCATION, INS_DATE, UPD_DATE
+		) VALUES (
+		   #bizId#, #userId#, #dateFrom#, #dateTo#, #scheduleType#, #openType#, #subject#, #comments#, #location#,DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<delete id="scheduleDAO.delSchedule" parameterClass="scheduleVO">
+		DELETE FROM tbl_schedule
+		WHERE	SCHEDULE_ID = #scheduleId#
+	</delete>
+	
+	<update id="scheduleDAO.updSchedule" parameterClass="scheduleVO">
+		UPDATE tbl_schedule
+		SET	
+		<isNotNull property="dateFrom">
+		    <isNotEmpty property="dateFrom">
+			DATE_FROM			= #dateFrom#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="dateTo">
+		    <isNotEmpty property="dateTo">
+			DATE_TO				= #dateTo#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="scheduleType">
+		    <isNotEmpty property="scheduleType">
+			SCHEDULE_TYPE			= #scheduleType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="openType">
+		    <isNotEmpty property="openType">
+			OPEN_TYPE			= #openType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="subject">
+		    <isNotEmpty property="subject">
+			SUBJECT				= #subject#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="comments">
+		    <isNotEmpty property="comments">
+			COMMENTS			= #comments#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="location">
+		    <isNotEmpty property="location">
+			LOCATION			= #location#,
+			</isNotEmpty>
+		</isNotNull>
+			UPD_DATE			= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	SCHEDULE_ID  = #scheduleId#
+	</update>
+	
+	<select id="scheduleDAO.getScheduleList" resultClass="scheduleVO" resultMap="scheduleListMap">
+		SELECT  A.SCHEDULE_ID, A.BIZ_ID, C.BIZ_NAME, A.USER_ID, B.EMP_NAME, A.DATE_FROM, A.DATE_TO, A.SCHEDULE_TYPE, A.OPEN_TYPE, A.SUBJECT, A.COMMENTS, A.LOCATION, A.INS_DATE, A.UPD_DATE
+		FROM    tbl_schedule A, tbl_emp B, tbl_biz C
+		WHERE   A.USER_ID = B.USER_ID
+		AND     B.BIZ_ID  = C.BIZ_ID
+		AND     B.USE_YN  = 'Y'
+		AND     A.OPEN_TYPE = '1'
+		AND     B.BIZ_ID  = #bizId#
+		AND     A.USER_ID = #userId#
+		<isNotNull property="searchType">
+		    <isNotEmpty property="searchType">
+			    <isEqual property="searchType"  compareValue="M">
+					AND	  LEFT(#searchDateFrom#, 6) BETWEEN LEFT(A.DATE_FROM, 6) AND LEFT(A.DATE_TO, 6)
+				</isEqual>
+			    <isEqual property="searchType"  compareValue="D">
+				<![CDATA[
+					AND   (#searchDateFrom# >= A.DATE_FROM OR #searchDateTo# <= A.DATE_TO)
+				]]>
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		UNION ALL
+		SELECT  A.SCHEDULE_ID, A.BIZ_ID, C.BIZ_NAME, A.USER_ID, B.EMP_NAME, A.DATE_FROM, A.DATE_TO, A.SCHEDULE_TYPE, A.OPEN_TYPE, A.SUBJECT, A.COMMENTS, A.LOCATION, A.INS_DATE, A.UPD_DATE
+		FROM    tbl_schedule A, tbl_emp B, tbl_biz C
+		WHERE   A.USER_ID = B.USER_ID
+		AND     B.BIZ_ID  = C.BIZ_ID
+		AND     B.USE_YN  = 'Y'
+		AND     A.OPEN_TYPE = '3'
+		AND     B.BIZ_ID  = #bizId#
+		<isNotNull property="searchType">
+		    <isNotEmpty property="searchType">
+			    <isEqual property="searchType"  compareValue="M">
+					AND	  #searchDateFrom# BETWEEN LEFT(A.DATE_FROM, 6) AND LEFT(A.DATE_TO, 6)
+				</isEqual>
+			    <isEqual property="searchType"  compareValue="D">
+				<![CDATA[
+					AND   (#searchDateFrom# >= A.DATE_FROM OR #searchDateTo# <= A.DATE_TO)
+				]]>
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+</sqlMap>    

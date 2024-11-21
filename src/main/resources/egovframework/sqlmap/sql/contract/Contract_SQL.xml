@@ -1,0 +1,2555 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Contract">
+	<typeAlias alias="contractPersonVO" type="com.ezsign.contract.vo.ContractPersonVO"/>
+	<resultMap id="contractPersonListMap" class="contractPersonVO">
+		<result property="contId" column="CONT_ID"/>
+		<result property="serviceId" column="SERVICE_ID"/>
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="bizName" column="BIZ_NAME"/>
+		<result property="ownerName" column="OWNER_NAME"/>
+		<result property="businessNo" column="BUSINESS_NO"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="phoneNum" column="PHONE_NUM"/>
+		<result property="eMail" column="E_MAIL"/>
+		<result property="deptName" column="DEPT_NAME"/>
+		<result property="contractType" column="CONTRACT_TYPE"/>
+		<result property="contractTypeName" column="CONTRACT_TYPE_NAME"/>
+		<result property="contractName" column="CONTRACT_NAME"/>
+		<result property="contractDate" column="CONTRACT_DATE"/>
+		<result property="inputType" column="INPUT_TYPE"/>
+		<result property="sendType" column="SEND_TYPE"/>
+		<result property="sendDate" column="SEND_DATE"/>
+		<result property="endDate" column="END_DATE"/>
+		<result property="keepDate" column="KEEP_DATE"/>
+		<result property="expireDate" column="EXPIRE_DATE"/>
+		<result property="comment" column="COMMENT"/>
+		<result property="hashData" column="HASH_DATA"/>
+		<result property="statusCode" column="STATUS_CODE"/>
+		<result property="statusName" column="STATUS_NAME"/>
+		<result property="contractId" column="CONTRACT_ID"/>
+		<result property="contractFileId" column="CONTRACT_FILE_ID"/>
+		<result property="contractFileName" column="CONTRACT_FILE_NAME"/>
+		<result property="userDate" column="USER_DATE"/>
+		<result property="transType" column="TRANS_TYPE"/>
+		<result property="digitNonce" column="DIGIT_NONCE"/>
+		<result property="authType" column="AUTH_TYPE"/>
+		<result property="authCode" column="AUTH_CODE"/>
+	</resultMap>
+
+	<resultMap id="contractPersonPreviewMap" class="contractPersonVO">
+		<result property="contId" column="CONT_ID"/>
+		<result property="serviceId" column="SERVICE_ID"/>
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="bizName" column="BIZ_NAME"/>
+		<result property="ownerName" column="OWNER_NAME"/>
+		<result property="businessNo" column="BUSINESS_NO"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="contractType" column="CONTRACT_TYPE"/>
+		<result property="contractTypeName" column="CONTRACT_TYPE_NAME"/>
+		<result property="contractName" column="CONTRACT_NAME"/>
+		<result property="contractDate" column="CONTRACT_DATE"/>
+		<result property="inputType" column="INPUT_TYPE"/>
+		<result property="sendType" column="SEND_TYPE"/>
+		<result property="sendDate" column="SEND_DATE"/>
+		<result property="endDate" column="END_DATE"/>
+		<result property="keepDate" column="KEEP_DATE"/>
+		<result property="expireDate" column="EXPIRE_DATE"/>
+		<result property="comment" column="COMMENT"/>
+		<result property="hashData" column="HASH_DATA"/>
+		<result property="statusCode" column="STATUS_CODE"/>
+		<result property="statusName" column="STATUS_NAME"/>
+		<result property="contractId" column="CONTRACT_ID"/>
+		<result property="contractFileId" column="CONTRACT_FILE_ID"/>
+		<result property="contractFileName" column="CONTRACT_FILE_NAME"/>
+		<result property="transType" column="TRANS_TYPE"/>
+		<result property="digitNonce" column="DIGIT_NONCE"/>
+		<result property="authType" column="AUTH_TYPE"/>
+		<result property="authCode" column="AUTH_CODE"/>
+	</resultMap>
+
+	<resultMap id="contractPersonExcelListMap" class="contractPersonVO">
+		<result property="serviceId" column="SERVICE_ID"/>
+		<result property="fileId" column="FILE_ID"/>
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="contractDate" column="CONTRACT_DATE"/>
+		<result property="contractType" column="CONTRACT_TYPE"/>
+		<result property="statusCode" column="STATUS_CODE"/>
+		<result property="transType" column="TRANS_TYPE"/>
+	</resultMap>
+
+	<typeAlias alias="contractPersonLogVO" type="com.ezsign.contract.vo.ContractPersonLogVO"/>
+	<resultMap id="contractPersonLogListMap" class="contractPersonLogVO">
+		<result property="contId" column="CONT_ID"/>
+		<result property="serviceId" column="SERVICE_ID"/>
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="logType" column="LOG_TYPE"/>
+		<result property="logName" column="LOG_NAME"/>
+		<result property="contractDate" column="CONTRACT_DATE"/>
+		<result property="contractId" column="CONTRACT_ID"/>
+		<result property="logMessage" column="LOG_MESSAGE"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="insEmpName" column="INS_EMP_NAME"/>
+	</resultMap>
+
+	<typeAlias alias="contractFormVO" type="com.ezsign.contract.vo.ContractFormVO"/>
+	<resultMap id="contractFormListMap" class="contractFormVO">
+		<result property="contId" column="CONT_ID"/>
+		<result property="serviceId" column="SERVICE_ID"/>
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="bizName" column="BIZ_NAME"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="contractDate" column="CONTRACT_DATE"/>
+		<result property="formDataId" column="FORM_DATA_ID"/>
+		<result property="formDataType" column="FORM_DATA_TYPE"/>
+		<result property="formDataName" column="FORM_DATA_NAME"/>
+		<result property="formDataValue" column="FORM_DATA_VALUE"/>
+		<result property="encodeYn" column="ENCODE_YN"/>
+		<result property="insDate" column="INS_DATE"/>
+	</resultMap>
+
+	<resultMap id="contractPreviewFormListMap" class="contractFormVO">
+		<result property="contId" column="CONT_ID"/>
+		<result property="serviceId" column="SERVICE_ID"/>
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="bizName" column="BIZ_NAME"/>
+		<result property="contractDate" column="CONTRACT_DATE"/>
+		<result property="formDataId" column="FORM_DATA_ID"/>
+		<result property="formDataType" column="FORM_DATA_TYPE"/>
+		<result property="formDataName" column="FORM_DATA_NAME"/>
+		<result property="formDataValue" column="FORM_DATA_VALUE"/>
+		<result property="encodeYn" column="ENCODE_YN"/>
+		<result property="insDate" column="INS_DATE"/>
+	</resultMap>
+
+	<typeAlias alias="contractFormValueVO" type="com.ezsign.contract.vo.ContractFormValueVO"/>
+	<resultMap id="contractFormExcelListMap" class="contractFormValueVO">
+		<result property="formDataId" column="FORM_DATA_ID"/>
+		<result property="formDataValue" column="FORM_DATA_VALUE"/>
+	</resultMap>
+
+	<typeAlias alias="contractPersonNewVO" type="com.ezsign.contract.vo.ContractPersonNewVO"/>
+	<resultMap id="contractPersonNewListMap" class="contractPersonNewVO">
+		<result property="serviceId" column="SERVICE_ID"/>
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="bizName" column="BIZ_NAME"/>
+		<result property="fileId" column="FILE_ID"/>
+		<result property="fileName" column="FILE_NAME"/>
+		<result property="fileTitle" column="FILE_TITLE"/>
+		<result property="contractId" column="CONTRACT_ID"/>
+		<result property="dataFileId" column="DATA_FILE_ID"/>
+		<result property="alterFileId" column="ALTER_FILE_ID"/>
+		<result property="transType" column="TRANS_TYPE"/>
+		<result property="contractType" column="CONTRACT_TYPE"/>
+		<result property="fontConvertType" column="FONT_CONVERT_TYPE"/>
+		<result property="correctionType" column="CORRECTION_TYPE"/>
+		<result property="contractTypeName" column="CONTRACT_TYPE_NAME"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="lastFileId" column="LAST_FILE_ID"/>
+		<result property="laborType" column="LABOR_TYPE"/>
+		<result property="signUserType" column="SIGN_USER_TYPE"/>
+		<result property="signBizType" column="SIGN_BIZ_TYPE"/>
+		<result property="signCustomerType" column="SIGN_CUSTOMER_TYPE"/>
+		<result property="useOtherLayout" column="USE_OTHER_LAYOUT"/>
+		<result property="useEtc" column="USE_ETC"/>
+		<result property="etcUrl" column="ETC_URL"/>
+		<result property="usePre" column="USE_PRE"/>
+		<result property="preUrl" column="PRE_URL"/>
+		<result property="orgImgYn" column="ORG_IMG_YN"/>
+		<result property="viewYn" column="VIEW_YN"/>
+		<result property="expireDay" column="EXPIRE_DAY"/>
+		<result property="bookmark" column="BOOKMARK"/>
+		<result property="colOrder" column="COL_ORDER"/>
+	</resultMap>
+
+	<resultMap id="contractTransformListMap" class="contractPersonNewVO">
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="bizName" column="BIZ_NAME"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="transTypeN" column="TRANS_TYPE_N"/>
+		<result property="transTypeT" column="TRANS_TYPE_T"/>
+		<result property="transTypeC" column="TRANS_TYPE_C"/>
+		<result property="transTypeP" column="TRANS_TYPE_P"/>
+	</resultMap>
+
+	<typeAlias alias="contractPersonNewFormVO" type="com.ezsign.contract.vo.ContractPersonNewFormVO"/>
+	<resultMap id="contractPersonNewFormListMap" class="contractPersonNewFormVO">
+		<result property="serviceId" column="SERVICE_ID"/>
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="fileId" column="FILE_ID"/>
+		<result property="formDataId" column="FORM_DATA_ID"/>
+		<result property="formDataType" column="FORM_DATA_TYPE"/>
+		<result property="formDataName" column="FORM_DATA_NAME"/>
+		<result property="formDataDefaultValue" column="FORM_DATA_DEFAULT_VALUE"/>
+		<result property="insDate" column="INS_DATE"/>
+	</resultMap>
+
+	<typeAlias alias="contractPersonMainVO" type="com.ezsign.contract.vo.ContractPersonMainVO"/>
+	<resultMap id="contractPersonMainListMap" class="contractPersonMainVO">
+		<result property="contractDate" column="CONTRACT_DATE"/>
+		<result property="contractTypeName" column="CONTRACT_TYPE_NAME"/>
+	</resultMap>
+
+	<typeAlias alias="contractPersonNewFormCommentVO" type="com.ezsign.contract.vo.ContractPersonNewFormCommentVO"/>
+	<resultMap id="contractPersonNewFormCommentListMap" class="contractPersonNewFormCommentVO">
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="fileId" column="FILE_ID"/>
+		<result property="commentNo" column="COMMENT_NO"/>
+		<result property="commentContent" column="COMMENT_CONTENT"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="scoreNum" column="SCORE_NUM"/>
+		<result property="regPasswd" column="REG_PASSWD"/>
+		<result property="transType" column="TRANS_TYPE"/>
+		<result property="userType" column="USER_TYPE"/>
+		<result property="userTypeName" column="USER_TYPE_NAME"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="updDate" column="UPD_DATE"/>
+	</resultMap>
+
+	<typeAlias alias="contractSettingVO" type="com.ezsign.contract.vo.ContractSettingVO"/>
+
+	<select id="contractDAO.getContractPersonMain" parameterClass="contractPersonVO" resultMap="contractPersonMainListMap">
+		SELECT 	MAX(A.CONTRACT_DATE) CONTRACT_DATE,
+				E.COMM_NAME CONTRACT_TYPE_NAME
+		FROM    TBL_CONTRACT_PERSON A
+		LEFT JOIN TBL_EMP B1
+		  ON 	A.USER_ID = B1.USER_ID
+		 AND 	B1.USE_YN = 'Y'
+		LEFT JOIN  TBL_CUSTOMER B2
+		  ON 	A.USER_ID = B2.CUSTOMER_ID
+		 AND 	B2.USE_YN = 'Y'
+		INNER JOIN TBL_CODE C
+		  ON 	A.STATUS_CODE   = C.COMM_CODE
+		 AND 	C.GRP_COMM_CODE = '101'
+		INNER JOIN TBL_BIZ D
+		  ON 	A.BIZ_ID = D.BIZ_ID
+		INNER JOIN TBL_CODE E
+		  ON 	A.CONTRACT_TYPE = E.COMM_CODE
+		 AND 	E.GRP_COMM_CODE = '102'
+		INNER JOIN TBL_CONTENT F
+		  ON 	A.CONTRACT_FILE_ID = F.FILE_ID
+		WHERE   A.BIZ_ID   		= #bizId#
+		 AND 	A.USER_ID   	= #userId#
+		 AND 	A.STATUS_CODE   = 'Y'
+	</select>
+
+	<insert id="contractDAO.insContractPerson" parameterClass="contractPersonVO">
+		<selectKey resultClass="java.lang.String" keyProperty="contId">
+			SELECT  getTableKey('TBL_CONTRACT_PERSON');
+		</selectKey>
+		INSERT INTO TBL_CONTRACT_PERSON (
+			CONT_ID,
+			SERVICE_ID,
+			BIZ_ID,
+			USER_ID,
+			CONTRACT_DATE,
+			CONTRACT_TYPE,
+			CONTRACT_NAME,
+			CONTRACT_ID,
+			SEND_DATE,
+			END_DATE,
+			KEEP_DATE,
+			TRANS_TYPE,
+			INPUT_TYPE,
+			DIGIT_SIGN,
+			DIGIT_NONCE,
+			CONTRACT_FILE_ID,
+			STATUS_CODE,
+			INS_DATE,
+			INS_EMP_NO,
+			UPD_DATE,
+			UPD_EMP_NO
+		) VALUES (
+			#contId#,
+			#serviceId#,
+			#bizId#,
+			#userId#,
+			#contractDate#,
+			#contractType#,
+			#contractName#,
+			#contractId#,
+			#sendDate#,
+			#endDate#,
+			#keepDate#,
+			#transType#,
+			#inputType#,
+			#digitSign#,
+			#digitNonce#,
+			#contractFileId#,
+			#statusCode#,
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'),
+			'SYSTEM',
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'),
+			'SYSTEM'
+		)
+	</insert>
+
+	<update id="contractDAO.updContractPerson" parameterClass="contractPersonVO">
+		UPDATE 	TBL_CONTRACT_PERSON
+		SET
+		<isNotNull property="contractType">
+			<isNotEmpty property="contractType">
+				CONTRACT_TYPE = #contractType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contractName">
+			<isNotEmpty property="contractName">
+				CONTRACT_NAME = #contractName#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contractId">
+			<isNotEmpty property="contractId">
+				CONTRACT_ID = #contractId#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sendType">
+			<isNotEmpty property="sendType">
+				SEND_TYPE = #sendType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sendDate">
+			SEND_DATE = #sendDate#,
+		</isNotNull>
+		<isNotNull property="endDate">
+			<isNotEmpty property="endDate">
+				END_DATE = #endDate#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="keepDate">
+			<isNotEmpty property="keepDate">
+				KEEP_DATE = #keepDate#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="expireDate">
+			<isNotEmpty property="expireDate">
+				EXPIRE_DATE = #expireDate#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="comment">
+			<isNotEmpty property="comment">
+				COMMENT = #comment#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="hashData">
+			<isNotEmpty property="hashData">
+				HASH_DATA = #hashData#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="digitSign">
+			<isNotEmpty property="digitSign">
+				DIGIT_SIGN = #digitSign#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contractFileId">
+			<isNotEmpty property="contractFileId">
+				CONTRACT_FILE_ID = #contractFileId#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="statusCode">
+			<isNotEmpty property="statusCode">
+				STATUS_CODE = #statusCode#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="transType">
+			<isNotEmpty property="transType">
+				TRANS_TYPE = #transType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="digitNonce">
+			<isNotEmpty property="digitNonce">
+				DIGIT_NONCE = #digitNonce#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="authType">
+			<isNotEmpty property="authType">
+				AUTH_TYPE = #authType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="authCode">
+			<isNotEmpty property="authCode">
+				AUTH_CODE = #authCode#,
+			</isNotEmpty>
+		</isNotNull>
+		UPD_DATE = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	CONT_ID	= #contId#
+	</update>
+
+	<delete id="contractDAO.delContractPerson" parameterClass="contractPersonVO">
+		DELETE FROM TBL_CONTRACT_PERSON
+		WHERE 	CONT_ID = #contId#
+	</delete>
+
+	<delete id="contractDAO.delContractPersonTemp" parameterClass="contractPersonVO">
+		DELETE FROM  TBL_CONTRACT_PERSON
+		WHERE   BIZ_ID     		 = #bizId#
+		  AND 	CONTRACT_FILE_ID = #contractFileId#
+		  AND 	TRANS_TYPE 		 = 'N'
+	</delete>
+
+	<insert id="contractDAO.moveContractPersonDel" parameterClass="contractPersonVO">
+		INSERT TBL_CONTRACT_PERSON_DEL (
+			CONT_ID,
+			SERVICE_ID,
+			BIZ_ID,
+			USER_ID,
+			CONTRACT_DATE,
+			CONTRACT_TYPE,
+			CONTRACT_NAME,
+			CONTRACT_ID,
+			SEND_DATE,
+			END_DATE,
+			KEEP_DATE,
+			HASH_DATA,
+			DIGIT_SIGN,
+			DIGIT_NONCE,
+			CONTRACT_FILE_ID,
+			INPUT_TYPE,
+			STATUS_CODE,
+			TRANS_TYPE,
+			INS_DATE,
+			INS_EMP_NO,
+			UPD_DATE,
+			UPD_EMP_NO
+		) (
+			SELECT 	CONT_ID,
+			SERVICE_ID,
+			BIZ_ID,
+			USER_ID,
+			CONTRACT_DATE,
+			CONTRACT_TYPE,
+			CONTRACT_NAME,
+			CONTRACT_ID,
+			SEND_DATE,
+			END_DATE,
+			KEEP_DATE,
+			HASH_DATA,
+			DIGIT_SIGN,
+			DIGIT_NONCE,
+			CONTRACT_FILE_ID,
+			INPUT_TYPE,
+			STATUS_CODE,
+			TRANS_TYPE,
+			INS_DATE,
+			INS_EMP_NO,
+			UPD_DATE,
+			UPD_EMP_NO
+			FROM  	TBL_CONTRACT_PERSON
+			WHERE 	STATUS_CODE = 'D'
+		)
+	</insert>
+
+	<select id="contractDAO.getContractPersonNonce" parameterClass="contractPersonVO" resultMap="contractPersonListMap">
+		SELECT	A.CONT_ID,
+				A.SERVICE_ID,
+				A.BIZ_ID,
+				A.USER_ID,
+				A.CONTRACT_NAME,
+				A.CONTRACT_DATE,
+				A.SEND_DATE,
+				A.END_DATE,
+				A.KEEP_DATE,
+				A.INPUT_TYPE,
+				A.SEND_TYPE,
+				A.STATUS_CODE,
+				A.CONTRACT_ID,
+				A.DIGIT_NONCE,
+				A.HASH_DATA,
+				A.CONTRACT_TYPE,
+				A.CONTRACT_FILE_ID,
+				A.TRANS_TYPE,
+				A.EXPIRE_DATE,
+				A.COMMENT,
+				A.AUTH_TYPE,
+				A.AUTH_CODE,
+				B1.USER_DATE,
+				IFNULL(B1.EMP_NO,B2.BUSINESS_NO) 			EMP_NO,
+				IFNULL(B1.EMP_NAME,B2.CUSTOMER_NAME) 		EMP_NAME,
+				IFNULL(B1.PHONE_NUM, B2.MANAGER_PHONE_NUM) 	PHONE_NUM,
+				IFNULL(B1.E_MAIL, B2.MANAGER_EMAIL) 		E_MAIL,
+				B1.DEPT_NAME,
+				C.COMM_NAME STATUS_NAME,
+				D.BUSINESS_NO,
+				D.OWNER_NAME,
+				D.BIZ_NAME,
+				E.COMM_NAME CONTRACT_TYPE_NAME,
+				IFNULL(X.FILE_TITLE, F.FILE_TITLE)  		CONTRACT_FILE_NAME
+		FROM 	TBL_CONTRACT_PERSON A
+		LEFT JOIN TBL_EMP B1
+		  ON    A.USER_ID = B1.USER_ID
+		 AND    B1.USE_YN = 'Y'
+		LEFT JOIN  TBL_CUSTOMER B2
+		  ON 	A.USER_ID = B2.CUSTOMER_ID
+		 AND 	B2.USE_YN = 'Y'
+		INNER JOIN TBL_CODE C
+		  ON 	A.STATUS_CODE	= C.COMM_CODE
+		 AND 	C.GRP_COMM_CODE = '101'
+		INNER JOIN TBL_BIZ D
+		  ON 	A.BIZ_ID 		= D.BIZ_ID
+		INNER JOIN TBL_CODE E
+		  ON	A.CONTRACT_TYPE = E.COMM_CODE
+		 AND	E.GRP_COMM_CODE = '102'
+		INNER JOIN TBL_CONTENT F
+		  ON 	A.CONTRACT_ID 	= F.FILE_ID
+		LEFT JOIN TBL_CONTRACT_PERSON_NEW X
+		  ON 	A.BIZ_ID 		   = X.BIZ_ID
+		 AND 	A.CONTRACT_FILE_ID = X.CONTRACT_ID
+		WHERE 	A.DIGIT_NONCE 	   = #digitNonce#
+		  AND 	A.STATUS_CODE     != 'D'
+	</select>
+
+	<select id="contractDAO.getContractPerson" parameterClass="contractPersonVO" resultMap="contractPersonListMap">
+		SELECT 	A.CONT_ID,
+				A.SERVICE_ID,
+				A.BIZ_ID,
+				A.CONTRACT_TYPE,
+				A.USER_ID,
+				A.CONTRACT_NAME,
+				A.CONTRACT_DATE,
+				A.SEND_DATE,
+				A.END_DATE,
+				A.KEEP_DATE,
+				A.INPUT_TYPE,
+				A.SEND_TYPE,
+				A.STATUS_CODE,
+				A.CONTRACT_ID,
+				A.DIGIT_NONCE,
+				A.HASH_DATA,
+				A.TRANS_TYPE,
+				A.EXPIRE_DATE,
+				A.COMMENT,
+				A.AUTH_TYPE,
+				A.AUTH_CODE,
+				A.CONTRACT_FILE_ID,
+				B1.EMP_NO,
+				IFNULL(B1.EMP_NAME, B2.CUSTOMER_NAME)		EMP_NAME,
+				B1.DEPT_NAME,
+				B1.USER_DATE,
+				IFNULL(B1.PHONE_NUM, B2.MANAGER_PHONE_NUM)	PHONE_NUM,
+				IFNULL(B1.E_MAIL, B2.MANAGER_EMAIL)			E_MAIL,
+				C.COMM_NAME 								STATUS_NAME,
+				D.BUSINESS_NO,
+				D.OWNER_NAME,
+				D.BIZ_NAME,
+				E.COMM_NAME 								CONTRACT_TYPE_NAME,
+				IFNULL(X.FILE_TITLE, F.FILE_TITLE)			CONTRACT_FILE_NAME
+		FROM 	TBL_CONTRACT_PERSON A
+		LEFT JOIN TBL_EMP B1
+		  ON 	A.USER_ID = B1.USER_ID
+		 AND 	B1.USE_YN = 'Y'
+		LEFT JOIN TBL_CUSTOMER B2
+		  ON	A.USER_ID = B2.CUSTOMER_ID
+		 AND	B2.USE_YN = 'Y'
+		INNER JOIN TBL_CODE C
+		  ON	A.STATUS_CODE = C.COMM_CODE
+		 AND	C.GRP_COMM_CODE = '101'
+		INNER JOIN TBL_BIZ D
+		  ON	A.BIZ_ID = D.BIZ_ID
+		INNER JOIN TBL_CODE E
+		  ON	A.CONTRACT_TYPE = E.COMM_CODE
+		 AND	E.GRP_COMM_CODE = '102'
+		INNER JOIN TBL_CONTENT F
+		  ON 	A.CONTRACT_FILE_ID = F.FILE_ID
+		LEFT JOIN TBL_CONTRACT_PERSON_NEW X
+		  ON 	A.BIZ_ID 		   = X.BIZ_ID
+		 AND 	A.CONTRACT_FILE_ID = X.CONTRACT_ID
+		WHERE  	A.CONT_ID 		   = #contId#
+		 AND  	A.STATUS_CODE 	  != 'D'
+	</select>
+
+	<select id="contractDAO.getContractPersonList" parameterClass="contractPersonVO" resultMap="contractPersonListMap">
+		SELECT  A.CONT_ID,
+				A.SERVICE_ID,
+				A.BIZ_ID,
+				A.USER_ID,
+				A.CONTRACT_NAME,
+				A.CONTRACT_DATE,
+				A.SEND_DATE,
+				A.END_DATE,
+				A.KEEP_DATE,
+				A.INPUT_TYPE,
+				A.SEND_TYPE,
+				A.STATUS_CODE,
+				A.CONTRACT_ID,
+				A.DIGIT_NONCE,
+				A.HASH_DATA,
+				A.CONTRACT_TYPE,
+				A.CONTRACT_FILE_ID,
+				A.TRANS_TYPE,
+				A.EXPIRE_DATE,
+				A.COMMENT,
+				A.AUTH_TYPE,
+				A.AUTH_CODE,
+				IFNULL(B1.EMP_NO, B2.BUSINESS_NO)			EMP_NO,
+				IFNULL(B1.EMP_NAME, B2.CUSTOMER_NAME)		EMP_NAME,
+				B1.DEPT_NAME,
+				B1.USER_DATE,
+				IFNULL(B1.PHONE_NUM, B2.MANAGER_PHONE_NUM)	PHONE_NUM,
+				IFNULL(B1.E_MAIL, B2.MANAGER_EMAIL)			E_MAIL,
+				C.COMM_NAME 								STATUS_NAME,
+				D.BUSINESS_NO,
+				D.OWNER_NAME,
+				D.BIZ_NAME,
+				E.COMM_NAME CONTRACT_TYPE_NAME,
+				IFNULL(X.FILE_TITLE, F.FILE_TITLE)  		CONTRACT_FILE_NAME
+		FROM    TBL_CONTRACT_PERSON A
+		LEFT JOIN TBL_EMP B1
+		  ON 	A.USER_ID = B1.USER_ID
+		<isNotNull property="searchKey">
+			<isNotEmpty property="searchKey">
+				<isEqual property="searchKey" compareValue="empName">
+					AND B1.EMP_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="eMail">
+					AND	B1.E_MAIL LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="phoneNum">
+					AND	B1.PHONE_NUM = #searchValue#
+				</isEqual>
+				<isEqual property="searchKey" compareValue="deptName">
+					AND	B1.DEPT_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		 AND 	B1.USE_YN = 'Y'
+		LEFT JOIN TBL_CUSTOMER B2
+		  ON 	A.USER_ID = B2.CUSTOMER_ID
+		<isNotNull property="searchKey">
+			<isNotEmpty property="searchKey">
+				<isEqual property="searchKey" compareValue="empName">
+					AND	B2.CUSTOMER_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="eMail">
+					AND	B2.MANAGER_EMAIL LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="phoneNum">
+					AND	B2.MANAGER_PHONE_NUM = #searchValue#
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		 AND 	B2.USE_YN = 'Y'
+		INNER JOIN TBL_CODE C
+		  ON 	A.STATUS_CODE   = C.COMM_CODE
+		 AND 	C.GRP_COMM_CODE = '101'
+		INNER JOIN TBL_BIZ D
+		  ON 	A.BIZ_ID 		= D.BIZ_ID
+		INNER JOIN TBL_CODE E
+		  ON  	A.CONTRACT_TYPE = E.COMM_CODE
+		 AND  	E.GRP_COMM_CODE = '102'
+		INNER JOIN TBL_CONTENT F
+		  ON   	A.CONTRACT_FILE_ID = F.FILE_ID
+		LEFT JOIN TBL_CONTRACT_PERSON_NEW X
+		  ON 	A.BIZ_ID 		   = X.BIZ_ID
+		 AND 	A.CONTRACT_FILE_ID = X.CONTRACT_ID
+		LEFT JOIN  (SELECT 	G.REF_ID,
+							H.*
+					FROM 	TBL_APPROVAL_MASTER G
+					INNER JOIN TBL_APPROVAL_DETAIL H
+					  ON 	G.APPR_ID = H.APPR_ID
+					INNER JOIN (SELECT 	APPR_ID,
+										MIN(APPR_SEQ) APPR_SEQ
+								FROM 	TBL_APPROVAL_DETAIL
+								WHERE 	IFNULL(APPR_STATUS, '') = ''
+								GROUP BY APPR_ID) I
+					  ON H.APPR_ID  = I.APPR_ID
+					 AND H.APPR_SEQ = I.APPR_SEQ ) J
+		  ON J.REF_ID = A.CONT_ID
+		LEFT JOIN  (SELECT 	DISTINCT REF_ID
+					FROM 	TBL_BIZ_GRP
+					WHERE 	BIZ_ID = #bizId#) K
+		  ON 	A.BIZ_ID = K.REF_ID
+		WHERE	(K.REF_ID IS NOT NULL OR A.BIZ_ID =  #bizId#)
+		 AND 	IFNULL(B1.EMP_NO, B2.BUSINESS_NO) 			IS NOT NULL
+		 AND 	IFNULL(B1.EMP_NAME, B2.CUSTOMER_NAME) 		IS NOT NULL
+		 AND 	IFNULL(B1.PHONE_NUM, B2.MANAGER_PHONE_NUM)  IS NOT NULL
+		 AND 	IFNULL(B1.E_MAIL, B2.MANAGER_EMAIL ) 		IS NOT NULL
+		 AND	A.STATUS_CODE != 'D'
+		<isNotNull property="contractDateFrom">
+			<isNotEmpty property="contractDateFrom">
+				<isNotNull property="contractDateTo">
+					<isNotEmpty property="contractDateTo">
+						AND A.CONTRACT_DATE BETWEEN #contractDateFrom# AND #contractDateTo#
+					</isNotEmpty>
+				</isNotNull>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contractDate">
+			<isNotEmpty property="contractDate">
+				AND	A.CONTRACT_DATE LIKE concat(#contractDate#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contractFileId">
+			<isNotEmpty property="contractFileId">
+				AND	A.CONTRACT_FILE_ID = #contractFileId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="transType">
+			<isNotEmpty property="transType">
+				AND	A.TRANS_TYPE = #transType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="statusCode">
+			<isNotEmpty property="statusCode">
+				<isEqual prepend="AND" property="statusCode"  compareValue="I">
+					A.STATUS_CODE != 'Y'
+				</isEqual>
+				<isNotEqual property="statusCode"  compareValue="I">
+					<isEqual prepend="AND" property="statusCode"  compareValue="REQ">
+						A.STATUS_CODE = #statusCode#
+						<isNotNull property="requesterId">
+							<isNotEmpty property="requesterId">
+								AND J.USER_ID = #requesterId#
+							</isNotEmpty>
+						</isNotNull>
+					</isEqual>
+					<isNotEqual prepend="AND" property="statusCode"  compareValue="REQ">
+						A.STATUS_CODE = #statusCode#
+					</isNotEqual>
+				</isNotEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchCompany">
+			<isNotEmpty property="searchCompany">
+				AND A.BIZ_ID = #searchCompany#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchKey">
+			<isNotEmpty property="searchKey">
+				<isEqual property="searchKey" compareValue="contractFileName">
+					 AND IFNULL(X.FILE_TITLE, F.FILE_TITLE) LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="userId">
+			<isNotEmpty property="userId">
+				AND	B1.LOGIN_ID = #userId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empNo">
+			<isNotEmpty property="empNo">
+				AND	IFNULL(B1.USER_ID, B2.CUSTOMER_ID) = #empNo#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="insDate">
+			<isNotEmpty property="insDate">
+				AND	SUBSTRING(A.INS_DATE, 1, 8) = #insDate#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sortName">
+			<isNotEmpty property="sortName">
+				ORDER BY $sortName$ $sortOrder$, IFNULL(B1.EMP_NO, B2.BUSINESS_NO) ASC, A.CONTRACT_DATE DESC
+			</isNotEmpty>
+		</isNotNull>
+		<isGreaterEqual property="endPage" compareValue="0">
+			<isGreaterEqual property="startPage" compareValue="0">
+				LIMIT #endPage# OFFSET #startPage#
+			</isGreaterEqual>
+		</isGreaterEqual>
+	</select>
+
+	<select id="contractDAO.getContractPersonListCount" parameterClass="contractPersonVO" resultClass="java.lang.Integer">
+		SELECT  COUNT(A.SERVICE_ID) CNT
+		FROM    TBL_CONTRACT_PERSON A
+		LEFT JOIN TBL_EMP B1
+		  ON 	A.USER_ID = B1.USER_ID
+		<isNotNull property="searchKey">
+			<isNotEmpty property="searchKey">
+				<isEqual property="searchKey" compareValue="empName">
+					AND B1.EMP_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="eMail">
+					AND B1.E_MAIL LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="phoneNum">
+					AND B1.PHONE_NUM = #searchValue#
+				</isEqual>
+				<isEqual property="searchKey" compareValue="deptName">
+					AND B1.DEPT_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		 AND 	B1.USE_YN = 'Y'
+		LEFT JOIN TBL_CUSTOMER B2
+		  ON 	A.USER_ID = B2.CUSTOMER_ID
+		<isNotNull property="searchKey">
+			<isNotEmpty property="searchKey">
+				<isEqual property="searchKey" compareValue="empName">
+					AND	B2.CUSTOMER_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="eMail">
+					AND	B2.MANAGER_EMAIL LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="phoneNum">
+					AND	B2.MANAGER_PHONE_NUM = #searchValue#
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		AND	B2.USE_YN = 'Y'
+		INNER JOIN TBL_CODE C
+		  ON 	A.STATUS_CODE   = C.COMM_CODE
+		 AND 	C.GRP_COMM_CODE = '101'
+		INNER JOIN TBL_BIZ D
+		  ON 	A.BIZ_ID = D.BIZ_ID
+		INNER JOIN tbl_code E
+		  ON  	A.CONTRACT_TYPE = E.COMM_CODE
+		 AND  	E.GRP_COMM_CODE = '102'
+		INNER JOIN TBL_CONTENT F
+		  ON 	A.CONTRACT_FILE_ID = F.FILE_ID
+		LEFT JOIN TBL_CONTRACT_PERSON_NEW X
+		  ON 	A.BIZ_ID 		   = X.BIZ_ID
+		 AND 	A.CONTRACT_FILE_ID = X.CONTRACT_ID
+		LEFT JOIN  (SELECT 	G.REF_ID,
+							H.*
+					FROM 	TBL_APPROVAL_MASTER G
+					INNER JOIN TBL_APPROVAL_DETAIL H
+					  ON 	G.APPR_ID = H.APPR_ID
+					INNER JOIN (SELECT 	APPR_ID,
+										MIN(APPR_SEQ) APPR_SEQ
+								FROM 	TBL_APPROVAL_DETAIL
+								WHERE 	IFNULL(APPR_STATUS, '') = ''
+								GROUP BY APPR_ID) I
+					  ON H.APPR_ID  = I.APPR_ID
+					 AND H.APPR_SEQ = I.APPR_SEQ ) J
+		  ON J.REF_ID = A.CONT_ID
+		LEFT JOIN  (SELECT 	DISTINCT REF_ID
+		 			FROM 	TBL_BIZ_GRP
+					WHERE 	BIZ_ID = #bizId#) K
+		  ON 	A.BIZ_ID = K.REF_ID
+		WHERE	(K.REF_ID IS NOT NULL OR A.BIZ_ID =  #bizId#)
+		  AND	A.STATUS_CODE != 'D'
+		  AND 	IFNULL(B1.EMP_NO, B2.BUSINESS_NO) 			IS NOT NULL
+		  AND 	IFNULL(B1.EMP_NAME, B2.CUSTOMER_NAME) 		IS NOT NULL
+		  AND 	IFNULL(B1.PHONE_NUM, B2.MANAGER_PHONE_NUM) 	IS NOT NULL
+		  AND 	IFNULL(B1.E_MAIL, B2.MANAGER_EMAIL) 		IS NOT NULL
+		<isNotNull property="contractDateFrom">
+			<isNotEmpty property="contractDateFrom">
+				<isNotNull property="contractDateTo">
+					<isNotEmpty property="contractDateTo">
+						AND A.CONTRACT_DATE BETWEEN #contractDateFrom# AND #contractDateTo#
+					</isNotEmpty>
+				</isNotNull>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contractDate">
+			<isNotEmpty property="contractDate">
+				AND	A.CONTRACT_DATE LIKE concat(#contractDate#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contractFileId">
+			<isNotEmpty property="contractFileId">
+				AND	A.CONTRACT_FILE_ID = #contractFileId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="fileId">
+			<isNotEmpty property="fileId">
+				AND	F.FILE_ID = #fileId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="transType">
+			<isNotEmpty property="transType">
+				AND	A.TRANS_TYPE = #transType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="statusCode">
+			<isNotEmpty property="statusCode">
+				<isEqual prepend="AND" property="statusCode" compareValue="I">
+					A.STATUS_CODE != 'Y'
+				</isEqual>
+				<isNotEqual property="statusCode"  compareValue="I">
+					<isEqual prepend="AND" property="statusCode" compareValue="REQ">
+						A.STATUS_CODE = #statusCode#
+						<isNotNull property="requesterId">
+							<isNotEmpty property="requesterId">
+								AND J.USER_ID = #requesterId#
+							</isNotEmpty>
+						</isNotNull>
+					</isEqual>
+					<isNotEqual prepend="AND" property="statusCode" compareValue="REQ">
+						A.STATUS_CODE = #statusCode#
+					</isNotEqual>
+				</isNotEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchCompany">
+			<isNotEmpty property="searchCompany">
+				AND A.BIZ_ID = #searchCompany#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchKey">
+			<isNotEmpty property="searchKey">
+				<isEqual property="searchKey" compareValue="contractFileName">
+					AND IFNULL(X.FILE_TITLE, F.FILE_TITLE) LIKE CONCAT('%', #searchValue#,'%')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empNo">
+			<isNotEmpty property="empNo">
+				AND	IFNULL(B1.USER_ID, B2.CUSTOMER_ID) = #empNo#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="insDate">
+			<isNotEmpty property="insDate">
+				AND	SUBSTRING(A.INS_DATE, 1, 8) = #insDate#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+
+	<select id="contractDAO.getContractPersonWriteCount" parameterClass="contractPersonVO" resultClass="java.lang.Integer">
+		SELECT	COUNT(A.SERVICE_ID) CNT
+		FROM    TBL_CONTRACT_PERSON A
+		LEFT JOIN TBL_EMP B1
+		  ON 	A.USER_ID = B1.USER_ID
+		 AND 	B1.USE_YN = 'Y'
+		LEFT JOIN TBL_CUSTOMER B2
+		  ON 	A.USER_ID = B2.CUSTOMER_ID
+		 AND 	B2.USE_YN = 'Y'
+		INNER JOIN TBL_CODE C
+		  ON 	A.STATUS_CODE   = C.COMM_CODE
+		 AND 	C.GRP_COMM_CODE = '101'
+		INNER JOIN TBL_BIZ D
+		  ON 	A.BIZ_ID = D.BIZ_ID
+		INNER JOIN TBL_CODE E
+		  ON 	A.CONTRACT_TYPE = E.COMM_CODE
+		 AND 	E.GRP_COMM_CODE = '102'
+		INNER JOIN TBL_CONTRACT_PERSON_NEW G
+		  ON 	A.CONTRACT_FILE_ID = G.CONTRACT_ID
+		WHERE   A.BIZ_ID 		   = #bizId#
+		  AND 	A.STATUS_CODE 	  != 'D'
+		<isNotNull property="fileId">
+			<isNotEmpty property="fileId">
+				AND	G.FILE_ID = #fileId#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+
+	<select id="contractDAO.getContractPersonDownloadCount" parameterClass="contractPersonVO" resultClass="java.lang.Integer">
+		SELECT  COUNT(DISTINCT A.CONT_ID) CNT
+		FROM    TBL_CONTRACT_PERSON A
+		LEFT JOIN TBL_EMP B1
+		  ON 	A.USER_ID = B1.USER_ID
+		<isNotNull property="searchKey">
+			<isNotEmpty property="searchKey">
+				<isEqual property="searchKey" compareValue="empName">
+					AND	B1.EMP_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="eMail">
+					AND	B1.E_MAIL LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="phoneNum">
+					AND	B1.PHONE_NUM = #searchValue#
+				</isEqual>
+				<isEqual property="searchKey" compareValue="deptName">
+					AND	B1.DEPT_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		 AND 	B1.USE_YN = 'Y'
+		LEFT JOIN TBL_CUSTOMER B2
+		  ON 	A.USER_ID = B2.CUSTOMER_ID
+		<isNotNull property="searchKey">
+			<isNotEmpty property="searchKey">
+				<isEqual property="searchKey" compareValue="empName">
+					AND	B2.CUSTOMER_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="eMail">
+					AND	B2.MANAGER_EMAIL LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="phoneNum">
+					AND	B2.MANAGER_PHONE_NUM = #searchValue#
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		 AND 	B2.USE_YN = 'Y'
+		INNER JOIN TBL_CODE C
+		  ON 	A.STATUS_CODE   = C.COMM_CODE
+		 AND 	C.GRP_COMM_CODE = '101'
+		INNER JOIN TBL_BIZ D
+		  ON 	A.BIZ_ID		= D.BIZ_ID
+		INNER JOIN tbl_code E
+		  ON 	A.CONTRACT_TYPE = E.COMM_CODE
+		 AND 	E.GRP_COMM_CODE = '102'
+		INNER JOIN TBL_CONTRACT_PERSON_LOG F
+		  ON 	A.CONT_ID		= F.CONT_ID
+		 AND 	F.LOG_TYPE		= '7'
+		INNER JOIN TBL_CONTENT G
+		  ON 	A.CONTRACT_FILE_ID = G.FILE_ID
+		LEFT JOIN  (SELECT 	DISTINCT REF_ID
+					FROM 	TBL_BIZ_GRP
+					WHERE 	BIZ_ID = #bizId#) K
+		  ON 	A.BIZ_ID = K.REF_ID
+		WHERE	(K.REF_ID IS NOT NULL OR A.BIZ_ID =  #bizId#)
+		  AND	A.STATUS_CODE != 'D'
+		  AND 	IFNULL(B1.EMP_NO,B2.BUSINESS_NO) 		  IS NOT NULL
+		  AND 	IFNULL(B1.EMP_NAME,B2.CUSTOMER_NAME) 	  IS NOT NULL
+		  AND 	IFNULL(B1.PHONE_NUM,B2.MANAGER_PHONE_NUM) IS NOT NULL
+		  AND 	IFNULL(B1.E_MAIL,B2.MANAGER_EMAIL) 		  IS NOT NULL
+		<isNotNull property="contractDateFrom">
+			<isNotEmpty property="contractDateFrom">
+				<isNotNull property="contractDateTo">
+					<isNotEmpty property="contractDateTo">
+						AND A.CONTRACT_DATE BETWEEN #contractDateFrom# AND #contractDateTo#
+					</isNotEmpty>
+				</isNotNull>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contractDate">
+			<isNotEmpty property="contractDate">
+				AND	A.CONTRACT_DATE LIKE CONCAT(#contractDate#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contractFileId">
+			<isNotEmpty property="contractFileId">
+				AND	A.CONTRACT_FILE_ID = #contractFileId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="transType">
+			<isNotEmpty property="transType">
+				AND	A.TRANS_TYPE = #transType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="statusCode">
+			<isNotEmpty property="statusCode">
+				<isEqual prepend="AND" property="statusCode"  compareValue="I">
+					A.STATUS_CODE != 'Y'
+				</isEqual>
+				<isNotEqual prepend="AND" property="statusCode"  compareValue="I">
+					A.STATUS_CODE = #statusCode#
+				</isNotEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchCompany">
+			<isNotEmpty property="searchCompany">
+				AND A.BIZ_ID = #searchCompany#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="userId">
+			<isNotEmpty property="userId">
+				AND	B1.LOGIN_ID = #userId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="insDate">
+			<isNotEmpty property="insDate">
+				AND	SUBSTRING(A.INS_DATE, 1, 8) = #insDate#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+
+
+	<select id="contractDAO.getContractPersonUserGrpDownloadCount" parameterClass="contractPersonVO" resultClass="java.lang.Integer">
+		SELECT  COUNT(DISTINCT A.CONT_ID) CNT
+		FROM    TBL_CONTRACT_PERSON A
+		LEFT JOIN TBL_EMP B1
+		  ON 	A.USER_ID = B1.USER_ID
+		<isNotNull property="searchKey">
+			<isNotEmpty property="searchKey">
+				<isEqual property="searchKey" compareValue="empName">
+					AND	B1.EMP_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="eMail">
+					AND	B1.E_MAIL LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="phoneNum">
+					AND	B1.PHONE_NUM = #searchValue#
+				</isEqual>
+				<isEqual property="searchKey" compareValue="deptName">
+					AND	B1.DEPT_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		 AND 	B1.USE_YN = 'Y'
+		 AND 	B1.EMP_TYPE IN ('1', '2', '3')
+		 AND 	B1.DEPT_CODE IN (SELECT X.REF_ID
+								 FROM 	TBL_USER_GRP X
+								 WHERE 	X.USER_ID  = #userId#
+								   AND 	X.GRP_TYPE = 'D')
+		INNER JOIN TBL_CODE C
+		  ON 	A.STATUS_CODE   = C.COMM_CODE
+		 AND 	C.GRP_COMM_CODE = '101'
+		INNER JOIN TBL_BIZ D
+		  ON 	A.BIZ_ID		= D.BIZ_ID
+		INNER JOIN tbl_code E
+		  ON 	A.CONTRACT_TYPE = E.COMM_CODE
+		 AND 	E.GRP_COMM_CODE = '102'
+		INNER JOIN TBL_CONTRACT_PERSON_LOG F
+		  ON 	A.CONT_ID		= F.CONT_ID
+		 AND 	F.LOG_TYPE		= '7'
+		INNER JOIN TBL_CONTENT G
+		  ON 	A.CONTRACT_FILE_ID = G.FILE_ID
+		LEFT JOIN  (SELECT 	DISTINCT REF_ID
+					FROM 	TBL_BIZ_GRP
+					WHERE 	BIZ_ID = #bizId#) K
+		  ON 	A.BIZ_ID = K.REF_ID
+		WHERE	(K.REF_ID IS NOT NULL OR A.BIZ_ID =  #bizId#)
+		  AND	A.STATUS_CODE != 'D'
+		  AND 	B1.EMP_NO    IS NOT NULL
+		  AND 	B1.EMP_NAME  IS NOT NULL
+		  AND 	B1.PHONE_NUM IS NOT NULL
+		  AND 	B1.E_MAIL 	 IS NOT NULL
+		<isNotNull property="contractDateFrom">
+			<isNotEmpty property="contractDateFrom">
+				<isNotNull property="contractDateTo">
+					<isNotEmpty property="contractDateTo">
+						AND A.CONTRACT_DATE BETWEEN #contractDateFrom# AND #contractDateTo#
+					</isNotEmpty>
+				</isNotNull>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contractDate">
+			<isNotEmpty property="contractDate">
+				AND	A.CONTRACT_DATE LIKE CONCAT(#contractDate#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contractFileId">
+			<isNotEmpty property="contractFileId">
+				AND	A.CONTRACT_FILE_ID = #contractFileId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="transType">
+			<isNotEmpty property="transType">
+				AND	A.TRANS_TYPE = #transType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="statusCode">
+			<isNotEmpty property="statusCode">
+				<isEqual prepend="AND" property="statusCode"  compareValue="I">
+					A.STATUS_CODE != 'Y'
+				</isEqual>
+				<isNotEqual prepend="AND" property="statusCode"  compareValue="I">
+					A.STATUS_CODE = #statusCode#
+				</isNotEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchCompany">
+			<isNotEmpty property="searchCompany">
+				AND A.BIZ_ID = #searchCompany#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="insDate">
+			<isNotEmpty property="insDate">
+				AND	SUBSTRING(A.INS_DATE, 1, 8) = #insDate#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+
+	<select id="contractDAO.getContractFormList" parameterClass="contractFormVO" resultMap="contractFormListMap">
+		SELECT 	A.CONT_ID,
+				A.SERVICE_ID,
+				A.BIZ_ID,
+				A.CONTRACT_DATE,
+				A.FORM_DATA_ID,
+				A.FORM_DATA_TYPE,
+				A.FORM_DATA_NAME,
+				A.FORM_DATA_VALUE,
+				A.INS_DATE,
+				IFNULL(B1.USER_ID, B2.CUSTOMER_ID) 		USER_ID,
+				IFNULL(B1.EMP_NO, B2.BUSINESS_NO) 		EMP_NO,
+				IFNULL(B1.EMP_NAME, B2.CUSTOMER_NAME) 	EMP_NAME,
+				C.BIZ_NAME,
+				IFNULL(D.ENCODE_YN,'N') 				ENCODE_YN
+		FROM    TBL_CONTRACT_FORM A
+		LEFT JOIN TBL_EMP B1
+		  ON 	A.USER_ID = B1.USER_ID
+		 AND 	A.BIZ_ID  = B1.BIZ_ID
+		 AND 	B1.USE_YN = 'Y'
+		LEFT JOIN TBL_CUSTOMER B2
+		  ON 	A.USER_ID = B2.CUSTOMER_ID
+		 AND 	A.BIZ_ID  = B2.BIZ_ID
+		 AND 	B2.USE_YN = 'Y'
+		INNER JOIN TBL_BIZ C
+		  ON 	A.BIZ_ID  = C.BIZ_ID
+		LEFT JOIN TBL_CONTRACT_PERSON_NEW E
+		  ON 	E.CONTRACT_ID  = (SELECT F.CONTRACT_FILE_ID FROM TBL_CONTRACT_PERSON F WHERE F.CONT_ID = #contId#)
+		 AND 	E.BIZ_ID 	   = (SELECT H.BIZ_ID FROM TBL_CONTRACT_PERSON H WHERE H.CONT_ID = #contId#)
+		LEFT JOIN TBL_CONTRACT_PERSON_NEW_FORM D
+		  ON 	D.FILE_ID 	   = E.FILE_ID
+		 AND 	D.FORM_DATA_ID = A.FORM_DATA_ID
+		 AND 	D.BIZ_ID 	   = A.BIZ_ID
+		WHERE   A.CONT_ID 	   = #contId#
+		  AND 	IFNULL(B1.EMP_NO,B2.BUSINESS_NO) 		  IS NOT NULL
+		  AND 	IFNULL(B1.EMP_NAME,B2.CUSTOMER_NAME) 	  IS NOT NULL
+		  AND 	IFNULL(B1.PHONE_NUM,B2.MANAGER_PHONE_NUM) IS NOT NULL
+		  AND 	IFNULL(B1.E_MAIL,B2.MANAGER_EMAIL) 		  IS NOT NULL
+		  AND 	IFNULL(B1.USER_ID,B2.CUSTOMER_ID) 		  IS NOT NULL
+		<isNotNull property="formDataId">
+			<isNotEmpty property="formDataId">
+				AND	A.FORM_DATA_ID = #formDataId#
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY A.FORM_DATA_ID
+	</select>
+
+	<select id="contractDAO.getContractFormListExcel" parameterClass="contractFormVO" resultMap="contractFormExcelListMap">
+		SELECT  A.FORM_DATA_ID,
+				A.FORM_DATA_VALUE
+		FROM    TBL_CONTRACT_FORM A
+		WHERE	A.CONT_ID = #contId#
+		ORDER BY A.FORM_DATA_ID
+	</select>
+
+	<insert id="contractDAO.insContractForm" parameterClass="contractFormVO">
+		INSERT INTO TBL_CONTRACT_FORM (
+			CONT_ID,
+			SERVICE_ID,
+			BIZ_ID,
+			USER_ID,
+			CONTRACT_DATE,
+			FORM_DATA_ID,
+			FORM_DATA_TYPE,
+			FORM_DATA_NAME,
+			FORM_DATA_VALUE,
+			INS_DATE
+		) VALUES (
+			#contId#,
+			#serviceId#,
+			#bizId#,
+			#userId#,
+			#contractDate#,
+			#formDataId#,
+			#formDataType#,
+			#formDataName#,
+			#formDataValue#,
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+
+	<insert id="contractDAO.insContractFormList" parameterClass="contractFormVO">
+		INSERT INTO TBL_CONTRACT_FORM (
+			CONT_ID,
+			SERVICE_ID,
+			BIZ_ID,
+			USER_ID,
+			CONTRACT_DATE,
+			FORM_DATA_ID,
+			FORM_DATA_TYPE,
+			FORM_DATA_NAME,
+			FORM_DATA_VALUE,
+			INS_DATE
+		) VALUES (
+			#contId#,
+			#serviceId#,
+			#bizId#,
+			#userId#,
+			#contractDate#,
+			#formDataId#,
+			#formDataType#,
+			#formDataName#,
+			#formDataValue#,
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+
+	<update id="contractDAO.updContractForm" parameterClass="contractFormVO">
+		UPDATE 	TBL_CONTRACT_FORM
+		SET		FORM_DATA_VALUE = #formDataValue#
+		WHERE	CONT_ID			= #contId#
+		  AND	FORM_DATA_ID	= #formDataId#
+	</update>
+
+	<delete id="contractDAO.delContractForm" parameterClass="contractFormVO">
+		DELETE FROM TBL_CONTRACT_FORM
+		WHERE 	CONT_ID = #contId#
+	</delete>
+
+	<insert id="contractDAO.insContractPersonLog" parameterClass="contractPersonLogVO">
+		INSERT INTO TBL_CONTRACT_PERSON_LOG (
+			CONT_ID,
+			SERVICE_ID,
+			BIZ_ID,
+			USER_ID,
+			CONTRACT_DATE,
+			CONTRACT_ID,
+			LOG_TYPE,
+			LOG_MESSAGE,
+			INS_DATE,
+			INS_EMP_NO,
+			UPD_DATE,
+			UPD_EMP_NO
+		) VALUES (
+			#contId#,
+			#serviceId#,
+			#bizId#,
+			#userId#,
+			#contractDate#,
+			#contractId#,
+			#logType#,
+			#logMessage#,
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'),
+			#insEmpNo#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'),
+			'SYSTEM'
+		)
+	</insert>
+
+	<select id="contractDAO.getContractPersonLogList" parameterClass="contractPersonLogVO" resultMap="contractPersonLogListMap">
+		SELECT 	A.CONT_ID,
+				A.SERVICE_ID,
+				A.BIZ_ID,
+				A.USER_ID,
+				IFNULL(B1.EMP_NAME, B2.CUSTOMER_NAME)	EMP_NAME,
+				A.LOG_TYPE,
+				C.COMM_NAME LOG_NAME,
+				A.CONTRACT_DATE,
+				A.CONTRACT_ID,
+				A.LOG_MESSAGE,
+				A.INS_DATE,
+				IFNULL(D1.EMP_NAME, D2.CUSTOMER_NAME)	INS_EMP_NAME
+		FROM TBL_CONTRACT_PERSON_LOG A
+		LEFT JOIN TBL_EMP B1
+		  ON   A.USER_ID = B1.USER_ID
+		 AND   A.BIZ_ID  = B1.BIZ_ID
+		 AND   B1.USE_YN = 'Y'
+		LEFT JOIN TBL_CUSTOMER B2
+		  ON   A.USER_ID = B2.CUSTOMER_ID
+		 AND   A.BIZ_ID  = B2.BIZ_ID
+		 AND   B2.USE_YN = 'Y'
+		LEFT JOIN TBL_CODE C
+		  ON   A.LOG_TYPE = C.COMM_CODE
+		 AND   C.GRP_COMM_CODE = '101'
+		LEFT JOIN TBL_EMP D1
+		  ON   A.INS_EMP_NO = D1.USER_ID
+		LEFT JOIN TBL_CUSTOMER D2
+		  ON   A.INS_EMP_NO = D2.CUSTOMER_ID
+		WHERE  A.CONT_ID   = #contId#
+		  AND  IFNULL(B1.EMP_NAME, B2.CUSTOMER_NAME) IS NOT NULL
+		  AND  IFNULL(D1.EMP_NAME, D2.CUSTOMER_NAME) IS NOT NULL
+		  AND  C.COMM_NAME IS NOT NULL
+		<isNotNull property="logType">
+			<isNotEmpty property="logType">
+				AND	A.LOG_TYPE = #logType#
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY A.INS_DATE DESC
+	</select>
+
+	<insert id="contractDAO.insContractNew" parameterClass="contractPersonNewVO">
+		INSERT INTO TBL_CONTRACT_PERSON_NEW (
+			SERVICE_ID,
+			BIZ_ID,
+			FILE_ID,
+			CONTRACT_ID,
+			DATA_FILE_ID,
+			TRANS_TYPE,
+			CONTRACT_TYPE,
+			FILE_TITLE,
+			SIGN_BIZ_TYPE,
+			SIGN_USER_TYPE,
+			SIGN_CUSTOMER_TYPE,
+			LABOR_TYPE,
+			FONT_CONVERT_TYPE,
+			CORRECTION_TYPE,
+			INS_DATE,
+			UPD_DATE
+		) VALUES (
+			#serviceId#,
+			#bizId#,
+			#fileId#,
+			'',
+			'',
+			#transType#,
+			#contractType#,
+			#fileTitle#,
+		<isNull property="signBizType">
+			'1',
+		</isNull>
+		<isNotNull property="signBizType">
+			<isNotEmpty property="signBizType">
+				#signBizType#,
+			</isNotEmpty>
+		</isNotNull>
+
+		<isNull property="signUserType">
+			'1',
+		</isNull>
+		<isNotNull property="signUserType">
+			<isNotEmpty property="signUserType">
+				#signUserType#,
+			</isNotEmpty>
+		</isNotNull>
+
+		<isNull property="signCustomerType">
+			'0',
+		</isNull>
+		<isNotNull property="signCustomerType">
+			<isNotEmpty property="signCustomerType">
+				#signCustomerType#,
+			</isNotEmpty>
+		</isNotNull>
+
+		<isNull property="laborType">
+			'0',
+		</isNull>
+		<isNotNull property="laborType">
+			<isNotEmpty property="laborType">
+				#laborType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNull property="fontConvertType">
+			'N',
+		</isNull>
+		<isNotNull property="fontConvertType">
+			<isNotEmpty property="fontConvertType">
+				#fontConvertType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNull property="correctionType">
+			'N',
+		</isNull>
+		<isNotNull property="correctionType">
+			<isNotEmpty property="correctionType">
+				#correctionType#,
+			</isNotEmpty>
+		</isNotNull>
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'),
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+
+	<update id="contractDAO.updContractNew" parameterClass="contractPersonNewVO">
+		UPDATE 	TBL_CONTRACT_PERSON_NEW
+		SET		CONTRACT_ID   = #contractId#,
+				DATA_FILE_ID  = #dataFileId#,
+				ALTER_FILE_ID = #alterFileId#,
+				TRANS_TYPE	  = #transType#,
+		<isNotNull property="fontConvertType">
+			<isNotEmpty property="fontConvertType">
+				FONT_CONVERT_TYPE = #fontConvertType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="correctionType">
+			<isNotEmpty property="correctionType">
+				CORRECTION_TYPE	= #correctionType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="fileTitle">
+			<isNotEmpty property="fileTitle">
+				FILE_TITLE = #fileTitle#,
+			</isNotEmpty>
+		</isNotNull>
+				UPD_DATE = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE 	BIZ_ID   = #bizId#
+		  AND	FILE_ID  = #fileId#
+	</update>
+
+	<update id="contractDAO.updContractNewSign" parameterClass="contractPersonNewVO">
+		UPDATE 	TBL_CONTRACT_PERSON_NEW
+		SET		SIGN_BIZ_TYPE 	   = #signBizType#,
+				SIGN_USER_TYPE 	   = #signUserType#,
+				SIGN_CUSTOMER_TYPE = #signCustomerType#,
+				LABOR_TYPE	   	   = #laborType#,
+				FONT_CONVERT_TYPE  = #fontConvertType#,
+				CORRECTION_TYPE	   = #correctionType#,
+		<isNotNull property="transType">
+			<isNotEmpty property="transType">
+				TRANS_TYPE = #transType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="fileTitle">
+			<isNotEmpty property="fileTitle">
+				FILE_TITLE = #fileTitle#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="useOtherLayout">
+			<isNotEmpty property="useOtherLayout">
+				USE_OTHER_LAYOUT = #useOtherLayout#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="useEtc">
+			<isNotEmpty property="useEtc">
+				USE_ETC	= #useEtc#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="etcUrl">
+			<isNotEmpty property="etcUrl">
+				ETC_URL	= #etcUrl#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="usePre">
+			<isNotEmpty property="usePre">
+				USE_PRE	= #usePre#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="preUrl">
+			<isNotEmpty property="preUrl">
+				PRE_URL	= #preUrl#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="orgImgYn">
+			<isNotEmpty property="orgImgYn">
+				ORG_IMG_YN = #orgImgYn#,
+			</isNotEmpty>
+		</isNotNull>
+		EXPIRE_DAY = #expireDay#,
+		<isNotNull property="viewYn">
+			<isNotEmpty property="viewYn">
+				VIEW_YN	= #viewYn#,
+			</isNotEmpty>
+		</isNotNull>
+		UPD_DATE = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE 	BIZ_ID	 = #bizId#
+		  AND	FILE_ID	 = #fileId#
+	</update>
+
+	<update id="contractDAO.updContractNewStatus" parameterClass="contractPersonNewVO">
+		UPDATE 	TBL_CONTRACT_PERSON_NEW
+		SET		TRANS_TYPE = #transType#,
+				UPD_DATE   = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	BIZ_ID 	   = #bizId#
+		  AND	FILE_ID	   = #fileId#
+	</update>
+
+	<delete id="contractDAO.delContractNew" parameterClass="contractPersonNewVO">
+		DELETE 	FROM TBL_CONTRACT_PERSON_NEW
+		WHERE	BIZ_ID	= #bizId#
+		  AND	FILE_ID	= #fileId#
+	</delete>
+
+	<select id="contractDAO.getContractPersonNewList" parameterClass="contractPersonNewVO" resultMap="contractPersonNewListMap">
+		SELECT 	A.SERVICE_ID,
+				A.BIZ_ID,
+				D.BIZ_NAME,
+				A.FILE_ID,
+				B.ORG_FILE_NAME FILE_NAME,
+				A.FILE_TITLE,
+				A.CONTRACT_ID,
+				A.DATA_FILE_ID,
+				A.ALTER_FILE_ID,
+				A.TRANS_TYPE,
+				A.CONTRACT_TYPE,
+				C.COMM_NAME CONTRACT_TYPE_NAME,
+				A.INS_DATE,
+				A.LABOR_TYPE,
+				A.LAST_FILE_ID,
+				A.FONT_CONVERT_TYPE,
+				A.CORRECTION_TYPE,
+				A.SIGN_USER_TYPE,
+				A.SIGN_BIZ_TYPE,
+				A.SIGN_CUSTOMER_TYPE,
+				A.USE_OTHER_LAYOUT,
+				A.USE_ETC,
+				A.ETC_URL,
+				A.USE_PRE,
+				A.PRE_URL,
+				A.ORG_IMG_YN,
+				A.VIEW_YN,
+				A.EXPIRE_DAY,
+				(CASE WHEN G.SETTING_VALUE = 'Y' THEN 'Y' ELSE 'N' END) BOOKMARK,
+				(CASE WHEN A.TRANS_TYPE != 'C' THEN 1 ELSE 2 END) 		COL_ORDER
+		FROM    TBL_CONTRACT_PERSON_NEW A
+		INNER JOIN TBL_CONTENT B
+		  ON 	A.FILE_ID = B.FILE_ID
+		INNER JOIN TBL_CODE C
+		  ON 	A.CONTRACT_TYPE = C.COMM_CODE
+		 AND 	C.GRP_COMM_CODE = '102'
+		INNER JOIN TBL_BIZ D
+		  ON 	A.BIZ_ID = D.BIZ_ID
+		LEFT JOIN	TBL_CONTRACT_SETTING G
+		  ON 	G.FILE_ID 	   = A.FILE_ID
+		 AND 	G.USER_ID 	   = #userId#
+		 AND 	G.RECV_TYPE	   = #recvType#
+		 AND 	G.SETTING_TYPE = 'B'
+		LEFT JOIN  (SELECT 	DISTINCT REF_ID
+					FROM 	TBL_BIZ_GRP
+					WHERE 	BIZ_ID = #bizId#) K
+		  ON 	A.BIZ_ID = K.REF_ID
+		WHERE   A.TRANS_TYPE  != 'D'
+		 AND	(K.REF_ID IS NOT NULL OR A.BIZ_ID = #bizId#)
+		<isNotNull property="searchCompany">
+			<isNotEmpty property="searchCompany">
+				AND A.BIZ_ID = #searchCompany#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="fileId">
+			<isNotEmpty property="fileId">
+				AND A.FILE_ID = #fileId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contractId">
+			<isNotEmpty property="contractId">
+				AND A.CONTRACT_ID = #contractId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="transType">
+			<isNotEmpty property="transType">
+				AND A.TRANS_TYPE = #transType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="useOtherLayout">
+			<isNotEmpty property="useOtherLayout">
+				AND A.USE_OTHER_LAYOUT = #useOtherLayout#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="viewYn">
+			<isNotEmpty property="viewYn">
+				AND VIEW_YN = #viewYn#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchValue">
+			<isNotEmpty property="searchValue">
+				AND B.ORG_FILE_NAME	LIKE CONCAT('%', #searchValue#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sortName">
+			<isNotEmpty property="sortName">
+				ORDER BY COL_ORDER ASC, G.SETTING_VALUE DESC, $sortName$ $sortOrder$
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+
+	<select id="contractDAO.getContractTransformList" parameterClass="contractPersonNewVO" resultMap="contractTransformListMap">
+		SELECT 	A.BIZ_ID,
+				D.BIZ_NAME,
+				A.TRANS_TYPE,
+				A.INS_DATE,
+				SUM(if(A.TRANS_TYPE = 'N', 1, 0)) 	TRANS_TYPE_N,
+				SUM(if(A.TRANS_TYPE = 'T', 1, 0)) 	TRANS_TYPE_T,
+				SUM(if(A.TRANS_TYPE = 'C', 1, 0)) 	TRANS_TYPE_C,
+				SUM(if(A.TRANS_TYPE = 'P', 1, 0)) 	TRANS_TYPE_P
+		FROM    TBL_CONTRACT_PERSON_NEW A
+		INNER JOIN TBL_BIZ D
+		  ON 	A.BIZ_ID 	  = D.BIZ_ID
+		WHERE   A.TRANS_TYPE != 'D'
+		 AND 	A.BIZ_ID NOT IN ('190819171704645', '220204175707347', '220311134857425', '240924162543936', '171220094226009')
+		<isNotNull property="searchValue">
+			<isNotEmpty property="searchValue">
+				AND D.BIZ_NAME LIKE CONCAT('%', #searchValue#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchStatus">
+			<isNotEmpty property="searchStatus">
+				AND A.TRANS_TYPE = #searchStatus#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchDateFrom">
+			<isNotEmpty property="searchDateFrom">
+				<isNotNull property="searchDateTo">
+					<isNotEmpty property="searchDateTo">
+						AND DATE(A.INS_DATE) BETWEEN #searchDateFrom# AND #searchDateTo#
+					</isNotEmpty>
+				</isNotNull>
+			</isNotEmpty>
+		</isNotNull>
+		GROUP BY A.BIZ_ID, DATE(A.INS_DATE)
+		ORDER BY A.INS_DATE DESC
+		<isGreaterEqual property="endPage" compareValue="0">
+			<isGreaterEqual property="startPage" compareValue="0">
+				LIMIT #endPage# OFFSET #startPage#
+			</isGreaterEqual>
+		</isGreaterEqual>
+	</select>
+
+	<select id="contractDAO.getContractTransformListCount" parameterClass="contractPersonNewVO" resultClass="contractPersonNewVO">
+		SELECT 	COUNT(A.CNT) CNT
+		FROM 	(SELECT COUNT(A.BIZ_ID) CNT
+				 FROM 	TBL_CONTRACT_PERSON_NEW A
+				 INNER JOIN TBL_BIZ D
+				   ON 	A.BIZ_ID 	  = D.BIZ_ID
+				 WHERE  A.TRANS_TYPE != 'D'
+				   AND 	A.BIZ_ID NOT IN ('190819171704645', '220204175707347', '220311134857425', '240924162543936', '171220094226009')
+		<isNotNull property="searchValue">
+			<isNotEmpty property="searchValue">
+				AND D.BIZ_NAME LIKE concat('%', #searchValue#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchStatus">
+			<isNotEmpty property="searchStatus">
+				AND A.TRANS_TYPE = #searchStatus#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchDateFrom">
+			<isNotEmpty property="searchDateFrom">
+				<isNotNull property="searchDateTo">
+					<isNotEmpty property="searchDateTo">
+						AND DATE(A.INS_DATE) BETWEEN #searchDateFrom# AND #searchDateTo#
+					</isNotEmpty>
+				</isNotNull>
+			</isNotEmpty>
+		</isNotNull>
+		GROUP BY A.BIZ_ID, DATE(A.INS_DATE)) A
+	</select>
+
+	<select id="contractDAO.getContractTransformStatusListCount" parameterClass="contractPersonNewVO" resultClass="contractPersonNewVO">
+		SELECT 	SUM(A.requestCount) 	requestCount,
+				SUM(A.progressCount) 	progressCount,
+				SUM(A.previewCount) 	previewCount,
+				SUM(A.completeCount) 	completeCount
+		FROM 	(SELECT SUM(if(A.TRANS_TYPE = 'N', 1, 0)) 	requestCount,
+						SUM(if(A.TRANS_TYPE = 'T', 1, 0)) 	progressCount,
+						SUM(if(A.TRANS_TYPE = 'P', 1, 0)) 	previewCount,
+						SUM(if(A.TRANS_TYPE = 'C', 1, 0)) 	completeCount
+				 FROM 	TBL_CONTRACT_PERSON_NEW A
+		INNER JOIN TBL_BIZ D
+		  ON 	A.BIZ_ID 	  = D.BIZ_ID
+		WHERE   A.TRANS_TYPE != 'D'
+		 AND   A.BIZ_ID NOT IN ('190819171704645', '220204175707347', '220311134857425', '240924162543936', '171220094226009')
+		<isNotNull property="searchValue">
+			<isNotEmpty property="searchValue">
+				AND D.BIZ_NAME LIKE CONCAT('%', #searchValue#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchDateFrom">
+			<isNotEmpty property="searchDateFrom">
+				<isNotNull property="searchDateTo">
+					<isNotEmpty property="searchDateTo">
+						AND DATE(A.INS_DATE) BETWEEN #searchDateFrom# AND #searchDateTo#
+					</isNotEmpty>
+				</isNotNull>
+			</isNotEmpty>
+		</isNotNull>
+		GROUP BY A.BIZ_ID, DATE(A.INS_DATE)) A
+	</select>
+
+	<delete id="contractDAO.delContractNewForm" parameterClass="contractPersonNewFormVO">
+		DELETE FROM TBL_CONTRACT_PERSON_NEW_FORM
+		WHERE	SERVICE_ID   = #serviceId#
+		  AND	BIZ_ID       = #bizId#
+		  AND	FILE_ID	     = #fileId#
+		  AND	FORM_DATA_ID = #formDataId#
+	</delete>
+
+	<insert id="contractDAO.insContractNewForm" parameterClass="contractPersonNewFormVO">
+		INSERT INTO TBL_CONTRACT_PERSON_NEW_FORM (
+			SERVICE_ID,
+			BIZ_ID,
+			FILE_ID,
+			FORM_DATA_ID,
+			FORM_DATA_NAME,
+			FORM_DATA_TYPE,
+			FORM_DATA_DEFAULT_VALUE,
+			INS_DATE
+		) VALUES (
+			#serviceId#,
+			#bizId#,
+			#fileId#,
+			#formDataId#,
+			#formDataName#,
+			#formDataType#,
+			#formDataDefaultValue#,
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+
+	<select id="contractDAO.getContractPersonNewFormList" parameterClass="contractPersonNewFormVO" resultMap="contractPersonNewFormListMap">
+		SELECT  A.SERVICE_ID,
+				A.BIZ_ID,
+				A.FILE_ID,
+				A.FORM_DATA_ID,
+				A.FORM_DATA_TYPE,
+				A.FORM_DATA_NAME,
+				A.FORM_DATA_DEFAULT_VALUE,
+				A.INS_DATE
+		FROM    TBL_CONTRACT_PERSON_NEW_FORM A
+		WHERE   A.BIZ_ID  = #bizId#
+		  AND 	A.FILE_ID = #fileId#
+		ORDER BY A.FORM_DATA_ID ASC
+	</select>
+
+	<!-- 계약서 파일 일배치 삭제 -->
+	<select id="contractDAO.delContractPersonList" parameterClass="contractPersonVO" resultMap="contractPersonListMap">
+		<![CDATA[
+		SELECT 	A.CONT_ID,
+				A.SERVICE_ID,
+				A.BIZ_ID,
+				A.USER_ID,
+				A.CONTRACT_NAME,
+				A.CONTRACT_DATE,
+				A.SEND_DATE,
+				A.END_DATE,
+				A.KEEP_DATE,
+				A.INPUT_TYPE,
+				A.SEND_TYPE,
+				A.STATUS_CODE,
+				A.CONTRACT_ID,
+				A.DIGIT_NONCE,
+				A.HASH_DATA,
+				A.CONTRACT_TYPE,
+				A.CONTRACT_FILE_ID,
+				A.TRANS_TYPE,
+				A.EXPIRE_DATE,
+				A.COMMENT,
+				A.AUTH_TYPE,
+				A.AUTH_CODE,
+				B1.DEPT_NAME,
+				B1.USER_DATE,
+				IFNULL(B1.PHONE_NUM, B2.MANAGER_PHONE_NUM) 	PHONE_NUM,
+				IFNULL(B1.E_MAIL, B2.MANAGER_EMAIL) 		E_MAIL,
+				IFNULL(B1.EMP_NO, B2.BUSINESS_NO) 			EMP_NO,
+				IFNULL(B1.EMP_NAME, B2.CUSTOMER_NAME) 		EMP_NAME,
+				C.COMM_NAME STATUS_NAME,
+				D.BUSINESS_NO,
+				D.OWNER_NAME,
+				D.BIZ_NAME,
+				E.COMM_NAME CONTRACT_TYPE_NAME,
+				F.FILE_TITLE CONTRACT_FILE_NAME
+		FROM    TBL_CONTRACT_PERSON A
+		LEFT JOIN TBL_EMP B1
+		  ON 	A.USER_ID = B1.USER_ID
+		 AND 	B1.USE_YN = 'Y'
+		LEFT JOIN  TBL_CUSTOMER B2
+		  ON 	A.USER_ID = B2.CUSTOMER_ID
+		 AND 	B2.USE_YN = 'Y'
+		INNER JOIN TBL_CODE C
+		  ON 	A.STATUS_CODE   = C.COMM_CODE
+		 AND 	C.GRP_COMM_CODE = '101'
+		INNER JOIN TBL_BIZ D
+		  ON 	A.BIZ_ID = D.BIZ_ID
+		INNER JOIN tbl_code E
+		  ON 	A.CONTRACT_TYPE = E.COMM_CODE
+		 AND 	E.GRP_COMM_CODE = '102'
+		INNER JOIN TBL_CONTENT F
+		  ON 	A.CONTRACT_FILE_ID = F.FILE_ID
+		WHERE   A.KEEP_DATE <= DATE_ADD(sysdate(), INTERVAL -15 DAY)
+		  AND	A.STATUS_CODE 			!= 'D'
+		  AND 	IFNULL(A.KEEP_DATE, '') != ''
+		  AND 	IFNULL(B1.EMP_NO , B2.BUSINESS_NO) 		   IS NOT NULL
+		  AND 	IFNULL(B1.EMP_NAME , B2.CUSTOMER_NAME) 	   IS NOT NULL
+		  AND 	IFNULL(B1.PHONE_NUM, B2.MANAGER_PHONE_NUM) IS NOT NULL
+		  AND 	IFNULL(B1.E_MAIL, B2.MANAGER_EMAIL)		   IS NOT NULL
+	]]>
+	</select>
+
+
+	<select id="contractDAO.getContractPersonUserGrpList" parameterClass="contractPersonVO" resultMap="contractPersonListMap">
+		SELECT  A.CONT_ID,
+				A.SERVICE_ID,
+				A.BIZ_ID,
+				A.USER_ID,
+				A.CONTRACT_NAME,
+				A.CONTRACT_DATE,
+				A.SEND_DATE,
+				A.END_DATE,
+				A.KEEP_DATE,
+				A.INPUT_TYPE,
+				A.SEND_TYPE,
+				A.STATUS_CODE,
+				A.CONTRACT_ID,
+				A.DIGIT_NONCE,
+				A.HASH_DATA,
+				A.CONTRACT_TYPE,
+				A.CONTRACT_FILE_ID,
+				A.TRANS_TYPE,
+				A.EXPIRE_DATE,
+				A.COMMENT,
+				A.AUTH_TYPE,
+				A.AUTH_CODE,
+				B1.EMP_NO,
+				B1.EMP_NAME,
+				B1.DEPT_NAME,
+				B1.USER_DATE,
+				B1.PHONE_NUM,
+				B1.E_MAIL 			E_MAIL,
+				C.COMM_NAME 		STATUS_NAME,
+				D.BUSINESS_NO,
+				D.OWNER_NAME,
+				D.BIZ_NAME,
+				E.COMM_NAME 		CONTRACT_TYPE_NAME,
+				F.FILE_TITLE 		CONTRACT_FILE_NAME
+		FROM    TBL_CONTRACT_PERSON A
+		LEFT JOIN TBL_EMP B1
+		  ON 	A.USER_ID = B1.USER_ID
+		<isNotNull property="searchKey">
+			<isNotEmpty property="searchKey">
+				<isEqual property="searchKey" compareValue="empName">
+					AND	B1.EMP_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="eMail">
+					AND	B1.E_MAIL LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="phoneNum">
+					AND	B1.PHONE_NUM = #searchValue#
+				</isEqual>
+				<isEqual property="searchKey" compareValue="deptName">
+					AND	B1.DEPT_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		 AND 	B1.USE_YN = 'Y'
+		 AND 	B1.EMP_TYPE  IN ('1', '2', '3')
+		 AND 	B1.DEPT_CODE IN (SELECT X.REF_ID
+								 FROM 	TBL_USER_GRP X
+								 WHERE 	X.USER_ID  = #userId#
+								   AND 	X.GRP_TYPE = 'D')
+		INNER JOIN TBL_CODE C
+		  ON 	A.STATUS_CODE   = C.COMM_CODE
+		 AND 	C.GRP_COMM_CODE = '101'
+		INNER JOIN TBL_BIZ D
+		  ON 	A.BIZ_ID		= D.BIZ_ID
+		INNER JOIN TBL_CODE E
+		  ON 	A.CONTRACT_TYPE = E.COMM_CODE
+		 AND 	E.GRP_COMM_CODE = '102'
+		INNER JOIN TBL_CONTENT F
+		  ON 	A.CONTRACT_FILE_ID = F.FILE_ID
+		WHERE   A.BIZ_ID 		   = #bizId#
+		  AND 	A.STATUS_CODE 	  != 'D'
+		  AND 	B1.EMP_NO 	 IS NOT NULL
+		  AND 	B1.EMP_NAME  IS NOT NULL
+		  AND 	B1.PHONE_NUM IS NOT NULL
+		  AND 	B1.E_MAIL 	 IS NOT NULL
+		<isNotNull property="contractDateFrom">
+			<isNotEmpty property="contractDateFrom">
+				<isNotNull property="contractDateTo">
+					<isNotEmpty property="contractDateTo">
+						AND A.CONTRACT_DATE BETWEEN #contractDateFrom# AND #contractDateTo#
+					</isNotEmpty>
+				</isNotNull>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contractDate">
+			<isNotEmpty property="contractDate">
+				AND	A.CONTRACT_DATE LIKE concat(#contractDate#,'%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contractFileId">
+			<isNotEmpty property="contractFileId">
+				AND	A.CONTRACT_FILE_ID = #contractFileId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="transType">
+			<isNotEmpty property="transType">
+				AND	A.TRANS_TYPE = #transType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="statusCode">
+			<isNotEmpty property="statusCode">
+				<isEqual prepend="AND" property="statusCode"  compareValue="I">
+					A.STATUS_CODE != 'Y'
+				</isEqual>
+				<isNotEqual prepend="AND" property="statusCode"  compareValue="I">
+					A.STATUS_CODE = #statusCode#
+				</isNotEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="insDate">
+			<isNotEmpty property="insDate">
+				AND	SUBSTRING(A.INS_DATE, 1, 8) = #insDate#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sortName">
+			<isNotEmpty property="sortName">
+				ORDER BY $sortName$ $sortOrder$, B1.EMP_NO ASC
+			</isNotEmpty>
+		</isNotNull>
+		LIMIT #endPage# OFFSET #startPage#
+	</select>
+
+	<select id="contractDAO.getContractPersonUserGrpListCount" parameterClass="contractPersonVO" resultClass="java.lang.Integer">
+		SELECT 	COUNT(A.SERVICE_ID) CNT
+		FROM    TBL_CONTRACT_PERSON A
+		LEFT JOIN TBL_EMP B1
+		  ON 	A.USER_ID = B1.USER_ID
+		<isNotNull property="searchKey">
+			<isNotEmpty property="searchKey">
+				<isEqual property="searchKey" compareValue="empName">
+					AND B1.EMP_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="eMail">
+					AND B1.E_MAIL LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="phoneNum">
+					AND B1.PHONE_NUM = #searchValue#
+				</isEqual>
+				<isEqual property="searchKey" compareValue="deptName">
+					AND B1.DEPT_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		 AND 	B1.USE_YN = 'Y'
+		 AND 	B1.EMP_TYPE  IN ('1', '2', '3')
+		 AND 	B1.DEPT_CODE IN (SELECT X.REF_ID
+								 FROM 	TBL_USER_GRP X
+								 WHERE 	X.USER_ID  = #userId#
+								   AND 	X.GRP_TYPE = 'D')
+		INNER JOIN TBL_CODE C
+		  ON 	A.STATUS_CODE   = C.COMM_CODE
+		 AND 	C.GRP_COMM_CODE = '101'
+		INNER JOIN tbl_biz D
+		  ON 	A.BIZ_ID = D.BIZ_ID
+		INNER JOIN tbl_code E
+		  ON 	A.CONTRACT_TYPE = E.COMM_CODE
+		 AND 	E.GRP_COMM_CODE = '102'
+		WHERE   A.BIZ_ID        = #bizId#
+		  AND 	B1.EMP_NO 	 IS NOT NULL
+		  AND 	B1.EMP_NAME  IS NOT NULL
+		  AND 	B1.PHONE_NUM IS NOT NULL
+		  AND 	B1.E_MAIL 	 IS NOT NULL
+		  AND	A.STATUS_CODE != 'D'
+		<isNotNull property="contractDateFrom">
+			<isNotEmpty property="contractDateFrom">
+				<isNotNull property="contractDateTo">
+					<isNotEmpty property="contractDateTo">
+						AND A.CONTRACT_DATE BETWEEN #contractDateFrom# AND #contractDateTo#
+					</isNotEmpty>
+				</isNotNull>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contractDate">
+			<isNotEmpty property="contractDate">
+				AND	A.CONTRACT_DATE LIKE concat(#contractDate#,'%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contractFileId">
+			<isNotEmpty property="contractFileId">
+				AND	A.CONTRACT_FILE_ID = #contractFileId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="transType">
+			<isNotEmpty property="transType">
+				AND	A.TRANS_TYPE = #transType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="statusCode">
+			<isNotEmpty property="statusCode">
+				<isEqual prepend="AND" property="statusCode"  compareValue="I">
+					A.STATUS_CODE != 'Y'
+				</isEqual>
+				<isNotEqual prepend="AND" property="statusCode"  compareValue="I">
+					A.STATUS_CODE = #statusCode#
+				</isNotEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="insDate">
+			<isNotEmpty property="insDate">
+				AND	SUBSTRING(A.INS_DATE, 1, 8) = #insDate#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+
+	<select id="contractDAO.getContractPersonSign" parameterClass="contractPersonVO" resultMap="contractPersonNewListMap">
+		SELECT 	A.SERVICE_ID,
+				A.BIZ_ID,
+				E.BIZ_NAME,
+				A.FILE_ID,
+				B.ORG_FILE_NAME 	FILE_NAME,
+				A.FILE_TITLE,
+				A.CONTRACT_ID,
+				A.DATA_FILE_ID,
+				A.ALTER_FILE_ID,
+				A.TRANS_TYPE,
+				A.CONTRACT_TYPE,
+				C.COMM_NAME 		CONTRACT_TYPE_NAME,
+				A.INS_DATE,
+				A.LABOR_TYPE,
+				A.FONT_CONVERT_TYPE,
+				A.CORRECTION_TYPE,
+				A.LAST_FILE_ID,
+				A.SIGN_USER_TYPE,
+				A.SIGN_BIZ_TYPE,
+				A.SIGN_CUSTOMER_TYPE,
+				A.USE_OTHER_LAYOUT,
+				A.USE_ETC,
+				A.ETC_URL,
+				A.USE_PRE,
+				A.PRE_URL,
+				A.ORG_IMG_YN,
+				A.VIEW_YN,
+				A.EXPIRE_DAY,
+				'' 					BOOKMARK,
+				'' 					COL_ORDER
+		FROM 	TBL_CONTRACT_PERSON_NEW A
+		INNER JOIN TBL_CONTENT B
+		  ON 	A.FILE_ID 		= B.FILE_ID
+		INNER JOIN TBL_CODE C
+		  ON 	A.CONTRACT_TYPE = C.COMM_CODE
+		 AND 	C.GRP_COMM_CODE = '102'
+		INNER JOIN TBL_CONTRACT_PERSON D
+		  ON 	A.BIZ_ID 	    = D.BIZ_ID
+		 AND 	A.CONTRACT_ID   = D.CONTRACT_FILE_ID
+		INNER JOIN TBL_BIZ E
+		  ON 	A.BIZ_ID 	    = E.BIZ_ID
+		WHERE 	A.TRANS_TYPE   != 'D'
+		  AND 	D.CONT_ID 	    = #contId#
+	</select>
+
+	<select id="contractDAO.getDownloadCount" parameterClass="contractPersonLogVO" resultClass="java.lang.Integer">
+		SELECT	COUNT(*)
+		FROM    TBL_CONTRACT_PERSON_LOG A
+		WHERE   A.BIZ_ID   = #bizId#
+		  AND 	A.CONT_ID  = #contId#
+		  AND 	A.LOG_TYPE = '7'
+	</select>
+
+	<select id="contractDAO.getContractPersonNewFormCommentList" parameterClass="ContractPersonNewFormCommentVO" resultMap="contractPersonNewFormCommentListMap">
+		SELECT 	A.BIZ_ID,
+				A.FILE_ID,
+				A.COMMENT_NO,
+				A.COMMENT_CONTENT,
+				A.USER_ID,
+				A.SCORE_NUM,
+				A.REG_PASSWD,
+				A.INS_DATE,
+				A.UPD_DATE,
+				C.COMM_CODE USER_TYPE,
+				C.COMM_NAME USER_TYPE_NAME,
+				M.TRANS_TYPE
+		FROM 	TBL_CONTRACT_PERSON_NEW M
+		INNER JOIN TBL_CONTRACT_PERSON_NEW_COMMENT A
+		  ON 	M.BIZ_ID  = A.BIZ_ID
+		 AND 	M.FILE_ID = A.FILE_ID
+		LEFT JOIN TBL_EMP B
+		  ON 	A.USER_ID = B.USER_ID
+		INNER JOIN tbl_code C
+		  ON 	C.GRP_COMM_CODE = '001'
+		 AND 	C.COMM_CODE 	= IFNULL(B.EMP_TYPE, '1')
+		WHERE   A.FILE_ID 		= #fileId#
+		ORDER BY A.INS_DATE DESC
+	</select>
+
+	<insert id="contractDAO.insContractPersonNewFormComment" parameterClass="ContractPersonNewFormCommentVO">
+		<selectKey resultClass="java.lang.String" keyProperty="commentNo">
+			SELECT  getTableKey('TBL_CONTRACT_PERSON_NEW_COMMENT');
+		</selectKey>
+		INSERT INTO TBL_CONTRACT_PERSON_NEW_COMMENT (
+			BIZ_ID,
+			FILE_ID,
+			COMMENT_NO,
+			COMMENT_CONTENT,
+			USER_ID,
+			SCORE_NUM,
+			REG_PASSWD,
+			INS_DATE,
+			UPD_DATE
+		) VALUES (
+			#bizId#,
+			#fileId#,
+			#commentNo#,
+			#commentContent#,
+			#userId#,
+			#scoreNum#,
+			#regPasswd#,
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'),
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+
+	<delete id="contractDAO.delContractPersonNewFormComment" parameterClass="ContractPersonNewFormCommentVO">
+		DELETE FROM TBL_CONTRACT_PERSON_NEW_COMMENT
+		WHERE 	BIZ_ID = #bizId#
+		<isNotNull property="userId">
+			<isNotEmpty property="userId">
+				AND	USER_ID	= #userId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="commentNo">
+			<isNotEmpty property="commentNo">
+				AND	COMMENT_NO = #commentNo#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="fileId">
+			<isNotEmpty property="fileId">
+				AND	FILE_ID	= #fileId#
+			</isNotEmpty>
+		</isNotNull>
+	</delete>
+
+	<update id="contractDAO.updContractNewFinal" parameterClass="contractPersonNewVO">
+		UPDATE 	TBL_CONTRACT_PERSON_NEW
+		SET		LAST_FILE_ID 	= #lastFileId#,
+				TRANS_TYPE		= #transType#,
+				SIGN_BIZ_TYPE  	= #signBizType#,
+				SIGN_USER_TYPE 	= #signUserType#,
+				UPD_DATE       	= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	BIZ_ID			= #bizId#
+		  AND	FILE_ID			= #fileId#
+	</update>
+
+	<select id="contractDAO.getRemoveContractList" parameterClass="contractPersonVO" resultMap="contractPersonListMap">
+		SELECT 	A.CONT_ID,
+				A.SERVICE_ID,
+				A.BIZ_ID,
+				A.STATUS_CODE,
+				A.USER_ID,
+				A.CONTRACT_NAME,
+				A.CONTRACT_DATE,
+				A.SEND_DATE,
+				A.END_DATE,
+				A.KEEP_DATE,
+				A.INPUT_TYPE,
+				A.SEND_TYPE,
+				A.CONTRACT_ID,
+				A.DIGIT_NONCE,
+				A.HASH_DATA,
+				A.CONTRACT_TYPE,
+				A.CONTRACT_FILE_ID,
+				A.TRANS_TYPE,
+				A.EXPIRE_DATE,
+				A.COMMENT,
+				A.AUTH_TYPE,
+				A.AUTH_CODE,
+				C.COMM_NAME STATUS_NAME,
+				D.BUSINESS_NO,
+				D.OWNER_NAME,
+				D.BIZ_NAME,
+				E.COMM_NAME CONTRACT_TYPE_NAME,
+				F.FILE_TITLE CONTRACT_FILE_NAME,
+				IFNULL(B1.EMP_NO, B2.BUSINESS_NO) 			EMP_NO,
+				IFNULL(B1.EMP_NAME, B2.CUSTOMER_NAME) 		EMP_NAME,
+				B1.DEPT_NAME,
+				B1.USER_DATE,
+				IFNULL(B1.PHONE_NUM, B2.MANAGER_PHONE_NUM) 	PHONE_NUM,
+				IFNULL(B1.E_MAIL, B2.MANAGER_EMAIL) 		E_MAIL
+		FROM    TBL_CONTRACT_PERSON A
+		LEFT JOIN  TBL_EMP B1
+		  ON 	A.USER_ID = B1.USER_ID
+		 AND 	B1.USE_YN = 'Y'
+		<isNotNull property="searchKey">
+			<isNotEmpty property="searchKey">
+				<isEqual property="searchKey" compareValue="empName">
+					AND	B1.EMP_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="eMail">
+					AND	B1.E_MAIL LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="phoneNum">
+					AND	B1.PHONE_NUM = #searchValue#
+				</isEqual>
+				<isEqual property="searchKey" compareValue="deptName">
+					AND	B1.DEPT_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		LEFT JOIN TBL_CUSTOMER B2
+		  ON 	A.USER_ID = B2.CUSTOMER_ID
+		 AND 	B2.USE_YN = 'Y'
+		<isNotNull property="searchKey">
+			<isNotEmpty property="searchKey">
+				<isEqual property="searchKey" compareValue="empName">
+					AND	B2.CUSTOMER_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="eMail">
+					AND	B2.MANAGER_EMAIL LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="phoneNum">
+					AND	B2.MANAGER_PHONE_NUM = #searchValue#
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		INNER JOIN TBL_CODE C
+		  ON 	A.STATUS_CODE   = C.COMM_CODE
+		 AND 	C.GRP_COMM_CODE = '101'
+		INNER JOIN TBL_BIZ D
+		  ON 	A.BIZ_ID = D.BIZ_ID
+		INNER JOIN TBL_CODE E
+		  ON 	A.CONTRACT_TYPE = E.COMM_CODE
+		 AND 	E.GRP_COMM_CODE = '102'
+		INNER JOIN TBL_CONTRACT_PERSON_NEW F
+		  ON 	A.BIZ_ID = F.BIZ_ID
+		 AND 	A.CONTRACT_FILE_ID = F.CONTRACT_ID
+		WHERE   A.BIZ_ID = #bizId#
+		  AND 	IFNULL(B1.EMP_NO, B2.BUSINESS_NO) 		   IS NOT NULL
+		  AND 	IFNULL(B1.EMP_NAME, B2.CUSTOMER_NAME) 	   IS NOT NULL
+		  AND 	IFNULL(B1.PHONE_NUM, B2.MANAGER_PHONE_NUM) IS NOT NULL
+		  AND 	IFNULL(B1.E_MAIL, B2.MANAGER_EMAIL) 	   IS NOT NULL
+		  AND 	A.STATUS_CODE != 'D'
+		<isNotNull property="contractDateFrom">
+			<isNotEmpty property="contractDateFrom">
+				<isNotNull property="contractDateTo">
+					<isNotEmpty property="contractDateTo">
+						AND A.CONTRACT_DATE BETWEEN #contractDateFrom# AND #contractDateTo#
+					</isNotEmpty>
+				</isNotNull>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="delContId">
+			<isNotEmpty property="delContId">
+				AND A.CONT_ID IN
+				<iterate open="(" close=")" conjunction="," property="delContId">
+					#delContId[]#
+				</iterate>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contractDate">
+			<isNotEmpty property="contractDate">
+				AND	A.CONTRACT_DATE LIKE concat(#contractDate#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contractFileId">
+			<isNotEmpty property="contractFileId">
+				AND	A.CONTRACT_FILE_ID = #contractFileId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="transType">
+			<isNotEmpty property="transType">
+				AND	A.TRANS_TYPE = #transType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="statusCode">
+			<isNotEmpty property="statusCode">
+				<isEqual prepend="AND" property="statusCode"  compareValue="I">
+					A.STATUS_CODE != 'Y'
+				</isEqual>
+				<isNotEqual prepend="AND" property="statusCode"  compareValue="I">
+					A.STATUS_CODE = #statusCode#
+				</isNotEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="userId">
+			<isNotEmpty property="userId">
+				AND	B1.LOGIN_ID = #userId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empNo">
+			<isNotEmpty property="empNo">
+				AND	IFNULL(B1.USER_ID, B2.CUSTOMER_ID) = #empNo#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="insDate">
+			<isNotEmpty property="insDate">
+				AND	SUBSTRING(A.INS_DATE, 1, 8) = #insDate#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sortName">
+			<isNotEmpty property="sortName">
+				ORDER BY $sortName$ $sortOrder$, IFNULL(B1.EMP_NO, B2.BUSINESS_NO) ASC, A.CONTRACT_DATE DESC
+			</isNotEmpty>
+		</isNotNull>
+		<isGreaterEqual property="endPage" compareValue="0">
+			<isGreaterEqual property="startPage" compareValue="0">
+				LIMIT #endPage# OFFSET #startPage#
+			</isGreaterEqual>
+		</isGreaterEqual>
+	</select>
+
+	<insert id="contractDAO.insMetaDataToContractFormList" parameterClass="contractFormVO">
+		INSERT INTO TBL_CONTRACT_FORM (
+			CONT_ID,
+			SERVICE_ID,
+			BIZ_ID,
+			USER_ID,
+			CONTRACT_DATE,
+			FORM_DATA_ID,
+			FORM_DATA_TYPE,
+			FORM_DATA_NAME,
+			FORM_DATA_VALUE,
+			INS_DATE
+		)
+		SELECT  #contId#,
+				A.SERVICE_ID,
+				A.BIZ_ID,
+				C.USER_ID,
+				D.CONTRACT_DATE,
+				A.FORM_DATA_ID,
+				A.FORM_DATA_TYPE,
+				A.FORM_DATA_NAME,
+				B.DATA_VALUE FORM_DATA_VALUE,
+				DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s') INS_DATE
+		FROM 	TBL_EMP C
+		LEFT JOIN TBL_CONTRACT_PERSON D
+		  ON 	D.USER_ID = C.USER_ID
+		 AND 	D.CONT_ID = #contId#
+		LEFT JOIN TBL_CONTRACT_PERSON_NEW E
+		  ON 	E.CONTRACT_ID = #contractFileId#
+		LEFT JOIN TBL_CONTRACT_PERSON_NEW_FORM A
+		  ON 	E.BIZ_ID  = A.BIZ_ID
+		 AND 	A.FILE_ID = E.FILE_ID
+		 AND 	C.BIZ_ID  = A.BIZ_ID
+		 AND 	D.BIZ_ID  = A.BIZ_ID
+		LEFT JOIN TBL_META_DATA B
+		  ON 	A.FORM_DATA_NAME = B.DATA_ID
+		 AND 	B.BIZ_ID  = A.BIZ_ID
+		 AND 	B.META_ID = #metaId#
+		 AND 	C.EMP_NO  = B.EMP_NO
+		WHERE 	A.BIZ_ID  = #bizId#
+	</insert>
+
+	<select id="contractDAO.getMetaDataToContractList" parameterClass="ContractPersonVO" resultMap="contractPersonExcelListMap">
+		SELECT 	#serviceId# SERVICE_ID,
+				#fileId# FILE_ID,
+				A.BIZ_ID,
+				B.USER_ID,
+				DATE_FORMAT(SYSDATE(), '%Y%m%d') CONTRACT_DATE,
+				'1' CONTRACT_TYPE,
+				'1' STATUS_CODE,
+				'N' TRANS_TYPE
+		FROM 	(SELECT		MAX(BIZ_ID) BIZ_ID,
+							MAX(EMP_NO) EMP_NO
+				 FROM 		TBL_META_DATA
+				 WHERE 		META_ID = #metaId#
+				 GROUP BY 	BIZ_ID, EMP_NO ) A, TBL_EMP B
+		WHERE 	A.BIZ_ID = B.BIZ_ID
+		  AND 	A.EMP_NO = b.EMP_NO
+	</select>
+
+	<insert id="contractDAO.insContractLog">
+		INSERT INTO TBL_CONTRACT_LOG (
+			BIZ_ID,
+			CONTRACT_FILE_ID,
+			STATUS_CODE,
+			COUNT,
+			INS_DATE,
+			UPD_DATE
+		)
+		SELECT 	BIZ_ID,
+				CONTRACT_FILE_ID,
+				STATUS_CODE,
+				COUNT(*) COUNT,
+				DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'),
+				DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		FROM   (SELECT 	BIZ_ID,
+						CONTRACT_FILE_ID,
+						STATUS_CODE
+				FROM 	TBL_CONTRACT_PERSON
+						UNION ALL
+				SELECT 	BIZ_ID,
+						CONTRACT_FILE_ID,
+						STATUS_CODE
+				FROM 	TBL_CONTRACT_PERSON_DEL ) COMBINED
+		GROUP BY BIZ_ID, CONTRACT_FILE_ID, STATUS_CODE
+	</insert>
+
+	<select id="contractDAO.getEncodeYn" parameterClass="contractFormVO" resultClass="java.lang.String">
+		SELECT 	ENCODE_YN encodeYn
+		FROM 	tbl_CONTRACT_PERSON_NEW_FORM
+		WHERE 	FILE_ID =  (SELECT 	FILE_ID
+							FROM 	TBL_CONTRACT_PERSON_NEW
+							WHERE 	CONTRACT_ID =  (SELECT 	CONTRACT_FILE_ID
+													FROM 	TBL_CONTRACT_PERSON
+													WHERE 	CONT_ID = #contId# ) )
+		  AND 	FORM_DATA_ID = #formDataId#
+	</select>
+
+	<insert id="contractDAO.insContractSetting" parameterClass="contractSettingVO">
+		INSERT INTO TBL_CONTRACT_SETTING (
+			FILE_ID,
+			USER_ID,
+			RECV_TYPE,
+			SETTING_TYPE,
+			SETTING_VALUE,
+			INS_DATE,
+			UPD_DATE
+		) VALUES (
+			#fileId#,
+			#userId#,
+			#recvType#,
+			#settingType#,
+			#settingValue#,
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'),
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+
+	<delete id="contractDAO.delContractSetting" parameterClass="contractSettingVO">
+		DELETE FROM TBL_CONTRACT_SETTING
+		WHERE	FILE_ID	 	 = #fileId#
+		  AND 	USER_ID  	 = #userId#
+		  AND 	RECV_TYPE    = #recvType#
+		  AND 	SETTING_TYPE = #settingType#
+	</delete>
+
+	<update id="contractDAO.updContractExpirdDate" parameterClass="contractPersonVO">
+		UPDATE  TBL_CONTRACT_PERSON
+		SET 	EXPIRE_DATE = #expireDate#,
+				UPD_DATE	= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE 	BIZ_ID  	= #bizId#
+		  AND   CONT_ID 	= #contId#
+	</update>
+
+	<update id="contractDAO.updContractNewRe" parameterClass="contractPersonNewVO">
+		UPDATE 	TBL_CONTRACT_PERSON_NEW
+		SET		CONTRACT_ID   = #contractId#,
+				DATA_FILE_ID  = #dataFileId#,
+				ALTER_FILE_ID = #alterFileId#,
+				TRANS_TYPE	  = #transType#,
+				UPD_DATE 	  = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE 	BIZ_ID 		  = #bizId#
+		  AND	FILE_ID 	  = #fileId#
+	</update>
+
+	<select id="contractDAO.getContractPersonPreview" parameterClass="contractPersonVO" resultMap="contractPersonPreviewMap">
+		SELECT 	A.CONT_ID,
+				A.SERVICE_ID,
+				A.BIZ_ID,
+				A.CONTRACT_TYPE,
+				A.USER_ID,
+				A.CONTRACT_NAME,
+				A.CONTRACT_DATE,
+				A.SEND_DATE,
+				A.END_DATE,
+				A.KEEP_DATE,
+				A.INPUT_TYPE,
+				A.SEND_TYPE,
+				A.STATUS_CODE,
+				A.CONTRACT_ID,
+				A.DIGIT_NONCE,
+				A.HASH_DATA,
+				A.TRANS_TYPE,
+				A.EXPIRE_DATE,
+				A.COMMENT,
+				A.AUTH_TYPE,
+				A.AUTH_CODE,
+				A.CONTRACT_FILE_ID,
+				C.COMM_NAME 						STATUS_NAME,
+				D.BUSINESS_NO,
+				D.OWNER_NAME,
+				D.BIZ_NAME,
+				E.COMM_NAME 						CONTRACT_TYPE_NAME,
+				IFNULL(X.FILE_TITLE, F.FILE_TITLE)  CONTRACT_FILE_NAME
+		FROM  	TBL_CONTRACT_PERSON A
+		INNER JOIN TBL_CODE C
+		  ON 	A.STATUS_CODE   = C.COMM_CODE
+		 AND	C.GRP_COMM_CODE = '101'
+		INNER JOIN TBL_BIZ D
+		  ON	A.BIZ_ID = D.BIZ_ID
+		INNER JOIN TBL_CODE E
+		  ON	A.CONTRACT_TYPE = E.COMM_CODE
+		 AND	E.GRP_COMM_CODE = '102'
+		INNER JOIN TBL_CONTENT F
+		  ON 	A.CONTRACT_FILE_ID = F.FILE_ID
+		LEFT JOIN TBL_CONTRACT_PERSON_NEW X
+		  ON 	A.BIZ_ID 		   = X.BIZ_ID
+		 AND 	A.CONTRACT_FILE_ID = X.CONTRACT_ID
+		WHERE  	A.CONT_ID 		   = #contId#
+		 AND  	A.STATUS_CODE 	  != 'D'
+	</select>
+
+	<select id="contractDAO.getContractPreviewFormList" parameterClass="contractFormVO" resultMap="contractPreviewFormListMap">
+		SELECT 	A.CONT_ID,
+				A.SERVICE_ID,
+				A.BIZ_ID,
+				A.CONTRACT_DATE,
+				A.FORM_DATA_ID,
+				A.FORM_DATA_TYPE,
+				A.FORM_DATA_NAME,
+				A.FORM_DATA_VALUE,
+				A.INS_DATE,
+				C.BIZ_NAME,
+				IFNULL(D.ENCODE_YN,'N') ENCODE_YN
+		FROM    TBL_CONTRACT_FORM A
+		INNER JOIN TBL_BIZ C
+		  ON 	A.BIZ_ID  = C.BIZ_ID
+		LEFT JOIN TBL_CONTRACT_PERSON_NEW E
+		  ON 	E.BIZ_ID 	   = A.BIZ_ID
+		 AND 	E.CONTRACT_ID  = #contId#
+		LEFT JOIN TBL_CONTRACT_PERSON_NEW_FORM D
+		  ON 	D.FILE_ID 	   = E.FILE_ID
+		 AND 	D.FORM_DATA_ID = A.FORM_DATA_ID
+		 AND 	D.BIZ_ID  	   = A.BIZ_ID
+		WHERE   A.CONT_ID 	   = #contId#
+		<isNotNull property="formDataId">
+			<isNotEmpty property="formDataId">
+				AND	A.FORM_DATA_ID = #formDataId#
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY A.FORM_DATA_ID
+	</select>
+
+	<delete id="contractDAO.delPreview" parameterClass="contractPersonVO">
+		DELETE 	A, B
+		FROM 	TBL_CONTRACT_PERSON A
+		JOIN 	TBL_CONTRACT_FORM B
+		  ON 	A.USER_ID = B.USER_ID
+		WHERE 	A.USER_ID = 'TestPreView'
+	</delete>
+
+	<delete id="contractDAO.delContractNewFormRe" parameterClass="contractPersonNewVO">
+		DELETE FROM TBL_CONTRACT_PERSON_NEW_FORM
+		WHERE	BIZ_ID       = #bizId#
+		  AND	FILE_ID	     = #fileId#
+	</delete>
+
+
+</sqlMap>

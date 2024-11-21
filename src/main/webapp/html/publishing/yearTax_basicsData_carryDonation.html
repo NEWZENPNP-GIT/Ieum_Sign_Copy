@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>이월기부금</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+
+</head>
+<body>
+	<div id="yearTax_wrap" class="yearTax">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연말정산 > 기초자료설정 > </span><span class="loc_sub NanumSquare_R">이월기부금</span></div>
+			<div class="pagtit NanumSquare_R">
+				<span class="">이월기부금</span>
+				<ul class="top_items NanumSquare_R">
+					<li><a class="btn_type icon_file NanumSquare_R">엑셀업로드 <span class="icon icon_file"></span></a></li>
+				</ul>
+			</div>
+			
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">이월기부금</span>
+					</div>
+				
+					<div class="grid_field full">
+						<ul class="gridRow2">
+							<li class="search_wrap">
+								<div class="group_row row4">
+									<dl class="NanumSquare_R rat3n-7">
+										<dt><label class="label_txt NanumSquare_R">사업장 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R">
+												<option value="" >전체</option>
+											</select>
+										</dd>
+									</dl>
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">부서 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R">
+												<option value="" >전체</option>
+											</select>
+										</dd>
+									</dl>
+									<dl class="NanumSquare_R rat4n-6">
+										<dt><label class="label_txt NanumSquare_R">근무상태 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R">
+												<option value="" >전체</option>
+												<option value="" >계속근로</option>
+												<option value="" >중도퇴사</option>
+											</select>
+										</dd>
+									</dl>
+								</div>
+								<div class="group_row row4">
+									<dl class="NanumSquare_R rat3n-7">
+										<dt><label class="label_txt NanumSquare_R">성명 : </label></dt>
+										<dd class="input_box"><input class="" type="text" ></dd>
+									</dl>
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">사번 : </label></dt>
+										<dd class="input_box"><input class="" type="text" ></dd>
+									</dl>
+									<dl class="NanumSquare_R rat4n-6">
+										<dt><label class="label_txt NanumSquare_R">직책(직급) : </label></dt>
+										<dd class="input_box"><input class="" type="text" ></dd>
+									</dl>
+									<div class="btns"><a class="btn_type btn_grid_search NanumSquare_R"><span class="icon Material_icons">search</span> 검색</a></div>
+								</div>
+							</li>
+							<li class="NanumSquare_R btns sort_right sort_bottom">
+								<div class="sortWrap ">
+									<a class="btn_type type1">신규 등록<span class="icon add"></span></a><a class="btn_type type2">선택삭제</a>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="grid_paging">
+						<div class="select_box">
+							<dl>
+								<dt><label class="label_txt NanumSquare_R">Rows</label></dt>
+								<dd class="select_box">
+									<select class="NanumSquare_R">
+										<option value="" >10</option>
+									</select>
+								</dd>
+							</dl>
+						</div>
+						<div id="page-selection" class="pagingnav_wrap_mid"></div>
+					</div>
+					<div class="group_table">
+						<table class="hasHead NanumSquare_R">
+							<colgroup>
+								<col width="4%">
+								<col width="10%">
+								<col width="8%">
+								<col width="11%">
+								<col width="14%">
+								<col width="10%">
+								<col width="10%">
+								<col width="11%">
+								<col width="11%">
+								<col width="11%">
+							</colgroup>
+							<thead>
+								<tr>
+									<th class="chk_area"><input type="checkbox"></th>
+									<th>사업장</th>
+									<th>성명</th>
+									<th>사번</th>
+									<th>기부년도</th>
+									<th>코드</th>
+									<th>기부금종류</th>
+									<th>기부금액</th>
+									<th>전년도까지 공제 금액</th>
+									<th>공제대상 금액</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="">
+									<td class="chk_area"><input type="checkbox"> </td>
+									<td class="value">뉴젠연말정산</td>
+									<td class="value"><a class="btn_type btn_detailView">김연말</a></td>
+									<td class="value">20170101000</td>
+									<td class="value">2017년 </td>
+									<td class="value">8888</td>
+									<td class="value">종교단체 외</td>
+									<td class="value sort_right">1,000,000</td>
+									<td class="value sort_right">600,000</td>
+									<td class="value sort_right">400,000</td>
+								</tr>
+								<tr class="">
+									<td class="chk_area"><input type="checkbox"> </td>
+									<td class="value">뉴젠연말정산</td>
+									<td class="value"><a class="btn_type btn_detailView">김연말</a></td>
+									<td class="value">20170101001</td>
+									<td class="value">2017년 </td>
+									<td class="value">8888</td>
+									<td class="value">종교단체 외</td>
+									<td class="value sort_right">6,000,000</td>
+									<td class="value sort_right">800,000</td>
+									<td class="value sort_right">1,100,000</td>
+								</tr>
+								<tr class="">
+									<td class="chk_area"><input type="checkbox"> </td>
+									<td class="value">뉴젠연말정산</td>
+									<td class="value"><a class="btn_type btn_detailView">김연말</a></td>
+									<td class="value">20170101001</td>
+									<td class="value">2017년 </td>
+									<td class="value">8888</td>
+									<td class="value">종교단체 외</td>
+									<td class="value sort_right">6,000,000</td>
+									<td class="value sort_right">800,000</td>
+									<td class="value sort_right">1,100,000</td>
+								</tr>
+								<tr class="tfoot">
+									<td class="value" colspan="7">합계 (총 인원 : <span class="">5</span>명)</td>
+									<td class="value sort_right">7,000,000</td>
+									<td class="value sort_right">1,400,000</td>
+									<td class="value sort_right">1,500,000</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div><!--  content -->
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+$('#page-selection').bootpag({
+    total: 10,
+    page: 1,
+    maxVisible: 5,
+    leaps: true,
+    firstLastUse: true,
+    first: '',
+    last: '',
+    wrapClass: 'pagination',
+    activeClass: 'active',
+    disabledClass: 'disabled',
+    nextClass: 'btn_next',
+    prevClass: 'btn_prev',
+    lastClass: 'end_page',
+    firstClass: 'first_page'
+}).on("page", function(event, num){
+    
+}); 
+</script>
+</html>

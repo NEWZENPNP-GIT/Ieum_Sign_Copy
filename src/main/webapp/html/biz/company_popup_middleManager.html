@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>중간 관리자 검색</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/company_manage.css">
+
+<script type='text/javascript' src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+
+<script>	
+	$(document).ready(function(){
+		$('input[type=text]').on('keydown', function(e) {
+		    if (e.which == 13) {
+		        e.preventDefault();
+				fn_empList();
+		    }
+		});
+		
+		fn_empList();	
+	});
+	
+	function fn_empList() {
+
+		var url = rootPath+"emp/getEmpList.do";
+		
+		var searchKey = $("#searchKey").val();
+		var searchValue = $("#searchValue").val();
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				bizId:"middle",
+				searchKey:searchKey,
+				searchValue:searchValue,
+				empType:'6',
+				startPage:0,
+				endPage:99999,
+				searchCompany:getCookie("bizId")
+			},
+			success:function(result)
+			{
+				var htmlData = "";
+				
+				if (result.success==true) {
+					// 기업중간관리자
+					$.each(result.data, function(i, row) {
+						htmlData += '<tr> <td class=""><input type="checkbox" name="chk" value="'+row.userId+'_'+row.empName+'"></td>';
+						htmlData += '     <td>'+(i*1+1)+'</td>';
+						htmlData += '     <td>'+row.empName+'</td>';
+						htmlData += '     <td>'+row.empNo+'</td>';
+						htmlData += '	  <td>'+isSetNull(row.loginId, '')+'</td>';
+						htmlData += '</tr>';
+					});
+					
+				}
+				$("#empList").html(htmlData);
+				
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});		
+	}
+	
+	function fn_confirm() {
+		var cnt = 0;
+		var userId;
+		var empName;
+		$("input:checkbox[name=chk]:checked").each(function (){
+			var key = this.value;
+	    	var data = key.split("_");
+	    	userId = data[0];
+	    	empName = data[1];
+	    	cnt++;
+		});
+		
+		if(cnt!=1) {
+			alert("선택할 사용자 한명을 선택해주시기 바랍니다.");
+			return;
+		}
+		
+		if(!confirm("해당 선택된 사용자["+empName+"]를 지정하시겠습니까?")) return;
+		
+		opener.callback_popup_middleManager(userId, empName);
+		
+		window.close();
+		
+	}
+	
+</script>
+</head>
+<body>
+<input type="hidden" id="userType" value="7">
+	<div id="company_popup" class="_popup">
+		<div class="container">
+			<div id="popup_tit">
+				<div class="tit_icon"><span class="NanumGothic Material_icons">search</span></div>
+				<div class="tit_text col_skyblue NanumGothic">중간관리자 검색</div>
+				<div id="popup_close" class="btn_type col_skyblue" onclick="window.close();"></div>
+			</div>
+			<div class="contents">
+				<div class="grid_field">
+					<div class="select_box">
+						<select class="NanumGothic" id="searchKey">
+							<option value="empName" >성명</option>
+							<option value="empNo" >사번</option>
+						</select>
+					</div>
+					<div class="input_box">
+						<fieldset>
+							<input class="" type="text" placeholder="검색" id="searchValue" ><div class="btn_type btn_search Material_icons" onClick="fn_empList()">search</div>
+						</fieldset>
+					</div>
+				</div>
+				<div class="group_table">
+					<table class="NanumGothic">
+						<colgroup>
+							<col width="6%">
+							<col width="6%">
+							<col width="28%">
+							<col width="30%">
+							<col width="30%">
+						</colgroup>
+						<thead>
+							<tr>
+								<th class="chk_area"></th>
+								<th>No</th>
+								<th>관리자번호</th>
+								<th>관리자명</th>
+								<th>관리자 아이디</th>
+							</tr>
+						</thead>
+						<tbody id="empList">
+						</tbody>
+					</table>
+				</div>
+			
+				<div class="result_text NanumGothic">
+				</div>
+				<div class="btns sort-center">
+					<div><div class="type2 btn_type Material_icons" onClick="fn_confirm()">확인</div></div>
+					<div><div class="type4 btn_type Material_icons" onClick="window.close()">취소</div></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

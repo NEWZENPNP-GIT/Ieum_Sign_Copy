@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="febhometax">
+	<typeAlias alias="yc200VO" type="com.ezsign.feb.hometax.vo.YC200VO" />
+
+	<resultMap id="yc200ListMap" class="yc200VO">
+		<result property="번호" column="번호"/>
+		<result property="년도" column="년도"/>
+		<result property="순번" column="순번"/>
+		<result property="레코드" column="레코드"/>
+		<result property="서식항목" column="서식항목"/>
+		<result property="타입" column="타입"/>
+		<result property="길이" column="길이"/>
+		<result property="누적길이" column="누적길이"/>
+		<result property="기본값" column="기본값"/>
+		<result property="널여부" column="널여부"/>
+		<result property="유효성체크" column="유효성체크"/>
+		<result property="그룹코드" column="그룹코드"/>
+		<result property="최소값" column="최소값"/>
+		<result property="최대값" column="최대값"/>
+		<result property="칼럼명" column="칼럼명"/>
+		<result property="테이블명" column="테이블명"/>
+		<result property="전자신고조건" column="전자신고조건"/>
+		<result property="사업장조건" column="사업장조건"/>
+		<result property="사용자조건" column="사용자조건"/>
+		<result property="신고구분" column="신고구분"/>
+	</resultMap>
+	
+	<!-- 전자신고기준표 리스트 -->	
+	<select id="yc200DAO.getYC200List" parameterClass="yc200VO" resultMap="yc200ListMap">
+		SELECT
+  			번호,
+			년도,
+			순번,
+			레코드,
+			서식항목,
+			타입,
+			길이,
+			누적길이,
+			기본값,
+			널여부,
+			유효성체크,
+			그룹코드,
+			최소값,
+			최대값,
+			칼럼명,
+			테이블명,
+			전자신고조건,
+			사업장조건,
+			사용자조건,
+			신고구분
+		FROM TBL_YC200
+		WHERE 레코드 = #레코드#
+		AND 신고구분 = #신고구분#
+		<isNotEmpty property="년도">
+		 AND 년도 = #년도#
+		</isNotEmpty>
+		ORDER BY 순번
+	</select>
+	
+</sqlMap>

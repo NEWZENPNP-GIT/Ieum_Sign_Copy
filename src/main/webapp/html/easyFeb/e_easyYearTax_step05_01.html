@@ -1,0 +1,1242 @@
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+	<div id="yearTax_wrap" class="yearTax easy">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연말정산 >  </span><span class="loc_sub NanumSquare_R">연말정산 요약</span></div>
+			
+			<div class="process_wrap mask">
+				<div class="stepBar"> 
+					<div class="box clear">
+						<div class="process-step NanumSquare_R">
+							<div class="bar"><span class="line"></span><span class="no">1</span></div>
+							<div class="process-panel">
+									<span class="icon"></span>
+									<span class="name NanumRound">소득확인</span>	
+							</div>
+							<div class="process-arrow"></div>
+						</div>
+					</div>
+					<div class="box clear">
+						<div class="process-step NanumSquare_R">
+							<div class="bar"><span class="line"></span><span class="no">2</span></div>
+							<div class="process-panel">
+								<span class="icon"></span>
+								<span class="name NanumRound">부양가족</span>
+							</div>
+							<div class="process-arrow"></div>
+						</div>
+					</div>
+					<div class="box clear">
+						<div class="process-step NanumSquare_R">
+							<div class="bar"><span class="line"></span><span class="no">3</span></div>
+							<div class="process-panel">
+								<span class="icon"></span>
+								<span class="name NanumRound">지출내역 확인</span>
+							</div>
+							<div class="process-arrow"></div>
+						</div>
+					</div>
+					<div class="box clear">
+						<div class="process-step NanumSquare_R">
+							<div class="bar"><span class="line"></span><span class="no">4</span></div>
+							<div class="process-panel">
+								<span class="icon"></span>
+								<span class="name NanumRound">추가서류 제출</span>
+							</div>
+							<div class="process-arrow"></div>
+						</div>
+					</div>
+					<div class="box current">
+						<div class="process-step NanumSquare_R">
+							<div class="bar"><span class="line"></span><span class="no">5</span></div>
+							<div class="process-panel">
+								<span class="icon"></span>
+								<span class="name NanumRound">연말정산 요약</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div> <!--  process_wrap -->
+			
+			<div class="contents">
+				<div class="notice_wrap bg_skyblue ">
+					<div class="notice_tit NanumGothic h_45">
+						<span class="txt col_black font_20 userName">홍길동 </span><span class="txt col_black font_20">님은 환급액의 증가 또는 추징세액의 감소를 위하여</span><span class="txt col_skyblue font_20 boxunderline">일반세액공제</span><span  class="txt col_black font_20">를 적용합니다.</span>
+						<div class="btns">
+							<a class="btn_type NanumSquare_R">문의 </a>
+						</div>
+					</div>
+					<div class="notice_con NanumSquare_R sort_center">
+						<div class="summery">
+							<div class="align box">2018년 귀속 연말정산 요약</div>
+							<div class="align data">일반세액공제</div>
+						</div>
+					</div>
+				</div>
+				<div class="explain_wrap"><span class="NanumSquare_R col_darkblue">하기 금액은 추정 금액이므로 확정 이후 최종 금액과 차이가 있을 수 있습니다. </span></div>
+				
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<div class="text NanumSquare_R">환급/추가납부 세액</div>
+						<div class="taxResult NanumSquare_R col_red"><span class="price" id="차감징수_계"></span><span class="res_txt" id="환급여부"> </span> </div>
+					</div>
+				</div>
+				<!--  group_column : 데이터를 가로 추가할수 있는 테이블형 -->
+				<!--  group-cell : +&-기능을 사용하는 데이터를 가로 추가할수 있는 테이블형 -->
+				<div class="group-cell NanumSquare_R summary">
+					<div class="fix_viewer">
+						<ul class="fix_column">
+							<li class="thead">총급여</li>
+							<li class="tbody sub">근로소득공제<div class="markSign">-</div></li>
+							<li class="tbody subTit">근로소득금액</li>
+							<li class="tbody itemgroup">
+								<input id="group-1" type="checkbox" class="dep-1 hidden">
+								<div class="item-gnb">
+									<div class="markSign">-</div>
+									<label for="group-1" class="btn_type Material_icons icon" ></label>
+									<label for="group-1" class="label tit">인적공제 </label>
+								</div>
+								<ul class="item-list">
+									<li class="nav">본인</li>
+									<li class="nav">배우자</li>
+									<li class="nav">부양가족 <div class="add">( <span class="data" id="부양가족_인원수">3</span> ) 명</div></li>
+									<li class="nav">경로우대<div class="add">( <span class="data" id="경로우대_인원수">2</span> ) 명</div></li>
+									<li class="nav">장애인<div class="add">( <span class="data" id="장애인_인원수">1</span> ) 명</div></li>
+									<li class="nav">부녀자</li>
+									<li class="nav">한부모</li>
+								</ul>
+							</li>
+							<li class="tbody itemgroup">
+								<input id="group-2" type="checkbox" class="dep-1 hidden">
+								<div class="item-gnb">
+									<div class="markSign">-</div>
+									<label for="group-2"class="btn_type Material_icons icon"></label>
+									<label for="group-2"class="label tit">연금보험료공제 </label>
+								</div>
+								<ul class="item-list">
+									<li class="nav">국민연금보험료</li>
+									<li class="nav">공무원연금</li>
+									<li class="nav">군인연금</li>
+									<li class="nav">사립학교교직원</li>
+									<li class="nav">별정우체국연금</li>
+								</ul>
+							</li>
+							<li class="tbody itemgroup">
+								<input id="group-3" type="checkbox" class="dep-1 hidden">
+								<div class="item-gnb">
+									<div class="markSign">-</div>
+									<label for="group-3"class="btn_type Material_icons icon"></label>
+									<label for="group-3"class="label tit">특별소득공제 </label>
+								</div>
+								<ul class="item-list">
+									<li class="nav">건강보험료</li>
+									<li class="nav">고용보험료</li>
+									<li class="nav">주택임차차입금<div class="add">대출기관</div></li>
+									<li class="nav">주택임차차입금<div class="add">거주자</div></li>
+									<li class="nav">장기주택저당차입금이자상환액<div class="add"><div>2011년 이전 차입분</div><div>15년 미만</div></div></li>
+									<li class="nav">장기주택저당차입금이자상환액<div class="add"><div>2011년 이전 차입분</div><div>15년~29년</div></div></li>
+									<li class="nav">장기주택저당차입금이자상환액<div class="add"><div>2011년 이전 차입분</div><div>30년 이상</div></div></li>
+									<li class="nav">장기주택저당차입금이자상환액<div class="add"><div>2012년 이후 차입분(15년 이상)</div><div>고정금리OR비거치상환 대출</div></div></li>
+									<li class="nav">장기주택저당차입금이자상환액<div class="add"><div>2012년 이후 차입분(15년 이상)</div><div>그 밖의 대출</div></div></li>
+									<li class="nav">장기주택저당차입금이자상환액<div class="add"><div>2012년 이후 차입분(15년 이상)</div><div>고정금리AND비거치상환 대출</div></div></li>
+									<li class="nav">장기주택저당차입금이자상환액<div class="add"><div>2012년 이후 차입분(15년 이상)</div><div>고정금리OR비거치상환 대출</div></div></li>
+									<li class="nav">장기주택저당차입금이자상환액<div class="add"><div>2012년 이후 차입분(15년 이상)</div><div>그 밖의 대출</div></div></li>
+									<li class="nav">장기주택저당차입금이자상환액<div class="add"><div>2012년 이후 차입분(15년 이상)</div><div>고정금리OR비거치상환 대출</div></div></li>
+									<li class="nav">기부금(이월분)</li>
+								</ul>
+							</li>
+							<li class="tbody subTit"><div class="item-gnb">차감소득금액</div></li>
+							<li class="tbody itemgroup">
+								<input id="group-4" type="checkbox" class="dep-1 hidden">
+								<div class="item-gnb">
+									<div class="markSign">-</div>
+									<label for="group-4"class="btn_type Material_icons icon"></label>
+									<label for="group-4"class="label tit">그밖의 소득공제 </label>
+								</div>
+								<ul class="item-list">
+									<li class="nav">개인연금저축</li>
+									<li class="nav">소기업·소상공인공제부금</li>
+									<li class="nav">주택마련저축소득공제<div class="add">청약저축</div></li>
+									<li class="nav">주택마련저축소득공제<div class="add">주택청약종합저축</div></li>
+									<li class="nav">주택마련저축소득공제<div class="add">근로자주택마련저축</div></li>
+									<li class="nav">투자조합출자 등</li>
+									<li class="nav">신용카드 등 사용액</li>
+									<li class="nav">우리사주조합 출연금</li>
+									<li class="nav">고용유지 중소기업 근로자</li>
+									<li class="nav">장기집합투자증권저축</li>
+								</ul>
+							</li>
+							<li class="tbody sub"><div class="item-gnb">소득공제 종합한도 초과액</div><div class="markSign">+</div></li>
+							<li class="tbody subTit"><div class="item-gnb">종합소득과세표준</div></li>
+							<li class="tbody subTit"><div class="item-gnb">산출세액</div></li>
+							<li class="tbody itemgroup">
+								<input id="group-5" type="checkbox" class="dep-1 hidden">
+								<div class="item-gnb">
+									<div class="markSign">-</div>
+									<label for="group-5"class="btn_type Material_icons icon"></label>
+									<label for="group-5"class="label tit">세액감면</label>
+								</div>
+								<ul class="item-list">
+									<li class="nav">소득세법에 의한 감면</li>
+									<li class="nav">조세특례제한법<div class="add">외국인기술자 등 감면</div> </li>
+									<li class="nav">중소기업 취업자에 대한 감면<div class="add">100%</div></li>
+									<li class="nav">중소기업 취업자에 대한 감면<div class="add">50%</div></li>
+									<li class="nav">중소기업 취업자에 대한 감면<div class="add">70%</div></li>
+									<li class="nav">조세조약에 의한 감면</li>
+								</ul>
+							</li>
+							<li class="tbody sub"><div class="item-gnb">근로소득세액공제<div class="markSign">-</div></div></li>
+							<li class="tbody itemgroup">
+								<input id="group-6" type="checkbox" class="dep-1 hidden">
+								<div class="item-gnb">
+									<div class="markSign">-</div>
+									<label for="group-6"class="btn_type Material_icons icon"></label>
+									<label for="group-6"class="label tit">자녀세액공제</label>
+								</div>
+								<ul class="item-list">
+									<li class="nav">자녀<div class="add">( <span class="data" id="자녀_인원수">1</span> ) 명</div></li>
+									<li class="nav">출산·입양<div class="add">( <span class="data" id="출산입양_인원수">1</span> ) 명</div> </li>
+								</ul>
+							</li>
+							<li class="tbody itemgroup">
+								<input id="group-7" type="checkbox" class="dep-1 hidden">
+								<div class="item-gnb">
+									<div class="markSign">-</div>
+									<label for="group-7"class="btn_type Material_icons icon"></label>
+									<label for="group-7"class="label tit">연금계좌</label>
+								</div>
+								<ul class="item-list">
+									<li class="nav">과학기술인공제회</li>
+									<li class="nav">근로자퇴직연금 </li>
+									<li class="nav">연금저축 </li>
+								</ul>
+							</li>
+							<li class="tbody itemgroup">
+								<input id="group-8" type="checkbox" class="dep-1 hidden">
+								<div class="item-gnb">
+									<div class="markSign">-</div>
+									<label for="group-8"class="btn_type Material_icons icon"></label>
+									<label for="group-8"class="label tit">특별세액공제</label>
+								</div>
+								<ul class="item-list">
+									<li class="nav">보장성보험</li>
+									<li class="nav">장애인전용보장성보험 </li>
+									<li class="nav">의료비</li>
+									<li class="nav">교육비</li>
+									<li class="nav">정치자금기부금<div class="add">10만원 이하 </div></li>
+									<li class="nav">정치자금기부금<div class="add">10만원 초과 </div></li>
+									<li class="nav">법정기부금</li>
+									<li class="nav">우리사주조합기부금</li>
+									<li class="nav">지정기부금<div class="add">종교단체 외</div></li>
+									<li class="nav">지정기부금<div class="add">종교단체 </div></li>
+								</ul>
+							</li>
+							<li class="tbody sub 표준세액공제"><div class="item-gnb">표준세액공제<div class="markSign">-</div></div></li>
+							<li class="tbody sub"><div class="item-gnb">납세조합공제<div class="markSign">-</div></div></li>
+							<li class="tbody sub"><div class="item-gnb">주택차입금<div class="markSign">-</div></div></li>
+							<li class="tbody sub"><div class="item-gnb">외국납부<div class="markSign">-</div></div></li>
+							<li class="tbody sub"><div class="item-gnb">월세세액</div><div class="markSign">-</div></li>
+							<li class="tbody subTit"><div class="item-gnb">결정세액</div></li>
+						</ul>
+					</div>	
+					<div class="column_viewer">
+						<div class="column_data">
+							<ul class="data-list">
+								<li class="thead"><div class="item-gnb data" id="총급여"></div></li>
+								<li class="tbody sub"><div class="item-gnb data" id="근로소득공제"></div></li>
+								<li class="tbody subTit"><div class="item-gnb data" id="근로소득금액"></div></li>
+								<li class="tbody itemgroup group-1">
+									<div class="item-gnb data" id="인적공제_계"></div>
+									<ul class="item-list-data">
+										<li class="data" id="기본공제_본인"></li>
+										<li class="data" id="기본공제_배우자"></li>
+										<li class="data" id="기본공제_부양가족"></li>
+										<li class="data" id="추가공제_경로우대"></li>
+										<li class="data" id="추가공제_장애인"></li>
+										<li class="data" id="추가공제_부녀자"></li>
+										<li class="data" id="추가공제_한부모"></li>
+									</ul>
+								</li>
+								<li class="tbody itemgroup group-2">
+									
+									<div class="item-gnb data" id="연금보험_합산금액"></div>
+									<ul class="item-list-data">
+										<li class="data" id="연금보험_국민연금"></li>
+										<li class="data" id="연금보험_공무원연금"></li>
+										<li class="data" id="연금보험_군인연금"></li>
+										<li class="data" id="연금보험_사립학교"></li>
+										<li class="data" id="연금보험_별정우체국"></li>
+									</ul>
+								</li>
+								<li class="tbody itemgroup group-3">
+								
+									<div class="item-gnb data" id="특별소득_계"></div>
+									<ul class="item-list-data">
+										<li class="data" id="특별소득_건강보험"></li>
+										<li class="data" id="특별소득_고용보험"></li>
+										<li class="data" id="특별소득_주택원리금_대출기관"></li>
+										<li class="data" id="특별소득_주택원리금_거주자"></li>
+										<li class="data" id="특별소득_장기주택_2011년이전_15년미만"></li>
+										<li class="data" id="특별소득_장기주택_2011년이전_15년29년"></li>
+										<li class="data" id="특별소득_장기주택_2011년이전_30년이상"></li>
+										<li class="data" id="특별소득_장기주택_2012년이후_고정이거나비거치"></li>
+										<li class="data" id="특별소득_장기주택_2012년이후_그밖에"></li>
+										<li class="data" id="특별소득_장기주택_2015년이후_15년이상_고정이면서비거치"></li>
+										<li class="data" id="특별소득_장기주택_2015년이후_15년이상_고정이거나비거치"></li>
+										<li class="data" id="특별소득_장기주택_2015년이후_15년이상_그밖에"></li>
+										<li class="data" id="특별소득_장기주택_2015년이후_10년15년_고정이거나비거치"></li>
+										<li class="data" id="특별소득_기부금_이월분"></li>
+									</ul>
+								</li>
+								<li class="tbody subTit"><div class="item-gnb data" id="차감소득금액"></div></li>
+								<li class="tbody itemgroup group-4">
+									<div class="item-gnb data" id="그밖에소득공제_계"></div>
+									<ul class="item-list-data">
+										<li class="data" id="그밖에소득공제_개인연금"></li>
+										<li class="data" id="그밖에소득공제_소기업소상공인"></li>
+										<li class="data" id="그밖에소득공제_주택마련_청약저축"></li>
+										<li class="data" id="그밖에소득공제_주택마련_주택청약"></li>
+										<li class="data" id="그밖에소득공제_주택마련_근로자주택마련"></li>
+										<li class="data" id="그밖에소득공제_투자조합출자"></li>
+										<li class="data" id="그밖에소득공제_신용카드등"></li>
+										<li class="data" id="그밖에소득공제_우리사주조합"></li>
+										<li class="data" id="그밖에소득공제_고용유지근로자"></li>
+										<li class="data" id="그밖에소득공제_장기집합투자"></li>
+									</ul>
+								</li>
+								<li class="tbody sub"><div class="item-gnb data" id="소득공제종합한도초과액"></div></li>
+								<li class="tbody subTit"><div class="item-gnb data" id="종합소득과세표준"></div></li>
+								<li class="tbody subTit"><div class="item-gnb data" id="산출세액"></div></li>
+								<li class="tbody itemgroup group-5">
+									
+									<div class="item-gnb data" id="세액감면_계"></div>
+									<ul class="item-list-data">
+										<li class="data" id="세액감면_소득세법"></li>
+										<li class="data" id="세액감면_조세특례52제외"></li>
+										<li class="data" id="세액감면_조세특례30조_100"></li>
+										<li class="data" id="세액감면_조세특례30조_50"></li>
+										<li class="data" id="세액감면_조세특례30조_70"></li>
+										<li class="data" id="세액감면_조세조약"></li>
+									</ul>
+								</li>
+								<li class="tbody sub"><div class="item-gnb data" id="세액공제_근로소득"></div></li>
+								<li class="tbody itemgroup group-6">
+									
+									<div class="item-gnb data" id="세액공제_자녀_계"></div>
+									<ul class="item-list-data">
+										<li class="data" id="세액공제_자녀"></li>
+										<li class="data" id="세액공제_출산입양"></li>
+									</ul>
+								</li>
+								<li class="tbody itemgroup group-7">
+									
+									<div class="item-gnb data" id="연금계좌_합산금액">연금계좌_합산금액</div>
+									<ul class="item-list-data">
+										<li class="data" id="세액공제_연금계좌_과학기술_세액공제액"></li>
+										<li class="data" id="세액공제_연금계좌_퇴직연금_세액공제액"></li>
+										<li class="data" id="세액공제_연금계좌_연금저축_세액공제액"></li>
+									</ul>
+								</li>
+								<li class="tbody itemgroup group-8">
+									
+									<div class="item-gnb data" id="특별세액_계">특별세액_계</div>
+									<ul class="item-list-data">
+										<li class="data" id="특별세액_보험료_보장성_세액공제액"></li>
+										<li class="data" id="특별세액_보험료_장애인전용_세액공제액"></li>
+										<li class="data" id="특별세액_의료비_세액공제액">액</li>
+										<li class="data" id="특별세액_교육비_세액공제액"></li>
+										<li class="data" id="특별세액_기부금_정치자금_10만이하_세액공제액"></li>
+										<li class="data" id="특별세액_기부금_정치자금_10만초과_세액공제액"></li>
+										<li class="data" id="특별세액_기부금_법정_세액공제액"></li>
+										<li class="data" id="특별세액_기부금_우리사주_세액공제액"></li>
+										<li class="data" id="특별세액_기부금_지정_종교외_세액공제액"></li>
+										<li class="data" id="특별세액_기부금_지정_종교_세액공제액"></li>
+									</ul>
+								</li>
+								<li class="tbody sub 표준세액공제"><div class="item-gnb data" id="특별세액_표준세액공제"></div></li>
+								<li class="tbody sub"><div class="item-gnb data" id="세액공제_납세조합공제"></div></li>
+								<li class="tbody sub"><div class="item-gnb data" id="세액공제_주택차입금"></div></li>
+								<li class="tbody sub"><div class="item-gnb data" id="세액공제_외국납부"></div></li>
+								<li class="tbody sub"><div class="item-gnb data" id="세액공제_월세액_세액공제액"></div></li>
+								<li class="tbody subTit"><div class="item-gnb data" id="결정세액_소득세"></div></li>
+							</ul>
+								
+								
+						</div> <!--  column_data -->
+					</div> <!--  column_view -->
+					
+				</div> <!-- group_column -->
+				
+				<div class="group-cellBox NanumSquare_R">
+					<ul class="fix_column">
+						<li class="thead">구분</li>
+						<li class="tbody">결정세액</li>
+						<li class="tbody">기납부세액_전근무지</li>
+						<li class="tbody">기납부세액_현근무지</li>
+						<li class="tbody">납부특례세액</li>
+						<li class="tfoot">차감징수세액</li>
+					</ul>
+					<ul class="column_data">
+						<li class="thead">소득세</li>
+						<li class="tbody sort_right" id="결정세액_소득세"></li>
+						<li class="tbody sort_right" id="종근무지_소득세"></li>
+						<li class="tbody sort_right" id="주근무지_소득세"></li>
+						<li class="tbody sort_right" id="납부특례_소득세"></li>
+						<li class="tfoot sort_right" id="차감징수_소득세"></li>
+					</ul>
+					<ul class="column_data">
+						<li class="thead">지방소득세</li>
+						<li class="tbody sort_right" id="결정세액_지방소득세"></li>
+						<li class="tbody sort_right" id="종근무지_지방소득세"></li>
+						<li class="tbody sort_right" id="주근무지_지방소득세"></li>
+						<li class="tbody sort_right" id="납부특례_지방소득세"></li>
+						<li class="tfoot sort_right" id="차감징수_지방소득세"></li>
+					</ul>
+					<ul class="column_data">
+						<li class="thead">농어촌특별세</li>
+						<li class="tbody sort_right" id="결정세액_농어촌특별세"></li>
+						<li class="tbody sort_right" id="종근무지_농어촌특별세"></li>
+						<li class="tbody sort_right" id="주근무지_농어촌특별세"></li>
+						<li class="tbody sort_right" id="납부특례_농어촌특별세"></li>
+						<li class="tfoot sort_right" id="차감징수_농어촌특별세"></li>
+					</ul>
+					<ul class="column_data">
+						<li class="thead">합계</li>
+						<li class="tbody sort_right" id="결정세액_합산"></li>
+						<li class="tbody sort_right" id="종근무지_계"></li>
+						<li class="tbody sort_right" id="주근무지_계"></li>
+						<li class="tbody sort_right" id="납부특례_계"></li>
+						<li class="tfoot sort_right" id="차감징수_계"></li>
+					</ul>
+					
+				</div>
+
+				<ul class="explain_wrap NanumSquare_R">
+					<li class="">
+						<dl class="">
+							<dt><span class="NanumGothic arrow">≫ </span><label class="label_txt NanumSquare_R">[추가징수세액 분할납부 신청]</label></dt>
+							<dd class="radio_box">
+								<div class="radSet"><input type="radio" name="no1"><label>신청</label></div>
+								<div class="radSet"><input type="radio" name="no1"><label>미신청</label></div>
+							</dd>
+						</dl>
+						<div class="dec">차감징수세액(소득세 기준)이 10만원을 초과하는 경우 분할납부 신청이 가능합니다.</div>
+					</li>
+					<li>
+						<dl class="">
+							<dt><span class="NanumGothic arrow">≫ </span><label class="label_txt NanumSquare_R">[원천징수세액 변경 신청]</label></dt>
+							<dd class="radio_box">
+								<div class="radSet"><input type="radio" name="no2"><label>120%</label></div>
+								<div class="radSet"><input type="radio" name="no2"><label>100%</label></div>
+								<div class="radSet"><input type="radio" name="no2"><label>80%</label></div>
+							</dd>
+						</dl>
+						<div class="dec">근로자 본인이 원하는 경우 매월 원천징수하는 세액을 법령상 세액의 120%, 100%, 80% 중 선택할 수 있습니다. </div>
+					</li>
+					<li><span class="col_black">현재 요약보기의 환급/추가납부 세액은 추정 금액입니다.&nbsp;</span><span class="col_darkblue"> 실제 차감징수세액과 다를 수 있습니다. </span></li>
+					<li class="col_darkblue">하단의 [근로자 확정] 실행하여 저장하시기 바랍니다 </li>
+				</ul>
+			</div> <!--  contents -->
+			
+			<div class="group_btns foot NanumSquare_R">
+				<a class="btn_type type2" id="calc">계산하기</a>
+				<a class="btn_type type3" id="confirm">근로자 확정</a>
+				<!-- <a class="btn_type type4">Map ＞</a> -->
+			</div>
+		</div> <!--  container -->
+		
+		<div class="layerPop_wrap">
+			<div class="popup_bg small">
+			
+				<div class="popup_tit">
+					<div class="popup_close"><a class="btn_type btn_close"></a></div>
+				</div>
+				<ul class="popup_content">
+					<li class="icon"></li>
+					<li class="text NanumRound">
+						<span>공제 예상 금액 결과 화면입니다. </span>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+<script type="text/javascript">
+
+	var openToggle;
+	// 계약 ID
+	var yearContractId;
+	// 사용자 ID
+	var userId;
+	// 사용자 명
+	var userName;
+	// 근무년월
+	var workyear;
+	// 연말정산 요약정보
+	var dataList;
+	// 연말정산 요약정보연말정산 일반세액공제 계산 결과
+	var dataYe700List;
+	var savedataList;
+	
+	// 진행상태코드에 따른 화면 입력여부
+	var iseditmod;
+
+	$(document).ready(function() {
+		
+		$(".btn_close").on("click", function(e){
+			$(this).closest(".layerPop_wrap").addClass("hidden");
+		});
+		
+		// 이전화면
+		$(".btn_type.type2").on("click", function(){
+			var url = rootPath + "html/easyFeb/e_easyYearTax_step04_01.html?d=" + (new Date()).getTime();
+			
+			$("#contents_wrap").empty();
+		    $(window).off("resize");
+		    $.ajax({
+		        url : url, 
+		        success : function(result) {
+		            $("#contents_wrap").html(result);
+		        }
+		    });
+		});
+/*
+		// 이전화면
+		$(".btn_type.type1").on("click", function(){
+			var url = rootPath + "html/easyFeb/e_easyYearTax_step04_01.html?d=" + (new Date()).getMilliseconds();
+			
+			$("#contents_wrap").empty();
+		    $(window).off("resize");
+		    $.ajax({
+		        url : url, 
+		        success : function(result) {
+		            $("#contents_wrap").html(result);
+		        }
+		    });
+		});
+		
+		// 다음화면
+		$(".btn_type.type3").on("click", function(){
+			var url = rootPath + "html/easyFeb/e_easyYearTax_step04_01.html?d=" + (new Date()).getMilliseconds();
+			
+			$("#contents_wrap").empty();
+		    $(window).off("resize");
+		    $.ajax({
+		        url : url, 
+		        success : function(result) {
+		            $("#contents_wrap").html(result);
+		        }
+		    });
+		});
+*/
+
+		//**** 펼치기 event
+		$( "input[type=checkbox]" ).on( "click", function(){
+			var _target=$(this).attr("id");
+			if($(this).is(":checked")){
+				$('[class~="'+_target+'"]').addClass("show");
+				
+			}else{
+				$('[class~="'+_target+'"]').removeClass("show");
+			}
+		});
+		
+		
+		
+		$("#calc").on("click", function(e){
+			
+		});
+		
+		$("#confirm").on("click", function(e){
+			if(userId){
+				if (confirm(userName + ' 님 근로자 확정 후엔 연말정산 데이터 수정이 불가합니다.\n확정하시겠습니까? \n※ 근로자 확정 후 수정이 필요한 경우 관리자에게 요청하시기 바랍니다.')) {
+					
+				}
+			}
+		});
+		
+		ngOnInit();
+	});
+		
+	function ngOnInit() {
+		yearContractId = getCookie('yearContractId');
+		userId = getCookie('userId');
+		// 계약아이디가 없으면 메인으로 튕겨내기
+		if (yearContractId  === null) {
+			alert( '사용불가 메뉴 입니다.' );
+			location.href = "/"
+		}else{
+			getSummary();
+		}    
+	}
+	
+	function calc(){
+/*		
+		var contractId = getCookie('yearContractId');
+
+		var url = rootPath + 'easyFeb/getFileCount.do'
+		var params = {
+			'계약ID': contractId
+		};
+
+		request = $.ajax({
+			url: url,
+	        type: "get",
+	        cache: false,
+	        dataType:"json",
+	        data: params
+	    });
+
+		request.done(function(res){
+			if ( res['success'] === true ) {
+				var data = res.data;
+				
+				$("#교육비건수").text(data.교육비건수);
+				$("#기부금건수").text(data.기부금건수);
+				$("#기타영수증건수").text(data.기타영수증건수);
+				$("#보험료건수").text(data.보험료건수);
+				$("#부양가족건수").text(data.부양가족건수);
+				$("#신용카드건수").text(data.신용카드건수);
+				$("#월세액건수").text(data.월세액건수);
+				$("#의료비건수").text(data.의료비건수);
+				$("#종전근무지건수").text(data.종전근무지건수);
+				$("#주택자금건수").text(data.주택자금건수);
+			}
+		});
+		
+		request.fail(function (request, textStatus, error) {
+			if (request.status=="401") {
+				alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+				location.href=rootPath;
+			} else {
+				alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+		        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+*/
+	}
+	
+	function confirm(){
+		
+		var contractId = getCookie('yearContractId');
+
+		var url = rootPath + 'febworker/confirmYW800.do'
+		var params = {
+			'계약ID': yearContractId,
+			'사용자ID': userId,
+			'소득세적용률': dataInfo['소득세적용률'],
+			'연말정산분납여부': dataInfo['연말정산분납여부']
+		};
+
+		request = $.ajax({
+			url: url,
+	        type: "get",
+	        cache: false,
+	        dataType:"json",
+	        data: params
+	    });
+
+		request.done(function(res){
+			if ( res['success'] === true ) {
+				getSummary();
+			}else{
+				alert('실패하였습니다.');
+			}
+		});
+		
+		request.fail(function (request, textStatus, error) {
+			if (request.status=="401") {
+				alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+				location.href=rootPath;
+			} else {
+				alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+		        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	function getSummary(){
+
+		var url = rootPath + 'febworker/yw800.do';
+		var 계약ID = getCookie("yearContractId");
+		var 사용자ID = getCookie("userId");
+
+	    var dataInfo =
+	      {
+	        'chk일반_표준선택여부': '',
+	        '세액공제구분코드': '',
+	        '총급여': '',
+	        '근로소득공제': '',
+	        '근로소득금액': '',
+	        '기본공제_본인': '',
+	        '기본공제_배우자': '',
+	        '부양가족_인원수': '',
+	        '기본공제_부양가족': '',
+	        '경로우대_인원수': '',
+	        '추가공제_경로우대': '',
+	        '장애인_인원수': '',
+	        '추가공제_장애인': '',
+	        '추가공제_부녀자': '',
+	        '추가공제_한부모': '',
+	        '인적공제_계': '',
+	        '연금보험_국민연금': '',
+	        '연금보험_공무원연금': '',
+	        '연금보험_군인연금': '',
+	        '연금보험_사립학교': '',
+	        '연금보험_별정우체국': '',
+	        '연금보험_계': '',
+	        '특별소득_건강보험': '',
+	        '특별소득_고용보험': '',
+	        '특별소득_주택원리금_대출기관': '',
+	        '특별소득_주택원리금_거주자': '',
+	        '특별소득_장기주택_2011년이전_15년미만': '',
+	        '특별소득_장기주택_2011년이전_15년29년': '',
+	        '특별소득_장기주택_2011년이전_30년이상': '',
+	        '특별소득_장기주택_2012년이후_고정이거나비거치': '',
+	        '특별소득_장기주택_2012년이후_그밖에': '',
+	        '특별소득_장기주택_2015년이후_15년이상_고정이면서비거치': '',
+	        '특별소득_장기주택_2015년이후_15년이상_고정이거나비거치': '',
+	        '특별소득_장기주택_2015년이후_15년이상_그밖에': '',
+	        '특별소득_장기주택_2015년이후_10년15년_고정이거나비거치': '',
+	        '특별소득_기부금_이월분': '',
+	        '특별소득_계': '',
+	        '차감소득금액': '',
+	        '그밖에소득공제_개인연금': '',
+	        '그밖에소득공제_소기업소상공인': '',
+	        '그밖에소득공제_주택마련_청약저축': '',
+	        '그밖에소득공제_주택마련_주택청약': '',
+	        '그밖에소득공제_주택마련_근로자주택마련': '',
+	        '그밖에소득공제_투자조합출자': '',
+	        '그밖에소득공제_신용카드등': '',
+	        '그밖에소득공제_우리사주조합': '',
+	        '그밖에소득공제_고용유지근로자': '',
+	        '그밖에소득공제_장기집합투자': '',
+	        '그밖에소득공제_계': '',
+	        '소득공제종합한도초과액': '',
+	        '종합소득과세표준': '',
+	        '산출세액': '',
+	        '세액감면_소득세법': '',
+	        '세액감면_조세특례52제외': '',
+	        '세액감면_조세특례30조': '',
+	        '세액감면_조세특례30조_100': '',
+	        '세액감면_조세특례30조_50': '',
+	        '세액감면_조세특례30조_70': '',
+	        '세액감면_조세조약': '',
+	        '세액감면_계': '',
+	        '세액공제_근로소득': '',
+	        '자녀_인원수': '',
+	        '세액공제_자녀': '',
+	        '세액공제_6세이하_인원수': '',
+	        '세액공제_6세이하': '',
+	        '출산입양_인원수': '',
+	        '세액공제_출산입양': '',
+	        '세액공제_연금계좌_과학기술_공제대상금액': '',
+	        '세액공제_연금계좌_과학기술_세액공제액': '',
+	        '세액공제_연금계좌_퇴직연금_공제대상금액': '',
+	        '세액공제_연금계좌_퇴직연금_세액공제액': '',
+	        '세액공제_연금계좌_연금저축_공제대상금액': '',
+	        '세액공제_연금계좌_연금저축_세액공제액': '',
+	        '특별세액_보험료_보장성_공제대상금액': '',
+	        '특별세액_보험료_보장성_세액공제액': '',
+	        '특별세액_보험료_장애인전용_공제대상금액': '',
+	        '특별세액_보험료_장애인전용_세액공제액': '',
+	        '특별세액_의료비_공제대상금액': '',
+	        '특별세액_의료비_세액공제액': '',
+	        '특별세액_교육비_공제대상금액': '',
+	        '특별세액_교육비_세액공제액': '',
+	        '특별세액_기부금_정치자금_10만이하_공제대상금액': '',
+	        '특별세액_기부금_정치자금_10만이하_세액공제액': '',
+	        '특별세액_기부금_정치자금_10만초과_공제대상금액': '',
+	        '특별세액_기부금_정치자금_10만초과_세액공제액': '',
+	        '특별세액_기부금_법정_공제대상금액': '',
+	        '특별세액_기부금_법정_세액공제액': '',
+	        '특별세액_기부금_우리사주_공제대상금액': '',
+	        '특별세액_기부금_우리사주_세액공제액': '',
+	        '특별세액_기부금_지정_종교외_공제대상금액': '',
+	        '특별세액_기부금_지정_종교외_세액공제액': '',
+	        '특별세액_기부금_지정_종교_공제대상금액': '',
+	        '특별세액_기부금_지정_종교_세액공제액': '',
+	        '특별세액_계': '',
+	        '특별세액_표준세액공제': '',
+	        '세액공제_납세조합공제': '',
+	        '세액공제_주택차입금': '',
+	        '세액공제_외국납부': '',
+	        '세액공제_월세액_공제대상금액': '',
+	        '세액공제_월세액_세액공제액': '',
+	        '세액공제_계': '',
+	        '결정세액_소득세': '',
+	        '결정세액_지방소득세': '',
+	        '결정세액_농어촌특별세': '',
+	        '결정세액_계': '',
+	        '종근무지_소득세': '',
+	        '종근무지_지방소득세': '',
+	        '종근무지_농어촌특별세': '',
+	        '종근무지_계': 0,
+	        '주근무지_소득세': '',
+	        '주근무지_지방소득세': '',
+	        '주근무지_농어촌특별세': '',
+	        '주근무지_계': 0,
+	        '납부특례_소득세': '',
+	        '납부특례_지방소득세': '',
+	        '납부특례_농어촌특별세': '',
+	        '납부특례_계': 0,
+	        '차감징수_소득세': '',
+	        '차감징수_지방소득세': '',
+	        '차감징수_농어촌특별세': '',
+	        '차감징수_계': 0,
+	        '소득세적용률': '1',
+	        '연말정산분납여부': '1'
+	      };
+		
+		request = $.ajax({
+			url: url,
+	        type: "get",
+	        cache: false,
+	        dataType:"json",
+	        data: {
+				계약ID: 계약ID,
+				사용자ID: 사용자ID 
+			}
+	    });
+		
+		request.done(function(res){
+console.log("res: ", res)
+			if (res.success) {
+
+				var dataYe700List = res['연말정산요약결과'];
+				var userName = res['근무년월']['사용자이름'];  // <- 사용자이름으로 교체
+				var dataList = res;
+				
+				var 세대주여부 = dataList['근무년월']['세대주여부'];
+				var 총급여 = Number(dataList['근무년월']['총급여']);
+				var 근로소득금액 = Number(dataList['근무년월']['근로소득금액']);
+				
+				$(".표준세액공제").hide();
+
+				//조회 데이터가 있으면 계산 안함
+				if(!$.isEmptyObject(dataYe700List)){
+					for ( i = 0; i < dataYe700List.length; i++ ) {
+			            if ( dataYe700List[i]['사용여부'] === '1') {
+			              	if ( dataYe700List[i]['세액공제구분코드'] === '1' ) {
+			                	dataInfo['chk일반_표준선택여부'] = '일반세액공제';
+			              	} else if ( this.dataYe700List[i]['세액공제구분코드'] === '2' ) {
+			                	dataInfo['chk일반_표준선택여부'] = '표준세액공제';
+			              	} else if ( this.dataYe700List[i]['세액공제구분코드'] === '3' ) {
+			                	dataInfo['chk일반_표준선택여부'] = '외국인단일세액';
+			              	}
+			                dataInfo['세액공제구분코드'] = dataYe700List[i]['세액공제구분코드'];
+			                dataInfo['총급여'] = dataYe700List[i]['총급여'];
+			                dataInfo['근로소득공제'] = dataYe700List[i]['근로소득공제'];
+			                dataInfo['근로소득금액'] = dataYe700List[i]['근로소득금액'];
+			                dataInfo['기본공제_본인'] = dataYe700List[i]['기본공제_본인'];
+			                dataInfo['기본공제_배우자'] = dataYe700List[i]['기본공제_배우자'];
+			                dataInfo['부양가족_인원수'] = dataYe700List[i]['부양가족_인원수'];
+			                dataInfo['기본공제_부양가족'] = dataYe700List[i]['기본공제_부양가족'];
+			                dataInfo['경로우대_인원수'] = dataYe700List[i]['경로우대_인원수'];
+			                dataInfo['추가공제_경로우대'] = dataYe700List[i]['추가공제_경로우대'];
+			                dataInfo['장애인_인원수'] = dataYe700List[i]['장애인_인원수'];
+			                dataInfo['추가공제_장애인'] = dataYe700List[i]['추가공제_장애인'];
+			                dataInfo['추가공제_부녀자'] = dataYe700List[i]['추가공제_부녀자'];
+			                dataInfo['추가공제_한부모'] = dataYe700List[i]['추가공제_한부모'];
+
+			                dataInfo['인적공제_계'] = dataYe700List[i]['인적공제_계'];
+			                dataInfo['연금보험_국민연금'] = dataYe700List[i]['연금보험_국민연금'];
+			                dataInfo['연금보험_공무원연금'] = dataYe700List[i]['연금보험_공무원연금'];
+			                dataInfo['연금보험_군인연금'] = dataYe700List[i]['연금보험_군인연금'];
+			                dataInfo['연금보험_사립학교'] = dataYe700List[i]['연금보험_사립학교'];
+			                dataInfo['연금보험_별정우체국'] = dataYe700List[i]['연금보험_별정우체국'];
+			                dataInfo['연금보험_합산금액'] = Number(dataYe700List[i]['연금보험_국민연금']) + Number(dataYe700List[i]['연금보험_공무원연금']) + Number(dataYe700List[i]['연금보험_군인연금']) + Number(dataYe700List[i]['연금보험_사립학교']);
+
+			                dataInfo['특별소득_건강보험'] = dataYe700List[i]['특별소득_건강보험'];
+			                dataInfo['특별소득_고용보험'] = dataYe700List[i]['특별소득_고용보험'];
+			                dataInfo['특별소득_주택원리금_대출기관'] = dataYe700List[i]['특별소득_주택원리금_대출기관'];
+			                dataInfo['특별소득_주택원리금_거주자'] = dataYe700List[i]['특별소득_주택원리금_거주자'];
+			                dataInfo['특별소득_장기주택_2011년이전_15년미만'] = dataYe700List[i]['특별소득_장기주택_2011년이전_15년미만'];
+			                dataInfo['특별소득_장기주택_2011년이전_15년29년'] = dataYe700List[i]['특별소득_장기주택_2011년이전_15년29년'];
+			                dataInfo['특별소득_장기주택_2011년이전_30년이상'] = dataYe700List[i]['특별소득_장기주택_2011년이전_30년이상'];
+			                dataInfo['특별소득_장기주택_2012년이후_고정이거나비거치'] = dataYe700List[i]['특별소득_장기주택_2012년이후_고정이거나비거치'];
+			                dataInfo['특별소득_장기주택_2012년이후_그밖에'] = dataYe700List[i]['특별소득_장기주택_2012년이후_그밖에'];
+			                dataInfo['특별소득_장기주택_2015년이후_15년이상_고정이면서비거치'] = dataYe700List[i]['특별소득_장기주택_2015년이후_15년이상_고정이면서비거치'];
+			                dataInfo['특별소득_장기주택_2015년이후_15년이상_고정이거나비거치'] = dataYe700List[i]['특별소득_장기주택_2015년이후_15년이상_고정이거나비거치'];
+			                dataInfo['특별소득_장기주택_2015년이후_15년이상_그밖에'] = dataYe700List[i]['특별소득_장기주택_2015년이후_15년이상_그밖에'];
+			                dataInfo['특별소득_장기주택_2015년이후_10년15년_고정이거나비거치'] = dataYe700List[i]['특별소득_장기주택_2015년이후_10년15년_고정이거나비거치'];
+			                dataInfo['특별소득_기부금_이월분'] = dataYe700List[i]['특별소득_기부금_이월분'];
+			                dataInfo['특별소득_계'] = dataYe700List[i]['특별소득_계'];
+			                dataInfo['차감소득금액'] = dataYe700List[i]['차감소득금액'];
+			                dataInfo['그밖에소득공제_개인연금'] = dataYe700List[i]['그밖에소득공제_개인연금'];
+			                dataInfo['그밖에소득공제_소기업소상공인'] = dataYe700List[i]['그밖에소득공제_소기업소상공인'];
+			                dataInfo['그밖에소득공제_주택마련_청약저축'] = dataYe700List[i]['그밖에소득공제_주택마련_청약저축'];
+			                dataInfo['그밖에소득공제_주택마련_주택청약'] = dataYe700List[i]['그밖에소득공제_주택마련_주택청약'];
+			                dataInfo['그밖에소득공제_주택마련_근로자주택마련'] = dataYe700List[i]['그밖에소득공제_주택마련_근로자주택마련'];
+			                dataInfo['그밖에소득공제_투자조합출자'] = dataYe700List[i]['그밖에소득공제_투자조합출자'];
+			                dataInfo['그밖에소득공제_신용카드등'] = dataYe700List[i]['그밖에소득공제_신용카드등'];
+			                dataInfo['그밖에소득공제_우리사주조합'] = dataYe700List[i]['그밖에소득공제_우리사주조합'];
+			                dataInfo['그밖에소득공제_고용유지근로자'] = dataYe700List[i]['그밖에소득공제_고용유지근로자'];
+			                dataInfo['그밖에소득공제_장기집합투자'] = dataYe700List[i]['그밖에소득공제_장기집합투자'];
+			                dataInfo['그밖에소득공제_계'] = dataYe700List[i]['그밖에소득공제_계'];
+			                dataInfo['소득공제종합한도초과액'] = dataYe700List[i]['소득공제종합한도초과액'];
+			                dataInfo['종합소득과세표준'] = dataYe700List[i]['종합소득과세표준'];
+			                dataInfo['산출세액'] = dataYe700List[i]['산출세액'];
+			                dataInfo['세액감면_소득세법'] = dataYe700List[i]['세액감면_소득세법'];
+			                dataInfo['세액감면_조세특례52제외'] = dataYe700List[i]['세액감면_조세특례52제외'];
+			                dataInfo['세액감면_조세특례30조'] = dataYe700List[i]['세액감면_조세특례30조'];
+			                dataInfo['세액감면_조세특례30조_100'] = dataYe700List[i]['세액감면_조세특례30조_100'];
+			                dataInfo['세액감면_조세특례30조_50'] = dataYe700List[i]['세액감면_조세특례30조_50'];
+			                dataInfo['세액감면_조세특례30조_70'] = dataYe700List[i]['세액감면_조세특례30조_70'];
+			                dataInfo['세액감면_조세조약'] = dataYe700List[i]['세액감면_조세조약'];
+			                dataInfo['세액감면_계'] = dataYe700List[i]['세액감면_계'];
+			                dataInfo['세액공제_근로소득'] = dataYe700List[i]['세액공제_근로소득'];
+			                dataInfo['자녀_인원수'] = dataYe700List[i]['자녀_인원수'];
+			                dataInfo['세액공제_자녀'] = dataYe700List[i]['세액공제_자녀'];
+			                dataInfo['세액공제_자녀_계'] = Number(dataYe700List[i]['세액공제_자녀']) + Number(dataYe700List[i]['세액공제_출산입양']);
+			                dataInfo['세액공제_6세이하_인원수'] = dataYe700List[i]['세액공제_6세이하_인원수'];
+			                dataInfo['세액공제_6세이하'] = dataYe700List[i]['세액공제_6세이하'];
+			                dataInfo['출산입양_인원수'] = dataYe700List[i]['출산입양_인원수'];
+			                dataInfo['세액공제_출산입양'] = dataYe700List[i]['세액공제_출산입양'];
+
+			                dataInfo['세액공제_연금계좌_과학기술_공제대상금액'] = dataYe700List[i]['세액공제_연금계좌_과학기술_공제대상금액'];
+			                dataInfo['세액공제_연금계좌_과학기술_세액공제액'] = dataYe700List[i]['세액공제_연금계좌_과학기술_세액공제액'];
+			                dataInfo['세액공제_연금계좌_퇴직연금_공제대상금액'] = dataYe700List[i]['세액공제_연금계좌_퇴직연금_공제대상금액'];
+			                dataInfo['세액공제_연금계좌_퇴직연금_세액공제액'] = dataYe700List[i]['세액공제_연금계좌_퇴직연금_세액공제액'];
+			                dataInfo['세액공제_연금계좌_연금저축_공제대상금액'] = dataYe700List[i]['세액공제_연금계좌_연금저축_공제대상금액'];
+			                dataInfo['세액공제_연금계좌_연금저축_세액공제액'] = dataYe700List[i]['세액공제_연금계좌_연금저축_세액공제액'];
+			                dataInfo['연금계좌_합산금액'] = Number(dataYe700List[i]['세액공제_연금계좌_과학기술_세액공제액']) + Number(dataYe700List[i]['세액공제_연금계좌_퇴직연금_세액공제액']) + Number(dataYe700List[i]['세액공제_연금계좌_연금저축_세액공제액']);
+
+			                dataInfo['특별세액_보험료_보장성_공제대상금액'] = dataYe700List[i]['특별세액_보험료_보장성_공제대상금액'];
+			                dataInfo['특별세액_보험료_보장성_세액공제액'] = dataYe700List[i]['특별세액_보험료_보장성_세액공제액'];
+			                dataInfo['특별세액_보험료_장애인전용_공제대상금액'] = dataYe700List[i]['특별세액_보험료_장애인전용_공제대상금액'];
+			                dataInfo['특별세액_보험료_장애인전용_세액공제액'] = dataYe700List[i]['특별세액_보험료_장애인전용_세액공제액'];
+			                dataInfo['특별세액_의료비_공제대상금액'] = dataYe700List[i]['특별세액_의료비_공제대상금액'];
+			                dataInfo['특별세액_의료비_세액공제액'] = dataYe700List[i]['특별세액_의료비_세액공제액'];
+			                dataInfo['특별세액_교육비_공제대상금액'] = dataYe700List[i]['특별세액_교육비_공제대상금액'];
+			                dataInfo['특별세액_교육비_세액공제액'] = dataYe700List[i]['특별세액_교육비_세액공제액'];
+			                dataInfo['특별세액_기부금_정치자금_10만이하_공제대상금액'] = dataYe700List[i]['특별세액_기부금_정치자금_10만이하_공제대상금액'];
+			                dataInfo['특별세액_기부금_정치자금_10만이하_세액공제액'] = dataYe700List[i]['특별세액_기부금_정치자금_10만이하_세액공제액'];
+			                dataInfo['특별세액_기부금_정치자금_10만초과_공제대상금액'] = dataYe700List[i]['특별세액_기부금_정치자금_10만초과_공제대상금액'];
+			                dataInfo['특별세액_기부금_정치자금_10만초과_세액공제액'] = dataYe700List[i]['특별세액_기부금_정치자금_10만초과_세액공제액'];
+			                dataInfo['특별세액_기부금_법정_공제대상금액'] = dataYe700List[i]['특별세액_기부금_법정_공제대상금액'];
+			                dataInfo['특별세액_기부금_법정_세액공제액'] = dataYe700List[i]['특별세액_기부금_법정_세액공제액'];
+			                dataInfo['특별세액_기부금_우리사주_공제대상금액'] = dataYe700List[i]['특별세액_기부금_우리사주_공제대상금액'];
+			                dataInfo['특별세액_기부금_우리사주_세액공제액'] = dataYe700List[i]['특별세액_기부금_우리사주_세액공제액'];
+			                dataInfo['특별세액_기부금_지정_종교외_공제대상금액'] = dataYe700List[i]['특별세액_기부금_지정_종교외_공제대상금액'];
+			                dataInfo['특별세액_기부금_지정_종교외_세액공제액'] = dataYe700List[i]['특별세액_기부금_지정_종교외_세액공제액'];
+			                dataInfo['특별세액_기부금_지정_종교_공제대상금액'] = dataYe700List[i]['특별세액_기부금_지정_종교_공제대상금액'];
+			                dataInfo['특별세액_기부금_지정_종교_세액공제액'] = dataYe700List[i]['특별세액_기부금_지정_종교_세액공제액'];
+			                dataInfo['특별세액_계'] = dataYe700List[i]['특별세액_계'];
+			                dataInfo['특별세액_표준세액공제'] = dataYe700List[i]['특별세액_표준세액공제'];
+			                dataInfo['세액공제_납세조합공제'] = dataYe700List[i]['세액공제_납세조합공제'];
+			                dataInfo['세액공제_주택차입금'] = dataYe700List[i]['세액공제_주택차입금'];
+			                dataInfo['세액공제_외국납부'] = dataYe700List[i]['세액공제_외국납부'];
+			                dataInfo['세액공제_월세액_공제대상금액'] = dataYe700List[i]['세액공제_월세액_공제대상금액'];
+			                dataInfo['세액공제_월세액_세액공제액'] = dataYe700List[i]['세액공제_월세액_세액공제액'];
+			                dataInfo['세액공제_계'] = dataYe700List[i]['세액공제_계'];
+			                dataInfo['결정세액_소득세'] = dataYe700List[i]['결정세액_소득세'];
+			                dataInfo['결정세액_지방소득세'] = dataYe700List[i]['결정세액_지방소득세'];
+			                dataInfo['결정세액_농어촌특별세'] = dataYe700List[i]['결정세액_농어촌특별세'];
+			                dataInfo['결정세액_합산'] = Number(dataYe700List[i]['결정세액_소득세']) + Number(dataYe700List[i]['결정세액_지방소득세']) + Number(dataYe700List[i]['결정세액_농어촌특별세']);
+
+			                dataInfo['종근무지_소득세'] = dataYe700List[i]['종근무지_소득세'];
+			                dataInfo['종근무지_지방소득세'] = dataYe700List[i]['종근무지_지방소득세'];
+			                dataInfo['종근무지_농어촌특별세'] = dataYe700List[i]['종근무지_농어촌특별세'];
+			                dataInfo['종근무지_계'] = Number(dataYe700List[i]['종근무지_소득세']) + Number(dataYe700List[i]['종근무지_지방소득세']) + Number(dataYe700List[i]['종근무지_농어촌특별세']);
+
+			                dataInfo['주근무지_소득세'] = dataYe700List[i]['주근무지_소득세'];
+			                dataInfo['주근무지_지방소득세'] = dataYe700List[i]['주근무지_지방소득세'];
+			                dataInfo['주근무지_농어촌특별세'] = dataYe700List[i]['주근무지_농어촌특별세'];
+			                dataInfo['주근무지_계'] = Number(dataYe700List[i]['주근무지_소득세']) + Number(dataYe700List[i]['주근무지_지방소득세']) + Number(dataYe700List[i]['주근무지_농어촌특별세']);
+
+			                dataInfo['납부특례_소득세'] = dataYe700List[i]['납부특례_소득세'];
+			                dataInfo['납부특례_지방소득세'] = dataYe700List[i]['납부특례_지방소득세'];
+			                dataInfo['납부특례_농어촌특별세'] = dataYe700List[i]['납부특례_농어촌특별세'];
+			                dataInfo['납부특례_계'] = Number(dataYe700List[i]['납부특례_소득세']) + Number(dataYe700List[i]['납부특례_지방소득세']) + Number(dataYe700List[i]['납부특례_농어촌특별세']);
+
+			                dataInfo['차감징수_소득세'] = dataYe700List[i]['차감징수_소득세'];
+			                dataInfo['차감징수_지방소득세'] = dataYe700List[i]['차감징수_지방소득세'];
+			                dataInfo['차감징수_농어촌특별세'] = dataYe700List[i]['차감징수_농어촌특별세'];
+			                dataInfo['차감징수_계'] = Number(dataYe700List[i]['차감징수_소득세']) + Number(dataYe700List[i]['차감징수_지방소득세']) + Number(dataYe700List[i]['차감징수_농어촌특별세']);
+
+			                // 그밖의소득공제_장기잡합투자_차감금액 = dataList['그밖의소득공제_장기잡합투자_차감금액'];
+			                dataInfo['소득세적용률'] = dataList['소득세적용률'];
+			                dataInfo['연말정산분납여부'] = dataList['연말정산분납여부'];
+			            }
+					}
+				}else{
+			          ///////////////////////////////////////////////////////////////
+			          // 계산 로직 분리로 주석 처리
+			          // 조회 값이 없으면 계산 시작
+			          // if ( userId !== null && userId !== undefined ) {
+			          //   clacPersonalAllowance();
+			          // }
+			          ///////////////////////////////////////////////////////////////
+			          // 계산 로직 분리로 인한 화면값 초기화 진행
+			          dataInfo['chk일반_표준선택여부'] = '';
+			          dataInfo['세액공제구분코드'] = '';
+			          dataInfo['총급여'] = '';
+			          dataInfo['근로소득공제'] = '';
+			          dataInfo['근로소득금액'] = '';
+			          dataInfo['기본공제_본인'] = '';
+			          dataInfo['기본공제_배우자'] = '';
+			          dataInfo['부양가족_인원수'] = '';
+			          dataInfo['기본공제_부양가족'] = '';
+			          dataInfo['경로우대_인원수'] = '';
+			          dataInfo['추가공제_경로우대'] = '';
+			          dataInfo['장애인_인원수'] = '';
+			          dataInfo['추가공제_장애인'] = '';
+			          dataInfo['추가공제_부녀자'] = '';
+			          dataInfo['추가공제_한부모'] = '';
+
+			          dataInfo['인적공제_계'] = '';
+			          dataInfo['연금보험_국민연금'] = '';
+			          dataInfo['연금보험_공무원연금'] = '';
+			          dataInfo['연금보험_군인연금'] = '';
+			          dataInfo['연금보험_사립학교'] = '';
+			          dataInfo['연금보험_별정우체국'] = '';
+			          dataInfo['연금보험_합산금액'] = '';
+
+			          dataInfo['특별소득_건강보험'] = '';
+			          dataInfo['특별소득_고용보험'] = '';
+			          dataInfo['특별소득_주택원리금_대출기관'] = '';
+			          dataInfo['특별소득_주택원리금_거주자'] = '';
+			          dataInfo['특별소득_장기주택_2011년이전_15년미만'] = '';
+			          dataInfo['특별소득_장기주택_2011년이전_15년29년'] = '';
+			          dataInfo['특별소득_장기주택_2011년이전_30년이상'] = '';
+			          dataInfo['특별소득_장기주택_2012년이후_고정이거나비거치'] = '';
+			          dataInfo['특별소득_장기주택_2012년이후_그밖에'] = '';
+			          dataInfo['특별소득_장기주택_2015년이후_15년이상_고정이면서비거치'] = '';
+			          dataInfo['특별소득_장기주택_2015년이후_15년이상_고정이거나비거치'] = '';
+			          dataInfo['특별소득_장기주택_2015년이후_15년이상_그밖에'] = '';
+			          dataInfo['특별소득_장기주택_2015년이후_10년15년_고정이거나비거치'] = '';
+			          dataInfo['특별소득_기부금_이월분'] = '';
+			          dataInfo['특별소득_계'] = '';
+			          dataInfo['차감소득금액'] = '';
+			          dataInfo['그밖에소득공제_개인연금'] = '';
+			          dataInfo['그밖에소득공제_소기업소상공인'] = '';
+			          dataInfo['그밖에소득공제_주택마련_청약저축'] = '';
+			          dataInfo['그밖에소득공제_주택마련_주택청약'] = '';
+			          dataInfo['그밖에소득공제_주택마련_근로자주택마련'] = '';
+			          dataInfo['그밖에소득공제_투자조합출자'] = '';
+			          dataInfo['그밖에소득공제_신용카드등'] = '';
+			          dataInfo['그밖에소득공제_우리사주조합'] = '';
+			          dataInfo['그밖에소득공제_고용유지근로자'] = '';
+			          dataInfo['그밖에소득공제_장기집합투자'] = '';
+			          dataInfo['그밖에소득공제_계'] = '';
+			          dataInfo['소득공제종합한도초과액'] = '';
+			          dataInfo['종합소득과세표준'] = '';
+			          dataInfo['산출세액'] = '';
+			          dataInfo['세액감면_소득세법'] = '';
+			          dataInfo['세액감면_조세특례52제외'] = '';
+			          dataInfo['세액감면_조세특례30조'] = '';
+			          dataInfo['세액감면_조세특례30조_100'] = '';
+			          dataInfo['세액감면_조세특례30조_50'] = '';
+			          dataInfo['세액감면_조세특례30조_70'] = '';
+			          dataInfo['세액감면_조세조약'] = '';
+			          dataInfo['세액감면_계'] = '';
+			          dataInfo['세액공제_근로소득'] = '';
+			          dataInfo['자녀_인원수'] = '';
+			          dataInfo['세액공제_자녀'] = '';
+			          dataInfo['세액공제_자녀_계'] = '';
+			          dataInfo['세액공제_6세이하_인원수'] = '';
+			          dataInfo['세액공제_6세이하'] = '';
+			          dataInfo['출산입양_인원수'] = '';
+			          dataInfo['세액공제_출산입양'] = '';
+
+			          dataInfo['세액공제_연금계좌_과학기술_공제대상금액'] = '';
+			          dataInfo['세액공제_연금계좌_과학기술_세액공제액'] = '';
+			          dataInfo['세액공제_연금계좌_퇴직연금_공제대상금액'] = '';
+			          dataInfo['세액공제_연금계좌_퇴직연금_세액공제액'] = '';
+			          dataInfo['세액공제_연금계좌_연금저축_공제대상금액'] = '';
+			          dataInfo['세액공제_연금계좌_연금저축_세액공제액'] = '';
+			          dataInfo['연금계좌_합산금액'] = '';
+
+			          dataInfo['특별세액_보험료_보장성_공제대상금액'] = '';
+			          dataInfo['특별세액_보험료_보장성_세액공제액'] = '';
+			          dataInfo['특별세액_보험료_장애인전용_공제대상금액'] = '';
+			          dataInfo['특별세액_보험료_장애인전용_세액공제액'] = '';
+			          dataInfo['특별세액_의료비_공제대상금액'] = '';
+			          dataInfo['특별세액_의료비_세액공제액'] = '';
+			          dataInfo['특별세액_교육비_공제대상금액'] = '';
+			          dataInfo['특별세액_교육비_세액공제액'] = '';
+			          dataInfo['특별세액_기부금_정치자금_10만이하_공제대상금액'] = '';
+			          dataInfo['특별세액_기부금_정치자금_10만이하_세액공제액'] = '';
+			          dataInfo['특별세액_기부금_정치자금_10만초과_공제대상금액'] = '';
+			          dataInfo['특별세액_기부금_정치자금_10만초과_세액공제액'] = '';
+			          dataInfo['특별세액_기부금_법정_공제대상금액'] = '';
+			          dataInfo['특별세액_기부금_법정_세액공제액'] = '';
+			          dataInfo['특별세액_기부금_우리사주_공제대상금액'] = '';
+			          dataInfo['특별세액_기부금_우리사주_세액공제액'] = '';
+			          dataInfo['특별세액_기부금_지정_종교외_공제대상금액'] = '';
+			          dataInfo['특별세액_기부금_지정_종교외_세액공제액'] = '';
+			          dataInfo['특별세액_기부금_지정_종교_공제대상금액'] = '';
+			          dataInfo['특별세액_기부금_지정_종교_세액공제액'] = '';
+			          dataInfo['특별세액_계'] = '';
+			          dataInfo['특별세액_표준세액공제'] = '';
+			          dataInfo['세액공제_납세조합공제'] = '';
+			          dataInfo['세액공제_주택차입금'] = '';
+			          dataInfo['세액공제_외국납부'] = '';
+			          dataInfo['세액공제_월세액_공제대상금액'] = '';
+			          dataInfo['세액공제_월세액_세액공제액'] = '';
+			          dataInfo['세액공제_계'] = '';
+			          dataInfo['결정세액_소득세'] = '';
+			          dataInfo['결정세액_지방소득세'] = '';
+			          dataInfo['결정세액_농어촌특별세'] = '';
+			          dataInfo['결정세액_합산'] = '';
+
+			          dataInfo['종근무지_소득세'] = '';
+			          dataInfo['종근무지_지방소득세'] = '';
+			          dataInfo['종근무지_농어촌특별세'] = '';
+			          dataInfo['종근무지_계'] = 0;
+
+			          dataInfo['주근무지_소득세'] = '';
+			          dataInfo['주근무지_지방소득세'] = '';
+			          dataInfo['주근무지_농어촌특별세'] = '';
+			          dataInfo['주근무지_계'] = 0;
+
+			          dataInfo['납부특례_소득세'] = '';
+			          dataInfo['납부특례_지방소득세'] = '';
+			          dataInfo['납부특례_농어촌특별세'] = '';
+			          dataInfo['납부특례_계'] = 0;
+
+			          dataInfo['차감징수_소득세'] = '';
+			          dataInfo['차감징수_지방소득세'] = '';
+			          dataInfo['차감징수_농어촌특별세'] = '';
+			          dataInfo['차감징수_계'] = 0;
+			          dataInfo['소득세적용률'] = '';
+			          dataInfo['연말정산분납여부'] = '';
+				}
+				
+				$("#차감징수_계").text(AddComma(dataInfo['차감징수_계']));
+				if(dataInfo['차감징수_계'] > 0){
+					$("#환급여부").text(" 추가납부");
+				}else{
+					$("#환급여부").text(" 환급");
+				}
+				$("#부양가족_인원수").text(AddComma(dataInfo['부양가족_인원수']));
+				$("#경로우대_인원수").text(AddComma(dataInfo['경로우대_인원수']));
+				$("#장애인_인원수").text(AddComma(dataInfo['장애인_인원수']));
+				$("#자녀_인원수").text(AddComma(dataInfo['자녀_인원수']));
+				$("#출산입양_인원수").text(AddComma(dataInfo['출산입양_인원수']));
+				$("#총급여").text(AddComma(dataInfo['총급여']));
+				$("#근로소득공제").text(AddComma(dataInfo['근로소득공제']));
+				$("#근로소득금액").text(AddComma(dataInfo['근로소득금액']));
+				$("#인적공제_계").text(AddComma(dataInfo['인적공제_계']));
+				$("#기본공제_본인").text(AddComma(dataInfo['기본공제_본인']));
+				$("#기본공제_배우자").text(AddComma(dataInfo['기본공제_배우자']));
+				$("#기본공제_부양가족").text(AddComma(dataInfo['기본공제_부양가족']));
+				$("#추가공제_경로우대").text(AddComma(dataInfo['추가공제_경로우대']));
+				$("#추가공제_장애인").text(AddComma(dataInfo['추가공제_장애인']));
+				$("#추가공제_부녀자").text(AddComma(dataInfo['추가공제_부녀자']));
+				$("#추가공제_한부모").text(AddComma(dataInfo['추가공제_한부모']));
+				$("#연금보험_합산금액").text(AddComma(dataInfo['연금보험_합산금액']));
+				$("#연금보험_국민연금").text(AddComma(dataInfo['연금보험_국민연금']));
+				$("#연금보험_공무원연금").text(AddComma(dataInfo['연금보험_공무원연금']));
+				$("#연금보험_군인연금").text(AddComma(dataInfo['연금보험_군인연금']));
+				$("#연금보험_사립학교").text(AddComma(dataInfo['연금보험_사립학교']));
+				$("#연금보험_별정우체국").text(AddComma(dataInfo['연금보험_별정우체국']));
+				
+				$("#특별소득_계").text(AddComma(dataInfo['특별소득_계']));
+				$("#특별소득_건강보험").text(AddComma(dataInfo['특별소득_건강보험']));
+				$("#특별소득_고용보험").text(AddComma(dataInfo['특별소득_고용보험']));
+				$("#특별소득_주택원리금_대출기관").text(AddComma(dataInfo['특별소득_주택원리금_대출기관']));
+				$("#특별소득_주택원리금_거주자").text(AddComma(dataInfo['특별소득_주택원리금_거주자']));
+				$("#특별소득_장기주택_2011년이전_15년미만").text(AddComma(dataInfo['특별소득_장기주택_2011년이전_15년미만']));
+				$("#특별소득_장기주택_2011년이전_15년29년").text(AddComma(dataInfo['특별소득_장기주택_2011년이전_15년29년']));
+				$("#특별소득_장기주택_2011년이전_30년이상").text(AddComma(dataInfo['특별소득_장기주택_2011년이전_30년이상']));
+				$("#특별소득_장기주택_2012년이후_고정이거나비거치").text(AddComma(dataInfo['특별소득_장기주택_2012년이후_고정이거나비거치']));
+				$("#특별소득_장기주택_2012년이후_그밖에").text(AddComma(dataInfo['특별소득_장기주택_2012년이후_그밖에']));
+				$("#특별소득_장기주택_2015년이후_15년이상_고정이면서비거치").text(AddComma(dataInfo['특별소득_장기주택_2015년이후_15년이상_고정이면서비거치']));
+				$("#특별소득_장기주택_2015년이후_15년이상_고정이거나비거치").text(AddComma(dataInfo['특별소득_장기주택_2015년이후_15년이상_고정이거나비거치']));
+				$("#특별소득_장기주택_2015년이후_15년이상_그밖에").text(AddComma(dataInfo['특별소득_장기주택_2015년이후_15년이상_그밖에']));
+				$("#특별소득_장기주택_2015년이후_10년15년_고정이거나비거치").text(AddComma(dataInfo['특별소득_장기주택_2015년이후_10년15년_고정이거나비거치']));
+				$("#특별소득_기부금_이월분").text(AddComma(dataInfo['특별소득_기부금_이월분']));
+		
+				$("#차감소득금액").text(AddComma(dataInfo['차감소득금액']));
+				
+				$("#그밖에소득공제_계").text(AddComma(dataInfo['그밖에소득공제_계']));
+				$("#그밖에소득공제_개인연금").text(AddComma(dataInfo['그밖에소득공제_개인연금']));
+				$("#그밖에소득공제_소기업소상공인").text(AddComma(dataInfo['그밖에소득공제_소기업소상공인']));
+				$("#그밖에소득공제_주택마련_청약저축").text(AddComma(dataInfo['그밖에소득공제_주택마련_청약저축']));
+				$("#그밖에소득공제_주택마련_주택청약").text(AddComma(dataInfo['그밖에소득공제_주택마련_주택청약']));
+				$("#그밖에소득공제_주택마련_근로자주택마련").text(AddComma(dataInfo['그밖에소득공제_주택마련_근로자주택마련']));
+				$("#그밖에소득공제_투자조합출자").text(AddComma(dataInfo['그밖에소득공제_투자조합출자']));
+				$("#그밖에소득공제_신용카드등").text(AddComma(dataInfo['그밖에소득공제_신용카드등']));
+				$("#그밖에소득공제_우리사주조합").text(AddComma(dataInfo['그밖에소득공제_우리사주조합']));
+				$("#그밖에소득공제_고용유지근로자").text(AddComma(dataInfo['그밖에소득공제_고용유지근로자']));
+				$("#그밖에소득공제_장기집합투자").text(AddComma(dataInfo['그밖에소득공제_장기집합투자']));
+				
+				$("#소득공제종합한도초과액").text(AddComma(dataInfo['소득공제종합한도초과액']));
+				$("#종합소득과세표준").text(AddComma(dataInfo['종합소득과세표준']));
+				$("#산출세액").text(AddComma(dataInfo['산출세액']));
+				
+				$("#세액감면_계").text(AddComma(dataInfo['세액감면_계']));
+				$("#세액감면_소득세법").text(AddComma(dataInfo['세액감면_소득세법']));
+				$("#세액감면_조세특례52제외").text(AddComma(dataInfo['세액감면_조세특례52제외']));
+				$("#세액감면_조세특례30조_100").text(AddComma(dataInfo['세액감면_조세특례30조_100']));
+				$("#세액감면_조세특례30조_50").text(AddComma(dataInfo['세액감면_조세특례30조_50']));
+				$("#세액감면_조세특례30조_70").text(AddComma(dataInfo['세액감면_조세특례30조_70']));
+				$("#세액감면_조세조약").text(AddComma(dataInfo['세액감면_조세조약']));
+				
+				$("#세액공제_근로소득").text(AddComma(dataInfo['세액공제_근로소득']));
+				
+				$("#세액공제_자녀_계").text(AddComma(dataInfo['세액공제_자녀_계']));
+				$("#세액공제_자녀").text(AddComma(dataInfo['세액공제_자녀']));
+				$("#세액공제_출산입양").text(AddComma(dataInfo['세액공제_출산입양']));
+				
+				$("#연금계좌_합산금액").text(AddComma(dataInfo['연금계좌_합산금액']));
+				$("#세액공제_연금계좌_과학기술_세액공제액").text(AddComma(dataInfo['세액공제_연금계좌_과학기술_세액공제액']));
+				$("#세액공제_연금계좌_퇴직연금_세액공제액").text(AddComma(dataInfo['세액공제_연금계좌_퇴직연금_세액공제액']));
+				$("#세액공제_연금계좌_연금저축_세액공제액").text(AddComma(dataInfo['세액공제_연금계좌_연금저축_세액공제액']));
+				
+				$("#특별세액_계").text(AddComma(dataInfo['특별세액_계']));
+				$("#특별세액_보험료_보장성_세액공제액").text(AddComma(dataInfo['특별세액_보험료_보장성_세액공제액']));
+				$("#특별세액_보험료_장애인전용_세액공제액").text(AddComma(dataInfo['특별세액_보험료_장애인전용_세액공제액']));
+				$("#특별세액_의료비_세액공제액").text(AddComma(dataInfo['특별세액_의료비_세액공제액']));
+				$("#특별세액_교육비_세액공제액").text(AddComma(dataInfo['특별세액_교육비_세액공제액']));
+				$("#특별세액_기부금_정치자금_10만이하_세액공제액").text(AddComma(dataInfo['특별세액_기부금_정치자금_10만이하_세액공제액']));
+				$("#특별세액_기부금_정치자금_10만초과_세액공제액").text(AddComma(dataInfo['특별세액_기부금_정치자금_10만초과_세액공제액']));
+				$("#특별세액_기부금_법정_세액공제액").text(AddComma(dataInfo['특별세액_기부금_법정_세액공제액']));
+				$("#특별세액_기부금_우리사주_세액공제액").text(AddComma(dataInfo['특별세액_기부금_우리사주_세액공제액']));
+				$("#특별세액_기부금_지정_종교외_세액공제액").text(AddComma(dataInfo['특별세액_기부금_지정_종교외_세액공제액']));
+				$("#특별세액_기부금_지정_종교_세액공제액").text(AddComma(dataInfo['특별세액_기부금_지정_종교_세액공제액']));
+				
+				if(dataInfo['세액공제구분코드'] == '2'){
+					$(".표준세액공제").show();
+					$("#특별세액_표준세액공제").text(AddComma(dataInfo['특별세액_표준세액공제']));
+				}
+				$("#세액공제_납세조합공제").text(AddComma(dataInfo['세액공제_납세조합공제']));
+				$("#세액공제_주택차입금").text(AddComma(dataInfo['세액공제_주택차입금']));
+				$("#세액공제_외국납부").text(AddComma(dataInfo['세액공제_외국납부']));
+				$("#세액공제_월세액_세액공제액").text(AddComma(dataInfo['세액공제_월세액_세액공제액']));
+				$("#세액공제_계").text(AddComma(dataInfo['세액공제_계']));
+				$("#결정세액_소득세").text(AddComma(dataInfo['결정세액_소득세']));
+
+				$("#결정세액_소득세").text(AddComma(dataInfo['결정세액_소득세']));
+				$("#종근무지_소득세").text(AddComma(dataInfo['종근무지_소득세']));
+				$("#주근무지_소득세").text(AddComma(dataInfo['주근무지_소득세']));
+				$("#납부특례_소득세").text(AddComma(dataInfo['납부특례_소득세']));
+				$("#차감징수_소득세").text(AddComma(dataInfo['차감징수_소득세']));
+				
+				$("#결정세액_지방소득세").text(AddComma(dataInfo['결정세액_지방소득세']));
+				$("#종근무지_지방소득세").text(AddComma(dataInfo['종근무지_지방소득세']));
+				$("#주근무지_지방소득세").text(AddComma(dataInfo['주근무지_지방소득세']));
+				$("#납부특례_지방소득세").text(AddComma(dataInfo['납부특례_지방소득세']));
+				$("#차감징수_지방소득세").text(AddComma(dataInfo['차감징수_지방소득세']));
+				
+				$("#결정세액_농어촌특별세").text(AddComma(dataInfo['결정세액_농어촌특별세']));
+				$("#종근무지_농어촌특별세").text(AddComma(dataInfo['종근무지_농어촌특별세']));
+				$("#주근무지_농어촌특별세").text(AddComma(dataInfo['주근무지_농어촌특별세']));
+				$("#납부특례_농어촌특별세").text(AddComma(dataInfo['납부특례_농어촌특별세']));
+				$("#차감징수_농어촌특별세").text(AddComma(dataInfo['차감징수_농어촌특별세']));
+				
+				$("#결정세액_합산").text(AddComma(dataInfo['결정세액_합산']));
+				$("#종근무지_계").text(AddComma(dataInfo['종근무지_계']));
+				$("#주근무지_계").text(AddComma(dataInfo['주근무지_계']));
+				$("#납부특례_계").text(AddComma(dataInfo['납부특례_계']));
+				$("#차감징수_계").text(AddComma(dataInfo['차감징수_계']));
+
+			}
+		});
+	}
+	
+	
+</script>

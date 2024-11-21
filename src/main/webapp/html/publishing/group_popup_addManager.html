@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>관리자 정보 등록</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/company_manage.css">
+
+</head>
+<body>
+	<div id="groupManage_popup" class="_popup">
+		<div class="container">
+			<div id="popup_tit" class="bot_line">
+				<div class="tit_icon icon_regist"></div>
+				<div class="tit_text col_skyblue NanumSquare_B">관리자 정보 등록</div>
+				<div id="popup_close" class="btn_type col_skyblue" onclick="window.close();"></div>
+			</div>
+			<div class="contents">
+				
+				<div class="input_wrap">
+					<dl class="boxRow input_bx NanumSquare_R">
+						<dt><label class="label_txt NanumGothic">관리자 번호</label></dt>
+						<dd><input type="text" class="input_txt"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumSquare_R">
+						<dt><label class="label_txt NanumGothic">관리자명</label></dt>
+						<dd><input type="text" class="input_txt"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumSquare_R">
+						<dt><label class="label_txt NanumGothic">휴대폰 번호</label></dt>
+						<dd><input type="text" class="input_txt"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumSquare_R">
+						<dt><label class="label_txt NanumGothic">이메일</label></dt>
+						<dd><input type="text" class="input_txt"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumSquare_R">
+						<dt><label class="label_txt NanumGothic">비밀번호</label></dt>
+						<dd><input type="password" class="input_txt NanumGothic"></dd>
+					</dl>
+					
+					<dl class="boxRow input_bx NanumSquare_R">
+						<dt><label class="label_txt NanumGothic">관리그룹</label></dt>
+						<dd><fieldset>
+								<div class="default_box">관리자</div>
+								<a class="btn_type btn_search Material_icons" onclick="window.open('group_popup_groupSearch.html','','width=370, height=470, resizable=no, scrollbars=no, status=no')">search</a>
+							</fieldset>
+						</dd>
+					</dl>
+					<dl class="boxRow input_bx NanumSquare_R">
+						<dt><label class="label_txt NanumGothic">추가항목1</label></dt>
+						<dd><input type="text" class="input_txt"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumSquare_R">
+						<dt><label class="label_txt NanumGothic">사용자구분</label></dt>
+						<dd ><select class="NanumSquare_R">
+								<option value=""></option>
+							</select></dd>
+					</dl>
+				</div>
+			
+				<div class="btns sort-right">
+					<div><a class="type2 btn_type NanumSquare_R">저장</a></div>
+					<div><a class="type4 btn_type NanumSquare_R">취소</a></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

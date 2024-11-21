@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="febworker">
+    <typeAlias alias="yw900VO" type="com.ezsign.feb.worker.vo.YW900VO"/>
+	<resultMap id="yw900ListMap" class="yw900VO">
+		<result property="계약ID" column="계약ID"/>
+		<result property="사업장ID" column="사업장ID"/>
+		<result property="사업장명" column="사업장명"/>
+		<result property="사업자등록번호" column="사업자등록번호"/>
+		<result property="종사업자일련번호" column="종사업자일련번호"/>
+		<result property="단위과세자여부" column="단위과세자여부"/>
+		<result property="전자신고ID" column="전자신고ID"/>
+		<result property="제출대상구분코드" column="제출대상구분코드"/>
+		<result property="제출년월일" column="제출년월일"/>
+		<result property="등록일시" column="등록일시"/>
+		<result property="총건수" column="총건수"/>
+		<result property="완료건수" column="완료건수"/>
+		<result property="급여" column="급여"/>
+		<result property="결정세액" column="결정세액"/>
+		<result property="제작여부" column="제작여부"/>
+	</resultMap>
+
+    <select id="yw900DAO.getYW900List" parameterClass="yw900VO" resultMap="yw900ListMap">
+		SELECT  t1.계약ID, t1.사업장ID, t1.사업장명, t1.사업자등록번호, t1.종사업자일련번호, t1.단위과세자여부, t1.전자신고ID, t1.제출대상구분코드, t1.제출년월일, t1.등록일시,
+		 		t2.tocnt AS 총건수, t2.finishcnt AS 완료건수, t2.급여, t2.결정세액, t1.제작여부
+		FROM (
+					SELECT a.계약ID, a.사업장ID, a.사업장명, a.사업자등록번호, a.종사업자일련번호, a.단위과세자여부, b.전자신고ID, b.제출대상구분코드, b.제출년월일, b.등록일시, if(b.파일명 is null , 'N', 'Y' ) as 제작여부
+					FROM tbl_ys030 a
+					LEFT OUTER JOIN 
+							(
+								SELECT y800.계약ID, y800.전자신고ID, y800.제출대상구분코드, y800.제출년월일, y800.등록일시, y800.파일명
+								FROM tbl_ye800 y800
+							) b ON a.계약ID = b.계약ID
+					WHERE a.계약ID = #계약ID#
+					AND a.신고대상 = '1'
+					AND a.사용여부 = '1'
+					AND a.단위과세자여부 is not null
+				) t1
+		LEFT JOIN 
+				(
+					SELECT tt.계약ID
+						, tt.사업장ID
+						, COUNT(tt.사용자ID) AS tocnt
+						, SUM(tt.finish) AS finishcnt
+						, SUM(tt.급여) AS 급여
+						, SUM(tt.결정세액) AS 결정세액
+					FROM (
+							SELECT  a.*, IF(a.진행상태코드 = 4, 1,0) AS finish
+									, b.급여 AS 급여
+									, c.결정세액_소득세 AS 결정세액
+							FROM tbl_ye000 a
+							LEFT JOIN tbl_ye003 b ON a.계약ID = b.계약ID AND a.사용자ID = b.사용자ID
+							LEFT JOIN tbl_ye700 c ON a.계약ID = c.계약ID AND a.사용자ID = c.사용자ID
+							WHERE c.사용여부 = 1
+						) tt
+					WHERE tt.계약ID = #계약ID#
+					GROUP BY tt.계약ID, tt.사업장ID
+				) t2 
+		ON t1.계약ID = t2.계약ID AND t1.사업장ID = t2.사업장ID
+		WHERE 1=1
+		<isNotNull property="제출대상구분코드">
+			<isNotEmpty property="제출대상구분코드">
+		and t1.제출대상구분코드 = #제출대상구분코드#
+			</isNotEmpty>
+		</isNotNull>
+		limit #endPage# offset #startPage#
+	</select>
+	
+	<select id="yw900DAO.getYW900ListCount" parameterClass="yw900VO" resultClass="java.lang.Integer">
+		SELECT  count(*)
+		FROM (
+					SELECT a.계약ID, a.사업장ID, a.사업장명, a.사업자등록번호, a.단위과세자여부, b.전자신고ID, b.제출대상구분코드, b.제출년월일, b.등록일시, if(b.파일명 is null , 'N', 'Y' ) as 제작여부
+					FROM tbl_ys030 a
+					LEFT OUTER JOIN 
+							(
+								SELECT y800.계약ID, y800.전자신고ID, y800.제출대상구분코드, y800.제출년월일, y800.등록일시, y800.파일명								
+								FROM tbl_ye800 y800
+							) b ON a.계약ID = b.계약ID
+					WHERE a.계약ID = #계약ID#
+					AND a.신고대상 = '1'
+					AND a.사용여부 = '1'
+					AND a.단위과세자여부 is not null
+				) t1
+		LEFT JOIN 
+				(
+					SELECT tt.계약ID
+									, tt.사업장ID
+									, COUNT(tt.사용자ID) AS tocnt
+									, SUM(tt.finish) AS finishcnt
+									, SUM(tt.급여) AS 급여
+									, SUM(tt.결정세액) AS 결정세액
+					FROM (
+							SELECT a.*, IF(a.진행상태코드 = 4, 1,0) AS finish
+											,b.급여 AS 급여
+											,c.결정세액_소득세 AS 결정세액
+							FROM tbl_ye000 a
+							LEFT JOIN tbl_ye003 b ON a.계약ID = b.계약ID AND a.사용자ID = b.사용자ID
+							LEFT JOIN tbl_ye700 c ON a.계약ID = c.계약ID AND a.사용자ID = c.사용자ID
+							WHERE c.사용여부 = 1
+						) tt
+					WHERE tt.계약ID = #계약ID#
+					GROUP BY tt.계약ID, tt.사업장ID
+				) t2 
+		ON t1.계약ID = t2.계약ID AND t1.사업장ID = t2.사업장ID
+		WHERE 1=1
+		<isNotNull property="제출대상구분코드">
+			<isNotEmpty property="제출대상구분코드">
+		and t1.제출대상구분코드 = #제출대상구분코드#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+</sqlMap>

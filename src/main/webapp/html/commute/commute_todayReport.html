@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/commute_manage.css">
+<link rel="stylesheet" type="text/css" href="/css/jquery-ui.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+<style>
+input::-webkit-calendar-picker-indicator{
+    display: none;
+}
+</style>
+<script>
+	
+	$(document).ready(function(){
+		
+		var startDate = new Date().format('yyyyMMdd');
+		$("#startDate").val(startDate);
+		
+		$('#searchValue').keypress(function(event){
+			var keycode = (event.keyCode ? event.keyCode : event.which);
+			if(keycode == '13'){
+				fn_commuteList(1);
+			}
+			event.stopPropagation();
+		});
+		getBizGrpCombo();
+		fn_commuteList(1);
+		
+		var obj = $("#chDate");
+		obj.datepicker();
+	   	obj.datepicker("option", "dateFormat", "yy-mm-dd").on('change', function(e){
+	   		obj.datepicker('hide');
+	   	});
+	});
+	
+	function runScript(e) {
+	    if (e.keyCode == 13) {
+			fn_commuteList(1);
+	        return false;
+	    }
+	}
+
+
+	//***************					체크박스 전체 선택					***************//
+
+
+	function fn_checkAll() {
+		if ($("#checkall").prop("checked"))	{ $("input[name=chk]").prop("checked",true); }
+		else 								{ $("input[name=chk]").prop("checked",false); }
+	}
+		
+	function fn_parseMinute(minutes) {
+		var seconds = minutes * 60;
+		  var pad = function(x) { return (x < 10) ? "0"+x : x; }
+		  return pad(parseInt(seconds / (60*60))) + ":" +
+		         pad(parseInt(seconds / 60 % 60))
+	}
+	
+	function fn_commuteList(page) {
+		var url = rootPath+"attend/getAttendList.do";
+		
+		var viewPage = $("#viewPage").val();
+		if(viewPage==""||viewPage=="0") viewPage = 10;
+	
+		if (page==0)
+			curPage=0;
+		else 
+			curPage = page-1;
+		
+		if (curPage<0) {
+			curPage=0;
+			return;
+		}
+		if (curPage*viewPage>totPage) {
+			curPage-=1;
+			return;
+		}
+		
+		
+		var startDate = $("#startDate").val().replace(/-/gi, "");
+		$("#startDateText").html(convertDateTime(startDate).format("yyyy년MM월dd일 E"));
+		var searchKey = $("#searchKey").val();
+		var searchValue = $("#searchValue").val();
+		var startPage = (curPage*viewPage);
+		var endPage = viewPage;
+		var bizId = getCookie("bizId");
+		var searchCompany = $("#searchCompany").val();
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				attendCode:'001',
+				startDate:startDate,
+				endDate:startDate,
+				searchKey:searchKey,
+				searchValue:searchValue,
+				startPage:startPage,
+				endPage:endPage,
+				bizId:bizId,
+				searchCompany:searchCompany
+			},
+			success:function(result)
+			{
+				var htmlData = "";
+				
+				if (result.success==true) {
+					totPage = result.total;
+					var totalPage = Math.ceil(totPage/viewPage);
+					
+					$.each(result.attends, function(i, row) {
+						var num = (curPage * viewPage) + i + 1;
+						htmlData += '<tr> ';
+						htmlData += ' <td><input type="checkbox" id="chk" name="chk" value="'+isSetNull(row.attendId, "")+'"></td>';
+						htmlData += ' <td>'+row.bizName+'</td> ';
+						htmlData += ' <td>'+row.empName+'</td> ';
+						htmlData += ' <td>'+row.empNo+'</td> ';
+						htmlData += ' <td>'+isSetNull(row.deptName,"")+'</td> ';
+						htmlData += ' <td>'+isSetNull(row.placeName, "")+'</td> ';
+						if(!isNull(row.dateFrom) && row.dateFrom!="0") {
+							htmlData += ' <td>'+isSetNull(convertDateTime(row.dateFrom).format("HH:mm a/p"), "")+'</td> ';
+						} else {
+							htmlData += ' <td>'+isSetNull(row.dateFrom, "")+'</td>';
+						}
+						if(!isNull(row.dateTo) && row.dateTo!="0") {
+							htmlData += ' <td>'+isSetNull(convertDateTime(row.dateTo).format("HH:mm a/p"), "")+'</td> ';
+						} else {
+							htmlData += ' <td>'+isSetNull(row.dateTo, "")+'</td>';
+						}
+						if(!isNull(row.dateTo) && !isNull(row.dateFrom)) {
+							htmlData += ' <td>'+isSetNull(fn_parseMinute(row.workMinute), "00:00")+'</td> ';
+						}else{
+							htmlData += ' <td></td> ';
+						}
+						var signType = "미승인";
+						if(row.signType=="1") signType="승인"; 
+						htmlData += ' <td>'+signType+'</td> ';
+						htmlData += '</tr> ';
+					});
+	
+					if(page==1) {
+
+						$('#page-selection').bootpag({
+							total: totalPage,       // total pages
+							page: page,         	// default page
+							maxVisible: 10, 	   	// visible pagination
+							leaps: true,	      	// next/prev leaps through maxVisible
+						    firstLastUse: true,
+						    first: '',
+						    last: '',
+						    wrapClass: 'pagination',
+						    activeClass: 'active',
+						    disabledClass: 'disabled',
+						    nextClass: 'btn_next',
+						    prevClass: 'btn_prev',
+						    lastClass: 'end_page',
+						    firstClass: 'first_page'
+						}).on("page", function(event, num){
+							fn_commuteList(num);
+						});
+					}
+				} else {
+					htmlData += '<tr> <td colspan="9">요청하신 자료가 존재하지 않습니다.</td></tr>';
+					
+				}
+	
+				$("#dataList").html(htmlData);
+				$.unblockUI();
+				
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+				}
+			}
+		});
+	}
+	
+	//다운로드
+	function fn_commuteDownload(){
+		
+		var url = rootPath+"attend/getAttendList.do";
+		
+		var startDate = $("#startDate").val().replace(/-/gi, "");
+		var searchKey = $("#searchKey").val();
+		var searchValue = $("#searchValue").val();
+		var bizId = getCookie("bizId");
+		var searchCompany = $("#searchCompany").val();
+	
+		if(isNull(searchCompany)){
+			alert("기업을 선택해주세요.");
+			return false;
+		}
+		
+	    $.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				attendCode:'001',
+				startDate:startDate,
+				endDate:startDate,
+				searchKey:searchKey,
+				searchValue:searchValue,
+				startPage:0,
+				endPage:99999,
+				bizId:bizId,
+				searchCompany:searchCompany
+			},
+			success:function(result)
+			{
+				var htmlData = "";
+				
+				if (result.success==true) {
+					if(result.total > 0){
+						downloadDataUrlFromJavascript('/attend/getAttendExcelList.do?startDate='+startDate+'&searchKey='+searchKey+'&searchValue='+searchValue+'&startPage=0&endPage=99999&attendCode=001');
+					} else {
+					 	alert("요청하신 자료가 존재하지 않습니다.");
+					}
+				} 
+				
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+				}
+			}
+		});
+	}
+	
+	function fn_startDateText(startDate){
+		$("#startDate").val(startDate.replace(/-/gi, ""));
+		$("#startDateText").html(convertDateTime(startDate.replace(/-/gi, "")).format("yyyy년MM월dd일 E"));
+	}
+	
+	//승인
+	function fn_commuteSign(signType){
+		var url = rootPath+"attend/updAttend.do";
+		var msgText = "승인";
+		if(signType == 0) {
+			msgText = "승인 취소";
+		}
+		
+		var attendIds = '';
+		var count = 0;
+		var bizId = $("#searchCompany").val();
+		
+		if(isNull(bizId)){
+			alert("기업을 선택해주세요.");
+			return false;
+		}
+		
+		$("input[name='chk']:checked").each(function(i) {
+	        attendIds += $(this).val()+",";
+	        count++;
+	    });
+		
+		if(count==0) {
+			alert(msgText+"처리하실 정보를 선택하신 후 적용해주시기 바랍니다.");
+			return;
+		}
+		
+		if(!confirm(msgText+"하시겠습니까?")) return;
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				signType:signType, 
+				attendIds:attendIds,
+				bizId:bizId
+			},
+			success:function(result)
+			{
+				if (result.success==true) {
+					alert(msgText+"되었습니다.");
+					fn_commuteList(curPage+1);
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+				}
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+				}
+			}
+		});
+	}
+
+
+	//***************					기업 조회					***************//
+
+
+	function getBizGrpCombo() {
+
+		var url = rootPath+"biz/getBizGrpCombo.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			async: false,
+			type:"GET",
+			data: { },
+			success:function(result) {
+				if(result.success){
+		    		var workStatus = result.data;
+					$.each(workStatus, function(i, data){
+						$("#searchCompany").append($("<option>", {
+							value: data.id,
+							text: data.name
+						}));
+					});
+					$("#searchCompany").append($("<option>", {
+						value: '',
+						text: '전체'
+					}));
+		    	}
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+</script>
+</head>
+<body>
+	<div id="commute_wrap" class="">
+	<input type="hidden" id="viewPage" >
+		<div class="container">
+			<div class="location"><span class="loc_main NanumGothic">근태 관리 > 출퇴근 관리 ></span><span class="loc_sub NanumGothic">오늘의 근무 현황</span></div>
+			<div class="pagtit"><span class="NanumGothic">오늘의 근무 현황 </span></div>
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumGothic">출·퇴근 현황 관리</span>
+					</div>
+					<div class="box_wrap topBlue">
+						<ul class="NanumGothic field_area" >
+							<!-- <li><a class="btn_type btn_calender">날짜검색<span class="icon_calender"></span></a></li> -->
+							<li class="calendar_picker"><input type="date" max="9999-12-31" id="chDate" class="date_select" onfocus="this.blur()" onchange="fn_startDateText(this.value);fn_commuteList(1);"></li>
+							<input type="hidden" id="startDate">
+							<li class="dateValue" id="startDateText"></li>
+							<li class="selBox">
+								<select id="searchCompany" onchange="fn_commuteList(1)"></select>
+							</li>
+							<li class="selBox">
+								<select id="searchKey">
+									<option value="empNo" class="">사번</option>
+									<option value="empName" class="">근로자명</option>
+									<option value="deptName" class="">부서</option>
+									<option value="signType" class="">승인여부</option>
+								</select>
+							</li>
+							<li class="inputBox">
+								<fieldset>
+									<input type="text" class="word_input NanumGothic" placeholder="검색할 내용을 20자 이내로 적어주세요" id="searchValue">
+									<a class="btn_search btn_type Material_icons" onclick="fn_commuteList(1)">search</a>
+								</fieldset>
+							</li>
+						</ul>
+						<div class="group_table">
+							<table class="NanumGothic hasChk">
+								<colgroup>
+									<col width="4%">
+									<col width="10%">
+									<col width="12%">
+									<col width="12%">
+									<col width="12%">
+									<col width="10%">
+									<col width="12%">
+									<col width="12%">
+									<col width="8%">
+									<col width="8%">
+								</colgroup>
+								<thead>
+								<tr>
+									<th class="chk_area"><input type="checkbox" id="checkall" onclick="fn_checkAll()"></th>
+									<th>기업명</th>
+									<th>성명</th>
+									<th>사번</th>
+									<th>부서명</th>
+									<th>근무장소</th>
+									<th>출근시간</th>
+									<th>퇴근시간</th>
+									<th>근무시간</th>
+									<th>승인</th>
+								</tr>
+								</thead>
+								<tbody id="dataList">
+								</tbody>
+							</table>
+						</div>
+						<div id="page-selection" class="pagingnav_wrap_mid"></div>
+					</div>
+				</div>
+				<div class="NanumGothic btn_group ">
+					<a class="btn_type type1" onclick="fn_commuteDownload()">다운로드</a>
+					<a class="btn_type type3" onclick="fn_commuteSign(0)">승인 취소</a>
+					<a class="btn_type type4" onclick="fn_commuteSign(1)">승인 하기</a>
+				</div>
+			</div> <!--  contents -->
+				
+			
+		</div> <!--  container -->
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/excel_popup.css">
+
+<title></title>
+</head>
+<body>
+<div id="cecel_popup_wrap" class="">
+	<div class="pop_container">
+		<div id="popup_tit" class="">
+			<div class="tit_text NanumSquare_B">엑셀 업로드</div>
+			<div id="popup_close" class="btn_type btn_close"></div>
+		</div>
+		<div class="pop_contents">
+			<div class="top_btns">
+				<a class="btn_type btn_excel NanumSquare_R"><span class="icon icon_excel"></span>엑셀업로드 </a>
+				<a class="btn_type btn_download NanumSquare_R"><span class="icon icon_excelDown"></span>서식 다운로드 </a>
+			</div>
+			<ul class="data_box">
+				<li class="grid_wrap">
+					<div class="grid_tit NanumSquare_R"><div class="icon"></div>열제목 순서</div>
+					<div class="grid_box">
+						<div class="data"></div>
+					</div>
+					</li>
+				<li class="grid_wrap">
+					<div class="grid_tit NanumSquare_R"><div class="icon"></div>업로드 데이터</div>
+					<div class="grid_box">
+						<!--  파일이 업로드 되었을때는 tempNotice 숨기기  : hidden 클래스 추가 -->
+						<!--  hidden 클래스 추가시 다음 data박스 block 상태로 변경됨. -->
+						<div class="tempNotice NanumRound">
+							<div class="tit NanumSquare_R">※ 주의</div>
+							<dl ><dt>1.</dt><dd>업로드 하시는 엑셀시트에 3행을 제목으로 맞춰서 작업해주세요.</dd></dl>
+							<dl><dt>2.</dt><dd>엑셀파일의 첫번째 시트를 기준으로 데이터를 불러옵니다.</dd></dl>
+							<dl><dt>3.</dt><dd>작업중 엑셀파일을 다시 업로드하면 기존 작업하던 자료는 사라지니 유의하세요.</dd></dl>
+						</div>
+						<!--  tempNotice에 hidden 클래스가 아니면 data는 숨겨진 상태 -->
+						<div class="data"></div>
+					</div>
+				</li>
+			</ul>
+			<div class="check_box"><a class="btn_type NanumSquare_R btn_check">오류검증 </a></div>
+			<div class="foot_btns">
+				<!--  버튼 비활성화 처리 disable 클래스 추가 -->
+				<a class="btn_type NanumSquare_R type2">확인 </a>
+				<a class="btn_type NanumSquare_R type1">취소</a>
+			 </div>
+		</div>
+		<!--  alert -->
+		<!--  숨김 : class: hidden -->
+		<div id="alert_popup" class="">
+			<div class="alert_container">
+				<div id="alert_tit">
+					<div id="alert_close" class="btn_type"></div>
+				</div>
+				<div class="alert_contents">
+					<div id="alert_icon"></div>
+					<div id="alert_text">
+						<span class="NanumBarunGothic">이전에 배치 되어있던 열 순서가 있습니다.
+		<br>이전 엑셀과 같은 양식이면 바로 적용이 가능합니다. 
+		<br>그대로 적용시키시겠습니까?</span></div>
+					<div class="alert_btns">
+						<a class="btn_type NanumSquare_R type5">확인 </a>
+						<a class="btn_type NanumSquare_R type6">취소</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--  alert end -->
+	</div>
+</div>
+
+
+</body>
+
+</html>

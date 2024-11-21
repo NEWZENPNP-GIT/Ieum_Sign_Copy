@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>전자 신고</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+<link rel="stylesheet" type="text/css" href="/css/jquery.alerts.css">
+
+<link rel="stylesheet" type="text/css" href="/css/chosen_v1.8.7/chosen.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.alerts.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+
+<script src="/js/chosen_v1.8.7/chosen.jquery.js" type="text/javascript"></script>
+<script src="/js/chosen_v1.8.7/docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/chosen_v1.8.7/docsupport/init.js" type="text/javascript" charset="utf-8"></script>
+
+<script type='text/javascript' src="/js/ezsign/yearTax_validate.js"></script>
+<script type='text/javascript' src="/js/ezsign/yearTax_basicsData_common.js"></script>
+<script type='text/javascript' src="/js/ezsign/feb/febsystem/yearTax_system_company.js"></script>
+
+<style type="text/css" >
+.chosen-container.chosen-container-single {
+    width: 100% !important; /* or any value that fits your needs */
+}
+</style>
+
+</head>
+<body>
+	<div id="yearTax_wrap" class="yearTax">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">간이지급명세서 > </span><span class="loc_sub NanumSquare_R">회사정보</span></div>
+			<div class="pagtit NanumSquare_R"><span class="">회사정보</span>
+				<ul class="top_items NanumSquare_R">
+					<li><a class="btn_type"  onClick="saveSystemCompony();" id="saveBtn"><span class="icon_save Material_icons"></span>저장</a></li>
+				</ul>
+			</div>
+
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">회사 정보</span>
+					</div>
+
+					<div class="box_wrap" appFocusNext>
+						<div class="group_row row2">
+							<dl class="NanumSquare_R rat3-7">
+								<dt><label class="label_txt NanumSquare_R">법인 / 개인</label></dt>
+								<dd class="radio_box row2">
+                  <div class="radSet"><input type="radio" name="no1" id="no1-1" value="1" onChange="changechknum()"><label for="no1-1">법인</label></div>
+                  <div class="radSet"><input type="radio" name="no1" id="no1-2" value="2" onChange="changechknum()"><label for="no1-2">개인</label></div></dd>
+							</dl>
+						</div>
+
+						<div class="group_row row2">
+							<dl class="NanumSquare_R rat3-7">
+								<dt><label class="label_txt NanumSquare_R">회사명</label></dt>
+								<dd class="input_box"><input class="" type="text" id="model_setCompanyInfoParams_사업장명" ></dd>
+							</dl>
+							<dl class="NanumSquare_R rat4-6">
+								<dt><label class="label_txt NanumSquare_R">대표자명</label></dt>
+								<dd class="input_box"><input class="" type="text" id="model_setCompanyInfoParams_대표자명"></dd>
+							</dl>
+						</div>
+						<div class="group_row row2">
+							<dl class="NanumSquare_R rat3-7">
+								<dt><label class="label_txt NanumSquare_R">사업장 등록번호</label></dt>
+								<dd class="input_box"><input class="" type="text" id="model_setCompanyInfoParams_사업자등록번호" noCommaNumberOnly onChange="changeBizNumber()" maxlength="10" ></dd>
+							</dl>
+							<dl class="NanumSquare_R rat4-6">
+								<dt><label class="label_txt NanumSquare_R">주민(법인)등록번호</label></dt>
+								<dd class="input_box"><input class="" type="text" id="model_setCompanyInfoParams_법인등록번호_개인식별번호" noCommaNumberOnly onChange="changechknum()" maxlength="13" ></dd>
+							</dl>
+						</div>
+						<div class="group_row row2" style="display:none;">
+							<dl class="NanumSquare_R rat3-7">
+								<dt><label class="label_txt NanumSquare_R">계약년도</label></dt>
+								<dd class="default_box"><div class="disable" id="model_setCompanyInfoParams_계약년도"></div></dd>
+							</dl>
+							<dl class="NanumSquare_R rat4-6">
+								<dt><label class="label_txt NanumSquare_R">사용할 인원수 (현재 사용인원)</label></dt>
+								<dd class="default_box"><div class="disable" id="model_setCompanyInfoParams_대상인원수"></div></dd>
+							</dl>
+						</div>
+						<div class="group_row row1">
+							<dl class="NanumSquare_R rat1n-9">
+								<dt><label class="label_txt NanumSquare_R">회사 주소 </label></dt>
+								<dd class="input_box">
+									<a class="btn_type btn_goGuide" onClick="goAddressSearch()" >주소찾기</a>
+									<input class="" type="text" id="model_setCompanyInfoParams_회사주소1" >
+									<input class="" type="text" id="model_setCompanyInfoParams_회사주소2" >								
+								</dd>
+							</dl>
+						</div>
+						<!-- 
+						<div class="group_row row1" style="display:none;">
+							<dl class="NanumSquare_R rat1n-9">
+								<dt><label class="label_txt NanumSquare_R">회사 주소 2</label></dt>
+								<dd class="input_box"><input class="" type="text" id="model_setCompanyInfoParams_회사주소2" ></dd>
+							</dl>
+						</div>
+						 -->
+						<div class="group_row row2">
+							<dl class="NanumSquare_R rat3-7">
+								<dt><label class="label_txt NanumSquare_R">회사 전화</label></dt>
+								<dd class="input_box"><input class="" type="text" id="model_setCompanyInfoParams_회사전화1" noCommaNumberOnly onChange="changePhoneNumber('model_setCompanyInfoParams_회사전화1')" ></dd>
+							</dl>
+							<dl class="NanumSquare_R rat3-7">
+								<dt><label class="label_txt NanumSquare_R">회사 팩스</label></dt>
+								<dd class="input_box"><input class="" type="text" id="model_setCompanyInfoParams_회사팩스1" noCommaNumberOnly onChange="changePhoneNumber('model_setCompanyInfoParams_회사팩스1')" ></dd>
+							</dl>
+							
+						</div>
+						<div class="group_row row2" style="display:none;">
+							<dl class="NanumSquare_R rat4-6">
+								<dt><label class="label_txt NanumSquare_R">회사 전화 2</label></dt>
+								<dd class="input_box"><input class="" type="text" id="model_setCompanyInfoParams_회사전화2" noCommaNumberOnly ></dd>
+							</dl>
+							<dl class="NanumSquare_R rat4-6">
+								<dt><label class="label_txt NanumSquare_R">회사 팩스 2</label></dt>
+								<dd class="input_box"><input class="" type="text" id="model_setCompanyInfoParams_회사팩스2" noCommaNumberOnly ></dd>
+							</dl>
+						</div>
+
+
+						<div class="group_row row2">
+							<dl class="NanumSquare_R rat3-7">
+								<dt><label class="label_txt NanumSquare_R">사업자단위과세자 여부</label></dt>
+								<dd class="radio_box row2">
+									<div class="radSet"><input type="radio" name="no2" id="no2-1" value="1" onClick="chkTax(1)"><label for="no2-1">여</label></div>
+									<div class="radSet"><input type="radio" name="no2" id="no2-2" value="0" onClick="chkTax(0)"><label for="no2-2">부</label></div>
+                </dd>
+							</dl>
+							<dl class="NanumSquare_R rat4-6">
+								<dt><label class="label_txt NanumSquare_R">종사업자일련번호(4자리)</label></dt>
+								<dd class="default_box"><div class="disable" id="model_setCompanyInfoParams_종사업자일련번호"></div></dd>
+							</dl>
+						</div>
+						<div class="group_row row2 searchbox">
+							<dl class="NanumSquare_R rat3-7">
+								<dt><label class="label_txt NanumSquare_R">관할세무서코드</label></dt>
+								<dd class="input_box">
+									<select id="model_setCompanyInfoParams_관할세무서코드명" data-placeholder="일치하는 항목이 없습니다." class="chosen-select">
+                    					<option value=''></option>
+                    				</select>																
+									<!-- 				
+					                  <input class="nextNgSelect" type="text" id="model_setCompanyInfoParams_관할세무서코드명">
+					                  <ng-select
+					                    [options]="selectAreaIncome"
+					                    (selected)="ngSelected($event, '관할세무서코드명')"
+					                    placeholder=""
+					                    notFoundMsg="일치하는 항목이 없습니다."
+					                    highlightColor="#9575cd"
+					                    highlightTextColor="#fff">
+					                    </ng-select>
+					                   -->  
+               					 </dd>
+							</dl>
+							<dl class="NanumSquare_R rat4-6">
+								<dt><label class="label_txt NanumSquare_R">지방소득세납세지</label></dt>
+                				<dd class="input_box">
+                					<select id="model_setCompanyInfoParams_지방소득세납세지명" data-placeholder="일치하는 항목이 없습니다." class="chosen-select">
+                    					<option value=''></option>
+                    				</select>	
+					                <!-- 
+					                  <input class="nextNgSelect" type="text" [(ngModel)]="model.setCompanyInfoParams['지방소득세납세지명']">
+					                  <ng-select
+					                    [options]="selectOfficeInfo"
+					                    (selected)="ngSelected($event, '지방소득세납세지명')"
+					                    placeholder=""
+					                    notFoundMsg="일치하는 항목이 없습니다."
+					                    highlightColor="#9575cd"
+					                    highlightTextColor="#fff">
+					                    </ng-select>
+					                    --> 
+               					 </dd>
+							</dl>
+						</div>
+						<div class="group_row row2">
+							<dl class="NanumSquare_R rat3-7">
+								<dt><label class="label_txt NanumSquare_R">홈택스아이디</label></dt>
+								<dd class="input_box"><input class="" type="text" id="model_setCompanyInfoParams_홈택스아이디" ></dd>
+							</dl>
+							<dl class="NanumSquare_R rat4-6">
+								<dt><label class="label_txt NanumSquare_R">제출 담당 부서명</label></dt>
+								<dd class="input_box"><input class="" type="text" id="model_setCompanyInfoParams_제출담당부서명"></dd>
+							</dl>
+						</div>
+						<div class="group_row row2">
+
+							<dl class="NanumSquare_R rat3-7">
+								<dt><label class="label_txt NanumSquare_R">제출 담당자 성명</label></dt>
+								<dd class="input_box"><input class="" type="text" id="model_setCompanyInfoParams_제출담당자성명" ></dd>
+							</dl>
+							<dl class="NanumSquare_R rat4-6">
+								<dt><label class="label_txt NanumSquare_R">제출 담당자 전화번호</label></dt>
+								<dd class="input_box"><input class="" type="text" id="model_setCompanyInfoParams_제출담당자전화번호" onChange="changePhoneNumber('model_setCompanyInfoParams_제출담당자전화번호')" ></dd>
+							</dl>
+						</div>
+					</div> <!--  box_wrap -->
+				</div> <!--  grout_wrap -->
+			</div>
+		</div>
+	</div>
+
+<script type="text/javascript">
+	//input,select focus 이동
+	$('input,select').on('keypress', function (e) {
+		if (e.which == 13) {
+			e.preventDefault();    			
+			var nxtIdex = $('input,select').index(this) + 1;
+			
+			if($('input,select')[nxtIdex].type == 'select-one'){
+				$('#'+$('input,select')[nxtIdex].id).trigger('chosen:activate');
+			}else{
+				$('input,select')[nxtIdex].focus();
+			}
+		}		
+	});
+</script>	
+
+</body>
+</html>

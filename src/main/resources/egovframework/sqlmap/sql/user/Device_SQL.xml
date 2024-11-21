@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="user">
+    <typeAlias alias="deviceVO" type="com.ezsign.user.vo.DeviceVO"/>
+
+    <resultMap id="deviceListMap" class="deviceVO">
+        <result property="userId" column="USER_ID"/>
+        <result property="deviceId" column="DEVICE_ID"/>
+
+        <result property="authToken" column="AUTH_TOKEN"/>
+        <result property="pushToken" column="PUSH_TOKEN"/>
+        <result property="model" column="MODEL"/>
+        <result property="osType" column="OS_TYPE"/>
+        <result property="osVersion" column="OS_VERSION"/>
+        <result property="appVersion" column="APP_VERSION"/>
+        <result property="loginIp" column="LOGIN_IP"/>
+
+        <result property="insDate" column="INS_DATE"/>
+        <result property="updDate" column="UPD_DATE"/>
+    </resultMap>
+
+    <select id="deviceDAO.getDeviceList" parameterClass="deviceVO" resultMap="deviceListMap">
+        SELECT USER_ID, DEVICE_ID,
+          AUTH_TOKEN, PUSH_TOKEN, MODEL, OS_TYPE, OS_VERSION, APP_VERSION, LOGIN_IP,
+          INS_DATE, UPD_DATE
+        FROM tbl_user_device
+        WHERE USER_ID = #userId#
+        <isNotNull property="deviceId">
+            <isNotEmpty property="deviceId">
+                AND DEVICE_ID = #deviceId#
+            </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="authToken">
+            <isNotEmpty property="authToken">
+                AND AUTH_TOKEN = #authToken#
+            </isNotEmpty>
+        </isNotNull>
+    </select>
+
+    <insert id="deviceDAO.insDevice" parameterClass="deviceVO">
+        INSERT INTO tbl_user_device (
+          USER_ID, DEVICE_ID,
+          PUSH_TOKEN, MODEL, OS_TYPE, OS_VERSION, APP_VERSION, LOGIN_IP,
+          INS_DATE, UPD_DATE
+        ) VALUES (
+          #userId#, #deviceId#,
+          #pushToken#, #model#, #osType#, #osVersion#, #appVersion#, #loginIp#,
+          DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        )
+        ON DUPLICATE KEY UPDATE
+          PUSH_TOKEN = VALUES(PUSH_TOKEN),
+          MODEL = VALUES(MODEL),
+          OS_TYPE = VALUES(OS_TYPE),
+          OS_VERSION = VALUES(OS_VERSION),
+          APP_VERSION = VALUES(APP_VERSION),
+          LOGIN_IP = VALUES(LOGIN_IP),
+          UPD_DATE = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+    </insert>
+
+    <update id="deviceDAO.updDevice" parameterClass="deviceVO">
+        UPDATE tbl_user_device
+        SET
+          AUTH_TOKEN = #authToken#,
+          PUSH_TOKEN = #pushToken#,
+          OS_TYPE = #osType#,
+          OS_VERSION = #osVersion#,
+          MODEL = #model#,
+          DEVICE_ID = #deviceId#,
+          UPD_DATE = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        WHERE USER_ID = #userId#
+        <!--   AND DEVICE_ID = #deviceId# -->
+    </update>
+    
+    <select id="deviceDAO.getCandyCashVersion" resultClass="java.lang.String">
+		SELECT  version
+		FROM    tbl_candycash_version
+	</select>
+</sqlMap>

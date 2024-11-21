@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>게시판</title>
+
+<link rel="stylesheet" type="text/css" href="/css/jquery.alerts.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.alerts.js"></script>
+<script type="text/javascript" src="/js/ezsign/session_storage.js"></script>
+
+<script type="text/javascript" src="/js/jquery.bootpag.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+
+<script type='text/javascript' src="/js/ckeditor/ckeditor.js"></script>
+<script type='text/javascript' src="/js/ezsign/board/board_notice_modify.js"></script>
+
+</head>
+<body>	
+
+	<div id="boardque_wrap" class="">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumGothic">게시판 > </span><span class="loc_sub NanumGothic">공지사항</span></div>
+			<div class="pagtit"><span class="NanumGothic">공지사항</span></div>
+		</div>
+		<div class="board_con">
+			<ul>
+				<li class="tit">
+					<div class="userInput">
+						<!--  권한에 따라  숨기기 : none class="noticeChk none"-->
+						<div class="noticeChk"><input type="checkbox" id="model_write_contentsType" /><span class="NanumGothic">공지글로 게시</span></div>
+						<div class="title" style="width:calc(100% - 140px)"><span class="NanumGothic">제목</span><input type="text" id="model_write_subject"/></div>
+					</div>
+					<div class="userName"><span class="NanumGothic" id="userName"></span></div>
+				</li>
+				<!-- 임시저장 line 주석 처리 -->
+				<!--
+				<li class="box sub_tit">
+					<div><span class="temp_text red NanumGothic">1번에 임시저장 되었습니다.(1:2018-05-02 19:57:37)</span></div>
+					<div class="right NanumGothic">
+						<a class="btn_type btn_save">임시저장</a>
+						<select class="sel_time NanumGothic">
+		                    <option value="">1:2018-05-02 19:57:37</option>
+		                    <option value=""></option>
+		                    <option value=""></option>
+		                </select>
+						<a class="btn_type btn_import">불러오기</a>
+					</div>
+				</li>
+				-->
+				<li class="box editArea smartOutput se2_inputarea">
+	        		<textarea name="content" id="editor" name="model_write_contents"></textarea>
+				</li>
+				<li class="box attachGroup">
+	        		<a class="btn_type Material_icons" onClick="attachFile()">파일 첨부</a>
+	        		<!-- <span class="text NanumGothic">※ 이미지는 5mb 이하의 이미지만 첨부가능합니다. 이미지는 게시글에 보여집니다.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;파일은 5mb 이하의 파일만 첨부 가능합니다</span> -->
+				</li>
+				<li class="box btn_group ">
+					<a class="btn_type Material_icons" onClick="doWrite()"><span class="icon Material_icons">check_circle</span>작성완료</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<input type="file" id="attachFile" name="attachFile" style="visibility:hidden; position:absolute; left:-9999px; top:-9999px;" onChange="attachFileOk()">
+
+</body>
+</html>

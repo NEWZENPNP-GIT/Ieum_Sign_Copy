@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+
+<link rel="stylesheet" type="text/css" href="/css/font.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/mobile_common.css">
+<link rel="stylesheet" type="text/css" href="/css/mobile_yearTax.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+</head>
+<body>
+	<header class="header yearTax">
+		<ul class="gnb">
+			<li class="prev"><a class="btn_type btn_prev" href="mobile_yearTax_progress.html"></a></li>
+			<li class="head_text NanumBarunGothic">연말정산 결과확인/확정(영수증)</li>
+			<li class="menu"><a class="btn_type btn_menu"></a></li>
+		</ul>
+	</header>
+	<div id="container" class="yearTax">
+		<section class="wrap">
+			<ul class="boxWrap">
+				<li class="tit que"><div class="NanumSquare_R txt">환급/추가납부 세액 내역</div><div class="NanumBarunGothic btn"><a class="btn_type">문의 ＞</a></div></li>
+				<li class="NanumBarunGothic summary">
+					<div><span class="userName">김캔디</span><span>&nbsp;님의&nbsp;</span><span class="year">2018년 </span><span>&nbsp;연말정산에&nbsp;</span></div>
+					<div><span class="NanumSquare_R impact">일반세액공제가 더 유리</span><span>&nbsp;합니다!</span></div>
+				</li>
+			</ul>
+			
+			<div class="NanumBarunGothic taxResult">
+				<div class="tit">환급</div><div class="value">-449,118</div><div class="unit">원</div>
+			</div>
+			<div class="NanumBarunGothic group-cell result">
+				<div class="fix_viewer">
+					<ul class="fix_column">
+						<li class="thead">항목</li>
+						<li class="tbody">총급여</li>
+						<li class="tbody">근로소득공제</li>
+						<li class="tbody subTit">근로소득금액</li>
+						<li class="tbody itemgroup">
+							<input id="tgroup-1" type="checkbox" class="dep-1 hidden">
+							<div class="item-gnb">
+								<label for="tgroup-1" class="btn_type NanumBarunGothic icon" ></label>
+								<label for="tgroup-1" class="label tit">인적공제 </label>
+							</div>
+							<ul class="item-list">
+								<li class="nav">급여</li>
+								<li class="nav">배우자</li>
+								<li class="nav">부양가족<div class="add">( <span class="data">3</span> ) 명</div></li>
+								<li class="nav">경로우대<div class="add">( <span class="data">2</span> ) 명</div></li>
+								<li class="nav">장애인<div class="add">( <span class="data">1</span> ) 명</div></li>
+								<li class="nav">부녀자</li>
+								<li class="nav">한부모</li>
+							</ul>
+						</li>
+						<li class="tbody itemgroup">
+							<input id="tgroup-2" type="checkbox" class="dep-1 hidden">
+							<div class="item-gnb">
+								<label for="tgroup-2" class="btn_type NanumBarunGothic icon" ></label>
+								<label for="tgroup-2" class="label tit">연금보험료공제 </label>
+							</div>
+							<ul class="item-list">
+								<li class="nav">국민연금보험료</li>
+								<li class="nav">공무원연금</li>
+								<li class="nav">군인연금</li>
+								<li class="nav">사립학교교직원</li>
+								<li class="nav">별정우체국연금</li>
+							</ul>
+						</li>
+						<li class="tbody itemgroup">
+							<input id="tgroup-3" type="checkbox" class="dep-1 hidden">
+							<div class="item-gnb">
+								<label for="tgroup-3" class="btn_type NanumBarunGothic icon" ></label>
+								<label for="tgroup-3" class="label tit">특별소득공제</label>
+							</div>
+							<ul class="item-list">
+								<li class="nav">건강보험료</li>
+								<li class="nav">고용보험료</li>
+								<li class="nav">주택임차차입금</li>
+								<li class="nav">주택임차차입금</li>
+								<li class="nav h55">장기주택 저당차입금 이자상환액<div class="add">대출기관</div></li>
+								<li class="nav h55">장기주택 저당차입금 이자상환액<div class="add">거주자</div></li>
+								<li class="nav h55">장기주택 저당차입금 이자상환액<div class="add">2011년 이전 차입분</div><div class="add">15년 미만</div></li>
+								<li class="nav h55">장기주택 저당차입금 이자상환액<div class="add">2011년 이전 차입분</div><div class="add">15년~29년</div></li>
+								<li class="nav h55">장기주택 저당차입금 이자상환액<div class="add">2011년 이전 차입분</div><div class="add">30년 이상</div></li>
+								<li class="nav h55">장기주택 저당차입금 이자상환액<div class="add">2011년 이전 차입분</div><div class="add">고정금리 OR비거치 상환 대출</div></li>
+								<li class="nav h55">장기주택 저당차입금 이자상환액<div class="add">2011년 이전 차입분</div><div class="add">고정금리 AND비거치 상환 대출</div></li>
+								<li class="nav h55">장기주택 저당차입금 이자상환액<div class="add">2011년 이전 차입분</div><div class="add">고정금리 OR비거치 상환 대출</div></li>
+								<li class="nav h55">장기주택 저당차입금 이자상환액<div class="add">2011년 이전 차입분</div><div class="add">그 밖의 대출</div></li>
+								<li class="nav h55">장기주택 저당차입금 이자상환액<div class="add">2011년 이전 차입분</div><div class="add">고정금리 OR비거치 상환 대출</div></li>
+								<li class="nav">기부금(이월분)</li>
+							</ul>
+						</li>
+						<li class="tbody subTit">차감소득금액</li>
+						<li class="tbody itemgroup">
+							<input id="tgroup-4" type="checkbox" class="dep-1 hidden">
+							<div class="item-gnb">
+								<label for="tgroup-4" class="btn_type NanumBarunGothic icon" ></label>
+								<label for="tgroup-4" class="label tit">그밖의 소득공제</label>
+							</div>
+							<ul class="item-list">
+								<li class="nav">개인연금저축</li>
+								<li class="nav">소기업·소상공인공제부금</li>
+								<li class="nav h55">주택마련저축 소득공제<div class="add">청약저축</div></li>
+								<li class="nav h55">주택마련저축 소득공제<div class="add">주택청약 종합저축</div></li>
+								<li class="nav h55">주택마련저축 소득공제<div class="add">근로자 주택마련 저축</div></li>
+								<li class="nav">투자조합출자 등</li>
+								<li class="nav">신용카드 등 사용액</li>
+								<li class="nav">우리사주조합 출연금</li>
+								<li class="nav">고용유지 중소기업 근로자</li>
+								<li class="nav">장기집합투자증권저축</li>
+								
+							</ul>
+						</li>
+						<li class="tbody">소득공제 종합한도 초과액</li>
+						<li class="tbody subTit">종합소득과세표준</li>
+						<li class="tbody subTit">산출세액</li>
+						<li class="tbody itemgroup">
+							<input id="tgroup-5" type="checkbox" class="dep-1 hidden">
+							<div class="item-gnb">
+								<label for="tgroup-5" class="btn_type NanumBarunGothic icon" ></label>
+								<label for="tgroup-5" class="label tit">세액감면</label>
+							</div>
+							<ul class="item-list">
+								<li class="nav">소득세법에 의한 감면</li>
+								<li class="nav">조세특례제한법 <div class="add">외국인기술자 등 감면</div></li>
+								<li class="nav">중소기업 취업자에 대한 감면<div class="add">100%</div></li>
+								<li class="nav">중소기업 취업자에 대한 감면<div class="add">50%</div></li>
+								<li class="nav">조세조약에 의한 감면<div class="add">70%</div></li>
+							</ul>
+						</li>
+						<li class="tbody">근로소득세액공제</li>
+						<li class="tbody itemgroup">
+							<input id="tgroup-6" type="checkbox" class="dep-1 hidden">
+							<div class="item-gnb">
+								<label for="tgroup-6" class="btn_type NanumBarunGothic icon" ></label>
+								<label for="tgroup-6" class="label tit">자녀세액공제</label>
+							</div>
+							<ul class="item-list">
+								<li class="nav">자녀<div class="add">( <span class="data">2</span> ) 명</div></li>
+								<li class="nav">출산·입양<div class="add">( <span class="data">1</span> ) 명</div></li>
+							</ul>
+						</li>
+						<li class="tbody itemgroup">
+							<input id="tgroup-7" type="checkbox" class="dep-1 hidden">
+							<div class="item-gnb">
+								<label for="tgroup-7" class="btn_type NanumBarunGothic icon" ></label>
+								<label for="tgroup-7" class="label tit">연금계좌</label>
+							</div>
+							<ul class="item-list">
+								<li class="nav">과학기술인공제회</li>
+								<li class="nav">근로자퇴직연금 </li>
+								<li class="nav">연금 저축</li>
+							</ul>
+						</li>
+						<li class="tbody itemgroup">
+							<input id="tgroup-8" type="checkbox" class="dep-1 hidden">
+							<div class="item-gnb">
+								<label for="tgroup-8" class="btn_type NanumBarunGothic icon" ></label>
+								<label for="tgroup-8" class="label tit">특별세액공제</label>
+							</div>
+							<ul class="item-list">
+								<li class="nav">보장성보험</li>
+								<li class="nav">장애인전용보장성보험 </li>
+								<li class="nav">의료비</li>
+								<li class="nav">교육비</li>
+								<li class="nav">정치자금기부금<div class="add">10만원 이하</div></li>
+								<li class="nav">정치자금기부금<div class="add">10만원 초과</div></li>
+								<li class="nav">법정기부금</li>
+								<li class="nav">우리사주조합기부금</li>
+								<li class="nav">지정기부금<div class="add">종교단체 외</div></li>
+								<li class="nav">지정기부금<div class="add">종교단체</div></li>
+							</ul>
+						</li>
+						<li class="tbody">표준세액공제</li>
+						<li class="tbody">납세조합공제</li>
+						<li class="tbody">주택차입금</li>
+						<li class="tbody">외국납부</li>
+						<li class="tbody">월세세액</li>
+						<li class="tbody subTit">결정세액</li>
+					</ul>
+				</div>	
+				<div class="column_viewer">
+					<div class="column_data">
+						<ul class="NanumSquare_R data-list sign">
+							<li class="thead"></li>
+							<li class="tbody data"></li>
+							<li class="tbody data">-</li>
+							<li class="tbody data subTit">+</li>
+							<li class="tbody itemgroup tgroup-1">
+								<div class="item-gnb data accent">-</div>
+								<ul class="item-list-data">
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+									<li class="nav data">+</li>
+									<li class="nav data">+</li>
+									<li class="nav data">+</li>
+									<li class="nav data">+</li>
+									<li class="nav data">+</li>
+								</ul>
+							</li>
+							<li class="tbody itemgroup tgroup-2">
+								<div class="item-gnb data">-
+								</div>
+								<ul class="item-list-data">
+									<li class="nav data"></li>
+									<li class="nav data">-</li>
+									<li class="nav data"></li>
+									<li class="nav data">-</li>
+									<li class="nav data"></li>
+								</ul>
+							</li>
+							<li class="tbody itemgroup tgroup-3">
+								<div class="item-gnb data">+</div>
+								<ul class="item-list-data">
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+									<li class="nav data h55"></li>
+									<li class="nav data h55"></li>
+									<li class="nav data h55"></li>
+									<li class="nav data h55"></li>
+									<li class="nav data h55"></li>
+									<li class="nav data h55"></li>
+									<li class="nav data h55"></li>
+									<li class="nav data h55"></li>
+									<li class="nav data h55"></li>
+									<li class="nav data h55"></li>
+									<li class="nav data"></li>
+								</ul>
+							</li>
+							<li class="tbody data subTit">+</li>
+							<li class="tbody itemgroup tgroup-4">
+								<div class="item-gnb data">+
+								</div>
+								<ul class="item-list-data">
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+									<li class="nav data h55"></li>
+									<li class="nav data h55"></li>
+									<li class="nav data h55"></li>
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+								</ul>
+							</li>
+							<li class="tbody data"></li>
+							<li class="tbody data subTit"></li>
+							<li class="tbody data subTit"></li>
+							<li class="tbody itemgroup tgroup-5">
+								<div class="item-gnb data">+
+								</div>
+								<ul class="item-list-data">
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+								</ul>
+							</li>
+							<li class="tbody data"></li>
+							<li class="tbody itemgroup tgroup-6">
+								<div class="item-gnb data">+
+								</div>
+								<ul class="item-list-data">
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+								</ul>
+							</li>
+							<li class="tbody itemgroup tgroup-7">
+								<div class="item-gnb data">+
+								</div>
+								<ul class="item-list-data">
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+								</ul>
+							</li>
+							<li class="tbody itemgroup tgroup-8">
+								<div class="item-gnb data">+
+								</div>
+								<ul class="item-list-data">
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+								</ul>
+							</li>
+							<li class="tbody data"></li>
+							<li class="tbody data"></li>
+							<li class="tbody data"></li>
+							<li class="tbody data"></li>
+							<li class="tbody data"></li>
+							<li class="tbody data subTit"></li>
+						</ul>
+							
+						<ul class="NanumSquare_R data-list">
+							<li class="thead">항목</li>
+							<li class="tbody data">57,400,609</li>
+							<li class="tbody data">1,2620,030</li>
+							<li class="tbody data subTit">44,780,579</li>
+							<li class="tbody itemgroup tgroup-1">
+								<div class="item-gnb data accent">14,500,000</div>
+								<ul class="item-list-data">
+									<li class="nav data">1,500,000</li>
+									<li class="nav data">7,500,000</li>
+									<li class="nav data">2,500,000</li>
+									<li class="nav data">2,500,000</li>
+									<li class="nav data">2,500,000</li>
+									<li class="nav data">-</li>
+									<li class="nav data">-</li>
+								</ul>
+							</li>
+							<li class="tbody itemgroup tgroup-2">
+								<div class="item-gnb data">2,384,100</div>
+								<ul class="item-list-data">
+									<li class="nav data">2,384,100</li>
+									<li class="nav data">-</li>
+									<li class="nav data">-</li>
+									<li class="nav data">-</li>
+									<li class="nav data">-</li>
+								</ul>
+							</li>
+							<li class="tbody itemgroup tgroup-3">
+								<div class="item-gnb data">2,602,910</div>
+								<ul class="item-list-data">
+									<li class="nav data">1,838,220</li>
+									<li class="nav data">379,834</li>
+									<li class="nav data">384,856</li>
+									<li class="nav data">-</li>
+									<li class="nav data h55">-</li>
+									<li class="nav data h55">-</li>
+									<li class="nav data h55">-</li>
+									<li class="nav data h55">-</li>
+									<li class="nav data h55">-</li>
+									<li class="nav data h55">-</li>
+									<li class="nav data h55">-</li>
+									<li class="nav data h55">-</li>
+									<li class="nav data h55">-</li>
+									<li class="nav data h55">-</li>
+									<li class="nav data">-</li>
+								</ul>
+							</li>
+							<li class="tbody data subTit">25,293,569</li>
+							<li class="tbody itemgroup tgroup-4">
+								<div class="item-gnb data">3,395,260</div>
+								<ul class="item-list-data">
+									<li class="nav data">-</li>
+									<li class="nav data">-</li>
+									<li class="nav data h55">-</li>
+									<li class="nav data h55">96,000</li>
+									<li class="nav data h55">-</li>
+									<li class="nav data">-</li>
+									<li class="nav data">3,299,260</li>
+									<li class="nav data">-</li>
+									<li class="nav data">-</li>
+									<li class="nav data">-</li>
+								</ul>
+							</li>
+							<li class="tbody data">-</li>
+							<li class="tbody data subTit">21,898,309</li>
+							<li class="tbody data subTit">21,898,309</li>
+							<li class="tbody itemgroup tgroup-5">
+								<div class="item-gnb data">-</div>
+								<ul class="item-list-data">
+									<li class="nav data">-</li>
+									<li class="nav data">-</li>
+									<li class="nav data">-</li>
+									<li class="nav data">-</li>
+									<li class="nav data">-</li>
+								</ul>
+							</li>
+							<li class="tbody data">660,000</li>
+							<li class="tbody itemgroup tgroup-6">
+								<div class="item-gnb data">150,000</div>
+								<ul class="item-list-data">
+									<li class="nav data">150,000</li>
+									<li class="nav data">-</li>
+								</ul>
+							</li>
+							<li class="tbody itemgroup tgroup-7">
+								<div class="item-gnb data">-</div>
+								<ul class="item-list-data">
+									<li class="nav data">-</li>
+									<li class="nav data">-</li>
+									<li class="nav data">-</li>
+								</ul>
+							</li>
+							<li class="tbody itemgroup tgroup-8">
+								<div class="item-gnb data">606,750</div>
+								<ul class="item-list-data">
+									<li class="nav data">120,000</li>
+									<li class="nav data">-</li>
+									<li class="nav data">-</li>
+									<li class="nav data">141,750</li>
+									<li class="nav data">-</li>
+									<li class="nav data">-</li>
+									<li class="nav data">-</li>
+									<li class="nav data">-</li>
+									<li class="nav data">-</li>
+									<li class="nav data">345,000</li>
+								</ul>
+							</li>
+							<li class="tbody data">-</li>
+							<li class="tbody data">-</li>
+							<li class="tbody data">-</li>
+							<li class="tbody data">-</li>
+							<li class="tbody data">-</li>
+							<li class="tbody data subTit">787,996</li>
+						</ul>	
+					</div> <!--  column_data -->
+				</div> <!--   column_view  -->
+				
+				</div> <!-- group_column -->
+			
+			<div class="NanumBarunGothic group-cell">
+				<div class="fix_viewer">
+					<ul class="fix_column">
+						<li class="thead">구분</li>
+						<li class="tbody">결정세액</li>
+						<li class="tbody">기납부세액_현근무지</li>
+						<li class="tbody green">차감징수세액</li>
+					</ul>
+				</div>
+				<div class="column_viewer">
+					<div class="column_data">
+						<ul class="NanumSquare_R data-list">
+							<li class="thead">소득세</li>
+							<li class="tbody">787,996</li>
+							<li class="tbody">1,237,180</li>
+							<li class="tbody green">787,996</li>
+						</ul>
+						<ul class="data-list">
+							<li class="thead">지방소득세</li>
+							<li class="tbody">787,996</li>
+							<li class="tbody">787,996</li>
+							<li class="tbody green">787,996</li>
+						</ul>
+						<ul class="data-list">
+							<li class="thead">농어촌특별세</li>
+							<li class="tbody">-</li>
+							<li class="tbody">-</li>
+							<li class="tbody green">-</li>
+						</ul>
+						<ul class="data-list">
+							<li class="thead">합계</li>
+							<li class="tbody">787,996</li>
+							<li class="tbody">787,996</li>
+							<li class="tbody green">787,996</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			
+			<ul class="boxWrap">
+				<li class="tit"><div class="NanumSquare_R txt">추가징수세액 분할납부신청</div></li>
+				<li class="NanumBarunGothic dec">차감징수세액(소득세기준)이 10만원을 초과하는 경우 분납 신청이 가능합니다.</li>
+				<li class="NanumSquare_R radio_type apply">
+					<div class="w33"><input type="radio" name="attach1" id="submit1"><span class="checkmark"></span><label for="submit1">신청</label></div>
+					<div class="w33"><input type="radio" name="attach1" id="submit2"><span class="checkmark"></span><label for="submit2">미신청</label></div>
+				</li>
+			</ul>
+			
+			<ul class="boxWrap">
+				<li class="tit"><div class="NanumSquare_R txt">원천징수세액 변경신청</div></li>
+				<li class="NanumBarunGothic dec">근로자 본인이 원하는 경우 매월 원천징수하는 세액을 선택할 수 있습니다.</li>
+				<li class="NanumSquare_R radio_type apply">
+					<div class="w33"><input type="radio" name="edit1" id="edit1"><span class="checkmark"></span><label for="edit1">120%</label></div>
+					<div class="w33"><input type="radio" name="edit1" id="edit2"><span class="checkmark"></span><label for="edit2">100%</label></div>
+					<div class="w33"><input type="radio" name="edit1" id="edit3"><span class="checkmark"></span><label for="edit3">80%</label></div>
+				</li>
+			</ul>
+			
+			<div class="NanumBarunGothic comment">
+				<dl>
+					<dt>※ </dt>
+					<dd>본 데이터는 PC 연말정산 데이터의 요약본임으로 자세한 데이터를 조회 하려면 웹페이지로 보기를 클릭하세요.</dd>
+				</dl>
+			</div>
+			<div></div>
+			<div class="foot_btns row2">
+				<a class="NanumBarunGothic btn_type">웹페이지로 보기</a>
+				<a class="NanumBarunGothic btn_type">근로자 확정<span class="icon_check"></span></a>
+			</div>
+		</section>
+		
+	</div>
+	
+</body>
+<script type="text/javascript">
+/* 페이지 링크 샘플 */
+function pageLink(state){
+	if(state=="wait"){
+		window.location.href="#";
+	}else{
+		window.location.href="#";
+	}
+	
+}
+
+//**** 펼치기 event
+$( "input[type=checkbox]" ).on( "click", function(){
+	var _target=$(this).attr("id");
+	if($(this).is(":checked")){
+		$('[class~="'+_target+'"]').addClass("show");
+		
+	}else{
+		$('[class~="'+_target+'"]').removeClass("show");
+	}
+	console.log(_target)
+});
+
+</script>
+</html>

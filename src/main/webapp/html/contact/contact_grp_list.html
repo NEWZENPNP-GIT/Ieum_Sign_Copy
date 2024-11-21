@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/personnel_management.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<!-- bootPag -->
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/ui.biz.core.js"></script>
+
+<script type="text/javascript">
+	
+	$(document).ready(function(){
+		
+		$('#grpName').keypress(function(event){
+			var keycode = (event.keyCode ? event.keyCode : event.which);
+			if(keycode == '13'){
+				fn_contactGrpList(1);
+			}
+			event.stopPropagation();
+		});
+		
+		fn_contactGrpList(1);
+		
+	});
+	
+	function fn_contactGrpList(page) {
+		//if(!chkCookie()) return false;
+		var url = rootPath+"contact/getContactGrpList.do";
+
+		var viewPage = $("#viewPage").val();
+		if(viewPage==""||viewPage=="0") viewPage = 10;
+
+		if (page==0)
+			curPage=0;
+		else 
+			curPage = page-1;
+		
+		if (curPage<0) {
+			curPage=0;
+			return;
+		}
+		if (curPage*viewPage>totPage) {
+			curPage-=1;
+			return;
+		}
+		
+		var bizId= getCookie("bizId");
+		var grpName = $("#grpName").val();
+		var startPage = (curPage*viewPage);
+		var endPage = viewPage;
+		var sortName = $("#sortName").val();
+		var sortOrder = $("#sortOrder").val();
+
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				OPEN_KEY:getCookie("OPEN_KEY"),
+				bizId:bizId,
+				grpName:grpName,
+				startPage:startPage,
+				endPage:endPage,
+				sortName:sortName,
+				sortOrder:sortOrder
+			},
+			success:function(result)
+			{
+				var htmlData = "";
+
+				$("#dataList").html(htmlData);
+				
+				if (result.success==true) {
+					totPage = result.total;
+					var totalPage = Math.ceil(totPage/viewPage);
+					
+					console.log(result.data);
+					// 인사내역
+					$.each(result.data, function(i, row) {
+						var num = (curPage * viewPage) + i + 1;
+						htmlData += '<tr> ';
+						htmlData += ' <td>'+num+'</td> ';
+						htmlData += ' <td>'+row.grpName+'</td> ';
+						htmlData += ' <td>'+row.grpCnt+'</td> ';
+						htmlData += ' <td><span style="cursor:pointer;" class="glyphicon glyphicon-edit" onclick="fn_updContactGrp(\''+row.grpId+'\')"></span></td> ';
+						
+						htmlData += '</tr> ';
+					});
+
+					if(page==1) {
+						
+						$('#page-selection').bootpag({
+								total: totalPage,          // total pages
+								page: page,            // default page
+								maxVisible: 10,     // visible pagination
+								firstLastUse: true,
+								leaps: true,        // next/prev leaps through maxVisible
+								first: '',
+							    last: '',
+							    wrapClass: 'pagination',
+							    activeClass: 'active',
+							    disabledClass: 'disabled',
+							    nextClass: 'btn_next',
+							    prevClass: 'btn_prev',
+							    lastClass: 'end_page',
+							    firstClass: 'first_page'
+							}).on("page", function(event, num){
+								console.log(num);
+								fn_empList(num);
+						});
+					}
+				} else {
+					htmlData += '<tr> <td colspan="8">요청하신 자료가 존재하지 않습니다.</td></tr>';
+					
+				}
+				$("#dataList").html(htmlData);
+
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				goInvalidPage(request, error);
+			}
+		});
+	}
+	
+	function fn_insContactGrp() {
+		openWin(rootPath+"html/contact/contact_grp_popup_add.html", "그룹추가", 500, 200);
+	}
+	
+	function fn_updContactGrp(grpId) {
+		openWin(rootPath+"html/contact/contact_grp_popup_edit.html?grpId="+grpId, "그룹수정", 500, 200);
+	}
+</script>
+</head>
+<body>
+	
+<!-- *********************************************  계약 관리  *********************************************  -->
+<div id="personList_wrap" class="">
+	<div class="container">
+		<div class="location"><span class="loc_main NanumGothic">주소록관리 > </span><span class="loc_sub NanumGothic">그룹관리</span></div>
+		
+		<div class="field_area">
+			<div class="inputBox">
+				<fieldset>
+					<input type="text" id="grpName" class="word_input NanumGothic">
+					<a class="btn_search btn_type Material_icons" onclick="fn_contactGrpList(1);">search</a>
+				</fieldset>
+			</div>
+			<div class="selBox NanumGothic">
+				<select id="sortName" onchange="fn_empList(1);">
+					<option value="A.INS_DATE" selected>정렬항목</option>
+					<option value="A.GRP_NAME">그룹명</option>
+					<option value="A.INS_DATE">등록일</option>
+				</select>
+			</div>
+			<div class="selBox NanumGothic">
+				<select id="sortOrder" onchange="fn_empList(1);">
+					<option value="DESC" selected>정렬기준</option>
+					<option value="DESC">내림차순</option>
+					<option value="ASC">올림차순</option>
+				</select>
+			</div>
+			<div class="selBox NanumGothic hidden">
+				<select id="viewPage" onchange="fn_empList(1);">
+					<option value="10" selected>조회건수</option>
+				</select>
+			</div>
+		</div>
+		<div class="table_contents">
+			<div class="list">
+				<table class="NanumGothic">
+					<colgroup>
+						<col width="3%">
+						<col width="5%">
+						<col width="8%">
+						<col width="8%">
+					</colgroup>
+					<thead>
+						<tr>
+							<th>순번</th>
+							<th>그룹</th>
+							<th>소속인원</th>
+							<th>수정</th>
+						</tr>
+					</thead>
+					<tbody id="dataList">
+						<tr class="databox">
+							<td class=""></td>
+							<td colspan="3">
+								직원정보가 존재하지 않습니다.
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div id="page-selection" class="pagingnav_wrap"></div>
+			
+		</div>
+		<div class="btn_footGroup NanumGothic">
+			<a class="btn_type type2" onclick="fn_insContactGrp();">그룹추가 </a>
+		</div>
+	</div>
+</div>
+</body>
+
+</html>

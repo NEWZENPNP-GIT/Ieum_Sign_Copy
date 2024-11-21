@@ -1,0 +1,16 @@
+.dl_type01 .input_box input{width:calc(50% - 7px) !important;}
+.dl_type01 .input_box select{width:100%;}
+.dl_type01 .input_box input + select{width:50%;}
+.overload, .colorY.overload{color:#ff0000;}
+.colorY td{background-color:#ffe19e !important;}
+.colorY td:last-child{background-color:#e5eff3 !important;}
+.box-table-float {
+  display: flex;
+}
+/* .yearTax .group_row dd input[type="text"] {color:#666;} */
+.block2.hasHead{width:50% !important;}
+ng-select > div > div.single {height: 28px !important;}
+.yearTax .group_row .ngs-style{width:50%; float:right; right:0; left:inherit !important;}
+.yearTax .group_row .ngsstyle02 ng-select:first-child {width:50%; float:left; position:inherit !important}
+
+.hasEmplist#yearTax_wrap .container{box-sizing:border-box !important;}

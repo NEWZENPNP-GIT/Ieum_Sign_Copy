@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/contract_write.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+
+<!-- bootPag -->
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/ui.biz.core.js"></script>
+
+<script>
+	var contractFileId = "";
+	
+	$(window).resize(function(){ setLayerPopSize(); });
+	
+	$(document).ready(function(){
+		contractFileId = getCookie("contractFileId");
+		
+		setLayerPopSize();
+
+		$("#xlsFile").change(function() {
+			// 파일 초기화
+			fn_contractUpload();
+	    });
+		
+		// checkbox all or not
+		$("#checkAll").change(function () {
+		    $("input:checkbox").prop('checked', $(this).prop("checked"));
+		});
+		fn_contractList(1);
+	    // fn_contractList(1);
+		fn_fileUpload();
+	})
+
+
+	//***************					화면사이즈에 따라 팝업 사이즈 재조정					***************//
+
+
+	function setLayerPopSize(){
+		if($("#main_contents").outerHeight() > $("#contract_wrap").outerHeight()){
+			$(".popup_layer").css("height",$("#main_contents").outerHeight())
+		}else{
+			if($("#contract_wrap").outerHeight() > $(".popup_layer").outerHeight()){
+				 $(".popup_layer").css("height",$("#contract_wrap").outerHeight())
+			}
+		}
+	}
+	
+	// 계약서 일괄 파일 업로드
+	function fn_fileUpload() {
+		console.log("fn_fileUpload");
+		$("#xlsFile").val('');
+		$("#xlsFile").click();
+		
+	}
+	
+	function fn_contractUpload() {
+
+		$.blockUI();
+	    
+		var fileCount = 0;
+		var url = rootPath + "contract/sendNanumhrContractExcel.do";
+		// 데이터설정
+		var formData = new FormData();
+	    formData.append("fileId",contractFileId);
+		var file = document.getElementsByName("xlsFile");
+		for(var i=0;i<file.length;i++) {
+			if (file[i].files[0] != undefined) {
+				if(!checkFileExt(file[i].files[0].name, "xls")) {
+					alert("파일확장자는 xls파일만 가능합니다.");
+					return;
+				}
+				if(checkSpecial(file[i].files[0].name)) {
+					alert("파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.");
+					return;
+				}
+			    formData.append("addFile"+i,file[i].files[0]);
+			    fileCount++;
+			}
+		}
+		if(fileCount==0) {
+			alert("파일을 선택하여 주시기 바랍니다.");
+			return;
+		}
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data:formData,
+			contentType:false,
+			processData:false,
+			cache:false,
+			success:function(result)
+			{
+				$.unblockUI();
+				if(result.success) {
+					if(result.message != null && result.message!= "")
+						alert(result.message);
+					fn_contractList(1);
+				} else {
+					alert(result.message);
+				}
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+
+
+	//***************					이전 페이지					***************//
+
+
+	function fn_prevPage() {
+		$("#contents_wrap").empty();
+	    $(window).off("resize");
+	    $.ajax({
+	        url : "/html/contract/contract_write_layout_step01.html" ,
+	        success : function(result) { $("#contents_wrap").html(result); }
+	    });	 
+	}
+
+
+	//***************					다음 페이지					***************//
+
+
+	function fn_nextPage() {
+		var contractExcelCnt = $("#contractExcelCnt").text();
+		if(contractExcelCnt == "0") {
+			alert("생성할 전자문서가 없습니다.\r\n파일을 등록하여 항목정보를 등록하여주세요.")
+		} else {
+			$("#contents_wrap").empty();
+		    $(window).off("resize");
+		    $.ajax({
+		        url : "/html/contract/contract_write_layout_step03.html" ,
+		        success : function(result) { $("#contents_wrap").html(result); }
+		    });		
+		}
+	}
+	
+	function fn_contractList(page) {
+		
+		var url = rootPath+"contract/getContractList.do";
+			
+		var viewPage = "";
+		if(viewPage==""||viewPage=="0") viewPage = 8;
+
+		if (page==0)
+			curPage=0;
+		else 
+			curPage = page-1;
+		
+		if (curPage<0) {
+			curPage=0;
+			return;
+		}
+		if (curPage*viewPage>totPage) {
+			curPage-=1;
+			return;
+		}
+		
+		// var statusCode = $("#statusCode").val();
+		var startPage = (curPage*viewPage);
+		var endPage = viewPage;
+		// 계약작성중
+		var statusCode = "1";
+		// 처리여부
+		var transType ="N";
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				statusCode:statusCode,
+				transType:transType,
+				contractFileId:contractFileId,
+				startPage:startPage,
+				endPage:endPage
+			},
+			success:function(result)
+			{
+				var htmlData = "";
+				
+				if (result.success==true) {
+					dataList = result.data;
+					totPage = result.total;
+					completeCount = result.completeCount;
+					
+					// 엑셀파일 등록된 계약건수
+					$("#contractExcelCnt").text(totPage);
+					
+					var totalPage = Math.ceil(totPage/viewPage);
+					var progress = Math.ceil(completeCount/totPage*100);
+					console.log(progress);
+					/* MoveProgress(progress); */
+					
+					// 계약내역
+					$.each(result.data, function(i, row) {
+						var num = (curPage * viewPage) + i + 1;
+						htmlData += '<tr id="C_'+row.contId+'"> ';
+						/* htmlData += ' <td><input type="checkbox" id="chk" name="chk" value="'+row.userId+'_'+row.contractDate+'_'+row.hashData+'_'+row.statusCode+'"></td> '; */
+						/* htmlData += ' <td>'+num+'</td> '; */
+						htmlData += ' <td>'+row.empName+'</td> ';
+						htmlData += ' <td>'+row.empNo+'</td> ';
+						htmlData += ' <td>'+row.userDate+'</td> ';
+						htmlData += ' <td>'+row.phoneNum+'</td> ';
+						htmlData += ' <td>'+row.contractFileName+'</td> ';
+						htmlData += ' <td class="contractDate">'+convertDate(row.contractDate).format("yyyy-MM-dd")+'</td> ';
+						htmlData += ' <td><span style="cursor:pointer;" class="glyphicon glyphicon-trash" onclick="fn_contractDel(\''+row.contId+'\')"></span></td> ';
+						
+						htmlData += '</tr> ';
+					});
+					
+					if(page==1) {
+						
+						$('#page-selection').bootpag({
+								total: totalPage,          // total pages
+								page: page,            // default page
+								maxVisible: 10,     // visible pagination
+								firstLastUse: true,
+								leaps: true,         // next/prev leaps through maxVisible
+								first: '',
+							    last: '',
+							    wrapClass: 'pagination',
+							    activeClass: 'active',
+							    disabledClass: 'disabled',
+							    nextClass: 'btn_next',
+							    prevClass: 'btn_prev',
+							    lastClass: 'end_page',
+							    firstClass: 'first_page'
+							}).on("page", function(event, num){
+								fn_contractList(num);
+						});
+					}
+				} else {
+					htmlData += '<tr> <td colspan="10">요청하신 자료가 존재하지 않습니다.</td></tr>';
+					
+				}
+				$("#dataList").html(htmlData);
+				$.unblockUI();
+				
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+
+
+	//***************					계약서 삭제					***************//
+
+
+	function fn_contractDel(contId) {
+		
+		if(!confirm("해당건을 삭제하시겠습니까?")) return;
+		
+		var url = rootPath+"contract/delContractPerson.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data : { contId:contId },
+			success:function(result) {
+				if(result.success) {
+					$("#contractExcelCnt").text(Number($("#contractExcelCnt").text())-1);
+					fn_contractList(curPage);
+				} else {
+					alert(result.message);
+				}
+			},
+			error:function(request,status,error){
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+				}
+			}
+		});
+	}
+	
+	function fn_contractAdd() {
+		var url = rootPath + "html/contract/contract_popup_add.html?contractFileId=" + contractFileId;
+		openWin(url, "contractAdd", 500, 560);
+	}
+</script>
+
+</head>
+<body>
+	
+<!-- *********************************************  책정임금 업로드  *********************************************  -->
+<div id="contract_wrap" class="">
+	<div class="container">
+		<div class="location"><span class="loc_main NanumGothic">전자문서 > </span><span class="loc_sub NanumGothic">전자문서 작성(타사레이아웃)</span></div>
+        <div class="pagtit"><span class="NanumGothic">2.조건 업로드</span></div>
+        <div class="tit_dec NanumGothic"><span class="speaker"></span>타 프로그램에서 내려받은 레이아웃 형태를 그대로 업로드하시기 바랍니다.</div>
+		<div class="nav_snb">
+			<ul class="nav_tabGroup tab3">
+				<li class="clear">
+					<div class="hor_line"></div>
+					<div class="num"><span>1</span></div>
+					<div class="btn_tab"><span class="tabBox NanumGothic">양식선택</span></div>
+				</li>
+				<li class="active">
+					<div class="hor_line"></div>
+			        <div class="num"><span>2</span></div>
+					<div class="btn_tab"><span class="tabBox NanumGothic">책정임금 업로드</span></div>
+				</li>
+				<li>
+					<div class="hor_line"></div>
+			        <div class="num"><span>3</span></div>
+					<div class="btn_tab"><span class="tabBox NanumGothic">전자문서 생성완료 </span></div>
+				</li>
+			</ul>
+		</div>
+		<div class="tab_contents">
+			<div class="list">
+				<table>
+					<colgroup>
+						<col width="15%">
+						<col width="15%">
+						<col width="15%">
+						<col width="15%">
+						<col width="15%">
+						<col width="15%">
+						<col width="10%">
+					</colgroup>
+					<thead>
+						<tr>
+							<th>성명</th>
+							<th>사번</th> 
+							<th>생년월일</th>
+							<th>휴대폰번호</th>
+							<th>양식명</th>
+							<th>생성일자</th>
+							<th>삭제</th>
+						</tr>
+					</thead>
+					<tbody id="dataList">
+                        <tr>
+                        	<td colspan="7">요청하신 자료가 존재하지 않습니다.</td>
+                        </tr>
+					</tbody>
+				</table>
+			</div>
+			<div id="page-selection" class="pagingnav_wrap"></div>
+		</div>
+		<div class="btn_footGroup NanumGothic">
+            <a class="btn_type btn_prev" onclick="fn_prevPage();">＜  이전</a>
+            <a class="btn_type" href="javascript:fn_fileUpload();">파일등록
+				<input type="file" id="xlsFile" name="xlsFile" style="display:none" >
+				<span class="iconBox"><span class="icon"></span></span>
+			</a>
+            <a class="btn_type btn_next" onclick="fn_nextPage();">다음 ＞ </a>
+        </div>
+	</div>
+</div>
+</body>
+
+</html>
+

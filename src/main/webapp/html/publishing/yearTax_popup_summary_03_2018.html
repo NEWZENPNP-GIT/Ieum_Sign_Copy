@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>일반세액공제 적용으로 자동 선택</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+</head>
+<body>
+	<div id="yearTax_wrap_popup" class="yearTax_popup summary3 y2018">
+		<div class="container">
+			<div id="popup_tit">
+				<div class="tit_icon icon_set"></div>
+				<div class="tit_text NanumSquare_R">기부금 공제금액 계산 참조</div>
+				<div id="popup_close" class="btn_type col_skyblue" onclick="window.close();"></div>
+			</div>
+			<div class="contents">
+				<div class="box_wrap  NanumSquare_R">
+					<div class="row">
+						<dl class="rat30">
+							<dt>근로소득 금액</dt>
+							<dd><input type="text" class="sort_right"></input></dd>
+						</dl>
+						<dl class="rat40">
+							<dt class="w570">정치자금기부금 외 세액공제대상금액</dt>
+							<dd><input type="text" class="sort_right"></input></dd>
+						</dl>
+						<dl class="rat30">
+							<dt>세액공제 가능액</dt>
+							<dd><input type="text" class="sort_right"></input></dd>
+						</dl>
+					</div>
+				</div>
+				<div>
+					<table class="NanumSquare_R">
+						<colgroup>
+							<col width="4%">
+							<col width="20%">
+							<col width="11%">
+							<col width="11%">
+							<col width="11%">
+							<col width="11%">
+							<col width="11%">
+							<col width="11%">
+						</colgroup>
+						<thead>
+							<tr>
+								<th>코드</th>	<th>구분</th>	<th>지출액</th><th>공제대상금액</th>
+								<th>공제율1 (15%)</th><th>공제율2<br> (25% or 30%)</th><th>소득/세액 공제액</th><th>공제초과이월액</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>20</td><td>정치자금 (10만원 이하)</td><td class="expense"><td></td><td class="back_gray"></td><td class="back_gray"></td><td></td><td></td>
+							</tr>
+							<tr>
+								<td class="code">20</td><td>정치자금 (10만원 초과)</td><td class="expense"><td></td><td class="back_gray"></td><td class="back_gray"></td><td></td><td></td>
+							</tr>
+							<tr>
+								<td class="code">10</td><td>법정당해기부금</td><td class="expense"><td></td><td class="back_gray"></td><td class="back_gray"></td><td></td><td></td>
+							</tr>
+							<tr>
+								<td class="code">10</td><td>법정이월(2014년)</td><td class="expense"><td></td><td class="back_gray"></td><td class="back_gray"></td><td></td><td></td>
+							</tr>
+							<tr>
+								<td class="code">10</td><td>법정이월(2015년)</td><td class="expense"><td></td><td class="back_gray"></td><td class="back_gray"></td><td></td><td></td>
+							</tr>
+							<tr>
+								<td class="code">10</td><td>법정이월(2016년)</td><td class="expense"><td></td><td class="back_gray"></td><td class="back_gray"></td><td></td><td></td>
+							</tr>
+							<tr>
+								<td class="code">10</td><td>법정이월(2017년)</td><td class="expense"><td></td><td class="back_gray"></td><td class="back_gray"></td><td></td><td></td>
+							</tr>
+							<tr>
+								<td class="code">42</td><td>우리사주조합기부금</td><td class="expense"><td></td><td class="back_gray"></td><td class="back_gray"></td><td></td><td></td>
+							</tr>
+							<tr>
+								<td class="code">40</td><td>종교단체외이월(2013년 이전)</td><td class="expense"><td></td><td class="back_gray"></td><td class="back_gray"></td><td></td><td></td>
+							</tr>
+							<tr>
+								<td class="code">41</td><td>종교단체이월(2013년 이전)</td><td class="expense"><td></td><td class="back_gray"></td><td class="back_gray"></td><td></td><td></td>
+							</tr>
+							<tr>
+								<td class="code">40</td><td>종교단체외당해기부금</td><td class="expense"><td></td><td class="back_gray"></td><td class="back_gray"></td><td></td><td></td>
+							</tr>
+							<tr>
+								<td class="code">40</td><td>종교단체외 이월(2014년)</td><td class="expense"><td></td><td class="back_gray"></td><td class="back_gray"></td><td></td><td></td>
+							</tr>
+							<tr>
+								<td class="code">40</td><td>종교단체외 이월(2015년)</td><td class="expense"><td></td><td class="back_gray"></td><td class="back_gray"></td><td></td><td></td>
+							</tr>
+							<tr>
+								<td class="code">40</td><td>종교단체외 이월(2016년)</td><td class="expense"><td></td><td class="back_gray"></td><td class="back_gray"></td><td></td><td></td>
+							</tr>
+							<tr>
+								<td class="code">40</td><td>종교단체외 이월(2017년)</td><td class="expense"><td></td><td class="back_gray"></td><td class="back_gray"></td><td></td><td></td>
+							</tr>
+							<tr>
+								<td class="code">41</td><td>종교단체당해기부금</td><td class="expense"><td></td><td class="back_gray"></td><td class="back_gray"></td><td></td><td></td>
+							</tr>
+							<tr>
+								<td class="code">41</td><td>종교단체 이월(2014년)</td><td class="expense"><td></td><td class="back_gray"></td><td class="back_gray"></td><td></td><td></td>
+							</tr>
+							<tr>
+								<td class="code">41</td><td>종교단체 이월(2015년)</td><td class="expense"><td></td><td class="back_gray"></td><td class="back_gray"></td><td></td><td></td>
+							</tr>
+							<tr>
+								<td class="code">41</td><td>종교단체 이월(2016년)</td><td class="expense"><td></td><td class="back_gray"></td><td class="back_gray"></td><td></td><td></td>
+							</tr>
+							<tr>
+								<td class="code">41</td><td>종교단체 이월(2017년)</td><td class="expense"><td></td><td class="back_gray"></td><td class="back_gray"></td><td></td><td></td>
+							</tr>
+							<tr class="tfoot">
+								<td colspan="2">합계</td><td></td><td></td><td></td><td></td><td></td><td></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				
+				<div class="box_wrap row NanumSquare_R">
+					<div class="row">
+						<dl class="rat30">
+							<dt class="w350">기부금(이월액) 소득공제</dt>
+							<dd><input type="text"></input></dd>
+						</dl>
+						<dl class="rat40">
+							<dt class="w570">정치자금기부금 외 세액공제대상금액</dt>
+							<dd><input type="text"></input></dd>
+						</dl>
+						<dl class="rat30">
+							<dt class="w400">세액공제 가능액</dt>
+							<dd><input type="text"></input></dd>
+						</dl>
+					</div>
+					<div class="row">
+						<dl class="rat30">
+							<dt class="w350">우리사주기부금 세액공제</dt>
+							<dd><input type="text"></input></dd>
+						</dl>
+						<dl class="rat40">
+							<dt class="w570">지정기부금(종교외) 세액공제</dt>
+							<dd><input type="text"></input></dd>
+						</dl>
+						<dl class="rat30">
+							<dt class="w400">지정기부금(종교) 세액공제</dt>
+							<dd><input type="text"></input></dd>
+						</dl>
+					</div>
+				</div>
+				<div class="foot_btn NanumSquare_R">
+					<a class="btn_type">확인</a>
+				</div>
+			</div> <!--  contents -->
+		</div> <!--  container -->
+	</div>
+</body>
+</html>

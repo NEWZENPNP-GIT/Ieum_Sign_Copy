@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="user">
+	<typeAlias alias="userVO" type="com.ezsign.user.vo.UserVO" />
+	
+	<resultMap id="loginListMap" class="userVO">
+		<result property="userId" column="USER_ID"/>
+		<result property="userPwd" column="USER_PWD"/>
+		<result property="userName" column="USER_NAME"/>
+		<result property="userType" column="USER_TYPE"/>
+		<result property="loginCount" column="LOGIN_COUNT"/>
+		<result property="appType" column="APP_TYPE"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="updDate" column="UPD_DATE"/>	
+		<result property="pwdUpdDate" column="PWD_UPD_DATE"/>
+		<result property="loginLockYn" column="LOGIN_LOCK_YN"/>	
+		<result property="unlockTime" column="UNLOCK_TIME"/>
+	</resultMap>
+	
+	<resultMap id="userListMap" class="userVO">
+		<result property="userId" column="USER_ID"/>
+		<result property="userPwd" column="USER_PWD"/>
+		<result property="userName" column="USER_NAME"/>
+		<result property="userType" column="USER_TYPE"/>
+		<result property="loginCount" column="LOGIN_COUNT"/>
+		<result property="appType" column="APP_TYPE"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="updDate" column="UPD_DATE"/>	
+		<result property="pwdUpdDate" column="PWD_UPD_DATE"/>	
+	</resultMap>
+
+	<resultMap id="userListBizMap" class="userVO">
+		<result property="userId" column="USER_ID"/>
+		<result property="userPwd" column="USER_PWD"/>
+		<result property="userName" column="USER_NAME"/>
+		<result property="userType" column="USER_TYPE"/>
+		<result property="loginCount" column="LOGIN_COUNT"/>
+		<result property="appType" column="APP_TYPE"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="updDate" column="UPD_DATE"/>
+		<result property="bizName" column="BIZ_NAME"/>
+		<result property="pwdUpdDate" column="PWD_UPD_DATE"/>
+		<result property="eMail" column="E_MAIL"/>
+	</resultMap>
+	
+	<typeAlias alias="userLogVO" type="com.ezsign.user.vo.UserLogVO" />
+	
+	<typeAlias alias="userCertVO" type="com.ezsign.user.vo.UserCertVO"/>
+
+	<typeAlias alias="userMokVO" type="com.ezsign.user.vo.UserMokVO"/>
+
+	<typeAlias alias="userSnsVO" type="com.ezsign.user.vo.UserSnsVO"/>
+	
+	<typeAlias alias="userJoinCertVO" type="com.ezsign.user.vo.UserJoinCertVO"/>
+	<resultMap id="userJoinCertListMap" class="userJoinCertVO">
+		<result property="certId" column="CERT_ID"/>
+		<result property="statusCode" column="STATUS_CODE"/>
+		<result property="phonNo" column="PHON_NO"/>
+		<result property="certNo" column="CERT_NO"/>
+		<result property="reqDate" column="REQ_DATE"/>
+		<result property="insDate" column="INS_DATE"/>
+	</resultMap>
+	
+	<typeAlias alias="userGrpVO" type="com.ezsign.user.vo.UserGrpVO"/>
+	<resultMap id="userGrpListMap" class="userGrpVO">
+		<result property="userId" column="USER_ID"/>
+		<result property="grpType" column="GRP_TYPE"/>
+		<result property="refId" column="REF_ID"/>
+		<result property="statusCode" column="STATUS_CODE"/>
+		<result property="insDate" column="INS_DATE"/>
+	</resultMap>
+	<resultMap id="userGrpNameListMap" class="userGrpVO">
+		<result property="userId" column="USER_ID"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="grpType" column="GRP_TYPE"/>
+		<result property="id" column="ID"/>
+		<result property="name" column="NAME"/>
+		<result property="no" column="NO"/>
+		<result property="num" column="NUM"/>
+		<result property="insDate" column="INS_DATE"/>
+	</resultMap>
+	
+	<resultMap id="userSnsListMap" class="userSnsVO">
+		<result property="userSnsId" column="USER_SNS_ID"/>
+		<result property="snsType" column="SNS_TYPE"/>
+		<result property="snsId" column="SNS_ID"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="snsEMail" column="SNS_E_MAIL"/>
+		<result property="snsName" column="SNS_NAME"/>
+		<result property="refreshToken" column="REFRESH_TOKEN"/>
+		<result property="insDate" column="INS_DATE"/>
+	</resultMap>
+	
+	<!--  Login을 위한 Map 시작 -->
+	<select id="userDAO.login" parameterClass="userVO" resultMap="loginListMap" >		
+		<![CDATA[
+		SELECT  USER_ID, USER_PWD, USER_NAME, USER_TYPE, APP_TYPE, LOGIN_COUNT, INS_DATE, UPD_DATE, PWD_UPD_DATE,
+                (CASE WHEN LOGIN_COUNT >= 5
+                      THEN
+                           (CASE WHEN NOW() > DATE_ADD(STR_TO_DATE(UPD_DATE, '%Y%m%d%H%i%S'), INTERVAL 1 MINUTE) THEN 'R' ELSE 'Y' END)
+                      ELSE 'N'
+                 END) LOGIN_LOCK_YN,
+                 TIMESTAMPDIFF(SECOND, now(), DATE_ADD(STR_TO_DATE(UPD_DATE, '%Y%m%d%H%i%S'), INTERVAL 1 MINUTE)) UNLOCK_TIME
+		FROM    tbl_user
+		WHERE	USER_ID = #userId#
+		]]>
+	</select>
+	
+	<!--  Login을 위한 Map 끝 -->
+	
+	<insert id="userDAO.insUser" parameterClass="userVO">
+		INSERT INTO tbl_user (
+			USER_ID, USER_PWD, USER_NAME, USER_TYPE, APP_TYPE, INS_DATE, UPD_DATE, PWD_UPD_DATE
+		) VALUES (
+		   #userId#, #userPwd#, #userName#, #userType#, #appType#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<delete id="userDAO.delUser" parameterClass="userVO">
+		DELETE FROM tbl_user
+		WHERE	USER_ID = #userId#
+	</delete>
+	
+	
+	<update id="userDAO.updUser" parameterClass="userVO">
+		UPDATE tbl_user
+		SET	
+		<isNotNull property="userPwd">
+		    <isNotEmpty property="userPwd">
+			USER_PWD			= #userPwd#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="userName">
+		    <isNotEmpty property="userName">
+			USER_NAME			= #userName#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="userType">
+		    <isNotEmpty property="userType">
+			USER_TYPE			= #userType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="appType">
+		    <isNotEmpty property="appType">
+			APP_TYPE			= #appType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="userNonce">
+		    <isNotEmpty property="userNonce">
+			USER_NONCE			= #userNonce#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="loginCount">
+		    <isNotEmpty property="loginCount">
+		    <isEqual property="loginCount" compareValue="0">
+				LOGIN_COUNT			= 0,
+			</isEqual>
+		    <isNotEqual property="loginCount" compareValue="0">
+				LOGIN_COUNT			= LOGIN_COUNT+1,
+			</isNotEqual>
+			</isNotEmpty>
+		</isNotNull>
+			UPD_DATE			= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	USER_ID  = #userId#
+	</update>
+	
+	<insert id="userDAO.insUserLog" parameterClass="userLogVO">
+		INSERT INTO tbl_user_log (
+			USER_ID, LOG_TYPE, IP_ADDR, INS_DATE
+		) VALUES (
+		   #userId#, #logType#, #ipAddr#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<insert id="userDAO.insUserCert" parameterClass="userCertVO">
+		INSERT INTO tbl_user_cert (
+			RESULT_CD, CI, DI, PHON_NO, TEL_CO, BIRTH, GENDER, NATION, NAME, REQ_NUM, REQ_DATE, INS_DATE, CERT_TYPE
+		) VALUES (
+		   #resultCd#, #ci#, #di#, #phonNo#, #telCo#, #birth#, #gender#, #nation#, #name#, #reqNum#, #reqDate#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), #certType#
+		)
+	</insert>
+
+	<insert id="userDAO.insUserMok" parameterClass="userMokVO">
+		INSERT INTO tbl_user_mok (
+			USER_NAME,
+			SITE_ID,
+			CLIENT_TXID,
+			TXID,
+			PROVIDER_ID,
+			SERVICE_TYPE,
+			CI,
+			DI,
+			USER_PHONE,
+			USER_BIRTHDAY,
+			USER_GENDER,
+			USER_NATION,
+			REQ_AUTH_TYPE,
+			REQ_DATE,
+			ISSUE_DATE,
+			ISSUER
+		) VALUES (
+			#userName#,
+			#siteID#,
+			#clientTxId#,
+			#txId#,
+			#providerId#,
+			#serviceType#,
+			#ci#,
+			#di#,
+			#userPhone#,
+			#userBirthday#,
+			#userGender#,
+			#userNation#,
+			#reqAuthType#,
+			#reqDate#,
+			#issueDate#,
+			#issuer#
+		)
+	</insert>
+
+	<insert id="userDAO.insUserJoinCert" parameterClass="userJoinCertVO">
+		INSERT INTO tbl_user_join_cert (
+			STATUS_CODE, PHON_NO, CERT_NO, REQ_DATE, INS_DATE
+		) VALUES (
+		   'REQ', #phonNo#, #certNo#, #reqDate#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<insert id="userDAO.insUserGrp" parameterClass="userGrpVO">
+		INSERT INTO tbl_user_grp (
+			USER_ID, GRP_TYPE, REF_ID, STATUS_CODE, INS_DATE
+		) VALUES (
+		   #userId#, #grpType#, #refId#, #statusCode#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<delete id="userDAO.delUserGrp" parameterClass="userGrpVO">
+		DELETE FROM tbl_user_grp
+		WHERE	GRP_TYPE = #grpType#
+		<isNotNull property="userId">
+		    <isNotEmpty property="userId">
+			AND	USER_ID			= #userId#
+			</isNotEmpty>
+		</isNotNull>
+		AND		REF_ID   = #refId#
+	</delete>
+	
+	
+	<select id="userDAO.getUserJoinCert" parameterClass="userJoinCertVO" resultMap="userJoinCertListMap" >		
+		SELECT  CERT_ID, STATUS_CODE, PHON_NO, CERT_NO, REQ_DATE, INS_DATE
+		FROM    tbl_user_join_cert
+		WHERE	PHON_NO     = #phonNo#
+		AND		CERT_NO		= #certNo#
+		AND		STATUS_CODE = 'REQ'
+	</select>
+	
+	<update id="userDAO.updUserJoinCert" parameterClass="userJoinCertVO">		
+		UPDATE	tbl_user_join_cert
+		SET		STATUS_CODE = 'RES'
+		WHERE	PHON_NO     = #phonNo#
+		AND		CERT_NO		= #certNo#
+	</update>
+	
+	<select id="userDAO.getUserGrp" parameterClass="userGrpVO" resultMap="userGrpListMap" >		
+		SELECT  USER_ID, GRP_TYPE, REF_ID, STATUS_CODE, INS_DATE
+		FROM    tbl_user_grp
+		WHERE	USER_ID   = #userId#
+		<isNotNull property="grpType">
+		    <isNotEmpty property="grpType">
+			AND		GRP_TYPE  = #grpType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="refId">
+		    <isNotEmpty property="refId">
+			AND		REF_ID    = #refId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="statusCode">
+		    <isNotEmpty property="statusCode">
+			AND		STATUS_CODE  = #statusCode#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<select id="userDAO.getUserGrpList" parameterClass="userGrpVO" resultMap="userGrpNameListMap" >
+		SELECT  A.USER_ID, C.EMP_NAME, A.GRP_TYPE, B.BIZ_ID ID, B.BIZ_NAME NAME, B.BUSINESS_NO NO, B.COMPANY_TEL_NUM NUM, B.INS_DATE
+		FROM    tbl_user_grp A, tbl_biz B, tbl_emp C
+		WHERE   A.REF_ID   = B.BIZ_ID
+		AND		A.USER_ID  = C.USER_ID
+		AND     A.GRP_TYPE = 'B'
+		AND     A.STATUS_CODE = 'RES'
+		<isNotNull property="userId">
+		    <isNotEmpty property="userId">
+			AND		A.USER_ID   = #userId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="bizId">
+		    <isNotEmpty property="bizId">
+			AND		B.BIZ_ID  = #bizId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="grpType">
+		    <isNotEmpty property="grpType">
+			AND		A.GRP_TYPE  = #grpType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="refId">
+		    <isNotEmpty property="refId">
+			AND		A.REF_ID  = #refId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empType">
+		    <isNotEmpty property="empType">
+			AND		C.EMP_TYPE  = #empType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchKey">
+		    <isNotEmpty property="searchKey">
+		    	<isEqual property="searchKey" compareValue="bizName">
+					AND		B.BIZ_NAME LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="businessNo">
+					AND		B.BUSINESS_NO LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		UNION ALL
+		SELECT  A.USER_ID, C.EMP_NAME, A.GRP_TYPE, B.DEPT_CODE ID, B.DEPT_NAME NAME, B.LOC NO, '' NUM, B.INS_DATE
+		FROM    tbl_user_grp A, tbl_dept B, tbl_emp C
+		WHERE   A.REF_ID   = B.DEPT_CODE
+		AND		A.USER_ID  = C.USER_ID
+		AND     A.GRP_TYPE = 'D'
+		AND     A.STATUS_CODE = 'RES'
+		<isNotNull property="userId">
+		    <isNotEmpty property="userId">
+			AND		A.USER_ID   = #userId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="grpType">
+		    <isNotEmpty property="grpType">
+			AND		A.GRP_TYPE  = #grpType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="bizId">
+		    <isNotEmpty property="bizId">
+			AND		B.BIZ_ID  = #bizId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="refId">
+		    <isNotEmpty property="refId">
+			AND		A.REF_ID  = #refId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empType">
+		    <isNotEmpty property="empType">
+			AND		C.EMP_TYPE  = #empType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchKey">
+		    <isNotEmpty property="searchKey">
+		    	<isEqual property="searchKey" compareValue="bizName">
+					AND		B.DEPT_NAME LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="businessNo">
+					AND		B.LOC LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<update id="userDAO.updUserPwd" parameterClass="userVO">
+		UPDATE tbl_user
+		SET		USER_PWD	= #userPwd#,
+				UPD_DATE	= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'),
+				PWD_UPD_DATE = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	USER_ID  	= #userId#	
+	</update>
+	
+	<update id="userDAO.resetUserPwd" parameterClass="userVO">
+		UPDATE tbl_user
+		SET		USER_PWD	= #userPwd#,
+				USER_NONCE  = '',
+				UPD_DATE	= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'),
+				PWD_UPD_DATE = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	USER_NONCE	= #userNonce#	
+	</update>
+	
+	<select id="userDAO.getUserList" parameterClass="userVO" resultMap="userListMap">		
+		SELECT  USER_ID, USER_PWD, USER_NAME, USER_TYPE, APP_TYPE, LOGIN_COUNT, INS_DATE, UPD_DATE, PWD_UPD_DATE
+		FROM    tbl_user
+		WHERE	1=1
+		<isNotNull property="userId">
+		    <isNotEmpty property="userId">
+				AND		USER_ID = #userId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="userNonce">
+		    <isNotEmpty property="userNonce">
+				AND		USER_NONCE = #userNonce#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<select id="userDAO.findUser" parameterClass="userVO" resultMap="userListBizMap">
+		SELECT  A.USER_ID, A.USER_PWD, A.USER_NAME, A.USER_TYPE, A.APP_TYPE, A.LOGIN_COUNT, A.INS_DATE, A.UPD_DATE, A.PWD_UPD_DATE, C.BIZ_NAME, B.E_MAIL
+		FROM    tbl_user A, tbl_emp B, tbl_biz C
+		WHERE   A.USER_ID = B.LOGIN_ID
+		AND     B.BIZ_ID = C.BIZ_ID
+		AND     B.USE_YN  = 'Y'
+		<isNotNull property="userName">
+		    <isNotEmpty property="userName">
+			AND     B.EMP_NAME  = #userName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="phoneNum">		
+		    <isNotEmpty property="phoneNum">
+			AND     B.PHONE_NUM = #phoneNum#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="userId">
+		    <isNotEmpty property="userId">
+			AND     B.LOGIN_ID  = #userId#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<update id="userDAO.updLoginId" parameterClass="userVO">
+		UPDATE tbl_user
+		SET	
+			USER_ID			= #changeUserId#,
+			UPD_DATE		= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	USER_ID  = #userId#
+	</update>
+	
+	<select id="userDAO.getUserSns" parameterClass="userSnsVO" resultMap="userSnsListMap">
+		SELECT  USER_SNS_ID, SNS_TYPE, SNS_ID, USER_ID, SNS_E_MAIL, SNS_NAME, REFRESH_TOKEN, INS_DATE
+		FROM    tbl_user_sns
+		WHERE	1 = 1
+		<isNotNull property="snsType">		
+		    <isNotEmpty property="snsType">
+		AND    	SNS_TYPE = #snsType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="snsId">		
+		    <isNotEmpty property="snsId">
+		AND		SNS_ID = #snsId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="userSnsId">		
+		    <isNotEmpty property="userSnsId">
+		AND		USER_SNS_ID = #userSnsId#
+			</isNotEmpty>
+		</isNotNull>
+		AND		USER_ID IS NOT NULL
+		AND		USE_YN = 'Y'
+		LIMIT	1
+	</select>
+	
+	<select id="userDAO.getUserSnsList" parameterClass="userSnsVO" resultMap="userSnsListMap">
+		SELECT  USER_SNS_ID, SNS_TYPE, SNS_ID, USER_ID, SNS_E_MAIL, SNS_NAME, REFRESH_TOKEN, INS_DATE
+		FROM    tbl_user_sns
+		WHERE	USER_ID = #userId#
+		AND		USE_YN = 'Y'
+		ORDER BY SNS_TYPE, INS_DATE
+	</select>
+	
+	<insert id="userDAO.insUserSns" parameterClass="userSnsVO">
+		<selectKey resultClass="java.lang.String" keyProperty="userSnsId">
+			SELECT  getTableKey('TBL_USER_SNS')
+		</selectKey>
+		INSERT INTO tbl_user_sns (
+			USER_SNS_ID, SNS_TYPE, SNS_ID, USER_ID, SNS_E_MAIL, SNS_NAME, REFRESH_TOKEN, INS_DATE, UPD_DATE
+		) VALUES (
+			#userSnsId#, #snsType#, #snsId#, #userId#, #snsEMail#, #snsName#, #refreshToken#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<update id="userDAO.updUserSnsConnTime" parameterClass="userSnsVO">
+		UPDATE  tbl_user_sns
+		SET		LAST_CONN_TIME = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	SNS_TYPE = #snsType#
+		AND		SNS_ID = #snsId#
+		AND		USE_YN = 'Y'
+	</update>
+	
+	<update id="userDAO.updUserSnsToken" parameterClass="userSnsVO">
+		UPDATE  tbl_user_sns
+		SET		REFRESH_TOKEN = #refreshToken#
+		WHERE	1 = 1
+		<isNotNull property="snsType">		
+		    <isNotEmpty property="snsType">
+		AND    	SNS_TYPE = #snsType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="snsId">		
+		    <isNotEmpty property="snsId">
+		AND		SNS_ID = #snsId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="userSnsId">		
+		    <isNotEmpty property="userSnsId">
+		AND		USER_SNS_ID = #userSnsId#
+			</isNotEmpty>
+		</isNotNull>
+	</update>
+	
+	<delete id="userDAO.delUserSns" parameterClass="userSnsVO">
+		UPDATE	tbl_user_sns
+		SET		USE_YN = 'N',
+				DIS_CONN_TIME = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	USER_SNS_ID = #userSnsId#
+	</delete>
+	
+	<select id="userDAO.cntUserCert"  parameterClass="userCertVO" resultClass="java.lang.Integer">
+		SELECT  count(*) 
+		FROM 	TBL_USER_CERT
+		WHERE 	REQ_NUM = #reqNum#
+	</select>
+</sqlMap>

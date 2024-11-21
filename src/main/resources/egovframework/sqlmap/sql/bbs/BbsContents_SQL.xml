@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BbsContents">
+	
+	<typeAlias alias="bbsContentsVO" type="com.ezsign.bbs.vo.BbsContentsVO"/>
+	<resultMap id="bbsContentsListMap" class="bbsContentsVO">
+		<result property="bbsId" column="BBS_ID"/>
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="bizName" column="BIZ_NAME"/>
+		<result property="bbsNo" column="BBS_NO"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="workCode" column="WORK_CODE"/>
+		<result property="workName" column="WORK_NAME"/>
+		<result property="serviceType" column="SERVICE_TYPE"/>
+		<result property="serviceName" column="SERVICE_NAME"/>
+		<result property="statusCode" column="STATUS_CODE"/>
+		<result property="statusName" column="STATUS_NAME"/>
+		<result property="depthNo" column="DEPTH_NO"/>
+		<result property="orderNo" column="ORDER_NO"/>
+		<result property="parentNo" column="PARENT_NO"/>
+		<result property="editorType" column="EDITOR_TYPE"/>
+		<result property="contentsType" column="CONTENTS_TYPE"/>
+		<result property="subject" column="SUBJECT"/>
+		<result property="keyword" column="KEYWORD"/>
+		<result property="contents" column="CONTENTS"/>
+		<result property="hitCnt" column="HIT_CNT"/>
+		<result property="pointCnt" column="POINT_CNT"/>
+		<result property="expireDate" column="EXPIRE_DATE"/>
+		<result property="target" column="TARGET"/>
+		<result property="regPasswd" column="REG_PASSWD"/>
+		<result property="fileCount" column="FILE_COUNT"/>
+		<result property="commentCount" column="COMMENT_COUNT"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="updDate" column="UPD_DATE"/>
+		<result property="adminCheck" column="ADMIN_CHECK"/>
+	</resultMap>
+	
+	<resultMap id="bbsContentsMap" class="bbsContentsVO">
+		<result property="bbsId" column="BBS_ID"/>
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="bbsNo" column="BBS_NO"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="bizName" column="BIZ_NAME"/>
+		<result property="companyTelNum" column="COMPANY_TEL_NUM"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="userType" column="USER_TYPE"/>
+		<result property="workCode" column="WORK_CODE"/>
+		<result property="userType" column="USER_TYPE"/>
+		<result property="workCode" column="WORK_CODE"/>
+		<result property="workName" column="WORK_NAME"/>
+		<result property="serviceType" column="SERVICE_TYPE"/>
+		<result property="serviceName" column="SERVICE_NAME"/>
+		<result property="statusCode" column="STATUS_CODE"/>
+		<result property="statusName" column="STATUS_NAME"/>
+		<result property="depthNo" column="DEPTH_NO"/>
+		<result property="orderNo" column="ORDER_NO"/>
+		<result property="parentNo" column="PARENT_NO"/>
+		<result property="editorType" column="EDITOR_TYPE"/>
+		<result property="contentsType" column="CONTENTS_TYPE"/>
+		<result property="subject" column="SUBJECT"/>
+		<result property="keyword" column="KEYWORD"/>
+		<result property="contents" column="CONTENTS"/>
+		<result property="hitCnt" column="HIT_CNT"/>
+		<result property="pointCnt" column="POINT_CNT"/>
+		<result property="expireDate" column="EXPIRE_DATE"/>
+		<result property="target" column="TARGET"/>
+		<result property="regPasswd" column="REG_PASSWD"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="updDate" column="UPD_DATE"/>
+	</resultMap>
+	
+	<select id="bbsDAO.getBbsContentsList" parameterClass="bbsContentsVO" resultMap="bbsContentsListMap">
+		SELECT  A.BBS_ID, A.BIZ_ID, B.BIZ_NAME, A.BBS_NO, A.USER_ID, C.EMP_NAME, M.SERVICE_TYPE, fn_code_name('020', M.SERVICE_TYPE) SERVICE_NAME, A.WORK_CODE, 
+				<!-- FAQ 게시판이면 -->
+				<isEqual property="bbsId" compareValue="180709094128003">
+				fn_code_name('020', A.WORK_CODE) AS WORK_NAME, 
+				</isEqual>
+				<!-- FAQ 게시판이  아니면 -->
+				<isNotEqual property="bbsId" compareValue="180709094128003">
+				fn_code_name('021', A.WORK_CODE) AS WORK_NAME, 
+				</isNotEqual>				
+				A.STATUS_CODE, fn_code_name('022', A.STATUS_CODE) STATUS_NAME, A.DEPTH_NO, A.ORDER_NO, A.PARENT_NO, A.EDITOR_TYPE, A.CONTENTS_TYPE, A.SUBJECT, A.KEYWORD, A.CONTENTS, 
+				A.HIT_CNT, A.POINT_CNT, A.EXPIRE_DATE, A.TARGET, A.REG_PASSWD, A.INS_DATE, A.UPD_DATE,
+				(SELECT COUNT(X.FILE_NO) FROM tbl_bbs_file X WHERE X.BBS_ID = A.BBS_ID AND X.BBS_NO = A.BBS_NO) FILE_COUNT,
+				(SELECT COUNT(X.COMM_NO) FROM tbl_bbs_comment X WHERE X.BBS_ID = A.BBS_ID AND X.BBS_NO = A.BBS_NO) COMMENT_COUNT,
+				A.ADMIN_CHECK
+		FROM  tbl_bbs_info M, tbl_bbs_contents A, tbl_biz B, tbl_emp C
+		WHERE 	M.BBS_ID 	= A.BBS_ID
+		AND		A.BIZ_ID 	= B.BIZ_ID
+		AND     A.USER_ID	= C.USER_ID
+		AND		M.USE_YN 	= 'Y'
+		<isNotEqual property="bbsId" compareValue="211200000000001">
+		    <isNotEmpty property="bizId">
+				AND     A.BIZ_ID 	= #bizId#
+			</isNotEmpty>
+		</isNotEqual>
+		<isNotEmpty property="bbsId">
+			AND		A.BBS_ID = #bbsId#
+		</isNotEmpty>		
+		<isNotEmpty property="userId">
+			AND		A.USER_ID = #userId#
+		</isNotEmpty>
+	    <isNotEmpty property="contentsType">
+			AND		A.CONTENTS_TYPE = #contentsType#
+		</isNotEmpty>
+	    <isNotEmpty property="statusCode">
+			AND		A.STATUS_CODE = #statusCode#
+		</isNotEmpty>
+	    <isNotEmpty property="workCode">
+			AND		A.WORK_CODE = #workCode#
+		</isNotEmpty>
+		<isNotEmpty property="searchDateFrom">
+			<isNotEmpty property="searchDateTo">
+			<![CDATA[
+				AND LEFT(A.INS_DATE, 8) >= #searchDateFrom# 
+				AND LEFT(A.INS_DATE, 8) <= #searchDateTo#
+			]]>	
+			</isNotEmpty>
+		</isNotEmpty>
+		<isNotEmpty property="searchKey">
+		    <isNotEmpty property="searchValue">		 
+		    	<isEqual property="searchKey" compareValue="bbsName">
+					AND		M.BBS_NAME LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="subject">
+					AND		A.SUBJECT LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="keyword">
+					AND		A.KEYWORD LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="contents">
+					AND		A.CONTENTS LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="empName">
+					AND		C.EMP_NAME LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+				<isEqual property="searchKey" compareValue="bizName">
+					AND		B.BIZ_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+			</isNotEmpty>
+		</isNotEmpty>
+		
+	    <isNotEmpty property="searchBizGrpType">
+	    	<isEqual prepend="AND" property="searchBizGrpType"  compareValue="Y">
+			A.BIZ_ID IN (SELECT  X.REF_ID
+						FROM    tbl_biz_grp X, tbl_emp Y
+						WHERE   X.BIZ_ID   = Y.BIZ_ID
+						AND     Y.LOGIN_ID = #loginId#
+						AND     X.GRP_TYPE = 'B'
+						AND     X.STATUS_CODE = 'RES')
+			</isEqual>
+		</isNotEmpty>
+		
+		<isNotNull property="searchUserGrpType">
+		    <isNotEmpty property="searchUserGrpType">
+		    	<isEqual prepend="AND" property="searchUserGrpType"  compareValue="Y">
+				A.BIZ_ID IN (SELECT  X.REF_ID
+							FROM    tbl_user_grp X
+							WHERE   X.USER_ID = #loginId#
+							AND     X.GRP_TYPE = 'B'
+							AND     X.STATUS_CODE = 'RES')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		
+		<isNotEmpty property="expireDate">
+			<![CDATA[
+				AND REPLACE(A.EXPIRE_DATE, '-', '') >= REPLACE(#expireDate# , '-', '')
+			]]>	
+		</isNotEmpty>	
+		
+		<isNotEmpty property="sortName">
+			ORDER BY $sortName$ $sortOrder$
+		</isNotEmpty>
+		
+		limit #endPage# offset #startPage#
+	</select>
+	
+	<select id="bbsDAO.getBbsContentsListCount" parameterClass="bbsContentsVO" resultClass="java.lang.Integer">
+		SELECT	COUNT(A.BBS_ID)		
+		FROM  tbl_bbs_info M, tbl_bbs_contents A, tbl_biz B, tbl_emp C
+		WHERE 	M.BBS_ID 	= A.BBS_ID
+		AND		A.BIZ_ID 	= B.BIZ_ID
+		AND     A.USER_ID	= C.USER_ID
+		AND		M.USE_YN 	= 'Y'
+		<isNotEqual property="bbsId" compareValue="211200000000001">
+		    <isNotEmpty property="bizId">
+				AND     A.BIZ_ID 	= #bizId#
+			</isNotEmpty>
+		</isNotEqual>
+	    <isNotEmpty property="bbsId">
+			AND		A.BBS_ID = #bbsId#
+		</isNotEmpty>
+	    <isNotEmpty property="userId">
+			AND		A.USER_ID = #userId#
+		</isNotEmpty>
+	    <isNotEmpty property="contentsType">
+			AND		A.CONTENTS_TYPE = #contentsType#
+		</isNotEmpty>		
+	    <isNotEmpty property="statusCode">
+			AND		A.STATUS_CODE = #statusCode#
+		</isNotEmpty>				
+	    <isNotEmpty property="workCode">
+			AND		A.WORK_CODE = #workCode#
+		</isNotEmpty>
+		
+		
+		<isNotEmpty property="searchDateFrom">
+			<isNotEmpty property="searchDateTo">
+			<![CDATA[
+				AND LEFT(A.INS_DATE, 8) >= #searchDateFrom# 
+				AND LEFT(A.INS_DATE, 8) <= #searchDateTo#
+			]]>
+			</isNotEmpty>
+		</isNotEmpty>
+		
+		<isNotEmpty property="searchKey">
+		    <isNotEmpty property="searchValue">
+		    	<isEqual property="searchKey" compareValue="bbsName">
+					AND		M.BBS_NAME LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="subject">
+					AND		A.SUBJECT LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="keyword">
+					AND		A.KEYWORD LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="contents">
+					AND		A.CONTENTS LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="empName">
+					AND		C.EMP_NAME LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+				<isEqual property="searchKey" compareValue="bizName">
+					AND		B.BIZ_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+			</isNotEmpty>
+		</isNotEmpty>
+		
+	    <isNotEmpty property="searchBizGrpType">
+	    	<isEqual prepend="AND" property="searchBizGrpType"  compareValue="Y">
+			A.BIZ_ID IN (SELECT  X.REF_ID
+						FROM    tbl_biz_grp X, tbl_emp Y
+						WHERE   X.BIZ_ID   = Y.BIZ_ID
+						AND     Y.LOGIN_ID = #loginId#
+						AND     X.GRP_TYPE = 'B'
+						AND     X.STATUS_CODE = 'RES')
+			</isEqual>
+		</isNotEmpty>
+		
+	    <isNotEmpty property="searchUserGrpType">
+	    	<isEqual prepend="AND" property="searchUserGrpType"  compareValue="Y">
+			A.BIZ_ID IN (SELECT  X.REF_ID
+						FROM    tbl_user_grp X
+						WHERE   X.USER_ID = #loginId#
+						AND     X.GRP_TYPE = 'B'
+						AND     X.STATUS_CODE = 'RES')
+			</isEqual>
+		</isNotEmpty>
+		
+	</select>
+	
+	<select id="bbsDAO.getBbsContents" parameterClass="bbsContentsVO" resultMap="bbsContentsMap">
+		SELECT A.BBS_ID, A.BIZ_ID, A.BBS_NO, A.USER_ID, B.BIZ_NAME, B.COMPANY_TEL_NUM, C.EMP_NAME, D.USER_TYPE, M.SERVICE_TYPE, fn_code_name('020', M.SERVICE_TYPE) SERVICE_NAME,
+				A.WORK_CODE, fn_code_name('021', A.WORK_CODE) WORK_NAME, 
+				A.STATUS_CODE, fn_code_name('022', A.STATUS_CODE) STATUS_NAME, A.DEPTH_NO, A.ORDER_NO, A.PARENT_NO, A.EDITOR_TYPE, A.CONTENTS_TYPE, A.SUBJECT, A.KEYWORD, A.CONTENTS, 
+				IFNULL(A.HIT_CNT,0) AS HIT_CNT, A.POINT_CNT, A.EXPIRE_DATE, A.TARGET, A.REG_PASSWD, A.INS_DATE, A.UPD_DATE
+		FROM tbl_bbs_info M, tbl_bbs_contents A, tbl_biz B, tbl_emp C, tbl_user D
+		WHERE M.BBS_ID 	= A.BBS_ID
+		AND A.BIZ_ID	= B.BIZ_ID
+		AND A.USER_ID 	= C.USER_ID
+		AND C.LOGIN_ID 	= D.USER_ID
+		AND M.USE_YN 	= 'Y'
+		AND A.BBS_ID 	= #bbsId#
+		AND A.BBS_NO 	= #bbsNo#
+	</select>
+	
+	<insert id="bbsDAO.insBbsContents" parameterClass="bbsContentsVO">
+		<selectKey resultClass="java.lang.String" keyProperty="bbsNo">
+			SELECT  getTableKey('TBL_BBS_CONTENTS')
+		</selectKey>
+		INSERT INTO tbl_bbs_contents (
+			BBS_ID, BIZ_ID, BBS_NO, USER_ID, WORK_CODE, STATUS_CODE, DEPTH_NO, ORDER_NO, PARENT_NO, EDITOR_TYPE, CONTENTS_TYPE, SUBJECT, KEYWORD, 
+			CONTENTS, HIT_CNT, POINT_CNT, EXPIRE_DATE, TARGET, REG_PASSWD, INS_DATE, UPD_DATE
+		) VALUES (
+		   #bbsId#, #bizId#, #bbsNo#, #userId#, #workCode#, #statusCode#, #depthNo#, #orderNo#, #parentNo#, #editorType#, #contentsType#, #subject#,  #keyword#,
+		   #contents#, #hitCnt#, #pointCnt#,  REPLACE(#expireDate#, '-', ''), #target#, #regPasswd#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<update id="bbsDAO.updBbsContents" parameterClass="bbsContentsVO">
+		UPDATE tbl_bbs_contents
+		SET	
+		<isNotNull property="workCode">
+		    <isNotEmpty property="workCode">
+			WORK_CODE		= #workCode#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="statusCode">
+		    <isNotEmpty property="statusCode">
+			STATUS_CODE		= #statusCode#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="depthNo">
+		    <isNotEmpty property="depthNo">
+			DEPTH_NO		= #depthNo#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="orderNo">
+		    <isNotEmpty property="orderNo">
+			ORDER_NO		= #orderNo#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="parentNo">
+		    <isNotEmpty property="parentNo">
+			PARENT_NO		= #parentNo#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="editorType">
+		    <isNotEmpty property="editorType">
+			EDITOR_TYPE		= #editorType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contentsType">
+		    <isNotEmpty property="contentsType">
+			CONTENTS_TYPE		= #contentsType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="subject">
+		    <isNotEmpty property="subject">
+			SUBJECT		= #subject#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="keyword">
+		    <isNotEmpty property="keyword">
+			KEYWORD		= #keyword#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contents">
+		    <isNotEmpty property="contents">
+			CONTENTS		= #contents#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="hitCnt">
+		    <isNotEmpty property="hitCnt">
+			HIT_CNT		= #hitCnt#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="pointCnt">
+		    <isNotEmpty property="pointCnt">
+			POINT_CNT		= #pointCnt#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="expireDate">
+		    <isNotEmpty property="expireDate">
+			EXPIRE_DATE		= REPLACE(#expireDate# , '-', ''),
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="target">
+		    <isNotEmpty property="target">
+			TARGET		= #target#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="regPasswd">
+		    <isNotEmpty property="regPasswd">
+			REG_PASSWD		= #regPasswd#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="adminCheck">
+			<isNotEmpty property="adminCheck">
+			ADMIN_CHECK		= #adminCheck#,
+			</isNotEmpty>
+		</isNotNull>
+			UPD_DATE		= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	BBS_ID	 = #bbsId#
+		AND		BBS_NO	 = #bbsNo#
+	</update>
+	
+	<delete id="bbsDAO.delBbsContents" parameterClass="bbsContentsVO">
+		DELETE FROM tbl_bbs_contents
+		WHERE	BBS_ID	 = #bbsId#
+		AND		BBS_NO	 = #bbsNo#
+	</delete>
+	
+	
+</sqlMap>
+		

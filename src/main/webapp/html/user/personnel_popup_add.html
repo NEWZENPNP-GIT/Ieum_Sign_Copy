@@ -1,0 +1,287 @@
+
+	<!--****************************************************************************************************************
+	* 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+	* 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+	********************************************************************************************************************
+	--------------------------------------------------------------------------------------------------------------------
+	* 회사       : 뉴젠피앤피
+	* 화면명     : 인사정보등록 팝업창
+	* 화면설명   : 인사목록 > 개별등록 > 인사정보등록 팝업창
+	* 작성자     :
+	* 생성일     :
+	--------------------------------------------------------------------------------------------------------------------
+	* 수정자     : 이정훈
+	* 수정일     : 2024.02.22
+	* 수정내용   :
+	------------------------------------------------------------------------------------------------------------------->
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/personnel_management.css">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+	<title>인사정보등록</title>
+	<script>
+
+		//***************					윈도우 로딩					***************//
+
+
+		$(document).ready(function(){
+
+			window.resizeTo(515, 674);
+
+			$('[data-index="1"]').focus();
+
+			$('#inputForm').on('keydown', 'input', function (event) {
+				if (event.which == 13) {
+					event.preventDefault();
+					var $this = $(event.target);
+					var index = parseFloat($this.attr('data-index'));
+					$('[data-index="' + (index + 1).toString() + '"]').focus();
+				}
+			});
+
+			getBizGrpCombo();
+
+			if (getCookie("loginType") < "6") $("#bizId").prop("disabled","disabled");
+
+		});
+
+
+		//***************					저장하기					***************//
+
+
+		function fn_empSave() {
+
+			if(!confirm("사용자를 추가하시겠습니까?동일한 사번이 존재하는 경우 추가가 되지 않습니다.")) return;
+
+			var deptCode;
+			var url			 = rootPath+"emp/insEmp.do";
+			var empNo		 = $("#empNo").val();
+			var empName		 = $("#empName").val();
+			var userDate	 = $("#userDate").val();
+			var joinDate	 = $("#joinDate").val();
+			var deptName	 = $("#deptName").val();
+			var eMail		 = $("#eMail").val();
+			var phoneNum	 = $("#phoneNum").val();
+			var empType		 = $("#userType").val();
+			var bizId		 = $("#bizId").val();
+			var insUserType  = getCookie("loginType");
+			var addr1		 = $("#addr1").val();
+			var positionName = $("#positionName").val();
+			var stepName	 = $("#stepName").val();
+
+			if (getCookie("loginType") < "6") {
+				alert("사용자구분은 일반사용자만 등록가능합니다.\r\n일반 사용자로 등록합니다.");
+				empType="1";
+			}
+
+			if (empNo.length == 0) {
+				alert("사원번호를 입력해주시기 바랍니다.");
+				$("#empNo").focus();
+				return;
+			}
+
+			if (empName.length == 0) {
+				alert("성명를 입력해주시기 바랍니다.");
+				$("#empName").focus();
+				return;
+			}
+
+			if (userDate.length != 0 && !checkDateNoHypen(userDate)) {
+				alert("생년월일 날짜 형식이 맞지 않습니다.\r\n다시 입력해주시기 바랍니다.");
+				$("#userDate").focus();
+				return;
+			}
+
+			if (joinDate.length != 0 && !checkDateNoHypen(joinDate)) {
+				alert("입사일자 날짜 형식이 맞지 않습니다.\r\n다시 입력해주시기 바랍니다.");
+				$("#joinDate").focus();
+				return;
+			}
+
+			if (phoneNum.length == 0) {
+				alert("휴대폰번호를 입력해주시기 바랍니다.");
+				$("#phoneNum").focus();
+				return;
+			} else {
+				if (!checkPhoneNumNoHypen(phoneNum)) {
+					alert("휴대폰번호 형식이 맞지 않습니다.\r\n다시 입력해주시기 바랍니다.");
+					$("#phoneNum").focus();
+					return;
+				}
+			}
+
+			if (eMail.length == 0) {
+				alert("이메일을 입력해주시기 바랍니다.");
+				$("#eMail").focus();
+				return;
+			} else {
+				if (!checkEmail(eMail)) {
+					alert("이메일 형식이 맞지 않습니다.\r\n다시 입력해주시기 바랍니다.");
+					$("#eMail").focus();
+					return;
+				}
+			}
+
+			// 쿠키에 부서코드가 비어있지않으면서 undefind도 아니면 부서코드 세팅
+			if ((getCookie("deptCode")) && getCookie("deptCode") != 'undefined'){ deptCode = getCookie("deptCode"); }
+
+			if (userDate.length>0) userDate=userDate.replace(/-/gi,"");
+			if (joinDate.length>0) joinDate=joinDate.replace(/-/gi,"");
+			if (phoneNum.length>0) phoneNum=phoneNum.replace(/-/gi,"");
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				data: {
+					empNo:empNo,
+					empName:empName,
+					userDate:userDate,
+					joinDate:joinDate,
+					deptName:deptName,
+					eMail:eMail,
+					phoneNum:phoneNum,
+					empType:empType,
+					bizId:bizId,
+					deptCode:deptCode,
+					insUserType:insUserType,
+					addr1:addr1,
+					positionName:positionName,
+					stepName:stepName
+				},
+				success:function(result) {
+					alert(result.message);
+					opener.fn_empList(1);
+					window.close();
+				},
+				error:function(request,status,error){
+					if (request.status=="401") { alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다."); }
+					else 					   { alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error); }
+				}
+			});
+		}
+
+
+		//***************					기업 조회					***************//
+
+
+		function getBizGrpCombo() {
+
+			var url = rootPath+"biz/getBizGrpCombo.do";
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				async: false,
+				type:"GET",
+				data: { },
+				success:function(result) {
+					if(result.success){
+						var workStatus = result.data;
+						$.each(workStatus, function(i, data){
+							$("#bizId").append($("<option>", {
+								value: data.id,
+								text: data.name
+							}));
+						});
+						if(!isNull(getURLParameters("searchCompany"))){
+							$('#bizId').val(getURLParameters("searchCompany")).prop("selected",true);
+						}
+					}
+				},
+				error:function(request,status,error){
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			});
+		}
+
+	</script>
+	</head>
+
+	<body>
+	<input type="hidden" id="userType" value="1">
+	<div id="person_popup" class="edit" style="width: 100%; height: auto;">
+		<div class="container">
+			<div id="popup_tit">
+				<div class="tit_icon"></div>
+				<div class="tit_text col_skyblue NanumGothic">인사정보등록</div>
+				<div id="popup_close" class="btn_type col_skyblue" onclick="window.close();"></div>
+			</div>
+			<div class="contents" id="inputForm" style="height: auto;">
+				<div class="input_wrap">
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic"><span class="dot_red">*</span>소속기업명</label></dt>
+						<dd>
+							<select class="NanumGothic" id="bizId" data-index="8"></select>
+						</dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic"><span class="dot_red">*</span>사원번호</label></dt>
+						<dd><input type="text" id="empNo" value="" name="" class="input_txt" data-index="1" placeholder="회사에서 관리하는 번호(임의부여가능)"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic"><span class="dot_red">*</span>사원명</label></dt>
+						<dd><input type="text" id="empName" value="" data-index="2" class="input_txt"></dd>
+					</dl>
+					<dl class="boxRow NanumGothic">
+						<dt><label class="label_txt NanumGothic"><span class="dot_red">*</span>휴대폰번호</label></dt>
+						<dd><input type="text" id="phoneNum" value="" data-index="3" class="input_txt" placeholder="예) 01099991234"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic"><span class="dot_red">*</span>이메일</label></dt>
+						<dd><input type="text" id="eMail" value="" data-index="4" class="input_txt" placeholder="예) abc@company.com"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">부서명</label></dt>
+						<dd><input type="text" id="deptName" value="" data-index="5" class="input_txt"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic"></span>생년월일</label></dt>
+						<dd><input type="text" id="userDate" value="" data-index="6" min="1900-01-01" max="2999-01-01" class="input_txt" placeholder="예) 19990101"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">입사일자</label></dt>
+						<dd><input type="text" id="joinDate" value="" data-index="7" min="1900-01-01" max="2999-01-01" class="input_txt" placeholder="예) 19990101"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">주소</label></dt>
+						<dd><input type="text" id="addr1" value="" data-index="8" class="input_txt"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">직급</label></dt>
+						<dd><input type="text" id="positionName" value="" data-index="9" class="input_txt"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">호봉</label></dt>
+						<dd><input type="text" id="stepName" value="" data-index="10" class="input_txt"></dd>
+					</dl>
+				</div>
+				<div class="NanumGothic foot_box line1">
+					<dl class="col_red mar_bot_0">
+						<dt><span class="dot_red">*</span></dt>
+						<dd style="padding-top: 2px;">로 표시된 항목은 필수입력 사항입니다.</dd>
+					</dl>
+				</div>
+			</div>
+			<div class="btn_group">
+				<div class="btn_type type1 NanumGothic" onclick="fn_empSave()" >저장하기</div>
+				<div class="btn_type type3 NanumGothic" onclick="window.close()">취소하기</div>
+			</div>
+		</div>
+	</div>
+	</body>
+	</html>

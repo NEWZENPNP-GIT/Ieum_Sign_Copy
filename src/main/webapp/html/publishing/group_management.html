@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>그룹 관리</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/company_manage.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+</head>
+<body>
+	<div id="groupManage_wrap" class="">
+		<div class="container">
+			<div class="location"><span class="loc_sub NanumSquare_R">그룹 관리</span></div>
+			
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">그룹 관리</span>
+						<ul class="top_items NanumSquare_R">
+							<li><a class="btn_type"><span class="icon_save Material_icons"></span>저장</a></li>
+						</ul>
+					</div>
+					<div class="grid_field">
+						<ul class="between">
+							<li class="label_before">
+								<label class="NanumSquare_R label_sort_right">그룹명 : </label>
+								<fieldset class="">
+									<input class="" type="text"><a class="btn_type btn_search Material_icons">search</a>
+								</fieldset>
+							</li>
+							<li class="NanumSquare_R btns">
+								<a class="btn_type type1">그룹추가<span class="icon add"></span></a>
+								<a class="btn_type type2">선택삭제</a>
+							</li>
+						</ul>
+					</div>
+				
+					<div class="grid_paging">
+						<div class="select_box">
+							<dl>
+								<dt><label class="label_txt NanumSquare_R">Rows</label></dt>
+								<dd class="select_box">
+									<select class="NanumSquare_R">
+										<option value="" >10</option>
+									</select>
+								</dd>
+							</dl>
+						</div>
+						<div id="page-selection" class="pagingnav_wrap_mid"></div>
+					</div>
+					<div class="group_table">
+						<table class="NanumSquare_R">
+							<colgroup>
+								<col width="4%">
+								<col width="12%">
+								<col width="20%">
+								<col width="12%">
+								<col width="20%">
+								<col width="12%">
+								<col width="20%">
+							</colgroup>
+							<tbody>
+								<tr>
+									<td class="chk_area"><input type="checkbox"> </td>
+									<td class="tit">그룹명</td>
+									<td class="value">
+										<input type="text" class="input_txt kor">
+										<!-- <select class="NanumSquare_R">
+											<option value="" >Y</option>
+										</select> -->
+									</td>
+									<td class="tit">중간관리자</td>
+									<td class="value">
+										<fieldset>
+											<div class="default_box">이준경</div>
+											<a class="btn_type btn_search Material_icons" onclick="window.open('group_popup_middleManager.html','','width=370, height=470, resizable=no, scrollbars=no, status=no')">search</a>
+										</fieldset>
+									</td>
+									<td class="tit">소속인원</td>
+									<td class="value">
+										<fieldset>
+											<div class="default_box">이준경</div>
+											<a class="btn_type btn_search Material_icons" onclick="window.open('group_popup_employeeSearch.html','','width=370, height=470, resizable=no, scrollbars=no, status=no')">search</a>
+										</fieldset></td>
+								</tr>
+								
+							</tbody>
+						</table>
+					</div>
+					
+					<!--  2019.04.04 추가 -->
+					<div class="explain_wrap NanumSquare_R">
+						<dl class="col_red">
+							<dt class="num">1.</dt>
+							<dd>관리자 등록을 눌러 그룹 관리자를 추가합니다.</dd>
+						</dl>
+						<dl class="col_red">
+							<dt class="num">2.</dt>
+							<dd>그룹 추가를 눌러 그룹명을 작성합니다.</dd>
+						</dl>
+						<dl class="col_red">
+							<dt class="num">3.</dt>
+							<dd>그룹관리자의 아이콘을 눌러 그룹관지자를 배정합니다.</dd>
+						</dl>
+						<dl class="col_red">
+							<dt class="num">4.</dt>
+							<dd>저장을 누릅니다.</dd>
+						</dl>
+						<dl class="col_red">
+							<dt class="num">5.</dt>
+							<dd>왼쪽 메뉴에 그룹인원 배정으로 가서 해당 그룹의 인원을 배정합니다.</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+$('#page-selection').bootpag({
+    total: 10,
+    page: 1,
+    maxVisible: 5,
+    leaps: true,
+    firstLastUse: true,
+    first: '',
+    last: '',
+    wrapClass: 'pagination',
+    activeClass: 'active',
+    disabledClass: 'disabled',
+    nextClass: 'btn_next',
+    prevClass: 'btn_prev',
+    lastClass: 'end_page',
+    firstClass: 'first_page'
+}).on("page", function(event, num){}); 
+</script>
+</html>

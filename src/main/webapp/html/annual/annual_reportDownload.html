@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/annual_manage.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/common.js" charset="utf-8"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+<script>
+	var dataList = [];
+	
+	$(document).ready(function(){
+		$('#searchValue').keypress(function(event){
+			var keycode = (event.keyCode ? event.keyCode : event.which);
+			if(keycode == '13'){
+				fn_annualStatMonthList();
+			}
+			event.stopPropagation();
+		});		
+		
+		fn_annualStatMonthList();
+	});
+	
+	function runScript(e) {
+	    if (e.keyCode == 13) {
+	    	fn_annualStatMonthList();
+	        return false;
+	    }
+	}
+
+	function fn_annualStatMonthList(page) {
+		var url = rootPath+"vacation/getAnnualStatMonthList.do";
+	
+		var searchYear = $("#searchYear").val();
+		
+		$("#annualYearDisp").html(searchYear+"년 사용현황");
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				annualYear:searchYear
+			},
+			success:function(result)
+			{
+				var htmlData = "";
+				var totalDay = 0;
+				var vacationMonth1 = 0;
+				var vacationMonth2 = 0;
+				var vacationMonth3 = 0;
+				var vacationMonth4 = 0;
+				var vacationMonth5 = 0;
+				var vacationMonth6 = 0;
+				var vacationMonth7 = 0;
+				var vacationMonth8 = 0;
+				var vacationMonth9 = 0;
+				var vacationMonth10 = 0;
+				var vacationMonth11 = 0;
+				var vacationMonth12 = 0;
+				var vacationMonthSum = 0;
+				
+				if (result.success==true) {
+					dataList = result.data;
+					
+					$.each(result.data, function(i, row) {
+						htmlData += '<tr> ';
+						htmlData += ' 	<td class="no">'+row.empNo+'</td>';
+						htmlData += '   <td class="name">'+row.empName+'</td>';
+						htmlData += '   <td class="lebel">'+row.positionName+'</td>';
+						if(!isNull(row.joinDate) && row.joinDate!="0") {
+							htmlData += '   <td class="join">'+convertDate(row.joinDate).format("yyyy-MM-dd")+'</td>';
+						}
+						htmlData += '   <td class="total">'+row.totalDay+'</td>';
+						htmlData += '   <td>'+row.vacationMonth1+'</td><td>'+row.vacationMonth2+'</td><td>'+row.vacationMonth3+'</td><td>'+row.vacationMonth4+'</td>';
+						htmlData += '   <td>'+row.vacationMonth5+'</td><td>'+row.vacationMonth6+'</td><td>'+row.vacationMonth7+'</td><td>'+row.vacationMonth8+'</td>';
+						htmlData += '   <td>'+row.vacationMonth9+'</td><td>'+row.vacationMonth10+'</td><td>'+row.vacationMonth11+'</td><td>'+row.vacationMonth12+'</td>';
+						htmlData += ' 	<td>'+row.vacationMonthSum+'</td><td>'+(row.totalDay-row.vacationMonthSum)+'</td> ';
+						htmlData += '</tr> ';
+						
+						totalDay += row.totalDay;
+						vacationMonth1 += row.vacationMonth1;
+						vacationMonth2 += row.vacationMonth2;
+						vacationMonth3 += row.vacationMonth3;
+						vacationMonth4 += row.vacationMonth4;
+						vacationMonth5 += row.vacationMonth5;
+						vacationMonth6 += row.vacationMonth6;
+						vacationMonth7 += row.vacationMonth7;
+						vacationMonth8 += row.vacationMonth8;
+						vacationMonth9 += row.vacationMonth9;
+						vacationMonth10 += row.vacationMonth10;
+						vacationMonth11 += row.vacationMonth11;
+						vacationMonth12 += row.vacationMonth12;
+						vacationMonthSum += row.vacationMonthSum;						
+					});
+					
+				}
+
+				htmlData += '<tr class="sum"> ';
+				htmlData += '	<td colspan="4">합계</td> ';
+				htmlData += '	<td>'+totalDay+'</td> ';
+				htmlData += '	<td>'+vacationMonth1+'</td><td>'+vacationMonth2+'</td><td>'+vacationMonth3+'</td><td>'+vacationMonth4+'</td> ';
+				htmlData += '	<td>'+vacationMonth5+'</td><td>'+vacationMonth6+'</td><td>'+vacationMonth7+'</td><td>'+vacationMonth8+'</td> ';
+				htmlData += '	<td>'+vacationMonth9+'</td><td>'+vacationMonth10+'</td><td>'+vacationMonth11+'</td><td>'+vacationMonth12+'</td> ';
+				htmlData += '	<td>'+vacationMonthSum+'</td><td>'+(totalDay-vacationMonthSum)+'</td> ';
+				htmlData += '</tr> ';	
+				
+				$("#dataList").html(htmlData);
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+	function downloadCSV(csv, filename) {
+	    var csvFile;
+	    var downloadLink;
+
+		var csvData = "\ufeff"+csv;
+		
+		console.log(csvData);
+	    // CSV 파일을 위한 Blob 만들기
+	    csvFile = new Blob([csvData], {type: "text/csv;charset=utf-8;"});
+
+	    // Download link를 위한 a 엘리먼스 생성
+	    downloadLink = document.createElement("a");
+
+	    // 다운받을 csv 파일 이름 지정하기
+	    downloadLink.download = filename;
+
+	    // 위에서 만든 blob과 링크를 연결
+	    downloadLink.href = window.URL.createObjectURL(csvFile);
+
+	    // 링크가 눈에 보일 필요는 없으니 숨겨줍시다.
+	    downloadLink.style.display = "none";
+
+	    // HTML 가장 아래 부분에 링크를 붙여줍시다.
+	    document.body.appendChild(downloadLink);
+
+	    // 클릭 이벤트를 발생시켜 실제로 브라우저가 '다운로드'하도록 만들어줍시다.
+	    downloadLink.click();
+	}
+
+	function getCSV(filename) {
+	    // csv를 담기 위한 빈 Array를 만듭시다.
+	    var csv = [];
+	    var rows = document.querySelectorAll("#exceltable table tr");
+
+	    for (var i = 0; i < rows.length; i++) {
+	        var row = [], cols = rows[i].querySelectorAll("td, th");
+
+	        for (var j = 0; j < cols.length; j++)
+	            row.push(cols[j].innerText);
+
+	        csv.push(row.join(","));
+	    }
+
+	    // Download CSV
+	    
+	    downloadCSV(csv.join("\n"), filename);
+	}
+
+	function excelDownload(obj) {
+		var header = [];
+		header.push('사번');
+		header.push('이름');
+		header.push('직급');
+		header.push('입사일');
+		header.push('연차개수');
+		header.push('1월');
+		header.push('2월');
+		header.push('3월');
+		header.push('4월');
+		header.push('5월');
+		header.push('6월');
+		header.push('7월');
+		header.push('8월');
+		header.push('9월');
+		header.push('10월');
+		header.push('11월');
+		header.push('12월');
+		header.push('사용계');
+		header.push('잔여계');
+		
+		var body = [];
+
+		var totalDay = 0;
+		var vacationMonth1 = 0;
+		var vacationMonth2 = 0;
+		var vacationMonth3 = 0;
+		var vacationMonth4 = 0;
+		var vacationMonth5 = 0;
+		var vacationMonth6 = 0;
+		var vacationMonth7 = 0;
+		var vacationMonth8 = 0;
+		var vacationMonth9 = 0;
+		var vacationMonth10 = 0;
+		var vacationMonth11 = 0;
+		var vacationMonth12 = 0;
+		var vacationMonthSum = 0;
+		
+		$.each(dataList, function(i, row) {
+			
+			body.push({'key1':row.empNo, 'key2':row.empName, 'key3':row.positionName, 'key4':row.joinDate, 'key5':row.totalDay, 
+				'key6':row.vacationMonth1, 'key7':row.vacationMonth2, 'key8':row.vacationMonth3, 'key9':row.vacationMonth4, 
+				'key10':row.vacationMonth5, 'key11':row.vacationMonth6, 'key12':row.vacationMonth7, 'key13':row.vacationMonth8, 
+				'key14':row.vacationMonth9, 'key15':row.vacationMonth10, 'key16':row.vacationMonth11, 'key17':row.vacationMonth12,
+				'key18':row.vacationMonthSum, 'key19':(row.totalDay-row.vacationMonthSum)
+			});
+
+			totalDay += row.totalDay;
+			vacationMonth1 += row.vacationMonth1;
+			vacationMonth2 += row.vacationMonth2;
+			vacationMonth3 += row.vacationMonth3;
+			vacationMonth4 += row.vacationMonth4;
+			vacationMonth5 += row.vacationMonth5;
+			vacationMonth6 += row.vacationMonth6;
+			vacationMonth7 += row.vacationMonth7;
+			vacationMonth8 += row.vacationMonth8;
+			vacationMonth9 += row.vacationMonth9;
+			vacationMonth10 += row.vacationMonth10;
+			vacationMonth11 += row.vacationMonth11;
+			vacationMonth12 += row.vacationMonth12;
+			vacationMonthSum += row.vacationMonthSum;			
+		});
+
+		body.push({'key1':'합계', 'key2':'', 'key3':'', 'key4':'', 'key5':totalDay, 
+			'key6':vacationMonth1, 'key7':vacationMonth2, 'key8':vacationMonth3, 'key9':vacationMonth4, 
+			'key10':vacationMonth5, 'key11':vacationMonth6, 'key12':vacationMonth7, 'key13':vacationMonth8, 
+			'key14':vacationMonth9, 'key15':vacationMonth10, 'key16':vacationMonth11, 'key17':vacationMonth12,
+			'key18':vacationMonthSum, 'key19':(totalDay-vacationMonthSum)
+		});
+		
+		var keys = [];
+		keys.push('key1');
+		keys.push('key2');
+		keys.push('key3');
+		keys.push('key4');
+		keys.push('key5');
+		keys.push('key6');
+		keys.push('key7');
+		keys.push('key8');
+		keys.push('key9');
+		keys.push('key10');
+		keys.push('key11');
+		keys.push('key12');
+		keys.push('key13');
+		keys.push('key14');
+		keys.push('key15');
+		keys.push('key16');
+		keys.push('key17');
+		keys.push('key18');
+		keys.push('key19');
+		
+		exportDataToCSVFile.apply( obj, [ header, keys, body ]);
+	}
+	
+</script>
+
+</head>
+<body>
+	<div id="annual_wrap" class="">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumGothic">연차 관리 > 현황/관리 ></span><span class="loc_sub NanumGothic">사용현황 다운로드</span></div>
+			<div class="pagtit"><span class="NanumGothic">사용현황 다운로드</span></div>
+			<div class="tit_dec NanumGothic"><span class="speaker"></span><span> 알림 ㅣ 미승인 휴가신청서가 5건 존재합니다. </span></div>
+			
+			<div class="contents">
+				<div class="NanumGothic col_red dec"><span class="dot"></span><span>로 표시된 항목은 필수입력 사항입니다. 필히 입력해 주시기 바랍니다.</span></div>
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumGothic">기간설정</span>
+					</div>
+					<div class="box_wrap">
+						<div class="group_row row1 mar_top_10">
+							<dl class="w110 NanumGothic">
+								<dt><span class="icon circle"></span><span class="dot col_red"></span><label class="label_txt NanumGothic">지정 기간</label></dt>
+								<dd class="date_box">								
+									<select id="searchYear" tabindex="1" onchange="fn_annualStatMonthList()" class="NanumGothic">
+										<option value="2019" selected class="end">2019년 </option>
+										<option value="2018" class="">2018년 </option>
+										<option value="2017" class="">2017년 </option>
+									</select>
+								<!-- <input type="year" class="NanumGothic">
+								 -->
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+				
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumGothic">연차사용현황</span>
+					</div>
+					<div class="box_wrap table" id="exceltable" >
+						<ul class="NanumGothic header"><li id="annualYearDisp">2018월 사용현황</li><li>월</li></ul>
+						<table class="NanumGothic month_report">
+							<thead>
+								<tr>
+									<th class="no">사번</th><th class="name">이름</th><th class="lebel">직급</th><th class="join">입사일</th><th class="total">연차개수</th>
+									<th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th>
+									<th class="used">사용계</th><th class="unUsed">잔여계</th>
+								</tr>
+							</thead>
+							<tbody id="dataList">
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="NanumGothic btn_group mar_top_20">
+					<a class="btn_type btn_download" onclick="getCSV('exportFile.csv')"><span class="icon_check"></span>다운로드</a>
+				</div>
+			</div> <!--  contents -->
+				
+			
+		</div> <!--  container -->
+	</div>
+</body>
+</html>

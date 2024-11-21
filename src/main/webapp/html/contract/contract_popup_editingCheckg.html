@@ -1,0 +1,207 @@
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+	<link rel="stylesheet" type="text/css" href="/css/contract_write.css">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+	<script type='text/javascript' src="/js/common.js"></script>
+	<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+
+	<script>
+
+		//***************					윈도우 로딩					***************//
+
+
+		$(document).ready(function(){
+
+		if(getCookie("loginType")!="6" && getCookie("loginType")!="9") {
+			$("#finalFileUpdate").hide();
+		} else {
+			$("#finalFileUpdate").show();
+		}
+		fn_getContractPersonNewFormCommentList();
+
+	});
+
+	//노무첨삭 - 최종파일 등록 팝업
+	function fn_contractFinalUpdate() {
+		var fileId = getURLParameters("fileId");
+		window.open(rootPath+"html/contract/contract_popup_final_form_regist.html?fileId=" + fileId, "ContractFinalUpdate", "width=500, height=560, scrollbars=no");
+	}
+
+	//노무첨삭 - 댓글조회
+	function fn_getContractPersonNewFormCommentList(){
+		var url = rootPath + "/contract/getContractPersonNewFormCommentList.do";
+
+		$.ajax({
+			url:url,
+			crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data:{
+				fileId:getURLParameters("fileId")
+			},
+			success:function(result)
+			{
+				var htmlData = "";
+
+				if(result.success && result.data.length>0){
+
+					$.each(result.data, function(i, row) {
+						if(row.userType == "7" || row.userType == "8"){
+							htmlData += '<tr class="management" >'
+						} else {
+							htmlData += '<tr>'
+						}
+						htmlData += ' <td>'+row.userTypeName+'</td><td>'+row.commentContent+'</td><td>'+convertDateTime(row.insDate).format("yyyy.MM.dd HH:mm:ss")+'</td>';
+						//자신이 작성한 글만 삭제 가능하다.
+						if(row.userId == getCookie("userId") && row.transType == "C") {
+							htmlData += '<td><input type="button" class="btn_remove" onclick="fn_delContractPersonNewFormComment('+row.commentNo+');"></td>';
+						} else {
+							htmlData += '<td></td>';
+						}
+						htmlData += '</tr> ';
+					});
+
+				}  else {
+					htmlData += '<tr> <td colspan="3">요청하신 자료가 존재하지 않습니다.</td></tr>';
+				}
+				$("#dataList").html(htmlData);
+				$("#commentContent").focus();
+			},
+			error:function(request,status,error){
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					window.close();
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+				}
+			}
+		});
+	}
+
+	//노무첨삭 - 댓글추가
+	function fn_insContractPersonNewFormComment(){
+
+		var url = rootPath + "/contract/insContractPersonNewFormComment.do";
+
+		if($("#commentContent").val() == ""){
+			alert("등록할 내용을 입력해주세요.");
+			$("#commentContent").focus();
+			return;
+		}
+
+		$.ajax({
+			url:url,
+			crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data:{
+				fileId:getURLParameters("fileId"),
+				commentContent:$("#commentContent").val(),
+			},
+			success:function(result) {
+				if(result.success){
+					$("#commentContent").val('');
+					fn_getContractPersonNewFormCommentList();
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+				}
+			},
+			error:function(request,status,error){
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					window.close();
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+				}
+			}
+		});
+	}
+
+	//노무첨삭 - 댓글삭제
+	function fn_delContractPersonNewFormComment(commentNo){
+
+		if(!confirm("삭제하시겠습니까?")) return;
+
+		var url = rootPath + "/contract/delContractPersonNewFormComment.do";
+
+		$.ajax({
+			url:url,
+			crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data:{ commentNo : commentNo },
+			success:function(result) {
+				if(result.success){
+					fn_getContractPersonNewFormCommentList();
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+				}
+			},
+			error:function(request,status,error){
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					window.close();
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+				}
+			}
+		});
+	}
+
+	function onCommentEnter() {
+		if (window.event.keyCode == 13) {
+			fn_insContractPersonNewFormComment();
+	   }
+	}
+
+	</script>
+	</head>
+	<body>
+		<div id="contract_popup" class="editingCheck">
+			<div class="container">
+				<div id="popup_tit">
+					<div class="tit_icon"></div>
+					<div class="tit_text col_skyblue NanumGothic">노무첨삭 확인</div>
+					<a id="popup_close" class="btn_type btn_close" onclick="window.close();"></a>
+				</div>
+				<ul class="contents NanumGothic">
+					<li class="commentList">
+						<table>
+							<colgroup><col width="120px"><col width="100%"><col width="150px"><col width="25px"></colgroup>
+							<tbody id="dataList"></tbody>
+						</table>
+					</li>
+					<li class="commentReg">
+						<input type="text" id="commentContent" class="NanumGothic" onkeyup="onCommentEnter()"><input type="button" class="NanumGothic" onclick = "fn_insContractPersonNewFormComment();" value="등록">
+					</li>
+					<li class="warning NanumGothic">
+						<div class="tit">※ 주의사항</div>
+						<dl>
+							<dt>1.</dt>
+							<dd>검토가 마무리 되면 반드시 최종파일을 등록해야 합니다.</dd>
+						</dl>
+						<dl>
+							<dt>2. </dt>
+							<dd>첨삭 내용은 귀사의 취업규칙 및 내부상황을 모르는 상태이므로 등록하신 원본파일 내용만으로 검토했습니다.<br>
+								따라서 당사는 첨삭 내용에 대해 법적 의무가 없음을 알려드립니다.</dd>
+						</dl>
+					</li>
+				</ul>
+				<div id="finalFileUpdate" class="btn_group NanumGothic">
+					<a class="btn_type type1" onclick="fn_contractFinalUpdate()">최종파일 등록하기</a>
+				</div>
+			</div>
+		</div>
+	</body>
+	</html>

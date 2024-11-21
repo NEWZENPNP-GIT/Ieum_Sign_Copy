@@ -1,0 +1,1480 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Emp">
+	<typeAlias alias="empVO" type="com.ezsign.emp.vo.EmpVO"/>
+	<resultMap id="empListMap" class="empVO">
+		<result property="userId" column="USER_ID"/>
+		<result property="userPwd" column="USER_PWD"/>
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="bizName" column="BIZ_NAME"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="loginId" column="LOGIN_ID"/>
+		<result property="empType" column="EMP_TYPE"/>
+		<result property="empTypeName" column="EMP_TYPE_NAME"/>
+		<result property="addr1" column="ADDR1"/>
+		<result property="addr2" column="ADDR2"/>
+		<result property="zipCode" column="ZIP_CODE"/>
+		<result property="telNum" column="TEL_NUM"/>
+		<result property="phoneNum" column="PHONE_NUM"/>
+		<result property="eMail" column="E_MAIL"/>	
+		<result property="useYn" column="USE_YN"/>
+		<result property="confirmType" column="CONFIRM_TYPE"/>
+		<result property="lastConnTime" column="LAST_CONN_TIME"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="insEmpNo" column="INS_EMP_NO"/>
+		<result property="updDate" column="UPD_DATE"/>
+		<result property="updEmpNo" column="UPD_EMP_NO"/>		
+		<result property="ownerName" column="OWNER_NAME"/>
+		<result property="userDate" column="USER_DATE"/>
+		<result property="joinDate" column="JOIN_DATE"/>
+		<result property="leaveDate" column="LEAVE_DATE"/>
+		<result property="deptName" column="DEPT_NAME"/>
+		<result property="deptCode" column="DEPT_CODE"/>
+		<result property="positionName" column="POSITION_NAME"/>
+		<result property="stepName" column="STEP_NAME"/>
+		<result property="countryType" column="COUNTRY_TYPE"/>
+		<result property="empNonce" column="EMP_NONCE"/>
+		<result property="groupName" column="GROUP_NAME"/>
+		<result property="businessNo" column="BUSINESS_NO"/>
+		<result property="etc" column="ETC"/>
+	</resultMap>
+	
+	<resultMap id="empMetaListMap" class="empVO">
+		<result property="userId" column="USER_ID"/>
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="loginId" column="LOGIN_ID"/>
+		<result property="empType" column="EMP_TYPE"/>
+		<result property="addr1" column="ADDR1"/>
+		<result property="addr2" column="ADDR2"/>
+		<result property="telNum" column="TEL_NUM"/>
+		<result property="phoneNum" column="PHONE_NUM"/>
+		<result property="userDate" column="USER_DATE"/>
+		<result property="eMail" column="E_MAIL"/>	
+		<result property="joinDate" column="JOIN_DATE"/>
+		<result property="leaveDate" column="LEAVE_DATE"/>
+		<result property="positionName" column="POSITION_NAME"/>
+		<result property="stepName" column="STEP_NAME"/>
+		<result property="countryType" column="COUNTRY_TYPE"/>
+		<result property="zipCode" column="ZIP_CODE"/>
+		<result property="useYn" column="USE_YN"/>
+		<result property="confirmType" column="CONFIRM_TYPE"/>
+		<result property="bankCode" column="BANK_CODE"/>
+		<result property="bankAccount" column="BANK_ACCOUNT"/>
+		<result property="bankUserName" column="BANK_USER_NAME"/>
+		<result property="etc" column="ETC"/>
+	</resultMap>
+
+	<resultMap id="customerListMap" class="empVO">
+		<result property="customerId" column="CUSTOMER_ID"/>
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="bizName" column="BIZ_NAME"/>
+		<result property="customerType" column="CUSTOMER_TYPE"/>
+		<result property="customerName" column="CUSTOMER_NAME"/>
+		<result property="businessNo" column="BUSINESS_NO"/>
+		<result property="pinNo" column="PIN_NO"/>
+		<result property="ownerName" column="OWNER_NAME"/>
+		<result property="addr1" column="ADDR1"/>
+		<result property="addr2" column="ADDR2"/>
+		<result property="managerName" column="MANAGER_NAME"/>
+		<result property="managerPhoneNum" column="MANAGER_PHONE_NUM"/>
+		<result property="managerEmail" column="MANAGER_EMAIL"/>
+		<result property="managerDeptName" column="MANAGER_DEPT_NAME"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="insEmpNo" column="INS_EMP_NO"/>
+		<result property="updDate" column="UPD_DATE"/>
+		<result property="updEmpNo" column="UPD_EMP_NO"/>
+	</resultMap>
+
+	<resultMap id="excelUserMap" class="empVO">
+		<result property="bizName" column="BIZ_NAME"/>
+		<result property="businessNo" column="BUSINESS_NO"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="deptName" column="DEPT_NAME"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="userDate" column="USER_DATE"/>
+		<result property="joinDate" column="JOIN_DATE"/>
+		<result property="leaveDate" column="LEAVE_DATE"/>
+		<result property="addr1" column="ADDR1"/>
+		<result property="stepName" column="STEP_NAME"/>
+		<result property="positionName" column="POSITION_NAME"/>
+		<result property="telNum" column="TEL_NUM"/>
+		<result property="phoneNum" column="PHONE_NUM"/>
+		<result property="eMail" column="E_MAIL"/>
+	</resultMap>
+
+	<resultMap id="excelCustomerMap" class="empVO">
+		<result property="bizName" column="BIZ_NAME"/>
+		<result property="bizBusinessNo" column="BIZ_BUSINESS_NO"/>
+		<result property="customerName" column="CUSTOMER_NAME"/>
+		<result property="businessNo" column="BUSINESS_NO"/>
+		<result property="ownerName" column="OWNER_NAME"/>
+		<result property="addr1" column="ADDR1"/>
+		<result property="managerName" column="MANAGER_NAME"/>
+		<result property="managerPhoneNum" column="MANAGER_PHONE_NUM"/>
+		<result property="managerEmail" column="MANAGER_EMAIL"/>
+		<result property="managerDeptName" column="MANAGER_DEPT_NAME"/>
+	</resultMap>
+
+	<typeAlias alias="empLogVO" type="com.ezsign.emp.vo.EmpLogVO"/>
+	
+	<select id="empDAO.getEmpList" parameterClass="empVO" resultMap="empListMap">
+		SELECT
+		    A.USER_ID,
+		    A.BIZ_ID,
+		    B.BIZ_NAME,
+		    A.EMP_NO,
+		    A.EMP_NAME,
+		    A.EMP_TYPE,
+		    fn_code_name('001', A.EMP_TYPE) EMP_TYPE_NAME,
+		    A.ADDR1,
+		    A.ADDR2,
+		    A.ZIP_CODE,
+		    B.OWNER_NAME,
+			A.TEL_NUM,
+			A.PHONE_NUM,
+			A.E_MAIL,
+			A.USE_YN,
+			A.CONFIRM_TYPE,
+			A.LAST_CONN_TIME,
+			A.LOGIN_ID,
+			A.JOIN_DATE,
+			A.LEAVE_DATE,
+			A.DEPT_NAME,
+			A.DEPT_CODE,
+			A.POSITION_NAME,
+			A.STEP_NAME,
+			A.COUNTRY_TYPE,
+			A.INS_DATE,
+			A.INS_EMP_NO,
+			A.UPD_DATE,
+			A.UPD_EMP_NO,
+			A.USER_DATE,
+			'' USER_PWD,
+			'' EMP_NONCE,
+			fn_dept_name(A.BIZ_ID, A.DEPT_CODE) GROUP_NAME,
+			BUSINESS_NO,
+			A.ETC
+		FROM tbl_emp A, tbl_biz B
+		WHERE A.USE_YN = 'Y'
+		  AND A.BIZ_ID = B.BIZ_ID
+		<isNotNull property="searchKey">
+		    <isNotEmpty property="searchKey">
+		    	<isEqual property="searchKey" compareValue="empName">
+					AND A.EMP_NAME LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="empNo">
+					AND A.EMP_NO = #searchValue#
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="eMail">
+					AND A.E_MAIL LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="phoneNum">
+					AND A.PHONE_NUM LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="loginId">
+					AND A.LOGIN_ID LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="deptName">
+					AND A.DEPT_NAME LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="groupName">
+					AND fn_dept_name(A.BIZ_ID, A.DEPT_CODE) LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="bizName">
+					AND B.BIZ_NAME LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchCompany">
+			<isNotEmpty property="searchCompany">
+				AND A.BIZ_ID = #searchCompany#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchAppr">
+			<isNotEmpty property="searchAppr">
+				AND (A.BIZ_ID IN (SELECT BIZ_ID FROM TBL_BIZ_GRP WHERE REF_ID = #searchAppr#) or A.BIZ_ID = #searchAppr#)
+			</isNotEmpty>
+		</isNotNull>	
+		<!-- 21.12.10 권한기능 추가
+		<isNotNull property="bizId">
+		    <isNotEmpty property="bizId">
+				AND		A.BIZ_ID  = #bizId#	
+			</isNotEmpty>
+		</isNotNull>
+		-->
+		<isNotNull property="bizId">
+		    <isNotEmpty property="bizId">
+				AND (FIND_IN_SET(A.BIZ_ID, (SELECT GROUP_CONCAT(C.REF_ID) FROM TBL_BIZ_GRP C WHERE C.BIZ_ID  = #bizId#)) OR A.BIZ_ID = #bizId#)
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="userId">
+		    <isNotEmpty property="userId">
+				AND	A.USER_ID = #userId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="loginId">
+		    <isNotEmpty property="loginId">
+				AND	A.LOGIN_ID = #loginId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="userDate">
+		    <isNotEmpty property="userDate">
+				AND	A.USER_DATE = #userDate#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empName">
+		    <isNotEmpty property="empName">
+				AND	A.EMP_NAME = #empName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empNonce">
+		    <isNotEmpty property="empNonce">
+				AND	A.EMP_NONCE = #empNonce#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="phoneNum">
+		    <isNotEmpty property="phoneNum">
+				AND	A.PHONE_NUM = #phoneNum#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="deptCode">
+		    <isNotEmpty property="deptCode">
+				AND	A.DEPT_CODE = #deptCode#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empType">
+		    <isNotEmpty property="empType">
+				AND	A.EMP_TYPE = #empType#
+			</isNotEmpty>
+		</isNotNull>
+		<isEqual property="loginIdIsNull" compareValue="Y">
+			AND	(A.LOGIN_ID IS NULL OR A.LOGIN_ID = '')
+		</isEqual>
+		<isEqual property="endDateIsNull" compareValue="Y">
+			AND	(A.LEAVE_DATE IS NULL OR A.LEAVE_DATE = '' OR A.LEAVE_DATE = '0')
+		</isEqual>
+		<isNotNull property="searchStartDate">
+		    <isNotNull property="searchEndDate">
+		    	<isNotEmpty property="searchStartDate">
+		    		<isNotEmpty property="searchEndDate">
+						AND LEFT(A.INS_DATE, 8) BETWEEN REPLACE(#searchStartDate#, '-', '') and REPLACE(#searchEndDate#, '-', '')
+					</isNotEmpty>
+				</isNotEmpty>
+			</isNotNull>
+		</isNotNull>
+		<isNotNull property="sortName">
+		    <isNotEmpty property="sortName">
+				ORDER BY A.EMP_TYPE DESC, $sortName$ $sortOrder$
+			</isNotEmpty>
+		</isNotNull>
+		<isGreaterEqual property="endPage" compareValue="0">
+			<isGreaterEqual property="startPage" compareValue="0">
+				limit #endPage# offset #startPage#
+			</isGreaterEqual>
+		</isGreaterEqual>
+	</select>
+	
+	
+	<select id="empDAO.getDupleEmpList" parameterClass="empVO" resultMap="empListMap">
+		SELECT
+		    A.USER_ID,
+		    A.BIZ_ID,
+		    B.BIZ_NAME,
+		    A.EMP_NO,
+		    A.EMP_NAME,
+		    A.EMP_TYPE,
+		    fn_code_name('001', A.EMP_TYPE) EMP_TYPE_NAME,
+		    A.ADDR1,
+		    A.ADDR2,
+		    A.ZIP_CODE,
+		    B.OWNER_NAME,
+			A.TEL_NUM,
+			A.PHONE_NUM,
+			A.E_MAIL,
+			A.USE_YN,
+			A.CONFIRM_TYPE,
+			A.LAST_CONN_TIME,
+			A.LOGIN_ID,
+			A.JOIN_DATE,
+			A.LEAVE_DATE,
+			A.DEPT_NAME,
+			A.DEPT_CODE,
+			A.POSITION_NAME,
+			A.STEP_NAME,
+			A.COUNTRY_TYPE,
+			A.INS_DATE,
+			A.INS_EMP_NO,
+			A.UPD_DATE,
+			A.UPD_EMP_NO,
+			A.USER_DATE,
+			'' USER_PWD,
+			'' EMP_NONCE,
+			fn_dept_name(A.BIZ_ID, A.DEPT_CODE) GROUP_NAME,
+			BUSINESS_NO,
+			A.ETC
+		FROM tbl_emp A, tbl_biz B
+		WHERE A.USE_YN = 'Y'
+		  AND A.BIZ_ID = B.BIZ_ID
+		<isNotNull property="bizId">
+		    <isNotEmpty property="bizId">
+				AND A.BIZ_ID = #bizId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="deptCode">
+			<isNotEmpty property="deptCode">
+				AND A.DEPT_CODE = #deptCode#
+			</isNotEmpty>
+		</isNotNull>
+		GROUP BY A.EMP_NO
+		HAVING COUNT(A.EMP_NO) > 1
+	</select>
+	
+	<select id="empDAO.getEmpListCount" parameterClass="empVO" resultClass="java.lang.Integer">
+		SELECT COUNT(A.USER_ID)
+		FROM tbl_emp A, tbl_biz B
+		WHERE A.USE_YN = 'Y'
+		  AND A.BIZ_ID = B.BIZ_ID
+		<isNotNull property="searchKey">
+		    <isNotEmpty property="searchKey">
+		    	<isEqual property="searchKey" compareValue="empName">
+					AND A.EMP_NAME LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="empNo">
+					AND A.EMP_NO = #searchValue#
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="eMail">
+					AND A.E_MAIL LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="phoneNum">
+					AND A.PHONE_NUM LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="loginId">
+					AND A.LOGIN_ID LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="groupName">
+					AND fn_dept_name(A.BIZ_ID, A.DEPT_CODE) LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="bizName">
+					AND B.BIZ_NAME LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchCompany">
+			<isNotEmpty property="searchCompany">
+				AND A.BIZ_ID  = #searchCompany#
+			</isNotEmpty>
+		</isNotNull>
+		<!-- 21.12.10 권한기능 추가
+		<isNotNull property="bizId">
+		    <isNotEmpty property="bizId">
+				AND		A.BIZ_ID  = #bizId#
+			</isNotEmpty>
+		</isNotNull>
+		-->
+		<isNotNull property="bizId">
+		    <isNotEmpty property="bizId">
+				AND (FIND_IN_SET(A.BIZ_ID, (SELECT GROUP_CONCAT(C.REF_ID) FROM TBL_BIZ_GRP C WHERE C.BIZ_ID  = #bizId#)) OR A.BIZ_ID = #bizId#)
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="userId">
+		    <isNotEmpty property="userId">
+				AND	A.USER_ID = #userId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="loginId">
+		    <isNotEmpty property="loginId">
+				AND	A.LOGIN_ID = #loginId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="userDate">
+		    <isNotEmpty property="userDate">
+				AND	A.USER_DATE = #userDate#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empName">
+		    <isNotEmpty property="empName">
+				AND	A.EMP_NAME = #empName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empNonce">
+		    <isNotEmpty property="empNonce">
+				AND	A.EMP_NONCE = #empNonce#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="phoneNum">
+		    <isNotEmpty property="phoneNum">
+				AND	A.PHONE_NUM = #phoneNum#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="deptCode">
+		    <isNotEmpty property="deptCode">
+				AND	A.DEPT_CODE = #deptCode#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empType">
+		    <isNotEmpty property="empType">
+				AND	A.EMP_TYPE = #empType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchStartDate">
+		    <isNotNull property="searchEndDate">
+		    	<isNotEmpty property="searchStartDate">
+		    		<isNotEmpty property="searchEndDate">
+						AND LEFT(A.INS_DATE, 8) BETWEEN REPLACE(#searchStartDate#, '-', '') and REPLACE(#searchEndDate#, '-', '')
+					</isNotEmpty>
+				</isNotEmpty>
+			</isNotNull>
+		</isNotNull>
+		<isEqual property="loginIdIsNull" compareValue="Y">
+			AND	(A.LOGIN_ID IS NULL OR A.LOGIN_ID = '')
+		</isEqual>
+	</select>
+		
+	<select id="empDAO.getEmp" parameterClass="empVO" resultMap="empListMap">
+		SELECT
+		    A.USER_ID,
+		    A.BIZ_ID,
+		    B.BIZ_NAME,
+		    A.EMP_NO,
+		    A.EMP_NAME,
+		    A.EMP_TYPE,
+		    fn_code_name('001', A.EMP_TYPE) EMP_TYPE_NAME,
+		    A.ADDR1,
+		    A.ADDR2,
+		    A.ZIP_CODE,
+		    B.OWNER_NAME,
+			A.TEL_NUM,
+			A.PHONE_NUM,
+			A.E_MAIL,
+			A.USE_YN,
+			A.CONFIRM_TYPE,
+			A.LAST_CONN_TIME,
+			A.LOGIN_ID,
+			A.JOIN_DATE,
+			A.LEAVE_DATE,
+			A.DEPT_NAME,
+			A.DEPT_CODE,
+			A.POSITION_NAME,
+			A.STEP_NAME,
+			A.COUNTRY_TYPE,
+			A.INS_DATE,
+			A.INS_EMP_NO,
+			A.UPD_DATE,
+			A.UPD_EMP_NO,
+			A.USER_DATE,
+			'' USER_PWD,
+			A.EMP_NONCE,
+			fn_dept_name(A.BIZ_ID, A.DEPT_CODE) GROUP_NAME,
+			BUSINESS_NO,
+			A.ETC
+		FROM tbl_emp A, tbl_biz B
+		WHERE A.BIZ_ID  = B.BIZ_ID
+		  AND A.BIZ_ID  = #bizId#
+		  AND A.USER_ID = #userId#
+	</select>
+	
+	<select id="empDAO.getEmpNo" parameterClass="empVO" resultMap="empListMap">
+		SELECT
+		    A.USER_ID,
+		    A.BIZ_ID,
+		    B.BIZ_NAME,
+		    A.EMP_NO,
+		    A.EMP_NAME,
+		    A.EMP_TYPE,
+		    fn_code_name('001', A.EMP_TYPE) EMP_TYPE_NAME,
+		    A.ADDR1,
+		    A.ADDR2,
+		    A.ZIP_CODE,
+		    B.OWNER_NAME,
+			A.TEL_NUM,
+			A.PHONE_NUM,
+			A.E_MAIL,
+			A.USE_YN,
+			A.CONFIRM_TYPE,
+			A.LAST_CONN_TIME,
+			A.LOGIN_ID,
+			A.JOIN_DATE,
+			A.LEAVE_DATE,
+			A.DEPT_NAME,
+			A.DEPT_CODE,
+			A.POSITION_NAME,
+			A.STEP_NAME,
+			A.COUNTRY_TYPE,
+			A.INS_DATE,
+			A.INS_EMP_NO,
+			A.UPD_DATE,
+			A.UPD_EMP_NO,
+			A.USER_DATE,
+			'' USER_PWD,
+			A.EMP_NONCE,
+			fn_dept_name(A.BIZ_ID, A.DEPT_CODE) GROUP_NAME,
+			BUSINESS_NO,
+			A.ETC
+		FROM tbl_emp A, tbl_biz B
+		WHERE A.BIZ_ID = B.BIZ_ID
+		<isNotNull property="bizId">
+		    <isNotEmpty property="bizId">
+				AND	A.BIZ_ID = #bizId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="businessNo">
+		    <isNotEmpty property="businessNo">
+				AND	B.BUSINESS_NO = #businessNo#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empType">
+		    <isNotEmpty property="empType">
+				AND	A.EMP_TYPE = #empType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empName">
+			<isNotEmpty property="empName">
+				AND	A.EMP_NAME = #empName#
+			</isNotEmpty>
+		</isNotNull>
+		AND A.EMP_NO = #empNo#
+	</select>
+	
+	<update id="empDAO.delEmp" parameterClass="empVO">
+		UPDATE tbl_emp
+		SET	USE_YN = 'N',
+			LOGIN_ID = '',
+			EMP_NO = '',
+			PHONE_NUM = '',
+			E_MAIL ='',
+			ADDR1 = '',
+			ADDR2 = '',
+			EMP_NONCE = ''			
+		WHERE	USER_ID = #userId#
+	</update>
+	
+	<delete id="empDAO.delEmpAll" parameterClass="empVO">
+		DELETE FROM tbl_emp			
+		WHERE	BIZ_ID = #bizId#
+	</delete>
+	
+	<update id="empDAO.updLoginId" parameterClass="empVO">
+		UPDATE tbl_emp
+		SET		LOGIN_ID = #loginId#,
+				E_MAIL   = IF(E_MAIL = '', #loginId#, E_MAIL)
+		WHERE	EMP_NONCE  = #empNonce#
+	</update>
+	
+	<update id="empDAO.resetLoginId" parameterClass="empVO">
+		UPDATE tbl_emp
+		SET		LOGIN_ID	= #loginId#,
+				UPD_DATE	= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	USER_ID		= #userId#
+	</update>
+	
+	<insert id="empDAO.insEmp" parameterClass="empVO">
+		<selectKey resultClass="java.lang.String" keyProperty="userId">
+			SELECT  getTableKey('TBL_EMP')
+		</selectKey>
+		INSERT INTO tbl_emp (
+			USER_ID, BIZ_ID, EMP_NO, EMP_NAME, LOGIN_ID, EMP_TYPE, ADDR1, ADDR2, ZIP_CODE, TEL_NUM, PHONE_NUM, USER_DATE, E_MAIL, JOIN_DATE, LEAVE_DATE, EMP_NONCE, 
+	        DEPT_NAME, DEPT_CODE, POSITION_NAME, STEP_NAME, COUNTRY_TYPE, USE_YN, CONFIRM_TYPE, LAST_CONN_TIME, INS_DATE, INS_EMP_NO, UPD_DATE, UPD_EMP_NO, ETC
+		) VALUES (
+		   #userId#, #bizId#, #empNo#, #empName#, #loginId#, #empType#, #addr1#, #addr2#, #zipCode#, #telNum#, #phoneNum#, #userDate#, #eMail#, #joinDate#,  #leaveDate#, #empNonce#,
+		   #deptName#, #deptCode#, #positionName#, #stepName#, #countryType#, 'Y', #confirmType#, '', DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), 'SYSTEM', DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), 'SYSTEM', #etc#
+		)
+	</insert>
+	
+	<update id="empDAO.updEmp" parameterClass="empVO">
+		UPDATE tbl_emp
+		SET	
+		<isNotNull property="loginId">
+		    <isNotEmpty property="loginId">
+			LOGIN_ID			= #loginId#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empNo">
+		    <isNotEmpty property="empNo">
+			EMP_NO				= #empNo#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empName">
+		    <isNotEmpty property="empName">
+			EMP_NAME			= #empName#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empType">
+		    <isNotEmpty property="empType">
+			EMP_TYPE			= #empType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empNonce">
+		    <isNotEmpty property="empNonce">
+			EMP_NONCE			= #empNonce#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="addr1">
+		    <isNotEmpty property="addr1">
+			ADDR1				= #addr1#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="addr2">
+		    <isNotEmpty property="addr2">
+			ADDR2				= #addr2#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="telNum">
+		    <isNotEmpty property="telNum">
+			TEL_NUM				= #telNum#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="phoneNum">
+		    <isNotEmpty property="phoneNum">
+			PHONE_NUM			= #phoneNum#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="eMail">
+		    <isNotEmpty property="eMail">
+			E_MAIL				= #eMail#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="userDate">
+			<isNotEmpty property="userDate">
+				USER_DATE			= #userDate#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="joinDate">
+			<isNotEmpty property="joinDate">
+				JOIN_DATE			= #joinDate#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="leaveDate">
+			<isNotEmpty property="leaveDate">
+				<isEqual property="leaveDate" compareValue="0">
+					LEAVE_DATE			= '',
+				</isEqual>
+				<isNotEqual property="leaveDate" compareValue="0">
+					LEAVE_DATE			= #leaveDate#,
+				</isNotEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="deptCode">
+		    <isNotEmpty property="deptCode">
+		    	<isEqual property="deptCode" compareValue="-">
+					DEPT_CODE			= '',
+		    	</isEqual>
+		    	<isNotEqual property="deptCode" compareValue="-">
+					DEPT_CODE			= #deptCode#,
+		    	</isNotEqual>
+			</isNotEmpty>
+		</isNotNull>		
+		<isNotNull property="deptName">
+		    <isNotEmpty property="deptName">
+			DEPT_NAME			= #deptName#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="positionName">
+		    <isNotEmpty property="positionName">
+			POSITION_NAME		= #positionName#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="stepName">
+		    <isNotEmpty property="stepName">
+			STEP_NAME			= #stepName#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="lastConnTime">
+		    <isNotEmpty property="lastConnTime">
+			LAST_CONN_TIME		= #lastConnTime#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="zipCode">
+		    <isNotEmpty property="zipCode">
+			ZIP_CODE			= #zipCode#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="useYn">
+		    <isNotEmpty property="useYn">
+			USE_YN		= #useYn#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="etc">
+		    <isNotEmpty property="etc">
+			ETC		= #etc#,
+			</isNotEmpty>
+		</isNotNull>
+			UPD_DATE			= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	USER_ID  = #userId#
+		  AND	BIZ_ID  = #bizId#
+	</update>
+	
+	
+	<update id="empDAO.updEmpList" parameterClass="empVO">
+		UPDATE tbl_emp
+		SET	
+			EMP_NAME		= #empName#,
+			ADDR1			= #addr1#,
+			ADDR2			= #addr2#,
+			TEL_NUM			= #telNum#,
+			PHONE_NUM		= #phoneNum#,
+			E_MAIL			= #eMail#,
+			USER_DATE		= #userDate#,
+			JOIN_DATE		= #joinDate#,
+		    LEAVE_DATE		= #leaveDate#,
+			DEPT_NAME		= #deptName#,
+			POSITION_NAME	= #positionName#,
+			COUNTRY_TYPE	= #countryType#,
+			STEP_NAME		= #stepName#,
+			BANK_CODE		= #bankCode#,
+			BANK_ACCOUNT	= #bankAccount#,
+			BANK_USER_NAME	= #bankUserName#,
+			ZIP_CODE		= #zipCode#,
+			UPD_DATE		= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'),
+			ETC				= #etc#
+		WHERE	USER_ID		= #userId#
+		AND		BIZ_ID		= #bizId#
+	</update>
+	
+	<resultMap id="empDeptListMap" class="empVO">
+		<result property="userId" column="USER_ID"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="deptCode" column="DEPT_CODE"/>
+		<result property="deptName" column="DEPT_NAME"/>
+	</resultMap>
+
+
+	<select id="empDAO.getDeptEmpList" parameterClass="empVO" resultMap="empDeptListMap">
+		SELECT
+		    B.USER_ID,
+		    B.EMP_NO,
+		    B.EMP_NAME,
+		    B.DEPT_CODE,
+		    fn_dept_name(B.BIZ_ID, B.DEPT_CODE) DEPT_NAME
+		FROM tbl_biz A, tbl_emp B
+		WHERE A.BIZ_ID = B.BIZ_ID
+		  AND A.BIZ_ID = #bizId#
+		  AND B.EMP_TYPE IN ('1', '2', '3')
+		<isNotNull property="deptCode">
+		    <isNotEmpty property="deptCode">
+				AND	B.DEPT_CODE = #deptCode#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="useYn">
+		    <isNotEmpty property="useYn">
+				AND	B.USE_YN = #useYn#
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY B.EMP_NO ASC
+	</select>
+	
+	
+	<select id="empDAO.getEmpUserGrpList" parameterClass="empVO" resultMap="empListMap">
+		SELECT
+		    A.USER_ID,
+		    A.BIZ_ID,
+		    B.BIZ_NAME,
+		    A.EMP_NO,
+		    A.EMP_NAME,
+		    A.EMP_TYPE,
+		    fn_code_name('001', A.EMP_TYPE) EMP_TYPE_NAME,
+		    A.ADDR1,
+		    A.ADDR2,
+		    A.ZIP_CODE,
+		    B.OWNER_NAME,
+			A.TEL_NUM,
+			A.PHONE_NUM,
+			A.E_MAIL,
+			A.USE_YN,
+			A.CONFIRM_TYPE,
+			A.LAST_CONN_TIME,
+			A.LOGIN_ID,
+			A.JOIN_DATE,
+			A.LEAVE_DATE,
+			A.DEPT_NAME,
+			A.DEPT_CODE,
+			A.POSITION_NAME,
+			A.STEP_NAME,
+			A.COUNTRY_TYPE,
+			A.INS_DATE,
+			A.INS_EMP_NO,
+			A.UPD_DATE,
+			A.UPD_EMP_NO,
+			A.USER_DATE,
+			'' USER_PWD,
+			'' EMP_NONCE,
+			fn_dept_name(A.BIZ_ID, A.DEPT_CODE) GROUP_NAME,
+			BUSINESS_NO,
+			A.ETC
+		FROM tbl_emp A, tbl_biz B
+		WHERE A.USE_YN = 'Y'
+		  AND A.BIZ_ID = B.BIZ_ID
+		  AND A.BIZ_ID = #bizId#
+		  AND A.EMP_TYPE IN ('1', '2', '3','5')
+		  AND A.DEPT_CODE IN (SELECT X.REF_ID FROM tbl_user_grp X WHERE X.USER_ID = #userId# AND X.GRP_TYPE = 'D')
+		<isNotNull property="searchKey">
+		    <isNotEmpty property="searchKey">
+		    	<isEqual property="searchKey" compareValue="empName">
+					AND A.EMP_NAME LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="empNo">
+					AND A.EMP_NO = #searchValue#
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="eMail">
+					AND A.E_MAIL LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="phoneNum">
+					AND A.PHONE_NUM LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+				<isEqual property="searchKey" compareValue="deptName">
+					AND A.DEPT_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="loginId">
+		    <isNotEmpty property="loginId">
+				AND	A.LOGIN_ID = #loginId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="userDate">
+		    <isNotEmpty property="userDate">
+				AND	A.USER_DATE = #userDate#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empName">
+		    <isNotEmpty property="empName">
+				AND	A.EMP_NAME = #empName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empNonce">
+		    <isNotEmpty property="empNonce">
+				AND	A.EMP_NONCE = #empNonce#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="phoneNum">
+		    <isNotEmpty property="phoneNum">
+				AND	A.PHONE_NUM = #phoneNum#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="deptCode">
+		    <isNotEmpty property="deptCode">
+				AND	A.DEPT_CODE = #deptCode#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empType">
+		    <isNotEmpty property="empType">
+				AND	A.EMP_TYPE = #empType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sortName">
+		    <isNotEmpty property="sortName">
+				ORDER BY $sortName$ $sortOrder$
+			</isNotEmpty>
+		</isNotNull>
+		limit #endPage# offset #startPage#
+	</select>
+	
+	<select id="empDAO.getEmpUserGrpListCount" parameterClass="empVO" resultClass="java.lang.Integer">
+		SELECT COUNT(A.USER_ID)
+		FROM tbl_emp A, tbl_biz B
+		WHERE A.USE_YN  = 'Y'
+		  AND A.BIZ_ID = B.BIZ_ID
+		  AND A.BIZ_ID = #bizId#
+		  AND A.EMP_TYPE IN ('1', '2', '3','5')
+		  AND A.DEPT_CODE IN (SELECT X.REF_ID FROM tbl_user_grp X WHERE X.USER_ID = #userId# AND X.GRP_TYPE = 'D')
+		<isNotNull property="searchKey">
+		    <isNotEmpty property="searchKey">
+		    	<isEqual property="searchKey" compareValue="empName">
+					AND A.EMP_NAME LIKE CONCAT(#searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="empNo">
+					AND A.EMP_NO = #searchValue#
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="eMail">
+					AND A.E_MAIL LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="phoneNum">
+					AND A.PHONE_NUM LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+				<isEqual property="searchKey" compareValue="deptName">
+					AND A.DEPT_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="loginId">
+		    <isNotEmpty property="loginId">
+				AND	A.LOGIN_ID = #loginId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="userDate">
+		    <isNotEmpty property="userDate">
+				AND	A.USER_DATE = #userDate#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empName">
+		    <isNotEmpty property="empName">
+				AND	A.EMP_NAME = #empName#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empNonce">
+		    <isNotEmpty property="empNonce">
+				AND	A.EMP_NONCE = #empNonce#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="phoneNum">
+		    <isNotEmpty property="phoneNum">
+				AND	A.PHONE_NUM = #phoneNum#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="deptCode">
+		    <isNotEmpty property="deptCode">
+				AND	A.DEPT_CODE = #deptCode#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empType">
+		    <isNotEmpty property="empType">
+				AND	A.EMP_TYPE = #empType#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+		
+	<insert id="empDAO.insEmpLog" parameterClass="empLogVO">
+		INSERT INTO tbl_emp_log (
+			BIZ_ID,
+			USER_ID,
+			LOG_TYPE,
+			IP_ADDR,
+			INS_DATE,
+			INS_USER_ID,
+			UPD_DATE
+		) VALUES
+		<iterate open="" close="" conjunction="," property="userIdList">
+	   		(
+			 #bizId#,
+			 #userIdList[]#,
+			 #logType#,
+			 #ipAddr#,
+			 DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'),
+			 #insUserId#,
+			 DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+			)
+	   	</iterate>
+		
+	</insert>
+	
+	<!-- Meta -> Emp (존재하지 않는 데이터 insert) -->
+	<insert id="empDAO.insMetaDataToEmp" parameterClass="empVO">
+		INSERT INTO tbl_emp (
+			USER_ID,
+			BIZ_ID,
+			EMP_NO,
+			EMP_NAME,
+			LOGIN_ID,
+			EMP_TYPE,
+			ADDR1,
+			ADDR2,
+			TEL_NUM,
+			PHONE_NUM,
+			USER_DATE,
+			E_MAIL,
+			JOIN_DATE,
+			LEAVE_DATE,
+			DEPT_NAME,
+			POSITION_NAME,
+			STEP_NAME,
+			COUNTRY_TYPE,
+			ZIP_CODE,
+			USE_YN,
+			CONFIRM_TYPE,
+			BANK_CODE,
+			BANK_ACCOUNT,
+			BANK_USER_NAME,
+			INS_DATE,
+			INS_EMP_NO,
+			UPD_DATE,
+			UPD_EMP_NO
+		)	SELECT *
+			FROM (
+				SELECT (
+					SELECT
+						getTableKey('TBL_EMP')),
+						#bizId# AS BIZ_ID,
+						MAX(CASE WHEN DATA_ID = '사원번호' THEN DATA_VALUE END) AS EMP_NO,
+						MAX(CASE WHEN DATA_ID = '성명' THEN DATA_VALUE END) AS EMP_NAME,
+						'' AS LOGIN_ID,
+						'1' AS EMP_TYPE,
+						MAX(CASE WHEN DATA_ID = '주소1' THEN DATA_VALUE END) AS ADDR_1,
+						MAX(CASE WHEN DATA_ID = '주소2' THEN DATA_VALUE END) AS ADDR_2,
+						MAX(CASE WHEN DATA_ID = '전화번호' THEN REPLACE(DATA_VALUE, '-', '') END) AS TEL_NUM,
+						MAX(CASE WHEN DATA_ID = '휴대폰' THEN REPLACE(DATA_VALUE, '-', '') END) AS PHONE_NUM,
+						MAX(CASE WHEN DATA_ID = '생일' THEN REPLACE(DATA_VALUE, '-', '') END) AS USER_DATE,
+						MAX(CASE WHEN DATA_ID = '이메일' THEN DATA_VALUE END) AS E_MAIL,
+						MAX(CASE WHEN DATA_ID = '입사일' THEN REPLACE(DATA_VALUE, '-', '') END) AS JOIN_DATE,
+						MAX(CASE WHEN DATA_ID = '퇴사일' THEN REPLACE(DATA_VALUE, '-', '') END) AS LEAVE_DATE,
+						MAX(CASE WHEN DATA_ID = '부서' THEN DATA_VALUE END) AS DEPT_NAME,
+						MAX(CASE WHEN DATA_ID = '직급' THEN DATA_VALUE END) AS POSITION_NAME,
+						MAX(CASE WHEN DATA_ID = '호봉' THEN DATA_VALUE END) AS STEP_NAME,
+						MAX(CASE WHEN DATA_ID = '국적' THEN (SELECT COMM_CODE FROM TBL_CODE WHERE GRP_COMM_CODE = '405' AND COMM_CODE = LEFT(DATA_VALUE, 2)) END) AS COUNTRY_TYPE,
+						MAX(CASE WHEN DATA_ID = '우편번호' THEN REPLACE(DATA_VALUE, '-', '') END) AS ZIP_CODE,
+						'Y' AS USE_YN,
+						'N' AS CONFIRM_TYPE,
+						MAX(CASE WHEN DATA_ID = '이체은행' THEN (SELECT COMM_CODE FROM TBL_CODE WHERE GRP_COMM_CODE = '404' AND NHR_COMM_NAME = DATA_VALUE) END) AS BANK_CODE,
+						MAX(CASE WHEN DATA_ID = '계좌번호' THEN REPLACE(DATA_VALUE, '-', '') END) AS BANK_ACCOUNT,
+						MAX(CASE WHEN DATA_ID = '예금주' THEN DATA_VALUE END) AS BANK_USER_NAME,
+						DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s') AS INS_DATE,
+						'SYSTEM' AS INS_EMP_NO,
+						DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s') AS UPD_DATE,
+						'SYSTEM' AS UPD_EMP_NO
+					FROM tbl_meta_data
+				WHERE META_ID = #metaId#
+				GROUP BY BIZ_ID, META_ID, EMP_NO) A
+			WHERE (BIZ_ID, EMP_NO) NOT IN (SELECT BIZ_ID, EMP_NO FROM TBL_EMP WHERE BIZ_ID = #bizId#)
+	</insert>
+	
+	<!-- Meta -> Emp (존재하는 데이터 update를 위한 조회) -->
+	<select id="empDAO.getEmpExist" parameterClass="empVO" resultMap="empMetaListMap">
+		SELECT
+		    B.USER_ID AS USER_ID,
+		    A.*
+		FROM (	SELECT
+					#bizId# AS BIZ_ID,
+					MAX(CASE WHEN DATA_ID = '사원번호' THEN DATA_VALUE END) AS EMP_NO,
+					MAX(CASE WHEN DATA_ID = '성명' THEN DATA_VALUE END) AS EMP_NAME,
+					'' AS LOGIN_ID,
+					'1' AS EMP_TYPE,
+					MAX(CASE WHEN DATA_ID = '주소1' THEN DATA_VALUE END) AS ADDR1,
+					MAX(CASE WHEN DATA_ID = '주소2' THEN DATA_VALUE END) AS ADDR2,
+					MAX(CASE WHEN DATA_ID = '전화번호' THEN REPLACE(DATA_VALUE, '-', '') END) AS TEL_NUM,
+					MAX(CASE WHEN DATA_ID = '휴대폰' THEN REPLACE(DATA_VALUE, '-', '') END) AS PHONE_NUM,
+					MAX(CASE WHEN DATA_ID = '생일' THEN REPLACE(DATA_VALUE, '-', '') END) AS USER_DATE,
+					MAX(CASE WHEN DATA_ID = '이메일' THEN DATA_VALUE END) AS E_MAIL,
+					MAX(CASE WHEN DATA_ID = '입사일' THEN REPLACE(DATA_VALUE, '-', '') END) AS JOIN_DATE,
+					MAX(CASE WHEN DATA_ID = '퇴사일' THEN REPLACE(DATA_VALUE, '-', '') END) AS LEAVE_DATE,
+					MAX(CASE WHEN DATA_ID = '부서' THEN DATA_VALUE END) AS DEPT_NAME,
+					MAX(CASE WHEN DATA_ID = '직급' THEN DATA_VALUE END) AS POSITION_NAME,
+					MAX(CASE WHEN DATA_ID = '호봉' THEN DATA_VALUE END) AS STEP_NAME,
+					MAX(CASE WHEN DATA_ID = '국적' THEN (SELECT COMM_CODE FROM TBL_CODE WHERE GRP_COMM_CODE = '405' AND COMM_CODE = LEFT(DATA_VALUE, 2)) END) AS COUNTRY_TYPE,
+					MAX(CASE WHEN DATA_ID = '우편번호' THEN REPLACE(DATA_VALUE, '-', '') END) AS ZIP_CODE,
+					'Y' AS USE_YN,
+					'N' AS CONFIRM_TYPE,
+					MAX(CASE WHEN DATA_ID = '이체은행' THEN (SELECT COMM_CODE FROM TBL_CODE WHERE GRP_COMM_CODE = '404' AND NHR_COMM_NAME = DATA_VALUE) END) AS BANK_CODE,
+					MAX(CASE WHEN DATA_ID = '계좌번호' THEN REPLACE(DATA_VALUE, '-', '') END) AS BANK_ACCOUNT,
+					MAX(CASE WHEN DATA_ID = '예금주' THEN DATA_VALUE END) AS BANK_USER_NAME
+				FROM tbl_meta_data
+				WHERE META_ID = #metaId#
+				GROUP BY BIZ_ID, META_ID, EMP_NO	) A, tbl_emp B
+	    WHERE A.EMP_NO = B.EMP_NO
+	      AND B.BIZ_ID = #bizId#
+	      AND A.BIZ_ID = B.BIZ_ID
+	</select>
+	
+	<!-- 사번은 userId에 E_를 붙여서 자동생성 -->
+	<insert id="empDAO.insEmpNo" parameterClass="empVO">
+		<selectKey resultClass="java.lang.String" keyProperty="userId">
+			SELECT  getTableKey('TBL_EMP')
+		</selectKey>
+		INSERT INTO tbl_emp (
+			USER_ID,
+		    BIZ_ID,
+			EMP_NO,
+			EMP_NAME,
+			LOGIN_ID,
+			EMP_TYPE,
+			ADDR1,
+			ADDR2,
+			ZIP_CODE,
+			TEL_NUM,
+			PHONE_NUM,
+			USER_DATE,
+			E_MAIL,
+			JOIN_DATE,
+			LEAVE_DATE,
+			EMP_NONCE,
+			DEPT_NAME,
+			POSITION_NAME,
+			STEP_NAME,
+			COUNTRY_TYPE,
+			USE_YN,
+			CONFIRM_TYPE,
+			LAST_CONN_TIME,
+			INS_DATE,
+			INS_EMP_NO,
+			UPD_DATE,
+			UPD_EMP_NO
+		) VALUES (
+			#userId#,
+			#bizId#,
+			CONCAT('E_', #userId#),
+			#empName#,
+			#loginId#,
+			#empType#,
+			#addr1#,
+			#addr2#,
+			#zipCode#,
+			#telNum#,
+			#phoneNum#,
+			#userDate#,
+			#eMail#,
+			#joinDate#,
+			#leaveDate#,
+			#empNonce#,
+			#deptName#,
+			#positionName#,
+			#stepName#,
+			#countryType#,
+			'Y',
+			#confirmType#,
+			'',
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'),
+			'SYSTEM', DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'),
+			'SYSTEM'
+		)
+	</insert>
+
+	<select id="empDAO.getCustomerList" parameterClass="empVO" resultMap="customerListMap">
+		SELECT
+			A.CUSTOMER_ID,
+			A.BIZ_ID,
+			(SELECT BIZ_NAME FROM TBL_BIZ WHERE A.BIZ_ID = BIZ_ID) BIZ_NAME,
+			A.CUSTOMER_TYPE,
+			A.CUSTOMER_NAME,
+			A.BUSINESS_NO,
+			A.PIN_NO,
+			A.OWNER_NAME,
+			A.ADDR1,
+			A.ADDR2,
+			A.MANAGER_NAME,
+			A.MANAGER_PHONE_NUM,
+			A.MANAGER_EMAIL,
+			A.MANAGER_DEPT_NAME,
+			A.INS_DATE,
+			A.INS_EMP_NO,
+			A.UPD_DATE,
+			A.UPD_EMP_NO
+		FROM tbl_customer A
+		WHERE A.USE_YN  = 'Y'
+		<isNotNull property="searchKey">
+			<isNotEmpty property="searchKey">
+				<isEqual property="searchKey" compareValue="customerName">
+					AND	A.CUSTOMER_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="businessNo">
+					AND	A.BUSINESS_NO	= #searchValue#
+				</isEqual>
+				<isEqual property="searchKey" compareValue="ownerName">
+					AND	A.OWNER_NAME	LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="managerName">
+					AND	A.MANAGER_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="managerPhoneNum">
+					AND	A.MANAGER_PHONE_NUM LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="managerEmail">
+					AND	A.MANAGER_EMAIL LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="managerDeptName">
+					AND	A.MANAGER_DEPT_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchCompany">
+			<isNotEmpty property="searchCompany">
+				AND	A.BIZ_ID = #searchCompany#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchAppr">
+			<isNotEmpty property="searchAppr">
+				AND (A.BIZ_ID IN (SELECT BIZ_ID FROM TBL_BIZ_GRP WHERE REF_ID = #searchAppr#) or A.BIZ_ID = #searchAppr#)
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="bizId">
+			<isNotEmpty property="bizId">
+				AND	(FIND_IN_SET(A.BIZ_ID, (SELECT GROUP_CONCAT(C.REF_ID) FROM TBL_BIZ_GRP C WHERE C.BIZ_ID  = #bizId#)) OR A.BIZ_ID = #bizId#)
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="customerId">
+			<isNotEmpty property="customerId">
+				AND	A.CUSTOMER_ID = #userId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="insEmpNo">
+			<isNotEmpty property="insEmpNo">
+				AND	A.INS_EMP_NO = #insEmpNo#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sortName">
+			<isNotEmpty property="sortName">
+				ORDER BY $sortName$ $sortOrder$
+			</isNotEmpty>
+		</isNotNull>
+		<isGreaterEqual property="endPage" compareValue="0">
+			<isGreaterEqual property="startPage" compareValue="0">
+				limit #endPage# offset #startPage#
+			</isGreaterEqual>
+		</isGreaterEqual>
+	</select>
+
+	<select id="empDAO.getCustomerListCount" parameterClass="empVO" resultClass="java.lang.Integer">
+		SELECT	COUNT(A.CUSTOMER_ID)
+		FROM tbl_customer A
+		WHERE A.USE_YN  = 'Y'
+		<isNotNull property="searchKey">
+			<isNotEmpty property="searchKey">
+				<isEqual property="searchKey" compareValue="customerName">
+					AND A.CUSTOMER_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="businessNo">
+					AND	A.BUSINESS_NO = #searchValue#
+				</isEqual>
+				<isEqual property="searchKey" compareValue="ownerName">
+					AND A.OWNER_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="managerName">
+					AND	A.MANAGER_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="managerPhoneNum">
+					AND A.MANAGER_PHONE_NUM LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="managerEmail">
+					AND	A.MANAGER_EMAIL LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="managerDeptName">
+					AND	A.MANAGER_DEPT_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchCompany">
+			<isNotEmpty property="searchCompany">
+				AND A.BIZ_ID = #searchCompany#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchAppr">
+			<isNotEmpty property="searchAppr">
+				AND (A.BIZ_ID IN (SELECT BIZ_ID FROM TBL_BIZ_GRP WHERE REF_ID = #searchAppr#) or A.BIZ_ID = #searchAppr#)
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="bizId">
+			<isNotEmpty property="bizId">
+				AND (FIND_IN_SET(A.BIZ_ID, (SELECT GROUP_CONCAT(C.REF_ID) FROM TBL_BIZ_GRP C WHERE C.BIZ_ID  = #bizId#)) OR A.BIZ_ID = #bizId#)
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="insEmpNo">
+			<isNotEmpty property="insEmpNo">
+				AND A.INS_EMP_NO  = #insEmpNo#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+
+	<select id="empDAO.getCustomer" parameterClass="empVO" resultMap="customerListMap">
+		SELECT
+		    A.CUSTOMER_ID,
+		    A.BIZ_ID,
+		    (SELECT BIZ_NAME FROM TBL_BIZ WHERE A.BIZ_ID = BIZ_ID) BIZ_NAME,
+		    A.CUSTOMER_TYPE,
+		    A.CUSTOMER_NAME,
+		    A.BUSINESS_NO,
+		    A.PIN_NO,
+		    A.OWNER_NAME,
+		    A.ADDR1, A.ADDR2,
+			A.MANAGER_NAME,
+			A.MANAGER_PHONE_NUM,
+			A.MANAGER_EMAIL,
+			A.MANAGER_DEPT_NAME,
+			A.INS_DATE,
+			A.INS_EMP_NO,
+			A.UPD_DATE,
+			A.UPD_EMP_NO
+		FROM tbl_customer A
+		WHERE A.USE_YN  = 'Y'
+		<isNotNull property="bizId">
+			<isNotEmpty property="bizId">
+				AND	A.BIZ_ID = #bizId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="businessNo">
+			<isNotEmpty property="businessNo">
+				AND	A.BUSINESS_NO = #businessNo#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="customerId">
+			<isNotEmpty property="customerId">
+				AND	A.CUSTOMER_ID = #customerId#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+
+
+	<select id="empDAO.getExcelUserDown" parameterClass="EmpVO" resultMap="excelUserMap">
+		SELECT
+			B.BIZ_NAME,
+			B.BUSINESS_NO,
+			A.EMP_NO,
+			A.DEPT_NAME,
+			A.EMP_NAME,
+			A.USER_DATE,
+			A.JOIN_DATE,
+			A.LEAVE_DATE,
+			CONCAT(A.ADDR1 , A.ADDR2) AS ADDR1,
+			A.POSITION_NAME,
+			A.STEP_NAME,
+			A.TEL_NUM,
+			A.PHONE_NUM,
+			A.E_MAIL
+		FROM TBL_EMP A, TBL_BIZ B
+		WHERE A.BIZ_ID   = B.BIZ_ID
+		  AND A.USE_YN   = 'Y'
+		  AND A.EMP_TYPE = '1'
+		  AND A.BIZ_ID   = #bizId#
+		ORDER BY A.EMP_NAME, A.EMP_NO
+	</select>
+
+
+	<select id="empDAO.getExcelUserGrpDown" parameterClass="EmpVO" resultMap="excelUserMap">
+		SELECT
+			B.BIZ_NAME,
+			B.BUSINESS_NO,
+			A.EMP_NO,
+			A.DEPT_NAME,
+			A.EMP_NAME,
+			A.USER_DATE,
+			A.JOIN_DATE,
+			A.LEAVE_DATE,
+			CONCAT(A.ADDR1 , A.ADDR2) AS ADDR1,
+			A.POSITION_NAME,
+			A.STEP_NAME,
+			A.TEL_NUM,
+			A.PHONE_NUM,
+			A.E_MAIL
+		FROM TBL_EMP A, TBL_BIZ B
+		WHERE A.BIZ_ID    = B.BIZ_ID
+		  AND A.USE_YN    = 'Y'
+		  AND A.EMP_TYPE  = '1'
+		  AND A.BIZ_ID    = #bizId#
+		  AND A.DEPT_CODE = #deptCode#
+		ORDER BY A.EMP_NAME, A.EMP_NO
+	</select>
+
+
+	<select id="empDAO.getExcelCustomerDown" parameterClass="EmpVO" resultMap="excelCustomerMap">
+		SELECT
+			(SELECT BIZ_NAME FROM TBL_BIZ WHERE A.BIZ_ID = BIZ_ID) BIZ_NAME,
+			(SELECT BUSINESS_NO FROM TBL_BIZ WHERE A.BIZ_ID = BIZ_ID) BIZ_BUSINESS_NO,
+			A.CUSTOMER_NAME,
+			A.BUSINESS_NO,
+			A.OWNER_NAME,
+			A.ADDR1,
+			A.MANAGER_NAME,
+			A.MANAGER_PHONE_NUM,
+			A.MANAGER_EMAIL,
+			A.MANAGER_DEPT_NAME
+		FROM TBL_CUSTOMER A
+		WHERE A.USE_YN = 'Y'
+		  AND BIZ_ID = #bizId#
+		ORDER BY A.CUSTOMER_NAME
+	</select>
+
+	<update id="empDAO.delCustomer" parameterClass="empVO">
+		UPDATE tbl_CUSTOMER
+		SET	USE_YN = 'N'
+		WHERE CUSTOMER_ID = #customerId#
+	</update>
+
+	<insert id="empDAO.insCustomer" parameterClass="empVO">
+		<selectKey resultClass="java.lang.String" keyProperty="customerId">
+			SELECT  getTableKey('TBL_CUSTOMER')
+		</selectKey>
+		INSERT INTO tbl_customer (
+			BIZ_ID,
+			CUSTOMER_ID,
+			CUSTOMER_TYPE,
+			CUSTOMER_NAME,
+			BUSINESS_NO,
+			PIN_NO,
+			OWNER_NAME,
+			ADDR1,
+			ADDR2,
+			INS_DATE, UPD_DATE,
+			MANAGER_NAME,
+			MANAGER_PHONE_NUM,
+			MANAGER_EMAIL,
+			MANAGER_DEPT_NAME,
+			INS_EMP_NO,
+			UPD_EMP_NO,
+			USE_YN
+		) values (
+			#bizId#,
+			#customerId#,
+			#customerType#,
+			#customerName#,
+			#businessNo#,
+			#pinNo#,
+			#ownerName#,
+			#addr1#,
+			#addr2#,
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'),
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'),
+			#managerName#,
+			#managerPhoneNum#,
+			#managerEmail#,
+			#managerDeptName#,
+			#insEmpNo#,
+			#updEmpNo#,
+			'Y'
+		);
+	</insert>
+
+	<update id="empDAO.updCustomer" parameterClass="empVO">
+		UPDATE tbl_customer
+		SET
+		<isNotNull property="customerName">
+			<isNotEmpty property="customerName">
+				CUSTOMER_NAME = #customerName#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="ownerName">
+			<isNotEmpty property="ownerName">
+				OWNER_NAME = #ownerName#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="addr1">
+			<isNotEmpty property="addr1">
+				ADDR1 = #addr1#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="addr2">
+			<isNotEmpty property="addr2">
+				ADDR2 = #addr2#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="managerName">
+			<isNotEmpty property="managerName">
+				MANAGER_NAME = #managerName#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="managerPhoneNum">
+			<isNotEmpty property="managerPhoneNum">
+				MANAGER_PHONE_NUM = #managerPhoneNum#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="managerEmail">
+			<isNotEmpty property="managerEmail">
+				MANAGER_EMAIL = #managerEmail#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="managerDeptName">
+			<isNotEmpty property="managerDeptName">
+				MANAGER_DEPT_NAME = #managerDeptName#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="updEmpNo">
+			<isNotEmpty property="updEmpNo">
+				UPD_EMP_NO = #updEmpNo#,
+			</isNotEmpty>
+		</isNotNull>
+		UPD_DATE = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'),
+		UPD_EMP_NO = #updEmpNo#
+		WHERE BIZ_ID  = #bizId#
+		  AND BUSINESS_NO = #businessNo#
+	</update>
+</sqlMap>
+		

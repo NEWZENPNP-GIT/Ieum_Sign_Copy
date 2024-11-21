@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>접속IP관리</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+</head>
+<body>
+	<div id="yearTax_wrap" class="yearTax">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연말정산 > 시스템관리 > </span><span class="loc_sub NanumSquare_R">접속IP관리</span></div>
+			<div class="pagtit NanumSquare_R"><span class="">접속IP관리</span></div>
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">접속IP관리 사용여부</span>
+					</div>
+					<div class="box_wrap">
+						<div class="group_row row1">
+							<dl class="NanumSquare_R rat4-6">
+								<dd class="radio_box row2">
+									<div class="radSet"><input type="radio" name="no7"><label>사용(등록된 IP만 허용)</label></div>
+									<div class="radSet"><input type="radio" name="no7"><label>미사용(모든 IP 허용)</label></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+				
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">접속IP관리 </span>
+					</div>
+				
+					<div class="box_wrap">
+						<div class="group_row row1">
+							<dl class="NanumSquare_R rat1n-9">
+								<dt><label class="label_txt NanumSquare_R">현재 접속 IP</label></dt>
+								<dd class="input_box">
+									<div class="inner_row"><input class="" type="text"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="group_row row1">
+							<dl class="NanumSquare_R rat1n-9">
+								<dt><label class="label_txt NanumSquare_R">사업장 목록</label></dt>
+								<dd class="multi_box rowMerge2">
+									<div class="inner_row">
+										<select class="NanumSquare_R">
+											<option value="" >10</option>
+										</select>
+										<input class="" type="text"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="group_row row1">
+							<dl class="NanumSquare_R rat1n-9">
+								<dt><label class="label_txt NanumSquare_R">IP 설정 옵션</label></dt>
+								<dd class="input_box rowMerge2">
+									<div class="inner_row"><input class="" type="text"><input class="" type="text"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="grid_field">
+						<ul class="">
+							<li class="btns NanumSquare_R field_sort_right">
+								<a class="btn_type type1">라인추가<span class="icon add"></span></a>
+								<a class="btn_type type2">선택삭제</a>
+							</li>
+						</ul>
+					</div>
+					
+					<div class="group_table">
+						<table class="hasHead NanumSquare_R">
+							<colgroup>
+								<col width="4%">
+								<col width="48%">
+								<col width="48%">
+							</colgroup>
+							<thead>
+								<tr>
+									<th class="chk_area"><input type="checkbox"> </th>
+									<th>접속 허용 IP</th>
+									<th>메모</th>
+								</tr>
+									
+							</thead>
+							<tbody>
+								<tr>
+									<td class="chk_area"><input type="checkbox"> </td>
+									<td class="value">000 . 000 . 000 . 000</td>
+									<td class="value">메모1 메모2</td>
+								</tr>
+								<tr>
+									<td class="chk_area"><input type="checkbox"> </td>
+									<td class="value">000 . 000 . 000 . 000</td>
+									<td class="value">메모1 메모2</td>
+								</tr>
+								<tr>
+									<td class="chk_area"><input type="checkbox"> </td>
+									<td class="value">000 . 000 . 000 . 000</td>
+									<td class="value">메모1 메모2</td>
+								</tr>
+								<tr>
+									<td class="chk_area"><input type="checkbox"> </td>
+									<td class="value">000 . 000 . 000 . 000</td>
+									<td class="value">메모1 메모2</td>
+								</tr>
+								<tr>
+									<td class="chk_area"><input type="checkbox"> </td>
+									<td class="value">000 . 000 . 000 . 000</td>
+									<td class="value">메모1 메모2</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+$('#page-selection').bootpag({
+    total: 10,
+    page: 1,
+    maxVisible: 5,
+    leaps: true,
+    firstLastUse: true,
+    first: '',
+    last: '',
+    wrapClass: 'pagination',
+    activeClass: 'active',
+    disabledClass: 'disabled',
+    nextClass: 'btn_next',
+    prevClass: 'btn_prev',
+    lastClass: 'end_page',
+    firstClass: 'first_page'
+}).on("page", function(event, num){}); 
+</script>
+</html>

@@ -1,0 +1,259 @@
+
+
+	<!--****************************************************************************************************************
+	* 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+	* 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+	********************************************************************************************************************
+	--------------------------------------------------------------------------------------------------------------------
+	* 회사       : 뉴젠피앤피
+	* 화면명     : 변환 완료된 서식 등록 팝업
+	* 화면설명   : 전자문서 > 전자계약(양식변환) > 양식 관리 > 양식등록
+	* 작성자     :
+	* 생성일     :
+	--------------------------------------------------------------------------------------------------------------------
+	* 수정자     : 이정훈
+	* 수정일     : 2023.11.17
+	* 수정내용   :
+	------------------------------------------------------------------------------------------------------------------->
+
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/contract_write.css">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+	<title>인적자원관리 전문IT기업 - 뉴젠P&amp;P</title>
+
+	<script>
+
+		//***************					윈도우 로딩					***************//
+
+
+		$(document).ready(function() {
+
+			console.log('contract_popup_convert_regist.html');
+
+			// 양식파일이름
+			var hwpFileName = decodeURIComponent(getParams().fileName);
+			$("#hwpFileName").val(hwpFileName);
+
+			// pdf 파일 이름 등록
+			$("#pdfFile").change(function() {
+				var file = $('#pdfFile')[0].files[0].name;
+				$("#pdfFileName").text(file);
+			});
+
+			// xls 파일 이름 등록
+			$("#xlsFile").change(function() {
+				var file = $('#xlsFile')[0].files[0].name;
+				$("#xlsFileName").text(file);
+			});
+
+			// 수정 파일 이름 등록
+			$("#alterFile").change(function() {
+				var file = $('#alterFile')[0].files[0].name;
+				$("#alterFileName").text(file);
+			});
+
+			var strWidth;
+			var strHeight;
+
+			if ( window.innerWidth && window.innerHeight && window.outerWidth && window.outerHeight ) {
+				strWidth  = $('#contract_popup').outerWidth()  + (window.outerWidth - window.innerWidth);
+				strHeight = $('#contract_popup').outerHeight() + (window.outerHeight - window.innerHeight);
+			} else {
+				var strDocumentWidth  = $(document).outerWidth();
+				var strDocumentHeight = $(document).outerHeight();
+
+				window.resizeTo ( strDocumentWidth, strDocumentHeight );
+
+				var strMenuWidth  = strDocumentWidth  - $(window).width();
+				var strMenuHeight = strDocumentHeight - $(window).height();
+
+				strWidth  = $('#contract_popup').outerWidth()  + strMenuWidth;
+				strHeight = $('#contract_popup').outerHeight() + strMenuHeight;
+			}
+			window.resizeTo( strWidth+20, strHeight+20 );
+		});
+
+		function fn_contractNewUpdate() {
+
+			if (!confirm("변환된 서식파일 및 조건엑셀파일 등록을 진행하시겠습니까?")) return;
+
+			var url 	  = rootPath+"contract/contractNewUpdate.do";
+			var fileCount = 0;
+
+			var fileId = getURLParameters("fileId");
+			var bizId  = getURLParameters("bizId");
+			// 데이터설정
+			var formData = new FormData();
+			formData.append("fileId",fileId);
+			formData.append("bizId",bizId);
+			var pdffile = document.getElementsByName("pdfFile");
+
+			for (var i=0; i<pdffile.length; i++) {
+				if (pdffile[i].files[0] !== undefined) {
+					if (checkSpecial(pdffile[i].files[0].name)) {
+						alert("파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.");
+						return;
+					}
+					if (pdffile[i].files[0].name.toLowerCase().indexOf(".pdf") == -1){
+						alert("변환된 서식 파일의 확장자가 PDF가 아닙니다. 다시 확인하시기 바랍니다.");
+						return;
+					}
+					formData.append("pdfFile"+i,pdffile[i].files[0]);
+					fileCount++;
+				}
+			}
+
+			var xlsfile = document.getElementsByName("xlsFile");
+			for (var i=0; i<xlsfile.length; i++) {
+				if (xlsfile[i].files[0] != undefined) {
+					if(checkSpecial(xlsfile[i].files[0].name)) {
+						alert("파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.");
+						return;
+					}
+
+					if(xlsfile[i].files[0].name.toLowerCase().indexOf(".xls") == -1){
+						alert("조건엑셀 파일의 확장자가 xls가 아닙니다. 다시 확인하시기 바랍니다.");
+						return;
+					}
+
+					formData.append("xlsFile"+i,xlsfile[i].files[0]);
+					fileCount++;
+				}
+			}
+
+			var alterfile = document.getElementsByName("alterFile");
+			for (var i=0; i<alterfile.length; i++) {
+				if (alterfile[i].files[0] != undefined) {
+					if (checkSpecial(alterfile[i].files[0].name)) {
+						alert("파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.");
+						return;
+					}
+					formData.append("alterFile"+i,alterfile[i].files[0]);
+					fileCount++;
+				}
+			}
+
+			if (fileCount<3) {
+				alert("전자문서파일, 조건파일 및 수정파일 을 선택해주시기 바랍니다.");
+				return;
+			}
+
+			$.blockUI();
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				data:formData,
+				contentType:false,
+				processData:false,
+				cache:false,
+				success:function(result) {
+					alert(result.message);
+					$.unblockUI();
+					if(result.success) {
+						opener.fn_contractNewList();
+						window.close();
+					}
+				},
+				error:function(request,status,error) {
+					$.unblockUI();
+					if (request.status === "401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						window.close();
+					} else {
+						alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+					}
+				}
+			});
+		}
+
+		//***************					pdf 파일 등록					***************//
+
+		function fn_pdfFileUpload() { $("#pdfFile").click(); }
+
+		//***************					xls 파일 등록					***************//
+
+		function fn_xlsFileUpload() { $("#xlsFile").click(); }
+
+		//***************					수정 파일 등록					***************//
+
+		function fn_alterFileUpload() { $("#alterFile").click(); }
+
+	</script>
+	</head>
+
+	<body>
+	<div id="contract_popup" class="convert_regist">
+		<div class="container">
+			<div id="popup_tit">
+				<div class="tit_icon"></div>
+				<div class="tit_text col_skyblue NanumGothic">변환 완료된 서식 등록</div>
+			</div>
+			<div class="contents">
+				<div class="input_wrap">
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">양식파일 이름</label></dt>
+						<dd>
+							<input type="text" id="hwpFileName" value="" name="" class="input_txt">
+						</dd>
+					</dl>
+					<dl class="boxRow default_bx NanumGothic">
+						<input type="file" id="pdfFile" name="pdfFile" style="display:none;"/>
+						<dt><label class="label_txt NanumGothic">변환된 서식 등록</label></dt>
+						<dd class="column2">
+							<a class="btn_type type1" href="javascript:fn_pdfFileUpload();">파일선택</a>
+							<div class="default_box down_file">
+								<span class="file_icon"></span>
+								<span class="file_name" id="pdfFileName"></span>
+							</div>
+						</dd>
+					</dl>
+					<dl class="boxRow default_bx NanumGothic">
+						<input type="file" id="xlsFile" name="xlsFile" style="display:none;"/>
+						<dt><label class="label_txt NanumGothic">조건엑셀 등록</label></dt>
+						<dd class="column2">
+							<a class="btn_type type1" href="javascript:fn_xlsFileUpload();">파일선택</a>
+							<div class="default_box down_file">
+								<span class="file_icon"></span>
+								<span class="file_name" id="xlsFileName"></span>
+							</div>
+						</dd>
+					</dl>
+					<dl class="boxRow default_bx NanumGothic">
+						<input type="file" id="alterFile" name="alterFile" style="display:none;"/>
+						<dt><label class="label_txt NanumGothic">수정파일 등록</label></dt>
+						<dd class="column2">
+							<a class="btn_type type1" href="javascript:fn_alterFileUpload();">파일선택</a>
+							<div class="default_box down_file">
+								<span class="file_icon"></span>
+								<span class="file_name" id="alterFileName"></span>
+							</div>
+						</dd>
+					</dl>
+				</div>
+				<div class="notice NanumGothic">※ 주의사항</div>
+				<div class="foot_box NanumGothic"></div>
+			</div>
+			<div class="btn_group">
+				<a class="btn_type type1 NanumGothic" href="javascript:fn_contractNewUpdate();">서식 등록하기</a>
+				<a class="btn_type type3 NanumGothic" href="javascript:window.close();">취소하기</a>
+			</div>
+		</div>
+	</div>
+	</body>
+	</html>

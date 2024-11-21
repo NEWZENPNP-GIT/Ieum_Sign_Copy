@@ -1,0 +1,248 @@
+
+	<!--****************************************************************************************************************
+	* 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+	* 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+	********************************************************************************************************************
+	--------------------------------------------------------------------------------------------------------------------
+	* 회사       : 뉴젠피앤피
+	* 화면명     : 양식변환관리 페이지
+	* 화면설명   : 시스템관리 > 양식변환관리
+	* 작성자     :
+	* 생성일     :
+	--------------------------------------------------------------------------------------------------------------------
+	* 수정자     : 이정훈
+	* 수정일     : 2024.05.16
+	* 수정내용   :
+	------------------------------------------------------------------------------------------------------------------->
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/personnel_management.css">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+	<link rel="stylesheet" type="text/css" href="/css/font_awesome/css/all.css">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<!-- bootPag -->
+	<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/ui.biz.core.js"></script>
+
+	<script type="text/javascript">
+
+		document.getElementById("searchDateFrom").value = new Date(date.getFullYear(), date.getMonth(), 1).format('yyyyMMdd');
+		document.getElementById("searchDateTo").value 	= new Date(date.getFullYear(), date.getMonth() + 1, 0).format('yyyyMMdd');
+
+		//***************					윈도우 로딩					***************//
+
+
+		$(document).ready(function() {
+			$('#searchValue').keypress(function(event) {
+				var keycode = (event.keyCode ? event.keyCode : event.which);
+				if (keycode === '13') fn_searchList(1);
+				event.stopPropagation();
+			});
+			fn_searchList(1);
+		});
+
+
+		//***************					양식변환관리 리스트 조회					***************//
+
+
+		function fn_searchList(page) {
+
+			var url 	 = rootPath+"contract/getContractTransformList.do";
+			var viewPage = $("#viewPage").val();
+
+			if (viewPage === "" || viewPage === "0") viewPage = 10;
+
+			if (page === 0) curPage=0;
+			else		 curPage = page-1;
+
+			if (curPage < 0) 				  { curPage  = 0; return; }
+			if (curPage * viewPage > totPage) { curPage -= 1; return; }
+
+			var searchDateFrom = $("#searchDateFrom").val();
+			var searchDateTo   = $("#searchDateTo").val();
+			var searchValue    = $("#searchValue").val();
+			var searchStatus   = $("#searchStatus").val();;
+			var startPage 	   = (curPage*viewPage);
+			var endPage	       = viewPage;
+
+			$.blockUI();
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"GET",
+				data: {
+					searchDateFrom:searchDateFrom,
+					searchDateTo:searchDateTo,
+					searchValue:searchValue,
+					searchStatus:searchStatus,
+					startPage:startPage,
+					endPage:endPage,
+				},
+				success:function(result) {
+
+					var htmlData = "";
+					$("#dataList").html(htmlData);
+					if (result.success === true) {
+						totPage = result.total;
+						$("#requestCount").html(result.requestCount);
+						$("#previewCount").html(result.previewCount);
+						$("#progressCount").html(result.progressCount);
+						$("#completeCount").html(result.completeCount);
+						var totalPage = Math.ceil(totPage/viewPage);
+						$.each(result.data, function(i, row) {
+							var num = (curPage * viewPage) + i + 1;
+							htmlData += '<tr> ';
+							htmlData += ' <td>'+num+'</td> ';
+							if (!isNull(row.insDate)) htmlData += ' <td>'+convertDate(row.insDate).format("yyyy-MM-dd")+'</td> ';
+							else 					  htmlData += ' <td></td>';
+
+							htmlData += ' <td>'+row.bizName+'</td> ';
+							htmlData += ' <td>'+row.transTypeN+'</td> ';
+							htmlData += ' <td>'+row.transTypeP+'</td> ';
+							htmlData += ' <td>'+row.transTypeT+'</td> ';
+							htmlData += ' <td>'+row.transTypeC+'</td> ';
+							htmlData += '</tr> ';
+						})
+
+						if (page === 1) {
+							$('#page-selection').empty();
+							$('#page-selection').removeData("twbs-pagination");
+							$('#page-selection').unbind("page");
+							$('#page-selection').bootpag({
+								total: totalPage,
+								page: page,
+								maxVisible: 10,
+								firstLastUse: true,
+								leaps: true,
+								first: '',
+								last: '',
+								wrapClass: 'pagination',
+								activeClass: 'active',
+								disabledClass: 'disabled',
+								nextClass: 'btn_next',
+								prevClass: 'btn_prev',
+								lastClass: 'end_page',
+								firstClass: 'first_page'
+							}).on("page", function(event, num) { fn_searchList(num); });
+						}
+					} else { htmlData += '<tr> <td colspan="7">요청하신 자료가 존재하지 않습니다.</td></tr>'; }
+					$("#dataList").html(htmlData);
+					$.unblockUI();
+				},
+				error:function(request,status,error) {
+					$.unblockUI();
+					goInvalidPage(request, error);
+				}
+			});
+		}
+
+
+		//***************					상태 리스트					***************//
+
+
+		function fn_searchStatusList(status) { $("#searchStatus").val(status); fn_searchList(1); }
+
+	</script>
+	</head>
+	<body>
+	<input type="hidden" id="searchStatus">
+	<div id="personList_wrap" class="">
+		<div class="container">
+			<div class="location">
+				<span class="loc_main NanumGothic">시스템관리 > </span>
+				<span class="loc_sub NanumGothic">양식변환관리</span>
+			</div>
+			<div class="field_area">
+				<div class="inputBox">
+					<input type="text" id="searchDateFrom" class="lt"/>
+				</div>
+				<div class="inputBox">
+					<input type="text" id="searchDateTo" class="lt"/>
+				</div>
+				<div class="selBox NanumGothic"></div>
+				<div class="inputBox">
+					<fieldset>
+						<input type="text" id="searchValue" class="word_input NanumGothic">
+						<a class="btn_search btn_type Material_icons" onclick="fn_searchStatusList('')">search</a>
+					</fieldset>
+				</div>
+				<div class="selBox NanumGothic">
+					<select id="viewPage" onchange="fn_searchList(1)">
+						<option value="10" selected>조회건수</option>
+						<option value="10">10건</option>
+						<option value="50">50건</option>
+						<option value="100">100건</option>
+						<option value="250">250건</option>
+					</select>
+				</div>
+				<div class="right">
+					<div class="textBox NanumGothic" style="cursor: pointer;" onclick="fn_searchStatusList('N')">
+						<div class="tit">요청</div>
+						<div class="request_count" id="requestCount">0</div>
+					</div>
+					<div class="textBox NanumGothic" style="cursor: pointer;" onclick="fn_searchStatusList('P')">
+						<div class="tit">테스트</div>
+						<div class="preview_count" id="previewCount">0</div>
+					</div>
+					<div class="textBox NanumGothic" style="cursor: pointer;" onclick="fn_searchStatusList('T')">
+						<div class="tit">진행</div>
+						<div class="progress_count" id="progressCount">0</div>
+					</div>
+					<div class="textBox NanumGothic" style="cursor: pointer;" onclick="fn_searchStatusList('C')">
+						<div class="tit">완료</div>
+						<div class="complete_count" id="completeCount">0</div>
+					</div>
+				</div>
+			</div>
+			<div class="table_contents">
+				<div class="list">
+					<table class="NanumGothic">
+						<colgroup>
+							<col width="8%">
+							<col width="13%">
+							<col width="25%">
+							<col width="14%">
+							<col width="14%">
+							<col width="14%">
+							<col width="14%">
+						</colgroup>
+						<thead>
+						<tr>
+							<th>No.</th>
+							<th>요청일자</th>
+							<th>회사명</th>
+							<th>변환요청</th>
+							<th>테스트</th>
+							<th>진행중</th>
+							<th>변환완료</th>
+						</tr>
+						</thead>
+						<tbody id="dataList">
+						<tr class="databox">
+							<td class=""></td>
+							<td colspan="7">정보가 존재하지 않습니다.</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+				<div id="page-selection" class="pagingnav_wrap"></div>
+			</div>
+			<div class="btn_footGroup NanumGothic"></div>
+		</div>
+	</div>
+	</body>
+	</html>

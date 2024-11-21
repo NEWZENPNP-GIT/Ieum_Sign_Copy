@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>게시판</title>
+
+<link rel="stylesheet" type="text/css" href="/css/jquery.alerts.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.alerts.js"></script>
+<script type="text/javascript" src="/js/ezsign/session_storage.js"></script>
+
+<script type="text/javascript" src="/js/jquery.bootpag.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+
+<script type='text/javascript' src="/js/ezsign/board/board_notice_list.js"></script>
+
+</head>
+<body>
+  
+  <div id="boardlist_wrap" class="">
+    <div class="container">
+      <div class="location"><span class="loc_main NanumGothic">게시판 > </span><span class="loc_sub NanumGothic">공지사항</span></div>
+      <div class="pagtit"><span class="NanumGothic">공지사항</span></div>
+
+      <div class="list_con">
+        <div class="field_area">
+          <div class="selBox NanumGothic">
+            <select id="model_search_searchKey">
+              <!-- subject, contents, empName, statusCode, workCode -->
+              <option class="lt" value="subject">제목</option>
+              <option class="lt" value="empName">작성자</option>
+            </select>
+          </div>
+          <div class="inputBox">
+            <fieldset>
+              <input type="text" class="word_input NanumGothic" id="model_search_searchValue">
+              <a class="btn_search btn_type Material_icons" onClick="getSearch()">search</a>
+            </fieldset>
+          </div>
+        </div>
+        <div class="table_contents">
+          <div class="list">
+            <table class="NanumGothic">
+              <colgroup>
+                <col width="8%">
+                <col width="52%">
+                <col width="15%">
+                <col width="15%">
+                <col width="10%">
+              </colgroup>
+              <thead>
+                <tr class="databox">
+                  <th>번호</th>
+                  <th>제목</th>
+                  <th>작성자</th>
+                  <th>등록일</th>
+                  <th>조회수</th>
+                </tr>
+              </thead>
+              <tbody id="noticeListTbody">
+              
+              </tbody>
+              <!-- 
+              <tbody *ngIf="model.fixedList?.length > 0 || model.list?.length > 0">
+                <tr class="databox" *ngFor="let row of model.fixedList; let i = index">
+                  <td>[공지]</td>
+                  <td><a (click)="goDetail(row.bbsNo)">{{row.subject}}</a> <span class="new" *ngIf="row.isNew"></span></td>
+                  <td>{{row.empName}}</td>
+                  <td>{{row.insDate | dateFormat: 'YYYY-MM-DD'}}</td>
+                  <td>{{row.hitCnt}}</td>
+                </tr>
+                <tr class="databox" *ngFor="let row of model.list; let i = index">
+                  <td>{{ (model.totalCount+1) - ((i+1) + ((model.currPage - 1) * model.perPage)) }}</td>
+                  <td><a (click)="goDetail(row.bbsNo)">{{row.subject}}</a> <span class="new" *ngIf="row.isNew"></span></td>
+                  <td>{{row.empName}}</td>
+                  <td>{{row.insDate | dateFormat: 'YYYY-MM-DD'}}</td>
+                  <td>{{row.hitCnt}}</td>
+                </tr>
+              </tbody>
+               -->
+            </table>
+          </div>
+          <div class="btn_group" id="btnGroupDiv"></div>
+          <div id="page-selection" class="pagingnav_wrap"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</body>
+</html>  

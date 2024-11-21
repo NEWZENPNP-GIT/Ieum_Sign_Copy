@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>간이지급명세서>진행관리</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+<link rel="stylesheet" type="text/css" href="/css/jquery.alerts.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.alerts.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+
+<script type="text/javascript" src="/js/ezsign/feb/hometax/yearTax_payment_ProgressReport.js"></script>
+
+</head>
+<body>
+
+<iframe name="blankFrame" id="blankFrame" border="0" width="0" height="0"></iframe>
+<form name="frm" id="frm" method="post"> 
+<input type="hidden" name="yp800FileName" id="yp800FileName" value="" />
+<input type="hidden" name="yp800FilePath" id="yp800FilePath" value="" />
+<input type="hidden" name="전자문서비밀번호" id="전자문서비밀번호" value="" />
+
+	<div id="yearTax_wrap" class="yearTax">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">간이지급명세서  > </span><span class="loc_sub NanumSquare_R">진행관리</span></div>
+			
+			<div class="contents simplepay">
+				<div class="group_tit skyblue grouping">
+					<div class="icon"></div>
+					<div class="text NanumSquare_R">귀속년도</div>
+					<div class="yearSelect NanumSquare_R">
+						<select class="NanumSquare_R" id="febYear">							
+						</select>
+						<a class="btn_type btn_yearCheck" onclick="fncFebYearChg();">확인</a>
+					</div>
+				</div>
+				<div class="NanumSquare_R grouping-sub-nonbor progress_index">
+					<div class="NanumRound notice_inner_wrap">
+						<div class="notice"><span class="speaker"></span><span>지급일이 속한 반기분의 급여정보를 </span><span class="col_red data_limit">다음달 10일까지</span><span> 제출합니다.</span></div>
+						<a class="btn_type btn_goGuide" onClick="fncGuidePop();">안내 바로가기 ></a>
+					</div>
+					<div class="group_row row2">
+						<div class="row_box">
+							<div class="card">
+								<div class="iconBox"></div>
+								<div class="txtBox">
+									<div class="tit NanumSquare_B">상반기 간이 지급명세서</div>
+									<div class="NanumRound data_period"><span>(1월 ~ 6월 지급분 :</span><span class="col_red data_limit">7월10일 까지</span><span>)</span></div>
+									<div class="line style1"></div>
+									<div class="rowTxt" id="firstPayDiv">
+										<!-- 
+										<dl>
+											<dt>신고대상 :</dt><dd class="NanumRound">000명</dd>
+										</dl>
+										<dl>
+											<dt>최종 전자신고파일 생성일 :</dt><dd class="NanumRound">2019년 6월 10일</dd>
+										</dl>
+										 -->
+									</div>
+								</div>
+								<div class="btn_wrap">
+									<a class="btn_type" id="firstPayBtn"><span class="icon_check"></span>재생성</a>
+								</div>
+							</div>
+						</div>
+						<div class="row_box">
+							<div class="card">
+								<div class="iconBox"></div>
+								<div class="txtBox">
+									<div class="tit NanumSquare_B">하반기 간이 지급명세서</div>
+									<div class="NanumRound data_period"><span>(7월 ~ 12월 지급분 :</span><span class="col_red data_limit">1월10일 까지</span><span>)</span></div>
+									<div class="line style2"></div>
+									<div class="rowTxt" id="secondPayDiv">
+										<!-- 
+										<dl>
+											<dt>전자신고파일을 작성하지 않았습니다.</dt><dd class="NanumRound"></dd>
+										</dl>
+										 -->
+									</div>
+								</div>
+								<div class="btn_wrap">
+									<a class="btn_type" id="secondPayBtn"><span class="icon_check"></span>재생성</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				
+			</div>
+			
+			
+		</div>
+	</div>
+	
+<div class="window">
+	<div id="layer_popupWrap" class="ckPassword">
+		<div class="container">
+			<div id="popup_tit" class="nonborder">
+				<div id="popup_close" class="btn_type col_skyblue"></div>
+			</div>			
+			<div class="contents">
+				<ul class="pwCheck_wrap NanumSquare_R">
+					<li class="icon"></li>
+					<li class="tit">파일 비밀번호 입력</li>
+					<li class="txt">파일 암호화를 위해 비밀번호를 입력하세요.</li>
+					<li class="input"><input type="password" id="file_password" name="file_password" maxlength="14" value="" class="NanumRound"></li>
+					<li class="btns">
+						<a class="btn_type type1 NanumSquare_R" onclick="fnc_filedownload('Y');">확인</a>
+						<a class="btn_type type2 NanumSquare_R" onclick="fnc_pup_close();">닫기</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+</form>	
+</body>
+
+</html>

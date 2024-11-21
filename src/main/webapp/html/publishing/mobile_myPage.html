@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+
+<link rel="stylesheet" type="text/css" href="/css/font.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/mobile_common.css">
+<link rel="stylesheet" type="text/css" href="/css/mobile_myPage.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+</head>
+<body>
+	<header class="header myPage">
+		<ul class="gnb">
+			<li class="prev"><a class="btn_type btn_prev" href="mobile_main.html"></a></li>
+			<li class="head_text NanumBarunGothic">마이페이지</li>
+			<li class="menu"><a class="btn_type btn_menu"></a></li>
+		</ul>
+	</header>
+	<div id="container" class="myPage">
+		<section class="wrap">
+			<ul class="boxWrap userInfo">
+				<li class="tit"><div class="NanumSquare_R txt">회원정보</div><div class="NanumSquare_R btn"><a class="btn_type btn_addInfo">회사추가등록<span class="btn_add"></span></a></div></li>
+				<li class="user"><div class="NanumSquare_R userName">김캔디</div><div class="NanumSquare_R eMail"><span>ID</span><span class="mail_addr">master_admin@newzenpnp.com</span></div></li>
+				<li class="data NanumSquare_R row2">
+					<dl><dt>회사명</dt><dd>(주)뉴젠솔루션</dd></dl>
+					<dl><dt>사번</dt><dd>123456789</dd></dl>
+				</li>
+				<li class="data NanumSquare_R row2">
+					<dl><dt>부서</dt><dd>미래전략본부</dd></dl>
+					<dl><dt>직책</dt><dd>사원</dd></dl>
+				</li>
+				<li class="data NanumSquare_R row1">
+					<dl><dt>이메일</dt><dd>Kimcandy@newzenpnp.com</dd></dl>
+				</li>
+				<li class="data NanumSquare_R row1">
+					<dl><dt>휴대폰</dt><dd>010-1234-5678</dd></dl>
+				</li>
+				<li class="data NanumSquare_R multi">
+					<dl><dt>비밀번호</dt><dd><input type="password" class="NanumBarunGothic" value="1234"></dd></dl>
+					<a class="btn_type">비밀번호 변경</a>
+				</li>
+			</ul>
+			<ul class="page-selection">
+				<li class="circle active"></li>
+				<li class="circle"></li>
+			</ul>
+			<ul class="boxWrap add_loginType">
+				<li class="tit"><div class="NanumSquare_R txt">로그인 수단 추가하기</div></li>
+				<li class="NanumSquare_R array">
+					<div class="type finger"><div class="icon"></div><div class="txt">지문인식</div></div>
+					<div class="type pattern"><div class="icon"></div><div class="txt">패턴</div></div>
+					<div class="type password"><div class="icon"></div><div class="txt">PIN번호</div></div>
+					<div class="type certificate"><div class="icon"></div><div class="txt">인증서</div></div>
+					<div class="type faceID"><div class="icon"></div><div class="txt">FaceID</div></div>
+				</li>
+			</ul>
+			<ul class="boxWrap NanumSquare_R board_list">
+				<li class="tit"><div class=" txt">1:1 문의내역</div><div class="NanumSquare_R btn"><a class="btn_type btn_qboard" href="mobile_board_write.html">문의게시판 ＞</a></div></li>
+				<li class="board_item" onclick="pageLink('wait')">
+					<div class="text">
+						<div class="board_tit">질문 질문 질문 질문 질문 질문 질문 질문 질문 질문</div>
+						<div class="date">2018.07.25 10:11</div>
+					</div>
+					<div class="state waiting"></div>
+				</li>
+				<li class="board_item" onclick="pageLink('complete')">
+					<div class="text">
+						<div class="board_tit">질문 질문 질문 질문 질문</div>
+						<div class="date">2018.07.25 10:11</div>
+					</div>
+					<div class="state complete"></div>
+				</li>
+			</ul>
+		</section>
+		
+		<div id="layerPop">
+			<section class="wrap">
+				<div class="tit NanumSquare_R"><div class="icon"></div><div class="text">회사 추가 등록</div></div>
+				<div class="input_list NanumGothic">
+					<dl class="input_bx">
+						<dt><label class="label_txt"><span class="dot_red">*</span>회사명</label></dt>
+						<dd class="row"><input type="text" class="input_txt NanumBarunGothic"><a class="btn_type">검색</a></dd>
+					</dl>
+					<dl class="input_bx">
+						<dt><label class="label_txt"><span class="dot_red">*</span>생년월일</label></dt>
+						<dd class="row"><input type="text" class="input_txt NanumBarunGothic"><div class="text">예)19971231</div></dd>
+					</dl>
+					<dl class="input_bx">
+						<dt><label class="label_txt"><span class="dot_red">*</span>성명</label></dt>
+						<dd ><input type="text" class="input_txt NanumBarunGothic"></dd>
+					</dl>
+					<dl class="input_bx">
+						<dt><label class="label_txt"><span class="dot_red">*</span>휴대폰 번호</label></dt>
+						<dd class="row"><input type="text" class="input_txt NanumBarunGothic"><a class="btn_type">인증번호 발송</a></dd>
+					</dl>
+					<dl class="input_bx">
+						<dt><label class="label_txt"><span class="dot_red">*</span>인증번호</label></dt>
+						<dd class="row"><input type="text" class="input_txt NanumBarunGothic"><a class="btn_type">확인</a></dd>
+					</dl>
+				</div>
+			</section>
+			<div class="NanumBarunGothic footer type2">
+				<a class="btn_type btn_cancel">취소</a>
+				<a class="btn_type btn_save">저장</a>
+			</div>
+		</div>
+	</div> <!--  container -->
+	
+</body>
+<script type="text/javascript">
+/* 페이지 링크 샘플 */
+function pageLink(state){
+	if(state=="wait"){
+		window.location.href="mobile_board_view.html";
+	}else{
+		window.location.href="mobile_board_commentView.html";
+	}
+	
+}
+</script>
+</html>

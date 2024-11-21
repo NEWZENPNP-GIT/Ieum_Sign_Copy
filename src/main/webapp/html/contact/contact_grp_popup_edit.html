@@ -1,0 +1,172 @@
+
+	<!--****************************************************************************************************************
+	* 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+	* 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+	********************************************************************************************************************
+	--------------------------------------------------------------------------------------------------------------------
+	* 회사       : 뉴젠피앤피
+	* 화면명     : 그룹명 변경 팝업 (거래처)
+	* 화면설명   : 주소록 추가 > 그룹명 변경
+	* 작성자     :
+	* 생성일     :
+	--------------------------------------------------------------------------------------------------------------------
+	* 수정자     : 이정훈
+	* 수정일     : 2023.11.17
+	* 수정내용   :
+	------------------------------------------------------------------------------------------------------------------->
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<title>그룹명 변경</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/myPage.css">
+	<link rel="stylesheet" type="text/css" href="/css/contract_electronic.css">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/ui.biz.core.js"></script>
+	<script>
+
+
+		//***************					그룹명 변경					***************//
+
+		function fn_save(){
+
+			var url		= rootPath+"contact/updContactGrp.do";
+			var bizId	= getCookie("bizId");
+			var grpName	= $("#grpName").val();
+			var grpId	= getURLParameters("grpId");
+
+			if(grpName.length <= 0){
+				alert("그룹명을 입력해주세요.");
+				return false;
+			}
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				data: {
+					OPEN_KEY:getCookie("OPEN_KEY"),
+					bizId:bizId,
+					grpName:grpName,
+					grpId:grpId
+				},
+				success:function(result) {
+					if (result.success==true) {
+						alert("저장되었습니다.");
+						window.close();
+						opener.fn_getGrpList(1);
+					}
+				},
+				error:function(request,status,error){
+					$.unblockUI();
+					goInvalidPage(request, error);
+				}
+			});
+		}
+
+
+		//***************					그룹 조회					***************//
+
+
+		function fn_getGrp(){
+
+			var url	  = rootPath+"contact/getContactGrpList.do";
+			var bizId = getCookie("bizId");
+			var grpId = getURLParameters("grpId");
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				data: {
+					OPEN_KEY:getCookie("OPEN_KEY"),
+					bizId:bizId,
+					grpId:grpId
+				},
+				success:function(result) {
+					if (result.success==true) { $.each(result.data, function(i, row) { $("#grpName").val(row.grpName); }); }
+				},
+				error:function(request,status,error){
+					$.unblockUI();
+					goInvalidPage(request, error);
+				}
+			});
+		}
+
+
+		//***************					그룹 삭제					***************//
+
+
+		function fn_delGrp(){
+
+			var url   = rootPath+"contact/delContactGrp.do";
+			var bizId = getCookie("bizId");
+			var grpId = getURLParameters("grpId");
+
+			if (!confirm("삭제하시겠습니까?")) return;
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				data: {
+					OPEN_KEY:getCookie("OPEN_KEY"),
+					bizId:bizId,
+					grpId:grpId
+				},
+				success:function(result) {
+					alert("삭제되었습니다.");
+					window.opener.fn_getGrpList();
+					window.close();
+				},
+				error:function(request,status,error){
+					$.unblockUI();
+					goInvalidPage(request, error);
+				}
+			});
+		}
+
+
+		//***************					윈도우 로딩					***************//
+
+
+		$(document).ready(function(){ fn_getGrp(); });
+
+	</script>
+	</head>
+	<body>
+	<div id="" class="contract_electronic_popup">
+		<div class="pop_title">
+			<h3>그룹명 변경</h3>
+			<a class="col_skyblue" onclick="window.close()"></a>
+		</div>
+		<div class="tbstyle01">
+			<table class="NanumSquare_R">
+				<tr>
+					<th>그룹명</th>
+					<td>
+						<input type="text" id="grpName" class="inpstyle01">
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="btn_group">
+			<div class="NanumRound btn_type type4" onclick="fn_delGrp()">삭제하기</div>
+			<div class="NanumRound btn_type type1" onclick="fn_save()">변경하기</div>
+		</div>
+	</div>
+	</body>
+	</html>

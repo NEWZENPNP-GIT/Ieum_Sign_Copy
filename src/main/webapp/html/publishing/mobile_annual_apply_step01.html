@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<title> 연차관리</title>
+<link rel="stylesheet" type="text/css" href="/css/font.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/mobile_common.css">
+<link rel="stylesheet" type="text/css" href="/css/mobile_annual.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/jquery.bpopup.js"></script> <!-- layer popup library -->
+</head>
+<body>
+	<header class="header">
+		<ul class="gnb">
+			<li class="prev"><a class="btn_type btn_prev" href="mobile_annual.html" target="_self"></a></li>
+			<li class="head_text NanumBarunGothic">연차정보</li>
+			<li class="menu"><a class="btn_type btn_menu"></a></li>
+		</ul>
+	</header>
+	<div id="container" class="annual_apply">
+		<section class="wrap">
+		
+			<div class="NanumBarunGothic top_info">
+				<div class="userInfo">
+					<div class="name"><span class="tit">이름</span><span class="userName">홍길동</span></div>
+					<div class="date"><span class="tit">입사일</span><span class="joinDate">2018.05.01</span></div>
+					<div class="btns"><a class="btn_type btn_annualList">연차내역<span class="icon"></span></a></div>
+				</div>
+				<div class="annualInfo">
+					<div><span class="tit">사용일</span><span class="useDay">10</span></div>
+					<div><span class="tit">귀속년</span><span class="useYear">2018</span></div>
+					<div><span class="tit">총연차</span><span class="total">12</span></div>
+					<div><span class="tit">잔여일</span><span class="userName">2</span></div>
+				</div>
+			</div>
+			<div class="apply_form step01">
+				<ul class="form_wrap">
+					<li class="NanumBarunGothic nav">
+						<div class="active">1</div>
+						<div>2</div>
+					</li>
+					<li class="inputInfo">
+						<div class="NanumSquare_R label">연차선택</div>
+						<div class="select_box">
+							<select class="NanumSquare_R">
+								<option value="" >반연차</option>
+								<option value="" >연차</option>
+								<option value="" >경조휴가</option>
+							</select></div>
+					</li>
+					<li class="setDate">
+						<div class="NanumSquare_R label">날짜선택</div>
+						<div class="NanumSquare_R date_box">
+							<input type="text" class="NanumSquare_R"><span> ~ </span><input type="text" class="NanumSquare_R">
+						</div>
+						<div class="NanumSquare_R res">
+							<span class="day">/총<span class="duration">2</span>일</span>
+							<!-- notice 숨기기 class: hidden 추가 -->
+							<span class="notice">* 잔여일이 부족합니다.</span></div>
+					</li>
+					<li class="payment">
+						<div class="NanumSquare_R label">결제선</div>
+						<div class="NanumBarunGothic column">
+							<div class="btns"><a class="btn_type btn_add" href="mobile_annual_apply_paymentList.html">등록 +</a></div>
+							<div class="paycon_wrap">
+								<ul class="NanumBarunGothic tit">
+									<li>순번</li><li>이름</li><li>제외</li>
+								</ul>
+								<div class="add_box">
+									<ul class="line no1">
+										<li>1</li>
+										<li>김캔디</li>
+										<li><a class="btn_type btn_payDel">삭제</a></li>
+									</ul>
+									<ul class="line no2">
+										<li>2</li>
+										<li>홍길동</li>
+										<li><a class="btn_type btn_payDel">삭제</a></li>
+									</ul>
+									<ul class="line no3">
+										<li>3</li>
+										<li>김박사</li>
+										<li><a class="btn_type btn_payDel">삭제</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="NanumSquare_R label">비상 연락처</div><div class=" NanumSquare_R input_box"><input type="text" class="NanumSquare_R"></div>
+					</li>
+					<li>
+						<div class="NanumSquare_R label">사유</div><div class=" NanumSquare_R input_box"><input type="text" class="NanumSquare_R"></div>
+					</li>
+				</ul>
+			</div>
+			<div class="NanumBarunGothic footer"><a class="btn_type btn_next" href="mobile_annual_apply_step02.html">다음</a></div>
+		</section>
+		<div id="bpopupLayer"></div>
+		
+	</div>
+	<aside id="aside" class="">
+		<div class="bg"></div>
+		<div class="wrap NanumBarunGothic" id="ani_wrap">
+			<ul class="left_menu">
+				<li class="top"><div class="btn_wrap"><a class="btn_type btn_home"></a></div>
+								<div class="tit">전체보기</div>
+								<div class="btn_wrap"><a class="btn_type btn_close"></a></div></li>
+				<li class="tit">서비스관리</li>
+				<li class="menu"><a class="btn_type btn_annual"><span class="icon"></span><span class="menu_name">연차관리</span></a></li>
+				<li class="menu"><a class="btn_type btn_pay"><span class="icon"></span><span class="menu_name">급여명세서관리</span></a></li>
+				<li class="menu"><a class="btn_type btn_commute"><span class="icon"></span><span class="menu_name">출퇴근 관리</span></a></li>
+				<li class="menu"><a class="btn_type btn_contract"><span class="icon"></span><span class="menu_name">전자 근로계약 관리</span></a></li>
+				<li class="menu"><a class="btn_type btn_yearTax"><span class="icon"></span><span class="menu_name">연말 정산 관리</span></a></li>
+				<li class="tit">인증관리</li>
+				<li class="menu"><a class="btn_type btn_certificateType"><span class="icon"></span><span class="menu_name">인증수단관리</span></a></li>
+				<li class="menu"><a class="btn_type btn_certificateCenter"><span class="icon"></span><span class="menu_name">공인인증센터</span></a></li>
+				<li class="menu"><a class="btn_type btn_accredit"><span class="icon"></span><span class="menu_name">본인인증하기</span></a></li>
+				<li class="tit">문의하기</li>
+				<li class="menu"><a class="btn_type btn_qnaboard"><span class="icon"></span><span class="menu_name">문의게시판</span></a></li>
+				<li class="menu"><a class="btn_type btn_questionboard"><span class="icon"></span><span class="menu_name">1:1문의사항</span></a></li>
+				<li class="tit">새소식</li>
+				<li class="bottom">
+					<div class="btn_wrap"><a class="btn_type btn_mypage"><span class="icon"></span><span class="menu_name">마이페이지</span></a></div>
+					<div class="btn_wrap"><a class="btn_type btn_logout"><span class="icon"></span><span class="sub_name">로그아웃</span></a></div>
+				</li>
+			</ul>
+		</div>
+	</aside>
+</body>
+<script type="text/javascript">
+
+//side바의 영역 이벤트
+var aniWrap=document.getElementById("ani_wrap");
+
+aniWrap.addEventListener("webkitAnimationEnd", viewerHide);
+aniWrap.addEventListener("animationend", viewerHide);
+function viewerHide(){
+	if($("#aside").hasClass("hide")){
+		$("#aside").removeClass("hide");
+	}
+}
+
+//메뉴 보기 animation
+$(".btn_menu").click(function(){
+	if(!$("#aside").hasClass("show")){
+		$("#aside").removeClass("hide").addClass("show");	
+	}
+})
+$(".btn_close").click(function(){
+	$("#aside").removeClass("show").addClass("hide");
+})
+
+//연차내역
+$(".btn_annualList").click(function(){
+	$('#bpopupLayer').bPopup({
+		position: [0, 0],
+		opacity: 0.6,
+		closeClass:"btn_close",
+		transitionClose  : false,
+		follow: [false, false], //x, y
+		modal:false,
+		speed:100,
+		contentContainer:'#bpopupLayer',
+		loadUrl: 'mobile_annual_list.html', //Uses jQuery.load()
+		onClose: function() {
+			$('#bpopupLayer').removeClass("show");
+			$('#bpopupLayer').removeAttr("style");
+		    
+		},
+		onOpen: function() {
+			$('#bpopupLayer').addClass("show");
+			//$(".btn_annualList").addClass("active");
+		},
+		loadCallback: function() {} 
+	});
+})
+</script>
+</html>

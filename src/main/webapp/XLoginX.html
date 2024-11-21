@@ -1,0 +1,86 @@
+<!DOCTYPE HTML> 
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="user-scalable=yes, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">	
+<title>인적자원관리 전문IT기업 - 뉴젠P&amp;P</title>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/common.js"></script>
+<script>
+
+	$(document).ready(function() {		
+		var currentPosition = parseInt($("#txtArea").css("top")); 
+		$(window).scroll(function() { 
+			var position = $(window).scrollTop(); 
+			$("#txtArea").stop().animate({"top":position+currentPosition+"px"},0); 
+		});
+
+	});
+
+	
+	// 이음싸인 임시로그인
+	function fn_XloginX() {
+		var url = rootPath+"XloginX.do";
+		var userId = "admin@newzen.co.kr";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				userId:userId
+			},
+			success:function(result)
+			{
+				if (result.success == true) {
+					var nowDate = new Date();
+					setCookie("loginId", result.loginId);
+					setCookie("userId", result.userId);
+					setCookie("loginName", result.userName);
+					setCookie("loginType", result.userType);
+					setCookie("bizId", result.bizId);
+					setCookie("bizName", result.bizName);
+					setCookie("curPoint", result.curPoint);
+					setCookie("loginDate", nowDate.format("yyyy.MM.dd hh시mm분ss초"));
+					setCookie("yearContractId", result.yearContractId);
+					setCookie("febYear", result.febYear);
+				}
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+</script>
+<style>
+	#txtArea{
+		position: absolute;
+        /* border: 3px solid #f00; */
+        left : 500px;
+        top : 30px;
+        width: 800px;
+        height: 700px;
+	}
+</style>
+</head>
+<body>
+<div style="float:left; margin-right:50px;">
+--------------------------------------------------------------<p>
+<button onclick="fn_XloginX()">이음싸인 임시로그인</button><p>
+
+</div>
+<div id="txtArea">
+	<div style="overflow:hidden;">	
+	</div>
+	<div>
+	<p>결과값:<p>
+	</div>
+	<textarea id="txtResult" style="width:800px; height:680px;"></textarea><p>
+</div>
+</body>
+</html>

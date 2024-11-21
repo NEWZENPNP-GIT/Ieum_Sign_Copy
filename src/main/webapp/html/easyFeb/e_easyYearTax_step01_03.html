@@ -1,0 +1,439 @@
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+	<div id="yearTax_wrap" class="yearTax easy">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연말정산 >  </span><span class="loc_sub NanumSquare_R">소득확인</span></div>
+			
+			<div class="process_wrap mask">
+				<div class="stepBar"> 
+					<div class="box current arrshow">
+						<div class="process-step NanumSquare_R">
+							<div class="bar"><span class="line"></span><span class="no">1</span></div>
+							<div class="process-panel">
+									<span class="icon"></span>
+									<span class="name NanumRound">소득확인</span>	
+							</div>
+							<div class="process-arrow"></div>
+						</div>
+					</div>
+					<div class="box">
+						<div class="process-step NanumSquare_R">
+							<div class="bar"><span class="line"></span><span class="no">2</span></div>
+							<div class="process-panel">
+								<span class="icon"></span>
+								<span class="name NanumRound">부양가족</span>
+							</div>
+							<div class="process-arrow"></div>
+						</div>
+					</div>
+					<div class="box">
+						<div class="process-step NanumSquare_R">
+							<div class="bar"><span class="line"></span><span class="no">3</span></div>
+							<div class="process-panel">
+								<span class="icon"></span>
+								<span class="name NanumRound">지출내역 확인</span>
+							</div>
+							<div class="process-arrow"></div>
+						</div>
+					</div>
+					<div class="box">
+						<div class="process-step NanumSquare_R">
+							<div class="bar"><span class="line"></span><span class="no">4</span></div>
+							<div class="process-panel">
+								<span class="icon"></span>
+								<span class="name NanumRound">추가서류 제출</span>
+							</div>
+							<div class="process-arrow"></div>
+						</div>
+					</div>
+					<div class="box">
+						<div class="process-step NanumSquare_R">
+							<div class="bar"><span class="line"></span><span class="no">5</span></div>
+							<div class="process-panel">
+								<span class="icon"></span>
+								<span class="name NanumRound">연말정산 요약</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div> <!--  process_wrap -->
+				
+			
+			<div class="contents">
+			<form action="/easyFeb/saveYE006.do" method="post" enctype="multipart/form-data" id="frm">
+				<div class="sub_item mar-bot-0">
+					<div class="sub_top"><span class="NanumRound">차량 비과세 등록</span></div>
+					<div class="red_box NanumSquare_R"><span class="dot">※</span><span class="txt"><div id="contractYear">2018</div>년 중 차량을 소유한 기간을 체크해주세요.<br>(차량 소유기간에 한하여 월 최대 20만원까지 비과세 공제) 차량 소유기간이 있는 경우 하단 ‘차량등록증 업로드’ 버튼을 눌러 차량등록증 사진 파일을 반드시 업로드 해주세요.
+					</span></div>
+					<ul class="item_list NanumGothic month">
+						<li class="ckbox">
+							<input type="checkbox" id="m1" name="m1" value="Y">
+							<div class="box"><label for="m1"></label>
+								<div class="item_top"></div><div class="item_txt"><span class="num">1</span><span class="txt">월</span></div>
+							</div>
+						</li>
+						<li class="ckbox">
+							<input type="checkbox" id="m2" name="m2" value="Y">
+							<div class="box"><label for="m2"></label>
+								<div class="item_top"></div><div class="item_txt"><span class="num">2</span><span class="txt">월</span></div>
+							</div>
+						</li><li class="ckbox">
+							<input type="checkbox" id="m3" name="m3" value="Y">
+							<div class="box"><label for="m3"></label>
+								<div class="item_top"></div><div class="item_txt"><span class="num">3</span><span class="txt">월</span></div>
+							</div>
+						</li><li class="ckbox">
+							<input type="checkbox" id="m4" name="m4" value="Y">
+							<div class="box"><label for="m4"></label>
+								<div class="item_top"></div><div class="item_txt"><span class="num">4</span><span class="txt">월</span></div>
+							</div>
+						</li><li class="ckbox">
+							<input type="checkbox" id="m5" name="m5" value="Y">
+							<div class="box"><label for="m5"></label>
+								<div class="item_top"></div><div class="item_txt"><span class="num">5</span><span class="txt">월</span></div>
+							</div>
+						</li><li class="ckbox">
+							<input type="checkbox" id="m6" name="m6" value="Y">
+							<div class="box"><label for="m6"></label>
+								<div class="item_top"></div><div class="item_txt"><span class="num">6</span><span class="txt">월</span></div>
+							</div>
+						</li><li class="ckbox">
+							<input type="checkbox" id="m7" name="m7" value="Y">
+							<div class="box"><label for="m7"></label>
+								<div class="item_top"></div><div class="item_txt"><span class="num">7</span><span class="txt">월</span></div>
+							</div>
+						</li><li class="ckbox">
+							<input type="checkbox" id="m8" name="m8" value="Y">
+							<div class="box"><label for="m8"></label>
+								<div class="item_top"></div><div class="item_txt"><span class="num">8</span><span class="txt">월</span></div>
+							</div>
+						</li><li class="ckbox">
+							<input type="checkbox" id="m9" name="m9" value="Y">
+							<div class="box"><label for="m9"></label>
+								<div class="item_top"></div><div class="item_txt"><span class="num">9</span><span class="txt">월</span></div>
+							</div>
+						</li><li class="ckbox">
+							<input type="checkbox" id="m10" name="m10" value="Y">
+							<div class="box"><label for="m10"></label>
+								<div class="item_top"></div><div class="item_txt"><span class="num">10</span><span class="txt">월</span></div>
+							</div>
+						</li><li class="ckbox">
+							<input type="checkbox" id="m11" name="m11" value="Y">
+							<div class="box"><label for="m11"></label>
+								<div class="item_top"></div><div class="item_txt"><span class="num">11</span><span class="txt">월</span></div>
+							</div>
+						</li><li class="ckbox">
+							<input type="checkbox" id="m12" name="m12" value="Y">
+							<div class="box"><label for="m12"></label>
+								<div class="item_top"></div><div class="item_txt"><span class="num">12</span><span class="txt">월</span></div>
+							</div>
+						</li>
+					</ul>
+					<div class="addFileWrap NanumSquare_R">
+						<div class="sort_box">
+							<a class="btn_type btn_fileUpload">차량 등록증 업로드</a>
+							<input type="file" id="fileUpload" name="attachFile" class="hidden"/>
+							<!--  fileName 등록된 파일이 없으면 class : none 추가 -->
+							<div id="fileName1" class="fileName hidden"></div>
+							<div id="fileName2" class="fileName none hidden">선택된 파일 없음</div>
+						</div>
+					</div>
+					<div class="notice_wrap bg_purple mar-top-15">
+						<div class="notice_tit NanumSquare_R "><span class="icon warning"></span><span class="txt">주의사항</span></div>
+						<div class="notice_con list NanumRound">
+							<dl><dt class="num">1.</dt><dd>차량 비과세는 업로드 한 차량등록증 상 소유권이 1)본인 명의  2) 공동명의인 경우 ‘배우자와 공동명의’인 경우만 가능합니다.</dd></dl>
+							<dl><dt class="num">2.</dt><dd>차량등록증을 등록하지 않은 경우는 서류 검토 시 차량등록증을 요청드릴 수 있으며, 미제출시에는 공제 불가합니다. </dd></dl>
+						</div>
+					</div>
+				</div>
+				<input id="계약ID" type="hidden" name="계약ID"/>
+				<input id="사용자ID" type="hidden" name="사용자ID"/>
+			</form>
+			</div> <!-- content -->
+			
+			<div class="group_btns foot NanumSquare_R">
+				<a class="btn_type type1">＜  이전</a>
+				<a class="btn_type type2" id="save"><span class="icon_save hidden"></span>저장</a>
+				<a class="btn_type type3">다음 ＞</a>
+			</div>
+			
+		</div> <!--  container -->
+		
+	</div>
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.form.min.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript">
+
+	var workerEditCheck;
+	var workerEditCheck01;
+	var workerEditCheck02;
+	var orgFileName = "";
+	
+	var contractId;
+	var 사용자ID;
+
+	$(document).ready(function(){
+
+		// 이전화면
+		$(".group_btns.foot.NanumSquare_R .btn_type.type1").on("click", function(){
+			
+			var url = rootPath + "html/easyFeb/e_easyYearTax_step01_02.html?d=" + (new Date()).getTime();
+			
+			$("#contents_wrap").empty();
+		    $(window).off("resize");
+		    $.ajax({
+		        url : url, 
+		        success : function(result) {
+		            $("#contents_wrap").html(result);
+		        }
+		    });
+		});
+
+		// 다음화면
+		$(".group_btns.foot.NanumSquare_R .btn_type.type3").on("click", function(){
+
+			var url = rootPath + "html/easyFeb/e_easyYearTax_step02_01.html?d=" + (new Date()).getTime();
+			
+			$("#contents_wrap").empty();
+		    $(window).off("resize");
+		    $.ajax({
+		        url : url, 
+		        success : function(result) {
+		            $("#contents_wrap").html(result);
+		        }
+		    });
+		});
+		
+		$.ajaxSetup({
+			error: function (request, textStatus, error) {
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+		
+		$("a.btn_type.btn_fileUpload").on("click", function(e){
+			e.preventDefault();
+			$("#fileUpload").click();
+		});
+
+		$('#fileUpload').change(function () {
+			var file = $('#fileUpload').val();
+		    if (file != "") {
+		    	var fileName = $('#fileUpload')[0].files[0]['name'];
+
+		    	if(checkSpecial(fileName)){
+		    		alert("파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.");
+		    		$('#fileUpload').val("");
+					return;
+		    	}else{
+					$("#fileName1").removeClass("hidden");
+					$("#fileName2").addClass("hidden");
+					$("#fileName1").text(fileName);
+		    	}
+		    }else{
+		    	if(orgFileName != ''){
+		    		$("#fileName1").removeClass("hidden");
+					$("#fileName2").addClass("hidden");
+					$("#fileName1").text(orgFileName);	
+		    	}else{
+		    		$("#fileName2").removeClass("hidden");
+					$("#fileName1").addClass("hidden");
+					$("#fileName1").text("");
+		    	}
+		    }
+		});
+
+		$("#save").on("click", function(e){
+			e.preventDefault();
+			$("#계약ID").val(contractId);
+			$("#사용자ID").val(사용자ID);
+			$('#frm').submit();
+		});
+		
+		$('#frm').ajaxForm({
+			success: function(res){
+				if(res.success){
+					alert(res.message);
+					getData();
+				}else{
+					alert(res.message);
+				}
+				
+			}
+		});
+		
+	    var febYear = getCookie('febYear');
+	    $("#contractYear").val(febYear);
+
+		//init();
+		getData()
+	});
+	
+	function init(){
+
+	    contractId = getCookie('yearContractId');
+	    // 2018 분기
+	    febYear = getCookie('febYear');
+	    // 계약아이디가 없으면 메인으로 이동
+	    if ((contractId.length <=  0) || (contractId === undefined) || (contractId === 'undefined')) {
+	    	alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+			location.href = "/";
+	    } else {
+			사용자ID = getCookie('userId');
+
+	      	getUserEditCheck();
+	    };
+	}
+	
+	function getUserEditCheck(){
+
+		getEmpStatus();
+	}
+	
+	function getEmpStatus(){
+
+		var url = rootPath + 'febworker/getYE000ChkEdit.do';
+		var params = {
+			'계약ID': contractId,
+			'사용자ID': 사용자ID
+		};
+
+		request = $.ajax({
+			url: url,
+	        type: "get",
+	        cache: false,
+	        dataType:"json",
+	        data: params
+	    });
+		
+		request.done(function(res){
+
+			if ( res['success'] === true ) {
+				workerEditCheck01 = res['data'];
+				if (Number(workerEditCheck01) === 0) {
+					workerEditCheck01 = false;
+				} else {
+					workerEditCheck01 = true;
+				}
+			} else {
+				
+			}
+			getEmpInfo();
+		});
+	}
+	
+	function getEmpInfo(){
+
+		var url = rootPath + 'febworker/getYE000.do';
+		var params = {
+	      '계약ID': contractId,
+	      '사용자ID': 사용자ID
+	   	};
+
+		request = $.ajax({
+			url: url,
+	        type: "get",
+	        cache: false,
+	        dataType:"json",
+	        data: params
+	    });
+		
+		request.done(function(res){
+	        // 근로자 데이터 입력 및 수정 여부 체크
+	        workerEditCheckCode =  res['data']['진행상태코드'];
+
+	        if ( workerEditCheckCode === 1 || workerEditCheckCode === '1' || workerEditCheckCode == null || workerEditCheckCode === ''  ) {
+				workerEditCheck02 = true;
+	        } else {
+				workerEditCheck02 = false;
+	        }
+	        if ( workerEditCheck01 === false || workerEditCheck02 === false) {
+	          	workerEditCheck = false;
+	        } else if ( workerEditCheck01 === true && workerEditCheck02 === true) {
+	          	workerEditCheck = true;
+	        }
+
+	        if(workerEditCheck){
+	        	$("#save").removeClass("hidden");
+	        	
+	        }
+	        getData();
+		});
+	}
+	
+	function getData(){
+
+		var url = rootPath + 'easyFeb/getYE006.do';
+
+		var params = {
+			'계약ID': contractId,
+			'사용자ID': 사용자ID
+		};
+		
+		request = $.ajax({
+			url: url,
+	        type: "get",
+	        cache: false,
+	        dataType:"json",
+	        data: params
+	    });
+		
+		request.done(function(res){
+
+			$('#m1').prop('checked', false);
+			$('#m2').prop('checked', false);
+			$('#m3').prop('checked', false);
+			$('#m4').prop('checked', false);
+			$('#m5').prop('checked', false);
+			$('#m6').prop('checked', false);
+			$('#m7').prop('checked', false);
+			$('#m8').prop('checked', false);
+			$('#m9').prop('checked', false);
+			$('#m10').prop('checked', false);
+			$('#m11').prop('checked', false);
+			$('#m12').prop('checked', false);
+
+			if(res.success){
+				if(!$.isEmptyObject(res.data)){
+					var data = res.data;
+					data.m1 == 'Y' ? $('#m1').prop('checked', true) : $('#m1').prop('checked', false);
+					data.m2 == 'Y' ? $('#m2').prop('checked', true) : $('#m2').prop('checked', false);
+					data.m3 == 'Y' ? $('#m3').prop('checked', true) : $('#m3').prop('checked', false);
+					data.m4 == 'Y' ? $('#m4').prop('checked', true) : $('#m4').prop('checked', false);
+					data.m5 == 'Y' ? $('#m5').prop('checked', true) : $('#m5').prop('checked', false);
+					data.m6 == 'Y' ? $('#m6').prop('checked', true) : $('#m6').prop('checked', false);
+					data.m7 == 'Y' ? $('#m7').prop('checked', true) : $('#m7').prop('checked', false);
+					data.m8 == 'Y' ? $('#m8').prop('checked', true) : $('#m8').prop('checked', false);
+					data.m9 == 'Y' ? $('#m9').prop('checked', true) : $('#m9').prop('checked', false);
+					data.m10 == 'Y' ? $('#m10').prop('checked', true) : $('#m10').prop('checked', false);
+					data.m11 == 'Y' ? $('#m11').prop('checked', true) : $('#m11').prop('checked', false);
+					data.m12 == 'Y' ? $('#m12').prop('checked', true) : $('#m12').prop('checked', false);
+
+					orgFileName = data.orgFileName;
+					
+					if($.trim(data.orgFileName) != ''){
+						$("#fileName2").addClass("hidden");
+						$("#fileName1").removeClass("hidden");
+						$("#fileName1").text(data.orgFileName);
+					}else{
+						$("#fileName1").addClass("hidden");
+						$("#fileName2").removeClass("hidden");
+					}
+				}
+			}else{
+				alert(res.message)
+			}
+			
+		});
+	};
+
+</script>
+	
+	
+	

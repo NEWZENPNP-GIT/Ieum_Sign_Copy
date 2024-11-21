@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>주택관련 소득공제신청 확인서</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+<link rel="stylesheet" type="text/css" href="/css/pikaday.min.css">
+	<style>
+		html, body { overflow: hidden;}
+		input[disabled]{opacity:0.5;}
+		.sign .sign{padding-right:5px;text-align:right;}
+		dl.NanumGothic { position: absolute; visibility: hidden; }
+		dl.NanumGothic.active,
+		.box_wrap dl:first-child{ position: static; visibility: visible; }
+		.yearTax_popup dd ul li { height: auto;}
+		/* dl.NanumGothic.active { background: #e0e0e0;} */
+	</style>
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script src="/js/modernizr.min.js"></script>
+<script src="/js/moment.min.js"></script>
+<script src="/js/pikaday.min.js"></script>
+<script>
+
+
+	$(document).ready(function() {
+		var nowDate = new Date();
+		$("#formYear").html(nowDate.getFullYear());
+		$("#formMonth").html(nowDate.getMonth()+1);
+		$("#formDay").html(nowDate.getDate());
+	});
+
+</script>
+</head>
+<body>
+	<div id="yearTax_wrap_popup" class="yearTax_popup form">
+		
+		<div class="container">
+			<div id="popup_tit">
+				<div class="tit_icon icon_file"></div>
+				<div class="tit_text NanumGothic">주택관련 소득공제신청 확인서 </div>
+				<div id="popup_close" class="btn_type col_skyblue" onclick="window.close();"></div>
+			</div>
+			<div class="contents">
+				<input type="hidden" name="사용자이름" value="">
+				<input type="hidden" name="주택설문지_작성년월일" value="">
+				<input type="hidden" name="주택관련저축_입력여부" value="2">
+				<input type="hidden" name="주택관련저축_적용여부" value="">
+				<input type="hidden" name="주택임차차입금_입력여부" value="2">
+				<input type="hidden" name="주택임차차입금_적용여부" value="">
+				<input type="hidden" name="주택임차차입금_임대차_연장갱신" value="">
+				<input type="hidden" name="주택임차차입금_다른전세주택이사" value="">
+				<input type="hidden" name="장기주택저당차입금_입력여부" value="2">
+				<input type="hidden" name="장기주택저당차입금_적용여부" value="">
+				<input type="hidden" name="월세공제_입력여부" value="2">
+				<input type="hidden" name="월세공제_적용여부" value="">
+				<input type="hidden" name="총급여" value="">
+				<div class="explain_wrap NanumGothic mar-bot-10">※ 주택관련 공제 신청시 필수 제출 서류 입니다. </div>
+				<div class="NanumGothic subTit">1. 주택관련저축 공제 신청</div>
+				<div class="box_wrap form1">
+					<dl class="NanumGothic">
+						<dt><label class="label_txt">가입저축종류</label></dt>
+						<dd class="row">
+							<div class="chkSet"><input type="radio" name="주택관련저축_가입저축종류" data-index="1"><label>청약저축</label></div>
+							<div class="chkSet"><input type="radio" name="주택관련저축_가입저축종류" data-index="2"><label>주택청약종합저축</label></div>
+							<div class="chkSet"><input type="radio" name="주택관련저축_가입저축종류" data-index="3"><label>근로자주택마련저축</label></div>
+						</dd>
+					</dl>
+					<dl class="NanumGothic step0101">
+						<dt><label class="label_txt">연말현재 세대주여부</label></dt>
+						<dd class="row">
+							<div class="chkSet"><input type="radio" name="주택관련저축_세대주여부" data-index="1"><label>Yes</label></div>
+							<div class="chkSet"><input type="radio" name="주택관련저축_세대주여부" data-index="2"><label>No</label><span class="col_red">(세대주가 아닌경우 공제대상 아님)</span></div>
+						</dd>
+					</dl>
+					<dl class="NanumGothic cell-3 step0102">
+						<dt><label class="label_txt">가입년월일</label></dt>
+						<dd class="column">
+							<div class="chkSet"><input type="radio" name="주택관련저축_가입년월일" data-index="1"><label>2009.12.31 이전 가입</label></div>
+							<div class="chkSet"><input type="radio" name="주택관련저축_가입년월일" data-index="2"><label>2010.1.1 이후 ~ 2014.12.31 이전 가입</label></div>
+							<div class="chkSet"><input type="radio" name="주택관련저축_가입년월일" data-index="3"><label>2015.1.1 이후 가입(총급여 7천만원 이하자)</label></div>
+						</dd>
+					</dl>
+					<dl class="NanumGothic cell-4 step0103">
+						<dt><label class="label_txt">주택소유여부<br>
+						 <span class="dec">Yes 일때, 다음 사항 충족시 해당</span></label></dt>
+						<dd>
+							<ul class="column">
+								<li class="row"><div class="chkSet"><input type="radio" name="주택관련저축_주택소유여부" data-index="1"><label>Yes (2009.12.31이전 청약저축 가입자만 해당) </label></div>
+									<div class="chkSet"><input type="radio" name="주택관련저축_주택소유여부" data-index="2"><label>No</label></div>
+								</li>
+								<li class="sub-2 row"><div class="tit hv-center">- 보유주택규모  :</div>
+									<div class="chkSet"><input type="radio" name="주택관련저축_보유주택규모" data-index="1"><label>전용면적 85㎡ 이하</label></div>
+									<div class="chkSet"><input type="radio" name="주택관련저축_보유주택규모" data-index="2"><label>전용면적 85㎡ 초과</label></div>
+								</li>
+								<li class="sub-2"><div class="tit v-center">- 주택취득시 기준시가  :</div>
+									<div class="chkSet"><input type="radio" name="주택관련저축_기준시가" data-index="1"><label>3억원 이하</label></div>
+									<div class="chkSet"><input type="radio" name="주택관련저축_기준시가" data-index="2"><label>4억이하 (2014.1.1이후 취득분)</label></div>
+								</li>
+							</ul>
+						</dd>
+					</dl>
+					<dl class="NanumGothic cell-3 step0104">
+						<dt><label class="label_txt">제출서류</label></dt>
+						<dd>
+							<ul class="column">
+								<li class="sub-1 row"><div class="tit hv-center">공통서류 :</div>
+									<div class="chkSet"><input type="checkbox" name="주택관련저축_제출서류_납입영수증"><label >납입영수증</label></div>
+									<div class="chkSet"><input type="checkbox" name="주택관련저축_제출서류_주민등록표등본"><label>주민등록표등본</label></div>
+								</li>
+								<li class="sub-1"><div class="tit v-center full">추가서류 (2009.12.31 이전 청약저축 가입자) :</div>
+									<div class="chkSet"><input type="checkbox" name="주택관련저축_제출서류_건물등기부등본"><label>건물등기부등본</label></div>
+									<div class="chkSet"><input type="checkbox" name="주택관련저축_제출서류_개별공동주택가격확인서"><label>개별/공동주택가격확인서</label></div>
+								</li>
+							</ul>
+						</dd>
+					</dl>
+				</div>
+				
+				<div class="NanumGothic subTit">2. 주택임차차입금 원리금상환액 공제 신청<span class="col_red"> (연말현재 무주택자만 공제 가능)</span></div>
+				<div class="box_wrap form2">
+					<dl class="NanumGothic">
+						<dt><label class="label_txt">주택소유여부</label></dt>
+						<dd class="row">
+							<div class="chkSet"><input type="radio" name="주택임차차입금_주택소유여부" data-index="1"><label>Yes</label><span class="col_red">(공제대상 아님)</span></div>
+							<div class="chkSet"><input type="radio" name="주택임차차입금_주택소유여부" data-index="2"><label>No</label></div>
+						</dd>
+					</dl>
+					<dl class="NanumGothic step0201">
+						<dt><label class="label_txt"> 연말현재 세대주여부</label></dt>
+						<dd class="row">
+							<div class="chkSet"><input type="radio" name="주택임차차입금_세대주여부" data-index="1"><label>Yes</label></div>
+							<div class="chkSet"><input type="radio" name="주택임차차입금_세대주여부" data-index="2"><label>No</label><span class="col_skyblue">(세대원인 경우 거주해야 함)</span></div>
+						</dd>
+					</dl>
+					<dl class="NanumGothic step0202">
+						<dt><label class="label_txt">세대주 주택관련공제여부 </label></dt>
+						<dd class="row">
+							<div class="chkSet"><input type="radio" name="주택임차차입금_세대주공제여부" data-index="1"><label >Yes</label></div>
+							<div class="chkSet"><input type="radio" name="주택임차차입금_세대주공제여부" data-index="2"><label>No</label><span>(세대원이 차입하여 공제 받는경우)</span></div>
+						</dd>
+					</dl>
+					<dl class="NanumGothic step0203">
+						<dt><label class="label_txt">차입대상여부 </label></dt>
+						<dd class="row">
+							<div class="chkSet"><input type="radio" name="주택임차차입금_차입대상여부" data-index="1"><label >은행차입</label></div>
+							<div class="chkSet"><input type="radio" name="주택임차차입금_차입대상여부" data-index="2"><label>개인차입</label></div>
+						</dd>
+					</dl>
+					<dl class="NanumGothic cell-2 step0204">
+						<dt><label class="label_txt">이자율</label></dt>
+						<dd>
+							<ul class="column">
+								<li class="sub-1"><div class="tit v-center full">기획재정부령 이자율 : 1.6%</div>
+									<div class="chkSet"><input type="radio" name="주택임차차입금_이자율" data-index="1"><label>높음</label></div>
+									<div class="chkSet"><input type="radio" name="주택임차차입금_이자율" data-index="2"><label>낮음</label></div>
+								</li>
+							</ul>
+						</dd>
+					</dl>
+					<dl class="NanumGothic cell-2 step0205">
+						<dt><label class="label_txt">임차주택규모</label></dt>
+						<dd class="column">
+							<div class="chkSet"><input type="radio" name="주택임차차입금_임차주택규모" data-index="1"><label >전용면적 85㎡ 이하 </label></div>
+							<div class="chkSet"><input type="radio" name="주택임차차입금_임차주택규모" data-index="2"><label>전용면적 85㎡ 초과</label><span class="col_skyblue">(세대원인 경우 거주해야 함)</span></div>
+						</dd>
+					</dl>
+					<dl class="NanumGothic step0206">
+						<dt><label class="label_txt">임차년월일</label></dt>
+						<dd class="">
+							<input class="" type="date" name="주택임차차입금_임차년월일" min="19000101" max="29990101" placeholder="예) 19990101">
+						</dd>
+					</dl>
+					<dl class="NanumGothic step0207">
+						<dt><label class="label_txt">차입년월일</label></dt>
+						<dd class="">
+							<input class="" type="date" name="주택임차차입금_차입년월일" min="19000101" max="29990101" placeholder="예) 19990101">
+						</dd>
+					</dl>
+					<dl class="NanumGothic step0208">
+						<dt><label class="label_txt"> 대출기관에서 <br>임대인 계좌로 직접 입금 </label></dt>
+						<dd class="row">
+							<div class="chkSet"><input type="radio" name="주택임차차입금_입금자" data-index="1"><label >Yes</label></div>
+							<div class="chkSet"><input type="radio" name="주택임차차입금_입금자" data-index="2"><label>No</label></div>
+						</dd>
+					</dl>
+					<dl class="NanumGothic cell-2 step0209">
+						<dt><label class="label_txt">임대차계약을 연장,갱신 </label></dt>
+						<dd class="">
+							<ul class="column">
+								<li class=""><div class="dateBox"><label>연장 또는 갱신일(빠른날) : </label><input type="date" name="주택임차차입금_임대차_연장갱신일" min="19000101" max="29990101" placeholder="예) 19990101"></div></li>
+								<li class=""><div class="dateBox"><label>/ 차입일</label><input type="date" name="주택임차차입금_임대차_차입일" min="19000101" max="29990101" placeholder="예) 19990101"></div></li>
+							</ul>
+						</dd>
+					</dl>
+					<dl class="NanumGothic cell-2 step0210">
+						<dt><label class="label_txt">다른 전세주택으로 이사</label></dt>
+						<dd class="">
+							<ul class="column">
+								<li class=""><div class="dateBox"><label>이사전 주택의 입주일 또는 전입일(빠른날) : </label><input type="date" name="주택임차차입금_다른전세주택이사_입주전입일" min="19000101" max="29990101" placeholder="예) 19990101"></div></li>
+								<li class=""><div class="dateBox"><label>/ 차입일</label><input type="date" name="주택임차차입금_다른전세주택이사_차입일" min="19000101" max="29990101" placeholder="예) 19990101"></div></li>
+							</ul>
+						</dd>
+					</dl>
+					<dl class="NanumGothic open1 step020401">
+						<dt><label class="label_txt">제출서류 - 은행차입 </label></dt>
+						<dd class="row">
+							<div class="chkSet"><input type="checkbox" name="주택임차차입금_제출서류_은행차입_상환증명서"><label >상환증명서</label></div>
+							<div class="chkSet"><input type="checkbox" name="주택임차차입금_제출서류_은행차입_주민등록표등본"><label >주민등록표등본</label></div>
+							<div class="chkSet"><input type="checkbox" name="주택임차차입금_제출서류_은행차입_입대차계약서"><label >임대차계약서</label></div>
+						</dd>
+					</dl>
+					<dl class="NanumGothic cell-3 open2 step020402">
+						<dt><label class="label_txt">제출서류 - 개인차입 </label></dt>
+						<dd >
+							<ul>
+								<li class="row">
+									<div class="chkSet"><input type="checkbox" name="주택임차차입금_제출서류_개인차입_월세"><label >월세∙거주자간 차입명세서</label></div>
+									<div class="chkSet"><input type="checkbox" name="주택임차차입금_제출서류_개인차입_주민등록표등본"><label>주민등록표등본</label></div>
+									<div class="chkSet"><input type="checkbox" name="주택임차차입금_제출서류_개인차입_임대차계약증서"><label>임대차계약증서</label></div>
+									
+								</li>
+								<li class="row"><div class="chkSet"><input type="checkbox" name="주택임차차입금_제출서류_개인차입_금전소비대차계약서사본"><label>금전소비대차계약서사본</label></div></li>
+								<li class="row">
+									<div class="chkSet"><input type="checkbox" name="주택임차차입금_제출서류_개인차입_계좌이체영수증"><label >계좌이체영수증 또는 무통장영수증등 원리금 상환증명서류</label></div>
+								</li>
+							</ul>
+							
+						</dd>
+					</dl>
+				</div>
+				<div class="NanumGothic subTit">3. 장기주택저당차입금 이자상환액 공제 신청</div>
+				<div class="box_wrap form3">
+					<dl class="NanumGothic">
+						<dt><label class="label_txt">연말현재 세대주여부</label></dt>
+						<dd class="row">
+							<div class="chkSet"><input type="radio" name="장기주택저당차입금_세대주여부" data-index="1"><label>Yes</label></div>
+							<div class="chkSet"><input type="radio" name="장기주택저당차입금_세대주여부" data-index="2"><label>No</label></div>
+						</dd>
+					</dl>
+					<dl class="NanumGothic step0301">
+						<dt><label class="label_txt">세대주 주택관련공제여부</label></dt>
+						<dd class="row">
+							<div class="chkSet"><input type="radio" name="장기주택저당차입금_세대주공제여부" data-index="1"><label>Yes</label></div>
+							<div class="chkSet"><input type="radio" name="장기주택저당차입금_세대주공제여부" data-index="2"><label>No</label><span class="">(세대원이 차입하여 공제 받는경우)</span></div>
+						</dd>
+					</dl>
+					<dl class="NanumGothic step0302">
+						<dt><label class="label_txt">거주여부</label></dt>
+						<dd class="row">
+							<div class="chkSet"><input type="radio" name="장기주택저당차입금_거주여부" data-index="1"><label>Yes</label></div>
+							<div class="chkSet"><input type="radio" name="장기주택저당차입금_거주여부" data-index="2"><label>No</label><span class="">(세대원인 경우 거주해야 함)</span></div>
+						</dd>
+					</dl>
+					<dl class="NanumGothic step0303">
+						<dt><label class="label_txt">소유권이전(or보존)등기일</label></dt>
+						<dd class="row">
+							<input type="date" name="장기주택저당차입금_소유권등기일" min="19000101" max="29990101" placeholder="예) 19990101">
+						</dd>
+					</dl>
+					<dl class="NanumGothic step0304">
+						<dt><label class="label_txt">차입금상환기간</label></dt>
+						<dd class="row">
+							<input type="date" name="장기주택저당차입금_차입금상환기간" min="19000101" max="29990101" placeholder="예) 19990101">
+						</dd>
+					</dl>
+					<dl class="NanumGothic cell-4 step0305">
+						<dt><label class="label_txt">차입시기</label></dt>
+						<dd>
+							<ul class="column">
+								<li class="row">
+									<div class="chkSet"><input type="radio" name="장기주택저당차입금_차입시기" data-index="1"><label>2005.12.31 이전차입</label></div>
+									<div class="chkSet"><input type="radio" name="장기주택저당차입금_차입시기" data-index="2"><label>2006.1.1 이후차입</label></div>
+								</li>
+								<li class="row">
+									<div class="chkSet"><input type="radio" name="장기주택저당차입금_차입시기" data-index="3"><label>2014.01.01 이후차입</label></div>
+									<div class="chkSet"><input type="radio" name="장기주택저당차입금_차입시기" data-index="4"><label>2015.1.1 이후차입</label></div>
+								</li>
+							</ul>
+						</dd>
+					</dl>
+					<dl class="NanumGothic cell-2 step0306">
+						<dt><label class="label_txt">보유주택규모</label></dt>
+						<dd class="column">
+							<div class="chkSet"><input type="radio" name="장기주택저당차입금_보유주택규모" data-index="1"><label >전용면적 85㎡ 이하 </label></div>
+							<div class="chkSet"><input type="radio" name="장기주택저당차입금_보유주택규모" data-index="2"><label>전용면적 85㎡ 초과</label><span class="col_skyblue"> *2014.01.01 이후 차입금부터는 주택규모 기준 삭제</span></div>
+						</dd>
+					</dl>
+					<dl class="NanumGothic cell-4 step0307">
+						<dt><label class="label_txt">연말현재 보유주택수</label></dt>
+						<dd class="row">
+							<ul>
+								<li><div class="chkSet"><input type="radio" name="장기주택저당차입금_보유주택수" data-index="1"><label>Yes</label></div>
+									<div class="chkSet"><input type="radio" name="장기주택저당차입금_보유주택수" data-index="2"><label>No</label><span class="col_red">(공제대상 아님)</span></div></li>
+								<li class="sub-1 column">
+									<div class="tit v-center full">당해 2주택을 3개월이내(이상 보유시 공제 제외됨) 보유시 1주택의 처분일 : </div>
+									<span class="col_skyblue">* 2014.01.01 이후 차입금 : </span>
+									<span class="col_skyblue">연말 현재 1주택인 경우로 연중 2주택 보유기간 3개월 이하 기준 삭제 </span>
+								</li>
+							</ul>
+							
+						</dd>
+					</dl>
+					<dl class="NanumGothic step0308">
+						<dt><label class="label_txt">주택취득시 기준시가</label></dt>
+						<dd class="row">
+							<div class="chkSet"><input type="radio" name="장기주택저당차입금_기준시가" data-index="1"><label>3억원 이하</label></div>
+							<div class="chkSet"><input type="radio" name="장기주택저당차입금_기준시가" data-index="2"><label>4억원 이하 </label><span class="col_skyblue">*2006년이전 차입금은 주택가격기준 없음</span></div>
+						</dd>
+					</dl>
+					<dl class="NanumGothic cell-6 step0309">
+						<dt><label class="label_txt">특례(연장,전환)경우</label></dt>
+						<dd >
+							<ul>
+								<li class="column"><div class="chkSet"><input type="radio" name="장기주택저당차입금_특례경우" data-index="1"><label>주택양도인으로 부터 채무인수</label></div>
+									<div class="chkSet"><input type="radio" name="장기주택저당차입금_특례경우" data-index="2"><label>상환 연장 or 전환</label></div>
+									<div class="chkSet"><input type="radio" name="장기주택저당차입금_특례경우" data-index="3"><label>금융기관내 or 기관간 차입금 이전</label></div></li>
+								<li class="sub-1"><div class="tit v-center"> * 연장/전환의 경우 :</div>
+									<div class="chkSet"><input type="radio" name="장기주택저당차입금_연장전환경우" data-index="1"><label>남아있는 금액만큼만 연장전환</label></div>
+									<div class="chkSet"><input type="radio" name="장기주택저당차입금_연장전환경우" data-index="2"><label>증액하여 전환</label><span class="col_red">*2006년이전 차입금은 주택가격기준 없음</span></div>
+								</li>
+							</ul>
+							
+						</dd>
+					</dl>
+					<dl class="NanumGothic cell-3 step0310">
+						<dt><label class="label_txt">제출서류</label></dt>
+						<dd>
+							<ul>
+								<li class="row"><div class="chkSet"><input type="checkbox" name="장기주택저당차입금_제출서류_상환증명서"><label>상환증명서</label></div>
+								<div class="chkSet"><input type="checkbox" name="장기주택저당차입금_제출서류_주민등록표등본"><label>주민등록표등본</label></div></li>
+								<li class="row"><div class="chkSet"><input type="checkbox" name="장기주택저당차입금_제출서류_건물등기부등본"><label>건물등기부등본</label></div>
+								<div class="chkSet"><input type="checkbox" name="장기주택저당차입금_제출서류_개별공동주택가격확인서"><label>개별/공동주택가격확인서(2006.1.1 이후 차입분)</label></div></li>
+								<li class="row"><div class="chkSet"><input type="checkbox" name="장기주택저당차입금_제출서류_증액전이자계산액"><label>증액전이자계산액</label></div></li>
+							</ul>
+							
+							
+						</dd>
+					</dl>
+				</div>
+				<div class="NanumGothic subTit">4. 월세공제 신청 (총급여액 7,000만원 이하인자만 신청!!)</div>
+				<div class="box_wrap form4">
+					<dl class="NanumGothic">
+						<dt><label class="label_txt">주택소유여부</label></dt>
+						<dd class="row">
+							<div class="chkSet"><input type="radio" name="월세공제_주택소유여부" data-index="1"><label>Yes</label><span class="col_red">(공제대상 아님)</span></div>
+							<div class="chkSet"><input type="radio" name="월세공제_주택소유여부" data-index="2"><label>No</label></div>
+						</dd>
+					</dl>
+					<dl class="NanumGothic step0401">
+						<dt><label class="label_txt">연말현재 세대주여부</label></dt>
+						<dd class="row">
+							<div class="chkSet"><input type="radio" name="월세공제_세대주여부" data-index="1"><label>Yes</label></div>
+							<div class="chkSet"><input type="radio" name="월세공제_세대주여부" data-index="2"><label>No</label><span class="">(세대원인 경우 거주해야 함)</span></div>
+						</dd>
+					</dl>
+					<dl class="NanumGothic step0402">
+						<dt><label class="label_txt">세대주 주택관련공제여부</label></dt>
+						<dd class="row">
+							<div class="chkSet"><input type="radio" name="월세공제_세대주공제여부" data-index="1"><label>Yes</label></div>
+							<div class="chkSet"><input type="radio" name="월세공제_세대주공제여부" data-index="2"><label>No</label><span class="">(세대원이 차입하여 공제 받는경우)</span></div>
+						</dd>
+					</dl>
+					<dl class="NanumGothic step0403">
+						<dt><label class="label_txt">거주 여부</label></dt>
+						<dd class="sub-1">
+							<div class="tit v-center full"> 임대차계약증서의 주소지와 주민등록표 등본 주소지 동일 여부 : </div>
+							<div class="chkSet"><input type="radio" name="월세공제_거주여부" data-index="1"><label>Yes</label></div>
+							<div class="chkSet"><input type="radio" name="월세공제_거주여부" data-index="2"><label>No</label></div>
+						</dd>
+					</dl>
+					<dl class="NanumGothic cell-2 step0404">
+						<dt><label class="label_txt">계약자</label></dt>
+						<dd class="column">
+							<div class="chkSet"><input type="radio" name="월세공제_계약자" data-index="1"><label>본인</label></div>
+							<div class="chkSet"><input type="radio" name="월세공제_계약자" data-index="2"><label>기본공제대상자인 배우자 또는 부양가족</label><span class="col_red">(기본공제대상자가 아니면 공제 안됨)</span></div>
+						</dd>
+					</dl>
+					<dl class="NanumGothic step0405">
+						<dt><label class="label_txt">주택규모</label></dt>
+						<dd class="row">
+							<div class="chkSet"><input type="radio" name="월세공제_주택규모" data-index="1"><label>전용면적 85㎡ 이하 </label></div>
+							<div class="chkSet"><input type="radio" name="월세공제_주택규모" data-index="2"><label>전용면적 85㎡ 초과</label></div>
+						</dd>
+					</dl>
+					<dl class="NanumGothic step0406">
+						<dt><label class="label_txt">임차년월일</label></dt>
+						<dd class="row">
+							<input type="date" name="월세공제_임차년월일" min="19000101" max="29990101" placeholder="예) 19990101">
+						</dd>
+					</dl>
+					<dl class="NanumGothic step0407">
+						<dt><label class="label_txt">월세지급일</label></dt>
+						<dd class="row">
+							<input type="date" name="월세공제_월세지급일" min="19000101" max="29990101" placeholder="예) 19990101">
+						</dd>
+					</dl>
+					<dl class="NanumGothic step0408">
+						<dt><label class="label_txt">월임대료</label></dt>
+						<dd class="row">
+							<input type="text" name="월세공제_월임대료">
+						</dd>
+					</dl>
+					<dl class="NanumGothic step0409">
+						<dt><label class="label_txt">계약요건 변동여부<br>(재계약시)</label></dt>
+						<dd class="row">
+							<div class="chkSet"><input type="radio" name="월세공제_계약요건변동여부" data-index="1"><label>Yes (반드시 재계약서 제출)</label></div>
+							<div class="chkSet"><input type="radio" name="월세공제_계약요건변동여부" data-index="2"><label>No (이전 계약서 제출 가능)</label></div>
+						</dd>
+					</dl>
+					<dl class="NanumGothic cell-3 step0410">
+						<dt><label class="label_txt">제출서류</label></dt>
+						<dd>
+							<ul>
+								<li class="row"><div class="chkSet"><input type="checkbox" name="월세공제_제출서류_월세"><label>월세∙거주자간 차입명세서</label></div>
+								<div class="chkSet"><input type="checkbox" name="월세공제_제출서류_주민등록표등본"><label>주민등록표등본</label></div></li>
+								<li class="row"><div class="chkSet"><input type="checkbox" name="월세공제_제출서류_임대차계약서사본"><label>임대차계약증서 사본</label></div>
+								<div class="chkSet"><input type="checkbox" name="월세공제_제출서류_월세납입영수증"><label>월세납입영수증</label></div></li>
+							</ul>
+						</dd>
+						
+					</dl>
+				</div>
+				<ul class="NanumGothic sign_wrap column">
+					<li class="hv-center"><input type="checkbox" class="default" name="주택설문지_동의여부">신고인은 위 내용을 충분히 검토하였고 신고인이 알고 있는 사실 그대로를 기재하였음을 확인한다. </li>
+					<li class="date v-center"><span class="year" id="formYear"></span>년 <span class="month" id="formMonth"></span>월<span class="day" id="formDay"></span>일</li>
+					 <li class="sign v-center">신고인 <div class="sign">  </div></li>
+				</ul>
+				<div class="NanumGothic btn_wrap"><a class="btn_type btn_save"><span class="icon_save NanumGothic"></span>저장</a></div>
+			</div> <!--  contents -->
+		</div>
+	</div>
+</body>
+<script>
+
+/* if (!Modernizr.inputtypes.date) {
+
+	$('input[type=date]').each(function(){
+		$(this).focus(function(){
+			var picker = new Pikaday({
+				field: $(this)[0],
+				format: 'YYYY-MM-DD',
+				firstDay: 1,
+				position: "bottom right",
+				i18n: {
+					previousMonth : '이전달',
+					nextMonth     : '다음달',
+					months        : ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+					weekdays      : ['월요일','월요일','화요일','수요일','목요일','금요일','토요일'],
+					weekdaysShort : ['일','월','화','수','목','금','토']
+				},
+				yearSuffix: '년',
+			});
+
+		})
+	})
+} */
+</script>
+<script type="text/javascript">
+	var http, url, yearContractId, userId, params;
+	// http 통신
+	http = new XMLHttpRequest();
+	
+	// 쿠키 가져오기 & url & param 설정
+	var getCookie = function(name) {
+		var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+		return value? value[2] : null;
+	};
+
+	var getParams = function() {
+		var urlString = location.search;
+
+		var parse = function(params, pairs) {
+			var pair = pairs[0];
+			var parts = pair.split('=');
+			var key = decodeURIComponent(parts[0]);
+			var value = decodeURIComponent(parts.slice(1).join('='));
+
+		// 	Handle multiple parameters of the same name
+			if (typeof params[key] === "undefined") {
+				params[key] = value;
+			} else {
+				params[key] = [].concat(params[key], value);
+			}
+
+			return pairs.length == 1 ? params : parse(params, pairs.slice(1));
+		};
+
+		return urlString.length == 0 ? {} : parse({}, urlString.substr(1).split('&'));
+	};
+	yearContractId = getCookie('yearContractId');
+	//userId = getCookie('userId');
+	userId = getParams().userId;
+	url = '/febworker/yw611.do?계약ID=' + yearContractId + '&사용자ID=' + userId;
+	console.log(userId);
+	
+	http.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			callBackFnc(JSON.parse(this.response));
+		}
+	};
+	http.open("GET", url, true);
+	http.send();
+	
+	// 콜백 fnc
+	function callBackFnc (res) {
+		console.log(res);
+		if(res.주택관련소득공제신청확인서 !== null){
+			Object.keys(res.주택관련소득공제신청확인서).map(function (val, idx) {
+				if(res.주택관련소득공제신청확인서[val] !== null){
+					if(document.querySelectorAll('input[type="radio"][name="' + val +'"]').length){
+						var dataIndex = res.주택관련소득공제신청확인서[val] - 1;
+						document.querySelectorAll('input[name="' + val +'"]')[dataIndex].setAttribute('checked', true);
+					}
+					if(document.querySelectorAll('input[type="checkbox"][name="' + val +'"]').length){
+						if(res.주택관련소득공제신청확인서[val] === '1'){
+							document.querySelector('input[name="' + val +'"]').setAttribute('checked', true);
+						}
+					}
+					if(document.querySelectorAll('input[type="date"][name="' + val +'"]').length){
+						var dataDate = res.주택관련소득공제신청확인서[val];
+						var date = dataDate.substring(0,4) + '-' + dataDate.substring(4,6) + '-' + dataDate.substring(6,8);
+						if(res.주택관련소득공제신청확인서[val] !== ''){
+							document.querySelector('input[name="' + val +'"]').setAttribute('value', date);
+						}
+					}
+					if(document.querySelectorAll('input[type="text"][name="' + val +'"]').length){
+						if(res.주택관련소득공제신청확인서[val] !== ''){
+							document.querySelector('input[name="' + val +'"]').setAttribute('value', res.주택관련소득공제신청확인서[val]);
+						}
+					}
+					if(document.querySelectorAll('input[type="hidden"][name="' + val +'"]').length){
+						if(res.주택관련소득공제신청확인서[val] !== ''){
+							document.querySelector('input[name="' + val +'"]').setAttribute('value', res.주택관련소득공제신청확인서[val]);
+						}
+					}
+				}
+			});
+			document.querySelector('input[type="hidden"][name="사용자이름"]').setAttribute('value', res.근무년월.사용자이름);
+			document.querySelector('input[type="hidden"][name="총급여"]').setAttribute('value', res.근무년월.총급여);
+			if(res.근무년월.총급여 >= 70000000){
+				$('.form1 input[type!="checkbox"], .form4 input[type!="checkbox"]').prop('disabled',true).prop('checked',false);
+				alert("총급여 7천만원이상 대상자는 주택관련저축 공제 및 월세공제를 하실 수 없습니다.");
+			}
+			document.querySelector('div.sign').innerText = res.근무년월.사용자이름;
+		}
+
+		var chkIptTyp = res.주택관련소득공제신청확인서;
+		if (chkIptTyp.월세공제_입력여부 == '1') {
+			$('.form4').find('dl').addClass('active');
+		} else if (chkIptTyp.주택관련저축_입력여부 == '1') {
+			$('.form1').find('dl').addClass('active');
+		} else if (chkIptTyp.주택임차차입금_입력여부 == '1') {
+			$('.form2').find('dl').addClass('active');
+		}else if (chkIptTyp.장기주택저당차입금_입력여부 == '1') {
+			$('.form3').find('dl').addClass('active');
+		}
+	}
+	
+	// 저장 fnc
+	document.querySelector('.btn_save').onclick = function() {
+		https = new XMLHttpRequest();
+		url = '/febworker/yw611.do';
+		params = {
+			"주택관련소득공제신청확인서": {
+				'dbMode': 'C',
+				'계약ID': yearContractId,
+				'사용자ID': userId,
+				"주택설문지_작성년월일": document.querySelector('input[type="hidden"][name="주택설문지_작성년월일"]').getAttribute('value') !== '' ? document.querySelector('input[type="hidden"][name="주택설문지_작성년월일"]').getAttribute('value') : '',
+				"주택설문지_작성자명": document.querySelector('input[type="hidden"][name="사용자이름"]').getAttribute('value'),
+				"주택관련저축_입력여부": document.querySelector('input[type="hidden"][name="주택관련저축_입력여부"]').getAttribute('value'),
+				"주택관련저축_적용여부": "1",//document.querySelector('input[type="hidden"][name="주택관련저축_적용여부"]').getAttribute('value'),
+				"주택임차차입금_입력여부": document.querySelector('input[type="hidden"][name="주택임차차입금_입력여부"]').getAttribute('value'),
+				"주택임차차입금_적용여부": "1",//document.querySelector('input[type="hidden"][name="주택임차차입금_적용여부"]').getAttribute('value'),
+				"주택임차차입금_임대차_연장갱신": document.querySelector('input[type="hidden"][name="주택임차차입금_임대차_연장갱신"]').getAttribute('value'),
+				"주택임차차입금_다른전세주택이사": document.querySelector('input[type="hidden"][name="주택임차차입금_다른전세주택이사"]').getAttribute('value'),
+				"장기주택저당차입금_입력여부": document.querySelector('input[type="hidden"][name="장기주택저당차입금_입력여부"]').getAttribute('value'),
+				"장기주택저당차입금_적용여부": "1",//document.querySelector('input[type="hidden"][name="장기주택저당차입금_적용여부"]').getAttribute('value'),
+				"월세공제_입력여부": document.querySelector('input[type="hidden"][name="월세공제_입력여부"]').getAttribute('value'),
+				"월세공제_적용여부": "1"//document.querySelector('input[type="hidden"][name="월세공제_적용여부"]').getAttribute('value')
+			}
+		};
+		for( var i = 0; i <= document.querySelectorAll('input[type="radio"]:checked').length - 1; i++){
+			params.주택관련소득공제신청확인서[document.querySelectorAll('input[type="radio"]:checked')[i].getAttribute('name')] = document.querySelectorAll('input[type="radio"]:checked')[i].getAttribute('data-index');
+		}
+		for( var i = 0; i <= document.querySelectorAll('input[type="checkbox"]').length - 1; i++){
+			params.주택관련소득공제신청확인서[document.querySelectorAll('input[type="checkbox"]')[i].getAttribute('name')] = document.querySelectorAll('input[type="checkbox"]')[i].checked ? '1' : '2';
+		}
+		for( var i = 0; i <= document.querySelectorAll('input[type="date"]').length - 1; i++){
+			params.주택관련소득공제신청확인서[document.querySelectorAll('input[type="date"]')[i].getAttribute('name')] = document.querySelectorAll('input[type="date"]')[i].value;
+		}
+		for( var i = 0; i <= document.querySelectorAll('input[type="text"]').length - 1; i++){
+			params.주택관련소득공제신청확인서[document.querySelectorAll('input[type="text"]')[i].getAttribute('name')] = document.querySelectorAll('input[type="text"]')[i].value;
+		}
+		
+		https.open('POST', url);
+		https.setRequestHeader('Content-type', 'application/json');
+		//console.log(params);
+		https.send(JSON.stringify(params));
+		//location.reload();
+
+		//window.opener.setParent();
+		alert('저장이 완료되었습니다.');
+		window.close();
+	};
+	
+	// 비활성 fnc
+	$('.form1 input').on('change', function(e){
+		if($('.form1 input[name="주택관련저축_세대주여부"][data-index="2"]').prop('checked')){
+			$('input[name="주택관련저축_적용여부"]').val('2');
+			disabledFnc($('.form1 input').index($('.form1 input[name="주택관련저축_세대주여부"][data-index="2"]')), $('.form1 input[type!="checkbox"]'));
+		}else{
+			$('input[name="주택관련저축_적용여부"]').val('1');
+			enabledFnc($('.form1 input').index($('.form1 input[name="주택관련저축_세대주여부"][data-index="2"]')), $('.form1 input[type!="checkbox"]'));
+			if($('.form1 input[name="주택관련저축_가입년월일"][data-index="3"]').prop('checked') && $('.form1 input[name="주택관련저축_주택소유여부"][data-index="1"]').prop('checked')){
+				$('input[name="주택관련저축_적용여부"]').val('2');
+				disabledFnc($('.form1 input').index($('.form1 input[name="주택관련저축_주택소유여부"][data-index="2"]')), $('.form1 input[type!="checkbox"]'));
+			}else{
+				$('input[name="주택관련저축_적용여부"]').val('1');
+				enabledFnc($('.form1 input').index($('.form1 input[name="주택관련저축_주택소유여부"][data-index="2"]')), $('.form1 input[type!="checkbox"]'));
+				if($('.form1 input[name="주택관련저축_보유주택규모"][data-index="2"]').prop('checked') && $('.form1 input[name="주택관련저축_주택소유여부"][data-index="1"]').prop('checked')){
+					$('input[name="주택관련저축_적용여부"]').val('2');
+					disabledFnc($('.form1 input').index($('.form1 input[name="주택관련저축_보유주택규모"][data-index="2"]')), $('.form1 input[type!="checkbox"]'));
+				}else{
+					$('input[name="주택관련저축_적용여부"]').val('1');
+					enabledFnc($('.form1 input').index($('.form1 input[name="주택관련저축_보유주택규모"][data-index="2"]')), $('.form1 input[type!="checkbox"]'));
+					if($('.form1 input[name="주택관련저축_가입년월일"][data-index="3"]').prop('checked') && $('input[name="총급여"]').val() >= 70000000){
+						$('input[name="주택관련저축_적용여부"]').val('2');
+						disabledFnc($('.form1 input').index($('.form1 input[name="주택관련저축_가입년월일"][data-index="3"]')), $('.form1 input[type!="checkbox"]'));
+					}else{
+						$('input[name="주택관련저축_적용여부"]').val('1');
+						enabledFnc($('.form1 input').index($('.form1 input[name="주택관련저축_가입년월일"][data-index="3"]')), $('.form1 input[type!="checkbox"]'));
+					}
+				}
+			}
+		}
+
+		$('input[name="주택관련저축_입력여부"]').val('1');
+	});
+	
+	$('.form2 input').on('change', function(e){
+		if($('.form2 input[name="주택임차차입금_주택소유여부"][data-index="1"]').prop('checked')){
+			$('input[name="주택임차차입금_적용여부"]').val('2');
+			disabledFnc($('.form2 input').index($('.form2 input[name="주택임차차입금_주택소유여부"][data-index="2"]')), $('.form2 input[type!="checkbox"]'));
+		}else{
+			$('input[name="주택임차차입금_적용여부"]').val('1');
+			enabledFnc($('.form2 input').index($('.form2 input[name="주택임차차입금_주택소유여부"][data-index="2"]')), $('.form2 input[type!="checkbox"]'));
+			if($('.form2 input[name="주택임차차입금_세대주여부"][data-index="1"]').prop('checked') && $('.form2 input[name="주택임차차입금_세대주공제여부"][data-index="2"]').prop('checked')){
+				$('input[name="주택임차차입금_적용여부"]').val('2');
+				disabledFnc($('.form2 input').index($('.form2 input[name="주택임차차입금_세대주공제여부"][data-index="2"]')), $('.form2 input[type!="checkbox"]'));
+			}else{
+				$('input[name="주택임차차입금_적용여부"]').val('1');
+				enabledFnc($('.form2 input').index($('.form2 input[name="주택임차차입금_세대주공제여부"][data-index="2"]')), $('.form2 input[type!="checkbox"]'));
+				if($('.form2 input[name="주택임차차입금_세대주여부"][data-index="2"]').prop('checked') && $('.form2 input[name="주택임차차입금_세대주공제여부"][data-index="1"]').prop('checked')){
+					$('input[name="주택임차차입금_적용여부"]').val('2');
+					disabledFnc($('.form2 input').index($('.form2 input[name="주택임차차입금_세대주공제여부"][data-index="2"]')), $('.form2 input[type!="checkbox"]'));
+				}else{
+					$('input[name="주택임차차입금_적용여부"]').val('1');
+					enabledFnc($('.form2 input').index($('.form2 input[name="주택임차차입금_세대주공제여부"][data-index="2"]')), $('.form2 input[type!="checkbox"]'));
+					if($('.form2 input[name="주택임차차입금_임차주택규모"][data-index="2"]').prop('checked')){
+						$('input[name="주택임차차입금_적용여부"]').val('2');
+						disabledFnc($('.form2 input').index($('.form2 input[name="주택임차차입금_임차주택규모"][data-index="2"]')), $('.form2 input[type!="checkbox"]'));
+					}else{
+						$('input[name="주택임차차입금_적용여부"]').val('1');
+						enabledFnc($('.form2 input').index($('.form2 input[name="주택임차차입금_임차주택규모"][data-index="2"]')), $('.form2 input[type!="checkbox"]'));
+						
+						var date1 = new Date($('input[name="주택임차차입금_임차년월일"]').val()).getMonth();
+						var date2 = new Date($('input[name="주택임차차입금_차입년월일"]').val()).getMonth();
+						if(($('input[name="주택임차차입금_차입대상여부"][data-index="1"]').prop('checked') && (date2 - date1 >= 3)) || ($('input[name="주택임차차입금_차입대상여부"][data-index="2"]').prop('checked') && (date2 - date1 >= 1))){
+							$('input[name="주택임차차입금_적용여부"]').val('2');
+							disabledFnc($('.form2 input').index($('.form2 input[name="주택임차차입금_차입년월일"]')), $('.form2 input[type!="checkbox"]'));
+						}else{
+							$('input[name="주택임차차입금_적용여부"]').val('1');
+							enabledFnc($('.form2 input').index($('.form2 input[name="주택임차차입금_차입년월일"]')), $('.form2 input[type!="checkbox"]'));
+							
+							if($('.form2 input[name="주택임차차입금_입금자"][data-index="2"]').prop('checked')){
+								$('input[name="주택임차차입금_입금자"]').val('2');
+								disabledFnc($('.form2 input').index($('.form2 input[name="주택임차차입금_입금자"][data-index="2"]')), $('.form2 input[type!="checkbox"]'));
+							}else{
+								$('input[name="주택임차차입금_입금자"]').val('1');
+								enabledFnc($('.form2 input').index($('.form2 input[name="주택임차차입금_입금자"]')), $('.form2 input[type!="checkbox"]'));
+							}
+							
+							if($('input[name="주택임차차입금_차입대상여부"][data-index="1"]').prop('checked')){
+								$('.form2 .open1').show();
+							}else{
+								$('.form2 .open1').hide();
+							}
+							if($('input[name="주택임차차입금_차입대상여부"][data-index="2"]').prop('checked')){
+								$('.form2 .open2').show();
+								if($('input[name="총급여"]').val() >= 50000000){
+									disabledFnc($('.form2 input').index($('.form2 input[name="주택임차차입금_차입대상여부"][data-index="2"]')), $('.form2 input[type!="checkbox"]'));
+								}else{
+									enabledFnc($('.form2 input').index($('.form2 input[name="주택임차차입금_차입대상여부"][data-index="2"]')), $('.form2 input[type!="checkbox"]'));
+									if($('input[name="주택임차차입금_차입대상여부"][data-index="2"]').prop('checked') && $('input[name="주택임차차입금_이자율"][data-index="2"]').prop('checked')){
+										$('input[name="주택임차차입금_입금자"]').val('2');
+										disabledFnc($('.form2 input').index($('.form2 input[name="주택임차차입금_이자율"][data-index="2"]')), $('.form2 input[type!="checkbox"]'));
+									}else{
+										$('input[name="주택임차차입금_입금자"]').val('1');
+										enabledFnc($('.form2 input').index($('.form2 input[name="주택임차차입금_이자율"]')), $('.form2 input[type!="checkbox"]'));
+									}
+								}
+							}else{
+								$('.form2 .open2').hide();
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		if($('.form2 input[name="주택임차차입금_임대차_연장갱신일"]').val() !== '' && $('.form2 input[name="주택임차차입금_임대차_차입일"]').val() !== ''){
+			$('input[name="주택임차차입금_임대차_연장갱신"]').val('1');
+		}else{
+			$('input[name="주택임차차입금_임대차_연장갱신"]').val('2');
+		}
+		
+		if($('.form2 input[name="주택임차차입금_다른전세주택이사_입주전입일"]').val() !== '' && $('.form2 input[name="주택임차차입금_다른전세주택이사_차입일"]').val() !== ''){
+			$('input[name="주택임차차입금_다른전세주택이사"]').val('1');
+		}else{
+			$('input[name="주택임차차입금_다른전세주택이사"]').val('2');
+		}
+
+		$('input[name="주택임차차입금_입력여부"]').val('1');
+	});
+	
+	$('.form3 input').on('change', function(e){
+		if($('.form3 input[name="장기주택저당차입금_보유주택수"][data-index="2"]').prop('checked')){
+			$('input[name="장기주택저당차입금_적용여부"]').val('2');
+			disabledFnc($('.form3 input').index($('.form3 input[name="장기주택저당차입금_보유주택수"][data-index="2"]')), $('.form3 input[type!="checkbox"]'));
+		}else{
+			$('input[name="장기주택저당차입금_적용여부"]').val('1');
+			enabledFnc($('.form3 input').index($('.form3 input[name="장기주택저당차입금_보유주택수"][data-index="2"]')), $('.form3 input[type!="checkbox"]'));
+			if($('.form3 input[name="장기주택저당차입금_세대주여부"][data-index="1"]').prop('checked') && $('.form3 input[name="장기주택저당차입금_세대주공제여부"][data-index="2"]').prop('checked')){
+				$('input[name="장기주택저당차입금_적용여부"]').val('2');
+				disabledFnc($('.form3 input').index($('.form3 input[name="장기주택저당차입금_세대주공제여부"][data-index="2"]')), $('.form3 input[type!="checkbox"]'));
+			}else{
+				$('input[name="장기주택저당차입금_적용여부"]').val('1');
+				enabledFnc($('.form3 input').index($('.form3 input[name="장기주택저당차입금_세대주공제여부"][data-index="2"]')), $('.form3 input[type!="checkbox"]'));
+				if($('.form3 input[name="장기주택저당차입금_세대주여부"][data-index="2"]').prop('checked') && $('.form3 input[name="장기주택저당차입금_세대주공제여부"][data-index="1"]').prop('checked')){
+					$('input[name="장기주택저당차입금_적용여부"]').val('2');
+					disabledFnc($('.form3 input').index($('.form3 input[name="장기주택저당차입금_세대주공제여부"][data-index="2"]')), $('.form3 input[type!="checkbox"]'));
+				}else{
+					$('input[name="장기주택저당차입금_적용여부"]').val('1');
+					enabledFnc($('.form3 input').index($('.form3 input[name="장기주택저당차입금_세대주공제여부"][data-index="2"]')), $('.form3 input[type!="checkbox"]'));
+					if($('.form3 input[name="장기주택저당차입금_세대주여부"][data-index="2"]').prop('checked') && $('.form3 input[name="장기주택저당차입금_세대주공제여부"][data-index="2"]').prop('checked') && $('.form3 input[name="장기주택저당차입금_거주여부"][data-index="2"]').prop('checked')){
+						$('input[name="장기주택저당차입금_적용여부"]').val('2');
+						disabledFnc($('.form3 input').index($('.form3 input[name="장기주택저당차입금_거주여부"][data-index="2"]')), $('.form3 input[type!="checkbox"]'));
+					}else{
+						$('input[name="장기주택저당차입금_적용여부"]').val('1');
+						enabledFnc($('.form3 input').index($('.form3 input[name="장기주택저당차입금_거주여부"][data-index="2"]')), $('.form3 input[type!="checkbox"]'));
+						if(($('.form3 input[name="장기주택저당차입금_차입시기"][data-index="1"]').prop('checked') || $('.form3 input[name="장기주택저당차입금_차입시기"][data-index="2"]').prop('checked')) && $('.form3 input[name="장기주택저당차입금_보유주택규모"][data-index="2"]').prop('checked')){
+							$('input[name="장기주택저당차입금_적용여부"]').val('2');
+							disabledFnc($('.form3 input').index($('.form3 input[name="장기주택저당차입금_보유주택규모"][data-index="2"]')), $('.form3 input[type!="checkbox"]'));
+						}else{
+							$('input[name="장기주택저당차입금_적용여부"]').val('1');
+							enabledFnc($('.form3 input').index($('.form3 input[name="장기주택저당차입금_보유주택규모"][data-index="2"]')), $('.form3 input[type!="checkbox"]'));
+						}
+					}
+				}
+			}
+			
+		}
+
+		$('input[name="장기주택저당차입금_입력여부"]').val('1');
+	});
+	
+	$('.form4 input').on('change', function(e){
+		if($('.form4 input[name="월세공제_주택소유여부"][data-index="1"]').prop('checked')){
+			$('input[name="월세공제_적용여부"]').val('2');
+			disabledFnc($('.form4 input').index($('.form4 input[name="월세공제_주택소유여부"][data-index="2"]')), $('.form4 input[type!="checkbox"]'));
+		}else{
+			$('input[name="월세공제_적용여부"]').val('1');
+			enabledFnc($('.form4 input').index($('.form4 input[name="월세공제_주택소유여부"][data-index="2"]')), $('.form4 input[type!="checkbox"]'));
+			if($('.form4 input[name="월세공제_세대주여부"][data-index="1"]').prop('checked') && $('.form4 input[name="월세공제_세대주공제여부"][data-index="2"]').prop('checked')){
+				$('input[name="월세공제_적용여부"]').val('2');
+				disabledFnc($('.form4 input').index($('.form4 input[name="월세공제_세대주공제여부"][data-index="2"]')), $('.form4 input[type!="checkbox"]'));
+			}else{
+				$('input[name="월세공제_적용여부"]').val('1');
+				enabledFnc($('.form4 input').index($('.form4 input[name="월세공제_세대주공제여부"][data-index="2"]')), $('.form4 input[type!="checkbox"]'));
+				if($('.form4 input[name="월세공제_세대주여부"][data-index="2"]').prop('checked') && $('.form4 input[name="월세공제_세대주공제여부"][data-index="1"]').prop('checked')){
+					$('input[name="월세공제_적용여부"]').val('2');
+					disabledFnc($('.form4 input').index($('.form4 input[name="월세공제_세대주공제여부"][data-index="2"]')), $('.form4 input[type!="checkbox"]'));
+				}else{
+					$('input[name="월세공제_적용여부"]').val('1');
+					enabledFnc($('.form4 input').index($('.form4 input[name="월세공제_세대주공제여부"][data-index="2"]')), $('.form4 input[type!="checkbox"]'));
+					if($('.form4 input[name="월세공제_세대주여부"][data-index="2"]').prop('checked') && $('.form4 input[name="월세공제_세대주공제여부"][data-index="2"]').prop('checked') && $('.form4 input[name="월세공제_거주여부"][data-index="2"]').prop('checked')){
+						$('input[name="월세공제_적용여부"]').val('2');
+						disabledFnc($('.form4 input').index($('.form4 input[name="월세공제_거주여부"][data-index="2"]')), $('.form4 input[type!="checkbox"]'));
+					}else{
+						$('input[name="월세공제_적용여부"]').val('1');
+						enabledFnc($('.form4 input').index($('.form4 input[name="월세공제_거주여부"][data-index="2"]')), $('.form4 input[type!="checkbox"]'));
+						if($('.form4 input[name="월세공제_주택규모"][data-index="2"]').prop('checked')){
+							$('input[name="월세공제_적용여부"]').val('2');
+							disabledFnc($('.form4 input').index($('.form4 input[name="월세공제_주택규모"][data-index="2"]')), $('.form4 input[type!="checkbox"]'));
+						}else{
+							$('input[name="월세공제_적용여부"]').val('1');
+							enabledFnc($('.form4 input').index($('.form4 input[name="월세공제_주택규모"][data-index="2"]')), $('.form4 input[type!="checkbox"]'));
+						}
+					}
+				}
+			}
+		}
+		$('input[name="월세공제_입력여부"]').val('1');
+	});
+
+	function disabledFnc(index, target){
+		$.each(target,function(idx,val){
+			if(idx > index){
+				$(val).prop('checked',false);
+				$(val).prop('disabled',true);
+			}
+		});
+	}
+
+	function enabledFnc(index, target){
+		$.each(target,function(idx,val){
+			if(idx > index){
+				$(val).prop('disabled',false);
+			}
+		});
+	}
+
+	$('.form1 input[type!=checkbox]').on('change', function(){
+		var chkName = $(this).attr('name');
+		var chkType = $(this).data('index');
+		
+		switch (chkName) {
+			case '주택관련저축_가입저축종류':
+				$('.step0101').addClass('active')
+				break;
+			case '주택관련저축_세대주여부':
+				if(chkType != 2) {
+					$('.step0102').addClass('active')
+				} else {
+					$('.step0102').removeClass('active');
+					alert('공제 대상이 아닙니다');
+				}
+				break;
+			case '주택관련저축_가입년월일':
+				$('.step0103').addClass('active');
+				break;
+			case '주택관련저축_주택소유여부':
+				if(chkType != 2) {
+					$('.step0104').removeClass('active');
+					alert('공제 대상이 아닙니다');
+				} else {
+					$('.step0104').addClass('active');
+				}
+				break;
+			case '주택관련저축_보유주택규모':
+				if(chkType != 2) {
+					$('.step0104').addClass('active')
+				} else {
+					$('.step0104').removeClass('active')
+					alert('공제 대상이 아닙니다');
+				}
+				break;
+		}
+	});
+	
+	$('.form2 input[type!=checkbox]').on('change', function(){
+		var chkName = $(this).attr('name');
+		var chkType = $(this).data('index');
+		console.log(chkName, chkType);
+		
+		switch (chkName) {
+			case '주택임차차입금_주택소유여부':
+					if (chkType != 1) {
+						$('.step0201').addClass('active')
+					} else {
+						$('.step0201').removeClass('active')
+						alert('공제 대상이 아닙니다');
+					}
+				break;
+			case '주택임차차입금_세대주여부':
+				$('.step0202').addClass('active')
+				break;
+			case '주택임차차입금_세대주공제여부':
+				var chkHold = $('.form2 input[name="주택임차차입금_세대주여부"]:checked').data('index');
+
+				if ( chkHold == 1 && chkType == 2 || chkHold == 2 && chkType == 1) {
+					$('.step0203').removeClass('active')
+					alert('공제 대상이 아닙니다');
+				} else {
+					$('.step0203').addClass('active');
+				}
+				break;
+			case '주택임차차입금_차입대상여부':
+				if (chkType == 1) {
+					$('.step0204').removeClass('active')
+					$('.step020401').addClass('active');
+					$('.step020402').removeClass('active');
+				} else {
+					$('.step0204').addClass('active')
+					$('.step020402').addClass('active');
+					$('.step020401').removeClass('active');
+				}
+				$('.step0205').addClass('active');
+				
+				break;
+			case '주택임차차입금_이자율':
+				if(chkType != 2) {
+					$('.step0205').addClass('active')
+				} else {
+					$('.step0205').removeClass('active')
+					alert('공제 대상이 아닙니다');
+				}
+				break;
+			case '주택임차차입금_임차주택규모':
+				if(chkType != 2) {
+					$('.step0206, .step0207, .step0208').addClass('active')
+				} else {
+					$('.step0206, .step0207, .step0208').removeClass('active')
+					alert('공제 대상이 아닙니다');
+				}
+				break;
+			case '주택임차차입금_입금자':
+				if(chkType != 2) {
+					$('.step0209, .step0210').addClass('active')
+				} else {
+					$('.step0209, .step0210').removeClass('active')
+					alert('공제 대상이 아닙니다');
+				}
+			break;
+		}
+	});
+
+	$('.form3 input[type!=checkbox]').on('change', function(){
+		var chkName = $(this).attr('name');
+		var chkType = $(this).data('index');
+		console.log(chkName);
+		
+		switch (chkName) {
+			case '장기주택저당차입금_세대주여부':
+				$('.step0301').addClass('active')
+				break;
+			case '장기주택저당차입금_세대주공제여부':
+				var chkHold = $('.form3 input[name="장기주택저당차입금_세대주여부"]:checked').data('index');
+				if ( chkHold == 1 && chkType == 2 || chkHold == 2 && chkType == 1) {
+					$('.step0302').removeClass('active')
+					alert('공제 대상이 아닙니다');
+				} else {
+					$('.step0302').addClass('active');
+				}
+				break;
+			case '장기주택저당차입금_거주여부':
+				var chkHold1 = $('.form3 input[name="장기주택저당차입금_세대주여부"]:checked').data('index');
+				var chkHold2 = $('.form3 input[name="장기주택저당차입금_세대주공제여부"]:checked').data('index');
+				if ( chkHold1 == 2 && chkType == 2 && chkHold2 == 2) {
+					$('.step0303, .step0304, .step0305').removeClass('active')
+					alert('공제 대상이 아닙니다');
+				} else {
+					$('.step0303, .step0304, .step0305').addClass('active');
+				}
+				break;
+			case '장기주택저당차입금_차입시기':
+				$('.step0306').addClass('active')
+				break;
+			case '장기주택저당차입금_보유주택규모':
+				var chkHold = $('.form3 input[name="장기주택저당차입금_차입시기"]:checked').data('index');
+				if ( chkHold == 1 && chkType == 2 || chkHold == 2 && chkType == 2) {
+					$('.step0307').removeClass('active')
+					alert('공제 대상이 아닙니다');
+				} else {
+					$('.step0307').addClass('active')
+				}
+				break;
+			case '장기주택저당차입금_보유주택수':
+				if(chkType != 2) {
+					$('.step0308').addClass('active')
+				} else {
+					$('.step0308').removeClass('active')
+					alert('공제 대상이 아닙니다');
+				}
+				break;
+			case '장기주택저당차입금_기준시가':
+				$('.step0309').addClass('active')
+				break;
+			case '장기주택저당차입금_특례경우':
+				$('.step0310').addClass('active')
+				break;
+		}
+	});
+	
+	$('.form4 input[type!=checkbox]').on('change', function(){
+		var chkName = $(this).attr('name');
+		var chkType = $(this).data('index');
+		console.log(chkName, chkType);
+		switch (chkName) {
+			case '월세공제_주택소유여부':
+				if (chkType != 1) {
+					$('.step0401').addClass('active');
+				} else {
+					$('.step0401').removeClass('active');
+					alert('공제 대상이 아닙니다');
+				}
+			break;
+			case '월세공제_세대주여부':
+				$('.step0402').addClass('active');
+			break;
+			case '월세공제_세대주공제여부':
+				var chkHold = $('.form4 input[name="월세공제_세대주여부"]:checked').data('index')
+				if (chkHold == 1 && chkType == 2 || chkHold == 2 && chkType == 1 ) {
+					$('.step0403').removeClass('active');
+					alert('공제 대상이 아닙니다');
+				} else {
+					$('.step0403').addClass('active');
+				}
+			break;
+			case '월세공제_거주여부':
+				var chkHold1 = $('.form4 input[name="월세공제_세대주여부"]:checked').data('index')
+				var chkHold2 = $('.form4 input[name="월세공제_세대주공제여부"]:checked').data('index')
+				if (chkHold1 == 2 && chkHold2 == 2 && chkType == 2 ) {
+					$('.step0404').removeClass('active');
+					alert('공제 대상이 아닙니다');
+				} else {
+					$('.step0404').addClass('active');
+				}
+			break;
+			case '월세공제_계약자':
+				$('.step0405').addClass('active');
+			break;
+			case '월세공제_주택규모':
+				if (chkType != 2) {
+					$('.step0406, .step0407, .step0408, .step0409, .step0410').addClass('active')
+				} else {
+					$('.step0406, .step0407, .step0408, .step0409, .step0410').removeClass('active')
+					alert('공제 대상이 아닙니다');
+				}
+			break;
+		}
+	});
+	
+
+</script>
+</html>

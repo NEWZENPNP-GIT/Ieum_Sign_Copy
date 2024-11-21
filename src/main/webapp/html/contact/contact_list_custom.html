@@ -1,0 +1,506 @@
+
+    <!--****************************************************************************************************************
+    * 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+    * 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+    ********************************************************************************************************************
+    --------------------------------------------------------------------------------------------------------------------
+    * 회사       : 뉴젠피앤피
+    * 화면명     : 주소록관리(거래처)
+    * 화면설명   : 전자문서 > 전자계약(직접입력) > 주소록관리(거래처)
+    * 작성자     : 이정훈
+    * 생성일     : 2023.10.26
+    --------------------------------------------------------------------------------------------------------------------
+    * 수정자     :
+    * 수정일     :
+    * 수정내용   :
+    ------------------------------------------------------------------------------------------------------------------->
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+
+    <link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+    <link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/personnel_management.css">
+    <link rel="stylesheet" type="text/css" href="/css/font_awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <!-- bootPag -->
+    <script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+    <script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/ui.biz.core.js"></script>
+    <script type="text/javascript">
+
+        //***************					윈도우 로딩					***************//
+
+
+        $(document).ready(function(){
+
+            console.log('contact_list_custom.html');
+
+            $('#searchValue').keypress(function(event){
+                var keycode = (event.keyCode ? event.keyCode : event.which);
+                if(keycode == '13'){ fn_contactList(1); }
+                event.stopPropagation();
+            });
+            getBizGrpCombo();
+            fn_contactList(1);
+
+            if (getCookie("systemType") == "2")      { $("#serviceCenter").removeClass("hidden") }
+            if (getCookie("useContractMenu") == "Y") { $(".pointSetting").hide(); }
+
+            $("#searchCompanyPoint").text(addCommas($("#searchPoint option:selected").text()));
+            $("#searchCompany").change(function(){
+                $("#searchPoint").val($(this).val())
+                $("#searchCompanyPoint").text(addCommas($("#searchPoint option:selected").text()));
+            });
+        });
+
+
+        //***************					거래처 리스트 조회					***************//
+
+
+        function fn_contactList(page) {
+
+            var url      = rootPath+"contact/getContactList.do";
+            var viewPage = $("#viewPage").val();
+
+            if(viewPage==""||viewPage=="0") viewPage = 10;
+
+            if (page==0) curPage=0;
+            else         curPage = page-1;
+
+            if (curPage<0) {
+                curPage=0;
+                return;
+            }
+            if (curPage*viewPage>totPage) {
+                curPage-=1;
+                return;
+            }
+
+            var searchKey     = $("#searchKey").val();
+            var searchValue   = $("#searchValue").val();
+            var startPage     = (curPage*viewPage);
+            var endPage       = viewPage;
+            var sortName      = $("#sortName").val();
+            var sortOrder     = $("#sortOrder").val();
+            var bizId         = getCookie("bizId");
+            var searchCompany = $("#searchCompany").val();
+
+            $.blockUI();
+
+            $.ajax({
+                url:url,
+                crossDomain : true,
+                dataType:"json",
+                type:"POST",
+                data: {
+                    OPEN_KEY:getCookie("OPEN_KEY"),
+                    searchKey:searchKey,
+                    searchValue:searchValue,
+                    startPage:startPage,
+                    endPage:endPage,
+                    sortName:sortName,
+                    sortOrder:sortOrder,
+                    bizId:bizId,
+                    searchCompany:searchCompany,
+                    contactType: "C"
+                },
+                success:function(result) {
+
+                    var htmlData = "";
+                    $("#dataList").html(htmlData);
+
+                    if (result.success==true && result.total > 0) {
+                        totPage = result.total;
+                        var totalPage = Math.ceil(totPage/viewPage);
+
+                        // 거래처 내역
+                        $.each(result.data, function(i, row) {
+                            var num = (curPage * viewPage) + i + 1;
+                            htmlData += '<tr> ';
+                            htmlData += ' <td class="chk_area"><input type="checkbox" id="chk" name="chk" value="'+row.contId+'"></td> ';
+                            htmlData += ' <td>'+num+'</td> ';
+                            htmlData += ' <td>'+row.corpName+'</td> ';          // 거래처명
+                            htmlData += ' <td>'+row.corpBizNum+'</td> ';        // 사업자 등록 번호
+                            htmlData += ' <td>'+(row.corpRepName!=null?row.corpRepName:"")+'</td> ';       // 대표자명
+                            htmlData += ' <td>'+(row.corpAddr!=null?row.corpAddr:"")+'</td> ';
+                            htmlData += ' <td>'+(row.contName!=null?row.contName:"")+'</td> ';
+                            htmlData += ' <td>'+row.phoneNumber+'</td> ';
+                            htmlData += ' <td>'+(row.mailAddr!=null?row.mailAddr:"")+'</td> ';
+                            htmlData += ' <td>'+(row.corpDept!=null?row.corpDept:"")+'</td>';
+                            htmlData += ' <td><span style="cursor:pointer;" class="glyphicon glyphicon-edit" onclick="fn_updContact(\''+row.contId+'\')"></span></td> ';
+                            if(isNull(row.loginId)){
+                                htmlData += ' <td><span style="cursor:pointer;" class="glyphicon glyphicon-trash" onclick="fn_delContact(\''+row.contId+'\')"></span></td> ';
+                            } else {
+                                /*emp정보가 있는주소록 일 경우 전자문서가 존재하는지 여부를 체크*/
+                                htmlData += ' <td><span style="cursor:pointer;" class="glyphicon glyphicon-trash" onclick="fn_chkDelContact(\''+row.contId+'\')"></span></td> ';
+                            }
+                            htmlData += '</tr> ';
+                        });
+
+                        if(page==1) {
+                            $('#page-selection').bootpag({
+                                total: totalPage,
+                                page: page,
+                                maxVisible: 10,
+                                firstLastUse: true,
+                                leaps: true,
+                                first: '',
+                                last: '',
+                                wrapClass: 'pagination',
+                                activeClass: 'active',
+                                disabledClass: 'disabled',
+                                nextClass: 'btn_next',
+                                prevClass: 'btn_prev',
+                                lastClass: 'end_page',
+                                firstClass: 'first_page'
+                            }).on("page", function(event, num){ fn_contactList(num); });
+                        }
+                    } else {
+                        htmlData += '<tr> <td colspan="12">요청하신 자료가 존재하지 않습니다.</td></tr>';
+                        $('#page-selection').empty();
+                        $('#page-selection').removeData("twbs-pagination");
+                        $('#page-selection').unbind("page");
+                    }
+                    $("#dataList").html(htmlData);
+                    $.unblockUI();
+                },
+                error:function(request,status,error){
+                    $.unblockUI();
+                    goInvalidPage(request, error);
+                }
+            });
+        }
+
+
+        //***************					그룹 추가					***************//
+
+
+        function fn_addGrp() {
+            var bizId = $("#searchCompany").val();
+            openWin(rootPath+"html/contact/contact_grp_popup_add.html?bizId="+bizId, "그룹 등록", 420, 200);
+        }
+
+
+        //***************					주소록 추가					***************//
+
+
+        function fn_addContact() {
+            var bizId = $("#searchCompany").val();
+            openWin(rootPath+"html/contact/contact_popup_add_custom.html?bizId="+bizId, "주소록 등록", 420, 530);
+        }
+
+
+        //***************					주소록(거래처) 수정					***************//
+
+
+        function fn_updContact(contId) {
+            var bizId = $("#searchCompany").val();
+            openWin(rootPath+"html/contact/contact_popup_edit_custom.html?contId="+contId+"&bizId="+bizId, "주소록 수정", 420, 440);
+        }
+
+
+        //***************					주소록(거래처) 삭제					***************//
+
+        function fn_delContact(contId) {
+
+            if(!confirm("삭제를 하시겠습니까?")) return false;
+
+            var url           = rootPath+"contact/delContact.do";
+            var bizId         = getCookie("bizId");
+            var searchCompany = $("#searchCompany").val();
+
+            $.blockUI();
+
+            $.ajax({
+                url:url,
+                crossDomain : true,
+                dataType:"json",
+                type:"POST",
+                data: {
+                    OPEN_KEY:getCookie("OPEN_KEY"),
+                    contId:contId,
+                    bizId:bizId,
+                    searchCompany:searchCompany
+                },
+                success:function(result) {
+                    if (result.success==true) {
+                        alert("삭제되었습니다.");
+                        fn_contactList(1);
+                    } else { alert("오류가 발생하였습니다."); }
+                    $.unblockUI();
+                },
+                error:function(request,status,error){
+                    $.unblockUI();
+                    goInvalidPage(request, error);
+                }
+            });
+        }
+
+        //***************					체크박스 전체 선택					***************//
+
+
+        function fn_checkAll() {
+            if ($("#checkall").prop("checked"))	{ $("input[name=chk]").prop("checked",true); }
+            else 								{ $("input[name=chk]").prop("checked",false); }
+        }
+
+
+        //***************					해당 사용자 전자근로계약 체결여부 체크					***************//
+
+
+        function fn_chkDelContact(contId){
+
+            if (!confirm("삭제를 하시겠습니까?")) return false;
+            var url = rootPath+"contact/delContactUser.do";
+
+            if(contId == null){
+                var selectedContacts = [];
+
+                $("input[name='chk']:checked").each(function () { selectedContacts.push($(this).val()); });
+
+                if (selectedContacts.length === 0) {
+                    alert("선택된 항목이 없습니다.");
+                    return false;
+                }
+                contId = selectedContacts.join("-");
+            }
+
+            $.ajax({
+                url:url,
+                crossDomain : true,
+                dataType:"json",
+                type:"POST",
+                data: {
+                    OPEN_KEY:getCookie("OPEN_KEY"),
+                    contId:contId,
+                    startPage:0,
+                    endPage:1
+                },
+                success:function(result) {
+                    if (result.success==true) {
+                        alert("삭제되었습니다.");
+                        $("#checkall").prop("checked", false);
+                        fn_contactList(1);
+                    } else { alert("오류가 발생하였습니다."); }
+                },
+                error:function(request,status,error) { goInvalidPage(request, error); }
+            });
+        }
+
+
+        //***************					인사정보 연동					***************//
+
+
+        function fn_addContactUser(){
+
+            if(!confirm("거래처 정보를 주소록에 추가하시겠습니까? 거래처 정보는  회사 그룹에 추가됩니다.")) return false;
+
+            var url = rootPath+"contact/customContactUser.do";
+
+            $.blockUI();
+
+            $.ajax({
+                url:url,
+                crossDomain : true,
+                dataType:"json",
+                type:"POST",
+                data:{
+                    OPEN_KEY:getCookie("OPEN_KEY"),
+                    bizId:$("#searchCompany").val()
+                },
+                success:function(result) {
+                    if (result.success==true) {
+                        alert("등록되었습니다.");
+                        fn_contactList(1);
+                    } else { alert("등록중 오류가 발생하였습니다."); }
+                    $.unblockUI();
+                },
+                error:function(request,status,error){ goInvalidPage(request, error); }
+            });
+        }
+
+        $(".list").find("th").click(function(e){
+            $(".list").find("th").removeClass("active");
+            var name = $(this).attr("sort-name");
+            var order = $(this).attr("sort-order");
+            if(!isNull(name)) {
+                $(this).addClass("active");
+                $("#sortName").val(name);
+                $("#sortOrder").val(order);
+                fn_contactList(1);
+                if(order=="ASC") { order = "DESC"; }
+                else             { order = "ASC"; }
+                $(this).attr("sort-order", order);
+            }
+        });
+
+
+        //***************					기업 조회					***************//
+
+
+        function getBizGrpCombo() {
+
+            var url = rootPath+"biz/getBizGrpCombo.do";
+            $("#searchCompany").html("");
+            $("#searchPoint").html("");
+
+            $.ajax({
+                url:url,
+                crossDomain : true,
+                dataType:"json",
+                async: false,
+                type:"GET",
+                data: { },
+                success:function(result) {
+                    if(result.success){
+                        var workStatus = result.data;
+                        $.each(workStatus, function(i, data){
+                            $("#searchCompany").append($("<option>", {
+                                value: data.id,
+                                text: data.name
+                            }));
+                            $("#searchPoint").append($("<option>", {
+                                value: data.id,
+                                text: data.curPoint
+                            }));
+                        });
+                        $("#searchCompany").append($("<option>", {
+                            value: '',
+                            text: '전체'
+                        }));
+                    }
+                },
+                error:function(request,status,error){ alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); }
+            });
+        }
+
+    </script>
+    </head>
+
+    <body>
+    <div id="personList_wrap" class="">
+        <div class="container">
+            <div class="location">
+                <span class="loc_main NanumGothic">전자문서 > 전자계약(직접입력) > </span><span class="loc_sub NanumGothic">주소록관리(거래처)</span>
+                <span onclick="openHelpWindow('contactlist')" class="btn btn-default" style="color:#07a6ff;float:right;"><i class="fa fa-question"></i> 도움말</span>
+                <span id="serviceCenter" class="hidden" style="float:right; color:red;padding-top:5px;">고객센터 02-3270-6285&nbsp;&nbsp;</span>
+            </div>
+
+            <div class="field_area">
+                <div class="selBox NanumGothic">
+                    <select id="searchCompany" onchange="fn_contactList(1)"></select>
+                    <select id="searchPoint" style="display:none;"></select>
+                </div>
+                <span class="NanumGothic pointSetting" style="font-size: 13px; color: #333333; font-weight: bold; line-height: 30px; height: 30px; float: left; margin-top: 3px; margin-left: 15px;">
+                    잔여 포인트 :&nbsp;
+                    <span id="searchCompanyPoint" class="NanumGothic" style="font-size: 13px; color: blue; font-weight: bold; line-height: 30px; height: 30px; margin-top: 3px;"></span>
+                    &nbsp;P
+                </span>
+            </div>
+            <div class="field_area">
+                <div class="selBox NanumGothic">
+                    <select id="searchKey">
+                        <option value="corpName" class="lt">거래처명</option>
+                        <option value="repName" class="lt">대표자명</option>
+                        <option value="contName" class="lt">담당자명</option>
+                        <option value="phoneNum" class="lt">휴대폰번호</option>
+                    </select>
+                </div>
+                <div class="inputBox">
+                    <fieldset>
+                        <input type="text" id="searchValue" class="word_input NanumGothic">
+                        <a class="btn_search btn_type Material_icons" onclick="fn_contactList(1)">search</a>
+                    </fieldset>
+                </div>
+                <div class="selBox NanumGothic">
+                    <select id="sortName" onchange="fn_contactList(1)">
+                        <option value="A.INS_DATE" selected>정렬항목</option>
+                        <option value="A.CORP_NAME">거래처명</option>
+                        <option value="A.CONT_NAME">담당자성명</option>
+                        <option value="A.CORP_REP_NAME">대표자성명</option>
+                        <option value="A.PHONE_NUMBER">휴대폰번호</option>
+                    </select>
+                </div>
+                <div class="selBox NanumGothic">
+                    <select id="sortOrder" onchange="fn_contactList(1)">
+                        <option value="DESC" selected>정렬기준</option>
+                        <option value="DESC">내림차순</option>
+                        <option value="ASC">올림차순</option>
+                    </select>
+                </div>
+                <div class="selBox NanumGothic">
+                    <select id="viewPage" onchange="fn_contactList(1)">
+                        <option value="10" selected>조회건수</option>
+                        <option value="10">10건</option>
+                        <option value="20">20건</option>
+                        <option value="30">30건</option>
+                        <option value="50">50건</option>
+                        <option value="100">100건</option>
+                        <option value="250">250건</option>
+                    </select>
+                </div>
+            </div>
+            <div class="table_contents">
+                <div class="list">
+                    <table class="NanumGothic">
+                        <colgroup>
+                            <col width="3%">    <!--체크박스-->
+                            <col width="3%">    <!--순번-->
+                            <col width="10%">   <!--거래처명-->
+                            <col width="8%">    <!--사업자등록번호-->
+                            <col width="6%">    <!--대표자명-->
+                            <col width="20%">   <!--주소-->
+                            <col width="6%">    <!--담당자명-->
+                            <col width="10%">   <!--담당자전화번호-->
+                            <col width="18%">   <!--담당자이메일-->
+                            <col width="6%">    <!--담당자부서명-->
+                            <col width="5%">    <!--수정-->
+                            <col width="5%">    <!--삭제-->
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th class="chk_area"><input type="checkbox" id="checkall" onclick="fn_checkAll()"></th>
+                            <th>순번</th>
+                            <th sort-name="A.CORP_NAME" sort-order="ASC">거래처명</th>
+                            <th sort-name="A.CORP_BIZ_NUM" sort-order="ASC">사업자등록번호</th>
+                            <th sort-name="A.CORP_REP_NAME" sort-order="ASC">대표자명</th>
+                            <th >주소</th>
+                            <th sort-name="A.CONT_NAME" sort-order="ASC">담당자명</th>
+                            <th>담당자전화번호</th>
+                            <th>담당자이메일</th>
+                            <th>담당자부서명</th>
+                            <th>수정</th>
+                            <th>삭제</th>
+                        </tr>
+                        </thead>
+                        <tbody id="dataList">
+                        <tr class="databox">
+                            <td class=""></td>
+                            <td colspan="12">
+                                자료가 존재하지 않습니다.
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="page-selection" class="pagingnav_wrap"></div>
+            </div>
+            <div class="btn_footGroup NanumGothic">
+                <a class="btn_type type1" onclick="fn_chkDelContact();">선택삭제</a>
+                <a class="btn_type type3" onclick="fn_addContactUser();">거래처 연동</a>
+                <a class="btn_type type5" onclick="fn_addContact();">주소록추가 </a>
+                <a class="btn_type type1" onclick="fn_addGrp();">그룹추가 </a>
+            </div>
+        </div>
+    </div>
+    </body>
+    </html>

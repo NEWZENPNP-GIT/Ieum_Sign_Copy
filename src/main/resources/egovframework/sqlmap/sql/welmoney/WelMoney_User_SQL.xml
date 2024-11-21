@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="welmoneyUser">
+	<typeAlias alias="welMoneyUserVO" type="com.ezsign.welmoney.vo.WelMoneyUserVO" />
+
+	<resultMap id="loginListMap" class="welMoneyUserVO">
+		<result property="userId" column="USER_ID"/>
+		<result property="userPwd" column="USER_PWD"/>
+	</resultMap>
+	
+	<resultMap id="memberListMap" class="welMoneyUserVO">
+		<result property="userId" column="USER_ID"/>
+		<result property="userName" column="USER_NAME"/>
+		<result property="startDate" column="START_DATE"/>
+		<result property="endDate" column="END_DATE"/>
+		<result property="phoneNum" column="PHONE_NUM"/>
+		<result property="eMail" column="E_MAIL"/>
+	</resultMap>
+
+	<select id="welMoneyUserDAO.login" parameterClass="welMoneyUserVO" resultMap="loginListMap" >		
+		SELECT  USER_ID, USER_PWD
+		FROM    tbl_welmoney_admin_user
+		WHERE	USER_ID = #userId#
+	</select>
+	
+	<select id="welMoneyUserDAO.getMemberList" parameterClass="welMoneyUserVO" resultMap="memberListMap" >		
+		SELECT  USER_ID
+			   ,USER_NAME
+			   ,START_DATE
+			   ,END_DATE
+			   ,PHONE_NUM
+			   ,E_MAIL
+		FROM    tbl_welmoney_user
+		WHERE	1=1
+		<isNotNull property="searchKey">
+		    <isNotEmpty property="searchKey">
+		    	<isEqual property="searchKey" compareValue="userId">
+					AND	USER_ID LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="empName">
+					AND	USER_NAME LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="eMail">
+					AND	E_MAIL	LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="phoneNum">
+					AND	PHONE_NUM = #searchValue#
+		    	</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<select id="welMoneyUserDAO.getMember" parameterClass="welMoneyUserVO" resultMap="memberListMap" >		
+		SELECT  USER_ID
+			   ,USER_NAME
+			   ,START_DATE
+			   ,END_DATE
+			   ,PHONE_NUM
+			   ,E_MAIL
+		FROM    tbl_welmoney_user
+		WHERE	1=1
+		<isNotNull property="userId">
+		    <isNotEmpty property="userId">
+		    	AND USER_ID = #userId#
+		    </isNotEmpty>
+		</isNotNull>
+		<isNotNull property="endDate">
+		    <isNotEmpty property="endDate">
+		    	AND END_DATE >= #endDate#
+		    </isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<insert id="welMoneyUserDAO.insMember" parameterClass="welMoneyUserVO">
+		INSERT INTO tbl_welmoney_user (
+			USER_ID
+		   ,USER_NAME
+		   ,START_DATE
+		   ,END_DATE
+		   ,PHONE_NUM
+		   ,E_MAIL
+		   ,INS_DATE
+		   ,UPD_DATE
+		) VALUES (
+		    #userId#
+		   ,#userName#
+		   ,#startDate#
+		   ,#endDate#
+		   ,#phoneNum#
+		   ,#eMail#
+		   ,DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		   ,DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<update id="welMoneyUserDAO.updMember" parameterClass="welMoneyUserVO">
+		UPDATE tbl_welmoney_user
+		SET
+		<isNotNull property="userName">
+		    <isNotEmpty property="userName">
+				USER_NAME			= #userName#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="startDate">
+		    <isNotEmpty property="startDate">
+				START_DATE			= #startDate#,
+			</isNotEmpty>
+		</isNotNull>
+				END_DATE			= #endDate#,
+		<isNotNull property="phoneNum">
+		    <isNotEmpty property="phoneNum">
+				PHONE_NUM			= #phoneNum#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="eMail">
+		    <isNotEmpty property="eMail">
+				E_MAIL			= #eMail#,
+			</isNotEmpty>
+		</isNotNull>
+		UPD_DATE	= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	USER_ID  = #userId#
+	</update>
+	
+	<delete id="welMoneyUserDAO.delMember" parameterClass="welMoneyUserVO">
+		DELETE FROM tbl_welmoney_user			
+		WHERE	USER_ID = #userId#
+	</delete>
+	
+	<select id="welMoneyUserDAO.welmoneyLoginCheck" parameterClass="welMoneyUserVO" resultMap="memberListMap" >		
+		SELECT  USER_ID
+			   ,USER_NAME
+			   ,START_DATE
+			   ,END_DATE
+			   ,PHONE_NUM
+			   ,E_MAIL
+		FROM    tbl_welmoney_user
+		WHERE	1=1
+		  AND	START_DATE &lt;= DATE_FORMAT(SYSDATE(), '%Y%m%d')
+		  AND	IFNULL(NULLIF(END_DATE, ''), '99999999') &gt;= DATE_FORMAT(SYSDATE(), '%Y%m%d')
+		<isNotNull property="userId">
+		    <isNotEmpty property="userId">
+		    	AND USER_ID = #userId#
+		    </isNotEmpty>
+		</isNotNull>
+	</select>
+</sqlMap>

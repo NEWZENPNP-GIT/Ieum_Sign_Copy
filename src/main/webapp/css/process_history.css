@@ -1,0 +1,215 @@
+@charset "utf-8";
+/*>>>>>>  default <<<<<*/
+body,p,span,a,input,ul,li,article,dl,img{margin: 0px; padding:0px; -webkit-margin:0px;-webkit-padding:0px;}
+ul{list-style-type: none}
+
+.btn_type{cursor: pointer;}
+.none{display: none;}
+.hidden{visibility: hidden}
+a{text-decoration: none;}
+
+/* ******************************** company search ******************************** */
+/* -------------------- media ----------------------------- */
+@media all and (max-width: 360px) {
+   #proHistory_wrap #popup_bg{width: 90% !important; left:87% !important; /* height: 100% !important; */}
+   #proHistory_wrap #popup_bg .popup_frame{width: 92% !important; padding-left: 15px !important;}
+   #proHistory_wrap #popup_bg .popup_tit .bg{width: 94% !important; padding: 4% 2% !important;}
+
+   #proHistory_wrap #popup_bg .popup_btnGroup{margin-bottom: 10px !important; margin-top: 10px;}
+   #proHistory_wrap .popup_btnGroup .btn_type {width: 95px !important;}
+   #proHistory_wrap .popup_btnGroup .btn_type:last-child{margin-right:10px !important;}
+   
+   .pagingnav_wrap {width: 97% !important;}
+}
+@media all and (min-width: 361px) and (max-width: 414px) {
+   #proHistory_wrap #popup_bg{width: 90% !important; left:83.5% !important; /* height: 100% !important; */}
+   #proHistory_wrap #popup_bg .popup_frame{width: 90% !important;}
+   #proHistory_wrap #popup_bg .popup_tit .bg{width: 88% !important; padding: 4% 5% !important;}
+   #proHistory_wrap #popup_bg .popup_btnGroup{margin-bottom: 10px !important; margin-top: 10px;}
+   
+   #proHistory_wrap .popup_btnGroup .btn_type {width: 100px !important;}
+   #proHistory_wrap .popup_btnGroup .btn_type:last-child{margin-right:20px !important;}
+}
+
+@media all and (min-width: 414px) and (max-width: 588px) {
+   #proHistory_wrap #popup_bg{width: 90% !important; left:76% !important; /* height: 100% !important; */}
+   #proHistory_wrap #popup_bg .popup_frame{width: 90% !important;}
+   #proHistory_wrap #popup_bg .popup_tit .bg{width: 88% !important; padding: 4% 5% !important;}
+   
+   #proHistory_wrap #popup_bg .popup_btnGroup{margin-bottom: 10px !important; margin-top: 10px;}
+}
+
+#proHistory_wrap{position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5)}
+#proHistory_wrap #popup_bg{position: absolute;  width: 650px; min-height: 452px; left:calc(50% - 325px); top: calc(50% - 226px); background-color: #fff; border-radius: 8px;
+}
+#proHistory_wrap #popup_bg .popup_frame{width: 100%; padding:0 25px; box-sizing: border-box;}
+#proHistory_wrap #popup_bg .popup_name{height: 39px; margin-bottom: 18px; padding-top: 16px;}
+#proHistory_wrap #popup_bg .popup_name .icon{display: inline-block; margin-right: 7px; vertical-align: bottom; }
+.icon.note{background: url(image/alert_icon_note.png) no-repeat; width: 17px; height: 23px; }
+#proHistory_wrap #popup_bg .popup_name .text{display: inline-block; color:#00acff; font-size: 19px; font-weight: bold;}
+#proHistory_wrap #popup_bg .popup_name .popup_close{display: inline-block; position: relative;  width: 20px; height: 20px; background: url(image/popup_btn_closeSkyblue.png) no-repeat; color:#00a9e9; font-size: 34px; float:right; margin: 0px -10px 0 0; z-index: 15; right: 0;}
+
+#proHistory_wrap #popup_bg .seh_res table{table-layout: fixed; width: 100%; border-collapse: collapse;}
+#proHistory_wrap #popup_bg .seh_res{position: relative; width: 100%; min-height: 300px; height: 300px; display: inline-block; overflow-y: auto; overflow-x: hidden;}
+#proHistory_wrap #popup_bg .seh_res tbody tr{height: 53px;}
+#proHistory_wrap #popup_bg .seh_res tr, .seh_res th, .seh_res td {margin: 0; padding: 0; border: 0;}
+#proHistory_wrap #popup_bg .seh_res table tr th{background-color: #00a9e9; color:#fff; font-size: 12px; height: 35px; text-align: center; border-right:1px solid #e1e1e1; border-top:1px solid #5c9dda}
+
+#proHistory_wrap #popup_bg .seh_res table tr th:last-child,.seh_res table tr td:last-child{border-right:none}
+#proHistory_wrap #popup_bg .seh_res table tr td.time{text-align: left; /* overflow:hidden; white-space:nowrap; text-overflow:ellipsis; */ }
+#proHistory_wrap #popup_bg .seh_res table tr td.state{background-color: #f9f9f9; text-align: center;}
+#proHistory_wrap #popup_bg .seh_res table tr td.state.complete{color:#00a9e9}
+#proHistory_wrap #popup_bg .seh_res table tr td.text{word-wrap: break-word; line-height: 18px;}
+#proHistory_wrap #popup_bg .seh_res table tr td{font-size: 13px; font-weight:bold; border-right:1px solid #e1e1e1; border-bottom:1px solid #e1e1e1; min-height: 35px; padding:0 10px; color:#666666;}
+#proHistory_wrap #popup_bg .seh_res input[type="text"],textarea{width:calc(100% - 12px); height: 28px; outline: none; border: 1px solid #dcdcdc; color:#666666; padding-left:10px;}
+
+
+#proHistory_wrap #popup_bg .seh_res2 table{table-layout: fixed; width: 100%; border-collapse: collapse;}
+#proHistory_wrap #popup_bg .seh_res2{position: relative; width: 100%; min-height: 150px; height: 150px; display: inline-block; overflow-y: auto; overflow-x: hidden;}
+#proHistory_wrap #popup_bg .seh_res2 tbody tr{height: 35px;}
+#proHistory_wrap #popup_bg .seh_res2 tr, .seh_res th, .seh_res td {margin: 0; padding: 0; border: 0;}
+#proHistory_wrap #popup_bg .seh_res2 table tr th{background-color: #00a9e9; color:#fff; font-size: 12px; height: 35px; text-align: center; border-right:1px solid #e1e1e1; border-top:1px solid #5c9dda}
+
+#proHistory_wrap #popup_bg .seh_res2 table tr th:last-child,.seh_res table tr td:last-child{border-right:none}
+#proHistory_wrap #popup_bg .seh_res2 table tr td.time{text-align: left; /* overflow:hidden; white-space:nowrap; text-overflow:ellipsis; */ }
+#proHistory_wrap #popup_bg .seh_res2 table tr td.state{background-color: #f9f9f9; text-align: center;}
+#proHistory_wrap #popup_bg .seh_res2 table tr td.state.complete{color:#00a9e9}
+#proHistory_wrap #popup_bg .seh_res2 table tr td.text{word-wrap: break-word; line-height: 18px;}
+#proHistory_wrap #popup_bg .seh_res2 table tr td{font-size: 13px; font-weight:bold; border-right:1px solid #e1e1e1; border-bottom:1px solid #e1e1e1; min-height: 35px; padding:0 10px; color:#666666;}
+#proHistory_wrap #popup_bg .seh_res2 input[type="text"],textarea{width:calc(100% - 12px); height: 28px; outline: none; border: 1px solid #dcdcdc; color:#666666; padding-left:10px;}
+
+
+#proHistory_wrap .popup_btnGroup{width:100%; height: 40px; position:absolute; bottom:30px; display: flex; justify-content: center; align-items: center; display: -ms-flex; -ms-justify-content: center; -ms-align-items: center; display: -webkit-flex; -webkit-justify-content: center; -webkit-align-items: center}
+#proHistory_wrap .popup_btnGroup.sort_r{display: inline-block; position:relative; width:auto; float:right; margin: 20px 25px 0 0;  bottom:0px;}
+#proHistory_wrap .popup_btnGroup .btn_type{width: auto; height: 36px; display: inline-block; padding:0 42px; color: #fff; font-size: 13px; background-color: #1088d4; border:1px solid #1088d4; border-radius: 6px; text-align: center; line-height: 35px;}
+#proHistory_wrap .popup_btnGroup .btn_type:nth-child(2){background-color: #5a93c8; }
+#proHistory_wrap .popup_btnGroup .btn_type:nth-child(3){background-color: #666e76;}
+
+
+#contract_popup{width: 100%; height: 500px; display: inline-block; /* border:1px solid red; */}
+#contract_popup .container{width:100%; height: 100%; padding: 15px 20px 20px 20px; position: relative; display: inline-block; box-sizing: border-box;}
+#contract_popup #popup_tit{position: relative; width: 100%; border-bottom: 1px solid #00a9e9; height: 42px; z-index: 4; float:left}
+#contract_popup #popup_close.btn_type.col_skyblue{position:relative; margin-top:5px; margin-right:-5px; float:right; width:20px; height: 20px;background: url('image/popup_btn_closeSkyblue.png') no-repeat; z-index: 5;}
+#contract_popup #popup_tit .tit_icon{display: inline-block;  position: relative;  width: 27px; height: 24px; margin-right:8px; vertical-align:middle; float:left}
+#contract_popup #popup_tit .tit_icon:after{display: inline-block; content:""; width:100%; height:100%; background:url(image/personnel/icon_popup.png); }
+#contract_popup #popup_tit .tit_text{position:relative; font-size: 20px; font-weight:bold; color:#00acff; display: inline-block; vertical-align: middle;}
+#contract_popup .contents{height: 403px; padding-top: 25px;  overflow-y:auto; overflow-x:hidden; float:left}
+#contract_popup .contents.hType2{height: 337px;}
+#contract_popup .contents .input_wrap{display: inline-block; width: 100%;}
+#contract_popup .contents .input_wrap .boxRow{display: inline; width:100%; float: left; margin-bottom: 8px;}
+#contract_popup .contents .input_wrap .boxRow.w90 dt{width: 90px;}
+#contract_popup .contents .input_wrap .boxRow.w90 dd{width: calc(100% - 90px)}
+#contract_popup .contents .input_wrap .boxRow dt{width: 125px; height: 30px; float:left; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#contract_popup .contents .input_wrap .boxRow dt label{font-size: 13px; color:#333333; padding-left:15px; font-weight: bold;}
+#contract_popup .contents .input_wrap .boxRow dd{display: inline-block; float:left; position: relative; margin: 0; height: 30px; width: calc(100% - 125px);}
+#contract_popup .contents .input_wrap .boxRow dd.radio_box{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; flex-direction: row;}
+#contract_popup .contents .input_wrap .boxRow dd.radio_box .radSet{width: 50%;}
+#contract_popup .contents .input_wrap .boxRow dd.radio_box input[type="radio"]{display:inline-block; width:20px; height:20px; background:url(image/point/btn_radio_default.png) no-repeat 50% 50%; cursor:pointer; vertical-align:middle; appearance: none; -moz-appearance: none;-webkit-appearance: none;}
+#contract_popup .contents .input_wrap .boxRow dd.radio_box input[type="radio"]:focus{outline: none;}
+#contract_popup .contents .input_wrap .boxRow dd.radio_box input[type="radio"]:checked {background:url(image/point/btn_radio_checked.png) no-repeat  50% 50%;}
+#contract_popup .contents .input_wrap .boxRow dd.radio_box input[type="radio"]::-ms-expand,.group_row dd.radio_box .radSet input[type="radio"]::-ms-check {display: none;}
+#contract_popup .contents .input_wrap .boxRow dd.radio_box label{font-size: 13px; font-weight: bold; color: #666666;}
+#contract_popup .contents .input_wrap .boxRow dd fieldset{display: inline-block; height: 28px; width: calc(100% - 2px); margin: 0px; padding: 0px; border: 1px solid #dcdcdc; vertical-align: middle;}
+#contract_popup .contents .input_wrap .boxRow dd fieldset input[type="text"]{height: 28px; width: calc(100% - 35px); border: none; outline: none; float: left;}
+#contract_popup .contents .input_wrap .boxRow dd fieldset + div {display: flex; display: -ms-flex; display: -webkit-flex; height:35px;
+align-items: center; -ms-align-items: center; -webkit-align-items: center; border: none; font-size: 13px; font-weight: bold; color:#666666;}
+#contract_popup .contents .input_wrap .boxRow dd .btn_search{display: inline-block; font-size: 23px !important; margin-top: -1px !important; color: #00a9e9 !important; font-weight: bold !important;}
+
+#contract_popup .contents .input_wrap .default_bx dd{display: inline-block; float: left; position: relative; margin: 0; min-height: 30px; width: calc(100% - 125px);}
+#contract_popup .contents .input_wrap dd input[type="text"],textarea{width:calc(100% - 12px); height: 28px; outline: none; border: 1px solid #dcdcdc; color:#666666; padding-left:10px;}
+#contract_popup .contents .input_wrap dd textarea{width:calc(100% - 14px); height: 60px; outline: none; border: 1px solid #dcdcdc; color:#666666; padding-left:10px;}
+#contract_popup .contents .input_wrap dd input[type="date"]{border: 1px solid #dcdcdc;width:calc(100% - 12px); height: 28px; padding-left: 10px;}
+#contract_popup .contents .input_wrap dd input[type="date"]::-webkit-inner-spin-button {height: 30px; }
+#contract_popup .contents .input_wrap dd.column2{display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; justify-content: space-between; -ms-justify-content: space-between; -webkit-justify-content: space-between;}
+#contract_popup .contents .input_wrap dd.column2 input{width: calc(50% - 12px); color:#666666; padding-left:10px;}
+#contract_popup .contents .input_wrap dd.column3 input{width:calc(65% - 72px); float:left;}
+#contract_popup .contents .input_wrap dd.column2 select{width: 50%; float:left}
+#contract_popup .contents .input_wrap dd.column3 select{width: 35%; float:left; }
+#contract_popup .contents .input_wrap dd.column3 .label_txt{width: 60px; height: 30px; font-size: 13px; align-self: center; text-align: center; float:left;
+display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#contract_popup .contents .input_wrap .default_bx dd.rowbox{height: 70px;}
+#contract_popup .contents .input_wrap .default_bx dd.rowbox .default_box{margin-bottom: 5px; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#contract_popup .contents .input_wrap .default_bx dd .default_box{width:calc(100% - 12px); height: 28px;  border: 1px solid #dcdcdc; color:#666666; padding-left:5px;}
+#contract_popup .contents .input_wrap .default_bx dd.column2 .default_box{width:calc(100% - 110px); float: left; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+#contract_popup .contents .input_wrap .default_bx dd.column2 .btn_type{width:98px; height: 28px; border-radius: 0; float:left; color:#3d3d3d; background-color:#aaaaaa; border: 1px solid #5f5f5f;}
+#contract_popup .contents .input_wrap .default_bx dd.column2 .btn_type:hover{color:#00a9e9; background-color:#e0f6ff; border: 1px solid #00a9e9;}
+
+#contract_popup .contents .input_wrap dd .down_file .file_icon{vertical-align: middle; display: inline-block; margin-top: 2px;}
+#contract_popup .contents .input_wrap dd .down_file .icon_excel{background: url(image/personnel/btn_exceldown.png) no-repeat; width: 30px; height: 25px; margin-right: 5px;}
+#contract_popup .contents .input_wrap dd .down_file .file_name{color: #0000ff; font-size: 13px; text-decoration: underline; font-weight: bold;}
+#contract_popup .contents .input_wrap .boxRow dd .btn_type{height: 28px; font-size:13px; border-radius:5px; font-weight:bold;
+display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; 
+justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;
+align-items: center; -ms-align-items: center; -webkit-align-items: center; }
+#contract_popup .contents .input_wrap .boxRow dd .btn_type.type2{width: 170px; color:#3d3d3d; background-color:#aaaaaa; border: 1px solid #5f5f5f; border-radius: 5px;}
+#contract_popup .contents .input_wrap .boxRow dd .btn_type.type2:hover{color:#3d3d3d; background-color:#d2d2d2; border: 1px solid #5f5f5f;}
+
+#contract_popup .contents .label_tit .dot{color:#ff0000; margin-top: 2px; margin-right: 4px;float:left;}
+/* #contract_popup .contents .input_wrap .ckStyle dt{width: calc(100% - 236px);}
+#contract_popup .contents .input_wrap .ckStyle dd{width:236px;} */
+#contract_popup .contents .ckStyle dt label{word-break:keep-all}
+#contract_popup .contents .ckStyle .chBox{position:relative; height: 100%; margin-right: 6px; line-height:27px; font-size: 14px; font-weight: bold; float: left;}
+#contract_popup .contents .ckStyle .chBox:last-child{margin-right: 0}
+#contract_popup .contents .ckStyle .chBox input{display: none;}
+#contract_popup .contents .ckStyle .chBox label{width: 115px; height: 100%; color:#666666; text-align: center; background-image:url("image/contract/check_default.png"); background-position: 7px 5px; background-repeat:no-repeat; background-color:#ffffff; border:1px solid #bfbfbf; cursor:pointer; box-sizing:border-box; float:left}
+#contract_popup .contents .ckStyle .chBox input:checked + label{color:#00acff; background-color:#e0f6ff; border:1px solid #00acff; background-image:url("image/contract/check_active.png");}
+#contract_popup .contents .ckStyle .label_txt .dot{color:#ff0000; margin-right: 4px;float:left;}
+
+#contract_popup .contents select{width: 100%; height: 30px; font-size: 12px; font-weight:bold; color:#666666;  outline: none; border: 1px solid #dcdcdc; text-align:center; padding-left:5px;
+-webkit-appearance: none; -moz-appearance: none; appearance: none; background: url('image/select_arrow.png') no-repeat 95% 50%;}
+#contractList_wrap .contents select::-ms-expand { display: none; }
+#contract_popup .notice{display: inline-block; width: 100%; font-size: 12px;font-weight: bold; color: #ff0000; padding-left: 5px; margin-top:10px;}
+#contract_popup .btn_group{position:relative; float:left; display: flex; display: -ms-flex; display: -webkit-flex; padding:0 10px 0 10px; width: calc(100% - 20px); margin: 8px 0 8px 0;
+justify-content: flex-end; -ms-justify-content: flex-end; -webkit-justify-content: flex-end;}
+#contract_popup .btn_group .btn_type{width: 116px; height: 36px; font-size:13px; border-radius:5px; font-weight:bold;
+display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; 
+justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;
+align-items: center; -ms-align-items: center; -wenbkit-align-items: center; }
+
+#contract_popup .contents .foot_box{position:relative; font-size: 13px; background-color: #fff2f2; border: 1px solid #ebb5b5; padding:15px 20px 10px 20px; color:#333333; margin-top: 5px; margin-bottom: 8px}
+#contract_popup .contents .foot_box dl{min-height: 25px; margin-bottom: 7px; font-weight: bold;}
+#contract_popup .contents .foot_box dl:last-child{margin-bottom:0;}
+#contract_popup .contents .foot_box dt{display: inline-block; float: left; width: 10px}
+#contract_popup .contents .foot_box dt.num{width: 14px; font-weight: bold; line-height: 18px;}
+#contract_popup .contents .foot_box dt.num + dd{ width: calc(100% - 14px); line-height: 18px; word-break:keep-all;}
+
+#contract_popup .contents .foot_box dd{display: inline-block; margin: 0;}
+#contract_popup .contents .foot_box .col_red{color:#ff0000;}
+#contract_popup .contents .foot_box .col_blue{color:#0000ff;}
+
+#contract_popup .mar-bot-0{margin-bottom: 0px !important}
+#contract_popup .btn_group .btn_type{margin-right: 5px;}
+#contract_popup .btn_group .btn_type:last-child{margin-right: 0;}
+#contract_popup .btn_group .btn_type.type1{background-color:#0d94d6; color:#ffffff; border:1px solid #00a9e9;}
+#contract_popup .btn_group .btn_type.type2{background-color:#6b71aa; color:#ffffff; border:1px solid #6b71aa;}
+#contract_popup .btn_group .btn_type.type3{background-color:#eeeeee; color:#00a9e9; border:1px solid #00a9e9;}
+#contract_popup .btn_group .btn_type.type4{background-color:#fff2f2; color:#e90000; border:1px solid #fe7d7d;}
+
+#contract_popup .field_area{position:relative; margin: 10px 0 12px 0; display: block; height: 28px; float: left;}
+#contract_popup .field_area > div:not(.right){float: left; display: inline-block; margin-right: 3px; }
+#contract_popup .field_area select{width: 90px; height: 30px; font-size: 12px; font-weight:bold; color:#666666;  outline: none; border: 1px solid #dcdcdc; text-align:center; padding-left:5px; 
+-webkit-appearance: none; -moz-appearance: none; appearance: none; background: url('image/select_arrow.png') no-repeat 95% 50%;}
+#contract_popup .field_area select::-ms-expand { display: none;}
+#contract_popup .field_area select .lt {text-align: center;}
+#contract_popup .field_area fieldset{width: 130px; height: 28px; margin-right: 3px; border: 1px solid #dcdcdc;}
+#contract_popup .field_area .selBox .label{float:left; font-size: 12px; font-weight: bold; color:#666666; margin-right: 5px; height: 30px; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#contract_popup .field_area input{padding-left:5px; width: 100px; height: 28px; font-size: 12px; font-weight:bold; color:#666666;  outline: none; border: none; float:left;}
+#contract_popup .field_area .btn_search {font-size: 20px; font-weight:bold; color:#00a9e9;border: none; float:left; padding-top: 4px;}
+
+#contract_popup .table_contents{display: inline-block; width: 100%; margin-bottom: 30px;}
+
+table tr td.sort_left{text-align: left !important; padding-left: 5px !important;}
+table tr td.sort_right{text-align: right !important; padding-right: 5px !important;}
+table tr td.sort_center{text-align: center !important;}
+table tr td{word-wrap: break-word; word-break: break-word; white-space: pre-line;}
+
+#contract_popup .table_contents .list{height: 380px; overflow-x: hidden; overflow-y: auto; margin-bottom: 20px;}
+#contract_popup .table_contents .list table{table-layout: fixed; width: 40%; border-collapse: collapse;}
+#contract_popup .table_contents .list table tr th{height:35px; font-size: 12px; color:#333333; background-color: #e5eff3; border-top: 1px solid #5c9dda; border-right: 1px solid #e1e1e1; word-break: keep-all;}
+#contract_popup .table_contents .list table tr th:first-child {border-right: none;}
+#contract_popup .table_contents .list table tr th:last-child {border-right: none;}
+#contract_popup .table_contents .list table tr td{height: 34px; padding: 0 2px; font-size: 13px; /* font-weight: bold; */ color:#666666; text-align: center; border-right: 1px solid #e1e1e1; border-bottom: 1px solid #e1e1e1;}
+#contract_popup .table_contents .list table tr.yellow{background-color:#fffce5}
+#contract_popup .table_contents .list table tr td:first-child{border-right: none;}
+#contract_popup .table_contents .list table tr td:last-child{border-right: none;}
+#contract_popup .table_contents .list .chk_area input{width: 15px;height: 15px; vertical-align: middle; cursor:pointer;}

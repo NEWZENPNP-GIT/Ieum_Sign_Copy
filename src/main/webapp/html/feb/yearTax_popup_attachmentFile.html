@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>인적공제 첨부파일</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+<script type='text/javascript' src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+
+<script>
+	$(document).ready(function() {
+		loginType = getCookie("loginType");
+		계약ID = getParams().yearContractId;
+		사용자ID = getParams().userId;
+		공제구분코드 = getParams().deductCode;
+		일련번호 = getParams().seqNum;
+		openType = getURLParameters("openType");
+		
+		// 공제구분코드명 조회
+		fn_getdeductName();
+		// 첨부파일 조회
+		fn_getAttachFileList();
+		
+	});
+	
+	function fn_getAttachFileList() {
+		var url = rootPath + 'febworker/getYE020FileList.do';
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				계약ID:계약ID,
+				사용자ID:사용자ID,
+				공제구분코드:공제구분코드,
+				일련번호:일련번호
+			},
+			success:function(result)
+			{
+				if(result.success) {
+
+					var htmlData = "";
+					
+					// 첨부파일 내역
+					$.each(result.data, function(i, row) {
+						// 처리여부 확인
+						var confirmFile = false;
+						
+						htmlData += '<tr>';
+						htmlData += '	<td class="chk_area"><input type="radio" name="chk" value="' + row.일련번호 + "|" + row.처리일시 + '"></td> ';
+						htmlData += '	<td>' + row.공제구분상세명 + '</td>';
+						htmlData += '	<td class="file_name"><a class="btn_type boxin btn_view" onclick="fn_fileView(\'' + row.파일ID + '\')">파일</a></td>';
+						htmlData += '	<td class="">' + row.남기실내용 + '</td>';
+						htmlData += '	<td class="memo">' + row.메모 + '</td>';
+						if(!isNull(row.등록일시) && row.등록일시!="0") {
+							htmlData += ' <td class="">'+convertDate(row.등록일시).format("yyyy-MM-dd")+'</td> ';
+						} else {
+							htmlData += ' <td></td>';
+						}
+						if(!isNull(row.처리일시) && row.처리일시!="0") {
+							htmlData += ' <td class="">'+convertDateTime(row.처리일시).format("yyyy-MM-dd HH:mm")+'</td> ';
+							confirmFile = true;
+						} else {
+							htmlData += ' <td></td>';
+						}
+						htmlData += '	<td class="file_name"><a class="btn_type boxin btn_edit" onclick="fn_updPopup(\'' + row.계약ID + '\',\'' + row.사용자ID + '\',\'' + row.일련번호 + '\',\'' + row.공제구분코드 + '\',\'' + row.공제구분상세코드+ '\')">수정</a></td>';
+						if(!confirmFile) {
+							htmlData += '	<td class="file_name"><a class="btn_type boxin btn_del" onclick="fn_delFile(\'' + row.계약ID + '\',\'' + row.사용자ID + '\',\'' + row.일련번호 + '\')">삭제</a></td>';
+						} else {
+							htmlData += '	<td class="file_name"></td>';
+						}
+						htmlData += '</tr> ';
+					});
+					
+					$("#dataList").html(htmlData);
+					//window.opener.callFunc();
+					
+				}
+			},
+			error:function(request,status,error){
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					window.close();
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+	
+	// 첨부파일 보기
+	function fn_fileView(fileId) {
+		var url = rootPath + 'febworker/getYE020File.do';
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				파일ID:fileId
+			},
+			success:function(result)
+			{
+				if(result.success) {
+					var fileUrl = result.data;
+					// 팝업창 사이즈 전체크기의 가로 반쪽 크기
+					openWin(rootPath + fileUrl, '추가제출서류파일팝업', screen.width/2, screen.height);
+				}
+			},
+			error:function(request,status,error){
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					window.close();
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+	
+	// 처리확인 Y
+	function fn_fileConfirm() {
+		var url = rootPath + 'febworker/updYE020Confirm.do';
+		
+		if (loginType < 4) {
+			alert("업무를 처리할 권한이 없습니다.");
+			return;
+		}
+		
+		var key = $(':radio[name="chk"]:checked').val();  // 일련번호|처리일시
+		if (isNull(key)) {
+			alert("처리할 첨부파일을 체크해주세요");
+			return;
+		}
+		
+		var data = key.split("|");
+		var serialNumber = data[0];
+		if (!isNull(data[1]) && data[1].length > 0) {
+			alert("이미 처리 완료된 서류입니다.");
+			return;
+		}
+		
+		var memo = $("#memo").val();
+		
+		if(isNull(memo)) {
+			alert("메모를 입력하여 주세요.");
+			return;
+		}	
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				계약ID:계약ID,
+				사용자ID:사용자ID,
+				일련번호:serialNumber,
+				메모:memo,
+				처리여부:'1'
+				
+			},
+			success:function(result)
+			{
+				if(result.success) {
+					alert(result.message);
+					// 첨부파일 조회
+					fn_getAttachFileList();
+				}
+			},
+			error:function(request,status,error){
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					window.close();
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+	
+	// 처리확인 N
+	function fn_resetConfirm() {
+		$(':radio[name="chk"]:checked').prop("checked", false);
+		$("#memo").val("");
+	}
+	
+	function fn_close() {
+		if(openType == "D") { // 추가제출서류 개별페이지
+			window.close();
+		} else { 
+			window.opener.callFuncGet();
+			window.close();
+		}
+	}
+	
+	function fn_updPopup(계약ID, 사용자ID, 일련번호, 공제구분코드, 공제구분상세코드) {
+		var 계약ID = 계약ID;
+		var 사용자ID = 사용자ID;
+		var 일련번호 = 일련번호;
+		var 공제구분코드 = 공제구분코드;
+		var 공제구분상세코드 = 공제구분상세코드;
+		
+		var url = rootPath + '/html/feb/feb_popup_addDocSubmit_edit.html?yearContractId=' + 계약ID + '&userId=' + 사용자ID + '&seqNum=' + 일련번호 + '&deductCode=' + 공제구분코드 + '&deductDetailCode=' + 공제구분상세코드;
+		window.open(url, '추가제출서류 수정', 'width=540, height=620, location=no, menubar=no, status=no, scrollbars=no, toolbar=no');
+	}
+	
+	// 추가제출서류 팝업
+	function fn_addFile() {
+		var 사용자ID = getParams().userId;
+		var 공제구분코드 = getParams().deductCode;
+		var url = rootPath + '/html/feb/feb_popup_addDocSubmit_write.html?userId=' + 사용자ID + '&deductCode=' + 공제구분코드 + '&openType=D';
+		window.open(url, '추가제출서류 수정', 'width=540, height=620, location=no, menubar=no, status=no, scrollbars=no, toolbar=no');
+	}
+	
+	// 공제구분코드명 조회
+	function fn_getdeductName() {
+		var url = rootPath + 'code/getCodeList.do';
+		var commCode = 공제구분코드;
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				grpCommCode:'040',
+				commCode: commCode
+			},
+			success:function(result)
+			{
+				if (result.success) {
+					var deductName = result.data[0].commName;
+					$("#deductName").text(deductName);
+				}
+			},
+			error:function(request,status,error){
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					window.close();
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+	
+	// 추가제출서류 삭제
+	function fn_delFile(계약ID, 사용자ID, 일련번호) {
+		var url = rootPath+"febworker/delYE020.do";
+		
+		var 계약ID = 계약ID;
+		var 사용자ID = 사용자ID;
+		var 일련번호 = 일련번호;
+		
+		if(!confirm("선택하신 첨부파일을 삭제 하시겠습니까?")) return;
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data:{
+				계약ID:계약ID,
+				사용자ID:사용자ID,
+				일련번호:일련번호
+			},
+			success:function(result)
+			{
+				if (result.success) {
+					alert("추가제출 서류가 삭제 되었습니다.");
+					fn_getAttachFileList();
+				} else {
+					alert("추가제출 서류가 삭제 되지 않았습니다. \r\n정보를 다시 확인해주시기 바랍니다");
+				}
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+</script>
+</head>
+<body>
+	<div id="yearTax_wrap_popup" class="yearTax_popup attachment admin">
+		<div class="container">
+			<div id="popup_tit">
+				<div class="tit_icon icon_file"></div>
+				<div class="tit_text NanumSquare_B"><span id="deductName"></span> 첨부파일</div>
+				<div id="popup_close" class="btn_type col_skyblue" onclick="fn_close()"></div>
+			</div>
+			<div class="contents">
+				<div class="fileGroup-cell">
+					<div class="header-bg"></div>
+					<div class="file_list group_table">
+						<table class="mar-top-0 NanumSquare_R">
+							<colgroup>
+								<col width="2%">
+					            <col width="13%">
+					            <col width="5%">
+					            <col width="14%">
+					            <col width="28%">
+					            <col width="11%">
+					            <col width="17%">
+					            <col width="5%">
+					            <col width="5%">
+							</colgroup>
+							<thead>
+								<tr>
+									<th width="2%" class="chk_area"></th>
+									<th width="13%"><div class="th-text">공제상세구분</div></th>
+									<th width="5%"></th>
+									<th width="14%"><div class="th-text">남기실내용</div></th>
+									<th width="28%"><div class="th-text">메모</div></th>
+									<th width="11%"><div class="th-text">등록일</div></th>
+									<th width="17%"><div class="th-text">처리일시</div></th>
+									<th width="5%"><div class="th-text">수정</div></th>
+									<th width="5%"><div class="th-text">삭제</div></th>
+								</tr>
+							</thead>
+							<tbody id="dataList">
+								<!-- <tr><td class="no">1</td><td class="file_name">첨부 파일 1</td><td class="view"><a class="btn_type btn_view">보기</a></td><td class="check complete"></td></tr>
+								<tr><td class="no">2</td><td class="file_name">첨부 파일 2</td><td class="view"><a class="btn_type btn_view">보기</a></td><td class="check complete"></td></tr>
+								<tr><td class="no">3</td><td class="file_name">첨부 파일 3</td><td class="view"><a class="btn_type btn_view">보기</a></td><td class="check"></td></tr>
+								<tr><td class="no">4</td><td class="file_name">첨부 파일 4</td><td class="view"><a class="btn_type btn_view">보기</a></td><td class="check"></td></tr>
+								<tr><td class="no">5</td><td class="file_name">첨부 파일  5</td><td class="view"><a class="btn_type btn_view">보기</a></td><td class="check"></td></tr>
+								<tr><td class="no">6</td><td class="file_name">첨부 파일 6</td><td class="view"><a class="btn_type btn_view">보기</a></td><td class="check"></td></tr>
+								<tr><td class="no">7</td><td class="file_name">첨부 파일 1</td><td class="view"><a class="btn_type btn_view">보기</a></td><td class="check complete"></td></tr>
+								<tr><td class="no">8</td><td class="file_name">첨부 파일 2</td><td class="view"><a class="btn_type btn_view">보기</a></td><td class="check complete"></td></tr>
+								<tr><td class="no">9</td><td class="file_name">첨부 파일 3</td><td class="view"><a class="btn_type btn_view">보기</a></td><td class="check"></td></tr>
+								<tr><td class="no">10</td><td class="file_name">첨부 파일 4</td><td class="view"><a class="btn_type btn_view">보기</a></td><td class="check"></td></tr>
+								<tr><td class="no">11</td><td class="file_name">첨부 파일  5</td><td class="view"><a class="btn_type btn_view">보기</a></td><td class="check"></td></tr>
+								<tr><td class="no">12</td><td class="file_name">첨부 파일 6</td><td class="view"><a class="btn_type btn_view">보기</a></td><td class="check"></td></tr>
+								<tr><td class="no">13</td><td class="file_name">첨부 파일 1</td><td class="view"><a class="btn_type btn_view">보기</a></td><td class="check complete"></td></tr>
+								<tr><td class="no">14</td><td class="file_name">첨부 파일 2</td><td class="view"><a class="btn_type btn_view">보기</a></td><td class="check complete"></td></tr>
+								<tr><td class="no">15</td><td class="file_name">첨부 파일 3</td><td class="view"><a class="btn_type btn_view">보기</a></td><td class="check"></td></tr>
+								<tr><td class="no">16</td><td class="file_name">첨부 파일 4</td><td class="view"><a class="btn_type btn_view">보기</a></td><td class="check"></td></tr> -->
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div> <!--  contents -->
+			<div class="field_btns NanumSquare_R field_sort_right">
+				<a class="btn_type btn_addFile" onclick="fn_addFile()">파일 추가</a>
+			</div>
+			<div class="notice_wrap bg_darkblue">
+				<div class="notice_tit NanumSquare_R"><span class="icon warning"></span><span class="txt">메모</span></div>
+				<div class="notice_con NanumSquare_R">
+					<textarea id="memo"></textarea>
+				</div>
+			</div>
+			
+		</div> <!--  container -->
+		<div class="footer NanumSquare_R">
+			<div class="text_wrap">해당 추가제출서류를 확인하여 <span class="col_skyblue">연말정산 업무를 처리하였습니까?</span></div>
+			<div class="foot_btns">
+				<a class="btn_type btn_no" onclick="javascript:fn_resetConfirm()">아니오 (N)</a>
+				<a class="btn_type btn_yes" onclick="javascript:fn_fileConfirm()">예 (Y)</a>
+			</div>
+			
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+
+</script>
+</html>

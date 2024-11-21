@@ -1,0 +1,99 @@
+@charset "utf-8";
+
+@font-face{font-family:"NotoSans";
+font-style:normal;
+font-weight:100;
+src: local('NotoSans'),
+ url('webFont/NotoSansKR-DemiLight.woff2') format("woff2"),
+url('webFont/NotoSansKR-DemiLight.woff') format("woff")}
+
+
+@font-face {
+    font-family: 'NotoSans';
+    font-style: normal;
+    font-weight: 300;
+    src: local('NotoSans'),
+        url('webFont/NotoSans-Light.woff2') format('woff2'), 
+        url('webFont/NotoSans-Light.woff') format('woff'),
+        url('webFont/NotoSans-Light.ttf') format('truetype'),
+        url('webFont/NotoSans-Light.otf') format('opentype'),
+        url('webFont/NotoSans-Light.eot') format('embedded-opentype');
+}
+
+@font-face {
+    font-family: 'NotoSans';
+    font-style: normal;
+    font-weight: 400;
+    src: local('NotoSans'),
+        url('webFont/NotoSans-Regular.woff2') format('woff2'), 
+        url('webFont/NotoSans-Regular.woff') format('woff'),
+        url('webFont/NotoSans-Regular.ttf') format('truetype'),
+        url('webFont/NotoSans-Regular.otf') format('opentype'),
+        url('webFont/NotoSans-Regular.eot') format('embedded-opentype');
+}
+
+@font-face {
+    font-family: 'NotoSans';
+    font-style: normal;
+    font-weight: 500;
+    src: local('NotoSans'),
+        url('webFont/NotoSans-Medium.woff2') format('woff2'), 
+        url('webFont/NotoSans-Medium.woff') format('woff'),
+        url('webFont/NotoSans-Medium.ttf') format('truetype'),
+        url('webFont/NotoSans-Medium.otf') format('opentype'),
+        url('webFont/NotoSans-Medium.eot') format('embedded-opentype');
+}
+
+@font-face {
+    font-family: 'NotoSans';
+    font-style: normal;
+    font-weight: 700;
+    src: local('NotoSans'),
+        url('webFont/NotoSans-Bold.woff2') format('woff2'), 
+        url('webFont/NotoSans-Bold.woff') format('woff'),
+        url('webFont/NotoSans-Bold.ttf') format('truetype'),
+        url('webFont/NotoSans-Bold.otf') format('opentype'),
+        url('webFont/NotoSans-Bold.eot') format('embedded-opentype');
+}
+
+/* 나눔고딕 */
+
+@font-face {font-family:ng;src:url("webFont/NanumGothic.eot");src:local(※),url("webFont/NanumGothic.woff") format('woff'),url("webFont/NanumGothic.ttf") format('truetype'),url(webFont/NanumGothic.svg#webfonturzspG4F) format('svg');}
+@font-face {font-family:NanumGothicWebB;src:url(webFont/NanumGothicBold.eot);src:local(※),url(webFont/NanumGothicBold.woff) format('woff'),url(webFont/NanumGothicBold.ttf) format('truetype'),url(webFont/NanumGothicBold.svg#webfonturzspG4F) format('svg');}
+@font-face {font-family:ngeb;src:url("webFont/NanumGothicExtraBold.eot");src:local(※),url("webFont/NanumGothicExtraBold.woff") format('woff'),url(webFont/NanumGothicExtraBold.ttf) format('truetype'),url(webFont/NanumGothicExtraBold.svg#webfonturzspG4F) format('svg');}
+ 
+
+ /* 나눔스퀘어*/
+.NanumSquareRegular{font-family: 'NanumSquareRegular',sans-serif; font-smoothing:antialiased; -webkit-font-smoothing:antialiased; -ms-font-smoothing:antialiased;}
+.NanumSquareBold{font-family: 'NanumSquareBold',sans-serif; font-smoothing:antialiased; -webkit-font-smoothing:antialiased;}
+.NanumGothic{font-family: 'NanumGothic',sans-serif; font-smoothing:antialiased; -webkit-font-smoothing:antialiased;}
+
+@font-face {
+    font-family: NanumSquareRegular;
+    src: local("NanumSquareRegular"),
+    url('webFont/NanumSquareR.eot') format('embedded-opentype'),
+    url('webFont/NanumSquareR.woff') format('woff'),
+    url('webFont/NanumSquareR.ttf') format('truetype');
+}
+@font-face {
+    font-family: NanumSquareBold;
+    src: local("NanumSquareBold"),
+    url('webFont/NanumSquareB.eot') format('embedded-opentype'),
+    url('webFont/NanumSquareB.woff') format('woff'),
+    url('webFont/NanumSquareB.ttf') format('truetype');
+
+    url('webFont/NanumSquareR.eot') format('embedded-opentype'),
+    url('webFont/NanumSquareR.woff') format('woff'),
+    url('webFont/NanumSquareR.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: 'fontawesome';
+	src:url('webFont/fontawesome.eot');
+	src:url('webFont/fontawesome.eot?#iefix') format('embedded-opentype'),
+		url('webFont/fontawesome.svg#fontawesome') format('svg'),
+		url('webFont/fontawesome.woff') format('woff'),
+		url('webFont/fontawesome.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}

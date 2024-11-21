@@ -1,0 +1,148 @@
+@import url('fonts.css');
+
+*{margin:0;padding:0;vertical-align:top;border:0;-webkit-text-size-adjust:none; box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box;}
+
+html,body{width:100%;height:100%;}
+body,h1,h2,h3,h4,h5,h6,p,div,li,dt,dd,input,textarea {font-family:'NotoSans','Nanum Square',AppleSDGothicNeo-Regular,'Nanum Gothic','굴림','돋움','Malgun Gothic',sans-serif;font-size:13px;font-weight:100}
+/*html{overflow:hidden;} body { overflow:auto;}*/
+img{border:none;vertical-align:top;}
+fieldset{border:none;}
+ul,li{list-style:none;}
+input,select,button,select{vertical-align:middle;}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}
+address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
+i,em,address{font-style:normal;}
+table{width:100%;border-collapse: collapse;border-spacing: 0}
+input[type=button]{cursor:pointer}
+
+.hidden{display:none;}
+.floatClear:after{content:'';display:block;clear:both;}
+.blind{display:block;text-indent:-2000px;overflow:hidden;}
+
+a {color:#444;text-decoration:none;}
+a:hover, a:focus {color:#4db9fe;text-decoration:none;}
+
+.event_wrap{width:100%;min-width:1100px}
+.event_wrap section.visual{position:relative;width:100%;height:809px;background:url('../img/visual.png') no-repeat center;}
+.event_wrap section.visual div{margin:0 auto;max-width:1100px;}
+.event_wrap section.visual a{position:absolute;top:10px;left:10px;display:block;background:#026cb7;color:#fff;padding:8px 20px 8px 15px;border-radius:20px}
+.event_wrap section.visual a i{margin:3px 5px}
+
+
+.scrollup{padding-top:15px;text-align:center;display:block;cursor:pointer}
+
+
+.contentsDiv{max-width:1100px;margin:0 auto}
+
+#electronic{padding-top:0px;background:url('../img/01_solution01bg.png') repeat-x 0 0px}
+#yearsystem{padding-top:0px;background:url('../img/01_solution02bg.png') repeat-x 0 0px}
+#kiosk{padding-top:0px;background:url('../img/01_solution03bg.png') repeat-x 0 0px}
+
+
+.btn_div{text-align:center;padding:50px 0}
+.btn_div a{display:inline-block;color:#fff;font-size:18px;font-weight:400;padding:15px 30px 15px 50px;border-radius:10px;margin:5px}
+.btn_div a i{margin:5px 0 0 30px}
+.btn_div a:hover{margin:7px}
+.btn_div a.style01{background:#0f2b93;}
+.voucher_info{text-align:center;font-size:16px}
+.voucher_info a{display:inline-block;border:1px solid #00457a;color:#000;background:#fff;padding:7px 20px;vertical-align: middle;margin-left:20px;cursor: pointer;}
+.voucher_info a:hover{background:#00457a;border-color:#fff;color:#fff}
+
+.voucher_section{max-width:1100px;margin:15px auto}
+.voucher_section li{padding:10px 0}
+.voucher_section li .solution{border:1px solid #15a0d4;box-shadow:3px 3px 3px rgba(0,0,0,.3);border-radius:15px;}
+.voucher_section li .solution .solutiondiv{overflow:hidden;width:100%}
+.voucher_section li .solution .solutiondiv .contentsdiv{width:100%;}
+
+.voucher_section li .solution .solutiondiv .contentsdiv .solutiontitle{display:table-cell;width:170px;border-radius:13px 0 0 0;background:#15a0d4;}
+.voucher_section li .solution .solutiondiv .contentsdiv .solutiontitle h2{font-size:25px;letter-spacing:-1px;font-weight:500;padding:25px 0 0 0;color:#fff;text-align:center;line-height:32px}
+.voucher_section li .solution .solutiondiv .contentsdiv .solutiontitle h2 span{display:block;font-family:ng;font-size:44px;letter-spacing:-4px;color:#9accec;padding-bottom:20px}
+.voucher_section li .solution .solutiondiv .contentsdiv .solutiontitle.sylteB{padding-top:12px}
+.voucher_section li .solution .solutiondiv .contentsdiv dl{display:table-cell;padding:30px}
+.voucher_section li .solution .solutiondiv .contentsdiv dt{}
+.voucher_section li .solution .solutiondiv .contentsdiv dt span{font-weight:100}
+.voucher_section li .solution .solutiondiv .contentsdiv dd{padding:5px;font-family:ng}
+.voucher_section li .solution .solutiondiv .contentsdiv dd.txt01{font-size:18px;color:#000;font-family:NotoSans}
+.voucher_section li .solution .solutiondiv .btndiv{float:left;width:160px;margin: 15px 0 0 15px}
+.voucher_section li .solution .solutiondiv .btndiv a{display:block;color:#fff;text-align:center;cursor:pointer;font-size:16px;padding:10px 5px;margin:15px 0;border-radius:5px}
+.voucher_section li .solution .solutiondiv .btndiv a i{margin:5px}
+.voucher_section li .solution .solutiondiv .btndiv a.viewbtn{background:#009cff}
+.voucher_section li .solution .solutiondiv .btndiv a.feebtn{background:#005aff}
+.voucher_section li .solution .solutiondiv .btndiv a:hover{background:#333;transition:.5s;}
+
+.voucher_section li .solution .panel{text-align:center;border-top:1px solid #70c0de;}
+.voucher_section li .solution .panel img{border-radius:0 0 15px 15px}
+.voucher_section li .solution .panel .close{display:inline-block;margin:20px 0;padding:10px 30px;background:#666;color:#fff;cursor:pointer}
+
+ /* Modal Content */
+.modal {display: none;position: fixed; z-index: 1;  padding-top: 150px; left: 0; top: 0;width: 100%;  height: 100%;  /*overflow: auto;  Enable scroll if needed */
+            background-color: rgb(0,0,0);background-color: rgba(0,0,0,0.4); }
+ .modal-content {box-shadow:3px 3px 3px rgba(0,0,0,.3); background-color: #fefefe; margin: auto; padding: 20px; border: 1px solid #888; }
+ .modal-content .close {margin-top:-5px; color: #aaaaaa; float: right;font-size: 28px;font-weight: bold; }
+ .modal-content .close:hover,  .modal-content .close:focus {  color: #000;text-decoration: none; cursor: pointer;}
+
+.popupWrap01{width:900px}
+.popupWrap02{width:800px}
+.popupWrap03{width:600px}
+.modal-content .titletop{overflow:hidden;border-bottom:1px solid #1e62d3;height:50px}
+.modal-content .titletop h2{float:left;font-size:25px;font-weight:700;color:#1e62d3}
+.modal-content .titletop h2 span{color:#000}
+.modal-content .popuptb01{}
+.modal-content .popuptb01 th{background:#d8ecf8;border-bottom:1px solid #7e9fb3;font-size:15px;line-height:35px;vertical-align:middle}
+.modal-content .popuptb01 .title{background:#f1f1f1;text-align:center;font-size:16px;font-weight:700;vertical-align:middle} 
+.modal-content .popuptb01 td{border-bottom:1px solid #ccc;border-left:1px solid #ccc;padding:7px;text-align:center;vertical-align:middle}
+.modal-content .popuptb01 td ul{}
+.modal-content .popuptb01 td li{text-align:left;padding:3px}
+.modal-content .popuptb01 .pricetr span{display:inline-block;width:100%;padding-right:20px;text-align:right}
+.modal-content .popuptb01 .pricetr span.price{text-decoration:line-through;font-size:15px;color:#afafaf}
+.modal-content .popuptb01 .pricetr span.saleprice{color:#d00101;font-size:17px;font-weight:500}
+.modal-content .popuptb01 .pricetr span.saleprice.first{padding-top:20px}
+.modal-content .popuptb01 .pricetr .lineheight{height:60px}
+.modal-content .popuptb01 .kiosk{padding:15px 0}
+
+.popupksmaDiv{padding-top:50px}
+.popupksma{width:1150px;height:770px;overflow:hidden;padding:20px 15px}
+.popupksma .contentslayout{;height:800px;overflow-y:scroll;padding-bottom:90px}
+.popupksma .textB{position:relative;}
+.popupksma .textB a{position:absolute;right:15px;top:25px;display:inline-block;color:#fff;background:#009cff;padding:7px 25px;font-size:14px;border-radius:4px}
+.popupksma .textB a i{margin:4px 0 0 10px}
+.popupksma .textB a:hover{background:#00101b;top:27px;right:13px}
+
+.voucherDiv .top_comment{background:#024481;padding:20px;overflow:hidden}
+.voucherDiv .top_comment p{color:#fff;font-size:20px;float:left;padding:8px 0 0 20px}
+.voucherDiv .top_comment p span{color:#ffea00;font-weight:700}
+.voucherDiv .top_comment a{color:#fff;float:right;display:inline-block;font-size:14px;background:#0082fb;border-radius:5px;padding:7px 15px 7px 20px}
+.voucherDiv .top_comment a i{margin:5px}
+.voucherDiv .contentsdiv{margin:30px 10px 30px 50px}
+.voucherDiv .contentsdiv dl{padding:10px 0 20px 100px}
+.voucherDiv .contentsdiv dt{font-size:24px;color:#319da6;font-weight:700;letter-spacing:-1px;}
+.voucherDiv .contentsdiv dd{line-height:22px;padding:5px 8px;font-size:17px}
+.voucherDiv .contentsdiv dd span{color:#666;font-size:14px}
+.voucherDiv .contentsdiv dd span a{color:blue;text-decoration:underline}
+.voucherDiv .contentsdiv dd.stxt{font-family:ng;color:#666;font-size:13px}
+.voucherDiv .contentsdiv dl.voucherDl01{background:url('../img/voucher_icon01.png') no-repeat left 10px}
+.voucherDiv .contentsdiv dl.voucherDl02{background:url('../img/voucher_icon02.png') no-repeat left 10px}
+.voucherDiv .contentsdiv dl.voucherDl03{background:url('../img/voucher_icon03.png') no-repeat left 10px}
+.voucherDiv .contentsdiv dl.voucherDl04{background:url('../img/voucher_icon04.png') no-repeat left 10px}
+.voucherDiv .contentsdiv dl.voucherDl05{background:url('../img/voucher_icon05.png') no-repeat left 10px}
+.voucherDiv .btndiv{margin-bottom:50px}
+.voucherDiv .btndiv p{text-align:center;padding:10px}
+.voucherDiv .btndiv p a{display:inline-block;background:#333;color:#fff;font-size:25px;padding:15px 50px}
+.voucherDiv .btndiv p a i{margin-top:7px}
+
+.popupksmaDiv{padding-top:50px}
+.popupksma{width:1150px;overflow:hidden;padding:20px 15px; height:calc(100% - 40px);}
+.popupksma .contentslayout{overflow-y:scroll;padding-bottom:90px; height:calc(100% - 46px);overflow-x:hidden; border-bottom:1px solid #1e62d3; }
+.popupksma .textB{position:relative;}
+.popupksma .textB a{position:absolute;right:15px;top:25px;display:inline-block;color:#fff;background:#009cff;padding:7px 25px;font-size:14px;border-radius:4px}
+.popupksma .textB a i{margin:4px 0 0 10px}
+.popupksma .textB a:hover{background:#00101b;top:27px;right:13px}
+
+/**/
+.top_title{background:url('../img/top_img.png') no-repeat;width:1092px;height:251px;color:#fff;margin:0 auto}
+.top_title h1{text-align:center;font-size:28px;font-weight:600;text-shadow:2px 2px 2px rgba(0,0,0,.4);padding-top:70px}
+.top_title h1 span{display:block;font-size:38px}
+.voucher_infoDiv{border-radius:15px;background:#58abea;color:#fff;padding:25px;box-shadow: 3px 3px 3px rgba(0,0,0,.3);border:1px dashed #fff}
+.voucher_infoDiv h2{font-size:20px}
+.voucher_infoDiv p{padding:8px;font-size:16px}
+.voucher_infoDiv p span{color:#fff700;font-size:20px;padding:5px}

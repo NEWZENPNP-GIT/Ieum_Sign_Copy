@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="febmaster">
+    <typeAlias alias="ye900VO" type="com.ezsign.feb.master.vo.YE900VO"/>
+
+    <select id="ye900DAO.getYE900" parameterClass="ye900VO" resultClass="ye900VO">
+        SELECT 계약ID, 사용자ID, 사유구분, 일련번호, 정정사유, 작업자ID, 등록일시, 수정일시
+        FROM tbl_ye900
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+          AND 사유구분 = #사유구분#
+          AND 사용여부 = '1'
+    </select>
+
+    <select id="ye900DAO.getYE900List" parameterClass="ye900VO" resultClass="ye900VO">
+        SELECT 계약ID, 사용자ID, 사유구분, 일련번호, 정정사유, 작업자ID, 등록일시, 수정일시
+        FROM tbl_ye900
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+          AND 사용여부 = '1'
+    </select>
+
+    <insert id="ye900DAO.insYE900" parameterClass="ye900VO">
+        <selectKey resultClass="java.lang.String" keyProperty="일련번호">
+            SELECT IFNULL(MAX(일련번호 + 1), 1)
+            FROM tbl_ye900
+        </selectKey>
+        INSERT INTO tbl_ye900 (
+          계약ID, 사용자ID, 사유구분, 일련번호, 정정사유, 작업자ID, 사용여부, 등록일시, 수정일시
+        ) VALUES (
+          #계약ID#, #사용자ID#, #사유구분#, #일련번호#, #정정사유#, #작업자ID#, '1', DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'),
+          DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        )
+    </insert>
+
+    <update id="ye900DAO.updYE900Disable" parameterClass="ye900VO">
+        UPDATE tbl_ye900
+        SET
+          사용여부 = '0',
+          수정일시 = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+          AND 사유구분 = #사유구분#
+          AND 사용여부 = '1'
+    </update>
+</sqlMap>

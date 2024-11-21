@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/board_notice.css">
+
+<script type='text/javascript' src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+
+<script>
+	var bbsId = "181226150423015";
+	
+	$(document).ready(function(){
+		var nowDate = new Date();
+		var startDate = new Date();
+		startDate.setMonth(nowDate.getMonth() - 1);
+		
+		// 계약일자 조회조건
+		$("#searchDateFrom").val(startDate.format('yyyy-MM-dd')); 
+		$("#searchDateTo").val(nowDate.format('yyyy-MM-dd'));
+		
+	    $('[data-index="1"]').focus();
+		
+		$('#inputForm').on('keydown', 'input', function (event) {
+		    if (event.which == 13) {
+		        event.preventDefault();
+		        var $this = $(event.target);
+		        var index = parseFloat($this.attr('data-index'));
+		        $('[data-index="' + (index + 1).toString() + '"]').focus();
+		        $('[data-index="' + (index + 1).toString() + '"]').select();
+		    }
+		});
+		
+		$('#searchValue').keypress(function(event){
+			var keycode = (event.keyCode ? event.keyCode : event.which);
+			if(keycode == '13'){
+				fn_bbsContentsList(1);	
+			}
+			event.stopPropagation();
+		});
+		
+		fn_bbsContentsList(1);		
+	});
+	
+	function fn_bbsContentsList(page) {
+		var url = rootPath+"bbs/getBbsContentsList.do";
+
+        var viewPage = $("#viewPage").val();
+		if(viewPage==""||viewPage=="0") viewPage = 10;
+
+		if (page==0)
+			curPage=0;
+		else 
+			curPage = page-1;
+		
+		if (curPage<0) {
+			curPage=0;
+			return;
+		}
+		if (curPage*viewPage>totPage) {
+			curPage-=1;
+			return;
+		}
+		
+		var searchKey = $("#searchKey").val();
+		var searchValue = $("#searchValue").val();
+		var startPage = (curPage*viewPage);
+		var endPage = viewPage;
+		var sortName = "A.INS_DATE";
+		var sortOrder = "DESC"
+		var searchDateFrom = $("#searchDateFrom").val();
+		var searchDateTo = $("#searchDateTo").val();
+		var searchBizGrpType = "N";
+		var searchUserGrpType = "N";
+		var userId = getCookie("userId");
+		var loginId = getCookie("loginId");
+
+		if (searchDateFrom.length === 0) {
+			alert("시작날짜를 입력해주시기 바랍니다.\r\n예) 20170101");
+			return;
+		}
+
+		if (searchDateTo.length === 0) {
+			alert("종료날짜를 입력해주시기 바랍니다.\r\n예) 20171231");
+			return;
+		}
+		
+		if (searchDateFrom.length > 0) searchDateFrom = searchDateFrom.replace(/-/gi, "");
+		
+		if (searchDateTo.length > 0) searchDateTo = searchDateTo.replace(/-/gi, "")
+		
+		if (!checkDateNoHypen(searchDateFrom)) {
+			alert("검색조건 시작날짜가 형식에 맞지 않습니다.");
+			return;
+		}
+
+		if (!checkDateNoHypen(searchDateTo)) {
+			alert("검색조건 종료날짜가 형식에 맞지 않습니다.");
+			return;
+		}
+
+        $.blockUI();
+
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				bbsId:bbsId,
+				userId:userId,
+				searchKey:searchKey,
+				searchValue:searchValue,
+				startPage:startPage,
+				endPage:endPage,
+				sortName:sortName,
+				sortOrder:sortOrder,
+				searchDateFrom:searchDateFrom,
+				searchDateTo:searchDateTo,
+				searchBizGrpType:searchBizGrpType,
+				searchUserGrpType:searchUserGrpType,
+				loginId:loginId
+			},
+			success:function(result)
+			{
+				var htmlData = "";
+				
+				if (result.success==true) {
+					
+					if(result.total != 0){
+						totPage = result.total;
+						var totalPage = Math.ceil(totPage/viewPage);
+						
+						$.each(result.data, function(i, row) {
+							var num = (curPage * viewPage) + i + 1;
+							
+							htmlData += '<tr class="databox" > ';
+							htmlData += ' <td class="value">'+num+'</td> ';
+							htmlData += ' <td class="value">'+row.bizName+'</td> ';
+							htmlData += ' <td class="value" ><a onclick="fn_bbsContentView('+row.bbsNo+')">'+row.subject+'['+row.commentCount+']'
+                            if(row.adminCheck == "N"){
+                              htmlData += '<p style="color: #0d94d6; font-weight: bold; font-style: italic; display: inline;"> NEW</p>'
+                            }
+                            htmlData += '</a></td> ';
+                            htmlData += '</a></td> ';
+							htmlData += ' <td class="value">'+row.empName+'</td> ';
+							htmlData += ' <td class="value">'+convertDate(row.insDate).format("yyyy-MM-dd")+'</td> ';
+							htmlData += ' <td>'+row.statusName+'</td>';
+                            htmlData += ' <td>'+row.hitCnt+'</td>';
+							htmlData += '</tr> ';
+						});
+	
+						if(page==1) {
+							dataList = result.data;
+	
+							$('#page-selection').bootpag({
+								total: totalPage,       // total pages
+								page: page,         	// default page
+								maxVisible: 10, 	   	// visible pagination
+								leaps: true,	      	// next/prev leaps through maxVisible
+							    firstLastUse: true,
+							    first: '',
+							    last: '',
+							    wrapClass: 'pagination',
+							    activeClass: 'active',
+							    disabledClass: 'disabled',
+							    nextClass: 'btn_next',
+							    prevClass: 'btn_prev',
+							    lastClass: 'end_page',
+							    firstClass: 'first_page'
+							}).on("page", function(event, num){
+								fn_bbsContentsList(num);
+							});
+						}
+					} else {
+						htmlData += '<tr> <td colspan="7">요청하신 자료가 존재하지 않습니다.</td></tr>';
+					}
+
+				} else {
+					htmlData += '<tr> <td colspan="7">요청하신 자료가 존재하지 않습니다.</td></tr>';
+				}
+	
+				$("#dataList").html(htmlData);
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+	
+	function fn_bbsContentView(bbsNo) {
+		
+    	setCookie("bbsId", bbsId);
+    	setCookie("bbsNo", bbsNo);
+    	
+		var url = "/html/bbs/board_question_admin_biz_view.html";
+		openPage(url);
+	}
+	
+	function goWrite() {
+		
+    	setCookie("bbsId", bbsId);
+
+		var url = "/html/bbs/board_question_admin_biz_write.html";
+		openPage(url);
+	}
+	
+</script>
+</head>
+<body>
+
+<div id="boardlist_wrap" class="">
+  <div class="container">
+    <div class="location"><span class="loc_main NanumGothic">게시판 > </span><span class="loc_sub NanumGothic">관리자 문의하기</span></div>
+    <div class="pagtit"><span class="NanumGothic">관리자 문의하기</span></div>
+
+    <div class="list_con">
+      <div class="field_area">
+        <div class="inputBox">
+          <input type="date" class=" NanumGothic" onkeyup="date_mask(this);" min="1900-01-01" max="2999-01-01" id="searchDateFrom">
+        </div>
+        <div class="inputBox">
+          <input type="date" class=" NanumGothic" onkeyup="date_mask(this);" min="1900-01-01" max="2999-01-01" id="searchDateTo">
+        </div>
+        <div class="selBox NanumGothic">
+          <select id="searchKey">
+            <!-- subject, contents, empName, statusCode, workCode -->
+            <option class="lt" value="bizName">회사명</option>
+            <option class="lt" value="subject">제목</option>
+            <option class="lt" value="empName">작성자</option>
+          </select>
+        </div>
+        <div class="selBox NanumGothic">
+          <select id="viewPage" onchange="fn_bbsContentsList(1)">
+            <option value="10" selected>조회건수</option>
+            <option value="10">10건</option>
+            <option value="20">20건</option>
+            <option value="30">30건</option>
+            <option value="50">50건</option>
+            <option value="100">100건</option>
+            <option value="250">250건</option>
+          </select>
+        </div>
+        <div class="inputBox">
+          <fieldset>
+            <input type="text" class="word_input NanumGothic" id="searchValue" >
+            <a class="btn_search btn_type Material_icons" onclick="fn_bbsContentsList(1)">search</a>
+          </fieldset>
+        </div>
+      </div>
+      <div class="table_contents">
+        <div class="list">
+          <table class="NanumGothic hasChk">
+            <colgroup>
+              <col width="5%">
+              <col width="25%">
+              <col width="30%">
+              <col width="10%">
+              <col width="15%">
+              <col width="10%">
+              <col width="5%">
+            </colgroup>
+            <thead>
+              <tr>
+                <th>번호</th>
+                <th>회사명</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>등록일</th>
+                <th>처리상태</th>
+                <th>조회수</th>
+              </tr>
+            </thead>
+            <tbody id="dataList">
+            </tbody>
+          </table>
+        </div>
+        <div class="btn_group"><a class="btn_type Material_icons btn_write" onclick="goWrite()" >글쓰기</a></div>
+        <div id="page-selection" class="pagingnav_wrap"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>

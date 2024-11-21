@@ -1,0 +1,193 @@
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+
+    <link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+    <link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/contract_write.css">
+
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+    <title>인적자원관리 전문IT기업 - 뉴젠P&amp;P</title>
+
+    <script type="text/javascript">
+
+        //***************					윈도우 로딩					***************//
+
+
+        $(document).ready(function () {
+
+            window.resizeTo(515, 474);
+
+            var bizId = getParams().bizId;
+            $("#bizId").val(bizId);
+            fn_contractNewList();
+
+            console.log('contract_popup_data_exceldown.html');
+
+            // 계약일자 조회조건
+            $("#contractDateFrom").val(opener.document.getElementById("contractDateFrom").value);
+            $("#contractDateTo").val(opener.document.getElementById("contractDateTo").value);
+        });
+
+
+        //***************					전자계약 양식 리스트					***************//
+
+
+        function fn_contractNewList() {
+
+            var url = rootPath + "contract/getContractNewList.do";
+            var bizId = $("#bizId").val();
+            var searchCompany = $("#bizId").val();
+            var sortName = $("#sortName").val();
+            var sortOrder = $("#sortOrder").val();
+
+            $.blockUI();
+
+            $.ajax({
+                url: url,
+                crossDomain: true,
+                dataType: "json",
+                type: "GET",
+                data: {
+                    transType: 'C',
+                    bizId: bizId,
+                    searchCompany: searchCompany,
+                    sortName: sortName,
+                    sortOrder: sortOrder
+                },
+                success: function (result) {
+                    if (result.success) {
+                        $.each(result.data, function (i, row) {
+                            if (i == 0) selected = "selected";
+                            var fileTitle = cutStr(row.fileTitle, 42);
+                            var option = $("<option value='" + row.fileId + "^" + row.contractId + "^" + row.signUserType + "^" + row.signBizType
+                                + "^" + row.signCustomerType + "'" + ">" + fileTitle + "</option>");
+                            $('#fileId').append(option);
+                            $("#bizName").val(row.bizName);
+                        });
+                    }
+                    $.unblockUI();
+                },
+                error: function (request, status, error) {
+                    $.unblockUI();
+                    if (request.status == "401") {
+                        alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+                        window.close();
+                    } else {
+                        alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error);
+                    }
+                }
+            });
+        }
+
+        function fn_contractDataExcelDown() {
+            if (!confirm("전자문서 데이터 내려받기를 진행하시겠습니까?\r\n데이터 양에 따라 시간이 다소 소요될 수 있습니다.")) return;
+
+            var url = rootPath + "contract/downContractDataExcel.do";
+
+            var contractDateFrom = $("#contractDateFrom").val();
+            var contractDateTo = $("#contractDateTo").val();
+            var fileId = $("#fileId").val().split("^")[0];
+            var contractFileId = $("#fileId").val().split("^")[1];
+            var contractFileName = $("#fileId option:checked").text();
+            var bizId = $("#bizId").val();
+            var signUserType = $("#fileId").val().split("^")[2];
+            var signBizType = $("#fileId").val().split("^")[3];
+            var signCustomerType = $("#fileId").val().split("^")[4];
+            var bizName = $("#bizName").val();
+
+            if (fileId.length == 0) {
+                alert("양식을 선택해주시기 바랍니다.");
+                return;
+            }
+
+            if (contractDateFrom.length > 0) {
+                contractDateFrom = contractDateFrom.replace(/-/gi, "");
+            }
+
+            if (contractDateTo.length > 0) {
+                contractDateTo = contractDateTo.replace(/-/gi, "");
+            }
+
+            if (contractDateFrom.length != 8 || contractDateTo.length != 8) {
+                alert("생성일자를 숫자 여덟자리로 정확하게 입력하시기 바랍니다.");
+                return;
+            }
+
+            url += '?bizId=' + bizId;
+            url += '&bizName=' + bizName;
+            url += '&fileId=' + fileId;
+            url += '&contractFileId=' + contractFileId;
+            url += '&contractFileName=' + contractFileName;
+            url += '&contractDateFrom=' + contractDateFrom;
+            url += '&contractDateTo=' + contractDateTo;
+            url += '&signUserType=' + signUserType;
+            url += '&signBizType=' + signBizType;
+            url += '&signCustomerType=' + signCustomerType;
+
+            downloadDataUrlFromJavascript(url);
+        }
+
+    </script>
+    </head>
+
+    <body>
+
+    <input type="hidden" id="bizId" value="">
+    <input type="hidden" id="signUserType" value="">
+    <input type="hidden" id="signBizType" value="">
+    <input type="hidden" id="signCustomerType" value="">
+    <input type="hidden" id="sortName" value="A.INS_DATE">
+    <input type="hidden" id="sortOrder" value="DESC">
+
+    <div id="contract_popup" class="edit" style="width: 100%; height: auto;">
+        <div class="container">
+            <div id="popup_tit">
+                <div class="tit_icon"></div>
+                <div class="tit_text col_skyblue NanumGothic">전자문서 데이터 엑셀일괄 다운로드</div>
+                <div id="popup_close" class="btn_type col_skyblue" onclick="window.close();"></div>
+            </div>
+            <div class="contents" style="height: auto;">
+                <div class="input_wrap">
+                    <dl class="boxRow input_bx NanumGothic">
+                        <dt><label class="label_txt NanumGothic">기업명</label></dt>
+                        <dd><input type="text" id="bizName" readonly class="input_txt"></dd>
+                    </dl>
+                    <dl class="boxRow input_bx NanumGothic">
+                        <dt><label class="label_txt NanumGothic">양식명</label></dt>
+                        <dd><select id="fileId" class="lt"></select></dd>
+                    </dl>
+                    <dl class="boxRow input_bx NanumGothic">
+                        <dt><label class="label_txt NanumGothic">생성일자</label></dt>
+                        <dd class="txt_half">
+                            <input type="text" min="19000101" max="29991231" id="contractDateFrom" class="input_txt" maxlength="8"/>
+                            <span> ~ </span>
+                            <input type="text" min="19000101" max="29991231" id="contractDateTo" class="input_txt" maxlength="8"/>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="foot_box NanumGothic">
+                    <dl class="col_red">
+                        <dt>ㆍ</dt>
+                        <dd>일괄로 파일을 다운로드 하는 경우 소요시간이 많이 걸리므로 잠시만 기다려 주시기 바랍니다.</dd>
+                    </dl>
+                    <dl>
+                        <dt>ㆍ</dt>
+                        <dd>다운로드 받는 파일의 대상은 진행상태가 '문서작성중' 이후인 경우에만 일괄 다운로드가 가능합니다.</dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="btn_group">
+                <a href="javascript:fn_contractDataExcelDown();" class="btn_type type1 NanumGothic">내려받기</a>
+                <a href="javascript:window.close();" class="btn_type type3 NanumGothic">취소</a>
+            </div>
+        </div>
+    </div>
+    </body>
+    </html>

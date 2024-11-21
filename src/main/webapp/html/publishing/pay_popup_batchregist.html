@@ -1,0 +1,187 @@
+
+	<!--****************************************************************************************************************
+	* 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+	* 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+	********************************************************************************************************************
+	--------------------------------------------------------------------------------------------------------------------
+	* 회사       : 뉴젠피앤피
+	* 화면명     : 임금내역정보 일괄등록 팝업창
+	* 화면설명   : 임금명세관리 > 임금명세업로드 > 임금내역정보 일괄등록 팝업창
+	* 작성자     :
+	* 생성일     :
+	--------------------------------------------------------------------------------------------------------------------
+	* 수정자     : 이정훈
+	* 수정일     : 2024.03.05
+	* 수정내용   :
+	------------------------------------------------------------------------------------------------------------------->
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/personnel_management.css">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+	<title>급여내역정보 일괄등록</title>
+	<script>
+
+		//***************					윈도우 로딩					***************//
+
+		$(document).ready(function(){
+
+			$("#xlsFile").change(function() {
+				var fullPath = this.value;
+				if (fullPath) {
+					var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+					var filename   = fullPath.substring(startIndex);
+					if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) { filename   = filename.substring(1); }
+					$("#xlsFileName").val(filename);
+				}
+			});
+
+		});
+
+
+		//***************					임금내역정보 일괄 등록					***************//
+
+
+		function fn_empUpload() {
+
+			if (!confirm("일괄등록을 진행하시겠습니까?")) return;
+
+			var url			= rootPath+"emp/sendEmpExcel.do";
+			var smsSendType;
+
+			if ($("#smsSendType").prop('checked'))	{ smsSendType = "Y"; }
+			else 									{ smsSendType = "N"; }
+
+			var documentType = $("#documentType option:selected").val();
+
+			// 인사정보 문서 등록양식
+			if (documentType == "paycare") { url = rootPath + "emp/sendPaycareEmpExcel.do"; }
+
+			// 데이터설정
+			var formData = new FormData();
+			var file 	 = document.getElementsByName("xlsFile");
+			formData.append("smsSendType", smsSendType);
+			formData.append("documentType", documentType);
+
+			for(var i=0;i<file.length;i++) {
+				if (file[i].files[0] != undefined) {
+					if(!checkFileExt(file[i].files[0].name, "xls")) {
+						alert("파일확장자는 xls파일만 가능합니다.");
+						return;
+					}
+					if(checkSpecial(file[i].files[0].name)) {
+						alert("파일명에 특수문자가 포함되어 있습니다. 제거하시어 다시 보내주시기 바랍니다.");
+						return;
+					}
+					formData.append("addFile"+i,file[i].files[0]);
+				}
+			}
+
+			$.blockUI();
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				data:formData,
+				contentType:false,
+				processData:false,
+				cache:false,
+				success:function(result) {
+					$.unblockUI();
+					console.log(result);
+					alert(result.message);
+					opener.fn_empList(1);
+					window.close();
+				},
+				error:function(request,status,error){
+					$.unblockUI();
+					if (request.status=="401") { alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다."); }
+					else 					   { alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error); }
+				}
+			});
+		}
+
+
+		//***************					엑셀 파일 선택					***************//
+
+
+		function fn_openFile() { $("#xlsFile").click(); }
+
+
+	</script>
+	</head>
+
+	<body>
+	<div id="person_popup" class="edit">
+		<div class="container">
+			<div id="popup_tit">
+				<div class="tit_icon"></div>
+				<div class="tit_text col_skyblue NanumSquare_B">급여내역정보 일괄등록</div>
+				<div id="popup_close" class="btn_type col_skyblue" onclick="window.close()"></div>
+			</div>
+			<div class="contents">
+				<div class="input_wrap">
+					<dl class="boxRow default_bx NanumSquare_R">
+						<dt><label class="label_txt NanumGothic">등록양식</label></dt>
+						<dd class="column2">
+							<select id="documentType" class="default_box">
+								<option value="newzenpnp">제공양식</option>
+								<option value="paycare">페이케어</option>
+							</select>
+						</dd>
+					</dl>
+					<dl class="boxRow default_bx NanumSquare_R">
+						<dt><label class="label_txt NanumGothic">파일선택</label></dt>
+						<dd class="column2">
+							<input type="file" id="xlsFile" name="xlsFile" style="display:none;" />
+							<input type="text" class="default_box" id="xlsFileName" readonly>
+							<div class="btn_type type1" onclick="fn_openFile()">파일 선택</div>
+						</dd>
+					</dl>
+					<dl class="boxRow default_bx NanumSquare_R">
+						<dt><label class="label_txt NanumGothic">샘플파일</label></dt>
+						<dd class="column2">
+							<div class="default_box down_file">
+								<a href="/data/샘플_인사데이터.xls">
+									<span class="file_icon icon_excel"></span>
+									<span class="file_name">샘플_인사데이터</span>
+								</a>
+							</div>
+						</dd>
+					</dl>
+				</div>
+				<div class="foot_box NanumSquare_R">
+					<dl class="col_red">
+						<dt>ㆍ</dt>
+						<dd>일괄로 파일을 등록하는 경우 소요시간이 많이 걸리므로 잠시만 기다려 주시기<br> 바랍니다.</dd>
+					</dl>
+					<dl>
+						<dt>ㆍ</dt>
+						<dd>급여정보 조건파일을 진행하신후 [생성하기]를 선택하시어 명세서를 생성하시기 바랍니다.</dd>
+					</dl>
+					<dl>
+						<dt>ㆍ</dt>
+						<dd>등록된 급여명세서의 급여정보들을 확인해주시기 바랍니다.</dd>
+						<input type="checkbox" id="smsSendType" style="display:none;">
+					</dl>
+				</div>
+			</div>
+			<div class="btn_group">
+				<div class="btn_type type1 NanumSquare_R" onclick="fn_empUpload()">등록하기</div>
+				<div class="btn_type type3 NanumSquare_R" onclick="window.close()">취소하기</div>
+			</div>
+		</div>
+	</div>
+	</body>
+	</html>

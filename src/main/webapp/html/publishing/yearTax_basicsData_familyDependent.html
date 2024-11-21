@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>부양가족</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+
+</head>
+<body>
+	<div id="yearTax_wrap" class="yearTax">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연말정산 > 기초자료설정 > </span><span class="loc_sub NanumSquare_R">부양가족</span></div>
+			<div class="pagtit NanumSquare_R">
+				<span class="">부양가족</span>
+				<ul class="top_items NanumSquare_R">
+					<li><a class="btn_type icon_file NanumSquare_R">엑셀업로드 <span class="icon icon_file"></span></a></li>
+				</ul>
+			</div>
+			
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">부양 가족</span>
+					</div>
+				
+					<div class="grid_field full">
+						<ul class="gridRow2">
+							<li class="search_wrap">
+								<div class="group_row row4">
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">사업장 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R">
+												<option value="" >Y</option>
+											</select>
+										</dd>
+									</dl>
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">부서 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R">
+												<option value="" >Y</option>
+											</select>
+										</dd>
+									</dl>
+									<dl class="NanumSquare_R rat4n-6">
+										<dt><label class="label_txt NanumSquare_R">근무상태 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R">
+												<option value="" >전체</option>
+												<option value="" >계속근로</option>
+												<option value="" >중도퇴사</option>
+											</select>
+										</dd>
+									</dl>
+								</div>
+								<div class="group_row row4">
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">성명 : </label></dt>
+										<dd class="input_box"><input class="" type="text" ></dd>
+									</dl>
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">사번 : </label></dt>
+										<dd class="input_box"><input class="" type="text" ></dd>
+									</dl>
+									<dl class="NanumSquare_R rat4n-6">
+										<dt><label class="label_txt NanumSquare_R">직책(직급) : </label></dt>
+										<dd class="input_box"><input class="" type="text" ></dd>
+									</dl>
+									<div class="btns"><a class="btn_type btn_grid_search NanumSquare_R"><span class="icon Material_icons">search</span> 검색</a></div>
+								</div>
+							</li>
+							<li class="NanumSquare_R btns sort_right sort_bottom">
+								<div class="sortWrap ">
+									<a class="btn_type type1">신규 등록<span class="icon add"></span></a><a class="btn_type type2">선택삭제</a>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="grid_paging">
+						<div class="select_box">
+							<dl>
+								<dt><label class="label_txt NanumSquare_R">Rows</label></dt>
+								<dd class="select_box">
+									<select class="NanumSquare_R">
+										<option value="" >10</option>
+									</select>
+								</dd>
+							</dl>
+						</div>
+						<div id="page-selection" class="pagingnav_wrap_mid"></div>
+					</div>
+					<div class="group-cell-row NanumSquare_R" >
+						<ul class="thead">
+							<li class="chk_area"><input type="checkbox"></li>
+							<li>성명</li><li>사번</li><li class="w50">연말관계</li><li>내외국인</li><li>주민등록번호</li><li class="w50">나이</li><li class="w50">기본공제</li>
+							<li class="w50">부녀자</li><li class="w50">한부모</li><li class="w50">경로우대</li><li class="w50">장애인</li><li class="w50">자녀</li><li class="w50">출산입양</li>
+						</ul>
+						<ul class="tbody">
+							<li class="itemgroup">
+								<input id="group-1" type="checkbox" class="dep-1 hidden">
+								<ul class="item-parent">
+									<li class="chk_area"><input type="checkbox"></li>
+									<li class="name"><label for="group-1" class="btn_type provider"></label><label for="group-1" class="label tit">홍아빠</label></li>
+									<li class="bizNo">사번</li><li class="w50">연말관계</li><li>내외국인</li><li>주민등록번호</li><li class="w50">나이</li><li class="w50">기본공제</li>
+									<li class="w50">부녀자</li><li class="w50">한부모</li><li class="w50">경로우대</li><li class="w50">장애인</li><li class="w50">자녀</li><li class="w50"></li>
+								</ul>
+								<div class="item-list">
+									<ul>
+										<li class="chk_area"></li>
+										<li class="name"><label class="label tit">홍부인</label></li><li>사번</li><li class="w50">연말관계</li><li>내외국인</li><li>주민등록번호</li><li class="w50">나이</li><li class="w50">Y</li>
+										<li class="w50">부녀자</li><li class="w50">한부모</li><li class="w50">경로우대</li><li class="w50">장애인</li><li class="w50">자녀</li><li class="w50"></li>
+									</ul>
+									<ul>
+										<li class="chk_area"></li>
+										<li class="name"><label class="label tit">홍아들</label></li><li>사번</li><li class="w50">연말관계</li><li>내외국인</li><li>주민등록번호</li><li class="w50">나이</li><li class="w50">기본공제</li>
+										<li class="w50">부녀자</li><li class="w50">한부모</li><li class="w50">경로우대</li><li class="w50">장애인</li><li class="w50">자녀</li><li class="w50"></li>
+									</ul>
+								</div>
+							</li>
+							<li class="alone">
+								<ul class="item-parent">
+									<li class="chk_area"><input type="checkbox"></li>
+									<li class="name"><label class="label tit">놀부아빠</label></li>
+									<li class="bizNo">사번</li><li class="w50">연말관계</li><li>내외국인</li><li>주민등록번호</li><li class="w50">30</li><li class="w50">Y</li>
+									<li class="w50">부녀자</li><li class="w50">한부모</li><li class="w50">경로우대</li><li class="w50">장애인</li><li class="w50">자녀</li><li class="w50"></li>
+								</ul>
+							</li>
+							<li class="itemgroup">
+								<input id="group-2" type="checkbox" class="dep-1 hidden" >
+								<ul class="item-parent">
+									<li class="chk_area"><input type="checkbox"></li>
+									<li class="name"><label for="group-2" class="btn_type provider"></label><label for="group-2" class="label tit">김연말</label></li>
+									<li class="bizNo">사번</li><li class="w50">연말관계</li><li>내외국인</li><li>주민등록번호</li><li class="w50">50</li><li class="w50">Y</li>
+									<li class="w50">부녀자</li><li class="w50">한부모</li><li class="w50">경로우대</li><li class="w50">장애인</li><li class="w50">자녀</li><li class="w50"></li>
+								</ul>
+								<div class="item-list">
+									<ul>
+										<li class="chk_area"></li>
+										<li class="name"><label class="label tit">놀부부인</label></li><li>사번</li><li class="w50">연말관계</li><li>내외국인</li><li>주민등록번호</li><li class="w50"></li><li class="w50"></li>
+										<li class="w50">부녀자</li><li class="w50">한부모</li><li class="w50">경로우대</li><li class="w50">장애인</li><li class="w50">자녀</li><li class="w50"></li>
+									</ul>
+								</div>
+							</li>
+							<li class="itemgroup">
+								<input id="group-3" type="checkbox" class="dep-1 hidden">
+								<ul class="item-parent">
+									<li class="chk_area"><input type="checkbox"></li>
+									<li class="name"><label for="group-3" class="btn_type provider"></label><label for="group-3" class="label tit">홍아빠</label></li>
+									<li class="bizNo">사번</li><li class="w50">연말관계</li><li>내외국인</li><li>주민등록번호</li><li class="w50">나이</li><li class="w50">기본공제</li>
+									<li class="w50">부녀자</li><li class="w50">한부모</li><li class="w50">경로우대</li><li class="w50">장애인</li><li class="w50">자녀</li><li class="w50"></li>
+								</ul>
+								<div class="item-list">
+									<ul>
+										<li class="chk_area"></li>
+										<li class="name"><label class="label tit">홍부인</label></li><li>사번</li><li class="w50">연말관계</li><li>내외국인</li><li>주민등록번호</li><li class="w50">나이</li><li class="w50">Y</li>
+										<li class="w50">부녀자</li><li class="w50">한부모</li><li class="w50">경로우대</li><li class="w50">장애인</li><li class="w50">자녀</li><li class="w50"></li>
+									</ul>
+									<ul>
+										<li class="chk_area"></li>
+										<li class="name"><label class="label tit">홍아들</label></li><li>사번</li><li class="w50">연말관계</li><li>내외국인</li><li>주민등록번호</li><li class="w50">나이</li><li class="w50">기본공제</li>
+										<li class="w50">부녀자</li><li class="w50">한부모</li><li class="w50">경로우대</li><li class="w50">장애인</li><li class="w50">자녀</li><li class="w50"></li>
+									</ul>
+								</div>
+							</li>
+						</ul>
+					</div>
+					
+				</div>
+			</div><!--  content -->
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+$('#page-selection').bootpag({
+    total: 10,
+    page: 1,
+    maxVisible: 5,
+    leaps: true,
+    firstLastUse: true,
+    first: '',
+    last: '',
+    wrapClass: 'pagination',
+    activeClass: 'active',
+    disabledClass: 'disabled',
+    nextClass: 'btn_next',
+    prevClass: 'btn_prev',
+    lastClass: 'end_page',
+    firstClass: 'first_page'
+}).on("page", function(event, num){
+    
+}); 
+</script>
+</html>

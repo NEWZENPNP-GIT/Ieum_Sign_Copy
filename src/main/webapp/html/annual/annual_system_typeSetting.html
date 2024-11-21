@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/annual_manage.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+<script>
+	var dataList = [];
+	
+	$(document).ready(function(){
+		fn_annualTypeList();
+	});
+
+	function runScript(e) {
+	    if (e.keyCode == 13) {
+	    	fn_annualTypeList();
+	        return false;
+	    }
+	}
+	
+	function fn_saveCheck(vacationType) {
+		$('input:checkbox[name="chk"]').each(function() {
+			if(vacationType == this.value){
+				this.checked = true;
+			}
+		});
+		
+	}
+
+	function fn_checkReset(vacationType) {
+		$('input:checkbox[name="chk"]').each(function() {
+			if(vacationType == this.value){
+				this.checked = true;
+				$("#vacationDay_"+vacationType).val("0");
+			}
+		});
+		
+	}
+	
+	function fn_annualTypeList() {
+		var url = rootPath+"vacation/getAnnualTypeList.do";
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			success:function(result)
+			{
+				var htmlData = "";
+				
+				if (result.success==true) {
+					dataList = result.data;
+					
+					$.each(result.data, function(i, row) {
+						htmlData += '<tr> ';
+						htmlData += ' <td class="chk_area"><input type="checkbox" id="chk" name="chk" value="'+row.vacationType+'"></td>';
+						htmlData += ' <td class="value input"><input type="text" onchange="fn_saveCheck('+row.vacationType+');" id="vacationTypeName_'+row.vacationType+'" value="'+row.vacationTypeName+'" /></td> ';
+						htmlData += ' <td class="value userCk"> ';
+						
+						var chk11 = "";
+						var chk12 = "";
+						if(row.annualDay=="0") {
+							chk12 = ' checked ';
+						} else {
+							chk11 = ' checked ';
+						}
+						
+						htmlData += ' 	<div><input type="radio" name="rad1-1_'+row.vacationType+'" id="ck1-1_'+row.vacationType+'" '+chk11+'/><label for="ck1-1_'+row.vacationType+'">여</label></div> ';
+						htmlData += ' 	<div><input type="radio" onchange="fn_checkReset('+row.vacationType+');" name="rad1-1_'+row.vacationType+'" id="ck1-2_'+row.vacationType+'" class="orange" '+chk12+'/><label for="ck1-2_'+row.vacationType+'">부</label></div> ';
+						htmlData += ' </td> ';
+						htmlData += ' <td class="value input"><input type="text" id="vacationDay_'+row.vacationType+'" onchange="fn_saveCheck('+row.vacationType+');" value="'+row.annualDay+'" /></td> ';
+						htmlData += ' <td class="value userCk"> ';
+						
+						var chk21 = "";
+						var chk22 = "";
+						if(row.useYn=="Y") {
+							chk21 = ' checked ';
+						} else {
+							chk22 = ' checked ';
+						}
+						
+						htmlData += ' 	<div><input type="radio" name="rad1-2_'+row.vacationType+'" onchange="fn_saveCheck('+row.vacationType+');" id="ck2-1_'+row.vacationType+'" '+chk21+'/><label for="ck2-1_'+row.vacationType+'">여</label></div> ';
+						htmlData += ' 	<div><input type="radio" name="rad1-2_'+row.vacationType+'" onchange="fn_saveCheck('+row.vacationType+');" id="ck2-2_'+row.vacationType+'" class="orange" '+chk22+'/><label for="ck2-2_'+row.vacationType+'">부</label></div>';
+						htmlData += ' </td> ';
+						htmlData += '</tr> ';
+					});
+	
+				} else {
+					htmlData += '<tr> <td colspan="5">요청하신 자료가 존재하지 않습니다.</td></tr>';
+					
+				}
+	
+				$("#dataList").html(htmlData);
+				$.unblockUI();
+				
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+
+	function fn_insAnnualType() {
+
+		var url = rootPath+"vacation/insAnnualType.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			contentType : "application/json; charset=UTF-8",
+			success:function(result)
+			{
+				if(result.success) {
+					fn_annualTypeList();
+					alert("초기값이 설정되었습니다.");					
+				}
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});		
+	}
+	
+	function fn_saveAnnualType() {
+
+		var url = rootPath+"vacation/saveAnnualType.do";
+		
+		//var params = [];
+		var params = new Array(); 
+		
+		params.push ( {"cool":"34.33","also cool":"45454"} );
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: JSON.stringify(params),
+			contentType : "application/json; charset=UTF-8",
+			success:function(result)
+			{
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});		
+	}
+	
+	
+</script>
+
+</head>
+<body>
+	<div id="annual_wrap" class="">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumGothic">연차 관리 ＞ 시스템 설정 ＞</span><span class="loc_sub NanumGothic">휴가별 설정</span></div>
+			<div class="pagtit"><span class="NanumGothic">휴가별 설정</span></div>
+			<div class="tit_dec NanumGothic"><span class="speaker"></span><span> 알림 ㅣ 미승인 연차신청서가 5건 존재합니다. </span></div>
+			
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumGothic">휴가 추가 및 사용 관리</span>
+					</div>
+					<div class="box_wrap topBlue">
+						<ul class="NanumGothic field_area" >
+						</ul>
+						<div class="group_table">
+							<table class="NanumGothic hasChk">
+								<colgroup>
+									<col width="4%">
+									<col width="24%">
+									<col width="24%">
+									<col width="24%">
+									<col width="24%">
+								</colgroup>
+								<thead>
+								<tr>
+									<th class="chk_area"><input type="checkbox" id="checkall" onclick="fn_checkAll();"></th>
+									<th>연차 종류</th>
+									<th>연차 소진 여부 </th>
+									<th>연차 소진 수</th>
+									<th>사용 여부</th>
+								</tr>
+								</thead>
+								<tbody id="dataList">
+									
+								</tbody>
+							</table>
+							<!-- 
+							<div class="bot_btn">
+								<a class="NanumGothic btn_type"><span class="icon_plus">+</span>휴가 추가</a>
+							</div>
+							 -->
+						</div>
+						
+					</div>
+				</div>
+				<div class="NanumGothic btn_group ">
+					<a class="btn_type type1" onclick="fn_insAnnualType()">초기화</a>
+					<a class="btn_type default" onclick="fn_saveAnnualType()"><span class="icon_check"></span>적용하기</a>
+				</div>
+			</div> <!--  contents -->
+				
+			
+		</div> <!--  container -->
+	</div>
+</body>
+</html>

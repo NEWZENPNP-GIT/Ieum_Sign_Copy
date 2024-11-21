@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/board_notice.css">
+
+<script type='text/javascript' src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+
+<script>
+	var bizId = "";
+	var bbsId = "";
+	var bbsNo = "";
+	var userType = "";
+	var statusCode = "";
+	var statusName = {
+	      '0': '처리중',
+	      '1': '답변 완료'
+	    };
+	
+	function fn_bbsContentList() {
+		var url = "/html/bbs/board_question_admin_biz_list.html";
+		openPage(url);
+	}
+	
+	$(document).ready(function(){
+		// 기업관리자 제외한 관리자만 확정 처리기능 활성화
+		if (getCookie("loginType") > "6") $("#check_confirm").show();
+		else                              $("#check_confirm").hide();
+
+		$("#commentBizName").html(getCookie("bizName"));
+		$("#commentEmpName").html(getCookie("loginName"));
+
+    	bbsId = getCookie("bbsId");
+    	bbsNo = getCookie("bbsNo");
+		userType = getCookie("loginType");
+		fn_bbsContentView();
+				
+	});
+
+	function fn_bbsContentView() {
+		var url = rootPath + 'bbs/getBbsContents.do';
+
+		$.blockUI();
+
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				bbsId:bbsId,
+				bbsNo:bbsNo,
+				userType:userType
+			},
+			success:function(result)
+			{
+				console.log(result);
+				if (result.success==true) {
+					console.log(result.data.bizName);
+
+					if (result.data.userId === getCookie("userId") ||getCookie("loginType") === "9") $("#delete_confirm").show();
+
+					bizId = result.data.bizId;
+					statusCode = result.data.statusCode;
+					$("#companybizName").html(result.data.bizName);
+					$("#companyTelNum").html(result.data.companyTelNum);
+					$("#statusName").html(result.data.statusName);
+					$("#subject").html(result.data.subject);
+					$("#empName").html(result.data.empName);
+					$("#contents").html(result.data.contents);
+
+					var fileData = "";
+					$.each(result.file, function(i, row) {
+						console.log(row);
+						fileData += ' <div><span class="fileName" >'+row.orgFileName+'</span><a class="btn_type btn_download" onclick="doDownload('+row.fileNo+')">다운로드</a></div>';			             
+					});
+					$("#fileList").html(fileData);
+					
+					var commentData = "";
+					$.each(result.comment, function(i, row) {
+						console.log(row.commentContents);
+						commentData += '<div class="area head_group">';
+						commentData += '	<div class="company">'+row.bizName+'</div>';
+						commentData += '	<div class="userName">'+row.empName+'</div>';
+						commentData += '	<div class="date">'+convertDate(row.insDate).format("yyyy-MM-dd")+'</div>';
+						commentData += '</div>';
+						commentData += '<div class="area text_group"><textarea rows="" cols="" style="resize:none;background-color:whitesmoke;" readonly>'+row.commentContents+'</textarea></div>';
+						if(row.userId==getCookie("userId")&&statusCode=="0") {
+							commentData += '<div class="area right_btngroup"><a class="btn_type btn_del NanumGothic" onclick="doRemoveComment('+row.commNo+')" >삭제</a></div>';
+						}
+				        
+					});					
+					$("#commentList").html(commentData);
+					
+				}
+				
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+
+	function goList() {
+		var url = "/html/bbs/board_question_admin_biz_list.html";
+		openPage(url);
+	}
+	
+	function doRemove() {
+
+		if(statusCode == 1){
+			confirm("처리 완료된 문의글은 삭제할 수 없습니다.");
+		} else {
+			if (!confirm('삭제 하시겠습니까?')) {
+		    	return;
+		    }
+			
+			var url = rootPath + 'bbs/delBbsContents.do';
+
+			$.blockUI();
+	
+			$.ajax({
+				url:url,
+			    crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				data: {
+					bbsId:bbsId,
+					bbsNo:bbsNo
+				},
+				success:function(result)
+				{
+					console.log(result);
+					if (result.success==true) {
+						alert("삭제되었습니다.");
+						fn_bbsContentList();
+					}
+					
+					$.unblockUI();
+				},
+				error:function(request,status,error){
+					$.unblockUI();
+					if (request.status=="401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						location.href=rootPath;
+					} else {
+						alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+				        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					}
+				}
+			});
+		}
+	} 
+	
+	function doConfirm() {
+		var confirmMsg = "";
+		var url = rootPath + 'bbs/updBbsContents.do';
+
+	    if (statusCode == '0') {
+			statusCode = '1';
+			confirmMsg = statusName[statusCode] + ' 상태로 변경 하시겠습니까?';
+	    } else if (statusCode == '1') {
+	    	statusCode = '0';
+	    	confirmMsg = statusName[statusCode] + ' 상태로 변경 하시겠습니까?';
+	    }
+	    
+	    if(!confirm(confirmMsg)) return;
+
+		$.blockUI();
+
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				bbsId:bbsId,
+				bbsNo:bbsNo,
+				statusCode:statusCode
+			},
+			success:function(result)
+			{
+				console.log(result);
+				if (result.success==true) {
+					alert("변경되었습니다.");
+					openPage("/html/bbs/board_question_admin_biz_view.html?bbisId="+bbsId+"&bbsNo="+bbsNo);
+				}
+				
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+		
+	}
+
+	function doDownload(fileNo) {
+		var url = rootPath + 'bbs/getBbsFile.do';
+		url += '?bbsId=' + bbsId;
+		url += '&bbsNo=' + bbsNo;
+		url += '&fileNo=' + fileNo;
+		
+		downloadDataUrlFromJavascript(url);
+	}
+	
+	function doRemoveComment(commNo) {
+		var url = rootPath + 'bbs/delBbsComment.do';
+
+		$.blockUI();
+
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				bbsId:bbsId,
+				bbsNo:bbsNo,
+				commNo:commNo
+			},
+			success:function(result)
+			{
+				console.log(result);
+				if (result.success==true) {
+					alert("삭제되었습니다.");
+					openPage("/html/bbs/board_question_admin_biz_view.html?bbisId="+bbsId+"&bbsNo="+bbsNo);
+				}
+				
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+		
+	}
+	
+	function doWriteComment() {
+
+		var url = rootPath + 'bbs/insBbsComment.do';
+		
+		var commentContents = $("#commentContents").val();
+		
+		if(commentContents.length==0) {
+			alert("글을 등록해주시기 바랍니다.");
+			return;
+		}
+
+		$.blockUI();
+
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				bbsId:bbsId,
+				bbsNo:bbsNo,
+				commentContents:commentContents
+			},
+			success:function(result)
+			{
+				console.log(result);
+				if (result.success==true) {
+					alert("등록되었습니다.");
+					openPage("/html/bbs/board_question_admin_biz_view.html?bbisId="+bbsId+"&bbsNo="+bbsNo);
+				}
+				
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+	
+		function doRemoveComment(commNo) {
+
+			var url = rootPath + 'bbs/delBbsComment.do';
+
+			if(!confirm("글을 삭제하시겠습니까?")) {
+				return;
+			}
+
+			$.blockUI();
+	
+			$.ajax({
+				url:url,
+			    crossDomain : true,
+				dataType:"json",
+				type:"GET",
+				data: {
+					bbsId:bbsId,
+					bbsNo:bbsNo,
+					commNo:commNo
+				},
+				success:function(result)
+				{
+					console.log(result);
+					if (result.success==true) {
+						alert("삭제되었습니다.");					
+						openPage("/html/bbs/board_question_admin_biz_view.html?bbisId="+bbsId+"&bbsNo="+bbsNo);
+					}
+					
+					$.unblockUI();
+				},
+				error:function(request,status,error){
+					$.unblockUI();
+					if (request.status=="401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						location.href=rootPath;
+					} else {
+						alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+				        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					}
+				}
+			});
+		
+	}
+	
+	
+</script>
+</head>
+<body>
+
+<div id="boardque_wrap" class="">
+	<div class="container">
+		<div class="location"><span class="loc_main NanumGothic">게시판 > </span><span class="loc_sub NanumGothic">관리자 문의하기</span></div>
+		<div class="pagtit"><span class="NanumGothic">관리자 문의하기</span></div>
+	</div>
+	<div class="board_con_admin">
+		<div class="tab_con">
+		<table class="tab_data NanumGothic">
+			<tr>
+				<td class="tit">회사명</td>
+				<td class="text company" id="companybizName"></td>
+				<td class="tit">회사 연락처</td>
+				<td class="text tel" id="companyTelNum"></td>
+				<td class="tit">처리여부</td>
+				<td class="text type" id="statusName"></td>
+			</tr>
+			<tr>
+				<td class="tit title">제목</td>
+				<td class="text" colspan="3" id="subject"></td>
+				<td class="tit ">작성자명</td>
+				<td class="text writer" id="empName"></td>
+			</tr>
+			<tr>
+				<td class="tit">내용</td>
+				<td class="con text" colspan="5">
+					<div class='contents' id="contents">
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="tit">첨부파일</td>
+				<td colspan="5" class="attach" id="fileList">
+		        </td>
+			</tr>
+		</table>
+		</div>
+		<div class="tab_btnGroup NanumGothic">
+			<a class="btn_type" onclick="doRemove()" id="delete_confirm" style="display:none">삭제</a>
+      		<a class="btn_type" onclick="goList()">목록</a>
+      		<a class="btn_type" onclick="doConfirm()" id="check_confirm"><span class="icon Material_icons">check_circle</span>처리</a>
+		</div>
+		<ul class="comment_list">
+		      <li id="commentList">
+		      </li>
+			<li class="write">
+				<div class="area head_group">
+					<div class="company" id="commentBizName"></div>
+					<div class="userName" id="commentEmpName"></div>
+				</div>
+				<div class="area text_group">
+					<textarea rows="" cols="" id="commentContents" style="resize:none;"></textarea>
+				</div>
+				<div class="area right_btngroup"><a class="btn_type btn_write NanumGothic" onclick="doWriteComment()">등록</a></div>
+			</li>
+		</ul>
+	</div>
+</div>
+
+
+</body>
+</html>

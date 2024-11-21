@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>관리자 정보 등록</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/company_manage.css">
+
+<script type='text/javascript' src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+
+<script>
+	$(document).ready(function(){
+	    $('[data-index="1"]').focus();
+		
+		$('#inputForm').on('keydown', 'input', function (event) {
+		    if (event.which == 13) {
+		        event.preventDefault();
+		        var $this = $(event.target);
+		        var index = parseFloat($this.attr('data-index'));
+		        $('[data-index="' + (index + 1).toString() + '"]').focus();
+		    }
+		});
+
+		getFunnel();
+
+		//비대면바우처 변경시
+		$('#openVoucherType').change(function () {
+			if($(this).val() == "1"){
+				$('#voucherOrder').removeAttr("disabled");
+				$('#salesChannel').removeAttr("readonly");
+				$('#contractStartDate').removeAttr("readonly");
+				$('#contractEndDate').removeAttr("readonly");
+			}else{
+				$('#voucherOrder').attr("disabled", true);
+				$('#voucherOrder').val("");
+				$('#salesChannel').attr("readonly", true);
+				$('#salesChannel').val("");
+				$('#contractStartDate').attr("readonly", true);
+				$('#contractEndDate').attr("readonly", true);
+				$('#contractStartDate').val("");
+				$('#contractEndDate').val("");
+			}
+
+			if($(this).val() == "2"){
+				$('#generalTransDate').removeAttr("readonly");
+			}else{
+				$('#generalTransDate').attr("readonly", true);
+				$('#generalTransDate').val("");
+			}
+
+		});
+
+		$("#salesChannel").change(function(){
+			if($(this).val() == ""){
+				$("#channelId").val("");
+			}
+		});
+	});
+
+	//기업구분코드 조회
+	function getFunnel() {
+		var url = rootPath+"code/getCodeList.do";
+		var grpCommCode = "010";
+
+		$.ajax({
+			url:url,
+			crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				grpCommCode:grpCommCode
+			},
+			success:function(result)
+			{
+				if(result.success){
+					var workStatus = result.data;
+					$("#funnel").append($("<option>", {
+						value: "",
+						text: ""
+					}));
+					$.each(workStatus, function(i, data){
+						$("#funnel").append($("<option>", {
+							value: data.commCode,
+							text: data.commName
+						}));
+					});
+
+					if(opener.detailSearch.funnel != ""){
+						$("#funnel").val(opener.detailSearch.funnel);
+					}
+					if(opener.detailSearch.openVoucherType != ""){
+						$("#openVoucherType").val(opener.detailSearch.openVoucherType);
+					}
+					if(opener.detailSearch.voucherOrder != ""){
+						$("#voucherOrder").val(opener.detailSearch.voucherOrder);
+					}
+					if(opener.detailSearch.channelId != ""){
+						$("#channelId").val(opener.detailSearch.channelId);
+						$("#salesChannel").val(opener.detailSearch.salesChannel);
+					}
+					if(opener.detailSearch.contractStartDate != ""){
+						$("#contractStartDate").val(opener.detailSearch.contractStartDate);
+					}
+					if(opener.detailSearch.contractEndDate != ""){
+						$("#contractEndDate").val(opener.detailSearch.contractEndDate);
+					}
+					if(opener.detailSearch.generalTransDate != ""){
+						$("#generalTransDate").val(opener.detailSearch.generalTransDate);
+					}
+					if(opener.detailSearch.moduleType != ""){
+						$("#moduleType").val(opener.detailSearch.moduleType);
+					}
+					if(opener.detailSearch.useJumin != ""){
+						$("#useJumin").val(opener.detailSearch.useJumin);
+					}
+					if(opener.detailSearch.paymentType != ""){
+						$("#paymentType").val(opener.detailSearch.paymentType);
+					}
+
+					if($("#openVoucherType").val() == "1"){
+						$('#voucherOrder').removeAttr("disabled");
+						$('#salesChannel').removeAttr("readonly");
+						$('#contractStartDate').removeAttr("readonly");
+						$('#contractEndDate').removeAttr("readonly");
+					}else{
+						$('#voucherOrder').attr("disabled", true);
+						$('#salesChannel').attr("readonly", true);
+						$('#contractStartDate').attr("readonly", true);
+						$('#contractEndDate').attr("readonly", true);
+					}
+
+					if($("#openVoucherType").val() == "2"){
+						$('#generalTransDate').removeAttr("readonly");
+					}else{
+						$('#generalTransDate').attr("readonly", true);
+					}
+				}
+			},
+			error:function(request,status,error){
+				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+
+	function getSearch() {
+		if ($("#openVoucherType").val() == "1")	{
+			//비대면 바우처가 있으면 팝업
+			openWin(rootPath + "html/biz/sales_channel_popup.html", "salesChannelPopup", "600", "700");
+		}
+	}
+
+	function setSalesChannel(channelId, salesChannel) {
+		$("#channelId").val(channelId);
+		$("#salesChannel").val(salesChannel);
+	}
+
+	function fn_clear(){
+		$("#funnel").val("");
+		$("#openVoucherType").val("");
+		$("#voucherOrder").val("");
+		$("#channelId").val("");
+		$("#salesChannel").val("");
+		$("#contractStartDate").val("");
+		$("#contractEndDate").val("");
+		$("#generalTransDate").val("");
+		$("#moduleType").val("");
+		$("#useJumin").val("");
+		$("#paymentType").val("");
+		opener.detailSearch = new Object();
+		fn_search();
+	}
+
+	function fn_search(){
+		var popupParams = new Object();
+		popupParams.funnel = $("#funnel").val();
+		popupParams.funnelText = $("#funnel option:checked").text();
+		popupParams.openVoucherType = $("#openVoucherType").val();
+		popupParams.openVoucherTypeText = $("#openVoucherType option:checked").text();
+		popupParams.voucherOrder = $("#voucherOrder").val();
+		popupParams.voucherOrderText = $("#voucherOrder option:checked").text();
+		popupParams.channelId = $("#channelId").val();
+		popupParams.salesChannel = $("#salesChannel").val();
+		popupParams.contractStartDate = $("#contractStartDate").val();
+		popupParams.contractEndDate = $("#contractEndDate").val();
+		popupParams.generalTransDate = $("#generalTransDate").val();
+		popupParams.moduleType = $("#moduleType").val();
+		popupParams.moduleTypeText = $("#moduleType option:checked").text();
+		popupParams.useJumin = $("#useJumin").val();
+		popupParams.useJuminText = $("#useJumin option:checked").text();
+		popupParams.paymentType = $("#paymentType").val();
+		popupParams.paymentTypeText = $("#paymentType option:checked").text();
+		opener.fn_bizDetailAdminList(popupParams);
+
+		window.close();
+	}
+
+</script>
+</head>
+<body>
+<input type="hidden" id="userType" value="6">
+<input type="hidden" id="userId" value="">
+	<div id="company_popup" class="_popup">
+		<div class="container" style="padding: 20px 20px 80px;">
+			<div id="popup_tit" class="bot_line">
+				<div class="tit_icon icon_regist"></div>
+				<div class="tit_text col_skyblue NanumGothic">조건검색</div>
+				<div id="popup_close" class="btn_type col_skyblue" onclick="window.close();"></div>
+			</div>
+			<div class="contents" id="inputForm">
+				
+				<div class="input_wrap">
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">기업 구분</label></dt>
+						<dd>
+							<select id="funnel"></select>
+						</dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">비대면바우처</label></dt>
+						<dd>
+							<select id="openVoucherType">
+								<option value=""></option>
+								<option value="1">여</option>
+								<option value="2">일반전환</option>
+								<option value="3">종료</option>
+							</select>
+						</dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">차수</label></dt>
+						<dd>
+							<select id="voucherOrder" disabled="disabled">
+								<option value=""></option>
+								<option value="1">1차</option>
+								<option value="2">2차</option>
+								<option value="3">3차</option>
+							</select>
+						</dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">영업채널</label></dt>
+						<dd>
+							<div class="search_result">
+								<input type="hidden" id="channelId" />
+								<input type="text" id="salesChannel" class="input_txt input_txt_icons" readonly="readonly">
+							</div>
+							<div class="btn_search Material_icons" onClick="getSearch()">search</div>
+						</dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">계약기간</label></dt>
+						<dd><input type="date" max="2999-12-31" id="contractStartDate" readonly="readonly" style="width: calc(50% - 15px);"><input type="date" max="2999-12-31" id="contractEndDate" readonly="readonly" style="width: calc(50% - 15px); margin-left: 6px;"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">일반전환일</label></dt>
+						<dd><input type="date" max="2999-12-31" id="generalTransDate" readonly="readonly"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">모듈설정</label></dt>
+						<dd>
+							<select id="moduleType">
+								<option value=""></option>
+								<option value="1">전자문서(포인트관리미제공)</option>
+								<option value="2">전자문서(포인트관리제공)</option>
+								<option value="3">임금명세관리(근태/연차포함)</option>
+								<option value="4">전자문서&임금명세관리</option>
+							</select>
+						</dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">주민등록번호사용</label></dt>
+						<dd>
+							<select id="useJumin">
+								<option value=""></option>
+								<option value="Y">사용</option>
+								<option value="N">미사용</option>
+							</select>
+						</dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">정산방식</label></dt>
+						<dd>
+							<select id="paymentType">
+								<option value=""></option>
+								<option value="1">선불결제</option>
+								<option value="2">후불결제(월)</option>
+								<option value="3">후불결제(분기)</option>
+							</select>
+						</dd>
+					</dl>
+				</div>
+				<div class="btns sort-right">
+					<div><div class="type1 btn_type Material_icons" onClick="fn_clear()">초기화</div></div>
+					<div><div class="type2 btn_type Material_icons" onClick="fn_search()">검색</div></div>
+					<div><div class="type4 btn_type Material_icons" onClick="window.close()">취소</div></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

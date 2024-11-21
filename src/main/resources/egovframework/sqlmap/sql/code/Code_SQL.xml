@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Code">
+	<typeAlias alias="codeVO" type="com.ezsign.code.vo.CodeVO"/>
+	<resultMap id="codeListMap" class="codeVO">
+		<result property="grpCommCode" column="GRP_COMM_CODE"/>
+		<result property="commCode" column="COMM_CODE"/>
+		<result property="commName" column="COMM_NAME"/>
+		<result property="refCode" column="REF_CODE"/>
+		<result property="sysType" column="SYS_TYPE"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="updDate" column="UPD_DATE"/>
+	</resultMap>
+	
+	<select id="codeDAO.getCodeList" parameterClass="codeVO" resultMap="codeListMap">
+		SELECT  GRP_COMM_CODE, COMM_CODE, COMM_NAME, REF_CODE, SYS_TYPE, INS_DATE, UPD_DATE
+		FROM  tbl_code
+		WHERE GRP_COMM_CODE = #grpCommCode#
+		<isNotNull property="commName">
+		    <isNotEmpty property="commName">
+			AND	COMM_NAME	LIKE	CONCAT('%', #commName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="commCode">
+		    <isNotEmpty property="commCode">
+			AND	COMM_CODE	= #commCode#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="refCode">
+		    <isNotEmpty property="refCode">
+			AND	REF_CODE	= #refCode#
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY ORDER_NO, COMM_CODE
+	</select>
+	
+	<select id="codeDAO.getTableKey" parameterClass="java.lang.String" resultClass="java.lang.String">
+		SELECT  getTableKey(#tableName#)
+	</select>
+	
+	<select id="codeDAO.getCodeName" parameterClass="codeVO" resultClass="java.lang.String">
+		SELECT COMM_NAME 
+		FROM tbl_code 
+		WHERE GRP_COMM_CODE = #grpCommCode#
+		AND COMM_CODE = #commCode#
+	</select>
+</sqlMap>
+		

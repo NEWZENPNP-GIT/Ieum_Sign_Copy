@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>그밖의소득공제</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+</head>
+<body>
+	<div id="yearTax_wrap" class="yearTax hasEmplist">
+		<input id="btn_left" id="btn_left" type="checkbox" class="hidden">
+		<label class="btn_type btn_emplist" for="btn_left"></label>
+		<div id="employ-list-wrap">
+			<div class="fieldBox">
+				<div class="select_box">
+					<select class="NanumSquare_R">
+						<option value="" >사업장</option>
+					</select>
+				</div>
+				<fieldset>
+					<input type="text" class="word_input NanumSquare_R"><a class="btn_search btn_type Material_icons">search</a>
+				</fieldset>
+			</div>
+			<div class="employ-list NanumSquare_R">
+				<ul>
+					<li class="thead"><div class="no">사번</div><div class="name">이름</div><div class="state code-0">확정</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-0">미입력</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-1">진행중</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-2">근로자 확정</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-3">관리자 확정</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-4">최종 확정</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state"></div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state"></div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state"></div></li>
+				</ul>
+			</div>
+		</div>
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연말정산 > 연말정산입력  > </span><span class="loc_sub NanumSquare_R">연말 정산 MAP</span></div>
+			<div class="pagtit">
+				<span class="NanumSquare_R">연말 정산 MAP - 그밖의소득공제</span>
+				<ul class="top_items NanumSquare_R">
+					<li><a class="btn_type icon_file ">첨부 파일 <span class="icon icon_file"></span></a></li>
+				</ul>
+			</div>
+			
+			<div class="contents">
+				<div class="group_row row1">
+					<div class="summaryBox wid10n"><dl class="NanumSquare_R rat4-6"><dt>사용자</dt><dd class="default_box"><div class="nonborder userName">홍길동</div></dd></dl></div>
+					<div class="summaryBox wid20"><dl class="NanumSquare_R rat3-7"><dt>총급여</dt><dd  class="default_box col_skyblue"><div class="nonborder sort_right">34,254,000</div></dd></dl></div>
+					<div class="summaryBox wid20n"><dl class="NanumSquare_R rat4-6"><dt>근로소득금액</dt><dd  class="default_box col_blue"><div class="nonborder sort_right">34,254,000</div></dd></dl></div>
+				</div>
+				<div class="notice_wrap bg_skyblue nonborder">
+					<div class="notice_con pad_thin10 nonLine NanumSquare_R bg_skyblue">
+						<ul class="month nonTop">
+							<li><span>1월</span></li><li><span>2월</span></li><li class="active"><span>3월</span></li><li class="active"><span>4월</span></li><li><span>5월</span></li><li><span>6월</span></li>
+							<li><span>7월</span></li><li><span>8월</span></li><li><span>9월</span></li><li><span>10월</span></li><li><span>11월</span></li><li><span>12월</span></li>
+						</ul>
+					</div>
+				</div>
+				
+				<div class="common_btn NanumSquare_R">
+					<a class="btn_type btn_toggle view">모두보기</a>
+				</div>
+				
+				<div class="group_wrap">
+					<div class="group_tit mar-bot-5">
+						<div class="icon"></div>
+						<div class="text NanumSquare_R">그밖의소득공제 </div>
+					</div>
+					
+					<!--  show & hide bar -->
+					<input id="group-1" type="checkbox" class="dep-1 hidden" />
+					<div class="sub_header NanumSquare_R">
+						<div><a class="btn_type btn_question">문의 </a></div>
+						<div class="sub_tit NanumSquare_R"></div>
+						<div class="btn_drop">
+							<label for="group-1" class="btn_type btn_fold"></label>
+						</div>
+					</div>
+					
+					<div class="group_fold ">
+						<!-- <div class="sub_field"></div> -->
+						<div class="group_table hasSubType ">
+							<table class="hasHead NanumSquare_R mar-bot-5">
+								<colgroup>
+									<col width="10%">
+									<col width="13%">
+									<col width="13%">
+									<col width="14%">
+									<col width="50%">
+								</colgroup>
+								<thead>
+									<tr>
+										<th>구분</th>
+										<th>납입금액</th>
+										<th>차감금액</th>
+										<th>합계</th>
+										<th>요약설명</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="subTit">국세청 자료</td>
+										<td class="value "><input type="text" class="input_txt sort_right" ></td>
+										<td class="value "><input type="text" class="input_txt sort_right" ></td>
+										<td class="value "><input type="text" class="input_txt sort_right" ></td>
+										<td class="inner_table" rowspan="2">
+											<table>
+												<colgroup>
+													<col width="23%">
+													<col width="22%">
+													<col width="33%">
+													<col width="22%">
+												</colgroup>
+												<tbody>
+													<tr><td class="in-subTit">근로소득금액</td><td>4천만원 이하</td><td>4천만원 초과~1억원 이하</td><td>1억원 초과</td></tr>
+													<tr><td class="in-subTit">공제한도</td><td>500만원</td><td>300만원</td><td>200만원</td></tr>
+												</tbody>
+											</table>
+										</td>
+									</tr>
+									<tr>
+										<td class="subTit">기타 자료</td>
+										<td class="value "><input type="text" class="input_txt sort_right" ></td>
+										<td class="value "><input type="text" class="input_txt sort_right" ></td>
+										<td class="value cols-right"><input type="text" class="input_txt sort_right" ></td>
+										
+									</tr>
+									
+								</tbody>
+							</table>
+						</div>
+						
+						<div class="notice_wrap bor_skyblue mar-bot-5 border-5">
+							<div class="notice_con list NanumSquare_R">
+								<dl class="dot">
+									<dt class="mar-top-2">*</dt>
+									<dd class="">거주자가 소기업·소상공인 공제에 가입하여 해당 과세기간에 납부하는 공제부금 </dd>
+								</dl>
+								<dl class="dot">
+									<dt class="mar-top-2">*</dt>
+									<dd class="">2016년 이후 가입한 법인의 대표자인 경우에는 총급여 7천만원 이하인 자만 공제 가능</dd>
+								</dl>
+								<dl class="dot">
+									<dt class="mar-top-2">*</dt>
+									<dd class="">노란우산공제는 소상공인인 사업자와 소기업에 해당하는 법인대표자가 가입 가능</dd>
+								</dl>
+							</div>
+						</div>
+						
+						<div class="notice_wrap bg_purple mar-bot-40">
+							<div class="notice_tit NanumSquare_R "><span class="icon warning"></span><span class="txt">관리자 정정사유</span></div>
+							<div class="notice_con NanumSquare_R">
+								<textarea></textarea>
+							</div>
+						</div>
+					</div> <!-- group_fold -->
+				</div>
+				
+				<!--  group-2 -->
+				<div class="group_wrap">
+					<div class="group_tit mar-bot-5">
+						<div class="icon"></div>
+						<div class="text NanumSquare_R">투자조합 출자 등 </div>
+					</div>
+					
+					<!--  show & hide bar -->
+					<input id="group-2" type="checkbox" class="dep-1 hidden" />
+					<div class="sub_header NanumSquare_R">
+						<div><a class="btn_type btn_question">문의 </a></div>
+						<div class="sub_tit NanumSquare_R"></div>
+						<div class="btn_drop">
+							<label for="group-2" class="btn_type btn_fold"></label>
+						</div>
+					</div>
+					
+					<div class="group_fold ">
+						<!-- <div class="sub_field"></div> -->
+						<div class="group_table hasSubType ">
+							<table class="hasHead NanumSquare_R mar-bot-15">
+								<colgroup>
+									<col width="30%">
+									<col width="70%">
+								</colgroup>
+								<thead>
+									<tr>
+										<th>입력할 항목</th>
+										<th>항목별 요약설명 및 공제요건</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="subTit">중소기업 창업투자조합 출자 등에 대한 소득공제</td>
+										<td class="require">
+											<span>아래에 상당하는 금액을 그 출자일 또는 투자일이 속하는 과세연도부터 2년이 되는날이 속하는 과세연도까지 </span>
+											<span>거주자가 선택하는 1개 과세연도의 소득금액에서 공제</span>
+											<span> - 거주자가 중소기업창업투자조합 등에 2020년 12월 31일까지 출자 또는 투자한 금액의 100분의 10</span>
+											<span> - 개인이 직접 또는 개인투자조합을 통해 벤처기업 등에 출자 또는 투자한 금액</span>
+											<div class="inner_table mar-top-5">
+												<table>
+												<colgroup>
+													<col width="20%">
+													<col width="25%">
+													<col width="35%">
+													<col width="20%">
+												</colgroup>
+												<thead>
+													<tr>
+														<th>투자구분</th>
+														<th>투자시기</th>
+														<th>공제율</th>
+														<th>공제한도</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr><td rowspan="6">벤처 등</td><td rowspan="3">'2016년~2017년</td><td class="cols-right">1,500만원 이하 100%</td><td rowspan="6">근로소득금액의  50% 한도</td></tr>
+													<tr><td class="cols-right">5,000만원 이하  50%</td></tr>
+													<tr><td class="cols-right">5,000만원 이하  30%</td></tr>
+													<tr><td rowspan="3">'2018년</td><td class="cols-right">3,000만원 이하 100%</td></tr>
+													<tr><td class="cols-right">5,000만원 이하  70%</td></tr>
+													<tr><td class="cols-right">5,000만원 초과  30%</td></tr>
+												</tbody>
+											</table>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						
+						<div class="group_table hasSubType ">
+							<table class="hasHead NanumSquare_R mar-bot-15">
+								<colgroup>
+									<col width="20%">
+									<col width="20%">
+									<col width="20%">
+									<col width="20%">
+									<col width="20%">
+								</colgroup>
+								<thead>
+									<tr>
+										<th>년도</th>
+										<th>구분</th>
+										<th>금융회사 등 명칭</th>
+										<th>계좌번호(또는 증권번호)</th>
+										<th>납입금액</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="value "><select class="NanumSquare_R">
+											<option value="" >2017</option>
+										</select></td>
+										<td class="value "><select class="NanumSquare_R">
+											<option value="" ></option>
+										</select></td>
+										<td class="value "><input type="text" class="input_txt" ></td>
+										<td class="value "><input type="text" class="input_txt" ></td>
+										<td class="value "><input type="text" class="input_txt sort_right" ></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						
+						<div class="notice_wrap bg_purple mar-bot-40">
+							<div class="notice_tit NanumSquare_R "><span class="icon warning"></span><span class="txt">관리자 정정사유</span></div>
+							<div class="notice_con NanumSquare_R">
+								<textarea></textarea>
+							</div>
+						</div>
+					</div> <!-- group_fold -->
+				</div>
+				
+				<!--  group-3 -->
+				<div class="group_wrap">
+					<div class="group_tit mar-bot-5">
+						<div class="icon"></div>
+						<div class="text NanumSquare_R">우리사주조합 출연금 </div>
+					</div>
+					
+					<!--  show & hide bar -->
+					<input id="group-3" type="checkbox" class="dep-1 hidden" />
+					<div class="sub_header NanumSquare_R">
+						<div><a class="btn_type btn_question">문의 </a></div>
+						<div class="sub_tit NanumSquare_R"></div>
+						<div class="btn_drop">
+							<label for="group-3" class="btn_type btn_fold"></label>
+						</div>
+					</div>
+					
+					<div class="group_fold ">
+						<!-- <div class="sub_field"></div> -->
+						<div class="group_table hasSubType ">
+							<table class="hasHead NanumSquare_R mar-bot-5">
+								<colgroup>
+									<col width="20%">
+									<col width="30%">
+									<col width="50%">
+								</colgroup>
+								<thead>
+									<tr>
+										<th>구분</th>
+										<th>납입금액</th>
+										<th>요약설명</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="subTit">일반 등</td>
+										<td class="value"><input type="text" class="input_txt sort_right"></td>
+										<td class="descript" rowspan="2">
+											<dl class="dot"><dt class="mar-top-3">*</dt><dd class="sort_left">우리사주조합원이 자사주를 취득하기 위하여 우리사주조합에 출자하는 경우 해당 연도의 출자금액과 400만원 중 적은 금액을 공제</dd></dl>
+											<dl class="dot v-center"><dt class="mar-top-3">*</dt><dd class="sort_left">벤처기업 등은 1,500만원 중 적은 금액을 공제</dd></dl>
+											<dl class="dot"><dt>&nbsp;</dt><dd class="sort_left">[조특법 제88조의 4]</dd></dl>
+										</td>
+									</tr>
+									<tr>
+										<td class="subTit">벤처 등</td>
+										<td class="value"><input type="text" class="input_txt sort_right"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						
+						<div class="notice_wrap bg_purple mar-bot-40">
+							<div class="notice_tit NanumSquare_R "><span class="icon warning"></span><span class="txt">관리자 정정사유</span></div>
+							<div class="notice_con NanumSquare_R">
+								<textarea></textarea>
+							</div>
+						</div>
+					</div> <!-- group_fold -->
+				</div>
+				
+				<!--  group-4 -->
+				<div class="group_wrap">
+					<div class="group_tit mar-bot-5">
+						<div class="icon"></div>
+						<div class="text NanumSquare_R">고용유지중소기업 근로자</div>
+					</div>
+					
+					<!--  show & hide bar -->
+					<input id="group-4" type="checkbox" class="dep-1 hidden" />
+					<div class="sub_header NanumSquare_R">
+						<div><a class="btn_type btn_question">문의 </a></div>
+						<div class="sub_tit NanumSquare_R"></div>
+						<div class="btn_drop">
+							<label for="group-4" class="btn_type btn_fold"></label>
+						</div>
+					</div>
+					
+					<div class="group_fold ">
+						<!-- <div class="sub_field"></div> -->
+						<div class="group_table hasSubType ">
+							<table class="hasHead NanumSquare_R mar-bot-5">
+								<colgroup>
+									<col width="30%">
+									<col width="70%">
+								</colgroup>
+								<thead>
+									<tr>
+										<th>납입금액</th>
+										<th>요약설명</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="value"><input type="text" class="input_txt sort_right"></td>
+										<td class="descript">
+											<dl class="dot"><dt class="mar-top-3">*</dt><dd class="sort_left">고용유지중소기업에 근로를 제공하는 상시근로자에 대하여 2018년 12월 31일이 속하는 과세연도까지 다음 산식에 따라 계산한 금액을 해당 과세연도의 근로소득금액에서 공제 (공제한도 1천만원)</dd></dl>
+										</td>
+									</tr>
+									
+								</tbody>
+							</table>
+						</div>
+						
+						<div class="notice_wrap bg_purple mar-bot-40">
+							<div class="notice_tit NanumSquare_R "><span class="icon warning"></span><span class="txt">관리자 정정사유</span></div>
+							<div class="notice_con NanumSquare_R">
+								<textarea></textarea>
+							</div>
+						</div>
+					</div> <!-- group_fold -->
+				</div>
+			</div> <!--  contents -->
+			
+			<div class="group_btns foot NanumSquare_R">
+				<a class="btn_type type1">＜  MAP</a>
+				<a class="btn_type type2"><span class="icon_save Material_icons"></span>저장</a>
+				<!-- <a class="btn_type type3">계산하기 ＞</a> -->
+				<!-- <a class="btn_type type4">Map ＞</a> -->
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+/*  *************** 근로자 리스트 스크롤 위치에 따라 이동   ***************  */ 
+$(document).ready(function(){
+	var _scrollTop=$("#main_wrap").scrollTop();
+	var _posY=($("#main_wrap").height()/2 + 40)+_scrollTop-57;
+
+	if($("#yearTax_wrap").height() < $("#main_wrap").height()){
+		$("#employ-list-wrap").css("height",$("#main_contents").height()-10)
+	}
+	$(".btn_emplist").css("top",_posY);
+
+})
+
+$("#main_wrap").scroll(function(){
+	var _scrollTop=$("#main_wrap").scrollTop();
+	var _posY=($("#main_wrap").height()/2 + 40)+_scrollTop-57;
+	$(".btn_emplist").css("top",_posY);
+})
+
+/*  *************** 모두보기 토글 버튼   ***************  */ 
+$(".btn_toggle").click(function(){
+
+	var isState=$(this).hasClass("view") ? true:false;
+	if(isState){
+		$(this).removeClass("view");
+		$(this).text("모두 닫기");
+	}else{
+		$(this).addClass("view");
+		$(this).text("모두 보기");
+	}
+	$(".group_wrap").find('.hidden[type="checkbox"]').each(function(){
+		if(!isState){ //현재 모두 보기 상태
+			$(this).prop('checked',false);
+		}else{
+			$(this).prop('checked',true);
+		} 
+	})	
+})
+</script>
+</html>

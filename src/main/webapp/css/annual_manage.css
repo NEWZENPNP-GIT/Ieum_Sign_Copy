@@ -1,0 +1,351 @@
+@charset "utf-8";
+/*>>>>>>  default <<<<<*/
+body,p,span,a,input,ul,li,article,dl,img{margin: 0px; padding:0px; -webkit-margin:0px;-webkit-padding:0px;}
+ul{list-style-type: none}
+html{min-height:100%; min-width:100%; position:relative;}
+
+.btn_type{cursor: pointer;}
+.none{display: none !important;}
+.hidden{visibility: hidden !important;}
+
+/* -------------------- media ----------------------------- */
+@media all and (max-width: 360px) {
+
+}
+@media all and (min-width: 361px) and (max-width: 414px) {
+ 
+}
+
+@media all and (min-width: 414px) and (max-width: 588px) {
+  
+}
+
+#main_contents{background-color: #f0f5f9 !important;}
+
+.container .location{position:relative; width:100%; font-size: 12px; border-bottom: 1px solid #dddddd; line-height: 28px; float:left}
+.container .location .loc_sub{font-weight: bold; margin-left: 3px}
+.container .pagtit {position:relative; width:100%; font-size:20px; line-height: 35px; margin-bottom: 5px; float:left}
+
+#annual_wrap{position: relative; display:inline-block; left: 0; top: 0; padding:18px 20px 50px 20px; min-width: 862px; width:calc(100% - 40px); background-color: #f0f5f9;}
+#annual_wrap .container{position: relative; width: 100%; height: 100%;}
+#annual_wrap .container .tit_dec{position:relative; width:100%; height: 35px; text-align:center; color:#fff; font-size:15px; background-color:#7c9dbc; line-height: 35px;  margin:0 0 10px 0; float:left}
+#annual_wrap .container .speaker{position: relative; display: inline-block; background:url(image/myPage/speaker.png) no-repeat; width: 21px; height: 18px; top:5px; margin-right: 10px;}
+#annual_wrap .contents{position: relative; width: 100%; float:left;}
+#annual_wrap .contents .dec{font-size:13px; font-weight: bold; height: 20px;}
+#annual_wrap .contents .dec{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; float: left;}
+
+
+#annual_wrap .group_wrap{position: relative; width: 100%; display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: column; float: left;}
+#annual_wrap .group_wrap.half{width: calc(50% - 20px)}
+#annual_wrap .sort_right{float:right}
+#annual_wrap .group_tit{display: inline-block; position:relative; width: 100%; height: 32px; margin-top:6px; margin-bottom:3px;}
+#annual_wrap .group_tit .icon{display: inline-block; position:relative; top:8px; margin-right: 5px; height: 16px;  float: left;}
+#annual_wrap .group_tit .icon:after{content:url(image/yearTax/icon_pagetit.png); width: 16px; height: 16px; display: inline-block;}
+#annual_wrap .group_tit .text{position:relative; top:8px; font-size: 15px; color:#00a9e9; font-weight: bold; float: left;}
+#annual_wrap .group_tit .comment{position:relative; top:10px; color:#666666; font-size: 12px; font-weight: bold; float:left; margin-left: 30px; }
+#annual_wrap .group_tit .btns{position: absolute; display:inline-block; right: 0px; top:-10px;}
+#annual_wrap .group_tit .btn_type{width:132px !important; min-width:132px !important; height:40px; margin-right:8px; border:1px solid #00a9e9; box-sizing:border-box; border-radius:5px; background-color: #ffffff; color:#00a9e9; font-size: 13px; font-weight:bold; float:left;}
+#annual_wrap .group_tit .btn_type{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#annual_wrap .group_tit .btn_type:last-child{margin-right: 0px;}
+#annual_wrap .group_tit .btn_type.btn_prt{background-color: #00a9e9; border: 1px solid #00a9e9; color: #ffffff; }
+#annual_wrap .box_wrap {position: relative; width:calc(100% - 42px); background-color:#ffffff; border: 1px solid #dcdcdc;  padding: 5px 20px 5px 20px; margin-bottom: 10px;}
+
+/* 근로자별 휴가 사용 현황 */
+#annual_wrap .row2{display: flex; display: -ms-flex; display: -webkit-flex;  flex-direction: row-reverse; width: 100%;}
+#annual_wrap .row2 .box_wrap:first-child{width: 20% !important; min-width:200px; float: left; padding:25px 14px 5px 14px;}
+#annual_wrap .row2 .box_wrap:last-child{width:clac(80% - 8px); margin-right: 8px;}
+#annual_wrap .row2 .box_wrap.hidden + .box_wrap{width: 100%}
+#annual_wrap .row2 .detail_View {display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: column; border:1px solid #00a9e9;}
+#annual_wrap .row2 .detail_View ul{position:relative; width: 100%;}
+#annual_wrap .row2 .detail_View li{width:100%; height: 44px; font-size:13px; font-weight:bold; margin-bottom: 5px;}
+#annual_wrap .row2 .detail_View li.userInfo{margin-bottom:18px; display: inline-block; height: auto; }
+#annual_wrap .row2 .detail_View li.userInfo .pic{width: 45px; height: 44px; display: inline-block; float: left;}
+#annual_wrap .row2 .detail_View li.userInfo .text{width: calc(100% - 65px); margin-left:15px; float:left; color:#333333;}
+#annual_wrap .row2 .detail_View li.userInfo .text{display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; flex-direction: column;}
+#annual_wrap .row2 .detail_View li.userInfo .userName{height:25px; margin-right:8px; color:#333333; font-size: 20px; float: left; display: flex; display: -ms-flex; display: -webkit-flex; align-items: flex-end; -ms-align-items:  flex-end; -webkit-align-items:  flex-end;}
+#annual_wrap .row2 .detail_View li.userInfo .year{display:inline-block; height:25px; font-size: 13px; color:#00a9e9; float: left; display: flex; display: -ms-flex; display: -webkit-flex; align-items: flex-end; -ms-align-items:  flex-end; -webkit-align-items:  flex-end;}
+#annual_wrap .row2 .detail_View li.userInfo .text div:nth-child(2){width:100%; min-height:18px; font-size: 13px; color:#666666; float:left; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; }
+#annual_wrap .row2 .detail_View li.coltable{height: 325px; overflow: auto; margin-top:16px; display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: column;}
+#annual_wrap .row2 .detail_View li.coltable .data{height: 35px; border-bottom: 1px solid #dfdfdf;}
+#annual_wrap .row2 .detail_View li.coltable .data:first-child{border-top:1px solid #7f7f7f;}
+#annual_wrap .row2 .detail_View li.coltable .tit{width:calc(100% - 123px); background-color:#eaeaea;}
+#annual_wrap .row2 .detail_View li.coltable .value{width:80px; color:#666666; font-size: 20px;}
+#annual_wrap .row2 .detail_View li.coltable .unit{color:#666666; }
+#annual_wrap .row2 .detail_View .data div{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#annual_wrap .row2 .detail_View .data .tit{ width:calc(100% - 93px); height: 100%; color:#333333; padding-left:15px;float:left;}
+#annual_wrap .row2 .detail_View .data .value{width:50px; height: 100%; margin-right:3px; font-size:33px; float:left; justify-content: flex-end; -ms-justify-content: flex-end; -webkit-justify-content: flex-end;}
+#annual_wrap .row2 .detail_View .data .unit{width:20px; height: calc(100% - 9px); float:right; margin-right: 5px; align-items: flex-end; -ms-align-items: flex-end; -webkit-align-items: flex-end;}
+#annual_wrap .row2 .detail_View .bot_btn{position: absolute; bottom: 15px; width: calc(100% - 28px); height: 30px; }
+#annual_wrap .row2 .detail_View .btn_applayView{width: 100%; height: 30px; font-size:13px; font-weight:bold; box-sizing: border-box; border:1px solid #00a0e9; border-radius:5px; background-color:#e9f8ff; color:#00a9e9;}
+#annual_wrap .row2 .detail_View .btn_applayView{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#annual_wrap .row2 .detail_View .bg_green{background-color: #ddf4e0; color:#33b043;}
+#annual_wrap .row2 .detail_View .bg_gray{background-color: #eaeaea; color:#868686;}
+#annual_wrap .row2 .detail_View .bg_skyblue{background-color: #e5f3f8; color:#01a9e9;}
+
+#annual_wrap .box_wrap.table{ width:calc(100% - 0px); padding: 8px 0 0 0px; border: none; background-color: transparent;}
+#annual_wrap .topBlue{border-top:1px solid #00a9e9;}
+#annual_wrap .field_area{position:relative; margin: 10px 0 10px 0; display: block; height: 35px;}
+#annual_wrap .field_area.column{display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: column; height: auto;}
+#annual_wrap .field_area li{position:relative; float: left; display: inline-block; margin-right: 3px; margin-bottom:5px; height: 30px;}
+#annual_wrap .field_area li.selBox.month{width: 250px}
+#annual_wrap .field_area li.selBox.month + ._blank{width: calc(100% - 644px); }
+#annual_wrap .field_area li.selBox.month + ._blank + .selBox{width: 90px;}
+#annual_wrap .field_area li.selBox.year{width: 150px;}
+#annual_wrap .field_area li.selnSearch select{width: 90px; margin-right: 5px}
+#annual_wrap .field_area li.selnSearch fieldset{width:calc(100% - 97px); margin-right: 0px;}
+#annual_wrap .field_area li.dateValue{width: calc(100% - 486px); height: 100%; color:#333333; font-size: 16px; font-weight: bold;}
+#annual_wrap .field_area li.dateValue{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#annual_wrap .field_area span.state{display:inline-block; background-color: #a2e3fb; border-radius:4px; padding: 4px; color:#007baa; font-size: 13px; font-weight: normal; margin-left: 5px; }
+#annual_wrap .field_area li:last-child{margin-right: 0px;}
+#annual_wrap .field_area select{width: 100%; height: 30px; font-size: 13px; font-weight:bold; color:#666666; float:left; outline: none; border: 1px solid #dcdcdc; text-align:center; padding-left:5px; -webkit-appearance: none; -moz-appearance: none; appearance: none; background: url('image/select_arrow.png') no-repeat 95% 50%;}
+#annual_wrap .field_area .selBox.month select{width: 100%;}
+#annual_wrap .field_area select:focus{background-color:#ebf9ff; border:1px solid #00a9e9; }
+#annual_wrap .field_area select::-ms-expand {display: none; }
+#annual_wrap .field_area select option{font-weight: bold; height: 35px;}
+#annual_wrap .end:after{position:absolute; display:inline-block; content:"마감"; background-color: #a2e3fb; border-radius: 4px; padding: 4px; color: #007baa; font-size: 13px; font-weight: normal; margin-left: 5px;}
+#annual_wrap .field_area select .lt {text-align: center;}
+#annual_wrap .field_area fieldset{display:inline-block; width: 290px; height: 28px; margin-right: 3px; border: 1px solid #dcdcdc;}
+#annual_wrap .field_area input{padding-left:5px; width: 255px; height: 28px; font-size: 14px; font-weight:bold; color:#666666;  outline: none; border: none; float:left;}
+#annual_wrap .field_area input::-webkit-input-placeholder{color:#b0b0b0; font-weight: normal;}
+#annual_wrap .field_area input:-ms-input-placeholder{color:#b0b0b0; font-weight: normal;}
+#annual_wrap .field_area input[type="date"]{border: 1px solid #dcdcdc; width: 120px; height: 28px;}
+#annual_wrap .field_area input[type="date"]::-webkit-inner-spin-button {height: 30px; }
+#annual_wrap .field_area .btn_calender{width: 90px; height: 28px; font-size:13px; font-weight:bold; border:1px solid #00a9e9; color:#00a9e9; background-color:#ebf9ff; }
+#annual_wrap .field_area .btn_type{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#annual_wrap .field_area .icon_calender{display:inline-block; background:url(image/commute/icon_monthly.png); width: 19px; height: 16px; margin-left: 5px;}
+#annual_wrap .field_area .btn_search {font-size: 20px; font-weight:bold; color:#00a9e9;border: none; float:right; margin-right:5px; padding-top: 4px;}
+#annual_wrap .field_area .right{float: right;}
+#annual_wrap .field_area .textBox{width:118px; height:28px; border: 1px solid #dcdcdc; vertical-align: middle; display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex;}
+#annual_wrap .field_area .textBox div{width: 50%; align-self: center; text-align:center; font-size: 12px; font-weight: bold;}
+#annual_wrap .field_area .textBox .progress_count{color:#00a9e9; font-size: 14px;}
+#annual_wrap .field_area .textBox .complete_count{color:#00067b; font-size: 14px;}
+#annual_wrap .group_table{display: inline-block; height: 362px; margin-bottom: 5px; overflow-x: hidden; overflow-y: auto;}
+#annual_wrap table{table-layout: fixed; width: 100%; border-collapse: collapse;}
+#annual_wrap table tr th{height:35px; font-size: 12px; font-weight:bold; color:#333333; background-color: #e5eff3; border-top: 1px solid #5c9dda; border-right: 1px solid #e4e4e4; word-break: keep-all;}
+#annual_wrap table.hasChk tr th:first-child {border-right: none;}
+#annual_wrap table tr th:last-child {border-right: none;}
+#annual_wrap table thead tr:nth-child(2) th{background-color: #f2f2f2; border-top: 1px solid #dddddd; border-right: 1px solid #e2e2e2 !important; }
+#annual_wrap table tr td{position:relative; height: 34px; font-size: 13px; font-weight: bold; color:#666666; text-align: center; border-right: 1px solid #e4e4e4; border-bottom: 1px solid #e4e4e4; padding: 0 2px 0 2px; word-wrap: break-word; word-break: keep-all;}
+#annual_wrap table tr td .btn_view{display:inline-block; position:absolute; width:15px; height:14px; right: 30px; background:url(image/annual/btn_view.png) no-repeat 50% 50%;}
+#annual_wrap table tr td .btn_review{position:relative; width:45px; height:24px; box-sizing:border-box; top:5px; right:0px !important; padding: 3px; background-color: #def5ff; border: 1px solid #00acff; color: #00acff;border-radius: 0px; float:left; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#annual_wrap table tr td.inputNview input{width:calc(100% - 55px); margin:0 6px 0 3px; float:left;}
+#annual_wrap table tr.yellow{background-color:#fffce5}
+#annual_wrap table.hasChk tr td:first-child{border-right: none;}
+#annual_wrap table tr td:last-child{border-right: none;}
+#annual_wrap table tr td span.comment{color: #0068b7}
+#annual_wrap table tr td span.new{display: inline-block; margin-left: 6px;}
+#annual_wrap table tr td span.new:after{content: "NEW"; background-color: #0068b7; border-radius: 4px; font-size: 10px; color: #fff; padding: 2px 4px 1px 3px;}
+#annual_wrap table tbody.top-border{border-top:1px solid #a2a2a2;}
+#annual_wrap table .chk_area input{width: 15px;height: 15px; vertical-align: middle; cursor:pointer;}
+#annual_wrap table .chk_area input[type="checkbox"]{outline: none;}
+#annual_wrap .box_wrap.table .header{position:relative; width: 100%;  font-size:14px; font-weight:bold; display: flex; display: -ms-flex; display: -webkit-flex;  flex-direction: row;}
+#annual_wrap .box_wrap.table .header li{height: 35px; color: #333333; border-top: 1px solid #5c9dda; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#annual_wrap .header li:first-child{width:333px; border-top: 1px solid #5c9dda; background-color: #d5e4eb; color: #0f68a0; border-right: 1px solid #c1c1c1;}
+#annual_wrap .header li:nth-child(2){width:calc(100% - 334px); border-top: 1px solid #5c9dda; background-color: #ebf9ff; color:#008fc5;}
+#annual_wrap table.month_report thead tr:nth-child(2) th{background-color:#e5eff3}
+#annual_wrap table.month_report th{min-width: 24px; background-color: #e5eff3; border-top:1px solid #c1c1c1; border-bottom:1px solid #e1e1e1;}
+#annual_wrap table.month_report td{min-width: 24px;}
+#annual_wrap table.month_report tbody tr{background-color: #ffffff;}
+#annual_wrap table.month_report .no{width:80px !important;}
+#annual_wrap table.month_report .name{width:80px !important;}
+#annual_wrap table.month_report .join{width:100px !important; border-right: 1px solid #c1c1c1;}
+#annual_wrap table.month_report .total{width:60px !important; }
+#annual_wrap table.month_report .lebel{width: 70px !important; }
+#annual_wrap table.month_report .used{min-width: 60px !important; background-color: #fffddb; color:#333333;}
+#annual_wrap table.month_report .unUsed{min-width: 60px !important; background-color: #fffaae; color:#333333;}
+#annual_wrap table.month_report tr:last-child td{border-bottom:1px solid #c1c1c1}
+#annual_wrap table.month_report .sum{background-color: #e8f5e1;}
+#annual_wrap table.month_report .sum td:first-child{color:#333333; border-right: 1px solid #c1c1c1;}
+
+#annual_wrap .group_row{position:relative; width: 100%; height:auto; margin-bottom: 5px; float: left;}
+#annual_wrap .indent{padding-left: 20px; width: calc(100% - 20px)}
+#annual_wrap .group_row.row1 dl{width: 100%; float:left;}
+#annual_wrap .group_row.row2 dl{width: calc(50% - 2px); margin-right: 4px; float:left;}
+#annual_wrap .group_row.row2 dl:last-child{margin-right: 0px}
+#annual_wrap .group_row.row3 dl{width: calc(34% - 4px); margin-right: 4px; float:left;}
+#annual_wrap .group_row.row3 dl:last-child{width: 32%; margin-right: 0px;}
+
+#annual_wrap .group_row dl{height: 30px; font-size: 14px;}
+#annual_wrap .group_row dl dt{height:100%; float: left; }
+#annual_wrap .group_row dl.w210 dt{width: 210px}
+#annual_wrap .group_row dl.w110 dt{width: 110px}
+#annual_wrap .group_row dl.w100 dt{width: 100px}
+#annual_wrap .group_row dl.w90 dt{width: 90px}
+#annual_wrap .group_row dl.w80 dt{width: 80px}
+#annual_wrap .group_row dl.w70 dt{width: 70px}
+#annual_wrap .group_row dl.w20 dt{width: 20px}
+#annual_wrap .group_row dl dt{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#annual_wrap .group_row dl.w210 dd{float:left; width: calc(100% - 210px);}
+#annual_wrap .group_row dl.w110 dd{float:left; width: calc(100% - 110px);}
+#annual_wrap .group_row dl.w100 dd{float:left; width: calc(100% - 100px);}
+#annual_wrap .group_row dl.w90 dd{float:left; width: calc(100% - 90px);}
+#annual_wrap .group_row dl.w80 dd{float:left; width: calc(100% - 80px);}
+#annual_wrap .group_row dl.w70 dd{float:left; width: calc(100% - 70px);}
+#annual_wrap .group_row dl.w20 dd{float:left; width: calc(100% - 20px);}
+#annual_wrap .group_row dt .btn_type{width:100%; height:100%; background-color: #00a9e9; color:#ffffff; font-weight: normal;}
+#annual_wrap span.dot{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; float: left;}
+#annual_wrap span.dot:after{position: relative; top: 2px; content:"*"; display: inline-block; width: 8px; } 
+
+#annual_wrap .group_row label{color:#333333;}
+#annual_wrap .group_row .text_box{height:30px; font-weight: bold; color:#333333;}
+#annual_wrap .group_row .text_box{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#annual_wrap .group_row .text_box .comment{color:#a8a8a8; margin-left: 8px; font-size: 13px; font-weight: normal;}
+#annual_wrap .group_row .icon.circle{display: inline-block; width:12px; height:12px; vertical-align: middle; margin-right: 8px; background: url(image/commute/btn_radio_default.png) no-repeat 50% 50%;}
+#annual_wrap .group_row .text_box select{width: 80px; margin: 0 5px;}
+#annual_wrap .group_row input[type="checkbox"]{width: 14px; height: 14px; outline: none;}
+#annual_wrap .group_row input[type="text"]{width:calc(100% - 30px); padding-left:10px; height: 28px; border:1px solid #dcdcdc; outline: none;}
+#annual_wrap .group_row input[type="date"],
+#annual_wrap .group_row input[type="month"]{ min-width: 125px; padding-left:10px; height: 28px; border:1px solid #dcdcdc; font-size:13px; font-weight:bold; color:#666666; }
+#annual_wrap .group_row input[type="date"]:focus,
+#annual_wrap .group_row input[type="month"]:focus{outline: none;}
+#annual_wrap .group_row input[type="date"]::-webkit-inner-spin-button,
+#annual_wrap .group_row input[type="month"]::-webkit-inner-spin-button{appearance: none; -webkit-appearance: none; }
+#annual_wrap .group_row input[type="date"]::-webkit-calendar-picker-indicator,
+#annual_wrap .group_row input[type="month"]::-webkit-calendar-picker-indicator{color: rgba(0, 0, 0, 0); opacity: 1; padding:1px; margin: 0px; appearance: none; -webkit-appearance: none; background: url('image/yearTax/icon_calendar_picker.png') no-repeat; width: 19px; height: 21px;}
+#annual_wrap .group_row input[type="month"]::-ms-clear{}
+#annual_wrap .group_row select{width:calc(100% - 20px); height: 28px; color:#666666; font-weight: bold; outline: none; border: 1px solid #dcdcdc; text-align:center; padding-left:5px; -webkit-appearance: none; -moz-appearance: none; appearance: none; background-image: url('image/commute/select_arrow.png'); background-repeat: no-repeat; background-position: 95% 50%}
+#annual_wrap .group_row select:focus{background-color:#ebf9ff; border:1px solid #00a9e9; background-image: url('image/commute/select_focus_arrow.png'); } 
+#annual_wrap .group_row select::-ms-expand { display: none; }
+#annual_wrap .group_row #searchYear{width: 125px;}
+#annual_wrap .group_row .between{margin:0 7px; font-weight: bold; color:#666666;}
+
+#annual_wrap #page-selection.pagingnav_wrap_mid{width: 100%; position: relative;  left: 0;  text-align: center; float:left}
+#annual_wrap .notice_btns{position: relative; float: left; width: 100%; margin:15px 0 10px 0; }
+#annual_wrap .notice_btns .btn_type{height: 35px; color:#00a9e9; font-size: 13px; font-weight: bold; background-color:#e9f8ff; border:1px solid #00a0e9; border-radius:5px; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#annual_wrap .notice_btns.btn4{display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: row;}
+#annual_wrap .notice_btns.btn4 .btn_type{width: calc(25% - 5px); margin-right:5px; }
+#annual_wrap .notice_btns.btn4 .btn_type:last-child{width: 25%; margin-right:0px; }
+
+#annual_wrap .btn_group{width: 100%; display: inline-block; margin-bottom: 15px; display: flex; display: -ms-flex; display: -webkit-flex; justify-content: flex-end; float: left;}
+#annual_wrap .btn_group .btn_type{display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center; }
+#annual_wrap .btn_group .btn_type{width: 129px; height: 38px; font-size: 13px; font-weight: bold; text-align: center; border-radius: 5px; background-color: #00a9e9; border: 1px solid #00a9e9; color: #ffffff; margin-right: 5px;}
+#annual_wrap .btn_group .btn_type:last-child{margin-right: 0px;}
+#annual_wrap .btn_type.type1{background-color: #ffffff; color:#00acff; border:1px solid #00acff;}
+#annual_wrap .btn_type.type2{background-color: #d4ecf7; color:#00acff; border:1px solid #00acff;}
+#annual_wrap .btn_type.type3{background-color: #dae9f8; color:#00acff; border:1px solid #00acff;}
+#annual_wrap .btn_type.type4{background-color: #fff2f2; color:#ff0000; border:1px solid #fe7d7d;}
+#annual_wrap .btn_type.type5{background-color: #ededed; color:#666666; border:1px solid #999999;}
+#annual_wrap .btn_type.default:hover{background-color: #ffffff; color:#00a9e9; border:1px solid #00acff;}
+#annual_wrap .btn_type.default:hover .icon_check{background: url(image/commute/icon_check_able.png) no-repeat; height: 20px; width: 20px;}
+
+#annual_wrap .btn_type .icon_zoom{background: url(image/commute/icon_zoom.png) no-repeat; height: 14px; width: 15px; margin:0 4px}
+#annual_wrap .btn_type .icon_check{background: url(image/commute/icon_check_circle.png) no-repeat; height: 19px; width: 19px; margin-right: 8px}
+
+#annual_wrap .mar_top_0{margin-top: 0px !important;}
+#annual_wrap .mar_top_5{margin-top: 5px !important;}
+#annual_wrap .mar_top_10{margin-top: 10px !important;}
+#annual_wrap .mar_top_15{margin-top: 15px !important;}
+#annual_wrap .mar_top_20{margin-top: 20px !important;}
+#annual_wrap .mar_bot_0{margin-bottom: 0px !important;}
+#annual_wrap .mar_bot_5{margin-bottom: 5px !important;}
+#annual_wrap .mar_bot_10{margin-bottom: 10px !important;}
+
+.col_red{color:#fe0000;}
+
+/* ************** 미사용 연차일자 통지서 ************** */
+#annual_wrap .img_box img{position:relative;  width: 100%; float:left;}
+
+/* ************** 휴가별 설정 ************** */
+#annual_wrap table tr td.input{padding:3px; height: 28px; }
+#annual_wrap table tr td.userCk{padding: 0 25px 0 7%;}
+#annual_wrap table td input[type="text"],
+#annual_wrap table td input[type="number"]{width: 100%; height: 100%; box-sizing: border-box; border: 1px solid #dcdcdc; outline: none; text-align: center;}
+#annual_wrap table td input[type="text"]:focus,
+#annual_wrap table td input[type="number"]:focus{background-color: #ebf9ff; border: 1px solid #00a9e9;}
+
+/* ie appearance 적용 안되는 radio */
+/* #annual_wrap table td input[type="radio"]{display: inline-block; width:12px; height:12px; vertical-align: middle; margin-right: 5px; outline: none; cursor:pointer; appearance: none;-moz-appearance: none; -webkit-appearance: none; -ms-appearance: none; background: url(image/commute/btn_radio_default.png) no-repeat 50% 50%;}
+#annual_wrap table td input[type="radio"]:checked{background: url(image/commute/btn_radio_checked.png) no-repeat 50% 50%; }
+#annual_wrap table td input[type="radio"].orange:checked{background: url(image/commute/btn_radio_orange_checked.png) no-repeat 50% 50%; } */
+
+#annual_wrap .userCk div{display: inline-block; position:relative; width:50%; height:100%; float: left; text-align: left; }
+#annual_wrap .userCk.row3 div{width: 33%}
+#annual_wrap .userCk input[type="radio"]{position:absolute; left:0; top:calc(50% - 6px); outline:none; opacity:0; width: 12px; height: 12px; cursor: pointer; z-index: 1;}
+#annual_wrap .userCk label:before{content:""; position: absolute; display:inline-block; left:0; top:calc(50% - 6px);  width:12px; height:12px; margin-right:8px; border: 3px solid #d2d2d2; box-sizing: border-box; border-radius: 50%;}
+#annual_wrap .userCk input[type="radio"]:checked ~ label:before{border: 3px solid #00a9e9;}
+#annual_wrap .userCk input[type="radio"].orange:checked ~ label:before{border: 3px solid #f19149;}
+#annual_wrap .userCk label {display:inline-block; float:left; font-size :13px; font-weight:bold; /* width:calc(100% - 20px); */ padding-left:20px; height:100%; text-align: left; cursor: pointer; display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+
+#annual_wrap table + .bot_btn{width: calc(100% - 15px); padding-left:15px; color:#00a9e9; background-color: #ebf9ff; font-size: 13px; font-weight:bold; margin-top: 12px;}
+#annual_wrap table + .bot_btn .btn_type{height:35px; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#annual_wrap table + .bot_btn .btn_type .icon_plus{width: 25px; height: 25px; margin-right:8px; color:#ffffff; font-size:24px; font-weight:normal; background-color: #00a9e9; border-radius: 25px; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+
+/* ************** 기타 설정  ************** */
+#annual_wrap.setting .group_row{margin-bottom: 0;}
+#annual_wrap.setting .group_row dl{height: 34px;}
+#annual_wrap.setting .group_row .text_box{height: 34px;}
+#annual_wrap .head{background-color: #e5eff3; margin-bottom: 10px; border: none; }
+#annual_wrap .head .setting_part .text_box span{text-align: center; font-size: 13px !important; color:#333333 !important; border-right: 1px solid #dcdcdc;}
+#annual_wrap .head .setting_part .userCk{font-size: 13px !important; color:#333333 !important; font-weight:bold; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#annual_wrap .head .setting_part .userCk{width:20%; padding-left:0px;}
+#annual_wrap .setting_part .text_box{width: 80%; float:left;}
+#annual_wrap .setting_part .text_box .tit{width:120px; font-size: 14px; color:#333333; }
+#annual_wrap .setting_part .text_box .con{width: calc(100% - 135px); padding:0 0 0 15px; color:#666666; font-size: 13px; margin-right: 8px;}
+#annual_wrap .setting_part .userCk{width: calc(20% - 40px); padding-left:40px; height:30px; float:left; }
+
+/* ************** 연차생성 기준 설정  ************** */
+#annual_wrap.basic .box_wrap{padding: 12px 25px 12px 25px;  width:calc(100% - 52px);}
+#annual_wrap.basic .setting_part .userCk{position:relative; width: 80%; padding-left:0; float:left;}
+#annual_wrap.basic .setting_part .userCk.half{width: 30%;}
+#annual_wrap .group_row dl.column{height: auto;}
+#annual_wrap .setting_part .comment{position:relative; color:#a8a8a8; font-size: 13px; font-weight: bold; float:left;}
+#annual_wrap .setting_part .field{position:relative; width:calc(100% - 30px); height: 32px; background-color: #f0f0f0; padding:15px 12px; float:left; margin-top: 5px;}
+#annual_wrap .setting_part .field .btn_sampledown{width: 190px; height: 30px; box-sizing:border-box; font-size:12px; font-weight:bold; color:#187b4a; border-radius:5px; background-color: #e5f5ed; border:1px solid #6bc297; margin-right: 35px;}
+#annual_wrap .setting_part .field .btn_sampledown:before{content:url(image/annual/btn_exceldown.png); width: 30px; height: 25px; display: inline-block; }
+#annual_wrap .setting_part .field .btn_fileSearch{width: 90px; height: 30px; box-sizing:border-box; font-size:13px; font-weight:bold; color:#00a9e9; background-color: #d6eff8; border:1px solid #00a0e9}
+#annual_wrap .setting_part .field .icon {display:inline-block; margin-left:5px; width:15px; height:14px; right: 40px; background:url(image/annual/btn_view.png) no-repeat 50% 50%;}
+#annual_wrap .setting_part .field input[type="text"]{width: calc(100% -  397px); float:left; color:#666666; padding: 0 10px;}
+#annual_wrap .setting_part .field .btn_submit{width: 60px; height: 30px; color:#ffffff; font-size:13px; font-weight:normal; background-color: #00a9e9;}
+#annual_wrap .setting_part .field .btn_type{float:left; display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#annual_wrap .notice .group_tit .icon{height: 19px}
+#annual_wrap .notice .group_tit .icon:after{content: url(image/annual/icon_notice.png); width: 22px; height: 19px;}
+#annual_wrap .notice .group_tit .text{color:#fd3f40; font-size: 15px;}
+#annual_wrap .notice .box_wrap{background-color: #fff2f2; border: 1px solid #ebb5b5; margin-bottom: 0px;}
+#annual_wrap .notice .text_line{font-size: 13px; font-weight: bold; color:#333333; margin-bottom:12px; }
+
+
+/* *************************** 연차 생성 팝업 ************************* */
+#popup_wrap.create{position:relative; display:inline-block; width: 588px; height: 340px; top:0; left:0;}
+#popup_bg{position:relative; width:100%; height: 100%; background-color: #fff; border-radius: 10px; top:0; left:0;}
+#popup_bg .popup_tit{position: relative; padding:10px 0 5px 0; margin: 0 15px; width: calc(100% - 30px);height: 30px; z-index: 4;}
+
+#popup_bg #popup_close{float:right; position:absolute; right: -8px; top: 10px; z-index: 998;}
+#popup_bg #popup_close .btn_type.close{position: relative; display: inline-block; font-size: 33px; z-index:999; color:#00acff;}
+
+#popup_bg #contents{flex-direction: column; display: flex; display: -ms-flex; display: -webkit-flex; }
+#popup_bg #contents .text{width:calc(100% - 30px); padding:15px; color:#00acff; font-size: 28px; font-weight: bold; line-height:35px; text-align: center;}
+#popup_bg #contents .comment{width:calc(100% - 30px); padding:0 15px; font-size: 16px; color:#838383; font-weight: bold; text-align: center; line-height: 23px;}
+
+#foot_btns{position: absolute; bottom: 35px; padding:0 70px; width: calc(100% - 140px);}
+#foot_btns{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center; }
+#foot_btns .btn_type{ height: 45px; box-sizing:border-box; font-size:15px; letter-spacing:1px; font-weight:bold; border-radius: 8px; float: left; flex-direction:row; }
+#foot_btns .btn_type{ display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center; }
+#foot_btns.row3 .btn_type{width: calc(33% - 5px); margin-right: 5px;}
+#foot_btns.row3 .btn_type:last-child{width: 34%; margin-right: 0px;}
+#foot_btns .btn_type.default{ background-color:#1088d4; color:#fff; border: 1px solid #1088d4 !important;}
+#foot_btns .btn_type.type1{ background-color:#7c9dbc; color:#fff; border: 1px solid #7c9dbc !important;}
+#foot_btns .btn_type.type2{ background-color:#adb7c0; color:#fff; border: 1px solid #adb7c0 !important;}
+
+/* *************************** 연차 촉진문서 출력 팝업 ************************* */
+#popup_wrap.print{position:relative; display:inline-block; width: 440px; height: 265px; top:0; left:0;}
+#popup_wrap.print .popup_tit{border-bottom: 1px solid #00a9e9; }
+#popup_wrap.print .popup_tit .text{width:80%; height:100%; color:#00a9e9; font-size: 18px; font-weight: bold;}
+#popup_wrap.print .popup_tit .text{ display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#popup_wrap.print #contents .text{color:#666666; font-size: 20px; padding:30px 15px 15px 15px; }
+#popup_wrap.print #contents .text .count{color:#00a9e9; font-size: 25px;}
+#foot_btns .btn_type{padding:0 15px;}
+
+/* *************************** 초기화 팝업 ************************* */
+#popup_wrap.warning{position:relative; display:inline-block; width: 440px; height: 265px; top:0; left:0;}
+/* #popup_wrap.warning #popup_close .btn_type.close{color:#4e4e4e;} */
+#popup_wrap.warning .popup_tit{/* border-bottom: 1px solid #00a9e9; */ }
+#popup_wrap.warning .popup_tit .text{width:80%; height:100%; color:#00acff; font-size: 18px; font-weight: bold;}
+#popup_wrap.warning .popup_tit .text{display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#popup_wrap.warning #contents{height:124px; padding:0px 15px 15px 15px; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#popup_wrap.warning #contents .text{color:#666666; font-size: 18px; padding:12px 15px 0 15px; }
+#popup_wrap.warning #contents .text{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#popup_wrap.warning #contents .icon{width: 100%;  height: 53px; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#popup_wrap.warning #contents .warning{display:inline-block; width: 61px;  height: 53px; background: url(image/alert_icon_warning.png) no-repeat 50% 50%; }
+#popup_wrap.warning #contents .iconTxt{font-size: 30px; font-weight:bold; color:#ff6f6f; margin-left: 10px;}
+#foot_btns.row2 .btn_type{width: calc(50% - 5px); margin-right: 5px;}
+#foot_btns.row2 .btn_type:last-child{width: 50%; margin-right: 0px;}

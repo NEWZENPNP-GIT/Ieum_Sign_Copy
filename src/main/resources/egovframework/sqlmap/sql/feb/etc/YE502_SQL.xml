@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="febetc">
+    <typeAlias alias="ye502VO" type="com.ezsign.feb.etc.vo.YE502VO"/>
+    <resultMap id="ye502ListMap" class="ye502VO">
+        <result property="계약ID" column="계약ID"/>
+        <result property="사용자ID" column="사용자ID"/>
+        <result property="작업자ID" column="작업자ID"/>
+        <result property="일련번호" column="일련번호"/>
+
+        <result property="금액" column="금액"/>
+
+        <result property="최종저장여부" column="최종저장여부"/>
+        <result property="사용여부" column="사용여부"/>
+
+        <result property="등록일시" column="등록일시"/>
+        <result property="수정일시" column="수정일시"/>
+    </resultMap>
+
+    <select id="ye502DAO.getYE502" parameterClass="ye502VO" resultClass="ye502VO">
+        SELECT 계약ID, 사용자ID, 작업자ID, 일련번호,
+          금액,
+          등록일시, 수정일시
+        FROM tbl_ye502
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+          AND 사용여부 = '1'
+    </select>
+
+    <insert id="ye502DAO.insYE502" parameterClass="ye502VO">
+        <selectKey resultClass="java.lang.String" keyProperty="일련번호">
+            SELECT IFNULL(MAX(일련번호 + 1), 1)
+            FROM tbl_ye502
+        </selectKey>
+        INSERT INTO tbl_ye502 (
+          계약ID, 사용자ID, 작업자ID, 일련번호,
+          금액,
+          최종저장여부, 사용여부, 등록일시, 수정일시
+        ) VALUES (
+          #계약ID#, #사용자ID#, #작업자ID#, #일련번호#,
+          REPLACE(#금액#, ',', ''),
+          IF(#사용자ID# = #작업자ID#, '1', '0'), '1', DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        )
+    </insert>
+
+    <!-- 일련번호 없이 단건으로 처리 -->
+    <update id="ye502DAO.updYE502Disable" parameterClass="ye502VO">
+        UPDATE tbl_ye502
+        SET
+          최종저장여부 = IF(#사용자ID# = #작업자ID#, '0', 최종저장여부),
+          사용여부 = '0',
+          수정일시 = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+          AND 사용여부 = '1'
+    </update>
+
+    <delete id="ye502DAO.allDelYE502" parameterClass="ye502VO">
+        DELETE
+        FROM tbl_ye502
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+    </delete>
+
+    <select id="ye502DAO.getYE502Map" parameterClass="ye502VO" resultClass="ye502VO">
+        SELECT 계약ID, 사용자ID, 작업자ID, 일련번호,
+          금액,
+          최종저장여부, 사용여부, 등록일시, 수정일시
+        FROM tbl_ye502
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+          AND (최종저장여부 = '1' OR 사용여부 = '1')
+        ORDER BY IF(작업자ID = 사용자ID, 0, 1)
+    </select>
+</sqlMap>

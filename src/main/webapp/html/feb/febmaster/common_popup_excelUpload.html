@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+
+<title>연말정산 - 엑셀업로드</title>
+
+<script type='text/javascript' src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/ezsign/feb/febmaster/common_popup_excelUpload.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/excel_popup.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/jquery.alerts.css">
+<link rel="stylesheet" type="text/css" href="/css/jquery-ui.min.css">
+
+<link rel="stylesheet" type="text/css" href="/css/ezsign/feb/febworker/common_popup_excelUpload.css">
+<link rel="stylesheet" type="text/css" href="/css/excel_popup.css">
+
+<script type='text/javascript' src="/js/jquery-1.8.3.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.alerts.js"></script>
+<script type="text/javascript" src="/js/moment.min.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/ezsign/yearTax_validate.js"></script> 
+
+<script type="text/javascript" src="/js/ezsign/feb/employee/yearTax_payment_totalIncome.js"></script>
+<script type="text/javascript" src="/js/ezsign/feb/febmaster/common_popup_excelUpload.js"></script>
+ 
+</head>
+<body>	
+	<div id="celUpload_wrap" class="">
+		<div class="pop_container">
+			<div id="popup_tit" class="">
+				<div class="tit_text NanumSquare_B">엑셀 업로드</div>
+				<div id="popup_close" class="btn_type btn_close" onClick="fncClose()"></div>
+			</div>
+			<div class="pop_contents">
+				<div class="top_btns">
+	
+	       			 <a class="btn_type btn_excel NanumSquare_R">
+	          			<span class="icon icon_excel"></span>엑셀업로드
+	          			<input type="file" value="엑셀업로드" class="upload-file" name="uploadfile" onChange="uploadExcel(this.event)">
+	        		</a>
+					<a class="btn_type btn_download NanumSquare_R" onClick="downExcel(event)"><span class="icon icon_excelDown"></span>서식 다운로드 </a>
+				</div>
+				<ul class="data_box">
+					<li class="grid_wrap">
+						<div class="grid_tit NanumSquare_R"><div class="icon"></div>열제목 순서</div>
+						<div class="grid_box">
+							<div class="data order" id="columnNameDiv">
+								<!-- 
+	              				<div class="group_table" >
+					                <ngx-datatable
+					                [limit]="limit"
+					                [scrollbarH]="true"
+					                [rows]="getLists.rows"
+					                [headerHeight]="35"
+					                [sortType]="'multi'"
+					                [columnMode]="'force'">
+					                  <ngx-datatable-column
+					                  *ngFor="let cols of getLists.cols; let i = index"
+					                  [sortable]="false"
+					                  [name]="cols.columnName"
+					                  [prop]="cols.columnName">
+					                    <ng-template let-column="column" ngx-datatable-header-template>
+					                      <button
+					                      class="sort_excel"
+					                      [class.isMapped]="cols.setMapped === true ? true : false"
+					                      [class.require]="cols.required === '1' ? true : false"
+					                      (click)="getUpIndex(i, cols.columnId)"
+					                      type="button">{{cols.displayName}}</button>
+					                    </ng-template>
+					                  </ngx-datatable-column>
+					                </ngx-datatable>					                
+					             </div>
+					              -->
+					         </div>
+						</div>
+						</li>
+					<li class="grid_wrap">
+						<div class="grid_tit NanumSquare_R"><div class="icon"></div>업로드 데이터</div>
+						<!--  버튼 영역을 삭제하려면 hasbot 클랙스 삭제 -->
+						<div class="grid_box hasbot">
+	            			<div class="tempNotice NanumRound"  id="isValidate_false">
+	                			<div class="tit NanumSquare_R">※ 주의</div>
+	                			<dl><dt>1.</dt><dd>업로드 하시는 엑셀시트에 3행을 제목으로 맞춰서 작업해주세요.</dd></dl>
+	                			<dl><dt>2.</dt><dd>엑셀파일의 첫번째 시트를 기준으로 데이터를 불러옵니다.</dd></dl>
+	                			<dl><dt>3.</dt><dd>작업중 엑셀파일을 다시 업로드하면 기존 작업하던 자료는 사라지니 유의하세요.</dd></dl>
+	              			</div>
+							<div class="data" id="excelDataDiv">
+								<!-- 	
+	              				<div class="group_table">								
+					                <ngx-datatable
+					                #excelTable
+					                class="material expandable"
+					                [scrollbarV]="true"
+					                [scrollbarH]="true"
+					                [rows]="setLists.rows"
+					                [headerHeight]="35"
+					                [sortType]="'multi'"
+					                [columnMode]="'force'">
+					                -->
+					                  <!-- 데이터 에러 영역 셀 -->
+					                  <!--
+					                  <ngx-datatable-row-detail [rowHeight]="30" #myDetailRow (toggle)="onDetailToggle($event)">
+					                    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+					                      <div class="warn_validate NanumSquare_R">
+					                        {{row.validateTxt}}
+					                      </div>
+					                    </ng-template>
+					                  </ngx-datatable-row-detail>
+					                  -->
+					                  <!--// 데이터 에러 영역 셀 -->
+					                  <!--
+					                  <ngx-datatable-column
+					                  *ngFor="let cols of setLists.cols; let i = index"
+					                  [sortable]="false"
+					                  [name]="cols.name"
+					                  [prop]="cols.name"
+														>
+					                    <ng-template let-column="column" ngx-datatable-header-template>
+					                      <button
+					                      class="sort_excel"
+					                      [class.isMapped]="cols.setMapped === true ? true : false"
+					                      (click)="setUpIndex(i, cols['setIndex'])"
+					                      type="button">{{cols.name}}</button>
+					                    </ng-template>
+					                    <ng-template let-value="value" let-row="row" let-expanded="expanded"
+					                    let-rowIndex="rowIndex" ngx-datatable-cell-template>
+					                      <div class="cellExcel">{{value}}</div>
+					                    </ng-template>
+					                  </ngx-datatable-column>
+					                </ngx-datatable>					                 
+	              				</div>
+	              				-->
+	            			</div>
+						</div>
+					</li>
+				</ul>
+	
+				<div class="check_box" id="isValidateBtn">
+	      	<a class="btn_type NanumSquare_R btn_check" onClick="validateData()">데이터 확인 </a>
+	    	</div>
+	
+				<div class="foot_btns">
+	        		<a class="btn_type NanumSquare_R type2" id="confirmExcelBtn" onClick="confirmExcel()">저장 </a>
+					<a class="btn_type NanumSquare_R type1" onClick="fncClose()">취소</a>
+				 </div>
+			</div>
+
+			
+			<div class="yearTax layerPop_wrap" id="alert_popup">
+				<div class="popup_bg">
+				
+					<div class="popup_tit">
+						<div class="popup_close"><a class="btn_type btn_close" onclick="fncLayerPopClose()"></a></div>
+					</div>
+					<ul class="popup_content">
+						<li class="text NanumRound">
+							<dl class="w-75">
+								<dt>자동매핑 : </dt>
+								<dd>서식 다운로드를 이용하여 작성한 경우 사용합니다.<br>열제목으로 자동으로 매핑합니다.</dd>
+							</dl>
+							<dl class="w-100">
+								<dt>사용자 지정 : </dt>
+								<dd>제공 서식이 아닌 직접 작성한 서식을 이용하여 매핑합니다. 최초 1회의 수동 매핑이 필요합니다.</dd>
+							</dl>
+						</li>
+						<li class="dec NanumRound">
+						</li>
+					</ul>
+					<div id="foot_btns" class="floating NanumRound">
+						<a class="btn_type type1" onclick="fncAutoMapping();">자동 매핑</a>
+						<a class="btn_type type2" onclick="fncUserMapping();">사용자 지정</a>
+					</div>
+				</div>
+			</div>
+			
+
+			<!--  alert -->
+			<!--  숨김 : class: hidden -->
+			<!--
+			<div id="alert_popup" class="" style="display:none;">
+				<div class="alert_container">
+					<div id="alert_tit">
+						<div id="alert_close" class="btn_type"></div>
+					</div>
+					<div class="alert_contents">
+						<div id="alert_icon"></div>
+						<div id="alert_text">
+							<span class="NanumBarunGothic">이전에 배치 되어있던 열 순서가 있습니다.
+			<br>이전 엑셀과 같은 양식이면 바로 적용이 가능합니다.
+			<br>그대로 적용시키시겠습니까?</span></div>
+						<div class="alert_btns">
+							<a class="btn_type NanumSquare_R type5" (click)="confirmLayer()">확인 </a>
+							<a class="btn_type NanumSquare_R type6" (click)="cancelLayer()">취소</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			-->
+			<!--  alert end -->
+		</div>
+	</div>
+				
+</body>
+</html>	

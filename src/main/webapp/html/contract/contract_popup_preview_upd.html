@@ -1,0 +1,130 @@
+
+	<!--****************************************************************************************************************
+	* 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+	* 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+	********************************************************************************************************************
+	--------------------------------------------------------------------------------------------------------------------
+	* 회사       : 뉴젠피앤피
+	* 화면명     : 수정사항 팝업창
+	* 화면설명   : 전자문서 > 전자계약(양식변환) > 양식 관리 > 변환상태 > 테스트 > 수정사항
+	* 작성자     : 이정훈
+	* 생성일     : 2024.04.11
+	--------------------------------------------------------------------------------------------------------------------
+	* 수정자     : 이정훈
+	* 수정일     : 2024.04.11
+	* 수정내용   :
+	------------------------------------------------------------------------------------------------------------------->
+
+	<!DOCTYPE>
+	<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/contract_write.css">
+
+	<style>
+		#requirements {width: 430px;height: 200px;margin: 15px;}
+		#requirements:focus {border: 2px solid #333;outline: none;}
+	</style>
+	<title>인적자원관리 전문IT기업 - 뉴젠P&amp;P</title>
+	<script type="text/javascript">
+
+		var fileId;
+		var bizId;
+		var userId;
+		var contractDate;
+		var contId;
+
+		//***************					윈도우 로딩					***************//
+
+		$(document).ready(function(){
+
+			console.log("contract_popup_preview_upd.html");
+
+			fileId		 = getURLParameters("fileId");
+			bizId		 = getURLParameters("bizId");
+			contId		 = getURLParameters("contId");
+			contractDate = getURLParameters("contractDate");
+			userId		 = getURLParameters("userId");
+
+		});
+
+
+		//***************					수정 요청 완료					***************//
+
+
+		function fn_contractNewReload() {
+
+			var url		 = rootPath + "contract/contractNewReload.do";
+			var message  = $("#requirements").val();
+			var formData = new FormData();
+
+			formData.append("fileId", fileId);
+			formData.append("bizId", bizId);
+			formData.append("message", message);
+
+			if (isNull(message)) { alert("요청 사항을 입력해주세요."); return; }
+
+			if (!confirm("양식 수정요청을 등록하시겠습니까?")) { return; }
+
+			// contract_person/ contract_form 정보 삭제
+			window.opener.contractPreviewDel(contractDate,contId);
+
+			$.blockUI();
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				async:false,
+				type:"POST",
+				processData: false,
+				contentType: false,
+				data:formData,
+				success: function (result) {
+					if (result.success === true) {
+						alert("수정요청이 등록되었습니다.\r\n진행상태가 변환요청 상태로 변경됩니다.");
+						window.opener.updComplete();
+					} else { alert("요청중 문제가 발생하였습니다.\r\n잠시 후 다시 진행해주시기 바랍니다."); }
+				},
+				error: function (request, status, error) { alert("요청 중 장애가 발생하였습니다. 잠시 후 다시 진행해주시기 바랍니다."); }
+			});
+		}
+
+	</script>
+	</head>
+
+	<body>
+	<input type="hidden" id="userId" value="">
+	<input type="hidden" id="fileId" value="">
+	<input type="hidden" id="contractFileName" value="">
+	<input type="hidden" id="bizName" value="">
+	<input type="hidden" id="signCustomerType" value="">
+	<div id="contract_popup" class="edit"  style="height: 350px;">
+		<div class="container">
+			<div id="popup_tit">
+				<div class="tit_icon"></div>
+				<div class="tit_text col_skyblue NanumGothic">양식 수정요청</div>
+				<div class="tit_text NanumGothic" style="font-size: 12px; margin-left: 30px;">* 수정할 내용을 입력해 주시기 바랍니다.</div>
+				<div class="tit_text NanumGothic" style="font-size: 12px; margin-left: 190px;">* 진행 상태가 요청으로 되돌아갑니다.</div>
+			</div>
+			<div>
+				<textarea id="requirements"></textarea>
+			</div>
+			<div class="btn_group">
+				<a onclick="fn_contractNewReload();" class="btn_type type1 NanumGothic">수정요청</a>
+				<a onclick="window.close();" class="btn_type type3 NanumGothic">입력취소</a>
+			</div>
+		</div>
+	</div>
+	</body>
+	</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/board_notice.css">
+
+<script type='text/javascript' src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/underscore-min.js"></script>
+<!-- SmartEditor -->
+<script type="text/javascript" src="/module/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
+<script>
+	 // 문의게시판
+	var bbsId = "190930155612016";
+    var oEditors = [];
+    var fileId = 0;
+    var attachFileList = [];
+
+	function fn_bbsContentList() {
+		var url = "/html/worksos/workSOS_list.html";
+		openPage(url);
+	}
+	
+	$(document).ready(function(){
+		
+	    nhn.husky.EZCreator.createInIFrame({
+	        oAppRef: oEditors,
+	        elPlaceHolder: "ir1",
+	        sSkinURI: "/module/smarteditor/SmartEditor2Skin.html",
+	        fCreator: "createSEditor2"
+
+	    });
+	    
+	    fn_getBizGrpNameList();
+	});
+	
+	function attachFileOk(event) {
+
+		
+	    var file = event.target;
+	    var maxSize  = 5 * 1024 * 1024; // 5MB
+	    var fileName = "";
+	    var fileSize = 0;
+	    fileName = file.files[0].name;
+	    fileSize = file.files[0].size;
+		
+	    if (fileSize > maxSize) {
+	    	alert('파일은 ' + (maxSize / 1024 / 1024) + 'MB 이하의 파일만 첨부 가능합니다');
+	    	return;
+	    }
+
+		if(checkSpecial(fileName)) {
+			alert("파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.");
+			return;
+		}
+	    ;
+	    //var htmlData = "";
+	    //htmlData += '<div class="file" id="'+fileId+'"><span class="name">'+fileName+'</span><div class="btn_type btn_delete" onClick="attachFileDel('+fileId+');"></div></div>';
+	    
+	    //$("#attachFileList").html(htmlData);
+	    ParseFile(file.files[0]);
+	    
+	}
+	
+	function attachFileDel(fileId) {
+		console.log($("#"+fileId));
+		$('*[name=attachFile]').val("");
+		$("#"+fileId).remove();
+		
+		if($("#attachFileList").children().length==1){
+			$(".nonfile").removeClass("hidden");
+		} 
+		attachFileList=_.reject(attachFileList, {key:fileId});
+	}
+	
+	function attachFile() {
+		$('*[name=attachFile]').val("");
+		$('*[name=attachFile]').click();
+	}
+	
+	function doWrite() {
+	    
+		var url = rootPath + "bbs/insBbsContents.do";
+		
+	    oEditors.getById['ir1'].exec('UPDATE_CONTENTS_FIELD', []);
+	    
+		var subject = $("#subject").val();
+		var contents = $('#ir1').val();
+		if(bbsId=="" || bbsId.length==0) {
+			alert("업무 분류를 먼저 선택해주시기 바랍니다.");
+			return;
+		}
+		if(subject=="" || subject.length==0) {
+			alert("제목을 입력해주시기 바랍니다.");
+			return;
+		}
+
+		if(contents=="" || contents.length==0) {
+			alert("내용을 입력해주시기 바랍니다.");
+			return;
+		}
+		
+		if(!confirm("질문을 등록하시겠습니까?")) return;
+		
+		// 데이터설정
+		var formData = new FormData();
+	    formData.append("bbsId",bbsId);
+	    formData.append("workCode","");
+	    formData.append('subject', subject);
+	    formData.append('contentsType', "1");
+	    formData.append('contents', contents);
+	    formData.append('hitCnt', '0');
+		
+		for(var i=0;i<attachFileList.length;i++) {
+			console.log(attachFileList[i].value);
+			if (attachFileList[i].value != undefined) {
+			    formData.append("addFile"+i,attachFileList[i].value);
+			}
+		}
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data:formData,
+			contentType:false,
+			processData:false,
+			cache:false,
+			success:function(result)
+			{
+				$.unblockUI();
+				alert(result.message);
+				if(result.success) {
+					fn_bbsContentList();
+				}
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					window.close();
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});	
+	}
+
+	function fn_getBizGrpNameList() {
+		var url = rootPath + "biz/getBizGrpNameList.do";
+
+		$.blockUI();
+
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			success:function(result)
+			{
+				if (result.success==true) {
+					
+					$.each(result.data, function(i, row) {
+						$("#selectBizId").append('<option value="'+row.bizId+'">'+row.bizName+'</option>');
+						
+					});
+				}
+	
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+		
+	}
+	
+	// 기업선택
+	function changeBizId(obj) {
+		//alert(obj.value);	
+	}
+	
+</script>
+</head>
+<body>
+
+<!-- *********************************************  게시판  *********************************************  -->
+<div id="boardque_wrap" class="">
+
+	<div class="container">
+		<!-- <div class="pagtit"><span class="NanumGothic"> 문의하기</span></div> -->
+		<div class="location"><span class="loc_main NanumGothic">노무 SOS > </span><span class="loc_sub NanumGothic">글 작성하기</span></div>
+		<div class="pagtit"><span class="NanumGothic">글 작성하기</span></div>
+	
+		<div class="board_con">
+			<ul>
+				<li class="tit">
+					<div class="selBox">
+		            </div>
+					<div class="userInput">
+						<!--  권한에 따라  숨기기 : none class="noticeChk none"-->
+						<div class="title"><span class="NanumGothic">제목</span><input type="text" id="subject"/></div>
+					</div>
+				</li>
+				<li class="box editArea smartOutput se2_inputarea" id="smart_editor2">
+					<textarea name="ir1" id="ir1"></textarea> 
+				</li>
+				<li class="box attachGroup">
+					<div class="btn_type fileselect NanumGothic active" onClick="attachFile()">파일 첨부
+					</div>
+					
+					<span class="text NanumGothic">※ 파일은 5mb 이하의 파일만 첨부 가능합니다</span>
+				</li>
+				<li class="box NanumGothic file_list admin" id="attachFileList">
+					<div class="nonfile"><span>여러개의 파일을 마우스로 여기에 옮겨주세요.</span></div>
+				</li>
+				<li id="submitbutton" style="display: none;">
+						<button type="submit">Upload Files</button>
+				</li>
+				<li class="box btn_group ">
+					<div class="btn_type Material_icons" onClick="doWrite()"><span class="icon Material_icons">check_circle</span>작성완료</div>
+				</li>
+				
+			</ul>
+		</div>
+	</div><!--  end container -->
+</div>
+
+<input type="file" id="attachFile" name="attachFile" style="visibility:hidden; position:absolute; left:-9999px; top:-9999px;" onChange="attachFileOk(event)">
+
+<script type="text/javascript">
+/*
+filedrag.js - HTML5 File Drag & Drop demonstration
+Featured on SitePoint.com
+Developed by Craig Buckler (@craigbuckler) of OptimalWorks.net
+*/
+	// getElementById
+	function $id(id) {
+		return document.getElementById(id);
+	}
+	
+	// output information
+	function Output(msg) {
+		var m = $id("attachFileList");
+		m.innerHTML = msg + m.innerHTML;
+	}
+	
+	// file drag hover
+	function FileDragHover(e) {
+		e.stopPropagation();
+		e.preventDefault();
+		//e.target.className = (e.type == "dragover" ? "hover" : "");
+		if(e.type=="dragover"){
+			$("#attachFileList").addClass("hover");
+		}else{
+			$("#attachFileList").removeClass("hover");
+		}
+	}
+	
+	// file selection
+	function FileSelectHandler(e) {
+		// cancel event and hover styling
+		FileDragHover(e);
+	
+		// fetch FileList object
+		var files = e.target.files || e.dataTransfer.files;
+		
+		// process all File objects
+		for (var i = 0, f; f = files[i]; i++) {
+			ParseFile(f);
+		}
+	
+	}
+	
+	// output file information
+	function ParseFile(file) {
+		fileId++;
+		var m = $("#attachFileList");
+		
+		if(!m.find(".nonfile").hasClass("hidden")){
+			m.find(".nonfile").addClass("hidden");
+		}
+		//Output("<p>File information: <strong>" + file.name + "</strong> type: <strong>" + file.type + "</strong> size: <strong>" + file.size + "</strong> bytes</p>");
+		Output('<div class="file" id="'+fileId+'"><span class="name">'+file.name+'</span><div class="btn_type btn_delete" onClick="attachFileDel('+fileId+');"></div></div>');
+	
+		var oFile = {key:fileId, value:file};		
+		attachFileList.push(oFile);
+		
+		console.log(attachFileList)
+	}
+	
+	// initialize
+	function Init() {
+	
+		var fileselect = document.querySelector(".fileselect"),
+			filedrag = $id("attachFileList"),
+			submitbutton = $id("submitbutton");
+		
+		// file select
+		fileselect.addEventListener("change", FileSelectHandler, false);
+		
+		// is XHR2 available?
+		var xhr = new XMLHttpRequest();
+		if (xhr.upload) {
+		
+			// file drop
+			filedrag.addEventListener("dragover", FileDragHover, false);
+			filedrag.addEventListener("dragleave", FileDragHover, false);
+			filedrag.addEventListener("drop", FileSelectHandler, false);
+			filedrag.style.display = "block";
+			
+			// remove submit button
+			submitbutton.style.display = "none";
+		}
+	
+	}
+	
+	// call initialization file
+	if (window.File && window.FileList && window.FileReader) {
+		Init();
+	}
+	
+</script>
+</body>
+
+</html>

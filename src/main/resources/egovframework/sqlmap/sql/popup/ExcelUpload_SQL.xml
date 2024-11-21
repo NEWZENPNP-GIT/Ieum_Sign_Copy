@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="popup">
+    <typeAlias alias="excelUploadVO" type="com.ezsign.popup.vo.ExcelUploadVO"/>
+
+    <resultMap id="excelUploadListMap" class="excelUploadVO">
+        <result property="columnId" column="COLUMN_ID"/>
+        <result property="excelType" column="EXCEL_TYPE"/>
+        <result property="columnType" column="COLUMN_TYPE"/>
+        <result property="grpCommCode" column="GRP_COMM_CODE"/>
+        <result property="codeValue" column="CODE_VALUE"/>
+        <result property="required" column="REQUIRED"/>
+        <result property="columnName" column="COLUMN_NAME"/>
+        <result property="displayName" column="DISPLAY_NAME"/>
+        <result property="mappingOrder" column="MAPPING_ORDER"/>
+    </resultMap>
+    
+    <resultMap id="excelMapMasterListMap" class="excelUploadVO">
+        <result property="mapId" column="MAP_ID"/>
+        <result property="mapName" column="MAP_NAME"/>
+        <result property="excelType" column="EXCEL_TYPE"/>
+        <result property="fileId" column="FILE_ID"/>
+    </resultMap>
+	
+    <select id="excelUploadDAO.getExcelMappingList" parameterClass="excelUploadVO" resultMap="excelUploadListMap">
+        SELECT A.COLUMN_ID, A.EXCEL_TYPE, A.COLUMN_TYPE, A.GRP_COMM_CODE, A.CODE_VALUE, A.REQUIRED,
+		          IFNULL(A.COLUMN_NAME, A.DISPLAY_NAME) COLUMN_NAME, A.DISPLAY_NAME,
+		          -1 MAPPING_ORDER
+        FROM TBL_EXCEL_UPLOAD_DEFAULT A
+        WHERE A.EXCEL_TYPE = #excelType#
+        ORDER BY A.DEFAULT_ORDER
+    </select>
+    
+    <select id="excelUploadDAO.getExcelMapMasterList" parameterClass="excelUploadVO" resultMap="excelMapMasterListMap">
+        SELECT A.MAP_ID, A.MAP_NAME, A.EXCEL_TYPE, A.FILE_ID
+        FROM TBL_EXCEL_UPLOAD_MAP A
+        WHERE	A.BIZ_ID = #bizId#
+		AND		A.EXCEL_TYPE = #excelType#
+		ORDER BY A.MAP_NAME
+    </select>
+	
+    <select id="excelUploadDAO.getExcelMapDetailList" parameterClass="excelUploadVO" resultMap="excelUploadListMap">
+        SELECT A.COLUMN_ID, A.EXCEL_TYPE, A.COLUMN_TYPE, A.GRP_COMM_CODE, A.CODE_VALUE, A.REQUIRED,
+		          IFNULL(A.COLUMN_NAME, A.DISPLAY_NAME) COLUMN_NAME, A.DISPLAY_NAME,
+		          IFNULL(C.MAPPING_ORDER, -1) MAPPING_ORDER
+        FROM TBL_EXCEL_UPLOAD_DEFAULT A
+        	LEFT JOIN TBL_EXCEL_UPLOAD_MAP B ON A.EXCEL_TYPE = B.EXCEL_TYPE AND B.MAP_ID = #mapId#
+        	LEFT JOIN TBL_EXCEL_UPLOAD_MAP_DETAIL C ON B.BIZ_ID = C.BIZ_ID AND B.MAP_ID = C.MAP_ID AND A.COLUMN_ID = C.COLUMN_ID 
+        WHERE	B.BIZ_ID = #bizId#
+        AND		B.EXCEL_TYPE != 'C'
+		AND		B.EXCEL_TYPE = #excelType#
+		UNION ALL
+        SELECT C.COLUMN_ID, B.EXCEL_TYPE, '1' COLUMN_TYPE, '' GRP_COMM_CODE, '' CODE_VALUE, '1' REQUIRED,
+		          C.COLUMN_ID COLUMN_NAME, A.FORM_DATA_NAME DISPLAY_NAME,
+		          IFNULL(C.MAPPING_ORDER, -1) MAPPING_ORDER
+        FROM TBL_EXCEL_UPLOAD_MAP B  
+        	LEFT JOIN TBL_EXCEL_UPLOAD_MAP_DETAIL C ON B.BIZ_ID = C.BIZ_ID AND B.MAP_ID = C.MAP_ID 
+        	LEFT OUTER JOIN TBL_CONTRACT_PERSON_NEW_FORM A ON B.BIZ_ID = A.BIZ_ID AND B.FILE_ID = A.FILE_ID AND C.COLUMN_ID = A.FORM_DATA_ID 
+        WHERE	B.BIZ_ID = #bizId#
+        AND		B.MAP_ID = #mapId#
+        AND		B.EXCEL_TYPE = 'C'
+		AND		B.EXCEL_TYPE = #excelType#
+		ORDER BY MAPPING_ORDER
+    </select>
+	
+    <insert id="excelUploadDAO.insertExcelDefault" parameterClass="excelUploadVO">
+    	INSERT INTO TBL_EXCEL_UPLOAD_DEFAULT (
+    		COLUMN_ID,
+			EXCEL_TYPE,
+			COLUMN_TYPE,
+			GRP_COMM_CODE,
+			CODE_VALUE,
+			REQUIRED,
+			COLUMN_NAME,
+			DISPLAY_NAME,
+			DEFAULT_ORDER
+		) VALUES(
+			#columnId#,
+			#excelType#,
+			#columnType#,
+			#grpCommCode#,
+			#codeValue#,
+			#required#,
+			#columnName#,
+			#displayName#,
+			#defaultOrder#
+		)
+    </insert>
+    
+    <select id="excelUploadDAO.selectExcelMappingCnt" parameterClass="excelUploadVO" resultClass="java.lang.Integer" >
+    	SELECT COUNT(*) FROM TBL_EXCEL_UPLOAD_MAP
+		WHERE BIZ_ID = #bizId#
+		AND MAP_ID = #mapId#
+    </select>
+    
+    <insert id="excelUploadDAO.insertExcelMap" parameterClass="excelUploadVO">
+        INSERT INTO TBL_EXCEL_UPLOAD_MAP (
+          BIZ_ID, MAP_ID, MAP_NAME, EXCEL_TYPE, FILE_ID,
+          INS_DATE, UPD_DATE
+        ) VALUES (
+          #bizId#, #mapId#, #mapName#, #excelType#, #fileId#,
+          DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        )
+    </insert>
+    
+    <insert id="excelUploadDAO.insertExcelMapDetail" parameterClass="excelUploadVO">
+        INSERT INTO TBL_EXCEL_UPLOAD_MAP_DETAIL (
+          BIZ_ID, MAP_ID,
+          COLUMN_ID, MAPPING_ORDER,
+          INS_DATE, UPD_DATE
+        ) VALUES (
+          #bizId#, #mapId#,
+          #columnId#, #mappingOrder#,
+          DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        )
+    </insert>
+    
+    <delete id="excelUploadDAO.deleteExcelMap" parameterClass="excelUploadVO">
+    	DELETE FROM TBL_EXCEL_UPLOAD_MAP
+        WHERE	BIZ_ID	= #bizId#
+		AND 	MAP_ID	= #mapId#
+    </delete>
+    
+    <delete id="excelUploadDAO.deleteExcelMapDetail" parameterClass="excelUploadVO">
+    	DELETE FROM TBL_EXCEL_UPLOAD_MAP_DETAIL
+        WHERE	BIZ_ID	= #bizId#
+		AND 	MAP_ID	= #mapId#
+    </delete>
+    
+</sqlMap>

@@ -1,0 +1,607 @@
+
+	<!--****************************************************************************************************************
+	* 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+	* 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+	********************************************************************************************************************
+	--------------------------------------------------------------------------------------------------------------------
+	* 회사       : 뉴젠피앤피
+	* 화면명     : 완료계약 문서함 페이지
+	* 화면설명   : 전자문서 > 전자계약(양식변환) > 전자문서 관리
+	* 작성자     :
+	* 생성일     :
+	--------------------------------------------------------------------------------------------------------------------
+	* 수정자     : 이정훈
+	* 수정일     : 2023.11.20
+	* 수정내용   :
+	------------------------------------------------------------------------------------------------------------------->
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/contract_write.css">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<!-- bootPag -->
+	<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+
+	<!-- 공인인증서 관련 -->
+	<script type="text/javascript" src="/js/nxts/nxts.min.js"></script>
+	<script type="text/javascript" src="/js/ui.biz.core.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+	<script>
+
+		var lastDate;
+		var afterDate;
+		var totPage;
+		var curPage;
+
+		//***************					윈도우 로딩					***************//
+
+
+		$(document).ready(function() {
+
+			lastDate  = new Date();
+			afterDate = new Date();
+
+			lastDate.setMonth(lastDate.getMonth() - 1);
+			afterDate.setMonth(afterDate.getMonth() + 1);
+
+			document.getElementById("contractDateFrom").value = lastDate.format('yyyyMMdd');	// 한달전
+			document.getElementById("contractDateTo").value = afterDate.format('yyyyMMdd');		// 한달후
+			console.log('contract_list_complete.html');
+
+			$('#searchValue').keypress(function(event) {
+				var keycode = (event.keyCode ? event.keyCode : event.which);
+				if (keycode === '13') fn_contractList(1);
+				event.stopPropagation();
+			});
+
+			getBizGrpCombo();
+			fn_contractList(1);
+			getEMail(getCookie("bizId"));
+
+			if (getCookie("loginType") === "9") $("#bizMain").show();
+			else 							    $("#bizMain").hide();
+
+			if (getCookie("useContractMenu") === "Y") $(".pointSetting").hide();
+
+			$("#searchCompanyPoint").text(addCommas($("#searchPoint option:selected").text()));
+			$("#searchCompany").change(function(){
+				$("#searchPoint").val($(this).val())
+				$("#searchCompanyPoint").text(addCommas($("#searchPoint option:selected").text()));
+			});
+		});
+
+
+		//***************					사용자 이메일 가져오기					***************//
+
+
+		function getEMail(bizId) {
+
+			var url = rootPath + "biz/getBizEmail.do";
+			$.ajax({
+				url: url,
+				crossDomain: true,
+				dataType: "json",
+				type: "GET",
+				data: { bizId: bizId },
+				success: function (result) {
+					if (result.success === true) {
+						$.each(result.data, function (i, row) {
+							$("#contractEmail").val(row.personEMail);
+							$("#contractBizName").val(row.bizName);
+							$("#contractPhone").val(row.phoneNum);
+						})
+					}
+				}
+			});
+		}
+
+
+		//***************					완료문서 미리보기					***************//
+
+
+		function fn_contractView(contId) { window.open(rootPath+"module/pdfjs/web/viewer.html?contId="+contId, "FormManager", "width=900, height=700, scrollbars=no"); }
+
+
+		//***************					체크박스 전체 선택					***************//
+
+
+		function fn_checkAll() {
+			if ($("#checkall").prop("checked"))	$("input[name=chk]").prop("checked",true);
+			else 								$("input[name=chk]").prop("checked",false);
+		}
+
+
+		//***************					완료 전자문서 리스트 조회					***************//
+
+
+		function fn_contractList(page) {
+
+			var url = rootPath + "contract/getContractList.do";
+
+			if (getCookie("loginType") === "5") url = rootPath + "contract/getContractUserGrpList.do";
+
+			var viewPage = $("#viewPage").val();
+			if (viewPage === "" || viewPage === "0") viewPage = 10;
+
+			if (page === 0) curPage = 0;
+			else		    curPage = page - 1;
+
+			if (curPage < 0) 				  { curPage  = 0; return; }
+			if (curPage * viewPage > totPage) { curPage -= 1; return; }
+
+			var contractDateFrom = $("#contractDateFrom").val();
+			var contractDateTo 	 = $("#contractDateTo").val();
+			var statusCode 		 = "Y";
+			var searchKey 		 = $("#searchKey").val();
+			var searchValue 	 = $("#searchValue").val();
+			var startPage 		 = (curPage*viewPage);
+			var endPage 		 = viewPage;
+			var sortName 		 = $("#sortName").val();
+			var sortOrder 		 = $("#sortOrder").val();
+			var bizId 			 = getCookie("bizId");
+			var searchCompany 	 = $("#searchCompany").val();
+
+			if (contractDateFrom.length === 0) { alert("시작날짜를 입력해주시기 바랍니다.\r\n예) 20170101"); return; }
+			if (contractDateTo.length === 0)   { alert("종료날짜를 입력해주시기 바랍니다.\r\n예) 20171231"); return; }
+
+			if (contractDateFrom.length > 0) contractDateFrom = contractDateFrom.replace(/-/gi, "");
+			if (contractDateTo.length > 0) 	 contractDateTo   = contractDateTo.replace(/-/gi, "");
+
+			if (!checkDateNoHypen(contractDateFrom)) { alert("검색조건 시작날짜가 형식에 맞지 않습니다."); return; }
+			if (!checkDateNoHypen(contractDateTo)) 	 { alert("검색조건 종료날짜가 형식에 맞지 않습니다."); return; }
+
+			$.blockUI();
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"GET",
+				data: {
+					contractDateFrom:contractDateFrom,
+					contractDateTo:contractDateTo,
+					statusCode:statusCode,
+					transType:'Y',
+					searchKey:searchKey,
+					searchValue:searchValue,
+					startPage:startPage,
+					endPage:endPage,
+					sortName:sortName,
+					sortOrder:sortOrder,
+					bizId:bizId,
+					searchCompany:searchCompany
+				},
+				success:function(result) {
+
+					var htmlData = "";
+					if (result.success === true) {
+						totPage 		= result.total;
+						const totalPage = Math.ceil(totPage / viewPage);
+						$('#downloadCount').text(result.downloadCount);	// 진행건수
+						$("#completeCount").text(result.completeCount);	// 완료건수
+
+						// 계약내역
+						$.each(result.data, function(i, row) {
+							var num = (curPage * viewPage) + i + 1;
+							htmlData += '<tr class="databox"> ';
+							htmlData += ' <td class="chk_area"><input type="checkbox" id="chk" name="chk" value="'+row.userId+'_'+row.contractDate+'_'+row.contId+'_'+row.hashData+'_'+row.statusCode+'"></td> ';
+							htmlData += ' <td>'+num+'</td> ';
+							htmlData += ' <td>'+row.bizName+'</td> ';
+							htmlData += ' <td class="name">'+row.empName+'</td> ';
+							htmlData += ' <td>'+row.empNo+'</td> ';
+							htmlData += ' <td>'+row.phoneNum+'</td> ';
+							htmlData += ' <td>'+row.EMail+'</td> ';
+							htmlData += ' <td>'+row.deptName+'</td> ';
+							htmlData += ' <td>'+row.contractFileName+'</td> ';
+							htmlData += ' <td class="complete_date">'+convertDate(row.contractDate).format("yyyy-MM-dd")+'</td> ';
+							if (!isNull(row.endDate) && row.endDate !== "0") {
+								htmlData += ' <td>'+convertDate(row.endDate).format("yyyy-MM-dd")+'&nbsp;<span style="cursor:pointer;" class="glyphicon glyphicon-search" onclick="fn_processHistory(\''+row.contId+'\')"></span></td> ';
+							} else {
+								htmlData += ' <td></td>';
+							}
+							htmlData += ' <td class="iconForm" style="cursor:pointer;" onclick="fn_contractView(\''+row.contId+'\')"><a class="btn_type icon_pdf"></td> ';
+							htmlData += '</tr> ';
+						});
+
+						if (page === 1) {
+							$('#page-selection').empty();
+							$('#page-selection').removeData("twbs-pagination");
+							$('#page-selection').unbind("page");
+							$('#page-selection').bootpag({
+								total: totalPage,
+								page: page,
+								maxVisible: 10,
+								leaps: true,
+								firstLastUse: true,
+								first: '',
+								last: '',
+								wrapClass: 'pagination',
+								activeClass: 'active',
+								disabledClass: 'disabled',
+								nextClass: 'btn_next',
+								prevClass: 'btn_prev',
+								lastClass: 'end_page',
+								firstClass: 'first_page'
+							}).on("page", function(event, num){ fn_contractList(num); });
+						}
+					} else {
+						htmlData += '<tr> <td colspan="12">요청하신 자료가 존재하지 않습니다.</td></tr>';
+						$('#downloadCount').text(result.downloadCount);	// 진행건수
+						$("#completeCount").text(result.completeCount);	// 완료건수
+						$('#page-selection').empty();
+						$('#page-selection').removeData("twbs-pagination");
+						$('#page-selection').unbind("page");
+					}
+					$("#dataList").html(htmlData);
+					$.unblockUI();
+				},
+				error:function(request,status,error) {
+					$.unblockUI();
+					if (request.status === "401") { alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다."); location.href = rootPath; }
+					else 						  { alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error); }
+				}
+			});
+		}
+
+
+		//***************					근로계약서 전송					***************//
+
+
+		function fn_contractReSend() {
+
+			var bizId	  = $("#searchCompany").val();
+			var multiData = "";
+
+			$("input:checkbox[name=chk]:checked").each(function () {
+				var key  = this.value;
+				var data = key.split("_");
+				multiData += data[0]+"-"+data[1]+"-"+data[2]+"|"
+			});
+
+			if (multiData.length === 0) { alert("전송할 문서를 먼저 선택해주시기 바랍니다."); return; }
+			if (isNull(bizId)) 			{ alert("기업을 선택해주세요."); return; }
+
+			var url = rootPath+"html/contract/contract_popup_reSend.html?data="+encodeURIComponent(multiData);
+			openWin(url, "resend_contract", 500, 560);
+		}
+
+
+		//***************					선택 계약서 다운로드					***************//
+
+
+		function fn_contractSelectDownload() {
+
+			var contractDateFrom = $("#contractDateFrom").val();
+			var contractDateTo	 = $("#contractDateTo").val();
+			var bizId			 = $("#searchCompany").val();
+			var cnt				 = $("input:checkbox[name=chk]:checked").length;
+
+			if (contractDateFrom.length > 0) contractDateFrom = contractDateFrom.replace(/-/gi, "");
+			if (contractDateTo.length > 0)   contractDateTo   = contractDateTo.replace(/-/gi, "");
+
+			// 선택된 계약서 확인
+			if (cnt === 0) {
+				alert("다운로드할 문서를 선택 바랍니다.");
+			} else {
+				if (isNull(bizId)) { alert("기업을 선택해주세요."); return; }
+				if (!confirm("선택하신 문서를 다운로드 하시겠습니까?")) return;
+				cnt = 0;
+				var multiData = "";
+				$("input:checkbox[name=chk]:checked").each(function () {
+					var key  = this.value;
+					var data = key.split("_");
+					if (data.length > 3) { if(data[4] !== "Y") { cnt++; } }
+					multiData += data[0] + "-" + data[1]+ "-" + data[2] + "|";
+				});
+
+				if (cnt > 0) { alert("선택하신 문서중 완료되지 않은 문서가 존재합니다. \r\n확인 후 진행해주시기 바랍니다."); return; }
+
+				var contractDate = contractDateFrom.substring(0,4);
+				var url			 = rootPath+"contract/downloadContractSelectZip.do?contractDate=" + contractDate + "&contractDateFrom=" + contractDateFrom + "&contractDateTo=" + contractDateTo + "&multiData=" + encodeURI(multiData);
+				downloadDataUrlFromJavascript(url);
+			}
+		}
+
+
+		//***************					선택 계약서 삭제					***************//
+
+
+		function fn_contractSelectRemove() {
+
+			var cnt	  = $("input:checkbox[name=chk]:checked").length;
+			var bizId = $("#searchCompany").val();
+
+			if (cnt === 0) alert("삭제할 문서를 선택 바랍니다.");
+			else {
+				if (isNull(bizId)) { alert("기업을 선택해주세요."); return; }
+				if (!confirm("선택하신 문서를 삭제 하시겠습니까?")) return;
+
+				var selectedData = [];
+				var url			 = rootPath+"/contract/getDownloadComplete.do"
+				var success;
+
+				$("input:checkbox[name=chk]:checked").each(function () {
+					var key  = this.value;
+					var data = key.split("_");
+					if (data.length > 2) { contId = data[2]; selectedData.push(contId) }
+				});
+
+				$.ajax({
+					url:url,
+					crossDomain : true,
+					dataType:"json",
+					type:"POST",
+					async:false,
+					data:{
+						list:JSON.stringify(selectedData),
+						bizId:bizId
+					},
+					success:function(result) {
+						success = result.success;
+						if (!result.success) alert("전자문서 삭제를 실패했습니다.\r\n삭제는 전자문서 다운로드 후 가능하므로 다운로드 후 삭제 진행바랍니다.");
+					},
+					error:function(request,status,error) {
+						if (request.status === "401") { alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다."); location.href = rootPath; }
+						else 						  { alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error); }
+					}
+				});
+
+				if (success) {
+					//삭제할 파일 ID
+					setCookie("delContId", selectedData);
+					setCookie("delBizId", bizId);
+					$("#contents_wrap").empty();
+					$(window).off("resize");
+
+					$.ajax({
+						url : "/html/contract/contract_remove_step01.html" ,
+						success : function(result) { $("#contents_wrap").html(result); }
+					});
+				}
+			}
+		}
+
+
+		//***************					기업 조회					***************//
+
+
+		function getBizGrpCombo() {
+
+			var url = rootPath+"biz/getBizGrpCombo.do";
+			$("#searchCompany").html("");
+			$("#searchPoint").html("");
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				async: false,
+				type:"GET",
+				data: { },
+				success:function(result) {
+					if (result.success) {
+						var workStatus = result.data;
+						$.each(workStatus, function(i, data) {
+							$("#searchCompany").append($("<option>", { value: data.id, text: data.name }));
+							$("#searchPoint").append($("<option>",   { value: data.id, text: data.curPoint }));
+						});
+						$("#searchCompany").append($("<option>", { value: '', text: '전체' }));
+					}
+				},
+				error:function(request,status,error) { alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); }
+			});
+		}
+
+
+		//***************					일괄 다운로드 팝업창					***************//
+
+
+		function fn_contractDownloadZip() {
+			var bizId = $("#searchCompany").val();
+			if (isNull(bizId)) { alert("기업을 선택해주세요."); return; }
+			window.open(rootPath+"html/contract/contract_popup_download.html?bizId="+bizId, "ContractDownload", "width=530, height=620, scrollbars=no");
+		}
+
+
+		//***************					250건 이상 다운로드					***************//
+
+
+		function fn_contractDownloadToEmail(contractDateFrom,contractDateTo,contractEmail,bizName,bizId,loginUserId,contractPhone,smsYN) {
+
+			var url = fileRootPath+"contract/downloadContractZip.do";
+			if (getCookie("loginType") === "5") url = fileRootPath+"contract/downloadContractZip.do?loginType=true";
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"GET",
+				data: {
+					contractDateFrom:contractDateFrom,
+					contractDateTo:contractDateTo,
+					contractEmail:contractEmail,
+					bizName:bizName,
+					bizId:bizId,
+					loginUserParam:loginUserId,
+					phoneNum:contractPhone,
+					smsYN:smsYN,
+					downloadYn:"N"
+				}
+			});
+		}
+
+	</script>
+	</head>
+
+	<body>
+	<div id="contractList_wrap" class="">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumGothic">전자문서 > 전자계약(양식변환) > </span><span class="loc_sub NanumGothic">완료계약 문서함</span></div>
+			<div class="field_area">
+				<input type="hidden" id="contractEmail" name="contractEmail" value="">
+				<input type="hidden" id="contractPhone" name="contractPhone" value="">
+				<input type="hidden" id="contractBizName" name="contractBizName" value="">
+				<div class="selBox NanumGothic">
+					<select id="searchCompany" onchange="fn_contractList(1)"></select>
+					<select id="searchPoint" style="display:none;"></select>
+				</div>
+				<span class="NanumGothic pointSetting" style="font-size: 13px; color: #333333; font-weight: bold; line-height: 30px; height: 30px; float: left; margin-top: 3px; margin-left: 15px;">
+					잔여 포인트 :&nbsp;
+					<span id="searchCompanyPoint" class="NanumGothic" style="font-size: 13px; color: blue; font-weight: bold; line-height: 30px; height: 30px; margin-top: 3px;"></span>
+					&nbsp;P
+				</span>
+			</div>
+			<div class="field_area">
+				<div class="inputBox">
+					<input type="text" min="1900-01-01" max="2999-01-01" id="contractDateFrom" class="NanumGothic lt"/>
+				</div>
+				<div class="inputBox">
+					<input type="text" min="1900-01-01" max="2999-01-01" id="contractDateTo" class="NanumGothic lt"/>
+				</div>
+				<div class="selBox NanumGothic">
+					<select id="searchKey" class="lt">
+						<option value="empName">성명</option>
+						<option value="eMail">이메일</option>
+						<option value="phoneNum">휴대폰번호</option>
+						<option value="deptName">부서명</option>
+						<option value="contractFileName">양식명</option>
+					</select>
+				</div>
+				<div class="inputBox">
+					<fieldset>
+						<input type="text" id="searchValue" class="word_input NanumGothic">
+						<a class="btn_search btn_type Material_icons" onclick="fn_contractList(1)">search</a>
+					</fieldset>
+				</div>
+				<div class="selBox NanumGothic">
+					<select id="sortName" class="lt" onchange="fn_contractList(1)">
+						<option value="A.INS_DATE" selected>정렬항목</option>
+						<option value="EMP_NAME">성명</option>
+						<option value="EMP_NO">사번</option>
+						<option value="E_MAIL">이메일</option>
+						<option value="PHONE_NUM">휴대폰번호</option>
+					</select>
+				</div>
+				<div class="selBox NanumGothic">
+					<select id="sortOrder" class="lt" onchange="fn_contractList(1)">
+						<option value="ASC" selected>정렬기준</option>
+						<option value="ASC">내림차순</option>
+						<option value="DESC">올림차순</option>
+					</select>
+				</div>
+				<div class="selBox NanumGothic">
+					<select id="viewPage" class="lt" onchange="fn_contractList(1)">
+						<option value="10" selected>조회건수</option>
+						<option value="10">10건</option>
+						<option value="20">20건</option>
+						<option value="30">30건</option>
+						<option value="50">50건</option>
+						<option value="100">100건</option>
+						<option value="250">250건</option>
+					</select>
+				</div>
+				<div class="right">
+					<div class="textBox NanumGothic">
+						<div class="tit">다운건수</div><div class="progress_count" id="downloadCount">0</div>
+					</div>
+					<div class="textBox NanumGothic">
+						<div class="tit">완료건수</div><div class="complete_count" id="completeCount">0</div>
+					</div>
+				</div>
+			</div>
+			<div class="table_contents">
+				<div class="list">
+					<table class="NanumGothic">
+						<colgroup>
+							<col width="3%">	<!--체크박스-->
+							<col width="3%">	<!--순번-->
+							<col width="8%">	<!--기업명-->
+							<col width="7%">	<!--수신자-->
+							<col width="8%" >	<!--사번/사업자등록번호-->
+							<col width="8%">	<!--휴대폰번호-->
+							<col width="16%">	<!--이메일-->
+							<col width="7%">	<!--부서명-->
+							<col width="20%">	<!--문서 종류-->
+							<col width="7%">	<!--생성일자-->
+							<col width="8%">	<!--전자문서 이력-->
+							<col width="5%">	<!--미리보기-->
+						</colgroup>
+						<thead>
+							<tr>
+								<th class="chk_area">
+									<input type="checkbox" id="checkall" onclick="fn_checkAll();">
+								</th>
+								<th>순번</th>
+								<th>기업명</th>
+								<th>수신자</th>
+								<th>사번/사업자등록번호</th>
+								<th>휴대폰번호</th>
+								<th>이메일</th>
+								<th>부서명</th>
+								<th>문서 종류</th>
+								<th>생성일자</th>
+								<th>전자문서이력</th>
+								<th>미리보기</th>
+							</tr>
+						</thead>
+						<tbody id="dataList">
+							<tr class="databox">
+								<td colspan="12">요청하신 자료가 존재하지 않습니다.</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div id="page-selection" class="pagingnav_wrap"></div>
+			</div>
+			<div class="btn_footGroup NanumGothic">
+				<a class="btn_type type1" onclick="fn_contractReSend();">재전송</a>
+				<a class="btn_type type2" onclick="fn_contractSelectDownload();" >선택 다운로드 </a>
+				<a class="btn_type type3" id="contractDownload" onclick="fn_contractDownloadZip();">일괄 다운로드 </a>
+				<a class="btn_type type5" onclick="fn_contractSelectRemove();">삭제하기 </a>
+			</div>
+			<div class="modal fade" id="myModal" role="dialog">
+				<div class="modal-dialog">
+					Modal content
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">진행 현황</h4>
+						</div>
+						<div class="modal-body">
+							<table class="table">
+								<colgroup>
+									<col width="20%">
+									<col width="62%">
+									<col width="18%">
+								</colgroup>
+								<thead>
+									<tr>
+										<th id="head1">문서구분</th>
+										<th id="head2">전송일시</th>
+										<th id="head3">성공여부</th>
+									</tr>
+								</thead>
+								<tbody id="sendList"></tbody>
+							</table>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</body>
+	</html>

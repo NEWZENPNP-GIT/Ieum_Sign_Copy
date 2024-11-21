@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>포인트 조정</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/company_manage.css">
+
+<script type='text/javascript' src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+
+<script>	
+	$(document).ready(function(){
+		$('input[type=text]').on('keydown', function(e) {
+		    if (e.which == 13) {
+		        e.preventDefault();
+		        fn_getPointLogList();
+		    }
+		});
+
+		var bizId = getURLParameters("bizId");
+		
+		$("#bizId").val(bizId);
+		
+		fn_getPointLogList();
+		fn_bizView();
+		
+		$("#deduPoint").keyup(function(){
+			$("#chargePoint").val("");
+			if(Number($("#deduPoint").val()) > Number(removeCommas($("#point").text()))){
+				alert("차감 가능한 포인트를 초과하여 입력하였습니다.");
+				$("#deduPoint").val("");
+			}
+		});
+		
+		$("#chargePoint").keyup(function(){
+			$("#deduPoint").val("");
+		});
+	});
+	
+	function fn_getPointLogList() {
+		var bizId = $("#bizId").val();
+		
+		var nowDate = new Date();
+
+		var url = rootPath+"getPointLogList.do";
+		var searchDateFrom = "20180101";
+		var searchDateTo = nowDate.format("yyyyMMdd") ;
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				bizId:bizId,
+				searchDateFrom:searchDateFrom,
+				searchDateTo:searchDateTo,
+				startPage:0,
+				endPage:99999
+			},
+			success:function(result)
+			{
+				var htmlData = "";
+				
+				if (result.success==true) {
+					$.each(result.data, function(i, row) {
+						htmlData += '<tr>';
+						if(row.pointType=="0" || row.pointType=="1" ) {
+							htmlData += '     <td>-</td>';
+							htmlData += '     <td>'+row.pointPrice+'</td>';
+						} else {
+							htmlData += '     <td>'+row.pointPrice+'</td>';
+							htmlData += '     <td>-</td>';
+						}
+						htmlData += '     <td>'+row.etcDesc+'</td>';
+						htmlData += '	  <td>'+convertDateTime(row.insDate).format("yyyy-MM-dd HH:mm:ss")+'</td>';
+						htmlData += '</tr>';
+					});
+					
+				}
+				$("#pointList").html(htmlData);
+				
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});		
+	}
+	
+	//기업정보 가지고 오기
+    function fn_bizView() {
+        var url = rootPath + "biz/getBizList.do";
+        var bizId = $("#bizId").val();
+
+		$.blockUI();
+
+        $.ajax({
+            url: url,
+            crossDomain: true,
+            dataType: "json",
+            type: "GET",
+            data: {
+                bizId: bizId,
+                startPage: 0,
+                endPage: 1
+            },
+            success: function (result) {
+                if (result.success == true) {
+
+                    // 기업내역
+                    $.each(result.data, function (i, row) {
+                    	$("#companyName").text(row.bizName);
+                        $("#point").text(addCommas(row.curPoint));
+                        $("#curPoint").val(row.curPoint);
+					});
+                }
+
+                $.unblockUI();
+            },
+            error: function (request, status, error) {
+                $.unblockUI();
+                if (request.status == "401") {
+                    alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+                    location.href = rootPath;
+                } else {
+                	alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error);
+                    //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                }
+            }
+        });
+
+    }
+	
+	function fn_save(){
+		
+		var url = rootPath + "updPointNew.do";
+        var bizId = $("#bizId").val();
+        var curPoint = $("#curPoint").val();
+        var comment = $("#comment").val();
+        var deduPoint = $("#deduPoint").val();
+        var chargePoint = $("#chargePoint").val();
+
+        if (isNull(bizId)) {
+        	alert("기업을 먼저 선택해주시기 바랍니다.");
+            return;
+        }
+
+        if (!confirm("포인트를 조정하시겠습니까?")) {
+            return;
+        }
+        
+        if(isNull(deduPoint)){
+        	deduPoint = 0;
+        }
+        
+		if(isNull(chargePoint)){
+			chargePoint = 0;
+        }
+
+        $.ajax({
+            url: url,
+            crossDomain: true,
+            dataType: "json",
+            type: "POST",
+            data: {
+                bizId: bizId,
+                curPoint: curPoint,
+                deduPoint: deduPoint,
+                chargePoint: chargePoint,
+                comment: comment
+            },
+            success: function (result) {
+                if (result.success == true) {
+                	alert("포인트가 조정되었습니다.");
+                	window.close();
+                	opener.fn_bizView($("#bizId").val());
+                } else {
+                	alert("문제가 발생하였습니다.\r\n다시 입력해주시기 바랍니다.");
+                }
+            },
+            error: function (request, status, error) {
+            	alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+                //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+        });
+	}
+	
+</script>
+<style>
+	#company_popup .popup_sticky > h3 {
+		font-size: 15px;
+		font-weight: 700;
+		margin: 12px 0;
+	}
+	#company_popup .popup_sticky > h3 > b {
+		display: inline-block;
+		font-family: inherit;
+		font-size: inherit;
+		color: #007fff;
+	}
+	#company_popup .popup_sticky table {
+		margin: 0;
+		border-collapse: separate;
+		border-spacing: 0;
+	}
+	#company_popup .popup_sticky table tbody input {width: 90%;}
+	#company_popup .popup_list thead tr {top: 161px;}
+</style>
+</head>
+<body>
+<input type="hidden" id="bizId" value="">
+<input type="hidden" id="curPoint" value="">
+	<div id="company_popup" class="_popup">
+		<div class="container">
+			<div class="popup_sticky">
+				<div id="popup_tit">
+					<div class="tit_text col_skyblue NanumGothic">포인트 조정</div>
+					<div id="popup_close" class="btn_type col_skyblue" onclick="window.close();"></div>
+				</div>
+				<h3 class="NanumGothic">[<b id="companyName"></b>]&ensp;잔여 포인트 <b id="point"></b> P&ensp;</h3>
+				<table class="NanumGothic">
+					<colgroup>
+						<col width="20%">
+						<col width="20%">
+						<col width="60%">
+					</colgroup>
+					<thead>
+					<tr>
+						<th>차감포인트</th>
+						<th>충전포인트</th>
+						<th>조정사유</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<td>
+							<input type="text" id="deduPoint" class="input_txt">
+						</td>
+						<td><input type="text" id="chargePoint" class="input_txt"></td>
+						<td><input type="text" id="comment" class="input_txt" value="시스템관리자가 포인트를 조정하였습니다."></td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+			<table class="popup_list NanumGothic">
+				<colgroup>
+					<col width="15%">
+					<col width="15%">
+					<col width="50%">
+					<col width="20%">
+				</colgroup>
+				<thead>
+					<tr>
+						<th>차감포인트</th>
+						<th>충전포인트</th>
+						<th>내용</th>
+						<th>처리일시</th>
+					</tr>
+				</thead>
+				<tbody id="pointList">
+				</tbody>
+			</table>
+			<!--<div class="result_text NanumGothic"></div>-->
+			<div class="btns">
+				<div><div class="type3 btn_type Material_icons" onClick="fn_save()">저장</div></div>
+				<div><div class="type4 btn_type Material_icons" onClick="window.close()">닫기</div></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="febworker">
+    <typeAlias alias="ye700VO" type="com.ezsign.feb.worker.vo.YE700VO"/>
+    <resultMap id="ye700ListMap" class="ye700VO">
+        <result property="계약ID" column="계약ID" />
+        <result property="사용자ID" column="사용자ID" />
+        <result property="작업자ID" column="작업자ID" />
+        <result property="일련번호" column="일련번호" />
+
+        <result property="세액공제구분코드" column="세액공제구분코드" />
+
+        <result property="총급여" column="총급여" nullValue="0" />
+        <result property="근로소득공제" column="근로소득공제" nullValue="0" />
+        <result property="근로소득금액" column="근로소득금액" nullValue="0" />
+        <result property="기본공제_본인" column="기본공제_본인" nullValue="0" />
+        <result property="기본공제_배우자" column="기본공제_배우자" nullValue="0" />
+        <result property="부양가족_인원수" column="부양가족_인원수" nullValue="0" />
+        <result property="기본공제_부양가족" column="기본공제_부양가족" nullValue="0" />
+        <result property="경로우대_인원수" column="경로우대_인원수" nullValue="0" />
+        <result property="추가공제_경로우대" column="추가공제_경로우대" nullValue="0" />
+        <result property="장애인_인원수" column="장애인_인원수" nullValue="0" />
+        <result property="추가공제_장애인" column="추가공제_장애인" nullValue="0" />
+        <result property="추가공제_부녀자" column="추가공제_부녀자" nullValue="0" />
+        <result property="추가공제_한부모" column="추가공제_한부모" nullValue="0" />
+        <result property="인적공제_계" column="인적공제_계" nullValue="0" />
+        <result property="연금보험_국민연금" column="연금보험_국민연금" nullValue="0" />
+        <result property="연금보험_국민연금_공제대상금액" column="연금보험_국민연금_공제대상금액" nullValue="0" />
+        <result property="연금보험_공무원연금" column="연금보험_공무원연금" nullValue="0" />
+        <result property="연금보험_공무원연금_공제대상금액" column="연금보험_공무원연금_공제대상금액" nullValue="0" />
+        <result property="연금보험_군인연금" column="연금보험_군인연금" nullValue="0" />
+        <result property="연금보험_군인연금_공제대상금액" column="연금보험_군인연금_공제대상금액" nullValue="0" />
+        <result property="연금보험_사립학교" column="연금보험_사립학교" nullValue="0" />
+        <result property="연금보험_사립학교_공제대상금액" column="연금보험_사립학교_공제대상금액" nullValue="0" />
+        <result property="연금보험_별정우체국" column="연금보험_별정우체국" nullValue="0" />
+        <result property="연금보험_별정우체국_공제대상금액" column="연금보험_별정우체국_공제대상금액" nullValue="0" />
+        <result property="연금보험_계" column="연금보험_계" nullValue="0" />
+        <result property="특별소득_건강보험" column="특별소득_건강보험" nullValue="0" />
+        <result property="특별소득_건강보험_공제대상금액" column="특별소득_건강보험_공제대상금액" nullValue="0" />
+        <result property="특별소득_고용보험" column="특별소득_고용보험" nullValue="0" />
+        <result property="특별소득_고용보험_공제대상금액" column="특별소득_고용보험_공제대상금액" nullValue="0" />
+        <result property="특별소득_주택원리금_대출기관" column="특별소득_주택원리금_대출기관" nullValue="0" />
+        <result property="특별소득_주택원리금_거주자" column="특별소득_주택원리금_거주자" nullValue="0" />
+        <result property="특별소득_장기주택_2011년이전_15년미만" column="특별소득_장기주택_2011년이전_15년미만" nullValue="0" />
+        <result property="특별소득_장기주택_2011년이전_15년29년" column="특별소득_장기주택_2011년이전_15년29년" nullValue="0" />
+        <result property="특별소득_장기주택_2011년이전_30년이상" column="특별소득_장기주택_2011년이전_30년이상" nullValue="0" />
+        <result property="특별소득_장기주택_2012년이후_고정이거나비거치" column="특별소득_장기주택_2012년이후_고정이거나비거치" nullValue="0" />
+        <result property="특별소득_장기주택_2012년이후_그밖에" column="특별소득_장기주택_2012년이후_그밖에" nullValue="0" />
+        <result property="특별소득_장기주택_2015년이후_15년이상_고정이면서비거치" column="특별소득_장기주택_2015년이후_15년이상_고정이면서비거치" nullValue="0" />
+        <result property="특별소득_장기주택_2015년이후_15년이상_고정이거나비거치" column="특별소득_장기주택_2015년이후_15년이상_고정이거나비거치" nullValue="0" />
+        <result property="특별소득_장기주택_2015년이후_15년이상_그밖에" column="특별소득_장기주택_2015년이후_15년이상_그밖에" nullValue="0" />
+        <result property="특별소득_장기주택_2015년이후_10년15년_고정이거나비거치" column="특별소득_장기주택_2015년이후_10년15년_고정이거나비거치" nullValue="0" />
+        <result property="특별소득_기부금_이월분" column="특별소득_기부금_이월분" nullValue="0" />
+        <result property="특별소득_계" column="특별소득_계" nullValue="0" />
+        <result property="차감소득금액" column="차감소득금액" nullValue="0" />
+        <result property="그밖에소득공제_개인연금" column="그밖에소득공제_개인연금" nullValue="0" />
+        <result property="그밖에소득공제_소기업소상공인" column="그밖에소득공제_소기업소상공인" nullValue="0" />
+        <result property="그밖에소득공제_주택마련_청약저축" column="그밖에소득공제_주택마련_청약저축" nullValue="0" />
+        <result property="그밖에소득공제_주택마련_주택청약" column="그밖에소득공제_주택마련_주택청약" nullValue="0" />
+        <result property="그밖에소득공제_주택마련_근로자주택마련" column="그밖에소득공제_주택마련_근로자주택마련" nullValue="0" />
+        <result property="그밖에소득공제_투자조합출자" column="그밖에소득공제_투자조합출자" nullValue="0" />
+        <result property="그밖의소득공제_투자조합출자_벤처_공제액_2016년" column="그밖의소득공제_투자조합출자_벤처_공제액_2016년" nullValue="0" />
+        <result property="그밖의소득공제_투자조합출자_벤처_공제액_2017년" column="그밖의소득공제_투자조합출자_벤처_공제액_2017년" nullValue="0" />
+        <result property="그밖의소득공제_투자조합출자_벤처_공제액_2018년" column="그밖의소득공제_투자조합출자_벤처_공제액_2018년" nullValue="0" />
+        <result property="그밖에소득공제_투자조합출자_조합" column="그밖에소득공제_투자조합출자_조합" nullValue="0" />
+        <result property="그밖에소득공제_신용카드등" column="그밖에소득공제_신용카드등" nullValue="0" />
+        <result property="그밖에소득공제_우리사주조합" column="그밖에소득공제_우리사주조합" nullValue="0" />
+        <result property="그밖에소득공제_고용유지근로자" column="그밖에소득공제_고용유지근로자" nullValue="0" />
+        <result property="그밖에소득공제_장기집합투자" column="그밖에소득공제_장기집합투자" nullValue="0" />
+        <result property="그밖에소득공제_계" column="그밖에소득공제_계" nullValue="0" />
+        <result property="소득공제종합한도초과액" column="소득공제종합한도초과액" nullValue="0" />
+        <result property="종합소득과세표준" column="종합소득과세표준" nullValue="0" />
+        <result property="산출세액" column="산출세액" nullValue="0" />
+        <result property="세액감면_소득세법" column="세액감면_소득세법" nullValue="0" />
+        <result property="세액감면_조세특례52제외" column="세액감면_조세특례52제외" nullValue="0" />
+        <result property="세액감면_조세특례30조" column="세액감면_조세특례30조" nullValue="0" />
+        <result property="세액감면_조세특례30조_100" column="세액감면_조세특례30조_100" nullValue="0" />
+        <result property="세액감면_조세특례30조_50" column="세액감면_조세특례30조_50" nullValue="0" />
+        <result property="세액감면_조세특례30조_70" column="세액감면_조세특례30조_70" nullValue="0" />
+        <result property="세액감면_조세특례30조_90" column="세액감면_조세특례30조_90" nullValue="0" />
+        <result property="세액감면_조세조약" column="세액감면_조세조약" nullValue="0" />
+        <result property="세액감면_계" column="세액감면_계" nullValue="0" />
+        <result property="세액공제_근로소득" column="세액공제_근로소득" nullValue="0" />
+        <result property="자녀_인원수" column="자녀_인원수" nullValue="0" />
+        <result property="세액공제_자녀" column="세액공제_자녀" nullValue="0" />
+        <result property="세액공제_6세이하_인원수" column="세액공제_6세이하_인원수" nullValue="0" />
+        <result property="세액공제_6세이하" column="세액공제_6세이하" nullValue="0" />
+        <result property="출산입양_인원수" column="출산입양_인원수" nullValue="0" />
+        <result property="세액공제_출산입양" column="세액공제_출산입양" nullValue="0" />
+        <result property="세액공제_자녀세액공제_계" column="세액공제_자녀세액공제_계" nullValue="0" />
+        <result property="세액공제_연금계좌_과학기술_공제대상금액" column="세액공제_연금계좌_과학기술_공제대상금액" nullValue="0" />
+        <result property="세액공제_연금계좌_과학기술_세액공제액" column="세액공제_연금계좌_과학기술_세액공제액" nullValue="0" />
+        <result property="세액공제_연금계좌_퇴직연금_공제대상금액" column="세액공제_연금계좌_퇴직연금_공제대상금액" nullValue="0" />
+        <result property="세액공제_연금계좌_퇴직연금_세액공제액" column="세액공제_연금계좌_퇴직연금_세액공제액" nullValue="0" />
+        <result property="세액공제_연금계좌_연금저축_공제대상금액" column="세액공제_연금계좌_연금저축_공제대상금액" nullValue="0" />
+        <result property="세액공제_연금계좌_연금저축_세액공제액" column="세액공제_연금계좌_연금저축_세액공제액" nullValue="0" />
+        <result property="세액공제_연금계좌_계" column="세액공제_연금계좌_계" nullValue="0" />
+        <result property="특별세액_보험료_보장성_공제대상금액" column="특별세액_보험료_보장성_공제대상금액" nullValue="0" />
+        <result property="특별세액_보험료_보장성_세액공제액" column="특별세액_보험료_보장성_세액공제액" nullValue="0" />
+        <result property="특별세액_보험료_장애인전용_공제대상금액" column="특별세액_보험료_장애인전용_공제대상금액" nullValue="0" />
+        <result property="특별세액_보험료_장애인전용_세액공제액" column="특별세액_보험료_장애인전용_세액공제액" nullValue="0" />
+        <result property="특별세액_의료비_공제대상금액" column="특별세액_의료비_공제대상금액" nullValue="0" />
+        <result property="특별세액_의료비_세액공제액" column="특별세액_의료비_세액공제액" nullValue="0" />
+        <result property="특별세액_교육비_공제대상금액" column="특별세액_교육비_공제대상금액" nullValue="0" />
+        <result property="특별세액_교육비_세액공제액" column="특별세액_교육비_세액공제액" nullValue="0" />
+        <result property="특별세액_기부금_정치자금_10만이하_공제대상금액" column="특별세액_기부금_정치자금_10만이하_공제대상금액" nullValue="0" />
+        <result property="특별세액_기부금_정치자금_10만이하_세액공제액" column="특별세액_기부금_정치자금_10만이하_세액공제액" nullValue="0" />
+        <result property="특별세액_기부금_정치자금_10만초과_공제대상금액" column="특별세액_기부금_정치자금_10만초과_공제대상금액" nullValue="0" />
+        <result property="특별세액_기부금_정치자금_10만초과_세액공제액" column="특별세액_기부금_정치자금_10만초과_세액공제액" nullValue="0" />
+        <result property="특별세액_기부금_법정_공제대상금액" column="특별세액_기부금_법정_공제대상금액" nullValue="0" />
+        <result property="특별세액_기부금_법정_세액공제액" column="특별세액_기부금_법정_세액공제액" nullValue="0" />
+        <result property="특별세액_기부금_우리사주_공제대상금액" column="특별세액_기부금_우리사주_공제대상금액" nullValue="0" />
+        <result property="특별세액_기부금_우리사주_세액공제액" column="특별세액_기부금_우리사주_세액공제액" nullValue="0" />
+        <result property="특별세액_기부금_지정_종교외_공제대상금액" column="특별세액_기부금_지정_종교외_공제대상금액" nullValue="0" />
+        <result property="특별세액_기부금_지정_종교외_세액공제액" column="특별세액_기부금_지정_종교외_세액공제액" nullValue="0" />
+        <result property="특별세액_기부금_지정_종교_공제대상금액" column="특별세액_기부금_지정_종교_공제대상금액" nullValue="0" />
+        <result property="특별세액_기부금_지정_종교_세액공제액" column="특별세액_기부금_지정_종교_세액공제액" nullValue="0" />
+        <result property="특별세액_계" column="특별세액_계" nullValue="0" />
+        <result property="특별세액_표준세액공제" column="특별세액_표준세액공제" nullValue="0" />
+        <result property="세액공제_납세조합공제" column="세액공제_납세조합공제" nullValue="0" />
+        <result property="세액공제_주택차입금" column="세액공제_주택차입금" nullValue="0" />
+        <result property="세액공제_외국납부" column="세액공제_외국납부" nullValue="0" />
+        <result property="세액공제_월세액_공제대상금액" column="세액공제_월세액_공제대상금액" nullValue="0" />
+        <result property="세액공제_월세액_세액공제액" column="세액공제_월세액_세액공제액" nullValue="0" />
+        <result property="세액공제_계" column="세액공제_계" nullValue="0" />
+        <result property="결정세액_소득세" column="결정세액_소득세" nullValue="0" />
+        <result property="결정세액_지방소득세" column="결정세액_지방소득세" nullValue="0" />
+        <result property="결정세액_농어촌특별세" column="결정세액_농어촌특별세" nullValue="0" />
+
+        <result property="종1_사업자번호" column="종1_사업자번호" />
+        <result property="종1_소득세" column="종1_소득세" nullValue="0" />
+        <result property="종1_지방소득세" column="종1_지방소득세" nullValue="0" />
+        <result property="종1_농어촌특별세" column="종1_농어촌특별세" nullValue="0" />
+        <result property="종2_사업자번호" column="종2_사업자번호" />
+        <result property="종2_소득세" column="종2_소득세" nullValue="0" />
+        <result property="종2_지방소득세" column="종2_지방소득세" nullValue="0" />
+        <result property="종2_농어촌특별세" column="종2_농어촌특별세" nullValue="0" />
+        <result property="종3_사업자번호" column="종3_사업자번호" />
+        <result property="종3_소득세" column="종3_소득세" nullValue="0" />
+        <result property="종3_지방소득세" column="종3_지방소득세" nullValue="0" />
+        <result property="종3_농어촌특별세" column="종3_농어촌특별세" nullValue="0" />
+
+        <result property="주근무지_소득세" column="주근무지_소득세" nullValue="0" />
+        <result property="주근무지_지방소득세" column="주근무지_지방소득세" nullValue="0" />
+        <result property="주근무지_농어촌특별세" column="주근무지_농어촌특별세" nullValue="0" />
+        <result property="종근무지_소득세" column="종근무지_소득세" nullValue="0" />
+        <result property="종근무지_지방소득세" column="종근무지_지방소득세" nullValue="0" />
+        <result property="종근무지_농어촌특별세" column="종근무지_농어촌특별세" nullValue="0" />
+        <result property="납부특례_소득세" column="납부특례_소득세" nullValue="0" />
+        <result property="납부특례_지방소득세" column="납부특례_지방소득세" nullValue="0" />
+        <result property="납부특례_농어촌특별세" column="납부특례_농어촌특별세" nullValue="0" />
+
+        <result property="차감징수_소득세" column="차감징수_소득세" nullValue="0" />
+        <result property="차감징수_지방소득세" column="차감징수_지방소득세" nullValue="0" />
+        <result property="차감징수_농어촌특별세" column="차감징수_농어촌특별세" nullValue="0" />
+
+        <result property="사용여부" column="사용여부"/>
+        <result property="등록일시" column="등록일시" />
+        <result property="수정일시" column="수정일시" />
+    </resultMap>
+    
+    <resultMap id="ye070WorkerListMap" class="ye700VO">
+    	<result property="계약ID" column="계약ID"/>
+		<result property="사용자ID" column="사용자ID"/>
+		<result property="사업장ID" column="사업장ID"/>
+		<result property="사업장명" column="사업장명"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="부서ID" column="부서ID"/>
+		<result property="부서명" column="부서명"/>
+		<result property="세액공제구분코드" column="세액공제구분코드"/>
+		<result property="소득총급여" column="소득총급여"/>
+		<result property="차감징수소득세" column="차감징수소득세"/>
+		<result property="차감징수지방소득세" column="차감징수지방소득세"/>
+		<result property="납부환급세액" column="납부환급세액"/>
+		<result property="진행상태코드" column="진행상태코드"/>
+		<result property="마감" column="마감"/>
+		<result property="결정세액" column="결정세액"/>
+		<result property="등록일시" column="등록일시"/>
+		<result property="수정일시" column="수정일시"/>
+    </resultMap>
+
+    <parameterMap id="ye070ProcDistribution" class="ye700VO">
+    	<parameter property="계약ID" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+    	<parameter property="사용자ID" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+	</parameterMap>
+	
+	<procedure id="ye700DAO.callProcDistribution" parameterMap="ye070ProcDistribution">
+		<![CDATA[
+			{ call sp_세액공제액_소득공제금액_계산(?, ?) }
+		]]>
+	</procedure>
+	
+    <select id="ye700DAO.getYE700" parameterClass="ye700VO" resultMap="ye700ListMap">
+        SELECT
+          계약ID, 사용자ID, 작업자ID, 일련번호,
+          세액공제구분코드, 총급여, 근로소득공제, 근로소득금액,
+          기본공제_본인, 기본공제_배우자, 부양가족_인원수, 기본공제_부양가족, 경로우대_인원수, 추가공제_경로우대, 장애인_인원수, 추가공제_장애인, 추가공제_부녀자, 추가공제_한부모, 인적공제_계,
+          연금보험_국민연금, 연금보험_공무원연금,
+          연금보험_국민연금_공제대상금액, 연금보험_공무원연금_공제대상금액, 
+          연금보험_군인연금, 연금보험_사립학교,
+          연금보험_군인연금_공제대상금액, 연금보험_사립학교_공제대상금액,
+          연금보험_별정우체국, 연금보험_별정우체국_공제대상금액, 연금보험_계,
+          특별소득_건강보험, 특별소득_고용보험,
+          특별소득_건강보험_공제대상금액, 특별소득_고용보험_공제대상금액,
+          특별소득_주택원리금_대출기관, 특별소득_주택원리금_거주자,
+          특별소득_장기주택_2011년이전_15년미만, 특별소득_장기주택_2011년이전_15년29년, 특별소득_장기주택_2011년이전_30년이상,
+          특별소득_장기주택_2012년이후_고정이거나비거치, 특별소득_장기주택_2012년이후_그밖에,
+          특별소득_장기주택_2015년이후_15년이상_고정이면서비거치, 특별소득_장기주택_2015년이후_15년이상_고정이거나비거치, 특별소득_장기주택_2015년이후_15년이상_그밖에, 특별소득_장기주택_2015년이후_10년15년_고정이거나비거치,
+          특별소득_기부금_이월분, 특별소득_계, 차감소득금액,
+          그밖에소득공제_개인연금, 그밖에소득공제_소기업소상공인, 그밖에소득공제_주택마련_청약저축, 그밖에소득공제_주택마련_주택청약, 그밖에소득공제_주택마련_근로자주택마련,
+          그밖에소득공제_투자조합출자, 그밖에소득공제_투자조합출자_조합, 그밖에소득공제_신용카드등, 그밖에소득공제_우리사주조합, 그밖에소득공제_고용유지근로자, 그밖에소득공제_장기집합투자, 그밖에소득공제_계,
+          그밖의소득공제_투자조합출자_벤처_공제액_2016년, 그밖의소득공제_투자조합출자_벤처_공제액_2017년, 그밖의소득공제_투자조합출자_벤처_공제액_2018년,
+          소득공제종합한도초과액, 종합소득과세표준, 산출세액,
+          세액감면_소득세법, 세액감면_조세특례52제외, 세액감면_조세특례30조, 세액감면_조세특례30조_100, 세액감면_조세특례30조_50, 세액감면_조세특례30조_70, 세액감면_조세특례30조_90, 세액감면_조세조약, 세액감면_계,
+          세액공제_근로소득, 자녀_인원수, 세액공제_자녀, 세액공제_6세이하_인원수, 세액공제_6세이하, 출산입양_인원수, 세액공제_출산입양, 세액공제_자녀세액공제_계,
+          세액공제_연금계좌_과학기술_공제대상금액, 세액공제_연금계좌_과학기술_세액공제액, 세액공제_연금계좌_퇴직연금_공제대상금액, 세액공제_연금계좌_퇴직연금_세액공제액,
+          세액공제_연금계좌_연금저축_공제대상금액, 세액공제_연금계좌_연금저축_세액공제액, 세액공제_연금계좌_계,
+          특별세액_보험료_보장성_공제대상금액, 특별세액_보험료_보장성_세액공제액, 특별세액_보험료_장애인전용_공제대상금액, 특별세액_보험료_장애인전용_세액공제액,
+          CASE 세액공제구분코드 WHEN '1' THEN IFNULL((SELECT SUM(공제대상금액) FROM tbl_ye409 WHERE 계약ID = #계약ID# AND 사용자ID = #사용자ID#), 0) ELSE 0 END 특별세액_의료비_공제대상금액, 특별세액_의료비_세액공제액, 특별세액_교육비_공제대상금액, 특별세액_교육비_세액공제액,
+          특별세액_기부금_정치자금_10만이하_공제대상금액, 특별세액_기부금_정치자금_10만이하_세액공제액, 특별세액_기부금_정치자금_10만초과_공제대상금액, 특별세액_기부금_정치자금_10만초과_세액공제액,
+          특별세액_기부금_법정_공제대상금액, 특별세액_기부금_법정_세액공제액, 특별세액_기부금_우리사주_공제대상금액, 특별세액_기부금_우리사주_세액공제액,
+          특별세액_기부금_지정_종교외_공제대상금액, 특별세액_기부금_지정_종교외_세액공제액, 특별세액_기부금_지정_종교_공제대상금액, 특별세액_기부금_지정_종교_세액공제액, 특별세액_계, 특별세액_표준세액공제,
+          세액공제_납세조합공제, 세액공제_주택차입금, 세액공제_외국납부, 세액공제_월세액_공제대상금액, 세액공제_월세액_세액공제액, 세액공제_계, 결정세액_소득세, 결정세액_지방소득세, 결정세액_농어촌특별세,
+          종1_사업자번호, 종1_소득세, 종1_지방소득세, 종1_농어촌특별세, 종2_사업자번호, 종2_소득세, 종2_지방소득세, 종2_농어촌특별세, 종3_사업자번호, 종3_소득세, 종3_지방소득세, 종3_농어촌특별세,
+          주근무지_소득세, 주근무지_지방소득세, 주근무지_농어촌특별세, 종근무지_소득세, 종근무지_지방소득세, 종근무지_농어촌특별세, 납부특례_소득세, 납부특례_지방소득세, 납부특례_농어촌특별세,
+          차감징수_소득세, 차감징수_지방소득세, 차감징수_농어촌특별세,
+          사용여부, 등록일시, 수정일시
+        FROM tbl_ye700
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+        <isNotNull property="일련번호">
+            <isNotEmpty property="일련번호">
+                AND 일련번호 = #일련번호#
+            </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="사용여부">
+            <isNotEmpty property="사용여부">
+                AND 사용여부 = #사용여부#
+            </isNotEmpty>
+        </isNotNull>
+        ORDER BY 세액공제구분코드
+    </select>
+
+    <insert id="ye700DAO.insYE700" parameterClass="ye700VO">
+        <selectKey resultClass="java.lang.String" keyProperty="일련번호">
+            SELECT IFNULL(MAX(일련번호 + 1), 1)
+            FROM tbl_ye700
+        </selectKey>
+        INSERT INTO tbl_ye700 (
+          계약ID, 사용자ID, 작업자ID, 일련번호,
+          세액공제구분코드, 총급여, 근로소득공제, 근로소득금액,
+          기본공제_본인, 기본공제_배우자, 부양가족_인원수, 기본공제_부양가족, 경로우대_인원수, 추가공제_경로우대, 장애인_인원수, 추가공제_장애인, 추가공제_부녀자, 추가공제_한부모, 인적공제_계,
+          연금보험_국민연금, 연금보험_공무원연금, 연금보험_군인연금, 연금보험_사립학교, 연금보험_별정우체국, 연금보험_계,
+          연금보험_국민연금_공제대상금액, 연금보험_공무원연금_공제대상금액, 연금보험_군인연금_공제대상금액, 연금보험_사립학교_공제대상금액, 연금보험_별정우체국_공제대상금액,
+          특별소득_건강보험, 특별소득_고용보험,
+          특별소득_건강보험_공제대상금액, 특별소득_고용보험_공제대상금액,
+          특별소득_주택원리금_대출기관, 특별소득_주택원리금_거주자,
+          특별소득_장기주택_2011년이전_15년미만, 특별소득_장기주택_2011년이전_15년29년, 특별소득_장기주택_2011년이전_30년이상,
+          특별소득_장기주택_2012년이후_고정이거나비거치, 특별소득_장기주택_2012년이후_그밖에,
+          특별소득_장기주택_2015년이후_15년이상_고정이면서비거치, 특별소득_장기주택_2015년이후_15년이상_고정이거나비거치, 특별소득_장기주택_2015년이후_15년이상_그밖에, 특별소득_장기주택_2015년이후_10년15년_고정이거나비거치,
+          특별소득_기부금_이월분, 특별소득_계, 차감소득금액,
+          그밖에소득공제_개인연금, 그밖에소득공제_소기업소상공인, 그밖에소득공제_주택마련_청약저축, 그밖에소득공제_주택마련_주택청약, 그밖에소득공제_주택마련_근로자주택마련,
+          그밖에소득공제_투자조합출자, 그밖에소득공제_투자조합출자_조합, 그밖에소득공제_신용카드등, 그밖에소득공제_우리사주조합, 그밖에소득공제_고용유지근로자, 그밖에소득공제_장기집합투자, 그밖에소득공제_계,
+          그밖의소득공제_투자조합출자_벤처_공제액_2016년, 그밖의소득공제_투자조합출자_벤처_공제액_2017년, 그밖의소득공제_투자조합출자_벤처_공제액_2018년,
+          소득공제종합한도초과액, 종합소득과세표준, 산출세액,
+          세액감면_소득세법, 세액감면_조세특례52제외, 세액감면_조세특례30조, 세액감면_조세특례30조_100, 세액감면_조세특례30조_50, 세액감면_조세특례30조_70, 세액감면_조세특례30조_90, 세액감면_조세조약, 세액감면_계,
+          세액공제_근로소득, 자녀_인원수, 세액공제_자녀, 세액공제_6세이하_인원수, 세액공제_6세이하, 출산입양_인원수, 세액공제_출산입양, 세액공제_자녀세액공제_계,
+          세액공제_연금계좌_과학기술_공제대상금액, 세액공제_연금계좌_과학기술_세액공제액, 세액공제_연금계좌_퇴직연금_공제대상금액, 세액공제_연금계좌_퇴직연금_세액공제액,
+          세액공제_연금계좌_연금저축_공제대상금액, 세액공제_연금계좌_연금저축_세액공제액, 세액공제_연금계좌_계,
+          특별세액_보험료_보장성_공제대상금액, 특별세액_보험료_보장성_세액공제액, 특별세액_보험료_장애인전용_공제대상금액, 특별세액_보험료_장애인전용_세액공제액,
+          특별세액_의료비_공제대상금액, 특별세액_의료비_세액공제액, 특별세액_교육비_공제대상금액, 특별세액_교육비_세액공제액,
+          특별세액_기부금_정치자금_10만이하_공제대상금액, 특별세액_기부금_정치자금_10만이하_세액공제액, 특별세액_기부금_정치자금_10만초과_공제대상금액, 특별세액_기부금_정치자금_10만초과_세액공제액,
+          특별세액_기부금_법정_공제대상금액, 특별세액_기부금_법정_세액공제액, 특별세액_기부금_우리사주_공제대상금액, 특별세액_기부금_우리사주_세액공제액,
+          특별세액_기부금_지정_종교외_공제대상금액, 특별세액_기부금_지정_종교외_세액공제액, 특별세액_기부금_지정_종교_공제대상금액, 특별세액_기부금_지정_종교_세액공제액, 특별세액_계, 특별세액_표준세액공제,
+          세액공제_납세조합공제, 세액공제_주택차입금, 세액공제_외국납부, 세액공제_월세액_공제대상금액, 세액공제_월세액_세액공제액, 세액공제_계, 결정세액_소득세, 결정세액_지방소득세, 결정세액_농어촌특별세,
+          종1_사업자번호, 종1_소득세, 종1_지방소득세, 종1_농어촌특별세, 종2_사업자번호, 종2_소득세, 종2_지방소득세, 종2_농어촌특별세, 종3_사업자번호, 종3_소득세, 종3_지방소득세, 종3_농어촌특별세,
+          주근무지_소득세, 주근무지_지방소득세, 주근무지_농어촌특별세, 종근무지_소득세, 종근무지_지방소득세, 종근무지_농어촌특별세, 납부특례_소득세, 납부특례_지방소득세, 납부특례_농어촌특별세,
+          차감징수_소득세, 차감징수_지방소득세, 차감징수_농어촌특별세,
+          사용여부, 등록일시, 수정일시
+        ) VALUES (
+          #계약ID#, #사용자ID#, #작업자ID#, #일련번호#,
+          #세액공제구분코드#, #총급여#, #근로소득공제#, #근로소득금액#,
+          #기본공제_본인#, #기본공제_배우자#, #부양가족_인원수#, #기본공제_부양가족#, #경로우대_인원수#, #추가공제_경로우대#, #장애인_인원수#, #추가공제_장애인#, #추가공제_부녀자#, #추가공제_한부모#, #인적공제_계#,
+          #연금보험_국민연금#, #연금보험_공무원연금#, #연금보험_군인연금#, #연금보험_사립학교#, #연금보험_별정우체국#, #연금보험_계#,
+          #연금보험_국민연금_공제대상금액#, #연금보험_공무원연금_공제대상금액#, #연금보험_군인연금_공제대상금액#, #연금보험_사립학교_공제대상금액#, #연금보험_별정우체국_공제대상금액#,          
+          #특별소득_건강보험#, #특별소득_고용보험#,
+          #특별소득_건강보험_공제대상금액#, #특별소득_고용보험_공제대상금액#,
+          #특별소득_주택원리금_대출기관#, #특별소득_주택원리금_거주자#, #특별소득_장기주택_2011년이전_15년미만#, #특별소득_장기주택_2011년이전_15년29년#, #특별소득_장기주택_2011년이전_30년이상#,
+          #특별소득_장기주택_2012년이후_고정이거나비거치#, #특별소득_장기주택_2012년이후_그밖에#,
+          #특별소득_장기주택_2015년이후_15년이상_고정이면서비거치#, #특별소득_장기주택_2015년이후_15년이상_고정이거나비거치#, #특별소득_장기주택_2015년이후_15년이상_그밖에#, #특별소득_장기주택_2015년이후_10년15년_고정이거나비거치#,
+          #특별소득_기부금_이월분#, #특별소득_계#, #차감소득금액#,
+          #그밖에소득공제_개인연금#, #그밖에소득공제_소기업소상공인#, #그밖에소득공제_주택마련_청약저축#, #그밖에소득공제_주택마련_주택청약#, #그밖에소득공제_주택마련_근로자주택마련#,
+          #그밖에소득공제_투자조합출자#, #그밖에소득공제_투자조합출자_조합#, #그밖에소득공제_신용카드등#, #그밖에소득공제_우리사주조합#, #그밖에소득공제_고용유지근로자#, #그밖에소득공제_장기집합투자#, #그밖에소득공제_계#,
+          #그밖의소득공제_투자조합출자_벤처_공제액_2016년#, #그밖의소득공제_투자조합출자_벤처_공제액_2017년#, #그밖의소득공제_투자조합출자_벤처_공제액_2018년#,
+          #소득공제종합한도초과액#, #종합소득과세표준#, #산출세액#,
+          #세액감면_소득세법#, #세액감면_조세특례52제외#, #세액감면_조세특례30조#, #세액감면_조세특례30조_100#, #세액감면_조세특례30조_50#, #세액감면_조세특례30조_70#, #세액감면_조세특례30조_90#, #세액감면_조세조약#, #세액감면_계#,
+          #세액공제_근로소득#, #자녀_인원수#, #세액공제_자녀#, #세액공제_6세이하_인원수#, #세액공제_6세이하#, #출산입양_인원수#, #세액공제_출산입양#, #세액공제_자녀세액공제_계#,
+          #세액공제_연금계좌_과학기술_공제대상금액#, #세액공제_연금계좌_과학기술_세액공제액#, #세액공제_연금계좌_퇴직연금_공제대상금액#, #세액공제_연금계좌_퇴직연금_세액공제액#,
+          #세액공제_연금계좌_연금저축_공제대상금액#, #세액공제_연금계좌_연금저축_세액공제액#, #세액공제_연금계좌_계#,
+          #특별세액_보험료_보장성_공제대상금액#, #특별세액_보험료_보장성_세액공제액#, #특별세액_보험료_장애인전용_공제대상금액#, #특별세액_보험료_장애인전용_세액공제액#,
+          #특별세액_의료비_공제대상금액#, #특별세액_의료비_세액공제액#, #특별세액_교육비_공제대상금액#, #특별세액_교육비_세액공제액#,
+          #특별세액_기부금_정치자금_10만이하_공제대상금액#, #특별세액_기부금_정치자금_10만이하_세액공제액#, #특별세액_기부금_정치자금_10만초과_공제대상금액#, #특별세액_기부금_정치자금_10만초과_세액공제액#,
+          #특별세액_기부금_법정_공제대상금액#, #특별세액_기부금_법정_세액공제액#, #특별세액_기부금_우리사주_공제대상금액#, #특별세액_기부금_우리사주_세액공제액#,
+          #특별세액_기부금_지정_종교외_공제대상금액#, #특별세액_기부금_지정_종교외_세액공제액#, #특별세액_기부금_지정_종교_공제대상금액#, #특별세액_기부금_지정_종교_세액공제액#, #특별세액_계#, #특별세액_표준세액공제#,
+          #세액공제_납세조합공제#, #세액공제_주택차입금#, #세액공제_외국납부#, #세액공제_월세액_공제대상금액#, #세액공제_월세액_세액공제액#, #세액공제_계#, #결정세액_소득세#, #결정세액_지방소득세#, #결정세액_농어촌특별세#,
+          #종1_사업자번호#, #종1_소득세#, #종1_지방소득세#, #종1_농어촌특별세#, #종2_사업자번호#, #종2_소득세#, #종2_지방소득세#, #종2_농어촌특별세#, #종3_사업자번호#, #종3_소득세#, #종3_지방소득세#, #종3_농어촌특별세#,
+          #주근무지_소득세#, #주근무지_지방소득세#, #주근무지_농어촌특별세#, #종근무지_소득세#, #종근무지_지방소득세#, #종근무지_농어촌특별세#, #납부특례_소득세#, #납부특례_지방소득세#, #납부특례_농어촌특별세#,
+          #차감징수_소득세#, #차감징수_지방소득세#, #차감징수_농어촌특별세#,
+          #사용여부#, IFNULL(#등록일시#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        )
+    </insert>
+
+    <delete id="ye700DAO.allDelYE700" parameterClass="ye700VO">
+        DELETE
+        FROM tbl_ye700
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+    </delete>
+
+    <update id="ye700DAO.updYE700" parameterClass="ye700VO">
+        UPDATE tbl_ye700
+        SET
+          작업자ID = #작업자ID#,
+          사용여부 = IF(세액공제구분코드 = #세액공제구분코드#, '1', '0'),
+          수정일시 = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+    </update>
+    
+    <select id="ye700DAO.getYE700WorkerList" parameterClass="ye700VO" resultMap="ye070WorkerListMap">
+		SELECT Z.계약ID, Z.사용자ID, Z.사업장ID, Z.사업장명, Z.EMP_NAME, Z.EMP_NO, Z.LEAVE_DATE, Z.부서ID, Z.부서명, Z.세액공제구분코드, Z.소득총급여, Z.차감징수소득세, Z.차감징수지방소득세, Z.납부환급세액,
+        	Z.진행상태코드, Z.마감, Z.결정세액, Z.등록일시, Z.수정일시
+        FROM
+				(
+				SELECT B.계약ID, B.사용자ID, B.사업장ID, fn_사업장명(B.계약ID, B.사업장ID) 사업장명, A.EMP_NAME, A.EMP_NO, A.LEAVE_DATE, B.부서ID, fn_부서명(B.계약ID, B.부서ID, B.사용자ID) 부서명,
+						C.세액공제구분코드, C.총급여 소득총급여, C.차감징수_소득세 차감징수소득세, C.차감징수_지방소득세 차감징수지방소득세, (C.차감징수_소득세 + C.차감징수_지방소득세 + C.차감징수_농어촌특별세) 납부환급세액,
+				        B.진행상태코드, 
+				        <![CDATA[ 
+				        	CASE WHEN B.진행상태코드 >= '4' THEN DATE_FORMAT(B.수정일시, '%Y-%m-%d %H:%i') ELSE '' END 마감, 
+				        ]]>  
+				        C.결정세액_소득세 결정세액, C.등록일시, C.수정일시
+					FROM tbl_emp A
+				    INNER JOIN tbl_ye000 B 		ON A.USER_ID 	= B.사용자ID AND B.계약ID 		= #계약ID# AND B.사용여부	 = '1'
+				    LEFT OUTER JOIN tbl_ye700 C ON B.계약ID		= C.계약ID AND B.사용자ID		= C.사용자ID AND C.사용여부	 = '1'
+				) Z
+			WHERE 1 = 1
+			<isNotNull property="사업장ID">
+			    <isNotEmpty property="사업장ID">
+				AND	Z.사업장ID			= #사업장ID#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="부서ID">
+			    <isNotEmpty property="부서ID">
+				AND	Z.부서ID			= #부서ID#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="근무상태">
+			    <isNotEmpty property="근무상태">
+				    <isEqual property="근무상태"  compareValue="1">
+						AND   (Z.LEAVE_DATE IS NULL OR Z.LEAVE_DATE = '')
+					</isEqual>
+				    <isEqual property="근무상태"  compareValue="2">
+						AND   (Z.LEAVE_DATE IS NOT NULL AND Z.LEAVE_DATE != '')
+					</isEqual>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="empName">
+			    <isNotEmpty property="empName">
+				AND Z.EMP_NAME LIKE CONCAT('%', #empName#, '%')
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="empNo">
+			    <isNotEmpty property="empNo">
+				AND Z.EMP_NO LIKE CONCAT('%', #empNo#, '%')
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="마감상태">
+			    <isNotEmpty property="마감상태">
+			    	<isEqual property="마감상태"  compareValue="1">
+			    		<![CDATA[
+			    		AND Z.진행상태코드 < '4'
+			    		]]>
+		    		</isEqual>
+		    		<isEqual property="마감상태"  compareValue="2">
+			    		<![CDATA[
+			    		AND Z.진행상태코드 >= '4'
+			    		]]>
+		    		</isEqual>
+				</isNotEmpty>
+			</isNotNull>
+			limit #endPage# offset #startPage#
+	</select>
+	
+	<select id="ye700DAO.getYE700WorkerListCount" parameterClass="ye700VO" resultClass="java.lang.Integer">
+		SELECT COUNT(Z.사용자ID)
+		FROM
+				(
+				SELECT B.계약ID, B.사용자ID, B.사업장ID, fn_사업장명(B.계약ID, B.사업장ID) 사업장명, A.EMP_NAME, A.EMP_NO, A.LEAVE_DATE, B.부서ID, fn_부서명(B.계약ID, B.부서ID, B.사용자ID) 부서명,
+						C.세액공제구분코드, C.총급여, C.차감징수_소득세 차감징수소득세, C.차감징수_지방소득세 차감징수지방소득세, (C.차감징수_소득세 + C.차감징수_지방소득세 + C.차감징수_농어촌특별세) 납부환급세액,
+				        B.진행상태코드, 
+				        <![CDATA[ 
+				        	CASE WHEN B.진행상태코드 >= '4' THEN DATE_FORMAT(B.수정일시, '%Y-%m-%d %H:%i') ELSE '' END 마감, 
+				        ]]>  
+				        C.결정세액_소득세 결정세액, C.등록일시, C.수정일시
+					FROM tbl_emp A
+				    INNER JOIN tbl_ye000 B 		ON A.USER_ID 	= B.사용자ID AND B.계약ID 		= #계약ID# AND B.사용여부	 = '1'
+				    LEFT OUTER JOIN tbl_ye700 C ON B.계약ID		= C.계약ID AND B.사용자ID		= C.사용자ID AND C.사용여부	 = '1'
+				) Z
+			WHERE 1 = 1
+			<isNotNull property="사업장ID">
+			    <isNotEmpty property="사업장ID">
+				AND	Z.사업장ID			= #사업장ID#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="부서ID">
+			    <isNotEmpty property="부서ID">
+				AND	Z.부서ID			= #부서ID#
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="근무상태">
+			    <isNotEmpty property="근무상태">
+				    <isEqual property="근무상태"  compareValue="1">
+						AND   (Z.LEAVE_DATE IS NULL OR Z.LEAVE_DATE = '')
+					</isEqual>
+				    <isEqual property="근무상태"  compareValue="2">
+						AND   (Z.LEAVE_DATE IS NOT NULL AND Z.LEAVE_DATE != '')
+					</isEqual>
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="empName">
+			    <isNotEmpty property="empName">
+				AND Z.EMP_NAME LIKE CONCAT('%', #empName#, '%')
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="empNo">
+			    <isNotEmpty property="empNo">
+				AND Z.EMP_NO LIKE CONCAT('%', #empNo#, '%')
+				</isNotEmpty>
+			</isNotNull>
+			<isNotNull property="마감상태">
+			    <isNotEmpty property="마감상태">
+			    	<isEqual property="마감상태"  compareValue="1">
+			    		<![CDATA[
+			    		AND Z.진행상태코드 < '4'
+			    		]]>
+		    		</isEqual>
+		    		<isEqual property="마감상태"  compareValue="2">
+			    		<![CDATA[
+			    		AND Z.진행상태코드 >= '4'
+			    		]]>
+		    		</isEqual>
+				</isNotEmpty>
+			</isNotNull>
+	</select>
+</sqlMap>

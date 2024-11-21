@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/> 
+
+<title>서비스 이용 약관</title>
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+<link rel="stylesheet" type="text/css" href="/css/main_calender.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+
+<link rel="stylesheet" type="text/css" href="/css/main_calendar/tui-time-picker.css">
+<link rel="stylesheet" type="text/css" href="/css/main_calendar/tui-date-picker.css">
+<link rel="stylesheet" type="text/css" href="/css/main_calendar/tui-calendar.css" />
+<link rel="stylesheet" type="text/css" href="/css/main_calendar/default.css"></link>
+<link rel="stylesheet" type="text/css" href="/css/main_calendar/icons.css"></link>
+
+<script type='text/javascript' src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/jquery.bpopup.js"></script> <!-- layer popup library -->
+<script type="text/javascript" src="/js/loader.js"></script> <!--  Chart library -->
+<!-- <script type="text/javascript" src="js/jquery.bootpag_candy.js"></script> --> <!--  pagination library -->
+
+<!-- <script type='text/javascript' src="js/main_calender.js"></script> -->
+<!-- <script type='text/javascript' src="js/chart_library.js"></script> -->
+
+<!-- 데이터 추출을 위한 plug-in -->
+<script type='text/javascript' src="/js/underscore-min.js"></script>
+
+</head>
+<body>
+	<header id="header">
+		<nav id="navbar">
+			<ul id="top_gnb" class="NanumGothic"> 
+			<!-- 활성화 ==> a class : active 추가 -->
+				<li class="gnb_logo"><img src="/css/image/top_menu/candyBox_logo_main.png"></li>
+				<!-- <li class="gnb_home"><div class="btn_type btn_home">home</div></li> --> <!--  home 버튼 삭제 -->
+				<li class="gnb_personnel"><div class="menu btn_type btn_personnel"><div class="tab"></div><span class="icon"></span>인사관리</div></li>
+				<li class="gnb_contract"><div class="menu btn_type btn_contract"><div class="tab"></div><div class="icon"></div>계약관리</div></li>
+				<li class="gnb_workSOS"><div class="menu btn_type btn_workSOS"><div class="tab"></div><div class="icon"></div>노무 SOS</div></li>
+				<li class="gnb_annual"><div class="menu btn_type btn_annual"><div class="tab"></div><div class="icon"></div>연차관리</div></li>
+				<li class="gnb_pay none"><div class="menu btn_type btn_pay"><div class="tab"></div><div class="icon"></div>급여명세서관리</div></li>
+				<li class="gnb_docKeep none"><div class="menu btn_type btn_docKeep"><div class="tab"></div><div class="icon"></div>문서보관</div></li>
+				<li class="gnb_yearTax none"><div class="menu btn_type btn_yearTax"><div class="tab"></div><div class="icon"></div>연말정산</div></li>
+				<li class="gnb_board"><div class="menu btn_type btn_board"><div class="tab"></div><div class="icon"></div>문의 게시판</div></li>
+				<li class="gnb_serIntrodu"><div class="menu btn_type btn_serIntrodu"><div class="tab"></div><span class="icon"></span>서비스 소개</div></li>
+				<li class="gnb_business"><div class="menu btn_type btn_business"><div class="tab"></div><div class="icon"></div>기업 관리</div></li>
+				<li class="gnb_commute active"><div class="menu btn_type btn_commute"><div class="tab"></div><div class="icon"></div>근태 관리</div></li>
+				<li class="gnb_system"><div class="menu btn_type btn_system"><div class="tab"></div><span class="icon"></span>시스템 관리</div></li>
+				<li class="gnb_myArea">
+					<div class="btn_inner my" >MY</div>
+					<div class="btn_inner logout">로그아웃</div>
+				</li>
+			</ul>
+		</nav>
+	</header>
+	<div id="main_wrap">
+		<aside id="main_side" class="">
+			<!--  근로자 용은 employee 클래스 추가 -->
+			<div class="left_nav employee" id="left_nav">
+				
+				<!--  추가된 부분 -->
+				<div class="box my_info">
+					<div class="user_info">
+						<div class="user_pic"><img src="/css/image/left_menu/userinfo_pic_default.jpg"></div>
+						<div class="user_txt">
+							<span class="company NanumRound">(주)뉴젠솔루션</span>
+							<span class="id NanumGothic">Lee_hee_jin486</span>
+						</div>
+					</div>
+				</div>
+				<!--  추가된 부분 -->
+				<!--  근로자의 경우 point_area를 숨김 -->
+				<div class="box point_area">
+					<div class="tit"><span class="NanumSquare_B">잔여 포인트</span></div>
+					<div><span class="point">5,678</span><span class="point_dec NanumGothic">점</span></div>
+					<div class="btn_charge"><a class="btn_inner NanumSquare_R">포인트 충전</a></div>
+				</div>
+				
+				<!--  관리자의 경우 eayYearTax를  숨김 -->
+				<div class="box eayYearTax">
+					<!-- 클릭된 상태는 active 클래스 추가   -->
+					<a class="btn_type"></a>
+				</div>
+				
+				<div class="left_menu">
+					<nav class="nav" role="navigation">
+						<ul class="nav_list NanumSquare_R" id ="nav_list">
+							<li>
+								<input id="group-1" type="checkbox" class="hidden" />
+								<label for="group-1"><span class="fa fa-angle-right NanumSquare_B"></span><span class="btn_type">나의 정보 관리</span></label>
+								<ul class="group-list">
+									<li><a href="#">개인정보</a></li>
+									<li><a href="#">비밀번호 변경</a></li>
+								</ul>
+							</li>
+							<li>
+								<input id="group-2" type="checkbox" class="hidden" />
+								<label for="group-2"><span class="fa fa-angle-right NanumSquare_B"></span><span class="btn_type">서비스 이용관리</span></label>
+								<ul class="group-list">
+									<li><a href="#" class="ser_menage">서비스 이용관리 </a></li>
+									<li><a href="#">계약관리 서비스 </a></li>
+									<li><a href="#">연차관리 서비스</a></li>
+								</ul>
+							</li>
+							<li class="active">
+					            <input id="group-3" type="checkbox" class="hidden" />
+					            <label for="group-3"><span class="fa fa-angle-right NanumSquare_B"></span><span class="btn_type">포인트 관리</span></label>
+					            <ul class="group-list">
+					                <li><a href="#" >포인트 충전</a></li>
+					                <li><a href="#" class="active">포인트 사용 내역</a></li>
+					            </ul>
+					        </li>
+							<li><input id="group-4" type="checkbox" class="hidden" />
+								<label for="group-4"><a href="#" class="btn_type board">공지사항</a></label></li>
+							<li><input id="group-5" type="checkbox" class="hidden" />
+								<label for="group-5"><a href="#" class="btn_type board_que">1:1 문의하기</a></label></li>
+							<li><input id="group-6" type="checkbox" class="hidden" />
+								<label for="group-6"><a href="#" class="btn_type board_que_admin">문의 게시판_관리자</a></label></li>
+							<li class="active"><input id="group-7" type="checkbox" class="hidden" />
+								<label for="group-7"><a href="#" class="btn_type company_manage active">기업관리</a></label></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</aside>
+		
+		<section id="main_contents" class="">
+			<div id="contents_wrap">
+				<div id="content_main">
+					<div class="tit NanumSquare_R"><p>Calender</p></div>
+					<div class="calender_view">
+						<div id="lnb">
+							<div class="lnb-new-schedule">
+								<button id="btn-new-schedule" type="button" class="btn btn-default btn-block lnb-new-schedule-btn" data-toggle="modal">New schedule</button>
+							</div>
+							<div id="lnb-calendars" class="lnb-calendars">
+								<div>
+									<div class="lnb-calendars-item">
+										<label>
+											<input class="tui-full-calendar-checkbox-square" type="checkbox" value="all" checked>
+											<span></span>
+											<strong>View all</strong>
+										</label>
+									</div>
+								</div>
+								<div id="calendarList" class="lnb-calendars-d1"></div>
+							</div>
+						</div>
+						<div id="right">
+							<div id="menu">
+								<div class="dropdown">
+									<button id="dropdownMenu-calendarType" class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+										<i id="calendarTypeIcon" class="calendar-icon ic_view_month" style="margin-right: 4px;"></i>
+										<span id="calendarTypeName">Dropdown</span>&nbsp;
+										<i class="calendar-icon tui-full-calendar-dropdown-arrow"></i>
+									</button>
+									<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu-calendarType">
+									    <li role="presentation">
+									        <a class="dropdown-menu-title" role="menuitem" data-action="toggle-daily">
+									            <i class="calendar-icon ic_view_day"></i>Daily
+									        </a>
+									    </li>
+									    <li role="presentation">
+									        <a class="dropdown-menu-title" role="menuitem" data-action="toggle-weekly">
+									            <i class="calendar-icon ic_view_week"></i>Weekly
+									        </a>
+									    </li>
+									    <li role="presentation">
+									        <a class="dropdown-menu-title" role="menuitem" data-action="toggle-monthly">
+									            <i class="calendar-icon ic_view_month"></i>Month
+									        </a>
+									    </li>
+									    <li role="presentation">
+									        <a class="dropdown-menu-title" role="menuitem" data-action="toggle-weeks2">
+									            <i class="calendar-icon ic_view_week"></i>2 weeks
+									        </a>
+									    </li>
+									    <li role="presentation">
+									        <a class="dropdown-menu-title" role="menuitem" data-action="toggle-weeks3">
+									            <i class="calendar-icon ic_view_week"></i>3 weeks
+									        </a>
+									    </li>
+									    <li role="presentation" class="dropdown-divider"></li>
+									    <li role="presentation">
+									        <a role="menuitem" data-action="toggle-workweek">
+									            <input type="checkbox" class="tui-full-calendar-checkbox-square" value="toggle-workweek" checked>
+									            <span class="checkbox-title"></span>Show weekends
+									        </a>
+									    </li>
+									    <li role="presentation">
+									        <a role="menuitem" data-action="toggle-start-day-1">
+									            <input type="checkbox" class="tui-full-calendar-checkbox-square" value="toggle-start-day-1">
+									            <span class="checkbox-title"></span>Start Week on Monday
+									        </a>
+									    </li>
+									    <li role="presentation">
+									        <a role="menuitem" data-action="toggle-narrow-weekend">
+									            <input type="checkbox" class="tui-full-calendar-checkbox-square" value="toggle-narrow-weekend">
+									            <span class="checkbox-title"></span>Narrower than weekdays
+									        </a>
+									    </li>
+									</ul>
+								</div>
+								<div id="menu-navi">
+								    <button type="button" class="btn btn-default btn-sm move-today" data-action="move-today">Today</button>
+								    <button type="button" class="btn btn-default btn-sm move-day" data-action="move-prev">
+								        <i class="calendar-icon ic-arrow-line-left" data-action="move-prev"></i>
+								    </button>
+								    <button type="button" class="btn btn-default btn-sm move-day" data-action="move-next">
+								        <i class="calendar-icon ic-arrow-line-right" data-action="move-next"></i>
+								    </button>
+								</div>
+								<span id="renderRange" class="render-range"></span>
+							</div>
+							<div id="calendar"></div>
+						</div>
+					</div>
+					
+				</div>
+				<div id="content_footer">
+					<div class="board_panel">
+						<div class="notice">
+							<div class="tit NanumSquare_R"><p>Notice</p><a class="btn_type btn_more">더보기</a></div>
+							<div class="board_view bg_whiteBoard">
+								<ul>
+									 <!-- class : new 아이콘 표시  -->
+									<li><div class="board_txt new"><span>카드 할인 변경 안내</span></div><div class="board_date">05.01</div></li>
+									<li><div class="board_txt"><span>카드 할인 변경 안내</span></div><div class="board_date">05.01</div></li>
+									<li><div class="board_txt"><span>카드 할인 변경 안내</span></div><div class="board_date">05.01</div></li>
+									<li><div class="board_txt"><span>카드 할인 변경 안내</span></div><div class="board_date">05.01</div></li>
+								</ul>
+							</div>
+						</div>
+						<div class="faq">
+							<div class="tit NanumSquare_R"><p>FAQ</p><a class="btn_type btn_more">더보기</a></div>
+							<div class="board_view bg_whiteBoard">
+								<ul>
+									<li><div class="board_txt new"><span>카드 할인 변경 안내</span></div><div class="board_date">05.01</div></li>
+									<li><div class="board_txt new"><span>카드 할인 변경 안내</span></div><div class="board_date">05.01</div></li>
+									<li><div class="board_txt"><span>카드 할인 변경 안내</span></div><div class="board_date">05.01</div></li>
+									<li><div class="board_txt"><span>카드 할인 변경 안내</span></div><div class="board_date">05.01</div></li>
+								</ul>
+							</div>
+						</div>
+						<div class="service_guide">
+							<div class="tit NanumSquare_R"><p>서비스 이용 안내</p></div>
+							<ul class="btn_group NanumSquare_R">
+								<li><a class="btn_type btn_personnel"><span>인사관리</span></a></li>
+								<li><a class="btn_type btn_contrac"><span>전자계약 관리</span></a></li>
+								<li><a class="btn_type btn_pay"><span>급여관리</span></a></li>
+								<li><a class="btn_type btn_annual"><span>연차관리</span></a></li>
+								<li><a class="btn_type btn_charge"><span>요금안내</span></a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="chart_wrap">
+						<!-- - 차트 탭메뉴 수정 시작 부분 18.07.27 -->
+						<div class="top_field">
+							<div class="tit NanumSquare_R"><p>Current status of use</p></div>
+							<ul class="tab_menu">
+								<li class=""><a class="btn_type active">인사관리</a> </li>
+								<li class=""><a class="btn_type">전자계약 관리</a></li>
+								<li class=""><a class="btn_type">급여관리</a></li>
+								<li class=""><a class="btn_type">연차관리</a></li>
+								<li class=""><a class="btn_type">요금안내 </a></li>
+							</ul>
+						</div>
+						<!-- - 차트 탭메뉴 수정 끝 부분 18.07.27 -->
+						<div id="chart">
+							<div id="barchart" class="bg_whiteBoard"></div>
+						</div>
+						<div id="chartlabel">
+                                <span class="label grap_Greasy">2017</span><span class="label grap_blue">2018</span>
+                            </div>
+					</div>
+				</div> <!-- content_footer -->
+			</div>
+			<!-- <div id="section_footer">
+				<ul>
+					<li class="foot_logo"></li>
+					<li class="foot_email txt">대표 이메일 : newzenpnp@newzen.net</li>
+					<li class="foot_tel txt">문의 02 0000 0000 (월~금, 오전 9시~오후 6시)</li>
+					<li class="foot_site">
+						<select>
+							<option value=""> 관련 사이트</option>
+						</select>
+					</li>
+				</ul>
+			</div> -->
+		</section>
+	</div><!-- main_wrap -->
+	<div id="section_footer">
+		<div class="left_blank"></div>
+		<ul>
+			<li class="foot_logo"></li>
+			<li class="foot_info txt">
+				<div class="txtline">
+					<span>서울시 영등포구 경인로 775, 1동 1009호 (문래동 3가 , 에이스하이테크시티 1동 1009호)</span>
+					<span>대표자 : 박필조</span>
+					<span>TEL : 02-3270-6270</span>
+					<span>사업자 등록번호  : 831-86-00562</span>
+					<span>개인정보보호 책임자  : 관리자(master@newzenpnp.com)</span>
+					<span>Copyright＠newzenPnp All rights Reserved</span>
+				</div>
+			</li>
+			<li class="foot_site">
+				<select>
+					<option value=""> 관련 사이트</option>
+				</select>
+			</li>
+		</ul>
+	</div>
+<!--  포인트 layer 팝업 창 -->
+<div id="bpopup_layer"></div>
+    
+    <!-- calendar 관련 js plug-in -->
+   <!--  <script type="text/javascript" src="js/main_calendar/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/main_calendar/tui-code-snippet.min.js"></script>
+    <script type="text/javascript" src="js/main_calendar/tui-time-picker.min.js"></script>
+    <script type="text/javascript" src="js/main_calendar/tui-date-picker.min.js"></script>
+    <script type="text/javascript" src="js/main_calendar/moment.min.js"></script>
+    <script type="text/javascript" src="js/main_calendar/chance.min.js"></script>
+    <script type="text/javascript" src="js/main_calendar/tui-calendar.js"></script>
+    <script type="text/javascript" src="js/main_calendar/data/calendars.js"></script>
+    <script type="text/javascript" src="js/main_calendar/data/schedules.js"></script>
+    <script type="text/javascript" src="js/main_calendar/theme/dooray.js"></script>
+    <script type="text/javascript" src="js/main_calendar/default.js"></script> -->
+	
+    <!-- *********** Current status of use Chart ***********  -->
+	<script type='text/javascript' src="js/main_chart.js"></script>
+	
+	<!-- 데이터 추출을 위한 plug-in -->
+	<script type='text/javascript' src="js/underscore-min.js"></script>
+	
+	<script  type="text/javascript">
+	/** 스크롤 관련 이벤트 **/
+	window.onresize=function(){
+		left_menu_css();
+	};
+	
+	function left_menu_css(){
+		var _winH;
+
+		if(document.getElementById("main_contents").clientHeight < document.getElementById("contents_wrap").clientHeight){
+			_winH=document.getElementById("contents_wrap").clientHeight+'px';
+		}else{
+			_winH=document.getElementById("main_contents").clientHeight+'px';
+		} 
+		
+		//좌측 메뉴 배경 window맞게 조정
+		document.getElementById("left_nav").style.height=_winH;
+	}
+  	document.addEventListener("DOMContentLoaded", function(){
+  		left_menu_css();
+	});
+  	document.getElementById("main_wrap").onscroll = function() {
+		
+		if(document.getElementById("left_nav").clientHeight != document.getElementById("contents_wrap").clientHeight){
+			left_menu_css();
+		}
+  	}; 
+
+	/* ++++++++++++++++++++  page link +++++++++++++++++++++++++ */
+	$(".btn_home").click(function(){
+		window.location.reload();
+	})
+	//포인트 충전 
+	$(".btn_charge").find(".btn_inner").click(function(){
+
+		/* $("#contents_wrap").empty();
+        $("#contents_wrap").load('myPage_pointCharging.html #pointCharging_wrap', function(){
+            $('head').append('<link rel="stylesheet" type="text/css" href="css/myPage_pointCharging.css">');
+        }); */
+        var targetX=($(document).width()-862)/2;
+        var targetY=($(document).height()-586)/2;
+        $('#bpopup_layer').bPopup({
+        	position: [targetX, targetY],
+            opacity: 0.6,
+            transitionClose  : true,
+        	follow: [false, false], //x, y
+        	contentContainer:'#bpopup_layer',
+            loadUrl: 'myPage_pointCharging.html', //Uses jQuery.load()
+            onClose: function() {
+                $("#bpopup_layer").empty();
+            },
+            onOpen: function() {},
+            loadCallback: function() {}
+        });
+	});
+	//mypage 링크
+	$(".btn_inner.my").click(function(){
+		/* $("#contents_wrap").empty();
+
+		$("#contents_wrap").load('myPage.html #myPage_wrap', function(){
+			$(window).off("resize"); //현재 main에 걸려있는 chart의 리사이즈 이벤트 삭제
+			$('head').append('<link rel="stylesheet" type="text/css" href="css/myPage.css">');
+
+			$.getScript('js/myPage.js');
+		}); */
+		
+		$("#contents_wrap").empty();
+        $(window).off("resize");
+        $.ajax({
+            url : "myPage.html",
+            success : function(result) {
+                $("#contents_wrap").html(result);
+            }
+        });
+		
+		$('script[src*="main_chart.js"]').remove();
+		
+	});
+	$(".btn_personnel").click(function(){
+		$("#contents_wrap").empty();
+        $(window).off("resize");
+        $.ajax({
+            url : "personnel_management.html",
+            success : function(result) {
+                $("#contents_wrap").html(result);
+            }
+        });
+	});
+	$(".ser_menage").click(function(){
+		$("#contents_wrap").empty();
+        $(window).off("resize");
+        $.ajax({
+            url : "myPage_service_management.html",
+            success : function(result) {
+                $("#contents_wrap").html(result);
+            }
+        });
+	})
+	//게시판 (공지사항) 링크
+	$(".board").click(function(){
+        $("#contents_wrap").empty();
+        $(window).off("resize");
+        $.ajax({
+            url : "board_notice.html",
+            success : function(result) {
+                $("#contents_wrap").html(result);
+            }
+        });
+
+	});
+	//문의게시판 링크
+    $(".board_que").click(function(){
+
+        $("#contents_wrap").empty();
+        $(window).off("resize");
+    	$.ajax({
+            url : "board_question.html",
+            success : function(result) {
+                $("#contents_wrap").html(result);
+            }
+        });
+
+    });
+  //문의게시판 링크
+    $(".board_que_admin").click(function(){
+    	
+    	$("#contents_wrap").empty();
+    	$(window).off("resize");
+        $.ajax({
+            url : "board_question_admin.html",
+            success : function(result) {
+                $("#contents_wrap").html(result);
+            }
+        });
+
+    });
+  
+  $(".btn_contract").click(function(){
+      $(this).parent().addClass("active");
+      $("#contents_wrap").empty();
+      $(window).off("resize");
+      $.ajax({
+          url : "contract_write_step01.html",
+          success : function(result) {
+              $("#contents_wrap").html(result);
+          }
+      });
+  });
+  
+  $(".company_manage").click(function(){
+		$(this).addClass("active");
+		$("#contents_wrap").empty();
+		$(window).off("resize");
+		$.ajax({
+		  url : "company_management.html",
+		  success : function(result) {
+		      $("#contents_wrap").html(result);
+		  }
+		});
+  })
+</script>
+
+<script  type="text/javascript">
+var menuList={"total":10,"data":[{"childCnt":2,"id":"","insDate":"20180622091312","menuCode":"180622091404010","menuInfo":"인사관리","menuLvl":"0","menuName":"인사관리","menuOdr":"0","menuType":"SAD","menuUrl":"","pmenuCode":"ROOT","updDate":"20180622091312","useYn":"Y","userType":""},{"childCnt":4,"id":"","insDate":"20180622091312","menuCode":"180622091404012","menuInfo":"계약관리","menuLvl":"0","menuName":"계약관리","menuOdr":"1","menuType":"SAD","menuUrl":"hjsfdakl","pmenuCode":"ROOT","updDate":"20180622091312","useYn":"Y","userType":""},{"childCnt":0,"id":"","insDate":"20180622091312","menuCode":"180622091404013","menuInfo":"인사가이드","menuLvl":"1","menuName":"인사가이드","menuOdr":"0","menuType":"SAD","menuUrl":"hjsfdakl","pmenuCode":"180622091404010","updDate":"20180622091312","useYn":"Y","userType":""},{"childCnt":0,"id":"","insDate":"20180622091312","menuCode":"180622091404014","menuInfo":"인사관리","menuLvl":"1","menuName":"인사관리","menuOdr":"1","menuType":"SAD","menuUrl":"hjsfdakl","pmenuCode":"180622091404010","updDate":"20180622091312","useYn":"Y","userType":""},{"childCnt":0,"id":"","insDate":"20180622091312","menuCode":"180622091404015","menuInfo":"전자계약 가이드","menuLvl":"1","menuName":"전자계약 가이드","menuOdr":"0","menuType":"SAD","menuUrl":"hjsfdakl","pmenuCode":"180622091404012","updDate":"20180622091312","useYn":"Y","userType":""},{"childCnt":1,"id":"","insDate":"20180622091312","menuCode":"180622091404016","menuInfo":"양식관리","menuLvl":"1","menuName":"양식관리","menuOdr":"1","menuType":"SAD","menuUrl":"ffffff","pmenuCode":"180622091404012","updDate":"20180622091312","useYn":"Y","userType":""},{"childCnt":0,"id":"","insDate":"20180622091312","menuCode":"180622091404017","menuInfo":"계약서작성","menuLvl":"1","menuName":"계약서작성","menuOdr":"2","menuType":"SAD","menuUrl":"hjsfdakl","pmenuCode":"180622091404012","updDate":"20180622091312","useYn":"Y","userType":""},{"childCnt":0,"id":"","insDate":"20180622091312","menuCode":"180622091404018","menuInfo":"계약서목록","menuLvl":"1","menuName":"계약서목록","menuOdr":"3","menuType":"SAD","menuUrl":"hjsfdakl","pmenuCode":"180622091404012","updDate":"20180622091312","useYn":"Y","userType":""},{"childCnt":0,"id":"","insDate":"20180622091312","menuCode":"180622091404019","menuInfo":"서비스소개","menuLvl":"0","menuName":"서비스소개","menuOdr":"2","menuType":"SAD","menuUrl":"hjsfdakl","pmenuCode":"ROOT","updDate":"20180622091312","useYn":"Y","userType":""},{"childCnt":0,"id":"","insDate":"20180622091312","menuCode":"180622091404029","menuInfo":"양식관리","menuLvl":"2","menuName":"양식등록","menuOdr":"0","menuType":"SAD","menuUrl":"hjsfdakl","pmenuCode":"180622091404016","updDate":"20180622091312","useYn":"Y","userType":""}],"success":true}
+//fn_menuLeft("180622091404012");
+
+function fn_menuLeft(_menuCode) {
+	var htmlData = "";
+	var menuCode = "";
+
+ 	var _menuLv1=_.filter(menuList.data, {"menuLvl":"1","pmenuCode":_menuCode});
+ 	var _menuLv2=_.filter(menuList.data, {"menuLvl":"2"});
+
+	$.each(_menuLv1, function(i, row) {
+		if (row.menuLvl == "1") {
+			htmlData += '<li>';
+			
+			if(row.childCnt != 0){
+				htmlData += '	<input id="group-' + (i+1) +'" type="checkbox" class="hidden" />';
+				htmlData += '	<label for="group-' + (i+1) + '" class="btn_type" data-url="'+row.menuUrl+'" onclick="clickEvent(this'+','+row.menuCode +')">';
+				htmlData += '		<span class="fa fa-angle-right NanumSquare_B"></span>';
+				htmlData += '		<span>' + row.menuName + '</span>';
+				htmlData += '	</label>';
+				htmlData += '	<ul class="group-list">';
+			}else{
+				htmlData += '	<label for="group-' + (i+1) + '">';
+				htmlData += '		<a class="btn_type" data-url="'+row.menuUrl+'" onclick="clickEvent(this'+','+row.menuCode +')">' + row.menuName + '</a>';
+				htmlData += '	</label>';
+			}
+			menuCode = row.menuCode;
+			
+			$.each(_menuLv2, function(j, subRow) {
+				console.log('subRow : '+JSON.stringify(subRow));
+				if(row.childCnt != 0){
+					if (menuCode == subRow.pmenuCode) {
+						htmlData += '<li><a data-url="'+subRow.menuUrl+'" onclick="clickEvent(this'+','+subRow.menuCode +')">' + subRow.menuName + '</a></li>';
+					}
+				}
+			}); 
+			
+			if(row.childCnt != 0){
+				htmlData += '	</ul>';
+			};
+			
+			htmlData += '</li>';
+		}
+	});
+
+	$('#nav_list').html(htmlData);
+	
+}
+function clickEvent(obj,menuCode){
+	
+	var url=$(obj).attr('data-url');
+	var tagName=$(obj).prop('tagName');
+	//console.log("tagName "+tagName)
+	console.log($(obj).currentTarget);
+	console.log($(obj).target);
+	
+	if(tagName=="A"){ //하위목록이 없는 버튼 클릭
+		$(".nav_list > li").removeClass('active');
+		$(".group-list > li > a").removeClass('active');
+
+		var p_tagName=$(obj).parent().parent().prop('tagName');
+
+		if(p_tagName=="UL"){
+			//하위목록의 lv2 메뉴 클릭
+			$(obj).addClass("active");
+		}else{
+			//하위목록 없는 메뉴
+			//펼침 목록 접기
+			$(".nav_list").find('input[type="checkbox"]').attr("checked", false);
+			
+			$(obj).parent().parent().addClass("active"); 
+		}
+		
+	}else{
+		//하위목록 있고 url 없을때 
+		if(url != "" ){
+			$(".nav_list > li").removeClass('active');
+			$(".group-list > li > a").removeClass('active');
+			$(obj).parent().addClass("active");
+		}
+	}	
+	
+	
+}
+function fn_menuCode(menuCode){
+	
+	console.log('menuCode' +menuCode)
+
+  	//var url = rootPath + "menu/goMenu.do";
+	
+	/* $.ajax({
+		url: url,
+		corssDomain: true,
+		dataType: "json",
+		data:{
+			menuCode:menuCode
+		},
+		type: "GET",
+		success: function(result) 
+		{
+			console.log(result);
+			if (result.success == true) {
+				$('#contents_wrap').html(result.data);
+			} else {
+				alert('요청하신 자료가 존재하지 않습니다.');
+			}
+		},
+		error: function(request,status, error) {
+			if (request.status=="401") {
+				alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+				location.href=rootPath;
+			} else {
+				alert("다시 확인해주시기 바랍니다."+error);
+		        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		}
+	}); */
+}
+</script>
+</body>
+</html>

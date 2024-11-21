@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/board_notice.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+
+</head>
+<body>
+	
+<!-- *********************************************  게시판  *********************************************  -->
+<div id="boardlist_wrap" class="">
+	<div class="container">
+		<div class="location"><span class="loc_main NanumSquare_R">게시판 > </span><span class="loc_sub NanumSquare_R">공지사항</span></div>
+		<div class="pagtit"><span class="NanumSquare_R">공지사항</span></div>
+		
+		<div class="list_con">
+			<div class="field_area">
+				<div class="selBox NanumSquare_R">
+					<select>
+						<option value="" class="lt">제목</option>
+						<option value="" class="lt">작성자</option>
+					</select>
+				</div>
+				<div class="inputBox">
+					<fieldset>
+						<input type="text" class="word_input NanumSquare_R">
+						<a class="btn_search btn_type Material_icons">search</a>
+					</fieldset>
+				</div>
+			</div>
+			<div class="table_contents">
+				<div class="list">
+					<table class="NanumBarunGothic">
+						<colgroup>
+							<col width="8%">
+							<col width="52%">
+							<col width="15%">
+							<col width="15%">
+							<col width="10%">
+						</colgroup>
+						<thead>
+							<tr class="databox">
+								<th>번호</th>
+								<th>제목</th>
+								<th>작성자</th>
+								<th>등록일</th>
+								<th>조회수</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="databox">
+								<td>1</td><td>사회 보험 관리 메뉴 사업장 관리번호 검증로직 반영 안내 <span class="new"></span> </td><td>뉴젠PNP</td><td>2017-11-15</td><td>1,100</td></tr>
+							<tr class="databox">
+								<td>2</td><td>사회 보험 관리 메뉴 사업장 관리번호 검증로직 반영 안내 <span class="new"></span><td>뉴젠PNP</td><td>2017-11-15</td><td>1,100</td></tr>
+							<tr class="databox">
+								<td>3</td><td>사회 보험 관리 메뉴 사업장 관리번호 검증로직 반영 안내</td><td>뉴젠PNP</td><td>2017-11-15</td><td>1,100</td></tr>
+							<tr class="databox">
+								<td>4</td><td>사회 보험 관리 메뉴 사업장 관리번호 검증로직 반영 안내</td><td>뉴젠PNP</td><td>2017-11-15</td><td>1,100</td></tr>
+							<tr class="databox">
+								<td>5</td><td>사회 보험 관리 메뉴 사업장 관리번호 검증로직 반영 안내</td><td>뉴젠PNP</td><td>2017-11-15</td><td>1,100</td></tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="btn_group"><a class="btn_type NanumSquare_R btn_write">글쓰기</a></div>
+				<div id="page-selection" class="pagingnav_wrap"></div>
+			</div>
+		</div>
+		
+		
+	</div>
+</div>
+</body>
+<script  type="text/javascript">
+$('#page-selection').bootpag({
+    total: 10,
+    page: 1,
+    maxVisible: 5,
+    leaps: true,
+    firstLastUse: true,
+    first: '',
+    last: '',
+    wrapClass: 'pagination',
+    activeClass: 'active',
+    disabledClass: 'disabled',
+    nextClass: 'btn_next',
+    prevClass: 'btn_prev',
+    lastClass: 'end_page',
+    firstClass: 'first_page'
+}).on("page", function(event, num){
+    
+});
+</script>
+</html>

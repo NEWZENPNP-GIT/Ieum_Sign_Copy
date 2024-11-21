@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="febspecial">
+    <typeAlias alias="ye411VO" type="com.ezsign.feb.special.vo.YE411VO"/>
+
+    <select id="ye411DAO.getYE411" parameterClass="ye411VO" resultClass="ye411VO">
+        SELECT 계약ID, 사용자ID, 작업자ID, 공제제외금액, 공제가능금액,
+          	공제한도, 일반공제금액, 추가공제금액, 최종공제금액, 등록일시, 수정일시
+        FROM tbl_ye411
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+    </select>
+
+    <insert id="ye411DAO.insYE411" parameterClass="ye411VO">
+        INSERT INTO tbl_ye411 (
+          	계약ID, 사용자ID, 작업자ID, 공제제외금액, 공제가능금액,
+          	공제한도, 일반공제금액, 추가공제금액, 최종공제금액, 등록일시, 수정일시
+        ) VALUES (
+          #계약ID#, #사용자ID#, #작업자ID#, #공제제외금액#, #공제가능금액#,
+          #공제한도#, #일반공제금액#, #추가공제금액#, #최종공제금액#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        )
+    </insert>
+
+    <delete id="ye411DAO.allDelYE411" parameterClass="ye411VO">
+        DELETE
+        FROM tbl_ye411
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+    </delete>
+</sqlMap>

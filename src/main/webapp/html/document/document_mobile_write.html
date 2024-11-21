@@ -1,0 +1,372 @@
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/contract_write.css">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+	<link rel="stylesheet" type="text/css" href="/css/contract_sign_pad.css">
+	<link rel="stylesheet" type="text/css" href="/css/font_awesome/css/all.css">
+
+	<!-- bootPag -->
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/jquery.bootpag.min.js"></script>
+	<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+	<script type="text/javascript">
+
+		$(document).ready( function() {
+			$("#pageNext2").click(function(){
+				$("#page2").css({display:"none"});
+				$("#page3").removeClass("hidden");
+			});
+
+			$("#pageNext3").click(function(){
+				$("#page3").css({display:"none"});
+				$("#page4").removeClass("hidden");
+			});
+
+			$("#pageNext4").click(function(){
+				$("#page4").css({display:"none"});
+				$("#page5").removeClass("hidden");
+			});
+
+			$("#pageNext5").click(function(){
+				$("#page5").css({display:"none"});
+				$("#page6").removeClass("hidden");
+			});
+
+			$("#pageNext6").click(function(){
+				$("#page6").css({display:"none"});
+			});
+		});
+
+
+		//***************					다음 페이지					***************//
+
+
+		function fn_nextPage(){
+			$("#page1").css({display:"none"});
+			$("#page2").removeClass("hidden");
+		}
+
+	</script>
+	</head>
+
+	<body>
+	<div id="contract_pad_wrap" class="contract_pad_wrap">
+		<div class="container" id="page1">
+			<div class="tit_main NanumGothic pad_fontcolor"><span>프랜차이즈 가맹점 가입 신청서</span></div>
+			<div class="nav_menu">
+				<ul class="nav_menuGroup tab3">
+					<li class="active">
+						<div class="nav_line"></div>
+						<div class="nav_btn_tab"><span class="tabBox NanumGothic">계약자 인증</span></div>
+					</li>
+					<li>
+						<div class="nav_line"></div>
+						<div class="nav_btn_tab"><span class="tabBox NanumGothic">계약서 내용 확인</span></div>
+					</li>
+					<li>
+						<div class="nav_line"></div>
+						<div class="nav_btn_tab"><span class="tabBox NanumGothic">계약자 서명</span></div>
+					</li>
+					<li>
+						<div class="nav_line"></div>
+						<div class="nav_btn_tab"><span class="tabBox NanumGothic">계약 완료</span></div>
+					</li>
+				</ul>
+			</div>
+			<div class="tab_contents">
+				<div class="contents_title pad_fontcolor NanumGothic"><h1>계약진행을 위해 휴대폰 본인인증이 필요합니다.</h1></div>
+				<div class="contents_body">
+					<div class="con_box">
+						<div class="con_info">
+							<dl class="boxRow input_bx NanumGothic">
+								<dt><label class="label_txt NanumGothic" alt="계약자">계약자</label></dt>
+								<dd><input type="text" value="" class="input_txt_01"></dd>
+							</dl>
+							<dl class="boxRow input_bx NanumGothic">
+								<dt><label class="label_txt NanumGothic" alt="전화번호">전화번호</label></dt>
+								<dd><input type="text" value="" class="input_txt_01"></dd>
+							</dl>
+								<div class="btn_footGroup NanumGothic">
+									<a class="btn_type type01" onclick="fn_confirm();">인증번호 발송 </a>
+								</div>
+								<dl class="boxRow input_bx endtime NanumGothic">
+								<dt><label class="label_txt NanumGothic" alt="전화번호">인증시간</label></dt>
+								<dd><span class="timeNum">03:40</span></dd>
+							</dl>
+							<div class="timeWrtext">
+								<span>
+									<i class="fas fa-check-circle fa-sm"></i>
+									<b>계약자 휴대폰으로 본인인증 URL이 발송되오니 <br>5분이내로 진행하여 주시기 바랍니다.</b>
+								</span>
+							</div>
+						</div>
+						<div class="con_priv NanumGothic hidden">
+							<p><i class="fas fa-circle fa-sm"></i> 전체동의</p>
+							<ul>
+								<li>
+									<span>개인정보 수집/이용 동의</span>
+									<a href="#">더보기</a>
+								</li>
+								<li>
+									<span>고유식별정보처리 동의</span>
+									<a href="#">더보기</a>
+								</li>
+								<li>
+									<span>본인확인서비스</span>
+									<a href="#">더보기</a>
+								</li>
+								<li>
+									<span>서비스이용약관 동의</span>
+									<a href="#">더보기</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div class="btn_footGroup NanumGothic" id="contractStep01">
+				<a class="btn_type btn_next" onclick="fn_nextPage();">다 음 </a>
+			</div>
+		</div>
+
+		<!-- ************************************	page 2 *******************************************************-->
+
+		<div class="container hidden" id="page2">
+
+			 <div class="tit_main NanumGothic pad_fontcolor"><span>프랜차이즈 가맹점 가입 신청서</span></div>
+			<div class="nav_menu">
+				<ul class="nav_menuGroup tab3">
+					<li>
+						<div class="nav_line"></div>
+						<div class="nav_btn_tab"><span class="tabBox NanumGothic">계약자 인증</span></div>
+					</li>
+					<li class="active">
+						<div class="nav_line"></div>
+						<div class="nav_btn_tab"><span class="tabBox NanumGothic">계약서 내용 확인</span></div>
+					</li>
+					<li>
+						<div class="nav_line"></div>
+						<div class="nav_btn_tab"><span class="tabBox NanumGothic">계약자 서명</span></div>
+					</li>
+					<li>
+						<div class="nav_line"></div>
+						<div class="nav_btn_tab"><span class="tabBox NanumGothic">계약 완료</span></div>
+					</li>
+				</ul>
+			</div>
+			<div class="tab_contents pad_bg">
+
+				<div class="left_btn_file" id="attachFile"><p>첨부파일</p></div>
+
+				<div class="contents_title pad_fontcolor NanumGothic"><h1>계약 내용을 확인해주세요.</h1></div>
+
+				<div class="contents_body_step2">
+					<div class="con_info_page2">
+						<iframe src="http://open.newzenpnp.co.kr/temp/file/202011/20201124/10ef95ee-f659-4e5a-9248-61c17b76a17c01.png" class="con_page"></iframe>
+					</div>
+				</div>
+			</div>
+			<div class="btn_footGroup NanumGothic" id="contractStep01">
+				<a class="btn_type btn_next" id="pageNext2">계약내용 확인</a>
+			</div>
+		</div>
+
+		<!-- ************************************	page 3 *******************************************************-->
+
+		<div class="container hidden" id="page3">
+			<div class="tit_main NanumGothic pad_fontcolor"><span>프랜차이즈 가맹점 가입 신청서</span></div>
+				<div class="nav_menu">
+					<ul class="nav_menuGroup tab3">
+					<li>
+						<div class="nav_line"></div>
+						<div class="nav_btn_tab"><span class="tabBox NanumGothic">계약자 인증</span></div>
+					</li>
+					<li class="active">
+						<div class="nav_line"></div>
+						<div class="nav_btn_tab"><span class="tabBox NanumGothic">계약서 내용 확인</span></div>
+					</li>
+					<li>
+						<div class="nav_line"></div>
+						<div class="nav_btn_tab"><span class="tabBox NanumGothic">계약자 서명</span></div>
+					</li>
+					<li>
+						<div class="nav_line"></div>
+						<div class="nav_btn_tab"><span class="tabBox NanumGothic">계약 완료</span></div>
+					</li>
+				</ul>
+			</div>
+			<div class="tab_contents pad_bg">
+				<div class="left_btn_leftbtn"><p>서명추가</p></div>
+				<div class="left_btn_rightbtn"><p>전체삭제</p></div>
+				<div class="contents_title pad_fontcolor"><h1><span>홍길동</span> 님의 서명은 총 <span>00</span> 개 입니다. </h1></div>
+				<div class="contents_body_step2">
+					<div class="con_info_page2">
+						<iframe src="http://open.newzenpnp.co.kr/temp/file/202011/20201124/10ef95ee-f659-4e5a-9248-61c17b76a17c01.png" class="con_page"></iframe>
+					</div>
+				</div>
+			</div>
+			<div class="btn_footGroup NanumGothic" id="contractStep01">
+				<a class="btn_type btn_next" id="pageNext3">저장하기</a>
+			</div>
+		</div>
+
+		<!-- ************************************	page 4 *******************************************************-->
+
+		<div class="container hidden" id="page4">
+			<div class="tit_main NanumGothic pad_fontcolor"><span>프랜차이즈 가맹점 가입 신청서</span></div>
+				<div class="nav_menu">
+					<ul class="nav_menuGroup tab3">
+					<li>
+						<div class="nav_line"></div>
+						<div class="nav_btn_tab"><span class="tabBox NanumGothic">계약자 인증</span></div>
+					</li>
+					<li class="active">
+						<div class="nav_line"></div>
+						<div class="nav_btn_tab"><span class="tabBox NanumGothic">계약서 내용 확인</span></div>
+					</li>
+					<li>
+						<div class="nav_line"></div>
+						<div class="nav_btn_tab"><span class="tabBox NanumGothic">계약자 서명</span></div>
+					</li>
+					<li>
+						<div class="nav_line"></div>
+						<div class="nav_btn_tab"><span class="tabBox NanumGothic">계약 완료</span></div>
+					</li>
+				</ul>
+			</div>
+			<div class="tab_contents pad_bg">
+				<div class="left_btn_zoom"><i class="fas fa-search-plus"></i><i class="fas fa-search-minus"></i></div>
+				<div class="left_btn_file" id="attachFile"><p>첨부파일</p></div>
+				<div class="contents_title pad_fontcolor"><h1>상세 정보를 입력해 주세요.</h1></div>
+				<div class="contents_body_step2">
+					<div class="con_info_page2">
+						<div class="sub_title">
+							<label class="label_txt NanumGothic" id="img1" alt="">항목</label>
+							<input type="text" id="value1" value="" class="input_txt">
+						</div>
+						<div class="sub_title">
+							<label class="label_txt NanumGothic" id="img1" alt="">항목</label>
+							<input type="text" id="value1" value="" class="input_txt">
+						</div>
+						<div class="sub_title">
+							<label class="label_txt NanumGothic" id="img1" alt="">항목</label>
+							<input type="text" id="value1" value="" class="input_txt">
+						</div>
+						<div class="sub_title">
+							<label class="label_txt NanumGothic" id="img1" alt="">항목</label>
+							<input type="text" id="value1" value="" class="input_txt">
+						</div>
+						<div class="sub_title">
+							<label class="label_txt NanumGothic" id="img1" alt="">항목</label>
+							<input type="text" id="value1" value="" class="input_txt">
+						</div>
+						<div class="sub_title">
+							<label class="label_txt NanumGothic" id="img1" alt="">항목</label>
+							<input type="text" id="value1" value="" class="input_txt">
+						</div>
+						<div class="sub_title">
+							<label class="label_txt NanumGothic" id="img1" alt="">항목</label>
+							<input type="text" id="value1" value="" class="input_txt">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="btn_footGroup NanumGothic" id="contractStep01">
+				<a class="btn_type btn_next" id="pageNext4">입력을 완료하였습니다.</a>
+			</div>
+		</div>
+
+		<!-- ************************************	page 5 *******************************************************-->
+
+		<div class="container hidden" id="page5">
+			<div class="tit_main NanumGothic pad_fontcolor"><span>프랜차이즈 가맹점 가입 신청서</span></div>
+				<div class="nav_menu">
+					<ul class="nav_menuGroup tab3">
+						<li>
+							<div class="nav_line"></div>
+							<div class="nav_btn_tab"><span class="tabBox NanumGothic">계약자 인증</span></div>
+						</li>
+						<li class="active">
+							<div class="nav_line"></div>
+							<div class="nav_btn_tab"><span class="tabBox NanumGothic">계약서 내용 확인</span></div>
+						</li>
+
+						<li>
+							<div class="nav_line"></div>
+							<div class="nav_btn_tab"><span class="tabBox NanumGothic">계약자 서명</span></div>
+						</li>
+						<li>
+							<div class="nav_line"></div>
+							<div class="nav_btn_tab"><span class="tabBox NanumGothic">계약 완료</span></div>
+						</li>
+					</ul>
+				</div>
+				<div class="tab_contents pad_bg">
+				<div class="contents_title pad_fontcolor"><h1>계약자(수신자) 본인의 자필로 서명하여주시기 바랍니다.</h1></div>
+				<div class="contents_body_step2">
+					<div class="con_info_page3">
+						<canvas id="drawCanvas" class="sub_signspot NanumGothic"></canvas>
+					</div>
+				</div>
+			</div>
+			<div class="btn_footGroup NanumGothic" id="contractStep01">
+				<a class="btn_type btn_next" id="pageNext5" >작성을 완료하였습니다.</a>
+			</div>
+		</div>
+
+		<!-- ************************************	page 6 *******************************************************-->
+
+		<div class="container hidden" id="page6">
+			<div class="tit_main NanumGothic pad_fontcolor"><span>프랜차이즈 가맹점 가입 신청서</span></div>
+				<div class="nav_menu">
+				<ul class="nav_menuGroup tab3">
+					<li>
+						<div class="nav_line"></div>
+						<div class="nav_btn_tab"><span class="tabBox NanumGothic">계약자 인증</span></div>
+					</li>
+					<li class="active">
+						<div class="nav_line"></div>
+						<div class="nav_btn_tab"><span class="tabBox NanumGothic">계약서 내용 확인</span></div>
+					</li>
+					<li>
+						<div class="nav_line"></div>
+						<div class="nav_btn_tab"><span class="tabBox NanumGothic">계약자 서명</span></div>
+					</li>
+					<li>
+						<div class="nav_line"></div>
+						<div class="nav_btn_tab"><span class="tabBox NanumGothic">계약 완료</span></div>
+					</li>
+				</ul>
+			</div>
+			<div class="tab_contents pad_bg">
+				<div class="contents_title pad_fontcolor"><h1>계약자 홍길동 님에게 아래의 정보를 통해 완료된 계약서가<br> 휴대폰 및 이메일을 통해 발송되었습니다.</h1></div>
+				<div class="contents_body_step2">
+					<div class="con_info_page3">
+						<div class="sub_title">
+							<input type="text" id="value1" value="" class="input_txt">
+						</div>
+						<div class="sub_title">
+							<input type="text" id="value1" value="" class="input_txt">
+						</div>
+						<div class="sub_title">
+							<input type="text" id="value1" value="" class="input_txt">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="btn_footGroup NanumGothic" id="contractStep01">
+				<a class="btn_type btn_next" id="pageNext6" >전자계약 목록 가기</a>
+			</div>
+		</div>
+	</div>
+	</body>
+	</html>

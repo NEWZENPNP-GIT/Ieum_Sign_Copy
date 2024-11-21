@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/board_notice.css">
+
+<script type='text/javascript' src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.MultiFile.min.js"></script>
+<!-- SmartEditor -->
+<script type="text/javascript" src="/module/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
+<script>
+	 // 문의게시판
+	var bbsId = "";
+	var workCode = "";
+	var bbsList;
+	var windowCodeList;
+    var oEditors = [];
+    var fileId = 0;
+    var attachFileInfo;
+    
+	$(document).ready(function(){
+		workCode = getParams().windowCode;
+		
+		// 서비스구분
+		fn_code020List();
+		// 윈도우구분코드
+		fn_code021List();
+		
+	    nhn.husky.EZCreator.createInIFrame({
+	        oAppRef: oEditors,
+	        elPlaceHolder: "ir1",
+	        sSkinURI: "/module/smarteditor/SmartEditor2Skin.html",
+	        fCreator: "createSEditor2"
+
+	    });
+	});
+	
+	function changeBbsId(obj) {		
+		var refCode = obj.value;
+		
+		$("#oworkCode").empty();
+		$.each(windowCodeList, function(i, row) {
+			
+			if(row.refCode==refCode) {
+				var selected = "";
+				if(workCode==row.commCode) {
+					selected = " selected ";
+				}
+	            var option = $("<option value='"+row.commCode+"' "+selected+" >"+row.commName+"</option>");
+	            $('#oworkCode').append(option);
+			}
+		});
+	}
+
+	function fn_code020List() {
+		var url = rootPath+"code/getCodeList.do";
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				grpCommCode:'020'
+			},
+			success:function(result)
+			{
+				var htmlData = "";
+				
+				if (result.success==true) {
+					bbsList = result.data;
+					// 대분류
+					$.each(result.data, function(i, row) {
+				        
+		                var option = $("<option value='"+row.commCode+"'>"+row.commName+"</option>");
+		                $('#obbsId').append(option);
+					});
+					
+				}
+				
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+	
+	function fn_code021List() {
+		var url = rootPath+"code/getCodeList.do";
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				grpCommCode:'021'
+			},
+			success:function(result)
+			{
+				var htmlData = "";
+				
+				if (result.success==true) {
+					windowCodeList = result.data;
+					$.each(result.data, function(i, row) {
+						// 현재 윈도우구분코드
+						if(row.commCode==workCode) {
+							$("#obbsId").val(row.refCode).prop("selected", true);
+							$("#obbsId").change();
+						}
+					});
+				}
+				
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+	
+	
+	function attachImageOk(event) {
+		var url = rootPath + 'bbs/insBbsImage.do';
+	    var file = event.target;
+	    var maxSize  = 5 * 1024 * 1024; // 5MB
+	    var fileSize = 0;
+	    fileSize = file.files[0].size;
+
+	    if (fileSize > maxSize) {
+	      alert('파일은 ' + (maxSize / 1024 / 1024) + 'MB 이하의 파일만 첨부 가능합니다');
+	      return;
+	    }
+	    var imageFile = document.getElementsByName('attachImage');
+	    var formData = new FormData();
+
+	    for (let i = 0; i < imageFile.length; i++) {
+	      if (imageFile[i]['files'][0] !== undefined && imageFile[i]['files'][0] !== null) {
+
+	        if (checkSpecial(imageFile[i]['files'][0].name)) {
+	          alert('파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.');
+	          return;
+	        }
+	        formData.append('addImageFile' + i, imageFile[i]['files'][0]);
+	      }
+	    }
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data:formData,
+			contentType:false,
+			processData:false,
+			cache:false,
+			success:function(result)
+			{
+				if(result.success) {
+					$.each(result.data, function(i, row) {
+						var imgUrl = row.fileStrePath + row.fileStreNm;
+						var imgTag = '<img src="'+rootPath+imgUrl+'" alt="" style="max-width:100%" />';
+						oEditors.getById["ir1"].exec('PASTER_HTML', imgTag);
+					});
+				}
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});	
+	}
+	
+	function attachFileOk(event) {
+
+		if($("#attachFileList").children().length>0) {
+			if(!confirm("이미 등록하신 파일이 존재합니다.\r\n기존 파일에서 대체하시겠습니까?")) {
+				return;
+			}
+		}
+		
+	    var file = event.target;
+	    var maxSize  = 5 * 1024 * 1024; // 5MB
+	    var fileName = "";
+	    var fileSize = 0;
+	    fileName = file.files[0].name;
+	    fileSize = file.files[0].size;
+		
+	    if (fileSize > maxSize) {
+	    	alert('파일은 ' + (maxSize / 1024 / 1024) + 'MB 이하의 파일만 첨부 가능합니다');
+	    	return;
+	    }
+
+		if(checkSpecial(fileName)) {
+			alert("파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.");
+			return;
+		}
+	    fileId++;
+	    var htmlData = "";
+	    htmlData += '<div class="file" id="'+fileId+'"><span class="name">'+fileName+'</span><div class="btn_type btn_delete" onClick="attachFileDel('+fileId+');"></div></div>';
+	    
+	    $("#attachFileList").html(htmlData);
+	    attachFileInfo = file;
+	}
+	
+	function attachFileDel(fileId) {
+		console.log($("#"+fileId));
+		$('*[name=attachFile]').val("");
+		$("#"+fileId).remove();
+		
+		console.log("FFF "+$("#attachFileList").children().length)
+		if($("#attachFileList").children().length==1){
+			$(".nonfile").removeClass("hidden");
+		} 
+	}
+	
+	function attachImage() {
+		$('*[name=attachImage]').val("");
+		$('*[name=attachImage]').click();
+	}
+	
+	function attachFile() {
+		$('*[name=attachFile]').val("");
+		$('*[name=attachFile]').click();
+	}
+	
+	function doWrite() {
+		var url = rootPath + "bbs/insBbsContents.do";
+
+		$.each(bbsList, function(i, row) {
+			if(row.commCode==$("#obbsId").val()) {
+				bbsId = row.refCode;
+			}
+		});
+		
+	    oEditors.getById['ir1'].exec('UPDATE_CONTENTS_FIELD', []);
+	    
+		var subject = $("#subject").val();
+		var contents = $('#ir1').val();
+		if(bbsId=="" || bbsId.length==0) {
+			alert("업무 분류를 먼저 선택해주시기 바랍니다.");
+			return;
+		}
+		if(subject=="" || subject.length==0) {
+			alert("제목을 입력해주시기 바랍니다.");
+			return;
+		}
+
+		if(contents=="" || contents.length==0) {
+			alert("내용을 입력해주시기 바랍니다.");
+			return;
+		}
+		
+		if(!confirm("질문을 등록하시겠습니까?")) return;
+		
+		// 데이터설정
+		var formData = new FormData();
+	    formData.append("bbsId",bbsId);
+	    formData.append("workCode",workCode);
+	    formData.append('subject', subject);
+	    formData.append('contentsType', "0");
+	    formData.append('contents', contents);
+	    formData.append('hitCnt', '0');
+	    
+	    var fileList = document.getElementsByName('attachFile');
+	    
+		for(var i=0;i<fileList.length;i++) {
+			if (fileList[i].files[0] != undefined) {
+			    formData.append("addFile"+i,fileList[i].files[0]);
+			}
+		}
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data:formData,
+			contentType:false,
+			processData:false,
+			cache:false,
+			success:function(result)
+			{
+				$.unblockUI();
+				console.log(result);
+				alert(result.message);
+				if(result.success) {
+					window.close();
+				}
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					window.close();
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});	
+	}
+</script>
+</head>
+<body>
+
+<!-- *********************************************  게시판  *********************************************  -->
+<div id="boardque_wrap" class="">
+	<div class="container">
+		<div class="pagtit"><span class="NanumSquare_R"> 문의하기</span></div>
+	
+		<div class="board_con">
+			<ul>
+				<li class="tit">
+					<div class="selBox">
+						<select id="obbsId" onChange="changeBbsId(this)">
+			            </select>
+		            </div>
+					<div class="selBox">
+						<select id="oworkCode">
+			            </select>
+		            </div>
+					<div class="userInput">
+						<!--  권한에 따라  숨기기 : none class="noticeChk none"-->
+						<div class="title"><span class="NanumGothic">제목</span><input type="text" id="subject"/></div>
+					</div>
+				</li>
+				<!-- 임시저장 line 주석 처리 -->
+				<!-- <li class="box sub_tit">
+					<div><span class="temp_text red NanumSquare_R">1번에 임시저장 되었습니다.(1:2018-05-02 19:57:37)</span></div>
+					<div class="right NanumSquare_R">
+						<a class="btn_type btn_save">임시저장</a>
+						<select class="sel_time NanumSquare_R">
+		                    <option value="">1:2018-05-02 19:57:37</option>
+		                    <option value=""></option>
+		                    <option value=""></option>
+		                </select>
+						<a class="btn_type btn_import">불러오기</a>
+					</div>
+				</li> -->
+				<li class="box editArea smartOutput se2_inputarea" id="smart_editor2">
+					<textarea name="ir1" id="ir1"></textarea> 
+				</li>
+				<li class="box attachGroup">
+		        
+					<div class="btn_type fileselect  NanumSquare_R active" onClick="attachImage()">이미지 첨부</div>				
+					<div class="btn_type fileselect NanumSquare_R" onClick="attachFile()">파일 첨부
+					</div>
+					
+					<span class="text NanumSquare_R">※ 이미지는 5mb 이하의 이미지만 첨부가능합니다. 이미지는 게시글에 보여집니다.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;파일은 5mb 이하의 파일만 첨부 가능합니다</span>
+				</li>
+				<li class="box NanumSquare_R file_list admin" id="attachFileList">
+					<div class="nonfile" ><span>파일을 여기에 drag 하세요.</span></div>
+				</li>
+				<li id="submitbutton" style="display: none;">
+						<button type="submit">Upload Files</button>
+				</li>
+				<li class="box btn_group ">
+					<div class="btn_type NanumSquare_R" onClick="doWrite()"><span class="icon Material_icons">check_circle</span>작성완료</div>
+				</li>
+				
+			</ul>
+		</div>
+		<div class="rows_tit"><span class="speaker"></span><span class="NanumSquare_R text">문의 내역</span></div>
+		<div class="notice_list NanumBarunGothic">
+			<div class="notice_list_body">
+				<table>
+					<colgroup>
+						<col width="10%">
+						<col width="15%">
+						<col width="50%">
+						<col width="15%">
+						<col width="10%">
+					</colgroup>
+					<thead>
+						<tr>
+						<th width="10%">번호</th>
+						<th width="15%">구분</th>
+						<th width="50%">제목</th>
+						<th width="15%">날짜</th>
+						<th width="10%">상태</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr><td>1</td><td>회계관리</td><td>사회 보험 관리 메뉴 사업장 관리번호 검증로직 반영 안내</td><td>작성자</td><td>처리중</td></tr>
+						<tr><td>2</td><td>회계관리</td><td>사회 보험 관리 메뉴 사업장 관리번호 검증로직 반영 안내</td><td>작성자</td><td>처리중</td></tr>
+						<tr><td>3</td><td>회계관리</td><td>사회 보험 관리 메뉴 사업장 관리번호 검증로직 반영 안내</td><td>작성자</td><td>답변완료</td></tr>
+						<tr><td>4</td><td>회계관리</td><td>사회 보험 관리 메뉴 사업장 관리번호 검증로직 반영 안내</td><td>작성자</td><td>답변완료</td></tr>
+						<tr><td>5</td><td>회계관리</td><td>사회 보험 관리 메뉴 사업장 관리번호 검증로직 반영 안내</td><td>작성자</td><td>답변완료</td></tr>
+						<tr><td>6</td><td>회계관리</td><td>사회 보험 관리 메뉴 사업장 관리번호 검증로직 반영 안내</td><td>작성자</td><td>답변완료</td></tr>
+						 <tr><td>7</td><td>회계관리</td><td>사회 보험 관리 메뉴 사업장 관리번호 검증로직 반영 안내</td><td>작성자</td><td>답변완료</td></tr>
+						<tr><td>8</td><td>회계관리</td><td>사회 보험 관리 메뉴 사업장 관리번호 검증로직 반영 안내</td><td>작성자</td><td>답변완료</td></tr>
+						<tr><td>9</td><td>회계관리</td><td>사회 보험 관리 메뉴 사업장 관리번호 검증로직 반영 안내</td><td>작성자</td><td>답변완료</td></tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+	</div><!--  end container -->
+</div>
+
+<input type="file" id="attachImage" name="attachImage" style="visibility:hidden; position:absolute; left:-9999px; top:-9999px;" onChange="attachImageOk(event)">
+<input type="file" id="attachFile" name="attachFile" style="visibility:hidden; position:absolute; left:-9999px; top:-9999px;" onChange="attachFileOk(event)">
+
+<script type="text/javascript">
+/*
+filedrag.js - HTML5 File Drag & Drop demonstration
+Featured on SitePoint.com
+Developed by Craig Buckler (@craigbuckler) of OptimalWorks.net
+*/
+(function() {
+
+	// getElementById
+	function $id(id) {
+		return document.getElementById(id);
+	}
+	
+	// output information
+	function Output(msg) {
+		var m = $id("attachFileList");
+		m.innerHTML = msg + m.innerHTML;
+	}
+	
+	// file drag hover
+	function FileDragHover(e) {
+		e.stopPropagation();
+		e.preventDefault();
+		//e.target.className = (e.type == "dragover" ? "hover" : "");
+		if(e.type=="dragover"){
+			$("#attachFileList").addClass("hover");
+		}else{
+			$("#attachFileList").removeClass("hover");
+		}
+	}
+	
+	// file selection
+	function FileSelectHandler(e) {
+		// cancel event and hover styling
+		FileDragHover(e);
+	
+		// fetch FileList object
+		var files = e.target.files || e.dataTransfer.files;
+		
+		// process all File objects
+		for (var i = 0, f; f = files[i]; i++) {
+			ParseFile(f);
+		}
+	
+	}
+	
+	// output file information
+	function ParseFile(file) {
+		var m = $("#attachFileList");
+		
+		if(!m.find(".nonfile").hasClass("hidden")){
+			m.find(".nonfile").addClass("hidden");
+		}
+		//Output("<p>File information: <strong>" + file.name + "</strong> type: <strong>" + file.type + "</strong> size: <strong>" + file.size + "</strong> bytes</p>");
+		Output('<div class="file" id="'+fileId+'"><span class="name">'+file.name+'</span><div class="btn_type btn_delete" onClick="attachFileDel('+fileId+');"></div></div>');
+	
+	}
+	
+	// initialize
+	function Init() {
+	
+		var fileselect = document.querySelector(".fileselect"),
+			filedrag = $id("attachFileList"),
+			submitbutton = $id("submitbutton");
+		
+		// file select
+		fileselect.addEventListener("change", FileSelectHandler, false);
+		
+		// is XHR2 available?
+		var xhr = new XMLHttpRequest();
+			if (xhr.upload) {
+			
+				// file drop
+				filedrag.addEventListener("dragover", FileDragHover, false);
+				filedrag.addEventListener("dragleave", FileDragHover, false);
+				filedrag.addEventListener("drop", FileSelectHandler, false);
+				filedrag.style.display = "block";
+				
+				// remove submit button
+				submitbutton.style.display = "none";
+			}
+		
+		}
+		
+		// call initialization file
+		if (window.File && window.FileList && window.FileReader) {
+			Init();
+		}
+	}
+)();
+</script>
+</body>
+
+</html>

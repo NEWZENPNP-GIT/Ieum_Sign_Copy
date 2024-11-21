@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="febworker">
+	<typeAlias alias="ye020VO" type="com.ezsign.feb.worker.vo.YE020VO" />
+	<resultMap id="ye020ListMap" class="ye020VO">
+		<result property="계약ID" column="계약ID"/>
+		<result property="사용자ID" column="사용자ID"/>
+		<result property="작업자ID" column="작업자ID"/>
+		<result property="일련번호" column="일련번호"/>
+		<result property="사업장ID" column="사업장ID"/>
+		<result property="사업장명" column="사업장명"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="일련번호" column="일련번호"/>
+		<result property="공제구분코드" column="공제구분코드"/>
+		<result property="공제구분명" column="공제구분명"/>
+		<result property="공제구분상세코드" column="공제구분상세코드"/>
+		<result property="공제구분상세명" column="공제구분상세명"/>
+		<result property="남기실내용" column="남기실내용"/>
+		<result property="메모" column="메모"/>
+		<result property="파일ID" column="파일ID"/>
+		<result property="fileSize" column="FILE_SIZE"/>
+		<result property="orgFileName" column="ORG_FILE_NAME"/>
+		<result property="처리여부" column="처리여부"/>
+		<result property="처리일시" column="처리일시"/>
+		<result property="등록일시" column="등록일시"/>
+		<result property="수정일시" column="수정일시"/>
+	</resultMap>
+	
+	<resultMap id="ye020FileListMap" class="ye020VO">
+		<result property="계약ID" column="계약ID"/>
+		<result property="사용자ID" column="사용자ID"/>
+		<result property="작업자ID" column="작업자ID"/>
+		<result property="일련번호" column="일련번호"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="일련번호" column="일련번호"/>
+		<result property="공제구분코드" column="공제구분코드"/>
+		<result property="공제구분명" column="공제구분명"/>
+		<result property="공제구분상세코드" column="공제구분상세코드"/>
+		<result property="공제구분상세명" column="공제구분상세명"/>
+		<result property="남기실내용" column="남기실내용"/>
+		<result property="메모" column="메모"/>
+		<result property="파일ID" column="파일ID"/>
+		<result property="fileSize" column="FILE_SIZE"/>
+		<result property="orgFileName" column="ORG_FILE_NAME"/>
+		<result property="처리여부" column="처리여부"/>
+		<result property="처리일시" column="처리일시"/>
+		<result property="등록일시" column="등록일시"/>
+		<result property="수정일시" column="수정일시"/>
+	</resultMap>
+	
+	<select id="ye020DAO.getYE020List" parameterClass="ye020VO" resultMap="ye020ListMap">
+		SELECT A.계약ID, A.사용자ID, A.작업자ID, A.일련번호, E.사업장ID, E.사업장명, C.EMP_NO, C.EMP_NAME, A.일련번호, A.공제구분코드, fn_code_name('040', A.공제구분코드) 공제구분명,
+				A.공제구분상세코드, fn_code_name('041', A.공제구분상세코드) 공제구분상세명,	 
+				B.FILE_SIZE, B.ORG_FILE_NAME, A.남기실내용, A.메모, A.파일ID, fn_code_name('435', A.처리여부) 처리여부, A.처리일시, A.등록일시, A.수정일시 
+		FROM tbl_ye020 A, tbl_content B, tbl_emp C, tbl_ye000 D, tbl_ys030 E 
+		WHERE A.파일ID	 = B.FILE_ID 
+		AND A.사용자ID 	 = C.USER_ID 
+		AND	A.계약ID      = D.계약ID
+		AND A.사용자ID	 = D.사용자ID
+		AND D.계약ID		 = E.계약ID
+		AND D.사업장ID 	 = E.사업장ID
+		AND	C.BIZ_ID   	 = #bizId#
+		AND	A.계약ID   	 = #계약ID#
+		<isNotNull property="사용자ID">
+		    <isNotEmpty property="사용자ID">
+			AND	A.사용자ID			= #사용자ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="공제구분코드">
+		    <isNotEmpty property="공제구분코드">
+			AND	A.공제구분코드			= #공제구분코드#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사업장ID">
+		    <isNotEmpty property="사업장ID">
+			AND   E.사업장ID  		= #사업장ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="부서ID">
+		    <isNotEmpty property="부서ID">
+			AND   D.부서ID 		= #부서ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empName">
+		    <isNotEmpty property="empName">
+			AND   C.EMP_NAME LIKE CONCAT('%', #empName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empNo">
+		    <isNotEmpty property="empNo">
+			AND   C.EMP_NO LIKE CONCAT('%', #empNo#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="positionName">
+		    <isNotEmpty property="positionName">
+			AND   C.POSITION_NAME LIKE CONCAT('%', #positionName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="근무상태">
+		    <isNotEmpty property="근무상태">
+			    <isEqual property="근무상태"  compareValue="1">
+					AND   (C.LEAVE_DATE IS NULL OR C.LEAVE_DATE = '')
+				</isEqual>
+			    <isEqual property="근무상태"  compareValue="2">
+					AND   (C.LEAVE_DATE IS NOT NULL AND C.LEAVE_DATE != '')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="처리여부">
+		    <isNotEmpty property="처리여부">
+			    <isEqual property="처리여부"  compareValue="1">
+					AND   A.처리여부 	= '1'
+				</isEqual>
+			    <isEqual property="처리여부"  compareValue="2">
+					AND   A.처리여부 	= '2'
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="공제구분상세코드">
+		    <isNotEmpty property="공제구분상세코드">
+			AND	A.공제구분상세코드			= #공제구분상세코드#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sortName">
+		    <isNotEmpty property="sortName">
+				ORDER BY $sortName$ $sortOrder$
+			</isNotEmpty>
+		</isNotNull>
+		limit #endPage# offset #startPage#
+	</select>
+	
+	<select id="ye020DAO.getYE020ListCount" parameterClass="ye020VO" resultClass="java.lang.Integer">
+		SELECT COUNT(A.일련번호) CNT 
+		FROM tbl_ye020 A, tbl_content B, tbl_emp C, tbl_ye000 D, tbl_ys030 E
+		WHERE A.파일ID	 = B.FILE_ID 
+		AND A.사용자ID 	 = C.USER_ID 
+		AND	A.계약ID      = D.계약ID
+		AND A.사용자ID	 = D.사용자ID
+		AND D.계약ID		 = E.계약ID
+		AND D.사업장ID 	 = E.사업장ID
+		AND	C.BIZ_ID   	 = #bizId#
+		AND	A.계약ID   	 = #계약ID#
+		<isNotNull property="사용자ID">
+		    <isNotEmpty property="사용자ID">
+			AND	A.사용자ID			= #사용자ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="공제구분코드">
+		    <isNotEmpty property="공제구분코드">
+			AND	A.공제구분코드			= #공제구분코드#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사업장ID">
+		    <isNotEmpty property="사업장ID">
+			AND   E.사업장ID  		= #사업장ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="부서ID">
+		    <isNotEmpty property="부서ID">
+			AND   D.부서ID 		= #부서ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empName">
+		    <isNotEmpty property="empName">
+			AND   C.EMP_NAME LIKE CONCAT('%', #empName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empNo">
+		    <isNotEmpty property="empNo">
+			AND   C.EMP_NO LIKE CONCAT('%', #empNo#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="positionName">
+		    <isNotEmpty property="positionName">
+			AND   C.POSITION_NAME LIKE CONCAT('%', #positionName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="근무상태">
+		    <isNotEmpty property="근무상태">
+			    <isEqual property="근무상태"  compareValue="1">
+					AND   (C.LEAVE_DATE IS NULL OR C.LEAVE_DATE = '')
+				</isEqual>
+			    <isEqual property="근무상태"  compareValue="2">
+					AND   (C.LEAVE_DATE IS NOT NULL AND C.LEAVE_DATE != '')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="처리여부">
+		    <isNotEmpty property="처리여부">
+			    <isEqual property="처리여부"  compareValue="1">
+					AND   A.처리여부 	= '1'
+				</isEqual>
+			    <isEqual property="처리여부"  compareValue="2">
+					AND   A.처리여부 	= '2'
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="공제구분상세코드">
+		    <isNotEmpty property="공제구분상세코드">
+			AND	A.공제구분상세코드			= #공제구분상세코드#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<select id="ye020DAO.getYE020FileList" parameterClass="ye020VO" resultMap="ye020FileListMap">
+		SELECT A.계약ID, A.사용자ID, A.작업자ID, C.EMP_NO, C.EMP_NAME, A.일련번호, A.공제구분코드, fn_code_name('040', A.공제구분코드) 공제구분명,
+				A.공제구분상세코드, fn_code_name('041', A.공제구분상세코드) 공제구분상세명,
+				B.FILE_SIZE, B.ORG_FILE_NAME, A.남기실내용, A.메모, A.파일ID, fn_code_name('435', A.처리여부) 처리여부, A.처리일시, A.등록일시, A.수정일시 
+		FROM tbl_ye020 A, tbl_content B, tbl_emp C
+		WHERE A.파일ID	 = B.FILE_ID 
+		AND A.사용자ID 	 = C.USER_ID 
+		AND	C.BIZ_ID   	 = #bizId#
+		AND	A.계약ID   	 = #계약ID#
+		AND	A.사용자ID	 = #사용자ID#
+		<isNotNull property="공제구분코드">
+		    <isNotEmpty property="공제구분코드">
+			AND	A.공제구분코드			= #공제구분코드#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="일련번호">
+		    <isNotEmpty property="일련번호">
+			AND	A.일련번호			= #일련번호#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<select id="ye020DAO.getYE020FileListCount" parameterClass="ye020VO" resultClass="java.lang.Integer">
+		SELECT  COUNT(A.일련번호) CNT
+		FROM tbl_ye020 A, tbl_content B, tbl_emp C
+		WHERE A.파일ID	 = B.FILE_ID 
+		AND A.사용자ID 	 = C.USER_ID 
+		AND	C.BIZ_ID   	 = #bizId#
+		AND	A.계약ID   	 = #계약ID#
+		AND	A.사용자ID	 = #사용자ID#
+		<isNotNull property="공제구분코드">
+		    <isNotEmpty property="공제구분코드">
+			AND	A.공제구분코드			= #공제구분코드#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="일련번호">
+		    <isNotEmpty property="일련번호">
+			AND	A.일련번호			= #일련번호#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<insert id="ye020DAO.insYE020" parameterClass="ye020VO">
+		<selectKey resultClass="java.lang.String" keyProperty="일련번호">
+			SELECT  getTableKey('TBL_YE020')
+		</selectKey>
+		INSERT INTO tbl_ye020 (
+			계약ID, 사용자ID, 작업자ID, 일련번호, 공제구분코드, 공제구분상세코드, 남기실내용, 메모, 파일ID, 처리여부, 처리일시, 등록일시, 수정일시
+		) VALUES (
+		   #계약ID#, #사용자ID#, #작업자ID#, #일련번호#, #공제구분코드#, #공제구분상세코드#, #남기실내용#, #메모#, #파일ID#, #처리여부#, #처리일시#, 
+		   DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<update id="ye020DAO.updYE020" parameterClass="ye020VO">
+		UPDATE tbl_ye020
+		SET	
+		<isNotNull property="공제구분코드">
+		    <isNotEmpty property="공제구분코드">
+			공제구분코드			= #공제구분코드#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="공제구분상세코드">
+		    <isNotEmpty property="공제구분상세코드">
+			공제구분상세코드			= #공제구분상세코드#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="남기실내용">
+		    <isNotEmpty property="남기실내용">
+			남기실내용			= #남기실내용#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="메모">
+		    <isNotEmpty property="메모">
+			메모			= #메모#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="파일ID">
+		    <isNotEmpty property="파일ID">
+			파일ID			= #파일ID#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="처리여부">
+		    <isNotEmpty property="처리여부">
+			처리여부			= #처리여부#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="처리일시">
+		    <isNotEmpty property="처리일시">
+			처리일시			= #처리일시#,
+			</isNotEmpty>
+		</isNotNull>
+			수정일시			= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	계약ID    = #계약ID#
+		AND		사용자ID	 = #사용자ID#
+		AND		일련번호       = #일련번호#
+	</update>
+	
+	<delete id="ye020DAO.delYE020" parameterClass="ye020VO">
+		DELETE FROM tbl_ye020
+		WHERE	계약ID    = #계약ID#
+		AND		사용자ID	 = #사용자ID#
+		AND		일련번호       = #일련번호#
+	</delete>
+	
+</sqlMap>

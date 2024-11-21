@@ -1,0 +1,244 @@
+<!DOCTYPE HTML> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="user-scalable=yes, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+<title>인적자원관리 전문IT기업 - 뉴젠P&P</title>
+<head>
+<link rel="stylesheet" href="./css/style.css" />
+<link rel="stylesheet" href="./css/easydropdown.css" />
+<script type="text/javascript" src="./js/jquery.min.js"></script>
+<script type="text/javascript" src="./js/jquery.easydropdown.js"></script>
+<script type="text/javascript" src="./js/common.js"></script>
+<script type="text/javascript" src="./js/ui.biz.core.js"></script>
+<script type="text/javascript" src="./js/jquery.blockUI.js"></script>
+
+<script>
+var $toggleFormText = {
+	scan : function(o){
+		o.find(".hint").each(function(){
+			if(this.value == this.title){
+				$(this).addClass('hintText');
+				this.value = this.title;
+			}
+			if(this.value == ''){
+				$(this).addClass('hintText');
+				this.value = this.title;
+			}
+		});
+		o.find(".hint").focus(function(){
+			if(this.value == this.title){
+				$(this).removeClass('hintText');
+				this.value = '';
+			}
+		});
+		o.find(".hint").blur(function(){
+			if(this.value == ''){
+				$(this).addClass('hintText');
+				this.value = this.title;
+			} else { 
+				$(this).removeClass('hintText');
+			}
+		});
+	},
+	toString : function(){
+		return "toggleFormText";
+	}
+};
+
+$(document).ready(function(){
+	$toggleFormText.scan($("body"));
+		
+	
+});
+
+function fn_paystubUpload() {
+	if(!confirm("일괄등록을 진행하시겠습니까?")) return;
+	
+	var url = rootPath+"paystub/sendPaystubExcel.do";
+	
+	var documentType = $("#documentType option:selected").val();
+	
+	// 급여정보 문서 등록양식
+	if(documentType == "paycare") {
+		url = rootPath + "paystub/sendPaycarePaystubExcel.do";
+	}
+	
+	// 데이터설정
+	var formData = new FormData();
+	formData.append("documentType", documentType);
+	var file = document.getElementsByName("xlsFile");
+	for(var i=0;i<file.length;i++) {
+		if (file[i].files[0] != undefined) {
+			if(!checkFileExt(file[i].files[0].name, "xls")) {
+				alert("파일확장자는 xls파일만 가능합니다.");
+				return;
+			}
+			if(checkSpecial(file[i].files[0].name)) {
+				alert("파일명에 특수문자가 포함되어 있습니다. 제거하시어 다시 보내주시기 바랍니다.");
+				return;
+			}
+		    formData.append("addFile"+i,file[i].files[0]);
+		}
+	}
+
+	$.blockUI();
+    
+	$.ajax({
+		url:url,
+	    crossDomain : true,
+		dataType:"json",
+		type:"POST",
+		data:formData,
+		contentType:false,
+		processData:false,
+		cache:false,
+		success:function(result)
+		{
+			$.unblockUI();
+			console.log(result);
+			alert(result.message);
+		},
+		error:function(request,status,error){
+			$.unblockUI();
+			if (request.status=="401") {
+				alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+				//window.close();
+			} else {
+				alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+		        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		}
+	});
+}
+
+function fn_paystubCreate() {
+	if(!confirm("급여명세서를 진행하시겠습니까?")) return;
+	
+	var url = rootPath + "paystub/createPaystubPDF.do";
+
+	$.blockUI();
+	
+	$.ajax({
+		url:url,
+	    crossDomain : true,
+		dataType:"json",
+		type:"POST",
+		success:function(result)
+		{
+			$.unblockUI();
+			console.log(result);
+			if(result.success) {
+				alert(result.total + "건의 급여명세서를 생성하였습니다.");
+				opener.fn_paystubList(1);
+				window.close();
+			} else {
+				alert("입력하신 급여명세서정보를 다시 확인해주시기 바랍니다.");
+			}
+		},
+		error:function(request,status,error){
+			$.unblockUI();
+			if (request.status=="401") {
+				alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+				window.close();
+			} else {
+				alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+		        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		}
+	});
+	
+}
+</script>
+
+
+
+</head>
+
+<body>
+
+<div id="user_write_pop">
+	<div class="title_font">
+		급여정보
+	</div>
+	<div class="write_r">
+		
+		<div class="r_title">
+			급여내역정보 일괄등록
+		</div>
+		
+		<div class="r_write1">			
+			<ul>
+				<li class="write_left" style="padding-top:12px; height: 355px;">
+					<div class="r_font">
+						<img src = "./images/group_dot.jpg" /> 등록양식
+						<span class="r_font_dot">:</span>
+					</div>
+					<div class="r_font">
+						<img src = "./images/group_dot.jpg" /> 파일선택
+						<span class="r_font_dot">:</span>
+					</div>
+					<!-- <div class="r_font">
+						<img src = "./images/group_dot.jpg" /> 샘플파일
+						<span class="r_font_dot">:</span>
+					</div> -->
+					<div class="r_font">
+						<img src = "./images/group_dot.jpg" /> 설명
+						<span class="r_font_dot">:</span>
+					</div>
+				</li>
+				<li class="write_right" style="height: 368px;">
+					<div class="r_input" style="padding-top:9px;">
+						<select id="documentType" class="dropdown"  style="height: 25px;">
+							<option value="paycare">페이케어</option>
+						</select>
+					</div>
+					<div class="r_input" style="padding-top:9px;">
+					<input type="file" id="xlsFile" name="xlsFile" />
+					</div>
+					<!-- <div class="r_input" >
+					<font color="red"> <a href="./data/샘플_급여데이터.xls">[ <img src="./images/ico_xls.png" style="widht:15px; height:15px;"> 샘플_급여데이터 ]</a></font>
+					</div> -->
+					<div class="r_input">
+					1. 일괄로 파일을 등록하는 경우<font color="red"> 소요시간이 많이 걸리므로</font></br> 잠시만 기다려 주시기 바랍니다.</br></br>
+					2. 급여정보 조건파일을 등록 진행하신 후 <생성하기>를 선택하시어 명세서를 생성하시기 바랍니다. </br></br> 
+					3. 등록된 급여명세서의 급여정보들을 확인해주시기 바랍니다.
+					</div>
+					
+				</li>				
+			</ul>
+
+		</div>
+		
+		<div class="r_user_write_pop_line"></div>
+		
+		<div id="con_table_button" style="margin-top: -15px;">
+			<ul>
+				<li>
+					<a href = "javascript:window.close();">
+					<div class="input_b" onmouseover="this.className='input_b_on'" onmouseout="this.className='input_b'">
+						취소
+					</div></a>
+				</li>
+				<li>
+					<a href = "javascript:fn_paystubCreate();">
+					<div class="input_b" onmouseover="this.className='input_b_on'" onmouseout="this.className='input_b'">
+						생성하기
+					</div></a>
+				</li>
+				<li>
+					<a href = "javascript:fn_paystubUpload();">
+					<div class="input_b" onmouseover="this.className='input_b_on'" onmouseout="this.className='input_b'">
+						등록하기
+					</div></a>
+				</li>
+			</ul>
+		</div>
+
+
+	</div>
+</div><!-- wrap 종료 -->
+
+ 
+</body>
+</html>

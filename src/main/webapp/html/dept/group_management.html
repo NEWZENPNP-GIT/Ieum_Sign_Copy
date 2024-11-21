@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>게시판</title>
+
+<link rel="stylesheet" type="text/css" href="/css/jquery.alerts.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.alerts.js"></script>
+<script type="text/javascript" src="/js/ezsign/session_storage.js"></script>
+
+<script type="text/javascript" src="/js/jquery.bootpag.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+
+<script type='text/javascript' src="/js/ezsign/dept/group_management.js"></script>
+
+</head>
+<body>	
+	
+	<div id="groupManage_wrap" class="">
+	  <div class="container">
+	    <div class="location"><span class="loc_sub NanumGothic">부문 관리</span></div>
+	
+	    <div class="contents">
+	      <div class="group_wrap">
+	        <div class="group_tit">
+	          <div class="icon"></div>
+	          <span class="text NanumGothic">부문 관리</span>
+	          <ul class="top_items NanumGothic">
+	            <li><a class="btn_type" onClick="saveDeptList()"><span class="icon_save NanumGothic"></span>저장</a></li>
+	          </ul>
+	        </div>
+	        <div class="grid_field">
+	          <ul class="between">
+	            <li class="label_before">
+	              <label class="NanumGothic label_sort_right">부문명 : </label>
+	              <fieldset class="">
+	                <input class="" type="text" id="model_search_deptName">
+	                <a class="btn_type btn_search Material_icons" onClick="getSearch()">search</a>
+	              </fieldset>
+	            </li>
+	            <li class="NanumGothic btns">
+	                <a class="btn_type type1" onClick="addGroupList()">부문추가<span class="icon add"></span></a>
+	              <a class="btn_type type2" onClick="delGroupList()">선택삭제</a>
+	              <a class="btn_type type1" onClick="fn_addSubUser()">관리자등록<span class="icon add"></span></a>
+	            </li>
+	          </ul>
+	        </div>
+	
+	        <div class="group_table" style="margin-top: 30px;">
+	          <table class="NanumGothic">
+	            <colgroup>
+	              <col width="4%">
+	              <col width="12%">
+	              <col width="20%">
+	              <col width="12%">
+	              <col width="20%">
+	              <col width="12%">
+	              <col width="20%">
+	            </colgroup>
+	            <tbody id="modelListTbody">
+	            </tbody>
+	          </table>
+	        </div>
+	        <!-- <pre>{{model.list | json}}</pre> -->
+	        <!--  2019.04.04 추가 -->
+	        <div class="explain_wrap NanumGothic">
+	          <dl class="col_red">
+	            <dt class="num">1.</dt>
+	            <dd>관리자 등록을 눌러 부문 관리자를 추가합니다.</dd>
+	          </dl>
+	          <dl class="col_red">
+	            <dt class="num">2.</dt>
+	            <dd>부문 추가를 눌러 부문명을 작성합니다.</dd>
+	          </dl>
+	          <dl class="col_red">
+	            <dt class="num">3.</dt>
+	            <dd>부문관리자의 아이콘을 눌러 부문관지자를 배정합니다.</dd>
+	          </dl>
+	          <dl class="col_red">
+	            <dt class="num">4.</dt>
+	            <dd>저장을 누릅니다.</dd>
+	          </dl>
+	          <dl class="col_red">
+	            <dt class="num">5.</dt>
+	            <dd>왼쪽 메뉴에 부문인원 배정으로 가서 해당 부문의 인원을 배정합니다.</dd>
+	          </dl>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<app-pop-middle (outputManagerProperty)="closeManger($event)"></app-pop-middle>
+	<app-popup-employee (outputEmployeeProperty)="closeEmployee($event)"></app-popup-employee>

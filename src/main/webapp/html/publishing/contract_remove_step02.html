@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/contract_write.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<!-- bootPag -->
+
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+</head>
+<body>
+	
+<div id="contract_wrap" class="">
+	<div class="container">
+		<div class="location"><span class="loc_main NanumSquare_R">전자문서 > </span><span class="loc_sub NanumSquare_R">전자문서 관리</span></div>
+        <div class="pagtit"><span class="NanumSquare_R">2. 목록 확인 및 백업</span><!-- <div class="top_btns NanumSquare_R"><a class="btn_type">파일등록 <span class="icon add"></span></a></div> --></div>
+        <div class="tit_dec NanumSquare_R"><span class="speaker"></span><span>총 10건의 전자문서가 선택되었습니다. 전자문서 관리 화면으로 돌아가길 원하신다면 </span> <span class="point"><a class="btn_type"> [여기] </a></span><span>를 클릭하세요.
+</span></div>
+		<div class="nav_snb">
+			<ul class="nav_tabGroup tab3">
+				<li class="clear">
+					<div class="hor_line"></div>
+					<div class="num"><span>1</span></div>
+					<div class="btn_tab"><span class="tabBox NanumSquare_R">삭제 동의</span></div>
+				</li>
+				<li class="active">
+					<div class="hor_line"></div>
+			        <div class="num"><span>2</span></div>
+					<div class="btn_tab"><span class="tabBox NanumSquare_R">목록 확인 및 다운로드</span></div>
+				</li>
+				<li>
+					<div class="hor_line"></div>
+			        <div class="num"><span>3</span></div>
+					<div class="btn_tab"><span class="tabBox NanumSquare_R">삭제</span></div>
+				</li>
+			</ul>
+		</div>
+		<div class="tab_contents delTab">
+			<div class="list NanumSquare_R">
+				<table>
+					<colgroup>
+						<col width="30px">
+						<col width="20%">
+						<col width="25%">
+						<col width="35%">
+						<col width="20%">
+					</colgroup>
+					<thead>
+						<tr>
+							<th class="chk_area"><input type="checkbox"></th>
+							<th>성명</th>
+							<th>사번</th> 
+							<th>문서종료</th>
+							<th>생성일자</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="databox">
+							<td class="chk_area"><input type="checkbox"></td>
+							<td class="">기업/임직원</td>
+							<td class="">일용직</td> 
+							<td class="">표준 근로계약서.pdf</td>
+							<td class="">2017-11-25</td>
+						</tr>
+						<tr class="databox">
+				            <td class="chk_area"><input type="checkbox"></td>
+				            <td class="">서명</td>
+				            <td class="">단기간</td> 
+				            <td class="">제목이 엄청 긴 표준 근로계약서 .hwp</td>
+				            <td class="">2017-11-25</td>
+				        </tr>
+                        <tr class="databox">
+                            <td class="chk_area"><input type="checkbox"></td>
+                            <td class="">서명</td>
+                            <td class="">단기간</td> 
+                            <td class="">제목이 엄청 긴 표준 근로계약서 .hwp</td>
+                            <td class="">2017-11-25</td>
+                        </tr>
+                        <tr class="databox">
+                            <td class="chk_area"><input type="checkbox"></td>
+                            <td class="">서명</td>
+                            <td class="">단기간</td> 
+                            <td class="">제목이 엄청 긴 표준 근로계약서 .hwp</td>
+                            <td class="">2017-11-25</td>
+                        </tr>
+                        <tr class="databox">
+                            <td class="chk_area"><input type="checkbox"></td>
+                            <td class="">서명</td>
+                            <td class="">단기간</td> 
+                            <td class="">제목이 엄청 긴 표준 근로계약서 .hwp</td>
+                            <td class="">2017-11-25</td>
+                        </tr>
+                        <tr class="databox">
+                            <td class="chk_area"><input type="checkbox"></td>
+                            <td class="">서명</td>
+                            <td class="">단기간</td> 
+                            <td class="">제목이 엄청 긴 표준 근로계약서 .hwp</td>
+                            <td class="">2017-11-25</td>
+                        </tr>
+					</tbody>
+				</table>
+			</div>
+			<div id="page-selection" class="pagingnav_wrap"></div>
+			
+		</div>
+		<div class="warning NanumSquare_R">
+			<span>※ 전자문서가 영구적으로 삭제 되기 전에 다운로드를 진행해야 합니다. 반드시 다운로드가 완료된 것을 확인하고 다음을 눌러주시기 바랍니다.</span>
+		</div>
+		<div class="btn_footGroup NanumRound sort-R">
+			<a class="btn_type type2">선택 다운로드 </a>
+			<a class="btn_type type4">일괄 다운로드</a>
+			<a class="btn_type btn_next">다음 ＞ </a>
+		</div>
+	</div>
+</div>
+</body>
+
+<!--  bootpog Setting -->
+<script type="text/javascript">
+$('#page-selection').bootpag({
+    total: 10,
+    page: 1,
+    maxVisible: 5,
+    leaps: true,
+    firstLastUse: true,
+    first: '',
+    last: '',
+    wrapClass: 'pagination',
+    activeClass: 'active',
+    disabledClass: 'disabled',
+    nextClass: 'btn_next',
+    prevClass: 'btn_prev',
+    lastClass: 'end_page',
+    firstClass: 'first_page'
+}).on("page", function(event, num){}); 
+
+/* TODO next 버튼 이동 임시 처리 */
+$(".btn_footGroup > .btn_next").click(function(){
+	if(!$(this).hasClass("disable")){
+	    $("#contents_wrap").empty();
+	    $(window).off("resize");
+	    $.ajax({
+	        url : "contract_write_step02.html",
+	        success : function(result) {
+	            $("#contents_wrap").html(result);
+	        }
+	    });
+	}
+});
+</script>
+
+</html>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="attend">
+    <typeAlias alias="attendPlaceVO" type="com.ezsign.attend.vo.AttendPlaceVO"/>
+
+    <resultMap id="attendPlaceListMap" class="attendPlaceVO">
+        <result property="bizId" column="BIZ_ID"/>
+        <result property="placeId" column="PLACE_ID"/>
+
+        <result property="placeName" column="PLACE_NAME"/>
+        <result property="placeAddr" column="PLACE_ADDR"/>
+        <result property="latitude" column="LATITUDE"/>
+        <result property="longitude" column="LONGITUDE"/>
+
+        <result property="insDate" column="INS_DATE"/>
+        <result property="updDate" column="UPD_DATE"/>
+    </resultMap>
+
+    <select id="attendPlaceDAO.getAttendPlaceList" parameterClass="attendPlaceVO" resultMap="attendPlaceListMap">
+        SELECT A.BIZ_ID, A.PLACE_ID,
+          A.PLACE_NAME, A.PLACE_ADDR, A.LATITUDE, A.LONGITUDE,
+          A.INS_DATE, A.UPD_DATE
+        FROM tbl_attend_place A
+        WHERE A.BIZ_ID = #searchCompany#
+		  AND (FIND_IN_SET(A.BIZ_ID, (SELECT GROUP_CONCAT(C.REF_ID) FROM TBL_BIZ_GRP C WHERE C.BIZ_ID  = #bizId#)) OR A.BIZ_ID = #bizId#)
+    </select>
+
+    <insert id="attendPlaceDAO.insAttendPlace" parameterClass="attendPlaceVO">
+        <selectKey resultClass="java.lang.String" keyProperty="placeId">
+            SELECT  getTableKey('TBL_ATTEND_PLACE');
+        </selectKey>
+        INSERT INTO tbl_attend_place (
+          BIZ_ID, PLACE_ID,
+          PLACE_NAME, PLACE_ADDR, LATITUDE, LONGITUDE,
+          INS_DATE, UPD_DATE
+        ) VALUES (
+          #bizId#, #placeId#,
+          #placeName#, #placeAddr#, #latitude#, #longitude#,
+          DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        )
+    </insert>
+
+    <update id="attendPlaceDAO.updAttendPlace" parameterClass="attendPlaceVO">
+        UPDATE tbl_attend_place
+        SET
+        <isNotNull property="placeName">
+            <isNotEmpty property="placeName">
+                PLACE_NAME = #placeName#,
+            </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="placeAddr">
+            <isNotEmpty property="placeAddr">
+                PLACE_ADDR = #placeAddr#,
+            </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="latitude">
+            <isNotEmpty property="latitude">
+                LATITUDE = #latitude#,
+            </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="longitude">
+            <isNotEmpty property="longitude">
+                LONGITUDE = #longitude#,
+            </isNotEmpty>
+        </isNotNull>
+          UPD_DATE = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        WHERE BIZ_ID = #bizId#
+          AND PLACE_ID = #placeId#
+    </update>
+
+    <delete id="attendPlaceDAO.delAttendPlace" parameterClass="attendPlaceVO">
+        DELETE
+        FROM tbl_attend_place
+        WHERE BIZ_ID = #bizId#
+        <isNotNull property="placeId">
+            <isNotEmpty property="placeId">
+                AND PLACE_ID = #placeId#
+            </isNotEmpty>
+        </isNotNull>
+    </delete>
+</sqlMap>

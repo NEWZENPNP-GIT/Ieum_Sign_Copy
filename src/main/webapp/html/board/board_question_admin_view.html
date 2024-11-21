@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>게시판</title>
+
+<link rel="stylesheet" type="text/css" href="/css/jquery.alerts.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.alerts.js"></script>
+<script type="text/javascript" src="/js/ezsign/session_storage.js"></script>
+
+<script type="text/javascript" src="/js/jquery.bootpag.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+
+<script type='text/javascript' src="/js/ezsign/board/board_question_admin_view.js"></script>
+
+</head>
+<body>		
+	
+	<div id="boardque_wrap" class="">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumGothic">게시판 > </span><span class="loc_sub NanumGothic">문의하기</span></div>
+			<div class="pagtit"><span class="NanumGothic">문의하기</span></div>
+		</div>
+		<div class="board_con_admin">
+	    <ul class="tab_menu" id="tabMenuTitle">
+	      
+	    </ul>
+			<div class="tab_con">
+			<table class="tab_data NanumGothic">
+				<tr>
+					<td class="tit">회사명</td>
+					<td class="text company" id="model_detail_bizName"></td>
+					<td class="tit">회사 연락처</td>
+					<td class="text tel" id="model_detail_companyTelNum"></td>
+					<td class="tit">유형</td>
+					<td class="text type" id="model_detail_workName"></td>
+				</tr>
+				<tr>
+					<td class="tit title">제목</td>
+					<td class="text" colspan="3" id="model_detail_subject"></td>
+					<td class="tit ">작성자명</td>
+					<td class="text writer" id="model_detail_empName"></td>
+				</tr>
+				<tr>
+					<td class="tit">내용</td>
+					<td class="con text" colspan="5" id="model_detail_contents" ></td>
+				</tr>
+				<tr>
+					<td class="tit">첨부파일</td>
+					<td colspan="5" class="attach" id="fileListTd">
+	          
+	        		</td>
+				</tr>
+			</table>
+			</div>
+			<div class="tab_btnGroup NanumGothic" id="btnGroupDiv">
+				
+			</div>
+			<ul class="comment_list" id="commentListUl">
+	        	
+			</ul>
+		</div>
+	</div>
+
+</body>
+</html>

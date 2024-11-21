@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>접속IP관리</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+</head>
+<body>
+	<div id="yearTax_wrap" class="yearTax">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연말정산 > 시스템관리 > </span><span class="loc_sub NanumSquare_R">접속IP관리</span></div>
+			<div class="pagtit NanumSquare_R"><span class="">접속IP관리</span></div>
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">버전관리(업데이트)</span>
+					</div>
+					<div class="box_wrap">
+						<div class="group_row row1">
+							<dl class="NanumSquare_R rat1n-9">
+								<dt><label class="label_txt NanumSquare_R">시스템 버전</label></dt>
+								<dd class="default_box">
+									<div class="">V.1.1.0</div>
+								</dd>
+							</dl>
+						</div>
+						<div class="group_row row1">
+							<dl class="NanumSquare_R rat1n-9">
+								<dt><label class="label_txt NanumSquare_R">최신 버전</label></dt>
+								<dd class="default_box">
+									<div class="">V.1.1.1</div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+				
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">시스템 업데이트</span>
+					</div>
+					<div class="box_wrap">
+						<div class="group_row row2">
+							<dl class="NanumSquare_R rat3-7">
+								<dt><label class="label_txt NanumSquare_R">시스템 버전 업데이트일</label></dt>
+								<dd class="default_box"><div class="">2018.05.01 16:00:00 </div></dd>
+							</dl>
+							<dl class="NanumSquare_R rat3-7">
+								<dt><label class="label_txt NanumSquare_R">최신 버전 배포일</label></dt>
+								<dd class="default_box"><div class="">2018.05.01 16:00:00 </div></dd>
+							</dl>
+						</div>
+						<div class="group_row row2">
+							<dl class="NanumSquare_R rat3-7">
+								<dt><label class="label_txt NanumSquare_R">최신버전 업데이트 내용</label></dt>
+								<dd><div class="btns">
+									<a class="btn_type btn_updatelist NanumSquare_R underline"> 업데이트 내용</a>
+									<a class="btn_type type1 btn_updateFn NanumSquare_R">시스템 업데이트 실행</a></div></dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+				
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">파일 업데이트</span>
+					</div>
+					<div class="box_wrap">
+						<div class="group_row row2">
+							<dl class="NanumSquare_R rat3-7">
+								<dt><label class="label_txt NanumSquare_R">시스템 버전 </label></dt>
+								<dd class="default_box">
+									<div class="disable underline"> 선택된 파일이 없음</div>
+									<div class="btns">
+										<a class="btn_type btn_file_select NanumSquare_R">파일선택</a>
+										<a class="btn_type type1 btn_updateFn NanumSquare_R">파일 업데이트 실행</a>
+									</div>
+								</dd>
+							</dl>
+							
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+$('#page-selection').bootpag({
+    total: 10,
+    page: 1,
+    maxVisible: 5,
+    leaps: true,
+    firstLastUse: true,
+    first: '',
+    last: '',
+    wrapClass: 'pagination',
+    activeClass: 'active',
+    disabledClass: 'disabled',
+    nextClass: 'btn_next',
+    prevClass: 'btn_prev',
+    lastClass: 'end_page',
+    firstClass: 'first_page'
+}).on("page", function(event, num){}); 
+</script>
+</html>

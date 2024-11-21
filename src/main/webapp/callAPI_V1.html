@@ -1,0 +1,1068 @@
+<!DOCTYPE HTML> 
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="user-scalable=yes, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">	
+<title>인적자원관리 전문IT기업 - 뉴젠P&amp;P</title>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/common.js"></script>
+<script>
+	var 계약ID = "3590667780704434271";
+	var 사용자ID = "180712135810004";
+
+	function fn_insYS000() {
+
+		var contractYear = prompt('계약년도를 입력해주시기 바랍니다.', new Date().getFullYear());
+		
+		if (contractYear === "") {
+			alert("계약년도를 입력해주세요.");
+			return;
+		}
+
+		var bizId = $('#bizId').val();
+		
+		var url = rootPath+"febsystem/insYS000.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				bizId:bizId,
+				febYear:contractYear
+			},
+			success:function(result) {
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+
+	
+	$(document).ready(function() {		
+	    // 스코롤 레이어
+		var currentPosition = parseInt($("#txtArea").css("top")); 
+		$(window).scroll(function() { 
+			var position = $(window).scrollTop(); 
+			$("#txtArea").stop().animate({"top":position+currentPosition+"px"},0); 
+		});
+		
+	});
+
+	// 기본설정
+	function fn_getYS010List() {
+		
+		var url = rootPath+"febsystem/getYS010List.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: { 계약ID:계약ID },
+			success:function(result) {
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+
+	function fn_insYS010() {
+		
+		var url = rootPath+"febsystem/insYS010.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				계약ID:계약ID,
+				사업장관리여부:1,
+				중간관리자여부:1,
+				국세청PDF유형코드:0,
+				사내기부금여부:0,
+				공제불가회사지원금여부:0,
+				근로자부서표시여부코드:0,
+				근로자접속기간_FROM:"20180701",
+				근로자접속기간_TO:"20180830",
+				관리자접속기간_FROM:"20180901",
+				관리자접속기간_TO:"20180930",
+				근로자데이터입력수정여부:0,
+				근로자확정기능여부:0,
+				근로자출력설정_원천징수영수증:1,
+				근로자출력설정_소득공제신고서:1,
+				근로자출력설정_의료비명세서:1,
+				근로자출력설정_기부금명세서:1,
+				IP관리사용여부:0
+			},
+			success:function(result) {
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+
+	function fn_updYS010() {
+		
+		var url = rootPath+"febsystem/updYS010.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				계약ID:계약ID,
+				사업장관리여부:1,
+				중간관리자여부:1,
+				국세청PDF유형코드:0,
+				사내기부금여부:0,
+				공제불가회사지원금여부:0,
+				근로자부서표시여부코드:0,
+				근로자접속기간_FROM:"20180701",
+				근로자접속기간_TO:"20180830",
+				관리자접속기간_FROM:"20180901",
+				관리자접속기간_TO:"20180930",
+				근로자데이터입력수정여부:0,
+				근로자확정기능여부:0,
+				근로자출력설정_원천징수영수증:1,
+				근로자출력설정_소득공제신고서:1,
+				근로자출력설정_의료비명세서:1,
+				근로자출력설정_기부금명세서:1,
+				IP관리사용여부:0
+			},
+			success:function(result) {
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	
+
+	// 사업장조회
+	function fn_getYS030List(arg) {
+		
+		var url = rootPath+"febsystem/getYS030List.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				계약ID:계약ID,
+				사업장명:'',
+				지점여부:arg,
+				startPage:0,
+				endPage:10
+			},
+			success:function(result) {
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error) {
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+
+	function fn_updYS030() {
+		
+		var url = rootPath+"febsystem/updYS030.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				계약ID:계약ID,
+				사업장ID:$("#사업장ID").val(),
+				사업장명:"funlab",
+				대표자명:"",
+				사업자등록번호:"",
+				법인등록번호_개인식별번호:"1234567890",
+				회사주소1:"",
+				회사전화1:"",
+				회사팩스1:"",
+				회사주소2:"",
+				회사전화2:"",
+				회사팩스2:"",
+				단위과세여부:"0",
+				종사업자일련번호:"0001",
+				관할세무서코드:"002",
+				지방소득세납세지:"001",
+				홈택스아이디:"",
+				제출담당부서명:"",
+				제출담당자성명:"",
+				제출담당자전화번호:"",
+				사용여부:"Y"
+			},
+			success:function(result) {
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error) {
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	function fn_getUserStatusList() {
+
+		var url = rootPath+"febmaster/getUserStatusList.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				계약ID:계약ID,
+				사업장ID:'',
+				부서ID:'',
+				leaveDate:'', // 근무상태 (1: 계속근무, 2:퇴사)
+				진행상태코드:'',
+				empName:'',
+				empNo:'',
+				positionName:'',
+				startPage:0,
+				endPage:10
+			},
+			success:function(result) {
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error) {
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	function fn_setYE000AllConfirm() {
+
+		var url = rootPath+"febmaster/setYE000AllConfirm.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: { 계약ID:계약ID },
+			success:function(result) {
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+
+	function fn_setYE000Confirm() {
+
+		var url = rootPath+"febmaster/setYE000Confirm.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				계약ID:계약ID,
+				사용자ID:사용자ID
+			},
+			success:function(result) {
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error) {
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	function fn_getUserStatusDate() {
+
+		var url = rootPath+"febmaster/getUserStatusDate.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				계약ID:계약ID,
+				사용자ID:사용자ID,
+				startPage:0,
+				endPage:10
+			},
+			success:function(result) {
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	var scheduleId = '1';
+	
+	function fn_getMainScheduleList() {
+
+		var url = rootPath+"schedule/getMainScheduleList.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				유형:'D',
+				기간From:'20180601',
+				기간To:'20180630'
+			},
+			success:function(result) {
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error) {
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	function fn_insSchedule() {
+
+		var url = rootPath+"schedule/insSchedule.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				dateFrom:'20180718061412',
+				dateTo:'20180719121212',
+				scheduleType:'201',
+				openType:'1',
+				subject:'',
+				comments:'테스트',
+				location:'서울시 영등포구'
+			},
+			success:function(result) {
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+		
+	}
+
+	function fn_updSchedule() {
+
+		var url = rootPath+"schedule/updSchedule.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				scheduleId:scheduleId,
+				dateFrom:'20180718061412',
+				dateTo:'20180719121212',
+				scheduleType:'201',
+				openType:'1',
+				subject:'',
+				comments:'테스트',
+				location:'서울시 영등포구'
+			},
+			success:function(result) {
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+		
+	}
+
+	function fn_delSchedule() {
+
+		var url = rootPath+"schedule/delSchedule.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				scheduleId:scheduleId
+			},
+			success:function(result) {
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error) {
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+		
+	}
+	
+	function fn_updBizLogo() {
+
+		var url = rootPath+"biz/updBizLogo.do";
+		
+		// 데이터설정
+		var formData = new FormData();
+		var file = document.getElementsByName("imageLogo");
+		for(var i=0;i<file.length;i++) {
+			if (file[i].files[0] !== undefined) {
+				if (!checkFileExt(file[i].files[0].name, "png")) {
+					alert("파일확장자는 png파일만 가능합니다.");
+					return;
+				}
+
+				if(checkSpecial(file[i].files[0].name)) {
+					alert("파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.");
+					return;
+				}
+
+			    formData.append("addFile"+i,file[i].files[0]);
+			}
+		}
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data:formData,
+			contentType:false,
+			processData:false,
+			cache:false,
+			success:function(result) {
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});	
+	}
+
+	function fn_delBizLogo() {
+
+		var url = rootPath+"biz/delBizLogo.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			success:function(result) {
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error) {
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+		
+	}
+	
+	function fn_updBizStamp() {
+
+		var url = rootPath+"biz/updBizStamp.do";
+		
+		// 데이터설정
+		var formData = new FormData();
+		var file = document.getElementsByName("imageStamp");
+		for(var i=0;i<file.length;i++) {
+			if (file[i].files[0] !== undefined) {
+				if(!checkFileExt(file[i].files[0].name, "png")) {
+					alert("파일확장자는 png파일만 가능합니다.");
+					return;
+				}
+				if(checkSpecial(file[i].files[0].name)) {
+					alert("파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.");
+					return;
+				}
+			    formData.append("addFile"+i,file[i].files[0]);
+			}
+		}
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data:formData,
+			contentType:false,
+			processData:false,
+			cache:false,
+			success:function(result) {
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error) {
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});	
+	}
+
+	function fn_delBizStamp() {
+
+		var url = rootPath+"biz/delBizStamp.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			success:function(result) {
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error) {
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+		
+	}
+
+	function fn_getMyPage() {
+
+		var url = rootPath+"mypage/getMyPage.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			success:function(result) {
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error) {
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	function fn_pwdChange() {
+		
+		var url = rootPath+"mypage/pwdChange.do";
+		
+		var userId = getCookie("loginId");
+		var userPwd = "";  // 신규 비밀번호
+		var userPwd1 = ""; // 신규 비밀번호 확인
+		var prevUserPwd = "";  // 이전 비빌번호
+		
+		if(userPwd.length==0 || userPwd1.length==0) {
+			alert("변경할 비밀번호를 입력해주세요.");
+			return;
+		}
+		
+		if(userPwd!=userPwd1) {
+			alert("입력하신 신규 비밀번호가 일치하지 않습니다.");
+			return;
+		}
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				userId:userId,
+				userPwd:userPwd,
+				prevUserPwd:prevUserPwd
+			},
+			success:function(result)
+			{
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	function fn_getEmpManager() {
+		var url = rootPath+"emp/getEmpManager.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			success:function(result)
+			{
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	function fn_getMyPageBizInfo() {
+		var url = rootPath+"mypage/getMyPageBizInfo.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			success:function(result)
+			{
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	function fn_updMyPageBizInfo() {
+		var url = rootPath+"mypage/updMyPageBizInfo.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				ownerName:'장호연1',
+				businessNo:'12708102',
+				addr1:'서울특별시 구로구 디지털로32가길 16',
+				companyTelNum:'07086801115',
+				companyFaxNum:'07082501111',
+				empName:'관리자1',
+				phoneNum:'01097659765',
+				eMail:'admin@funlab.kr',
+				loginId:'master@funlab.kr'
+				
+			},
+			success:function(result)
+			{
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+
+	function fn_getMainGraphist() {
+		var url = rootPath+"statistics/getMainGraphist.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			success:function(result)
+			{
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	
+	function fn_getCodeList() {
+		var url = rootPath+"code/getCodeList.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				grpCommCode:'401',
+				commName:'부'
+			},
+			success:function(result)
+			{
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+		
+	}
+	
+	// 회사정보/사업장정보(본점) 입력
+	function fn_insYS030(arg) {
+		var url = rootPath+"febsystem/insYS030.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				계약ID:계약ID,
+				사업장명:"펀랩",
+				지점여부:arg,
+				대표자명:"",
+				사업자등록번호:"",
+				법인등록번호_개인식별번호:"1234567890",
+				회사주소1:"",
+				회사전화1:"",
+				회사팩스1:"",
+				회사주소2:"",
+				회사전화2:"",
+				회사팩스2:"",
+				단위과세여부:"0",
+				종사업자일련번호:"0001",
+				관할세무서코드:"002",
+				지방소득세납세지:"001",
+				홈택스아이디:"",
+				제출담당부서명:"",
+				제출담당자성명:"",
+				제출담당자전화번호:"",
+				사용여부:"Y"
+			},
+			success:function(result)
+			{
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+
+	// 그룹관리 조회
+	function fn_getDeptList() {
+		var url = rootPath+"dept/getDeptList.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				deptName:'그룹'
+			},
+			success:function(result)
+			{
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});	
+	}
+	
+	// 그룹관리 - 중간관리자조회
+	function fn_middleAdminList() {
+
+		var url = rootPath+"emp/getEmpList.do";
+		
+		var searchKey = $("#searchKey").val();
+		var searchValue = $("#searchValue").val();
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				searchKey:searchKey,
+				searchValue:searchValue,
+				empType:'5',
+				startPage:0,
+				endPage:99999
+			},
+			success:function(result)
+			{
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});		
+	}
+
+	// 그룹관리  저장
+	function fn_saveDept() {
+
+		var url = rootPath+"dept/saveDept.do";
+		
+		var params = [
+			{
+				dbMode:'C',
+				deptCode:'',
+				deptName:'그룹테스트',
+				subAdminList:[
+					{
+						dbMode:'C',
+						userId:'180706171106000'
+					}
+				],
+				userList:[
+					{
+						dbMode:'C',
+						userId:'080706171106002'						
+					},
+					{
+						dbMode:'C',
+						userId:'180706171106000'
+					}
+				]
+			}			
+		];
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: JSON.stringify(params),
+			contentType : "application/json; charset=UTF-8",
+			success:function(result)
+			{
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});		
+	}
+	
+
+	// 그룹관리 근로자 배정 조회
+	function fn_getDeptEmpList() {
+		var url = rootPath+"dept/getDeptEmpList.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				deptCode:'180817165034005'
+			},
+			success:function(result)
+			{
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});	
+	}
+	
+	// 연말정산 PDF 영수증 생성
+	
+	function fn_createYE750Pdf() {
+		var 계약ID = $('#yearContractId').val();
+		var 사용자ID = $("#userId").val();
+		console.log("사용자ID" + 사용자ID);
+		var url = rootPath+"febworker/createYE750Pdf.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				계약ID:계약ID,
+				사용자ID:사용자ID
+			},
+			success:function(result)
+			{
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+
+</script>
+<style>
+	#txtArea{
+		position: absolute;
+        /* border: 3px solid #f00; */
+        left : 500px;
+        top : 30px;
+        width: 800px;
+        height: 700px;
+	}
+</style>
+</head>
+<body>
+<div style="float:left; margin-right:50px;">
+<button onclick="fn_login()">login</button><p>
+사업장ID:<input type="text" id="사업장ID" value="180710124428004"><p>
+:::::::::::::::::: 연말정산 계약ID 생성  :::::::::::::::::: <p>
+bizId:<input type="text" id="bizId" value=""><p>
+<button onClick="fn_insYS000()">계약생성</button><p>
+:::::::::::::::::: 관리자 - 진행관리  :::::::::::::::::: <p>
+<button onclick="fn_getUserStatusList()">조회</button><p>
+<button onclick="fn_setYE000AllConfirm()">일괄 근로자확정</button><p>
+<button onclick="fn_setYE000Confirm()">근로자 확정취소</button><p>
+:::::::::::::::::: 관리자 - 기본설정  :::::::::::::::::: <p>
+<button onclick="fn_getYS010List()">조회</button><p>
+<button onclick="fn_insYS010()">입력</button><p>
+<button onclick="fn_updYS010()">수정</button><p>
+:::::::::::::::::: 관리자 - 회사정보/사업장정보(본점)  :::::::::::::::::: <p>
+<button onclick="fn_getYS030List(0)">조회</button><p>
+<button onclick="fn_updYS030()">수정</button><p>
+<!-- <button onclick="fn_insYS030(0)">입력</button><p> -->
+:::::::::::::::::: 관리자 - 사업장정보(지점)  :::::::::::::::::: <p>
+<button onclick="fn_getYS030List(1)">조회</button><p>
+<button onclick="fn_updYS030()">수정</button><p><p>
+
+:::::::::::::::::: 사용자 - 진행관리  :::::::::::::::::: <p>
+<button onclick="fn_getUserStatusDate()">조회</button><p>
+
+:::::::::::::::::: 사용자 - 마이페이지  :::::::::::::::::: <p>
+<button onclick="fn_getMyPage()">조회</button><p>
+<button onclick="fn_pwdChange()">비밀번호수정</button><p>
+<!-- <button onclick="fn_getEmpManager()">기업담당자조회</button><p> -->
+<button onclick="fn_getMyPageBizInfo()">기업정보조회</button><p>
+<button onclick="fn_updMyPageBizInfo()">기업정보수정</button><p>
+:::::::::::::::::: 메인화면_캘린더  :::::::::::::::::: <p>
+<button onclick="fn_getMainScheduleList()">조회</button><p>
+<button onclick="fn_insSchedule()">입력</button><p>
+<button onclick="fn_updSchedule()">수정</button><p>
+<button onclick="fn_delSchedule()">삭제</button><p>
+
+:::::::::::::::::: 메인화면_근로계약통계  :::::::::::::::::: <p>
+<button onclick="fn_getMainGraphist()">조회</button><p>
+
+
+:::::::::::::::::: 이미지괸리(회사 로고)  :::::::::::::::::: <p>
+<input type="file" id="imageLogo" name="imageLogo">
+<button onclick="fn_updBizLogo()">추가</button><p>
+<button onclick="fn_delBizLogo()">삭제</button><p>
+<button onclick="fn_getBizLogo()">조회</button><p>
+:::::::::::::::::: 이미지괸리(회사 인감)  :::::::::::::::::: <p>
+<input type="file" id="imageStamp" name="imageStamp">
+<button onclick="fn_updBizStamp()">추가</button><p>
+<button onclick="fn_delBizStamp()">삭제</button><p>
+
+
+:::::::::::::::::: 공통코드조회  :::::::::::::::::: <p>
+<button onclick="fn_getCodeList()">조회</button><p>
+
+
+:::::::::::::::::: 그룹관리  :::::::::::::::::: <p>
+<button onclick="fn_getDeptList()">조회</button><p>
+<button onclick="fn_middleAdminList()">중간관리자조회</button><p>
+<button onclick="fn_saveDept()">저장</button><p>
+
+<button onclick="fn_getDeptEmpList()">근로자배정조회</button><p>
+
+
+:::::::::::::::::: 회원탈퇴 처리  :::::::::::::::::: <p>
+<button onclick="fn_leaveMembership()">기업회원 탈퇴</button><p>
+
+:::::::::::::::::: 연말정산 PDF영수증  생성 :::::::::::::::::: <p>
+계약ID:<input type="text" id="yearContractId" value=""><p>
+사용자ID:<input type="text" id="userId" value=""><p>
+<button onClick="fn_createYE750Pdf()">PDF영수증 생성</button><p>
+</div>
+<div id="txtArea">
+<p>결과값:<p>
+<textarea id="txtResult" style="width:800px; height:700px;"></textarea><p>
+</div>
+<script>
+
+function fn_login() {
+	
+	var url = rootPath+"login.do";
+	var userId = "admin@newzen.co.kr"  // doakuma@funlab.kr  admin@newzenpnp.com
+	var userPwd = "pnp1234";
+	
+	$.ajax({
+		url:url,
+	    crossDomain : true,
+		dataType:"json",
+		type:"POST",
+		data: {
+			userId:userId,
+			userPwd:userPwd
+		},
+		success:function(result) {
+			if (result.success === true) {
+				var nowDate = new Date();
+				setCookie("loginId", userId);
+				setCookie("userId", result.userId);
+				setCookie("loginName", result.userName);
+				setCookie("loginType", result.userType);
+				setCookie("bizName", result.bizName);
+				setCookie("curPoint", result.curPoint);
+				setCookie("loginDate", nowDate.format("yyyy.MM.dd hh시mm분ss초"));
+				alert("로그인되었습니다.");
+			} else {
+				alert(" 일치하는 사용자정보가 존재하지 않습니다.\r\n입력하신 아이디 또는 비밀번호를 확인해주시기 바랍니다.");
+			}
+		},
+		error:function(request,status,error) {
+			alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+            redirect
+		}
+	});
+}
+
+
+// 기업이미지 조회
+function fn_getBizLogo() {
+	var url = rootPath+"biz/getBizLogo.do";
+	
+	$.ajax({
+		url:url,
+	    crossDomain : true,
+		dataType:"json",
+		type:"POST",
+		success:function(result)
+		{
+			$("#txtResult").val(JSON.stringify(result, null, 2));
+		},
+		error:function(request,status,error){
+	        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
+	});	
+}
+
+
+//기업회원 탈퇴
+function fn_leaveMembership() {
+	var url = rootPath+"account/leaveAccount.do";
+	var bizId = $('#bizId').val();
+	
+	$.ajax({
+		url:url,
+	    crossDomain : true,
+		dataType:"json",
+		type:"POST",
+		data: {
+			bizId:bizId
+		},
+		success:function(result)
+		{
+			$("#txtResult").val(JSON.stringify(result, null, 2));
+		},
+		error:function(request,status,error){
+	        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
+	});	
+}
+
+</script>
+</body>
+</html>

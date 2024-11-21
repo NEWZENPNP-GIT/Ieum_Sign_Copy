@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>시스템관리</title>
+
+<link rel="stylesheet" type="text/css" href="/css/jquery.alerts.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.alerts.js"></script>
+<script type="text/javascript" src="/js/moment.min.js"></script>
+<script type="text/javascript" src="/js/ezsign/session_storage.js"></script>
+
+<script type="text/javascript" src="/js/jquery.bootpag.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+
+<style>
+	.yearTax .group_tit.skyblue{height:20px;}
+	#companyimageDiv img{height:300px;}
+</style>
+
+<script>
+//계약 ID
+var bizId;
+var companyLogo;
+var companyimage;
+var oEditors;
+
+$(document).ready(function() {
+
+	if(getCookie("systemType") == "2"){
+		$("#serviceCenter").removeClass("hidden")
+	}
+	
+	bizId = getCookie('bizId');
+	
+	getBizLogo();
+
+});
+
+
+// 본점 정보 조회
+function getBizLogo() {
+	//if(!chkCookie()) return false;
+	
+	var formData = new FormData();
+	formData.append("OPEN_KEY", getCookie("OPEN_KEY"));
+	formData.append('bizId', bizId );
+	formData.append('startPage', 0 );
+	formData.append('endPage', 10 );
+	
+	var url = rootPath + 'biz/getBizLogo.do';
+	
+	//blockUi 호출
+	fncOnBlockUI();
+  
+	$.ajax({
+		url:url,
+	    crossDomain : true,
+		dataType:"json",
+		type:"POST",
+		processData: false,
+	    contentType: false,
+		data: formData,
+		success:function(res) {	
+
+			if (res.success) {
+				
+				if(res['companyLogo'] != null && isNotNull(res['companyLogo'])){
+					companyLogo = res['companyLogo'] + '?d=' + moment().format('YYYYMMDDHHmmss');
+					logI("### companyLogo : " + companyLogo );
+					$("#companyLogoDiv").html("<img src='"+rootPath+"images/sign"+companyLogo+"' />");
+				}else{
+					$("#companyLogoDiv").html("<img src='"+rootPath+"css/image/top_menu/candyBox_logo_main.png'/>");
+				}
+				
+
+				if(res['companyimage'] != null && isNotNull(res['companyimage'])){
+					companyimage = res['companyimage'] + '?d=' + moment().format('YYYYMMDDHHmmss');
+					
+					$("#companyimageDiv").html("<img src='"+rootPath+"images/sign"+companyimage+"' />");						
+				}else{
+					$("#companyimageDiv").html("<img src='"+rootPath+"images/sign/digitsign.png' />");
+				}
+
+				$.unblockUI();
+			} else {
+				$.unblockUI();
+				jAlert('오류가 발생 했습니다. 브라우저를 새로고침 후 다시 시도해 주세요.','');				
+			}
+			
+		},
+		error:function(request,status,error){
+			$.unblockUI();
+			goInvalidPage(request, error);
+		}
+	});
+	
+}
+
+// 회사인감 등록
+function attachImageStamp() {
+	$('*[name=imageStamp]').click();
+}
+
+function attachImageStampOk() {
+	//if(!chkCookie()) return false;
+	
+	//var file = $("input[name=imageStamp]")[0].files[0];	
+	var files = document.getElementById("imageStamp").files;
+    var maxSize  = 5 * 1024 * 1024; // 5MB
+    var fileSize = 0;
+    var browser = navigator.appName;
+	
+    // if (browser === 'Microsoft Internet Explorer') {
+    //  const oas = new ActiveXObject('Scripting.FileSystemObject');
+    //  fileSize = oas.getFile(file.value).size;
+    // } else {
+    //  fileSize = file.files[0].size;
+    // }
+
+
+    // 이미지 업로드
+    var imageFile = document.getElementsByName('imageStamp');
+    var formData = new FormData();
+	formData.append("OPEN_KEY", getCookie("OPEN_KEY"));
+
+    for (var i = 0; i < imageFile.length; i++) {
+    	if (imageFile[i]['files'][0] != undefined && imageFile[i]['files'][0] != null) {
+	        
+	        if (!checkFileExt(imageFile[i]['files'][0].name, 'png')) {
+	          alert('파일확장자는 png파일만 가능합니다.');
+	          return;
+	        }
+			fileSize += imageFile[i]['files'][0].size;
+
+    		if (checkSpecial(imageFile[i]['files'][0].name)) {
+    			jAlert('파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.','');
+    			return false;
+    		}
+    		formData.append('imageStamp' + i, imageFile[i]['files'][0]);
+    	}
+    }
+	
+	
+    if (fileSize > maxSize) {
+    	jAlert('파일은 ' + (maxSize / 1024 / 1024) + 'MB 이하의 파일만 첨부 가능합니다','');
+    	return false;
+    }
+    
+    var url = rootPath + 'biz/updBizStamp.do';
+    
+	//blockUi 호출
+	fncOnBlockUI();
+	 
+	$.ajax({
+	      url: url,
+	      data: formData,
+	      processData: false,
+	      contentType: false,
+	      type: 'POST',
+	      success: function(result){
+	    	  
+	    	  //input file 초기화
+	          $('#imageStamp').val('');
+	          
+	          if (result['success']) {
+	        	  jAlert('등록되었습니다','',function(){
+	        		  $.unblockUI();
+	        		  getBizLogo();  	        	  
+	        	  });	              
+	          } else {
+	        	  $.unblockUI();
+	        	  jAlert('오류가 발생 했습니다. 브라우저를 새로고침 후 다시 시도해 주세요.','');				
+	          }
+    
+	      },
+	      error:function(request,status,error){
+	    	  	$.unblockUI();
+				goInvalidPage(request, error);
+	      }
+	});
+	
+}
+
+</script>
+<style>
+.yearTax .contents ul.imgRow2 li{width:100%;}
+</style>
+</head>
+<body>	
+	<div id="yearTax_wrap" class="yearTax">
+		<div class="container">
+			<div class="location">
+				<span class="loc_main NanumGothic">시스템관리 > </span><span class="loc_sub NanumGothic">도장 관리</span>
+				<span onclick="openHelpWindow('imagemanager')" class="btn" style="color:#07a6ff;float:right;"><i class="fa fa-question"></i> 도움말</span>
+				<span id="serviceCenter" style="float:right; color:red;padding-top:5px;">고객센터 02-3270-6285&nbsp;</span>
+			</div>
+			<div class="pagtit NanumGothic"><span class="">도장 관리</span></div>
+			<div class="contents">
+				<ul class="imgRow2">
+					<li>
+						<div class="group_wrap">
+							<div class="group_tit skyblue">
+								<div class="icon"></div>
+								<span class="text NanumGothic">이미지(회사 인감)</span>
+							</div>
+						</div>
+						<div class="box_wrap imagebx" id="companyimageDiv">
+							<!-- companyimage 영역 -->
+						</div>
+						<div class="NanumGothic btns sort_center">
+							<div class="sortWrap center">
+								<a class="btn_type type1" onClick="attachImageStamp()">등록&nbsp; <span class="icon">+</span></a>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div> <!-- contents -->
+		</div> <!-- container -->
+	</div><!-- yearTax_wrap -->
+  <input type="file" id="imageLogo" accept="image/*" name="imageLogo" style="visibility:hidden; position:absolute; left:-9999px; top:-9999px;" onChange="attachImageLogoOk()">
+  <input type="file" id="imageStamp" accept="image/*" name="imageStamp" style="visibility:hidden; position:absolute; left:-9999px; top:-9999px;" onChange="attachImageStampOk()">
+
+</body>
+</html>
+  
+	

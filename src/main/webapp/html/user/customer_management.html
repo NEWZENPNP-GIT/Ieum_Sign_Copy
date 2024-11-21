@@ -1,0 +1,512 @@
+
+	<!--****************************************************************************************************************
+	* 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+	* 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+	********************************************************************************************************************
+	--------------------------------------------------------------------------------------------------------------------
+	* 회사       : 뉴젠피앤피
+	* 화면명     : 거래처목록
+	* 화면설명   : 수신자관리 > 거래처목록
+	* 작성자     :
+	* 생성일     :
+	--------------------------------------------------------------------------------------------------------------------
+	* 수정자     : 이정훈
+	* 수정일     : 2023.11.20
+	* 수정내용   :
+	------------------------------------------------------------------------------------------------------------------->
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/personnel_management.css">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<!-- bootPag -->
+	<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/ui.biz.core.js"></script>
+
+	<script type="text/javascript">
+
+
+		//***************					윈도우 로딩					***************//
+
+		var selectedData = [];
+
+		$(document).ready(function() {
+
+			console.log('customer_management.html');
+
+			$('#searchValue').keypress(function(event){
+				var keycode = (event.keyCode ? event.keyCode : event.which);
+
+				if (keycode === '13') fn_customerList(1);
+
+				event.stopPropagation();
+			});
+
+			getBizGrpCombo();
+			fn_customerList(1);
+		});
+
+
+		//***************					거래처 리스트 조회					***************//
+
+
+		function fn_customerList(page) {
+
+			var url		 = rootPath+"emp/getCustomerList.do";
+			var viewPage = $("#viewPage").val();
+
+			if (viewPage === "" || viewPage === "0") viewPage = 10;
+
+			if  (page === 0) curPage = 0;
+			else		 	 curPage = page-1;
+
+			if (curPage < 0) 				  { curPage = 0;  return; }
+			if (curPage * viewPage > totPage) { curPage -= 1; return; }
+
+			var searchKey	  = $("#searchKey").val();
+			var searchValue	  = $("#searchValue").val();
+			var startPage	  = (curPage*viewPage);
+			var endPage		  = viewPage;
+			var sortName	  = $("#sortName").val();
+			var sortOrder	  = $("#sortOrder").val();
+			var searchCompany = $("#searchCompany").val();
+
+			$.blockUI();
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"GET",
+				data: {
+					searchKey:searchKey,
+					searchValue:searchValue,
+					startPage:startPage,
+					endPage:endPage,
+					sortName:sortName,
+					sortOrder:sortOrder,
+					searchCompany:searchCompany
+				},
+				success:function(result) {
+
+					var htmlData = "";
+					$("#dataList").html(htmlData);
+
+					if (result.success === true) {
+						totPage = result.total;
+						var totalPage = Math.ceil(totPage/viewPage);
+
+						$.each(result.data, function(i, row) {
+							var num = (curPage * viewPage) + i + 1;
+							htmlData += '<tr> ';
+							htmlData += ' <td><input type="checkbox" id="chk" name="chk" value="'+row.bizId+'_'+row.customerId+'_'+row.customerName+'"></td> ';
+							htmlData += ' <td>'+num+'</td> ';
+							htmlData += ' <td>'+row.customerName+'</td> ';
+							htmlData += ' <td>'+row.businessNo+'</td> ';
+							htmlData += ' <td>'+row.ownerName+'</td> ';
+							htmlData += ' <td>'+row.addr1+'</td> ';
+							htmlData += ' <td>'+row.managerName+'</td> ';
+							htmlData += ' <td>'+row.managerPhoneNum+'</td> ';
+							htmlData += ' <td>'+row.managerEmail+'</td> ';
+							htmlData += ' <td>'+row.managerDeptName+'</td> ';
+							htmlData += ' <td><span style="cursor:pointer;" class="glyphicon glyphicon-edit" onclick="fn_customerEdit(\''+row.businessNo+'\', \''+row.bizId+'\', \''+row.customerId+'\')"></span></td> ';
+							htmlData += '</tr> ';
+						});
+
+						if (page === 1) {
+							$('#page-selection').bootpag({
+								total: totalPage,
+								page: page,
+								maxVisible: 10,
+								firstLastUse: true,
+								leaps: true,
+								first: '',
+								last: '',
+								wrapClass: 'pagination',
+								activeClass: 'active',
+								disabledClass: 'disabled',
+								nextClass: 'btn_next',
+								prevClass: 'btn_prev',
+								lastClass: 'end_page',
+								firstClass: 'first_page'
+							}).on("page", function(event, num){ fn_customerList(num); });
+						}
+					} else { htmlData += '<tr> <td colspan="10">요청하신 자료가 존재하지 않습니다.</td></tr>'; }
+					$("#dataList").html(htmlData);
+					$.unblockUI();
+				},
+				error:function(request,status,error) {
+					$.unblockUI();
+					if (request.status === "401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						location.href=rootPath;
+					} else { alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error); }
+				}
+			});
+		}
+
+
+		//***************					기업 조회					***************//
+
+
+		function getBizGrpCombo() {
+
+			var url = rootPath+"biz/getBizGrpCombo.do";
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				async: false,
+				type:"GET",
+				data: { },
+				success:function(result) {
+					if(result.success){
+						var workStatus = result.data;
+						$.each(workStatus, function(i, data){
+							$("#searchCompany").append($("<option>", {
+								value: data.id,
+								text: data.name
+							}));
+						});
+						$("#searchCompany").append($("<option>", {
+							value: '',
+							text: '전체'
+						}));
+					}
+				},
+				error:function(request,status,error){ alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); }
+			});
+		}
+
+
+		//***************					개별 등록					***************//
+
+
+		function fn_customerAdd() {
+			var searchCompany = $("#searchCompany").val()
+			openWin(rootPath+"html/user/customer_popup_add.html?searchCompany="+searchCompany, "CustomerAdd", 500, 530);
+		}
+
+
+		//***************					거래처목록 다운로드					***************//
+
+
+		function fn_customerDownload() {
+
+			if (!confirm("거래처목록 다운로드를 진행하시겠습니까?")) return;
+			var url = rootPath+"emp/excelCustomerDown.do";
+
+			$.ajax({
+				url: url,
+				crossDomain: true,
+				dataType: "text",
+				type: "POST",
+				data: {
+					bizId: bizId,
+					bizName: bizName
+				},
+				async: true,
+				success: function () {
+					var currentDate   = new Date();
+					var formattedDate = currentDate.getFullYear() + ('0' + (currentDate.getMonth() + 1)).slice(-2) + ('0' + currentDate.getDate()).slice(-2);
+					var fileName	  = encodeURIComponent(bizName + "_거래처정보_" + formattedDate + ".xls");
+					var downloadUrl	  = rootPath + "emp/excelCustomerDownFile.do?fileName=" + fileName;
+					window.location.href = downloadUrl;
+				}
+			});
+		}
+
+
+		//***************					선택 삭제(선택한 사용자 문서 체크)					***************//
+
+
+		function fn_delEmpInfo() {
+
+			selectedData	 = [];
+			var ajaxRequests = [];
+			var url			 = rootPath + "contract/getContractListCount.do";
+			var userCnt		 = 0;
+			var cnt			 = $("input:checkbox[name=chk]:checked").length;
+
+			if (cnt === 0) { alert("선택 된 거래처가 없습니다."); return; }
+
+			$.blockUI();
+
+			if (cnt === 1) {	// 선택한 사용자가 한명일 경우
+
+				var key  = $("input:checkbox[name=chk]:checked").val();
+				var data = key.split("_");
+
+				selectedData.push({
+					bizId: data[0],
+					customerId: data[1],
+					customerName: data[2]
+				});
+
+				$.ajax({
+					url: url,
+					crossDomain: true,
+					dataType: "json",
+					type: "POST",
+					data: {empNo: data[1]} ,
+					success: function (result) {
+						$.unblockUI();
+						if (result.success === true) {
+							if (result.total > 0) alert("해당 사용자의 전자문서 [" + result.total + "]건이 존재합니다.\r\n삭제를 먼저 진행해주시기 바랍니다.");
+							else 				  fn_customerDel();
+						} else 		alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+					},
+					error: function (request, status, error) {
+						$.unblockUI();
+						if (request.status === "401") {
+							alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+							window.close();
+						} else { alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error); }
+					}
+				});
+			} else {	// 선택한 사용자가 여러명일 경우
+
+				$("input:checkbox[name=chk]:checked").each(function () {
+
+					var key  = this.value;
+					var data = key.split("_");
+
+					if (data.length > 1) {
+						selectedData.push({
+							bizId: data[0],
+							customerId: data[1],
+							customerName: data[2]
+						});
+
+						var ajaxRequest = $.ajax({
+							url: url,
+							crossDomain: true,
+							dataType: "json",
+							type: "POST",
+							data: {empNo: data[1]}
+						});
+
+						ajaxRequest.fail(function (jqXHR, textStatus, errorThrown) {
+							console.error("AJAX Error:", textStatus, errorThrown);
+							alert("AJAX 요청 중 에러가 발생했습니다.");
+						});
+						ajaxRequests.push(ajaxRequest);
+					}
+				});
+
+				$.when(...ajaxRequests).then(function () {
+
+					var cutomerNames = [];
+					var maxCutomer   = 3;
+
+					for (var i=0; i<arguments.length; i++) {
+						var result = arguments[i][0];
+						if (result && result.total > 0) {
+							cutomerNames.push(selectedData[i].customerName);
+							userCnt++;
+						}
+					}
+
+					$.unblockUI();
+
+					if (userCnt > 0) {
+
+						var cutomerNamesString = cutomerNames.slice(0, maxCutomer).join(', ');
+
+						if (cutomerNames.length > maxCutomer) {
+							var overcutomer = cutomerNames.length - maxCutomer;
+							cutomerNamesString += " 외 " + overcutomer + " 명";
+						}
+						alert( "다음 사용자의 전자문서 사용건이 존재합니다:\r\n" + cutomerNamesString + "\r\n전자문서 삭제를 먼저 진행해주시기 바랍니다.");
+					} else { fn_customerDel(); }
+				});
+			}
+		}
+
+
+		//***************					선택 삭제(선택한 사용자 삭제)					***************//
+
+
+		function fn_customerDel() {
+
+			if (!confirm("삭제 하시겠습니까?")) return;
+
+			var url			 = rootPath + "emp/delCustomer.do";
+			var ajaxRequests = [];
+
+			$("input:checkbox[name=chk]:checked").each(function () {
+				var key  = this.value;
+				var data = key.split("_");
+				if (data.length > 1) {
+					selectedData.push({
+						bizId: data[0],
+						customerId: data[1]
+					});
+
+					var ajaxRequest = $.ajax({
+						url: url,
+						crossDomain: true,
+						dataType: "json",
+						type: "GET",
+						data: {
+							bizId: data[0],
+							customerId: data[1]
+						}
+					});
+					ajaxRequests.push(ajaxRequest);
+				}
+			});
+
+			$.when(...ajaxRequests).then(function () {
+				alert("삭제가 완료되었습니다.");
+				fn_customerList(1);
+			});
+		}
+
+
+		//***************					거래처 수정					***************//
+
+
+		function fn_customerEdit(businessNo, bizId, customerId) {
+			openWin(rootPath+"html/user/customer_popup_edit.html?businessNo="+businessNo+"&bizId="+bizId+"&customerId="+customerId, "CustomerAdd", 500, 600);
+		}
+
+
+		//***************					일괄 등록					***************//
+
+
+		function fn_customerUpload() { openWin(rootPath+"html/user/customer_popup_batchregist.html", "CustomerAdd", 500, 350); }
+
+
+		//***************					체크박스 전체 선택					***************//
+
+
+		function fn_checkAll() {
+			if ($("#checkall").prop("checked"))	{ $("input[name=chk]").prop("checked",true); }
+			else 								{ $("input[name=chk]").prop("checked",false); }
+		}
+
+	</script>
+	</head>
+
+	<body>
+	<div id="personList_wrap" class="">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumGothic">수신자관리 > </span><span class="loc_sub NanumGothic">거래처관리</span></div>
+			<div class="field_area">
+				<div class="selBox NanumGothic">
+					<select id="searchCompany" onchange="fn_customerList(1);">
+					</select>
+				</div>
+				<div class="selBox NanumGothic">
+					<select id="searchKey">
+						<option value="customerName" class="lt">거래처명</option>
+						<option value="businessNo" class="lt">사업자등록번호</option>
+						<option value="ownerName" class="lt">대표자명</option>
+						<option value="managerName" class="lt">담당자명</option>
+						<option value="managerPhoneNum" class="lt">담당자휴대폰번호</option>
+						<option value="managerEmail" class="lt">담당자이메일</option>
+						<option value="managerDeptName" class="lt">담당자부서명</option>
+					</select>
+				</div>
+				<div class="inputBox">
+					<fieldset>
+						<input type="text" id="searchValue" class="word_input NanumGothic">
+						<a class="btn_search btn_type Material_icons" onclick="fn_customerList(1);">search</a>
+					</fieldset>
+				</div>
+				<div class="selBox NanumGothic">
+					<select id="sortName" onchange="fn_customerList(1);">
+						<option value="A.INS_DATE" selected>정렬항목</option>
+						<option value="A.CUSTOMER_NAME">기업명</option>
+						<option value="A.BUSINESS_NO">사업자등록번호</option>
+						<option value="A.OWNER_NAME">대표자명</option>
+						<option value="A.MANAGER_NAME">담당자명</option>
+						<option value="A.MANAGER_PHONE_NUM">담당자휴대폰번호</option>
+						<option value="A.MANAGER_EMAIL">담당자이메일</option>
+						<option value="A.MANAGER_DEPT_NAME">담당자부서명</option>
+					</select>
+				</div>
+				<div class="selBox NanumGothic">
+					<select id="sortOrder" onchange="fn_customerList(1);">
+						<option value="DESC" selected>정렬기준</option>
+						<option value="DESC">내림차순</option>
+						<option value="ASC">올림차순</option>
+					</select>
+				</div>
+				<div class="selBox NanumGothic">
+					<select id="viewPage" onchange="fn_customerList(1);">
+						<option value="10" selected>조회건수</option>
+						<option value="10">10건</option>
+						<option value="20">20건</option>
+						<option value="30">30건</option>
+						<option value="50">50건</option>
+						<option value="100">100건</option>
+						<option value="250">250건</option>
+					</select>
+				</div>
+			</div>
+			<div class="table_contents">
+				<div class="list">
+					<table class="NanumGothic">
+						<colgroup>
+							<col width="3%">	<!--체크박스-->
+							<col width="3%">	<!--순번-->
+							<col width="12%">	<!--거래처명-->
+							<col width="10%">	<!--사업자등록번호-->
+							<col width="8%">	<!--대표자명-->
+							<col width="17%">	<!--주소-->
+							<col width="8%">	<!--담당자명-->
+							<col width="10%">	<!--담당자휴대폰번호-->
+							<col width="18%">	<!--담당자이메일-->
+							<col width="8%">	<!--담당자부서명-->
+							<col width="3%">	<!--수정-->
+						</colgroup>
+						<thead>
+							<tr>
+								<th class="chk_area"><input type="checkbox" id="checkall" onclick="fn_checkAll()"></th>
+								<th>순번</th>
+								<th>거래처명</th>
+								<th>사업자등록번호</th>
+								<th>대표자명</th>
+								<th>주소</th>
+								<th>담당자명</th>
+								<th>담당자휴대폰번호</th>
+								<th>담당자이메일</th>
+								<th>담당자부서명</th>
+								<th>수정</th>
+							</tr>
+						</thead>
+						<tbody id="dataList">
+							<tr class="databox">
+								<td class=""></td>
+								<td colspan="10">직원정보가 존재하지 않습니다.</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div id="page-selection" class="pagingnav_wrap"></div>
+			</div>
+			<div class="btn_footGroup NanumGothic">
+				<a class="btn_type type1" onclick="fn_customerAdd();">개별등록</a>
+				<a class="btn_type type2" onclick="fn_customerUpload();">일괄등록</a>
+				<a class="btn_type type1" onclick="fn_customerDownload();">다운로드</a>
+				<a class="btn_type type5" onclick="fn_delEmpInfo()">삭제하기</a>
+			</div>
+		</div>
+	</div>
+	</body>
+	</html>

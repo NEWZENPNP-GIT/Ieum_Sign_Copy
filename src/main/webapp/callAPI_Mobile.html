@@ -1,0 +1,377 @@
+<!DOCTYPE HTML> 
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="user-scalable=yes, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">	
+<title>인적자원관리 전문IT기업 - 뉴젠P&amp;P</title>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/common.js"></script>
+<script>
+	var 사용자ID = "180807092743040";
+
+	
+	$(document).ready(function() {		
+	    // 스코롤 레이어
+		var currentPosition = parseInt($("#txtArea").css("top")); 
+		$(window).scroll(function() { 
+			var position = $(window).scrollTop(); 
+			$("#txtArea").stop().animate({"top":position+currentPosition+"px"},0); 
+		});
+		
+	});
+	
+	function fn_acceptAnnualVacation() {
+
+		var url = rootPath+"vacation/acceptAnnualVacation.do";
+	
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				userId:'180904084747194',
+				requestId:100,
+				comments:'승인합니다.'
+			},
+			success:function(result)
+			{
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	function fn_acceptAllAnnualVacation() {
+
+		var url = rootPath+"vacation/acceptAllAnnualVacation.do";
+
+		var params = [
+			{
+				userId:'180904084747194',
+				requestId:44,
+				comments:'44승인합니다.'
+			},
+			{
+				userId:'180904084747194',
+				requestId:45,
+				comments:'45승인합니다.'
+			}
+		]	;
+		
+
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: JSON.stringify(params),
+			contentType : "application/json; charset=UTF-8",
+			success:function(result)
+			{
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});	
+	}
+
+	function fn_rejectAnnualVacation() {
+
+		var url = rootPath+"vacation/rejectAnnualVacation.do";
+	
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				userId:'180903192243190',
+				requestId:42,
+				comments:'반려합니다.'
+			},
+			success:function(result)
+			{
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	function fn_requestAnnualVacation() {
+
+		var url = rootPath+"vacation/requestAnnualVacation.do";
+
+		var params = 
+			{
+				userId:사용자ID,
+				annualYear:'2018',
+				dateFrom:'20180921',
+				dateTo:'20180922',
+				vacationType:'10',
+				phoneNum:'',
+				vacationDay:1,
+				comments:'휴가를 신청합니다.',
+				approvalList : [
+					{approvalType:'1', signSeq:1, userId:'180807092743040'},
+					{approvalType:'1', signSeq:2, userId:'180903192243190'},
+					{approvalType:'1', signSeq:3, userId:'180904084747194'}
+				],		
+				
+			}	;
+		
+
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: JSON.stringify(params),
+			contentType : "application/json; charset=UTF-8",
+			success:function(result)
+			{
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});	
+	}
+	
+	function fn_getVacationRequestList() {
+
+		var url = rootPath+"vacation/getVacationRequestList.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				userId:사용자ID
+			},
+			success:function(result)
+			{
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+
+	function fn_getMobileMain() {
+
+		var url = rootPath+"mobile/main.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				계약ID:'3590667780704434271'
+			},
+			success:function(result)
+			{
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	function fn_getMobilePaystubList() {
+
+		var url = rootPath+"mobile/getPaystubMobileList.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			success:function(result)
+			{
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	
+	function fn_saveContract() {
+
+		var url = rootPath+"contract/saveContract.do";
+
+		var multiData = "etc_1-"+$("#etc_1").val()+"|";
+		
+		// 데이터설정
+		var formData = new FormData();
+		formData.append("digitNonce","l7inpv1bp02vzz9");
+		formData.append("multiData",multiData);
+		var file1 = document.getElementsByName("imageFile1");
+		for(var i=0;i<file1.length;i++) {
+			if (file1[i].files[0] != undefined) {
+				if(checkSpecial(file1[i].files[0].name)) {
+					alert("파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.");
+					return;
+				}
+			    formData.append("image_0",file1[i].files[0]);
+			}
+		}
+		var file2 = document.getElementsByName("imageFile2");
+		for(var i=0;i<file2.length;i++) {
+			if (file2[i].files[0] != undefined) {
+				if(checkSpecial(file2[i].files[0].name)) {
+					alert("파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.");
+					return;
+				}
+			    formData.append("image_1",file2[i].files[0]);
+			}
+		}
+		var file3 = document.getElementsByName("imageFile3");
+		for(var i=0;i<file3.length;i++) {
+			if (file3[i].files[0] != undefined) {
+				if(checkSpecial(file3[i].files[0].name)) {
+					alert("파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.");
+					return;
+				}
+			    formData.append("image_2",file3[i].files[0]);
+			}
+		}
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data:formData,
+			contentType:false,
+			processData:false,
+			cache:false,
+			success:function(result)
+			{
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});	
+	}
+</script>
+<style>
+	#txtArea{
+		position: absolute;
+        /* border: 3px solid #f00; */
+        left : 500px;
+        top : 30px;
+        width: 800px;
+        height: 700px;
+	}
+</style>
+</head>
+<body>
+<div style="float:left; margin-right:50px;">
+<button onclick="fn_login()">login</button><p>
+
+:::::::::::::::::: 연차신청확인  :::::::::::::::::: <p>
+<button onclick="fn_requestAnnualVacation()">신청</button><p>
+<button onclick="fn_getVacationRequestList()">조회</button><p>
+<button onclick="fn_acceptAnnualVacation()">승인</button><p>
+<button onclick="fn_rejectAnnualVacation()">반려</button><p>
+<button onclick="fn_acceptAllAnnualVacation()">전체승인</button><p>
+
+:::::::::::::::::: 모바일  :::::::::::::::::: <p>
+<button onclick="fn_getMobileMain()">메인</button><p>
+
+
+:::::::::::::::::: 모바일 - 급여명세서  :::::::::::::::::: <p>
+<button onclick="fn_getMobilePaystubList()">급여년월/지급일자</button><p>
+
+
+
+:::::::::::::::::: 모바일 - 전자계약 부가정보 저장  :::::::::::::::::: <p>
+<input type="file" id="imageFile1" name="imageFile1"><p>
+<input type="file" id="imageFile2" name="imageFile2"><p>
+<input type="file" id="imageFile3" name="imageFile3"><p>
+<input type="text" id="etc_1" ><p>
+<button onclick="fn_saveContract()">저장</button><p>
+
+</div>
+<div id="txtArea">
+<p>결과값:<p>
+<textarea id="txtResult" style="width:800px; height:700px;"></textarea><p>
+</div>
+<script>
+
+function fn_login() {
+	
+	var url = rootPath+"login.do";
+	var userId = "master@funlab.kr"  // doakuma@funlab.kr  admin@newzenpnp.com
+	var userPwd = "funlab!!123";
+	
+	$.ajax({
+		url:url,
+	    crossDomain : true,
+		dataType:"json",
+		type:"POST",
+		data: {
+			userId:userId,
+			userPwd:userPwd
+		},
+		success:function(result)
+		{
+			if (result.success == true) {
+				var nowDate = new Date();
+				setCookie("loginId", userId);
+				setCookie("userId", result.userId);
+				setCookie("loginName", result.userName);
+				setCookie("loginType", result.userType);
+				setCookie("bizName", result.bizName);
+				setCookie("curPoint", result.curPoint);
+				setCookie("loginDate", nowDate.format("yyyy.MM.dd hh시mm분ss초"));
+				alert("로그인되었습니다.");
+			} else {
+				alert(" 일치하는 사용자정보가 존재하지 않습니다.\r\n입력하신 아이디 또는 비밀번호를 확인해주시기 바랍니다.");
+			}
+		},
+		error:function(request,status,error){
+			alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+	        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
+	});
+}
+
+
+// 기업이미지 조회
+function fn_getBizLogo() {
+	var url = rootPath+"biz/getBizLogo.do";
+	
+	$.ajax({
+		url:url,
+	    crossDomain : true,
+		dataType:"json",
+		type:"POST",
+		success:function(result)
+		{
+			$("#txtResult").val(JSON.stringify(result, null, 2));
+		},
+		error:function(request,status,error){
+	        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
+	});	
+}
+
+</script>
+</body>
+</html>

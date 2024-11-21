@@ -1,0 +1,90 @@
+@charset "utf-8";
+/*>>>>>>  default <<<<<*/
+body,p,span,a,input,ul,li,article,dl,img{margin: 0px; padding:0px; -webkit-margin:0px;-webkit-padding:0px;}
+ul{list-style-type: none}
+
+.btn_type{cursor: pointer;}
+.none{display: none;}
+.hidden{visibility: hidden}
+
+/* ******************************** company search ******************************** */
+/* -------------------- media ----------------------------- */
+@media all and (max-width: 360px) {
+   #companySearch_wrap #popup_bg{width: 90% !important; left:87% !important; height: auto !important;}
+   #companySearch_wrap #popup_bg .popup_frame{width: 92% !important; padding-left: 15px !important;}
+   #companySearch_wrap #popup_bg .popup_tit .bg{width: 94% !important; padding: 4% 2% !important;}
+   #companySearch_wrap #popup_bg .sehInputBox .word_input{width: 76% !important;}
+   #companySearch_wrap #popup_bg .popup_btnGroup{margin-bottom: 10px !important; margin-top: 10px;}
+   #companySearch_wrap .popup_btnGroup .btn_type {width: 95px !important;}
+   #companySearch_wrap .popup_btnGroup .btn_type:last-child{margin-right:10px !important;}
+   
+   .pagingnav_wrap {width: 97% !important;}
+}
+@media all and (min-width: 361px) and (max-width: 414px) {
+   #companySearch_wrap #popup_bg{width: 90% !important; left:83.5% !important; height: auto !important;}
+   #companySearch_wrap #popup_bg .popup_frame{width: 90% !important;}
+   #companySearch_wrap #popup_bg .popup_tit .bg{width: 88% !important; padding: 4% 5% !important;}
+   #companySearch_wrap #popup_bg .sehInputBox .word_input{width: 79% !important;}
+   #companySearch_wrap #popup_bg .popup_btnGroup{margin-bottom: 10px !important; margin-top: 10px;}
+   
+   #companySearch_wrap .popup_btnGroup .btn_type {width: 100px !important;}
+   #companySearch_wrap .popup_btnGroup .btn_type:last-child{margin-right:20px !important;}
+}
+
+@media all and (min-width: 414px) and (max-width: 588px) {
+   #companySearch_wrap #popup_bg{width: 90% !important; left:76% !important; height: auto !important;}
+   #companySearch_wrap #popup_bg .popup_frame{width: 90% !important;}
+   #companySearch_wrap #popup_bg .popup_tit .bg{width: 88% !important; padding: 4% 5% !important;}
+   #companySearch_wrap #popup_bg .sehInputBox .word_input{width: 80% !important;}
+   
+   #companySearch_wrap #popup_bg .popup_btnGroup{margin-bottom: 10px !important; margin-top: 10px;}
+}
+
+#companySearch_wrap{
+position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5)}
+#companySearch_wrap #popup_bg{position: absolute;  width: 588px; min-height: 452px; left:50%; top: 50%; margin:-226px 0 0 -294px; background-color: #fff; border-radius: 8px;}
+#companySearch_wrap #popup_bg .popup_frame{width: 564px; /* border: 1px solid red; */ padding-left:22px;}
+#companySearch_wrap #popup_bg .popup_name{height: 23px;  padding-top: 16px;}
+#companySearch_wrap #popup_bg .popup_name .icon{display: inline-block; background: url(image/icon_company.png) no-repeat; width: 25px; height: 23px; margin-right: 7px; vertical-align: bottom;}
+#companySearch_wrap #popup_bg .popup_name .text{display: inline-block; color:#00acff; font-size: 19px;}
+#companySearch_wrap #popup_bg .popup_name .popup_close{display: inline-block; color:#00a9e9; font-size: 34px; float:right; margin: 0px 15px 0 0; z-index: 15; position: absolute; right: 0; top: 10px;}
+#companySearch_wrap #popup_bg .popup_tit{    display: inline-block; min-height: 65px; margin-top: 13px; margin-bottom: 8px;}
+#companySearch_wrap #popup_bg .popup_tit .bg{width: 77%; background-color: #e3f5ff; border-radius: 8px; text-align: center; padding: 11px 55px;}
+#companySearch_wrap #popup_bg .popup_tit span{word-break: keep-all; font-size: 14px; color: #595959}
+#companySearch_wrap #popup_bg .sehInputBox{height: 38px; color:#18b1eb}
+#companySearch_wrap #popup_bg .sehInputBox.solo fieldset{width: 97%;}
+#companySearch_wrap #popup_bg .sehInputBox .word_input{font-size:16px; width: 88%; margin: 0 10px 0 10px; vertical-align: middle; height: 30px; border:none; float:left;}
+#companySearch_wrap #popup_bg .sehInputBox .word_input:focus { outline: none }
+#companySearch_wrap #popup_bg .sehInputBox .btn_search{display: inline-block;}
+.sehInputBox .word_input[type=text]::-webkit-input-placeholder{ color:#a6a6a6; font-size:12px;}
+.sehInputBox .word_input[type=text]:-ms-input-placeholder{color:#a6a6a6; font-size:12px; }
+#companySearch_wrap #popup_bg .sehInputBox .btn_search{ font-size:25px; margin-top: 3px;}
+#companySearch_wrap #popup_bg .sehInputBox select{float:left; font-size:13px; background-color: #fff; border:1px solid #00a9e9; height: 32px; margin-right: 5px; width: 20%; padding: 0px; vertical-align: middle;}
+#companySearch_wrap #popup_bg .sehInputBox fieldset{display: inline-block; border:1px solid #00a9e9; height: 30px; width: 75%; margin: 0px; padding: 0px; vertical-align: middle;}
+#companySearch_wrap #popup_bg .popup_res{height: 235px;  display: inline-block;}
+#companySearch_wrap #popup_bg .popup_res .txt_area{height: 28px; font-size: 13px; line-height: 30px;}
+#companySearch_wrap #popup_bg .popup_res .res_Word {margin-right: 42px;}
+#companySearch_wrap #popup_bg .popup_res .notfind{color:#ff3e3e}
+#companySearch_wrap #popup_bg .seh_res table{table-layout: fixed; width: 100%; border-collapse: collapse;}
+#companySearch_wrap #popup_bg .seh_res table tr:nth-child(even){background-color: #f9f9f9;}
+#companySearch_wrap #popup_bg .seh_res{position: relative; width: 96%; min-height: 165px; height: 165px; display: inline-block; overflow-y: auto; overflow-x: hidden;}
+#companySearch_wrap #popup_bg .seh_res tbody tr{height: 34px;}
+#companySearch_wrap #popup_bg .seh_res tr, .seh_res th, .seh_res td {margin: 0; padding: 0; border: 0;}
+#companySearch_wrap #popup_bg .seh_res table tr th{background-color: #00a9e9; color:#fff; font-size: 12px; height: 23px; text-align: center; border-right:1px solid #e1e1e1; border-top:1px solid #5c9dda}
+#companySearch_wrap #popup_bg .seh_res table tr th:first-child{border-right:none !important;}
+#companySearch_wrap #popup_bg .seh_res table tr th:last-child,.seh_res table tr td:last-child{border-right:none !important;}
+#companySearch_wrap #popup_bg .seh_res table .chk_area{text-align:center; }
+#companySearch_wrap #popup_bg .seh_res table .chk_area input{width: 13px; height: 13px; vertical-align: middle; border: 1px solid #d5d5d5;}
+#companySearch_wrap #popup_bg .seh_res table tr td.title{text-align: left; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+#companySearch_wrap #popup_bg .seh_res table tr td.state{text-align: center; word-wrap: break-word; }
+#companySearch_wrap #popup_bg .seh_res table tr td.ceoName{text-align: center; }
+#companySearch_wrap #popup_bg .seh_res table tr td.companyNo{word-break: break-all;}
+#companySearch_wrap #popup_bg .seh_res table tr td{font-size: 13px; border-right:1px solid #e1e1e1; border-bottom:1px solid #e1e1e1; min-height: 35px; padding:0 3px; font-family: NanumSquareRegular; color:#666666;}
+#companySearch_wrap #popup_bg .seh_res table tr td:first-child{border-right:none}
+
+
+#companySearch_wrap .popup_btnGroup{float:right; height: 40px; display: inline-block;}
+#companySearch_wrap .popup_btnGroup .btn_type{width: 110px; height: 36px; display: inline-block; color: #fff; font-size: 13px; margin-right: 5px; background-color: #1088d4; border-radius: 8px; text-align: center; line-height: 35px;}
+#companySearch_wrap .popup_btnGroup .btn_type:nth-child(2){background-color: #5a93c8; }
+#companySearch_wrap .popup_btnGroup .btn_type:nth-child(3){background-color: #666e76;}
+#companySearch_wrap .popup_btnGroup .btn_type:last-child{margin-right: 21px;}

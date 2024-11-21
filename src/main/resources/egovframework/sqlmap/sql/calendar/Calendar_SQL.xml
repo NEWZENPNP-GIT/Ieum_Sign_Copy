@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="calendar">
+	<typeAlias alias="calendarVO" type="com.ezsign.calendar.vo.CalendarVO" />
+	<resultMap id="calendarListMap" class="calendarVO">
+		<result property="calendarId" column="CALENDAR_ID"/>
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="bizName" column="BIZ_NAME"/>
+		<result property="viewDate" column="VIEW_DATE"/>
+		<result property="calendarType" column="CALENDAR_TYPE"/>
+		<result property="comments" column="COMMENTS"/>
+		<result property="offType" column="OFF_TYPE"/>
+		<result property="insDate" column="INS_DATE"/>
+	</resultMap>
+	
+	<insert id="calendarDAO.insCalendar" parameterClass="calendarVO">
+		INSERT INTO tbl_calendar (
+			CALENDAR_ID, BIZ_ID, VIEW_DATE, CALENDAR_TYPE, COMMENTS, OFF_TYPE, INS_DATE
+		) VALUES (
+		   #calendarId#, #bizId#, #viewDate#, #calendarType#, #comments#, #offType#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<delete id="calendarDAO.delCalendar" parameterClass="calendarVO">
+		DELETE FROM tbl_calendar
+		WHERE	CALENDAR_ID = #calendarId#
+	</delete>
+	
+	<update id="calendarDAO.updCalendar" parameterClass="calendarVO">
+		UPDATE tbl_calendar
+		SET	
+		<isNotNull property="viewDate">
+		    <isNotEmpty property="viewDate">
+			VIEW_DATE			= #viewDate#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="calendarType">
+		    <isNotEmpty property="calendarType">
+			CALENDAR_TYPE		= #calendarType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="comments">
+		    <isNotEmpty property="comments">
+			COMMENTS			= #comments#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="offType">
+		    <isNotEmpty property="offType">
+			OFF_TYPE			= #offType#,
+			</isNotEmpty>
+		</isNotNull>
+			UPD_DATE			= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	SCHEDULE_ID  = #scheduleId#
+	</update>
+	
+	<select id="calendarDAO.getCalendarList" resultClass="calendarVO" resultMap="calendarListMap">
+		SELECT  A.CALENDAR_ID, A.BIZ_ID, B.BIZ_NAME, A.VIEW_DATE, A.CALENDAR_TYPE, A.COMMENTS, A.OFF_TYPE, A.INS_DATE, A.UPD_DATE
+		FROM    tbl_calendar A, tbl_biz B
+		WHERE   A.BIZ_ID  = B.BIZ_ID
+		AND     B.BIZ_ID  = #bizId#
+		AND		A.VIEW_DATE LIKE concat(#viewDate#, '%')
+	</select>
+	
+</sqlMap>    

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/contract_write.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+
+<!-- bootPag -->
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+
+<script>
+	var $toggleFormText = {
+		scan : function(o){
+			o.find(".hint").each(function(){
+				if(this.value == this.title){
+					$(this).addClass('hintText');
+					this.value = this.title;
+				}
+				if(this.value == ''){
+					$(this).addClass('hintText');
+					this.value = this.title;
+				}
+			});
+			o.find(".hint").focus(function(){
+				if(this.value == this.title){
+					$(this).removeClass('hintText');
+					this.value = '';
+				}
+			});
+			o.find(".hint").blur(function(){
+				if(this.value == ''){
+					$(this).addClass('hintText');
+					this.value = this.title;
+				} else { 
+					$(this).removeClass('hintText');
+				}
+			});
+		},
+		toString : function(){
+			return "toggleFormText";
+		}
+	};
+	$(document).ready(function(){
+		
+		console.log("contract_write_step01.html");
+		// 선택된 라디오버튼 checked  
+		$(".pointCk").click(function(){
+			$(this).attr("checked", "checked");
+			$(".pointCk").not(this).removeAttr("checked");
+		});
+		fn_contractNewList(1);
+	});
+
+
+	//***************					전자계약 양식 리스트					***************//
+
+
+	function fn_contractNewList(page) {
+
+		var url             = rootPath+"contract/getContractNewList.do";
+		var sortName        = $("#sortName").val();
+		var sortOrder       = $("#sortOrder").val();
+		var useOtherLayout  = 'N';
+		var viewPage        = 100;
+
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				transType:'C',
+				useOtherLayout:useOtherLayout,
+				sortName:sortName,
+				sortOrder:sortOrder
+			},
+			success:function(result) {
+				console.log(result);
+				if(result.success) {
+					totPage = result.total;
+					var totalPage = Math.ceil(totPage/viewPage);
+					var htmlData = "";
+					// 계약서 양식 리스트
+					$.each(result.data, function(i, row) {
+						if(i==0) selected = "selected";
+						var fileName = cutStr(row.fileTitle, 42);
+						
+						if(row.viewYn == "N"){ return true; }
+						
+						htmlData += '<tr class="databox">';
+						htmlData += '	<td class="chk_area"><input type="radio" name="pointCk" class="pointCk" value="' +row.contractId + '"></td>'; 
+						htmlData += '	<td class="">' + fileName + '</td>';
+						//서명참여자 추가
+						if(row.signUserType == "1" && row.signBizType == "1" && row.signCustomerType == "0"){
+							htmlData += '	<td class="">회사, 근로자</td>';
+						} else if (row.signUserType == "0" && row.signBizType == "1" && row.signCustomerType == "1"){
+							htmlData += '	<td class="">회사, 거래처</td>';
+						} else if (row.signUserType == "1" && row.signBizType == "0" && row.signCustomerType == "0"){
+							htmlData += '	<td class="">근로자</td>';
+						} else if (row.signUserType == "0" && row.signBizType == "1" && row.signCustomerType == "0"){
+							htmlData += '	<td class="">회사</td>';
+						} else if (row.signUserType == "0" && row.signBizType == "0" && row.signCustomerType == "1"){
+							htmlData += '	<td class="">거래처</td>';
+						} else if (row.signUserType == "0" && row.signBizType == "0" && row.signCustomerType == "0"){
+							htmlData += '	<td class="">해당없음</td>';
+						}
+						htmlData += '	<td class="">' + convertDateTime(row.insDate).format("yyyy-MM-dd") + '</td>';
+						htmlData += '	<td class="iconForm"><a class="btn_type" onclick="fn_fileDownload(\''+row.dataFileId+'\')"><span class="icon_excel"></span><span class="arrow"></span></a></td>';
+						htmlData += '	<td class="zoom"><a class="btn_type Material_icons zoom_in" onclick="fn_contractFormView(\'' + row.fileId + '\')">zoom_in</a></td>';
+						htmlData += '</tr>';
+					});
+				}
+				$('#contractFileList').html(htmlData);
+			},
+			error:function(request,status,error){
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					window.close();
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+				}
+			}
+		});
+	}
+	
+	function fn_contractFormView(fileId) {
+		window.open(rootPath+"module/pdfjs/web/viewer.html?fileId=" + fileId, "FormManager", "width=900, height=700, scrollbars=no");
+	}
+
+
+	//***************					다음 페이지					***************//
+
+
+	function fn_nextPage() {
+	    var contractFileId = $("input:radio[name=pointCk]:checked").val();
+	    if(!contractFileId) {
+	    	alert("파일 양식을 선택해주세요");
+	    	return;
+	    } else {
+			var url = rootPath+"contract/delContractPersonTemp.do";
+			$.ajax({
+				url:url,
+			    crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				data:{ contractFileId:contractFileId },
+				success:function(result) {
+					if(result.success) {
+				    	setCookie("contractFileId", contractFileId);
+				    	$("#contents_wrap").empty();
+					    $(window).off("resize");
+					    $.ajax({
+					        url : "/html/contract/contract_write_usergrp_step02.html" ,
+					        success : function(result) { $("#contents_wrap").html(result); }
+					    });	    
+					} else {
+						alert("다음단계 진행중 문제가 발생하였습니다.");
+					}
+				},
+				error:function(request,status,error){
+					if (request.status=="401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					} else {
+						alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+					}
+				}
+			});
+	    }
+	}
+	
+	function fn_formRegister(obj, menuCode) {
+		
+		var url=$(obj).attr('data-url');
+		var tagName=$("#nav_list > li:nth-child(2) > label > a").prop('tagName');
+		
+		//펼침 목록 아이콘 클릭시 
+		if($(event.target).hasClass("fa-angle-right")){
+			return;
+		}
+		if(tagName=="A"){ //하위목록이 없는 버튼 클릭
+			$(".nav_list > li").removeClass('active');
+			$(".group-list > li > a").removeClass('active');
+	
+			var p_tagName=$("#nav_list > li:nth-child(2) > label > a").parent().parent().prop('tagName');
+	
+			if(p_tagName=="UL"){
+				//하위목록의 lv2 메뉴 클릭
+				$("#nav_list > li:nth-child(2) > label > a").addClass("active");
+			}else{
+				//하위목록 없는 메뉴
+				//펼침 목록 접기
+				$(".nav_list").find('input[type="checkbox"]').attr("checked", false);
+				
+				$("#nav_list > li:nth-child(2) > label > a").parent().parent().addClass("active"); 
+			}
+			
+		}else{
+			//LV1 하위목록 있고 url 없을때 
+			if(url != "" ){
+				$(".nav_list > li").removeClass('active');
+				$(".group-list > li > a").removeClass('active');
+				$("#nav_list > li:nth-child(2) > label > a").parent().addClass("active");
+			}
+		}	
+		
+		// 페이지 호출
+		$("#contents_wrap").empty();
+	    $(window).off("resize");
+	    $.ajax({
+	        url : url ,
+	        success : function(result) {
+	            $("#contents_wrap").html(result);
+	        }
+	    });
+	}
+	
+</script>
+
+</head>
+
+<body>
+	
+<!-- *********************************************  계약 관리  *********************************************  -->
+<div id="contract_wrap" class="">
+	<div class="container">
+		<div class="location"><span class="loc_main NanumGothic">전자문서 > 전자계약(양식변환) > </span><span class="loc_sub NanumGothic">전자계약 작성</span></div>
+        <div class="pagtit"><span class="NanumGothic">1.양식 선택</span></div>
+        <div class="tit_dec NanumGothic"><span class="speaker"></span><span>아래 양식을 확인후 선택해주세요. 자사 양식을 전자문서로 등록하고싶으면 </span><span class="point"><a class="btn_type" data-url="/html/contract/contract_form_management.html" onclick="fn_formRegister(this,180622091404016)">[여기]</a></span><span>를 클릭하세요.</span></div>
+		<div class="nav_snb">
+			<ul class="nav_tabGroup tab3">
+				<li class="active">
+					<div class="hor_line"></div>
+					<div class="num"><span>1</span></div>
+					<div class="btn_tab"><span class="tabBox NanumGothic">양식선택</span></div>
+				</li>
+				<li class="">
+					<div class="hor_line"></div>
+			        <div class="num"><span>2</span></div>
+					<div class="btn_tab"><span class="tabBox btn_type Material_icons">조건 업로드 및 확인</span></div>
+				</li>
+				<li>
+					<div class="hor_line"></div>
+			        <div class="num"><span>3</span></div>
+					<div class="btn_tab"><span class="tabBox btn_type Material_icons">전자문서 생성완료</span></div>
+				</li>
+				<!-- 
+				<li>
+					<div class="hor_line"></div>
+			        <div class="num"><span>4</span></div>
+					<div class="btn_tab"><span class="tabBox btn_type Material_icons">공인인증 서명</span></div>
+				</li>
+				<li>
+					<div class="hor_line"></div>
+					<div class="num"><span>5</span></div>
+					<div class="btn_tab"><span class="tabBox btn_type Material_icons">계약서 전송</span></div>
+				</li>
+				 -->
+			</ul>
+		</div>
+		<div class="tab_contents">
+			<div class="list">
+				<table>
+					<colgroup>
+						<col width="5%">
+						<!-- <col width="15%"> -->
+						<col width="45%">
+						<col width="40%">
+						<col width="18%">
+						<col width="13%">
+						<col width="13%">
+					</colgroup>
+					<thead>
+						<tr>
+							<th class="chk_area"><!-- <input type="checkbox"> --></th>
+							<!-- <th>서명방식</th> -->
+							<th>계약구분</th> 
+							<th>파일명</th>
+							<th>등록일</th>
+							<th>조건양식</th>
+							<th>미리보기</th>
+						</tr>
+					</thead>
+					<tbody id="contractFileList">
+					<!-- 
+						<tr class="databox">
+							<td class="chk_area"><input type="radio" name="pointCk" class="pointCk"></td>
+							<td class="">기업/임직원</td>
+							<td class="">일용직</td> 
+							<td class="">표준 근로계약서.pdf</td>
+							<td class="">2017-11-25</td>
+							<td class="iconForm"><a class="btn_type"><span class="icon_excel"></span><span class="arrow"></span></a></td>
+							<td class="zoom"><a class="btn_type Material_icons zoom_in">zoom_in</a></td>
+						</tr>
+						<tr class="databox">
+				            <td class="chk_area"><input type="radio" name="pointCk" class="pointCk"></td>
+				            <td class="">서명</td>
+				            <td class="">단기간</td> 
+				            <td class="">제목이 엄청 긴 표준 근로계약서 .hwp</td>
+				            <td class="">2017-11-25</td>
+				            <td class="iconForm"><a class="btn_type"><span class="icon_excel"></span><span class="arrow"></span></a></td>
+				            <td class="zoom"></td>
+				        </tr>
+				        <tr class="databox">
+				            <td class="chk_area"><input type="radio" name="pointCk" class="pointCk"></td>
+				            <td class="">서명</td>
+				            <td class="">단기간</td> 
+				            <td class="">제목이 엄청 긴 표준 근로계약서 .hwp</td>
+				            <td class="">2017-11-25</td>
+				            <td class="iconForm"><a class="btn_type"><span class="icon_excel"></span><span class="arrow"></span></a></td>
+				            <td class="zoom"></td>
+				        </tr>
+				        <tr class="databox">
+				            <td class="chk_area"><input type="radio" name="pointCk" class="pointCk"></td>
+				            <td class="">서명</td>
+				            <td class="">단기간</td> 
+				            <td class="">제목이 엄청 긴 표준 근로계약서 .hwp</td>
+				            <td class="">2017-11-25</td>
+				            <td class="iconForm"><a class="btn_type"><span class="icon_excel"></span><span class="arrow"></span></a></td>
+				            <td class="zoom"></td>
+				        </tr>
+				        <tr class="databox">
+				            <td class="chk_area"><input type="radio" name="pointCk" class="pointCk"></td>
+				            <td class="">서명</td>
+				            <td class="">단기간</td> 
+				            <td class="">제목이 엄청 긴 표준 근로계약서 .hwp</td>
+				            <td class="">2017-11-25</td>
+				            <td class="iconForm"><a class="btn_type"><span class="icon_excel"></span><span class="arrow"></span></a></td>
+				            <td class="zoom"></td>
+				        </tr>
+				        <tr class="databox">
+				            <td class="chk_area"><input type="radio"></td>
+				            <td class="">서명</td>
+				            <td class="">단기간</td> 
+				            <td class="">제목이 엄청 긴 표준 근로계약서 .hwp</td>
+				            <td class="">2017-11-25</td>
+				            <td class="iconForm"><a class="btn_type"><span class="icon_excel"></span><span class="arrow"></span></a></td>
+				            <td class="zoom"></td>
+				        </tr>
+				        <tr class="databox">
+				            <td class="chk_area"><input type="radio"></td>
+				            <td class="">서명</td>
+				            <td class="">단기간</td> 
+				            <td class="">제목이 엄청 긴 표준 근로계약서 .hwp</td>
+				            <td class="">2017-11-25</td>
+				            <td class="iconForm"><a class="btn_type"><span class="icon_excel"></span><span class="arrow"></span></a></td>
+				            <td class="zoom"></td>
+				        </tr>
+				        <tr class="databox">
+				            <td class="chk_area"><input type="radio"></td>
+				            <td class="">서명</td>
+				            <td class="">단기간</td> 
+				            <td class="">제목이 엄청 긴 표준 근로계약서 .hwp</td>
+				            <td class="">2017-11-25</td>
+				            <td class="iconForm"><a class="btn_type"><span class="icon_excel"></span><span class="arrow"></span></a></td>
+				            <td class="zoom"></td>
+				        </tr>
+				        <tr class="databox">
+				            <td class="chk_area"><input type="radio"></td>
+				            <td class="">서명</td>
+				            <td class="">단기간</td> 
+				            <td class="">제목이 엄청 긴 표준 근로계약서 .hwp</td>
+				            <td class="">2017-11-25</td>
+				            <td class="iconForm"><a class="btn_type"><span class="icon_excel"></span><span class="arrow"></span></a></td>
+				            <td class="zoom"></td>
+				        </tr>
+				        <tr class="databox">
+				            <td class="chk_area"><input type="radio"></td>
+				            <td class="">서명</td>
+				            <td class="">단기간</td> 
+				            <td class="">제목이 엄청 긴 표준 근로계약서 .hwp</td>
+				            <td class="">2017-11-25</td>
+				            <td class="iconForm"><a class="btn_type"><span class="icon_excel"></span><span class="arrow"></span></a></td>
+				            <td class="zoom"></td>
+				        </tr>
+				        <tr class="databox">
+                            <td class="chk_area"><input type="radio"></td>
+                            <td class="">서명</td>
+                            <td class="">단기간</td> 
+                            <td class="">제목이 엄청 긴 표준 근로계약서 .hwp</td>
+                            <td class="">2017-11-25</td>
+                            <td class="iconForm"><a class="btn_type"><span class="icon_excel"></span><span class="arrow"></span></a></td>
+                            <td class="zoom"></td>
+                        </tr>
+                        <tr class="databox">
+                            <td class="chk_area"><input type="radio"></td>
+                            <td class="">서명</td>
+                            <td class="">단기간</td> 
+                            <td class="">제목이 엄청 긴 표준 근로계약서 .hwp</td>
+                            <td class="">2017-11-25</td>
+                            <td class="iconForm"><a class="btn_type"><span class="icon_excel"></span><span class="arrow"></span></a></td>
+                            <td class="zoom"></td>
+                        </tr>
+                        <tr class="databox">
+                            <td class="chk_area"><input type="radio"></td>
+                            <td class="">서명</td>
+                            <td class="">단기간</td> 
+                            <td class="">제목이 엄청 긴 표준 근로계약서 .hwp</td>
+                            <td class="">2017-11-25</td>
+                            <td class="iconForm"><a class="btn_type"><span class="icon_excel"></span><span class="arrow"></span></a></td>
+                            <td class="zoom"></td>
+                        </tr>
+                        <tr class="databox">
+                            <td class="chk_area"><input type="radio"></td>
+                            <td class="">서명</td>
+                            <td class="">단기간</td> 
+                            <td class="">제목이 엄청 긴 표준 근로계약서 .hwp</td>
+                            <td class="">2017-11-25</td>
+                            <td class="iconForm"><a class="btn_type"><span class="icon_excel"></span><span class="arrow"></span></a></td>
+                            <td class="zoom"></td>
+                        </tr>
+                        <tr class="databox">
+                            <td class="chk_area"><input type="radio"></td>
+                            <td class="">서명</td>
+                            <td class="">단기간</td> 
+                            <td class="">제목이 엄청 긴 표준 근로계약서 .hwp</td>
+                            <td class="">2017-11-25</td>
+                            <td class="iconForm"><a class="btn_type"><span class="icon_excel"></span><span class="arrow"></span></a></td>
+                            <td class="zoom"></td>
+                        </tr>
+                        <tr class="databox">
+                            <td class="chk_area"><input type="radio"></td>
+                            <td class="">서명</td>
+                            <td class="">단기간</td> 
+                            <td class="">제목이 엄청 긴 표준 근로계약서 .hwp</td>
+                            <td class="">2017-11-25</td>
+                            <td class="iconForm"><a class="btn_type"><span class="icon_excel"></span><span class="arrow"></span></a></td>
+                            <td class="zoom"></td>
+                        </tr>
+                        <tr class="databox">
+                            <td class="chk_area"><input type="radio"></td>
+                            <td class="">서명</td>
+                            <td class="">단기간</td> 
+                            <td class="">제목이 엄청 긴 표준 근로계약서 .hwp</td>
+                            <td class="">2017-11-25</td>
+                            <td class="iconForm"><a class="btn_type"><span class="icon_excel"></span><span class="arrow"></span></a></td>
+                            <td class="zoom"></td>
+                        </tr>
+                        <tr class="databox">
+                            <td class="chk_area"><input type="radio"></td>
+                            <td class="">서명</td>
+                            <td class="">단기간</td> 
+                            <td class="">제목이 엄청 긴 표준 근로계약서 .hwp</td>
+                            <td class="">2017-11-25</td>
+                            <td class="iconForm"><a class="btn_type"><span class="icon_excel"></span><span class="arrow"></span></a></td>
+                            <td class="zoom"></td>
+                        </tr>
+                         -->
+					</tbody>
+				</table>
+			</div>
+			<div id="page-selection" class="pagingnav_wrap"></div>
+			
+		</div>
+		<div class="btn_footGroup NanumGothic" id="contractStep01">
+			<a class="btn_type btn_next" onclick="fn_nextPage();">다음 ＞ </a>
+		</div>
+	</div>
+</div>
+</body>
+
+<!--  bootpog Setting -->
+<script type="text/javascript">
+
+</script>
+
+</html>

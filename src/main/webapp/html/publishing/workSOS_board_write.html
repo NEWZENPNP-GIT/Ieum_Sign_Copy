@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/board_notice.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<!-- SmartEditor -->
+<script type="text/javascript" src="/module/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
+</head>
+<body>
+	
+<!-- *********************************************  게시판  *********************************************  -->
+<div id="boardque_wrap" class="workSOS">
+	<div class="container">
+		<div class="location"><span class="loc_main NanumSquare_R">노무 SOS > </span><span class="loc_sub NanumSquare_R">글 작성하기</span></div>
+		<div class="pagtit"><span class="NanumSquare_R">글 작성하기</span></div>
+	</div>
+	<div class="board_con">
+		<ul>
+			<li class="tit">
+				<div class="userInput"><div class="title"><span class="NanumGothic">제목</span><input type="text" id="subject"></div></div>
+				<div class="userName"><span class="NanumSquare_R">뉴젠솔루션</span></div>
+			</li>
+			<!-- 임시저장 line 주석 처리 -->
+			<!-- <li class="box sub_tit">
+				<div><span class="temp_text red NanumSquare_R">1번에 임시저장 되었습니다.(1:2018-05-02 19:57:37)</span></div>
+				<div class="right NanumSquare_R">
+					<a class="btn_type btn_save">임시저장</a>
+					<select class="sel_time NanumSquare_R">
+	                    <option value="">1:2018-05-02 19:57:37</option>
+	                    <option value=""></option>
+	                    <option value=""></option>
+	                </select>
+					<a class="btn_type btn_import">불러오기</a>
+				</div>
+			</li> -->
+			<li class="box editArea smartOutput se2_inputarea" id="smart_editor2">
+				<textarea name="ir1" id="ir1"></textarea> 
+			</li>
+			<li class="box attachGroup">
+				<a class="btn_type NanumSquare_R active">이미지 첨부</a>
+				<a class="btn_type NanumSquare_R">파일 첨부</a>
+			<span class="text NanumSquare_R">※ 이미지는 5mb 이하의 이미지만 첨부가능합니다. 이미지는 게시글에 보여집니다.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;파일은 5mb 이하의 파일만 첨부 가능합니다</span>
+			</li>
+			<li class="box btn_group ">
+				<a class="btn_type NanumSquare_R"><span class="icon Material_icons">check_circle</span>작성완료</a>
+			</li>
+			
+		</ul>
+	</div>
+</div>
+
+</body>
+
+
+<script type="text/javascript" >
+$(document).ready(function(){
+    var oEditors = [];
+
+    nhn.husky.EZCreator.createInIFrame({
+        oAppRef: oEditors,
+        elPlaceHolder: "ir1",
+        sSkinURI: "/module/smarteditor/SmartEditor2Skin.html",
+        fCreator: "createSEditor2"
+
+    });
+})
+</script>
+</html>

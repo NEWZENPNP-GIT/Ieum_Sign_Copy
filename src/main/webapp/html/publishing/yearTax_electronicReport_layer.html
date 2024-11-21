@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>전자 신고</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+
+</head>
+<body>
+	<div id="yearTax_wrap" class="yearTax">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연말정산 > </span><span class="loc_sub NanumSquare_R">전자 신고</span></div>
+			<div class="pagtit NanumSquare_R">
+				<span class="">전자 신고</span>
+			</div>
+			
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">전자 신고</span>
+					</div>
+					<div class="grid_field full">
+						<ul class="gridRow2">
+							<li class="search_wrap">
+								<div class="group_row row3">
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">사업장 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R">
+												<option value="" >전체</option>
+											</select>
+										</dd>
+									</dl>
+								</div>
+							</li>
+							<li class="btns sort_right">
+								<a class="NanumSquare_R btn_type btn_grid_search"><span class="icon Material_icons">search</span> 검색</a>
+							</li>
+						</ul>
+					</div>
+					<div class="grid_paging">
+						<div class="select_box">
+							<dl>
+								<dt><label class="label_txt NanumSquare_R">Rows</label></dt>
+								<dd class="select_box">
+									<select class="NanumSquare_R">
+										<option value="" >10</option>
+									</select>
+								</dd>
+							</dl>
+						</div>
+						<div id="page-selection" class="pagingnav_wrap_mid"></div>
+					</div>
+					<div class="group_table">
+						<table class="hasHead NanumSquare_R">
+							<colgroup>
+								<col width="4%">
+								<col width="9%">
+								<col width="12%">
+								<col width="12%">
+								<col width="8%">
+								<col width="9%">
+								<col width="12%">
+								<col width="12%">
+								<col width="8%">
+								<col width="12%">
+							</colgroup>
+							<thead>
+								<tr>
+									<th class="chk_area"><input type="checkbox"></th>
+									<th>사업장</th>
+									<th>사업자등록번호</th>
+									<th>종사업자 일련번호</th>
+									<th>단위과세</th>
+									<th>인원</th>
+									<th>총급여</th>
+									<th>결정세액</th>
+									<th>제작여부</th>
+									<th>제작일자</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="">
+									<td class="chk_area"><input type="checkbox"> </td>
+									<td class="value">뉴젠연말정산</td>
+									<td class="value">123-456-78910</td>
+									<td class="value"></td>
+									<td class="value">Y</td>
+									<td class="value">100</td>
+									<td class="value sort_right">1,000,000,000</td>
+									<td class="value sort_right">1,000,000,000</td>
+									<td class="value">Y</td>
+									<td class="value">2019.03.10 09:00</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="group_row full">
+						<ul class="gridRow-pub field_sort_right">
+							<li class="w600">
+								<div class="group_row row2">
+									<dl class="NanumSquare_R rat4-6">
+										<dt><label class="label_txt NanumSquare_R">제출대상구분 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R">
+												<option value="" >전체</option>
+											</select>
+										</dd>
+									</dl>
+									
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">제출년월일 : </label></dt>
+										<dd class="multi_box date_input">
+											<div class="year"><input type="number" value="2019">년</div>
+											<div class="month"><input type="number" value="12">월</div>
+											<div class="day"><input type="number" value="30">일</div>
+										</dd>
+									</dl>
+								</div>
+							</li>
+							<li class="btns">
+								<a class="NanumSquare_R btn_type btn_making">제작</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div><!--  content -->
+		</div>
+		<div id="layer_popupWrap" class="ckPassword">
+			<div class="container">
+				<div id="popup_tit" class="nonborder">
+					<div id="popup_close" class="btn_type col_skyblue"></div>
+				</div>
+				<div class="contents">
+					<ul class="pwCheck_wrap NanumSquare_R">
+						<li class="icon"></li>
+						<li class="tit">비밀번호 확인</li>
+						<li class="txt">본인 확인을 위해 비밀번호를 한번 더 입력하세요.</li>
+						<li class="input"><input type="password" class="NanumRound"></li>
+						<li class="btns">
+							<a class="btn_type type1 NanumSquare_R">확인</a>
+							<a class="btn_type type2 NanumSquare_R">닫기</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+$('#page-selection').bootpag({
+    total: 10,
+    page: 1,
+    maxVisible: 5,
+    leaps: true,
+    firstLastUse: true,
+    first: '',
+    last: '',
+    wrapClass: 'pagination',
+    activeClass: 'active',
+    disabledClass: 'disabled',
+    nextClass: 'btn_next',
+    prevClass: 'btn_prev',
+    lastClass: 'end_page',
+    firstClass: 'first_page'
+}).on("page", function(event, num){
+    
+}); 
+</script>
+</html>

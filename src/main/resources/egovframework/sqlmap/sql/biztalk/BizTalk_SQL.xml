@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BizTalkKKO">
+	<typeAlias alias="bizTalkKKOVO" type="com.ezsign.biztalk.vo.BizTalkKKOVO"/>
+	<resultMap id="bizTalkListMap" class="bizTalkKKOVO">
+		<result property="empName" column="EMP_NAME"/>
+		<result property="templateCode" column="TEMPLATE_CODE"/>
+		<result property="content" column="CONTENT"/>
+		<result property="reportCode" column="REPORT_CODE"/>
+		<result property="msgType" column="MSG_TYPE"/>
+		<result property="msgStatus" column="MSG_STATUS"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="regDateTran" column="REG_DATE_TRAN"/>
+	</resultMap>
+	
+	<insert id="bizTalkDAO.insBizTalk" parameterClass="bizTalkKKOVO">
+		insert into ata_mmt_tran
+		(DATE_CLIENT_REQ, SUBJECT, CONTENT, CALLBACK, MSG_STATUS, RECIPIENT_NUM, MSG_TYPE, SENDER_KEY, TEMPLATE_CODE, KKO_BTN_TYPE, KKO_BTN_INFO)
+		values
+		(sysdate(), #subject#, #content#, #callback#, '1', #recipientNum#, '1008', #senderKey#, #templateCode#, #kkoBtnType#, #kkoBtnInfo#)		
+	</insert>
+	
+	<insert id="bizTalkDAO.insBizTalkSms" parameterClass="bizTalkKKOVO">
+		insert into em_smt_tran 
+		(DATE_CLIENT_REQ, CONTENT, CALLBACK, SERVICE_TYPE, BROADCAST_YN, MSG_STATUS, RECIPIENT_NUM)
+		values
+		(sysdate(), #content#, #callback#, '0', 'N', '1', #recipientNum#)
+	</insert>
+	
+	<insert id="bizTalkDAO.insBizTalkMms" parameterClass="bizTalkKKOVO">
+		INSERT INTO em_mmt_tran
+		(DATE_CLIENT_REQ, SUBJECT, CONTENT, ATTACH_FILE_GROUP_KEY, CALLBACK, SERVICE_TYPE, BROADCAST_YN, MSG_STATUS, RECIPIENT_NUM) 
+		VALUES 
+		(SYSDATE(), #subject#, #content#, '0', #callback#, '3', 'N', '1', #recipientNum#)
+	</insert>
+	
+	<select id="bizTalkDAO.getBizTalkList" parameterClass="bizTalkKKOVO" resultMap="bizTalkListMap">
+		select  b.emp_name, a.template_code, a.content, a.report_code, a.msg_type, a.msg_status, a.reg_date, a.reg_date_tran
+		from  $table$ a, tbl_emp b
+		where a.recipient_num = b.phone_num
+		and	  b.biz_id  = #bizId#
+		and	  b.user_id = #userId#		
+		union all
+		select  b.emp_name, a.template_code, a.content, a.report_code, a.msg_type, a.msg_status, a.reg_date, ''
+		from  ata_mmt_tran a, tbl_emp b
+		where a.recipient_num = b.phone_num
+		and	  b.biz_id  = #bizId#
+		and	  b.user_id = #userId#
+		order by reg_date
+	</select>
+	
+	
+</sqlMap>
+		

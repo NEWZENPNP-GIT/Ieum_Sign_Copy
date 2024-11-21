@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="AnnualVacation">
+	<typeAlias alias="annualVacationVO" type="com.ezsign.annual.vo.AnnualVacationVO" />
+	<resultMap id="annualVacationListMap" class="annualVacationVO">
+		<result property="serviceId" column="SERVICE_ID"/>
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="bizName" column="BIZ_NAME"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="annualYear" column="ANNUAL_YEAR"/>
+		<result property="totalDay" column="TOTAL_DAY"/>
+		<result property="addDay" column="ADD_DAY"/>
+		<result property="delDay" column="DEL_DAY"/>
+		<result property="useDay" column="USE_DAY"/>
+		<result property="usedDay" column="USED_DAY"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="joinDate" column="JOIN_DATE"/>
+		<result property="leaveDate" column="LEAVE_DATE"/>
+		<result property="deptName" column="DEPT_NAME"/>
+		<result property="positionName" column="POSITION_NAME"/>
+		<result property="eMail" column="E_MAIL"/>
+	</resultMap>
+	
+	<typeAlias alias="annualVacationLogVO" type="com.ezsign.annual.vo.AnnualVacationLogVO" />
+	<resultMap id="annualVacationLogListMap" class="annualVacationLogVO">
+		<result property="serviceId" column="SERVICE_ID"/>
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="bizName" column="BIZ_NAME"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="totalDay" column="TOTAL_DAY"/>
+		<result property="addDay" column="ADD_DAY"/>
+		<result property="delDay" column="DEL_DAY"/>
+		<result property="comments" column="COMMENTS"/>
+		<result property="insDate" column="INS_DATE"/>
+	</resultMap>
+	
+	<typeAlias alias="vacationRequestVO" type="com.ezsign.annual.vo.VacationRequestVO" />
+	<resultMap id="vacationRequestListMap" class="vacationRequestVO">
+		<result property="approvalType" column="APPROVAL_TYPE"/>
+		<result property="requestId" column="REQUEST_ID"/>
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="bizName" column="BIZ_NAME"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="deptName" column="DEPT_NAME"/>
+		<result property="dateFrom" column="DATE_FROM"/>
+		<result property="dateTo" column="DATE_TO"/>
+		<result property="vacationType" column="VACATION_TYPE"/>
+		<result property="vacationTypeName" column="VACATION_TYPE_NAME"/>
+		<result property="phoneNum" column="PHONE_NUM"/>
+		<result property="vacationDay" column="VACATION_DAY"/>
+		<result property="approvalId" column="APPROVAL_ID"/>
+		<result property="scheduleId" column="SCHEDULE_ID"/>
+		<result property="comments" column="COMMENTS"/>
+		<result property="statusCode" column="STATUS_CODE"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="updDate" column="UPD_DATE"/>
+		<result property="joinDate" column="JOIN_DATE"/>
+		<result property="totalDay" column="TOTAL_DAY"/>
+		<result property="addDay" column="ADD_DAY"/>
+		<result property="delDay" column="DEL_DAY"/>
+		<result property="useDay" column="USE_DAY"/>
+	</resultMap>
+	
+	<resultMap id="vacationTypeSumListMap" class="vacationRequestVO">
+		<result property="vacationType" column="VACATION_TYPE"/>
+		<result property="vacationTypeName" column="VACATION_TYPE_NAME"/>
+		<result property="vacationDay" column="VACATION_DAY"/>
+	</resultMap>
+	
+	<resultMap id="annualHistoryListMap" class="vacationRequestVO">
+		<result property="requestId" column="REQUEST_ID"/>
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="dateFrom" column="DATE_FROM"/>
+		<result property="dateTo" column="DATE_TO"/>
+		<result property="vacationType" column="VACATION_TYPE"/>
+		<result property="vacationTypeName" column="VACATION_TYPE_NAME"/>
+		<result property="phoneNum" column="PHONE_NUM"/>
+		<result property="vacationDay" column="VACATION_DAY"/>
+		<result property="approvalId" column="APPROVAL_ID"/>
+		<result property="scheduleId" column="SCHEDULE_ID"/>
+		<result property="comments" column="COMMENTS"/>
+		<result property="statusCode" column="STATUS_CODE"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="updDate" column="UPD_DATE"/>
+	</resultMap>
+	
+	<typeAlias alias="annualConfigVO" type="com.ezsign.annual.vo.AnnualConfigVO" />
+	<resultMap id="annualConfigListMap" class="annualConfigVO">
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="requestAlarmUseYn" column="REQUEST_ALARM_USE_YN"/>
+		<result property="approvalAlarmUseYn" column="APPROVAL_ALARM_USE_YN"/>
+		<result property="updateUseYn" column="UPDATE_USE_YN"/>
+		<result property="annualCreateCode" column="ANNUAL_CREATE_CODE"/>
+		<result property="annualBoostUseYn" column="ANNUAL_BOOST_USE_YN"/>
+		<result property="approvalUseYn" column="APPROVAL_USE_YN"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="updDate" column="UPD_DATE"/>
+	</resultMap>
+	
+	<typeAlias alias="annualTypeVO" type="com.ezsign.annual.vo.AnnualTypeVO" />
+	<resultMap id="annualTypeListMap" class="annualTypeVO">
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="vacationType" column="VACATION_TYPE"/>
+		<result property="vacationTypeName" column="VACATION_TYPE_NAME"/>
+		<result property="annualDay" column="ANNUAL_DAY"/>
+		<result property="useYn" column="USE_YN"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="updDate" column="UPD_DATE"/>
+	</resultMap>
+	
+	<typeAlias alias="annualVacationStatVO" type="com.ezsign.annual.vo.AnnualVacationStatVO" />
+	<resultMap id="annualVacationStatListMap" class="annualVacationStatVO">
+		<result property="empNo" column="EMP_NO"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="positionName" column="POSITION_NAME"/>
+		<result property="joinDate" column="JOIN_DATE"/>
+		<result property="totalDay" column="TOTAL_DAY"/>
+		<result property="vacationMonth1" column="VACATION_MONTH_1"/>
+		<result property="vacationMonth2" column="VACATION_MONTH_2"/>
+		<result property="vacationMonth3" column="VACATION_MONTH_3"/>
+		<result property="vacationMonth4" column="VACATION_MONTH_4"/>
+		<result property="vacationMonth5" column="VACATION_MONTH_5"/>
+		<result property="vacationMonth6" column="VACATION_MONTH_6"/>
+		<result property="vacationMonth7" column="VACATION_MONTH_7"/>
+		<result property="vacationMonth8" column="VACATION_MONTH_8"/>
+		<result property="vacationMonth9" column="VACATION_MONTH_9"/>
+		<result property="vacationMonth10" column="VACATION_MONTH_10"/>
+		<result property="vacationMonth11" column="VACATION_MONTH_11"/>
+		<result property="vacationMonth12" column="VACATION_MONTH_12"/>
+		<result property="vacationMonthSum" column="VACATION_MONTH_SUM"/>
+	</resultMap>
+	
+	
+	
+	
+	<!-- 연차관리 -->
+	
+	<insert id="annualVacationDAO.insAnnualVacation" parameterClass="annualVacationVO">
+		INSERT INTO tbl_annual_vacation (
+			SERVICE_ID, BIZ_ID, USER_ID, ANNUAL_YEAR, TOTAL_DAY, ADD_DAY, DEL_DAY, USE_DAY, INS_DATE
+		) VALUES (
+		   #serviceId#, #bizId#, #userId#, #annualYear#, #totalDay#, 0, 0, 0, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<select id="annualVacationDAO.getAnnualVacation" parameterClass="annualVacationVO" resultMap="annualVacationListMap">
+		SELECT  A.SERVICE_ID, A.BIZ_ID, B.BIZ_NAME, A.USER_ID, C.EMP_NO, C.EMP_NAME, A.ANNUAL_YEAR, A.TOTAL_DAY, A.ADD_DAY, A.DEL_DAY, A.USE_DAY, A.INS_DATE, (A.TOTAL_DAY + A.ADD_DAY - A.DEL_DAY - A.USE_DAY) USED_DAY,
+				C.JOIN_DATE, C.LEAVE_DATE, C.DEPT_NAME, C.POSITION_NAME, C.E_MAIL
+		FROM    tbl_annual_vacation A, tbl_biz B, tbl_emp C
+		WHERE   A.BIZ_ID = B.BIZ_ID
+		AND     A.BIZ_ID = C.BIZ_ID
+		AND     A.USER_ID = C.USER_ID
+		AND		A.BIZ_ID  = #bizId#
+		AND     A.USER_ID = #userId#
+		AND		A.ANNUAL_YEAR = DATE_FORMAT(SYSDATE(), '%Y')
+	</select>
+	
+	<select id="annualVacationDAO.getAnnualVacationList" parameterClass="annualVacationVO" resultMap="annualVacationListMap">
+		SELECT  A.SERVICE_ID, A.BIZ_ID, B.BIZ_NAME, A.USER_ID, C.EMP_NO, C.EMP_NAME, A.ANNUAL_YEAR, A.TOTAL_DAY, A.ADD_DAY, A.DEL_DAY, A.USE_DAY, A.INS_DATE, (A.TOTAL_DAY + A.ADD_DAY - A.DEL_DAY - A.USE_DAY) USED_DAY,
+				C.JOIN_DATE, C.LEAVE_DATE, C.DEPT_NAME, C.POSITION_NAME, C.E_MAIL
+		FROM    tbl_annual_vacation A, tbl_biz B, tbl_emp C
+		WHERE   A.BIZ_ID = B.BIZ_ID
+		AND     A.BIZ_ID = C.BIZ_ID
+		AND     A.USER_ID = C.USER_ID
+		AND		A.BIZ_ID  = #bizId#
+		<isNotNull property="annualYear">
+		    <isNotEmpty property="annualYear">
+				AND		A.ANNUAL_YEAR = #annualYear#
+			</isNotEmpty>
+		</isNotNull>
+		<isNull property="annualYear">
+		    <isEmpty property="annualYear">
+				AND		A.ANNUAL_YEAR = DATE_FORMAT(SYSDATE(), '%Y')
+			</isEmpty>
+		</isNull>
+		<isNotNull property="userId">
+		    <isNotEmpty property="userId">
+				AND		C.USER_ID = #userId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchKey">
+		    <isNotEmpty property="searchKey">
+		    	<isEqual property="searchKey" compareValue="empName">
+					AND		C.EMP_NAME LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="eMail">
+					AND		C.E_MAIL	= #searchValue#
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="phoneNum">
+					AND		C.PHONE_NUM = #searchValue#
+		    	</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY $sortName$ $sortOrder$
+		limit #endPage# offset #startPage#
+	</select>
+	
+	<select id="annualVacationDAO.getAnnualVacationListCount" parameterClass="annualVacationVO" resultClass="java.lang.Integer">
+		SELECT  COUNT(A.USER_ID)
+		FROM    tbl_annual_vacation A, tbl_biz B, tbl_emp C
+		WHERE   A.BIZ_ID = B.BIZ_ID
+		AND     A.BIZ_ID = C.BIZ_ID
+		AND     A.USER_ID = C.USER_ID
+		AND		A.BIZ_ID  = #bizId#
+		AND		A.ANNUAL_YEAR = DATE_FORMAT(SYSDATE(), '%Y')
+		<isNotNull property="userId">
+		    <isNotEmpty property="userId">
+				AND		C.USER_ID = #userId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchKey">
+		    <isNotEmpty property="searchKey">
+		    	<isEqual property="searchKey" compareValue="empName">
+					AND		C.EMP_NAME LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="eMail">
+					AND		C.E_MAIL	= #searchValue#
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="phoneNum">
+					AND		C.PHONE_NUM = #searchValue#
+		    	</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<update id="annualVacationDAO.updAnnualVacation" parameterClass="annualVacationVO">
+		UPDATE	tbl_annual_vacation
+		SET
+				TOTAL_DAY = #totalDay#,
+				ADD_DAY = #addDay#,
+				DEL_DAY = #delDay#,
+				UPD_DATE	= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	BIZ_ID		= #bizId#
+		AND		USER_ID		= #userId#
+		AND		ANNUAL_YEAR = DATE_FORMAT(SYSDATE(), '%Y')
+	</update>
+	
+	<update id="annualVacationDAO.updAnnualVacationUseDay" parameterClass="annualVacationVO">
+		UPDATE	tbl_annual_vacation
+		SET		USE_DAY 	= USE_DAY + #useDay#,
+				UPD_DATE	= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	BIZ_ID		= #bizId#
+		AND		USER_ID		= #userId#
+		AND		ANNUAL_YEAR = DATE_FORMAT(SYSDATE(), '%Y')
+	</update>
+	
+	<!-- 연차관리로그 -->
+	<insert id="annualVacationDAO.insAnnualVacationLog" parameterClass="annualVacationLogVO">
+		INSERT INTO tbl_annual_vacation_log (
+			SERVICE_ID, BIZ_ID, USER_ID, TOTAL_DAY, ADD_DAY, DEL_DAY, COMMENTS, INS_DATE
+		) VALUES (
+		   #serviceId#, #bizId#, #userId#, #totalDay#, #addDay#, #delDay#, #comments#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<select id="annualVacationDAO.getAnnualVacationLogList" parameterClass="annualVacationLogVO" resultMap="annualVacationLogListMap">
+		SELECT  A.SERVICE_ID, A.BIZ_ID, B.BIZ_NAME, A.USER_ID, C.EMP_NO, C.EMP_NAME, A.TOTAL_DAY, A.ADD_DAY, A.DEL_DAY, A.COMMENTS, A.INS_DATE
+		FROM    tbl_annual_vacation_log A, tbl_biz B, tbl_emp C
+		WHERE   A.BIZ_ID = B.BIZ_ID
+		AND     A.BIZ_ID = C.BIZ_ID
+		AND     A.USER_ID = C.USER_ID
+		AND		A.BIZ_ID  = #bizId#
+		AND		A.USER_ID = #userId#
+	</select>
+	
+	<!-- 휴가신청 -->
+	<insert id="annualVacationDAO.insVacationRequest" parameterClass="vacationRequestVO">
+		INSERT INTO tbl_vacation_request (
+			BIZ_ID, USER_ID, DATE_FROM, DATE_TO, VACATION_TYPE, PHONE_NUM, VACATION_DAY, APPROVAL_ID, SCHEDULE_ID, COMMENTS, STATUS_CODE, INS_DATE, UPD_DATE
+		) VALUES (
+			#bizId#, #userId#, #dateFrom#, #dateTo#, #vacationType#, #phoneNum#, #vacationDay#, #approvalId#, #scheduleId#, #comments#, '0', DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<select id="annualVacationDAO.getVacationRequest" parameterClass="vacationRequestVO" resultMap="vacationRequestListMap">
+		SELECT  '0' APPROVAL_TYPE, A.REQUEST_ID, A.BIZ_ID, B.BIZ_NAME, A.USER_ID, C.EMP_NO, C.EMP_NAME, C.JOIN_DATE, C.DEPT_NAME,
+		        A.DATE_FROM, A.DATE_TO, A.VACATION_TYPE, D.COMM_NAME VACATION_TYPE_NAME, A.PHONE_NUM, A.VACATION_DAY, 
+		        A.APPROVAL_ID, A.SCHEDULE_ID, A.COMMENTS, A.STATUS_CODE, A.INS_DATE, A.UPD_DATE,
+		        E.TOTAL_DAY, E.ADD_DAY, E.DEL_DAY, E.USE_DAY
+		FROM    tbl_vacation_request A, tbl_biz B, tbl_emp C, tbl_code D, tbl_annual_vacation E
+		WHERE   A.BIZ_ID = B.BIZ_ID
+		AND     A.BIZ_ID = C.BIZ_ID
+		AND     A.USER_ID = C.USER_ID
+		AND		A.VACATION_TYPE = D.COMM_CODE
+		AND		D.GRP_COMM_CODE = '601'
+		AND		A.BIZ_ID = E.BIZ_ID
+		AND		A.USER_ID = E.USER_ID
+		AND		E.ANNUAL_YEAR = DATE_FORMAT(SYSDATE(), '%Y')
+		AND     A.REQUEST_ID = #requestId#
+	</select>
+	
+	<update id="annualVacationDAO.updVacationRequest" parameterClass="vacationRequestVO">
+		UPDATE	tbl_vacation_request
+		SET
+		<isNotNull property="approvalId">
+		    <isNotEmpty property="approvalId">
+				APPROVAL_ID = #approvalId#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="scheduleId">
+		    <isNotEmpty property="scheduleId">
+				SCHEDULE_ID = #scheduleId#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="comments">
+		    <isNotEmpty property="comments">
+				COMMENTS = #comments#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="statusCode">
+		    <isNotEmpty property="statusCode">
+				STATUS_CODE = #statusCode#,
+			</isNotEmpty>
+		</isNotNull>
+				UPD_DATE	= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	REQUEST_ID	= #requestId#
+	</update>
+	
+	<select id="annualVacationDAO.getVacationRequestList" parameterClass="vacationRequestVO" resultMap="vacationRequestListMap">
+		
+		SELECT  '1' APPROVAL_TYPE, A.REQUEST_ID, A.BIZ_ID, B.BIZ_NAME, A.USER_ID, C.EMP_NO, C.EMP_NAME, C.JOIN_DATE, C.DEPT_NAME, 
+		        A.DATE_FROM, A.DATE_TO, A.VACATION_TYPE, A.PHONE_NUM, A.VACATION_DAY, F.COMM_NAME VACATION_TYPE_NAME, 
+		        A.APPROVAL_ID, A.SCHEDULE_ID, A.COMMENTS, A.STATUS_CODE, A.INS_DATE, A.UPD_DATE,
+		        G.TOTAL_DAY, G.ADD_DAY, G.DEL_DAY, G.USE_DAY
+		FROM    tbl_vacation_request A, tbl_biz B, tbl_emp C, tbl_approval D, tbl_emp E, tbl_code F, tbl_annual_vacation G
+		WHERE   A.BIZ_ID  = B.BIZ_ID
+		AND     A.BIZ_ID  = C.BIZ_ID
+		AND     A.USER_ID = C.USER_ID
+		AND		A.BIZ_ID  = D.BIZ_ID
+		AND		A.APPROVAL_ID = D.APPROVAL_ID
+		AND		D.BIZ_ID  = E.BIZ_ID
+		AND		D.USER_ID = E.USER_ID
+		AND		D.SIGN_TYPE = '1'
+		AND		A.STATUS_CODE IN ('0', '1')
+		AND		A.VACATION_TYPE = F.COMM_CODE
+		AND		F.GRP_COMM_CODE = '601'
+		AND		A.BIZ_ID  = G.BIZ_ID
+		AND		A.USER_ID = G.USER_ID
+		AND		G.ANNUAL_YEAR = DATE_FORMAT(SYSDATE(), '%Y')
+		
+		<isNotNull property="dateFrom">
+		    <isNotEmpty property="dateFrom">
+		    	<![CDATA[	
+				AND		A.DATE_FROM >= #dateFrom#
+				]]>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="dateTo">
+		    <isNotEmpty property="dateTo">
+		    	<![CDATA[	
+				AND		A.DATE_TO <= #dateTo#
+				]]>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="statusCode">
+		    <isNotEmpty property="statusCode">
+				AND		A.STATUS_CODE = #statusCode#
+			</isNotEmpty>
+		</isNotNull>
+		
+		AND		A.BIZ_ID  = #bizId#
+		AND		E.USER_ID = #userId#
+	</select>	
+	
+	<select id="annualVacationDAO.getVacationRequestCompleteList" parameterClass="vacationRequestVO" resultMap="vacationRequestListMap">
+		
+		SELECT  '0' APPROVAL_TYPE, A.REQUEST_ID, A.BIZ_ID, B.BIZ_NAME, A.USER_ID, C.EMP_NO, C.EMP_NAME, C.JOIN_DATE, C.DEPT_NAME,
+		        A.DATE_FROM, A.DATE_TO, A.VACATION_TYPE, A.PHONE_NUM, A.VACATION_DAY, F.COMM_NAME VACATION_TYPE_NAME, 
+		        A.APPROVAL_ID, A.SCHEDULE_ID, A.COMMENTS, A.STATUS_CODE, A.INS_DATE, A.UPD_DATE,
+		        G.TOTAL_DAY, G.ADD_DAY, G.DEL_DAY, G.USE_DAY
+		FROM    tbl_vacation_request A, tbl_biz B, tbl_emp C, tbl_code F, tbl_annual_vacation G
+		WHERE   A.BIZ_ID  = B.BIZ_ID
+		AND     A.BIZ_ID  = C.BIZ_ID
+		AND     A.USER_ID = C.USER_ID
+		AND		A.VACATION_TYPE = F.COMM_CODE
+		AND		F.GRP_COMM_CODE = '601'
+		AND		A.BIZ_ID  = G.BIZ_ID
+		AND		A.USER_ID = G.USER_ID
+		AND		G.ANNUAL_YEAR = DATE_FORMAT(SYSDATE(), '%Y')		
+		AND		A.BIZ_ID  = #bizId#
+		AND		C.USER_ID = #userId#
+		<isNotNull property="statusCode">
+		    <isNotEmpty property="statusCode">
+				AND		A.STATUS_CODE = #statusCode#
+			</isNotEmpty>
+		</isNotNull>
+	</select>	
+	
+	
+	
+	<select id="annualVacationDAO.getVacationTypeSumList" parameterClass="vacationRequestVO" resultMap="vacationTypeSumListMap">
+		SELECT  A.VACATION_TYPE, fn_code_name('601', A.VACATION_TYPE) VACATION_TYPE_NAME, SUM(A.VACATION_DAY) VACATION_DAY
+		FROM  tbl_vacation_request A
+		WHERE A.STATUS_CODE = '9'
+		AND   (#dateFrom# BETWEEN LEFT(A.DATE_FROM, 4) AND LEFT(A.DATE_FROM, 4)
+		OR		#dateFrom# BETWEEN LEFT(A.DATE_TO, 4) AND LEFT(A.DATE_TO, 4))
+		AND   A.BIZ_ID    = #bizId#
+		AND   A.USER_ID   = #userId#
+		GROUP BY A.VACATION_TYPE		
+	</select>	
+	
+	
+	<select id="annualVacationDAO.getAnnualConfig" parameterClass="annualConfigVO" resultMap="annualConfigListMap">
+		SELECT  A.BIZ_ID, A.REQUEST_ALARM_USE_YN, A.APPROVAL_ALARM_USE_YN, A.UPDATE_USE_YN, 
+		        A.ANNUAL_CREATE_CODE, A.ANNUAL_BOOST_USE_YN, A.APPROVAL_USE_YN, A.INS_DATE, A.UPD_DATE
+		FROM  tbl_annual_config A
+		WHERE A.BIZ_ID = #bizId#
+	</select>	
+	
+	<insert id="annualVacationDAO.insAnnualConfig" parameterClass="annualConfigVO">
+		INSERT INTO tbl_annual_config (
+			SERVICE_ID, BIZ_ID, REQUEST_ALARM_USE_YN, APPROVAL_ALARM_USE_YN, UPDATE_USE_YN, ANNUAL_CREATE_CODE, ANNUAL_BOOST_USE_YN, APPROVAL_USE_YN, INS_DATE, UPD_DATE
+		) VALUES (
+		   #serviceId#, #bizId#, #requestAlarmUseYn#, #approvalAlarmUseYn#, #updateUseYn#, #annualCreateCode#, #annualBoostUseYn#, #approvalUseYn#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<update id="annualVacationDAO.updAnnualConfig" parameterClass="annualConfigVO">
+		UPDATE	tbl_annual_config
+		SET
+		<isNotNull property="requestAlarmUseYn">
+		    <isNotEmpty property="requestAlarmUseYn">
+				REQUEST_ALARM_USE_YN = #requestAlarmUseYn#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="approvalAlarmUseYn">
+		    <isNotEmpty property="approvalAlarmUseYn">
+				APPROVAL_ALARM_USE_YN = #approvalAlarmUseYn#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="updateUseYn">
+		    <isNotEmpty property="updateUseYn">
+				UPDATE_USE_YN = #updateUseYn#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="annualCreateCode">
+		    <isNotEmpty property="annualCreateCode">
+				ANNUAL_CREATE_CODE = #annualCreateCode#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="annualBoostUseYn">
+		    <isNotEmpty property="annualBoostUseYn">
+				ANNUAL_BOOST_USE_YN = #annualBoostUseYn#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="approvalUseYn">
+		    <isNotEmpty property="approvalUseYn">
+				APPROVAL_USE_YN = #approvalUseYn#,
+			</isNotEmpty>
+		</isNotNull>
+				UPD_DATE	= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	BIZ_ID		= #bizId#
+	</update>
+	
+	<select id="annualVacationDAO.getAnnualTypeList" parameterClass="annualTypeVO" resultMap="annualTypeListMap">
+		SELECT  A.BIZ_ID, A.VACATION_TYPE, A.VACATION_TYPE_NAME, A.ANNUAL_DAY, 
+		        A.USE_YN, A.INS_DATE, A.UPD_DATE
+		FROM  tbl_annual_type A
+		WHERE A.BIZ_ID = #bizId#
+	</select>	
+	
+	<insert id="annualVacationDAO.insAnnualType" parameterClass="annualTypeVO">
+		INSERT INTO tbl_annual_type 
+		SELECT  #bizId#, A.COMM_CODE, A.COMM_NAME, A.REF_CODE, 'Y', DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		FROM  tbl_code A
+		WHERE A.GRP_COMM_CODE = '601'
+	</insert>
+	
+	<update id="annualVacationDAO.updAnnualType" parameterClass="annualTypeVO">
+		UPDATE	tbl_annual_type
+		SET
+		<isNotNull property="vacationTypeName">
+		    <isNotEmpty property="vacationTypeName">
+				VACATION_TYPE_NAME = #vacationTypeName#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="annualDay">
+		    <isNotEmpty property="annualDay">
+				ANNUAL_DAY = #annualDay#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="useYn">
+		    <isNotEmpty property="useYn">
+				USE_YN = #useYn#,
+			</isNotEmpty>
+		</isNotNull>
+				UPD_DATE	= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	BIZ_ID		= #bizId#
+		AND		VACATION_TYPE	= #vacationType#
+	</update>
+	
+	<select id="annualVacationDAO.getVacationHistoryList" parameterClass="vacationRequestVO" resultMap="annualHistoryListMap">
+		SELECT REQUEST_ID, BIZ_ID, USER_ID, DATE_FROM, DATE_TO, VACATION_TYPE, fn_code_name('601', VACATION_TYPE) VACATION_TYPE_NAME, PHONE_NUM, VACATION_DAY, 
+				APPROVAL_ID, SCHEDULE_ID, COMMENTS, STATUS_CODE, INS_DATE, UPD_DATE  
+		FROM tbl_vacation_request
+		WHERE 	BIZ_ID 		= #bizId#
+	    AND 	USER_ID 	= #userId#
+	    AND 	STATUS_CODE = 9
+	</select>
+	
+	<select id="annualVacationDAO.getVacationHistoryListCount" parameterClass="vacationRequestVO" resultClass="java.lang.Integer">
+		SELECT  COUNT(REQUEST_ID)
+		FROM tbl_vacation_request
+		WHERE 	BIZ_ID 		= #bizId#
+	    AND 	USER_ID 	= #userId#
+	    AND 	STATUS_CODE = 9
+	</select>
+	
+	<select id="annualVacationDAO.getAnnualStatMonthList" parameterClass="annualVacationStatVO" resultMap="annualVacationStatListMap">
+		SELECT  A.BIZ_ID, A.EMP_NO, A.EMP_NAME, A.POSITION_NAME, A.JOIN_DATE, IFNULL(C.TOTAL_DAY, 0) TOTAL_DAY,
+		        SUM(CASE WHEN VACATION_MONTH = '01' THEN B.VACATION_DAY ELSE 0 END) VACATION_MONTH_1,
+		        SUM(CASE WHEN VACATION_MONTH = '02' THEN B.VACATION_DAY ELSE 0 END) VACATION_MONTH_2,
+		        SUM(CASE WHEN VACATION_MONTH = '03' THEN B.VACATION_DAY ELSE 0 END) VACATION_MONTH_3,
+		        SUM(CASE WHEN VACATION_MONTH = '04' THEN B.VACATION_DAY ELSE 0 END) VACATION_MONTH_4,
+		        SUM(CASE WHEN VACATION_MONTH = '05' THEN B.VACATION_DAY ELSE 0 END) VACATION_MONTH_5,
+		        SUM(CASE WHEN VACATION_MONTH = '06' THEN B.VACATION_DAY ELSE 0 END) VACATION_MONTH_6,
+		        SUM(CASE WHEN VACATION_MONTH = '07' THEN B.VACATION_DAY ELSE 0 END) VACATION_MONTH_7,
+		        SUM(CASE WHEN VACATION_MONTH = '08' THEN B.VACATION_DAY ELSE 0 END) VACATION_MONTH_8,
+		        SUM(CASE WHEN VACATION_MONTH = '09' THEN B.VACATION_DAY ELSE 0 END) VACATION_MONTH_9,
+		        SUM(CASE WHEN VACATION_MONTH = '10' THEN B.VACATION_DAY ELSE 0 END) VACATION_MONTH_10,
+		        SUM(CASE WHEN VACATION_MONTH = '11' THEN B.VACATION_DAY ELSE 0 END) VACATION_MONTH_11,
+		        SUM(CASE WHEN VACATION_MONTH = '12' THEN B.VACATION_DAY ELSE 0 END) VACATION_MONTH_12,
+		        IFNULL(SUM(B.VACATION_DAY), 0) VACATION_MONTH_SUM
+		FROM  tbl_emp A 
+			LEFT OUTER JOIN
+          		( SELECT  B.BIZ_ID, B.USER_ID, RIGHT(LEFT(A.DATE_FROM, 6), 2) VACATION_MONTH, A.VACATION_DAY
+			        FROM  tbl_vacation_request A, tbl_emp B
+			        WHERE A.BIZ_ID      = B.BIZ_ID
+			        AND   A.USER_ID     = B.USER_ID
+			        AND   A.STATUS_CODE = '9'
+			        AND   A.BIZ_ID      = #bizId#
+			        AND   A.DATE_FROM   LIKE CONCAT(#annualYear#, '%') ) B
+	            ON A.BIZ_ID = B.BIZ_ID AND A.USER_ID = B.USER_ID 
+            LEFT OUTER JOIN
+            	tbl_annual_vacation C
+            	ON A.BIZ_ID = C.BIZ_ID AND A.USER_ID = C.USER_ID AND C.ANNUAL_YEAR = #annualYear#
+    	WHERE A.BIZ_ID = #bizId#
+    	AND	  A.EMP_TYPE IN ('1', '2', '3')
+    	AND   A.USE_YN = 'Y'
+		GROUP BY A.EMP_NO, A.EMP_NAME, A.POSITION_NAME, A.JOIN_DATE, C.TOTAL_DAY
+	</select>
+	
+	
+</sqlMap>

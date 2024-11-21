@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>그룹관리</title>
+
+<link rel="stylesheet" type="text/css" href="/css/company_manage.css">
+
+<script type='text/javascript' src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.alerts.js"></script>
+
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/ezsign/dept/group_popup_employeeSearch.js"></script>
+
+</head>
+<body>		
+	
+	<div id="groupManage_popup" class="_popup wide" *ngIf="model.isShow">
+		<div class="container">
+			<div id="popup_tit">
+				<div class="tit_icon"><span class="Material_icons">search</span></div>
+				<div class="tit_text col_skyblue NanumGothic">근로자 배정</div>
+				<div id="popup_close" class="btn_type col_skyblue" onClick="winClose()"></div>
+			</div>
+			<div class="contents">
+				<div class="NanumGothic tagName">
+					<span class="group_name" id="model_grpName"></span> <span>부문에 배정하기</span>
+				</div>
+				<ul class="assign_group">
+					<li class="panel non-assign">
+						<div class="NanumGothic tit">미배정 근로자</div>
+						<div class="grid_field">
+							<div class="select_box">
+                				<select class="NanumGothic" onChange="selectSrch('none')" id="noneSrchType">
+									<option value="all">전체</option>
+									<option value="empName">성명</option>
+									<option value="empNo">사번</option>
+									<option value="deptName">부문명</option>
+								</select>
+							</div>
+							<div class="input_box">
+								<fieldset>
+                  					<input class="" type="text" id="noneKeyword"  placeholder="검색">
+                  					<a class="btn_type btn_search Material_icons">search</a>
+				                </fieldset>	
+							</div>
+						</div>
+						<div class="table-head-wrap">
+							<div class="assign_table">
+								<table class="NanumGothic" id="noneDataTable">
+									<colgroup>
+										<col width="6%">
+										<col width="27%">
+										<col width="33%">
+										<col width="34%">
+									</colgroup>
+									<thead>
+										<tr>
+											<th width="6%" class="chk_area"><input type="checkbox" onChange="checkAll('nonedata')" id="nonedataCheckedAll"></th>
+											<th width="27%" >성명</th>
+											<th width="33%" >사번</th>
+											<th width="34%" >부문명</th>
+										</tr>
+									</thead>
+									<tbody id="noneDataTbody">
+                    
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</li>
+					<li class="arrow">
+						<div>
+              				<a class="btn_type btn_ck_assign" onClick="empAssign(false)"></a>
+              				<a class="btn_type btn_all_assign" onClick="empAssign(true)"></a>
+              				<a class="btn_type btn_ck_return" onClick="empReturn(false)"></a>
+              				<a class="btn_type btn_all_return" onClick="empReturn(true)"></a>
+            			</div>
+					</li>
+					<li class="panel assign">
+						<div class="NanumGothic tit ">배정 근로자</div>
+						<div class="grid_field">
+							<div class="select_box">
+                				<select class="NanumGothic" onChange="selectSrch('allot')" id="allotSrchType">
+                  					<option value="all">전체</option>
+                  					<option value="empName">성명</option>
+                  					<option value="empNo">사번</option>
+                  					<option value="deptName">부문명</option>
+                				</select>
+							</div>
+							<div class="input_box">
+                				<fieldset>
+                  					<input class="" type="text"	id="allotKeyword" placeholder="검색">
+                  					<a class="btn_type btn_search Material_icons">search</a>
+                				</fieldset>
+							</div>
+						</div>
+						<div class="table-head-wrap">
+							<div class="assign_table">
+								<table class="NanumGothic" id="allotDataTable">
+									<colgroup>
+										<col width="6%">
+										<col width="27%">
+										<col width="33%">
+										<col width="34%">
+									</colgroup>
+									<thead>
+										<tr>
+											<th width="6%" class="chk_area"><input type="checkbox" onChange="checkAll('allotdata')" id="allotdataCheckedAll"></th>
+											<th width="27%" >성명</th>
+											<th width="33%" >사번</th>
+											<th width="34%" >부문명</th>
+										</tr>
+									</thead>
+									<tbody id="allotDataTbody">
+					                   
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</li>
+				</ul>
+
+				<div class="btns sort-center">
+					<div><a class="type2 btn_type Material_icons" onClick="appendEmployee()">확인</a>
+					<a class="type4 btn_type Material_icons" onClick="winClose()">취소</a></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

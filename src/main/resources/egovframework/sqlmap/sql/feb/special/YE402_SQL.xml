@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="febspecial">
+    <typeAlias alias="ye402VO" type="com.ezsign.feb.special.vo.YE402VO"/>
+
+    <select id="ye402DAO.getYE402" parameterClass="ye402VO" resultClass="ye402VO">
+        SELECT A.계약ID, A.사용자ID, A.작업자ID, A.일련번호, A.부양가족ID,
+          A.자료구분코드, fn_code_name('416', A.자료구분코드) 자료구분코드명, A.의료비증빙코드, A.공제종류코드, A.지급처_사업자등록번호, A.상호, A.건수, A.의료비유형, A.지출액, A.차감금액,
+          B.성명, B.개인식별번호, A.추가제출서류번호,
+          A.등록일시, A.수정일시
+        FROM tbl_ye402 A
+	        LEFT OUTER JOIN tbl_ye001 B ON A.계약ID = B.계약ID AND A.사용자ID = B.사용자ID AND A.부양가족ID = B.부양가족ID
+	        WHERE A.계약ID = #계약ID#
+	        AND A.사용자ID = #사용자ID#
+	        AND A.사용여부 = '1'
+	        <isNotNull property="추가제출서류번호">
+				<isNotEmpty property="추가제출서류번호">
+					AND A.추가제출서류번호		 = #추가제출서류번호#
+				</isNotEmpty>
+			</isNotNull>
+        ORDER BY A.자료구분코드, A.부양가족ID, A.공제종류코드
+    </select>
+
+    <insert id="ye402DAO.insYE402" parameterClass="ye402VO">
+        <selectKey resultClass="java.lang.String" keyProperty="일련번호">
+            SELECT IFNULL(MAX(일련번호 + 1), 1)
+            FROM tbl_ye402
+        </selectKey>
+        INSERT INTO tbl_ye402 (
+          계약ID, 사용자ID, 작업자ID, 일련번호, 부양가족ID,
+          자료구분코드, 의료비증빙코드, 공제종류코드, 지급처_사업자등록번호, 상호, 건수, 의료비유형, 지출액, 차감금액, 추가제출서류번호,
+          최종저장여부, 사용여부, 등록일시, 수정일시
+        ) VALUES (
+          #계약ID#, #사용자ID#, #작업자ID#, #일련번호#, #부양가족ID#,
+          #자료구분코드#, #의료비증빙코드#, #공제종류코드#, #지급처_사업자등록번호#, #상호#, #건수#, #의료비유형#, #지출액#, #차감금액#, #추가제출서류번호#,
+          IF(#사용자ID# = #작업자ID#, '1', '0'), '1', DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        )
+    </insert>
+
+    <update id="ye402DAO.updYE402Disable" parameterClass="ye402VO">
+        UPDATE tbl_ye402
+        SET
+          최종저장여부 = IF(#사용자ID# = #작업자ID#, '0', 최종저장여부),
+          사용여부 = '0',
+          수정일시 = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+          AND 일련번호 = #일련번호#
+          AND 사용여부 = '1'
+    </update>
+
+    <delete id="ye402DAO.allDelYE402" parameterClass="ye402VO">
+        DELETE
+        FROM tbl_ye402
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+       <isNotEmpty property="자료구분코드">
+         AND 자료구분코드 = #자료구분코드#
+        </isNotEmpty>   
+    </delete>
+
+    <select id="ye402DAO.getYE402Map" parameterClass="ye402VO" resultClass="ye402VO">
+        SELECT 계약ID, 사용자ID, 작업자ID, 일련번호, 부양가족ID,
+          자료구분코드, 의료비증빙코드, 공제종류코드, 지급처_사업자등록번호, 상호, 건수, 의료비유형, 지출액, 차감금액, 추가제출서류번호,
+          최종저장여부, 사용여부, 등록일시, 수정일시
+        FROM tbl_ye402
+        WHERE 계약ID = #계약ID#
+	        AND 사용자ID = #사용자ID#
+	        AND (최종저장여부 = '1' OR 사용여부 = '1')
+	        <isNotNull property="추가제출서류번호">
+				<isNotEmpty property="추가제출서류번호">
+					AND 추가제출서류번호		 = #추가제출서류번호#
+				</isNotEmpty>
+			</isNotNull>
+        ORDER BY 자료구분코드, 부양가족ID, 공제종류코드, IF(작업자ID = 사용자ID, 0, 1)
+    </select>
+    
+    <update id="ye402DAO.updYE402" parameterClass="ye402VO">
+        UPDATE tbl_ye402
+        SET
+        <isNotNull property="부양가족ID">
+		    <isNotEmpty property="부양가족ID">
+			부양가족ID			 = #부양가족ID#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="자료구분코드">
+		    <isNotEmpty property="자료구분코드">
+			자료구분코드		 = #자료구분코드#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="의료비증빙코드">
+		    <isNotEmpty property="의료비증빙코드">
+			의료비증빙코드		 = #의료비증빙코드#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="공제종류코드">
+		    <isNotEmpty property="공제종류코드">
+			공제종류코드 	 	= #공제종류코드#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="지급처_사업자등록번호">
+		    <isNotEmpty property="지급처_사업자등록번호">
+			지급처_사업자등록번호	 = #지급처_사업자등록번호#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="상호">
+		    <isNotEmpty property="상호">
+			상호 				= #상호#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="건수">
+		    <isNotEmpty property="건수">
+			건수 				= #건수#,
+			</isNotEmpty>
+		</isNotNull>	  
+		<isNotNull property="의료비유형">
+		    <isNotEmpty property="의료비유형">
+			의료비유형			 = #의료비유형#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="지출액">
+		    <isNotEmpty property="지출액">
+			지출액			 = #지출액#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="차감금액">
+		    <isNotEmpty property="차감금액">
+			차감금액 			= #차감금액#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="추가제출서류번호">
+		    <isNotEmpty property="추가제출서류번호">
+			추가제출서류번호 				= #추가제출서류번호#,
+			</isNotEmpty>
+		</isNotNull>
+			 수정일시 			= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE 	계약ID 	= #계약ID#
+		AND 	사용자ID 	= #사용자ID#
+		AND 	일련번호 	= #일련번호#
+    </update>
+    
+    <delete id="ye402DAO.delYE402" parameterClass="ye402VO">
+        DELETE FROM tbl_ye402
+        WHERE 	계약ID 	= #계약ID#
+        AND 	사용자ID	= #사용자ID#
+		AND 	일련번호 	= #일련번호#
+    </delete>
+    
+</sqlMap>

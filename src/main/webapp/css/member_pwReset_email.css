@@ -1,0 +1,64 @@
+@charset "utf-8";
+/* default */
+body,p,span,a,input,ul,li,article,dl,img{margin: 0px; padding:0px; -webkit-margin:0px;-webkit-padding:0px;}
+ul{list-style-type: none}
+
+@font-face {
+    font-family: HelveticaNeue_th;
+    src: local("☺"),
+    url('fonts/helvetica-neue-light.eot') format('embedded-opentype'),
+    url('fonts/helvetica-neue-light.woff') format('woff'),
+    url('fonts/helvetica-neue-light.ttf') format('truetype'); 
+}
+
+@font-face {
+    font-family: NanumSquareRegular;
+    src: local("☺"),
+    url('fonts/NanumSquareR.eot') format('embedded-opentype'),
+    url('fonts/NanumSquareR.woff') format('woff'),
+    url('fonts/NanumSquareR.ttf') format('truetype');
+}
+
+.HelveticaNeue_th{font-family: 'HelveticaNeue_th',sans-serif; font-smoothing:antialiased; -webkit-font-smoothing:antialiased;- ms-font-smoothing:antialiased; text-rendering: optimizeLegibility;}
+
+@media all and (max-width: 360px) {
+	#pwSet_email_wrap{width: 100% !important; left:0 !important; margin:0 !important; top:0 !important;} 
+	#pwSet_email_wrap .inner_box{ width:100%; padding-top:10px;}
+	#pwSet_email_wrap .inner_box .frame{padding-left: 5% !important;}
+	#pwSet_email_wrap .inner_box .emailSet_title{width: 98% !important; font-size: 32px !important; margin-top: 30px !important; line-height: 56px !important;}
+	#pwSet_email_wrap .inner_box .emailSet_txt{width: 98% !important; font-size:15px !important;}
+	#pwSet_email_wrap .btn_group {margin-top: 35px !important;}
+	#pwSet_email_wrap footer .foot_wrap{width:94% !important; margin: 3% 3% !important;}
+}
+
+
+@media all and (min-width: 361px) and (max-width: 670px) {
+	#pwSet_email_wrap{width: 100% !important; left:0 !important; margin:0 !important; top:0 !important;} 
+	#pwSet_email_wrap .inner_box{ width:100%; padding-top:10px;}
+    #pwSet_email_wrap .inner_box .frame{padding-left: 5% !important;}
+	#pwSet_email_wrap .inner_box .emailSet_title{width: 98% !important; font-size: 36px !important; margin-top: 30px !important; line-height: 56px !important;}
+	#pwSet_email_wrap .inner_box .emailSet_txt{width: 98% !important; font-size:16px !important;}
+	#pwSet_email_wrap .btn_group {margin-top: 35px !important;}
+	#pwSet_email_wrap footer .foot_wrap{width:94% !important; margin: 5% 3% !important;}
+}
+#pwSet_email_wrap{position:absolute; width: 670px; min-height: 600px; display: inline-block; border:1px solid #898989; left:50%; top:50%; margin:-300px 0 0 -335px;}
+#pwSet_email_wrap .inner_box{position: relative; padding: 37px 0 0 0;}
+#pwSet_email_wrap .inner_box .frame{padding-left: 50px;}
+#pwSet_email_wrap .inner_box .candy_logo{width: 100%; font-size: 25px; margin-left: 4px;}
+#pwSet_email_wrap .inner_box .candy_logo .candy{font-weight: bold;}
+#pwSet_email_wrap .inner_box .candy_logo .box{letter-spacing: -0.5px;}
+#pwSet_email_wrap .inner_box .emailSet_title{width: 100%; font-size: 44px; margin-top: 63px; line-height: 56px; word-break: keep-all; letter-spacing: -6.4px;}
+#pwSet_email_wrap .inner_box .emailSet_txt{width: 100%; font-size: 17px; margin-top: 41px; font-family: NanumSquareRegular; word-break: keep-all; font-weight: 500; line-height: 30px; letter-spacing: -1px;}
+#pwSet_email_wrap .inner_box .pwSet{letter-spacing: -6.1px;}
+#pwSet_email_wrap .inner_box .logo_gray{color:#6f6f6f}
+#pwSet_email_wrap .inner_box .font_gray{color:#838383}
+#pwSet_email_wrap .inner_box .font_skyblue{color:#00a9e9}
+#pwSet_email_wrap .inner_box .font_black{color:#202020;}
+#pwSet_email_wrap footer{position:absolute; bottom:0; background-color: #2b2b2b; width: 100%; min-height: 60px; font-size: 13px; font-family: 'dotum'; }
+#pwSet_email_wrap .btn_group {margin-top: 74px; text-align: center;}
+#pwSet_email_wrap .btn_group .btn_type{width: 255px; height: 58px; background-color: #00a9e9; border-radius: 8px; display: inline-block; text-align: center; cursor: pointer;}
+#pwSet_email_wrap .btn_group .btn_type a{color: #fff; font-size: 18px; font-weight: bold; font-family: 'NanumSquareRegular'; line-height: 60px;}
+#pwSet_email_wrap footer .foot_wrap{width:100%; margin: 12px 0 0 60px; line-height: 17px;}
+#pwSet_email_wrap footer .font_gray{color:#838383}
+#pwSet_email_wrap footer .font_blue{color:#3da6ff}
+.txt_under{text-decoration: underline;}

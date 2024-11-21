@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>PDF to Image</title>
+
+<!-- This snippet is used in production (included from viewer.html) -->
+<link rel="resource" type="application/l10n" href="/module/pdfjs/web/locale/locale.properties">
+<link rel="stylesheet" href="/module/pdfjs/web/viewer.css">
+<script type="text/javascript" src="/module/pdfjs/build/pdf.js"></script>
+<script type="text/javascript"  src="/module/pdfjs/web/viewer.js"></script>
+<script type="text/javascript">
+
+	function draw() {
+		var canvas = document.createElement('canvas');
+		var ctx = canvas.getContext('2d');
+		canvas.width = width;
+		canvas.height = height;
+		for(var i=0;i<pages.length; i++) {
+			ctx.putImageData(pages[i], 0, heights[i]);			
+		}
+		document.body.appendChild(canvas);
+	}
+	
+	var url ="http://localhost/temp/file/202005/20200511/a8e1a9513a944c979247fc17b9605f3a.pdf";
+	
+	//var url = "http://gift.newzenpnp.co.kr/temp/file/202005/20200507/9faa2427081f456c99f114861cf3a8b5.pdf";
+	
+	var pages = [], heights = [], width = 0, height = 0, currentPage = 1, totalPage = 0;
+	var scale = 1.5;
+	
+	PDFJS.disableWorker = true;
+	PDFJS.getDocument(url).then(function(pdf) {
+		totalPage = pdf.numPages;
+		getPage();
+		
+		function getPage() {
+			pdf.getPage(currentPage).then(function(page) {
+				console.log("current page :" + currentPage);
+				var viewport = page.getViewport(scale);
+				var canvas = document.createElement('canvas');
+				var ctx = canvas.getContext('2d');
+				var renderContext = {canvasContext : ctx, viewport : viewport};
+				var img = document.getElementById('drawPage');
+				canvas.height = viewport.height;
+				canvas.width = viewport.width;
+				
+				page.render(renderContext).then(function() {
+					pages.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+					
+					heights.push(height);
+					height += canvas.height;
+					if(width<canvas.width) width = canvas.width;
+					
+					var dataURL = canvas.toDataURL("image/png");
+					img.src = dataURL;
+					
+					if(currentPage < totalPage) {
+						//currentPage++;
+						//getPage();
+					}
+					
+				});
+			});
+		}
+	});
+	
+</script>
+</head>
+<body>
+
+<img id="drawPage"></img>
+
+</body>
+</html>

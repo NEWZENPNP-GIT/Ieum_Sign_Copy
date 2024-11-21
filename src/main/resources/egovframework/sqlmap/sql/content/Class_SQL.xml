@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Class">
+	<typeAlias alias="classVO" type="com.ezsign.content.vo.ClassVO"/>
+	<resultMap id="classListMap" class="classVO">
+		<result property="classId" column="CLASS_ID"/>
+		<result property="serviceId" column="SERVICE_ID"/>
+		<result property="className" column="CLASS_NAME"/>
+		<result property="parClassId" column="PAR_CLASS_ID"/>
+		<result property="grpId" column="GRP_ID"/>
+		<result property="viewSeq" column="VIEW_SEQ"/>
+		<result property="viewDepth" column="VIEW_DEPTH"/>
+		<result property="etcDesc" column="ETC_DESC"/>		
+		<result property="insDate" column="INS_DATE"/>
+		<result property="insEmpNo" column="INS_EMP_NO"/>
+		<result property="updDate" column="UPD_DATE"/>
+		<result property="updEmpNo" column="UPD_EMP_NO"/>
+	</resultMap>
+	
+	<select id="classDAO.getClass" parameterClass="classVO" resultMap="classListMap">
+		SELECT  A.CLASS_ID, A.CLASS_NAME, A.SERVICE_ID, A.PAR_CLASS_ID, A.GRP_ID,
+		        A.VIEW_SEQ, A.VIEW_DEPTH, A.ETC_DESC, A.INS_DATE, A.INS_EMP_NO, A.UPD_DATE, A.UPD_EMP_NO
+		FROM    tbl_class A
+		WHERE	A.CLASS_ID = #classId#
+	</select>
+	
+</sqlMap>
+		

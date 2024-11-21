@@ -1,0 +1,588 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="febcar">
+
+	<typeAlias alias="ye006VO" type="com.ezsign.feb.easyFeb.vo.YE006VO" />
+	<typeAlias alias="ye002VO" type="com.ezsign.feb.worker.vo.YE002VO" />
+ 	<!-- 
+    <select id="ye006DAO.getYE006" parameterClass="map" resultClass="ye006VO">
+		SELECT
+              A.계약ID
+            , A.사용자ID
+            , A.원천명세ID
+            , A.m1
+            , A.m1금액
+            , A.m2
+            , A.m2금액
+            , A.m3
+            , A.m3금액
+            , A.m4
+            , A.m4금액
+            , A.m5
+            , A.m5금액
+            , A.m6
+            , A.m6금액
+            , A.m7
+            , A.m7금액
+            , A.m8
+            , A.m8금액
+            , A.m9
+            , A.m9금액
+            , A.m10
+            , A.m10금액
+            , A.m11
+            , A.m11금액
+            , A.m12
+            , A.m12금액
+            , A.추가제출서류번호
+            , A.등록일시
+            , A.수정일시
+            , B.일련번호
+            , C.FILE_TYPE     as fileType
+		    , C.ORG_FILE_NAME as orgFileName
+		  FROM
+		       tbl_ye006 A
+                   LEFT OUTER JOIN 
+               tbl_ye020 B  ON A.계약ID = B.계약ID AND A.사용자ID = B.사용자ID AND A.추가제출서류번호 = B.일련번호
+		           LEFT OUTER JOIN
+               tbl_content C ON B.파일ID	 = C.FILE_ID 
+		 WHERE
+		       A.계약ID    = #계약ID#
+		   AND A.사용자ID  = #사용자ID#
+		   AND A.원천명세ID = #원천명세ID#
+    </select>
+     -->
+
+    <select id="ye006DAO.getYE006" parameterClass="map" resultClass="ye006VO">
+		SELECT
+              A.계약ID
+            , A.사용자ID
+            , A.원천명세ID
+            , A.m1
+            , A.m2
+            , A.m3
+            , A.m4
+            , A.m5
+            , A.m6
+            , A.m7
+            , A.m8
+            , A.m9
+            , A.m10
+            , A.m11
+            , A.m12
+            , A.추가제출서류번호
+            , A.등록일시
+            , A.수정일시
+            , B.일련번호
+            , C.FILE_TYPE     as fileType
+		    , C.ORG_FILE_NAME as orgFileName
+		  FROM
+		       tbl_ye006 A
+                   LEFT OUTER JOIN 
+               tbl_ye020 B  ON A.계약ID = B.계약ID AND A.사용자ID = B.사용자ID AND A.추가제출서류번호 = B.일련번호
+		           LEFT OUTER JOIN
+               tbl_content C ON B.파일ID	 = C.FILE_ID 
+		 WHERE
+		       A.계약ID    = #계약ID#
+		   AND A.사용자ID  = #사용자ID#
+		   AND A.원천명세ID = #원천명세ID#
+    </select>
+
+    <select id="ye006DAO.getYE006Count" parameterClass="map" resultClass="java.lang.Integer">
+		SELECT
+              COUNT(*)
+		  FROM
+		       tbl_ye006
+		 WHERE
+		              계약ID    = #계약ID#
+		   AND 사용자ID  = #사용자ID#
+		   AND 원천명세ID = #원천명세ID#
+    </select>
+
+	<insert id="ye006DAO.insYE006" parameterClass="ye006VO">
+		INSERT INTO tbl_ye006 (
+                            계약ID
+            , 사용자ID
+            , 원천명세ID
+            , m1
+            , m2
+            , m3
+            , m4
+            , m5
+            , m6
+            , m7
+            , m8
+            , m9
+            , m10
+            , m11
+            , m12
+		<isNotNull property="m1금액">
+		    <isNotEmpty property="m1금액">
+            , m1금액
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="m2금액">
+		    <isNotEmpty property="m2금액">
+            , m2금액
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="m3금액">
+		    <isNotEmpty property="m3금액">
+            , m3금액
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="m4금액">
+		    <isNotEmpty property="m4금액">
+            , m4금액
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="m5금액">
+		    <isNotEmpty property="m5금액">
+            , m5금액
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="m6금액">
+		    <isNotEmpty property="m6금액">
+            , m6금액
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="m7금액">
+		    <isNotEmpty property="m7금액">
+            , m7금액
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="m8금액">
+		    <isNotEmpty property="m8금액">
+            , m8금액
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="m9금액">
+		    <isNotEmpty property="m9금액">
+            , m9금액
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="m10금액">
+		    <isNotEmpty property="m10금액">
+            , m10금액
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="m11금액">
+		    <isNotEmpty property="m11금액">
+            , m11금액
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="m12금액">
+		    <isNotEmpty property="m12금액">
+            , m12금액
+			</isNotEmpty>
+		</isNotNull>
+            , 추가제출서류번호
+            , 등록일시
+            , 수정일시
+		) VALUES (
+              #계약ID#
+            , #사용자ID#
+            , #원천명세ID#
+            , (CASE WHEN #m1# = 'Y' THEN #m1# ELSE 'N' END)
+            , (CASE WHEN #m2# = 'Y' THEN #m2# ELSE 'N' END)
+            , (CASE WHEN #m3# = 'Y' THEN #m3# ELSE 'N' END)
+            , (CASE WHEN #m4# = 'Y' THEN #m4# ELSE 'N' END)
+            , (CASE WHEN #m5# = 'Y' THEN #m5# ELSE 'N' END)
+            , (CASE WHEN #m6# = 'Y' THEN #m6# ELSE 'N' END)
+            , (CASE WHEN #m7# = 'Y' THEN #m7# ELSE 'N' END)
+            , (CASE WHEN #m8# = 'Y' THEN #m8# ELSE 'N' END)
+            , (CASE WHEN #m9# = 'Y' THEN #m9# ELSE 'N' END)
+            , (CASE WHEN #m10# = 'Y' THEN #m10# ELSE 'N' END)
+            , (CASE WHEN #m11# = 'Y' THEN #m11# ELSE 'N' END)
+            , (CASE WHEN #m12# = 'Y' THEN #m12# ELSE 'N' END)
+		<isNotNull property="m1금액">
+		    <isNotEmpty property="m1금액">
+            , #m1금액#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="m2금액">
+		    <isNotEmpty property="m2금액">
+            , #m2금액#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="m3금액">
+		    <isNotEmpty property="m3금액">
+            , #m3금액#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="m4금액">
+		    <isNotEmpty property="m4금액">
+            , #m4금액#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="m5금액">
+		    <isNotEmpty property="m5금액">
+            , #m5금액#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="m6금액">
+		    <isNotEmpty property="m6금액">
+            , #m6금액#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="m7금액">
+		    <isNotEmpty property="m7금액">
+            , #m7금액#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="m8금액">
+		    <isNotEmpty property="m8금액">
+            , #m8금액#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="m9금액">
+		    <isNotEmpty property="m9금액">
+            , #m9금액#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="m10금액">
+		    <isNotEmpty property="m10금액">
+            , #m10금액#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="m11금액">
+		    <isNotEmpty property="m11금액">
+            , #m11금액#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="m12금액">
+		    <isNotEmpty property="m12금액">
+            , #m12금액#
+			</isNotEmpty>
+		</isNotNull>
+            , #추가제출서류번호#
+            , DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+            , DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<update id="ye006DAO.updYE006" parameterClass="ye006VO">
+		UPDATE
+               tbl_ye006
+           SET
+              m1            = (CASE WHEN #m1# = 'Y' THEN #m1# ELSE 'N' END)
+            , m2            = (CASE WHEN #m2# = 'Y' THEN #m2# ELSE 'N' END)
+            , m3            = (CASE WHEN #m3# = 'Y' THEN #m3# ELSE 'N' END)
+            , m4            = (CASE WHEN #m4# = 'Y' THEN #m4# ELSE 'N' END)
+            , m5            = (CASE WHEN #m5# = 'Y' THEN #m5# ELSE 'N' END)
+            , m6            = (CASE WHEN #m6# = 'Y' THEN #m6# ELSE 'N' END)
+            , m7            = (CASE WHEN #m7# = 'Y' THEN #m7# ELSE 'N' END)
+            , m8            = (CASE WHEN #m8# = 'Y' THEN #m8# ELSE 'N' END)
+            , m9            = (CASE WHEN #m9# = 'Y' THEN #m9# ELSE 'N' END)
+            , m10           = (CASE WHEN #m10# = 'Y' THEN #m10# ELSE 'N' END)
+            , m11           = (CASE WHEN #m11# = 'Y' THEN #m11# ELSE 'N' END)
+            , m12           = (CASE WHEN #m12# = 'Y' THEN #m12# ELSE 'N' END)
+		<isNotNull property="추가제출서류번호">
+		    <isNotEmpty property="추가제출서류번호">
+			, 추가제출서류번호 =  #추가제출서류번호#
+			</isNotEmpty>
+		</isNotNull>
+            , 수정일시             =  DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		 WHERE
+		              계약ID    = #계약ID#
+		   AND 사용자ID  = #사용자ID#
+		   AND 원천명세ID = #원천명세ID#
+	</update>
+
+	<update id="ye006DAO.updYE006Admin" parameterClass="ye006VO">
+		UPDATE
+               tbl_ye006
+           SET
+              m1금액            = #m1금액#
+            , m2금액             = #m2금액#
+            , m3금액             = #m3금액#
+            , m4금액             = #m4금액#
+            , m5금액             = #m5금액#
+            , m6금액             = #m6금액#
+            , m7금액             = #m7금액#
+            , m8금액             = #m8금액#
+            , m9금액             = #m9금액#
+            , m10금액            = #m10금액#
+            , m11금액            = #m11금액#
+            , m12금액            = #m12금액#
+            , 수정일시             =  DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		 WHERE
+		              계약ID    = #계약ID#
+		   AND 사용자ID  = #사용자ID#
+		   AND 원천명세ID = #원천명세ID#
+	</update>
+
+	<delete id="ye006DAO.delYE006" parameterClass="map">
+        DELETE
+          FROM 
+               tbl_ye501
+		 WHERE
+		              계약ID    = #계약ID#
+		   AND 사용자ID  = #사용자ID#
+		   AND 원천명세ID = #원천명세ID#	
+	</delete>
+
+    <select id="ye006DAO.getYE002" parameterClass="map" resultClass="ye002VO">
+		SELECT
+                            계약ID
+            , 사용자ID
+            , 원천명세ID
+		  FROM
+		       tbl_ye002 
+		 WHERE
+		              계약ID    = #계약ID#
+		   AND 사용자ID  = #사용자ID#
+		   AND 근무지구분 = '1'
+    </select>
+
+    <select id="ye006DAO.getYE006Sum" parameterClass="ye006VO" resultClass="ye006VO">
+    <![CDATA[
+		SELECT 
+		       계약ID
+		     , 사용자ID
+		     , 원천명세ID
+		     , (m1금액 + m2금액 + m3금액 + m4금액 + m5금액 + m6금액 + m7금액 + m8금액 + m9금액 + m10금액 + m11금액 + m12금액) as 지원액합계
+		     , (CASE WHEN IFNULL(m1, 'N') = 'Y' THEN (CASE WHEN m1금액 - 200000 < 0 THEN m1금액 ELSE 200000 END) ELSE 0 END)
+		      + (CASE WHEN IFNULL(m2, 'N') = 'Y' THEN (CASE WHEN m2금액 - 200000 < 0 THEN m2금액 ELSE 200000 END) ELSE 0 END)
+		      + (CASE WHEN IFNULL(m3, 'N') = 'Y' THEN (CASE WHEN m3금액 - 200000 < 0 THEN m3금액 ELSE 200000 END) ELSE 0 END)
+		      + (CASE WHEN IFNULL(m4, 'N') = 'Y' THEN (CASE WHEN m4금액 - 200000 < 0 THEN m4금액 ELSE 200000 END) ELSE 0 END)
+		      + (CASE WHEN IFNULL(m5, 'N') = 'Y' THEN (CASE WHEN m5금액 - 200000 < 0 THEN m5금액 ELSE 200000 END) ELSE 0 END)
+		      + (CASE WHEN IFNULL(m6, 'N') = 'Y' THEN (CASE WHEN m6금액 - 200000 < 0 THEN m6금액 ELSE 200000 END) ELSE 0 END)
+		      + (CASE WHEN IFNULL(m7, 'N') = 'Y' THEN (CASE WHEN m7금액 - 200000 < 0 THEN m7금액 ELSE 200000 END) ELSE 0 END)
+		      + (CASE WHEN IFNULL(m8, 'N') = 'Y' THEN (CASE WHEN m8금액 - 200000 < 0 THEN m8금액 ELSE 200000 END) ELSE 0 END)
+		      + (CASE WHEN IFNULL(m9, 'N') = 'Y' THEN (CASE WHEN m9금액 - 200000 < 0 THEN m9금액 ELSE 200000 END) ELSE 0 END)
+		      + (CASE WHEN IFNULL(m10, 'N') = 'Y' THEN (CASE WHEN m10금액 - 200000 < 0 THEN m10금액 ELSE 200000 END) ELSE 0 END)
+		      + (CASE WHEN IFNULL(m11, 'N') = 'Y' THEN (CASE WHEN m11금액 - 200000 < 0 THEN m11금액 ELSE 200000 END) ELSE 0 END)
+		      + (CASE WHEN IFNULL(m12, 'N') = 'Y' THEN (CASE WHEN m12금액 - 200000 < 0 THEN m12금액 ELSE 200000 END) ELSE 0 END) as 비과세합계
+		     , (CASE WHEN IFNULL(m1, 'N') = 'Y' THEN (CASE WHEN m1금액 - 200000 < 0 THEN 0 ELSE m1금액 - 200000 END) ELSE m1금액 END)
+		      + (CASE WHEN IFNULL(m2, 'N') = 'Y' THEN (CASE WHEN m2금액 - 200000 < 0 THEN 0 ELSE m2금액 - 200000 END) ELSE m2금액 END)
+		      + (CASE WHEN IFNULL(m3, 'N') = 'Y' THEN (CASE WHEN m3금액 - 200000 < 0 THEN 0 ELSE m3금액 - 200000 END) ELSE m3금액 END)
+		      + (CASE WHEN IFNULL(m4, 'N') = 'Y' THEN (CASE WHEN m4금액 - 200000 < 0 THEN 0 ELSE m4금액 - 200000 END) ELSE m4금액 END)
+		      + (CASE WHEN IFNULL(m5, 'N') = 'Y' THEN (CASE WHEN m5금액 - 200000 < 0 THEN 0 ELSE m5금액 - 200000 END) ELSE m5금액 END)
+		      + (CASE WHEN IFNULL(m6, 'N') = 'Y' THEN (CASE WHEN m6금액 - 200000 < 0 THEN 0 ELSE m6금액 - 200000 END) ELSE m6금액 END)
+		      + (CASE WHEN IFNULL(m7, 'N') = 'Y' THEN (CASE WHEN m7금액 - 200000 < 0 THEN 0 ELSE m7금액 - 200000 END) ELSE m7금액 END)
+		      + (CASE WHEN IFNULL(m8, 'N') = 'Y' THEN (CASE WHEN m8금액 - 200000 < 0 THEN 0 ELSE m8금액 - 200000 END) ELSE m8금액 END)
+		      + (CASE WHEN IFNULL(m9, 'N') = 'Y' THEN (CASE WHEN m9금액 - 200000 < 0 THEN 0 ELSE m9금액 - 200000 END) ELSE m9금액 END)
+		      + (CASE WHEN IFNULL(m10, 'N') = 'Y' THEN (CASE WHEN m10금액 - 200000 < 0 THEN 0 ELSE m10금액 - 200000 END) ELSE m10금액 END)
+		      + (CASE WHEN IFNULL(m11, 'N') = 'Y' THEN (CASE WHEN m11금액 - 200000 < 0 THEN 0 ELSE m11금액 - 200000 END) ELSE m11금액 END)
+		      + (CASE WHEN IFNULL(m12, 'N') = 'Y' THEN (CASE WHEN m12금액 - 200000 < 0 THEN 0 ELSE m12금액 - 200000 END) ELSE m12금액 END) as 비과세초과액
+	]]>
+		FROM
+		    tbl_ye006 
+		WHERE 
+		       계약ID = #계약ID#
+		  AND 사용자ID = #사용자ID#
+	</select>
+
+    <select id="ye006DAO.getYE006List" parameterClass="map" resultClass="ye006VO">
+   <![CDATA[
+		SELECT 
+		       fn_사업장명(C.계약ID, C.사업장ID) 사업장명
+		     , A.EMP_NAME as 성명
+		     , A.EMP_NO as 사번
+		     , fn_부서명(C.계약ID, C.부서ID, C.사용자ID) 부서명
+		     , f.계약ID
+		     , f.사용자ID
+		     , f.원천명세ID
+		     , G.파일ID
+		     , m1
+		     , m1금액
+		     , m2
+		     , m2금액
+		     , m3
+		     , m3금액
+		     , m4
+		     , m4금액
+		     , m5
+		     , m5금액
+		     , m6
+		     , m6금액
+		     , m7
+		     , m7금액
+		     , m8
+		     , m8금액
+		     , m9
+		     , m9금액
+		     , m10
+		     , m10금액
+		     , m11
+		     , m11금액
+		     , m12
+		     , m12금액
+		     , (m1금액 + m2금액 + m3금액 + m4금액 + m5금액 + m6금액 + m7금액 + m8금액 + m9금액 + m10금액 + m11금액 + m12금액) as 지원액합계
+		     , (CASE WHEN IFNULL(m1, 'N') = 'Y' THEN (CASE WHEN m1금액 - 200000 < 0 THEN m1금액 ELSE 200000 END) ELSE 0 END)
+		      + (CASE WHEN IFNULL(m2, 'N') = 'Y' THEN (CASE WHEN m2금액 - 200000 < 0 THEN m2금액 ELSE 200000 END) ELSE 0 END)
+		      + (CASE WHEN IFNULL(m3, 'N') = 'Y' THEN (CASE WHEN m3금액 - 200000 < 0 THEN m3금액 ELSE 200000 END) ELSE 0 END)
+		      + (CASE WHEN IFNULL(m4, 'N') = 'Y' THEN (CASE WHEN m4금액 - 200000 < 0 THEN m4금액 ELSE 200000 END) ELSE 0 END)
+		      + (CASE WHEN IFNULL(m5, 'N') = 'Y' THEN (CASE WHEN m5금액 - 200000 < 0 THEN m5금액 ELSE 200000 END) ELSE 0 END)
+		      + (CASE WHEN IFNULL(m6, 'N') = 'Y' THEN (CASE WHEN m6금액 - 200000 < 0 THEN m6금액 ELSE 200000 END) ELSE 0 END)
+		      + (CASE WHEN IFNULL(m7, 'N') = 'Y' THEN (CASE WHEN m7금액 - 200000 < 0 THEN m7금액 ELSE 200000 END) ELSE 0 END)
+		      + (CASE WHEN IFNULL(m8, 'N') = 'Y' THEN (CASE WHEN m8금액 - 200000 < 0 THEN m8금액 ELSE 200000 END) ELSE 0 END)
+		      + (CASE WHEN IFNULL(m9, 'N') = 'Y' THEN (CASE WHEN m9금액 - 200000 < 0 THEN m9금액 ELSE 200000 END) ELSE 0 END)
+		      + (CASE WHEN IFNULL(m10, 'N') = 'Y' THEN (CASE WHEN m10금액 - 200000 < 0 THEN m10금액 ELSE 200000 END) ELSE 0 END)
+		      + (CASE WHEN IFNULL(m11, 'N') = 'Y' THEN (CASE WHEN m11금액 - 200000 < 0 THEN m11금액 ELSE 200000 END) ELSE 0 END)
+		      + (CASE WHEN IFNULL(m12, 'N') = 'Y' THEN (CASE WHEN m12금액 - 200000 < 0 THEN m12금액 ELSE 200000 END) ELSE 0 END) as 비과세합계
+		     , (CASE WHEN IFNULL(m1, 'N') = 'Y' THEN (CASE WHEN m1금액 - 200000 < 0 THEN 0 ELSE m1금액 - 200000 END) ELSE m1금액 END)
+		      + (CASE WHEN IFNULL(m2, 'N') = 'Y' THEN (CASE WHEN m2금액 - 200000 < 0 THEN 0 ELSE m2금액 - 200000 END) ELSE m2금액 END)
+		      + (CASE WHEN IFNULL(m3, 'N') = 'Y' THEN (CASE WHEN m3금액 - 200000 < 0 THEN 0 ELSE m3금액 - 200000 END) ELSE m3금액 END)
+		      + (CASE WHEN IFNULL(m4, 'N') = 'Y' THEN (CASE WHEN m4금액 - 200000 < 0 THEN 0 ELSE m4금액 - 200000 END) ELSE m4금액 END)
+		      + (CASE WHEN IFNULL(m5, 'N') = 'Y' THEN (CASE WHEN m5금액 - 200000 < 0 THEN 0 ELSE m5금액 - 200000 END) ELSE m5금액 END)
+		      + (CASE WHEN IFNULL(m6, 'N') = 'Y' THEN (CASE WHEN m6금액 - 200000 < 0 THEN 0 ELSE m6금액 - 200000 END) ELSE m6금액 END)
+		      + (CASE WHEN IFNULL(m7, 'N') = 'Y' THEN (CASE WHEN m7금액 - 200000 < 0 THEN 0 ELSE m7금액 - 200000 END) ELSE m7금액 END)
+		      + (CASE WHEN IFNULL(m8, 'N') = 'Y' THEN (CASE WHEN m8금액 - 200000 < 0 THEN 0 ELSE m8금액 - 200000 END) ELSE m8금액 END)
+		      + (CASE WHEN IFNULL(m9, 'N') = 'Y' THEN (CASE WHEN m9금액 - 200000 < 0 THEN 0 ELSE m9금액 - 200000 END) ELSE m9금액 END)
+		      + (CASE WHEN IFNULL(m10, 'N') = 'Y' THEN (CASE WHEN m10금액 - 200000 < 0 THEN 0 ELSE m10금액 - 200000 END) ELSE m10금액 END)
+		      + (CASE WHEN IFNULL(m11, 'N') = 'Y' THEN (CASE WHEN m11금액 - 200000 < 0 THEN 0 ELSE m11금액 - 200000 END) ELSE m11금액 END)
+		      + (CASE WHEN IFNULL(m12, 'N') = 'Y' THEN (CASE WHEN m12금액 - 200000 < 0 THEN 0 ELSE m12금액 - 200000 END) ELSE m12금액 END) as 비과세초과액
+		      , F.추가제출서류번호
+		FROM
+		    tbl_emp A
+		        INNER JOIN
+		    tbl_ye000 C ON A.USER_ID = C.사용자ID
+		        INNER JOIN
+		    tbl_ye002 D ON C.계약ID = D.계약ID
+		        AND C.사용자ID = D.사용자ID
+		        AND D.근무지구분 = '1'
+		        INNER JOIN
+		    tbl_ye003 E ON C.계약ID = E.계약ID
+		        AND C.사용자ID = E.사용자ID
+		        AND D.원천명세ID = E.원천명세ID
+		        INNER JOIN
+		    tbl_ye006 F ON E.계약ID = F.계약ID
+		        AND E.사용자ID = F.사용자ID
+		        AND E.원천명세ID = F.원천명세ID
+		        LEFT OUTER JOIN
+		    tbl_ye020 G ON F.계약ID = G.계약ID
+		        AND F.사용자ID = G.사용자ID
+		        AND F.추가제출서류번호 = G.일련번호
+		        LEFT OUTER JOIN
+		    tbl_content H ON G.파일ID = H.FILE_ID
+	]]>
+		WHERE A.BIZ_ID = #bizId#
+		  AND C.계약ID = #계약ID#
+		  AND A.EMP_TYPE IN ('1','2','3')
+		<isNotNull property="근무상태">
+		    <isNotEmpty property="근무상태">
+			    <isEqual property="근무상태"  compareValue="1">
+					AND   (A.LEAVE_DATE IS NULL OR A.LEAVE_DATE = '')
+				</isEqual>
+			    <isEqual property="근무상태"  compareValue="2">
+					AND   (A.LEAVE_DATE IS NOT NULL AND A.LEAVE_DATE != '')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사업장ID">
+		    <isNotEmpty property="사업장ID">
+			AND	C.사업장ID			= #사업장ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="부서ID">
+		    <isNotEmpty property="부서ID">
+			AND	C.부서ID			= #부서ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empName">
+		    <isNotEmpty property="empName">
+			AND A.EMP_NAME LIKE CONCAT('%', #empName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empNo">
+		    <isNotEmpty property="empNo">
+			AND A.EMP_NO LIKE CONCAT('%', #empNo#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="증빙추가여부">
+		    <isNotEmpty property="증빙추가여부">
+			    <isEqual property="증빙추가여부"  compareValue="Y">
+					AND   (F.추가제출서류번호 IS NOT NULL AND F.추가제출서류번호 != '')
+				</isEqual>
+			    <isEqual property="증빙추가여부"  compareValue="N">
+					AND   (F.추가제출서류번호 IS NULL OR F.추가제출서류번호 = '')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sortName">
+		    <isNotEmpty property="sortName">
+		ORDER BY $sortName$ $sortOrder$
+			</isNotEmpty>
+		</isNotNull>
+		<isNotEqual property="selectCase" compareValue="excel">
+    		limit #endPage# offset #startPage#
+		</isNotEqual>
+        
+    </select>
+
+    <select id="ye006DAO.getYE006ListCount" parameterClass="map" resultClass="java.lang.Integer">
+   <![CDATA[
+		SELECT 
+		       COUNT(*) CNT
+		FROM
+		    tbl_emp A
+		        INNER JOIN
+		    tbl_ye000 C ON A.USER_ID = C.사용자ID
+		        INNER JOIN
+		    tbl_ye002 D ON C.계약ID = D.계약ID
+		        AND C.사용자ID = D.사용자ID
+		        AND D.근무지구분 = '1'
+		        INNER JOIN
+		    tbl_ye003 E ON C.계약ID = E.계약ID
+		        AND C.사용자ID = E.사용자ID
+		        AND D.원천명세ID = E.원천명세ID
+		        INNER JOIN
+		    tbl_ye006 F ON E.계약ID = F.계약ID
+		        AND E.사용자ID = F.사용자ID
+		        AND E.원천명세ID = F.원천명세ID
+		        LEFT OUTER JOIN
+		    tbl_ye020 G ON F.계약ID = G.계약ID
+		        AND F.사용자ID = G.사용자ID
+		        AND F.추가제출서류번호 = G.일련번호
+		        LEFT OUTER JOIN
+		    tbl_content H ON G.파일ID = H.FILE_ID
+	]]>
+		WHERE A.BIZ_ID = #bizId#
+		  AND C.계약ID = #계약ID#
+		  AND A.EMP_TYPE IN ('1','2','3')
+		<isNotNull property="근무상태">
+		    <isNotEmpty property="근무상태">
+			    <isEqual property="근무상태"  compareValue="1">
+					AND   (A.LEAVE_DATE IS NULL OR A.LEAVE_DATE = '')
+				</isEqual>
+			    <isEqual property="근무상태"  compareValue="2">
+					AND   (A.LEAVE_DATE IS NOT NULL AND A.LEAVE_DATE != '')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사업장ID">
+		    <isNotEmpty property="사업장ID">
+			AND	C.사업장ID			= #사업장ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="부서ID">
+		    <isNotEmpty property="부서ID">
+			AND	C.부서ID			= #부서ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empName">
+		    <isNotEmpty property="empName">
+			AND A.EMP_NAME LIKE CONCAT('%', #empName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empNo">
+		    <isNotEmpty property="empNo">
+			AND A.EMP_NO LIKE CONCAT('%', #empNo#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="증빙추가여부">
+		    <isNotEmpty property="증빙추가여부">
+			    <isEqual property="증빙추가여부"  compareValue="Y">
+					AND   (F.추가제출서류번호 IS NOT NULL AND F.추가제출서류번호 != '')
+				</isEqual>
+			    <isEqual property="증빙추가여부"  compareValue="N">
+					AND   (F.추가제출서류번호 IS NULL OR F.추가제출서류번호 = '')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+    </select>
+
+</sqlMap>

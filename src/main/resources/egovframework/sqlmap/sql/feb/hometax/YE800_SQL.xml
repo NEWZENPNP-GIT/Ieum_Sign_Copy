@@ -1,0 +1,2265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="febhometax">
+	<typeAlias alias="ye800VO" type="com.ezsign.feb.hometax.vo.YE800VO" />
+	<typeAlias alias="aRecordVO" type="com.ezsign.feb.hometax.vo.ARecordVO" />
+	<typeAlias alias="bRecordVO" type="com.ezsign.feb.hometax.vo.BRecordVO" />
+	<typeAlias alias="cRecordVO" type="com.ezsign.feb.hometax.vo.CRecordVO" />
+	<typeAlias alias="dRecordVO" type="com.ezsign.feb.hometax.vo.DRecordVO" />
+	<typeAlias alias="fRecordDataVO" type="com.ezsign.feb.hometax.vo.FRecordDataVO" />
+	<typeAlias alias="iRecordVO" type="com.ezsign.feb.hometax.vo.IRecordVO" />		
+	<typeAlias alias="caRecordVO" type="com.ezsign.feb.hometax.vo.CARecordVO" />		
+	<typeAlias alias="ye001VO" type="com.ezsign.feb.worker.vo.YE001VO" />
+	<typeAlias alias="ye401VO" type="com.ezsign.feb.special.vo.YE401VO" />
+	<typeAlias alias="ye402VO" type="com.ezsign.feb.special.vo.YE402VO" />
+	<typeAlias alias="ye403VO" type="com.ezsign.feb.special.vo.YE403VO" />
+	<typeAlias alias="ye404VO" type="com.ezsign.feb.special.vo.YE404VO" />
+	<typeAlias alias="ye408VO" type="com.ezsign.feb.special.vo.YE408VO" />
+	<typeAlias alias="ye102VO" type="com.ezsign.feb.house.vo.YE102VO" />
+	<typeAlias alias="ye103VO" type="com.ezsign.feb.house.vo.YE103VO" />
+	<typeAlias alias="ye105VO" type="com.ezsign.feb.house.vo.YE105VO" />
+	<typeAlias alias="ye108VO" type="com.ezsign.feb.house.vo.YE108VO" />
+	
+	
+	<resultMap id="ye800ListMap" class="ye800VO">
+		<result property="계약ID" column="계약ID"/>
+		<result property="사업장ID" column="사업장ID"/>
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="지점여부" column="지점여부"/>
+		<result property="사업장명" column="사업장명"/>
+		<result property="사업자등록번호" column="사업자등록번호"/>
+		<result property="종사업자일련번호" column="종사업자일련번호"/>
+		<result property="단위과세자여부" column="단위과세자여부"/>
+		<result property="근로자인원수" column="근로자인원수"/>
+		<result property="신고대상수" column="신고대상수"/>
+		<result property="총급여" column="총급여"/>
+		<result property="결정세액" column="결정세액"/>
+		<result property="제작여부" column="제작여부"/>
+		<result property="전자신고ID" column="전자신고ID"/>
+		<result property="제출대상구분코드" column="제출대상구분코드"/>
+		<result property="제출년월일" column="제출년월일"/>
+		<result property="파일위치" column="파일위치"/>
+		<result property="파일명" column="파일명"/>
+		<result property="등록일시" column="등록일시"/>
+	</resultMap>
+	
+	<!-- A레코드  -->
+	<resultMap id="aRecordMap" class="aRecordVO">
+		<result property="A3" column="A3"/>			<!-- 관할세무서코드 -->
+		<result property="A5" column="A5"/>			<!-- 제출자구분 -->
+		<result property="A7" column="A7"/>			<!-- 홈택스아이디 -->
+		<result property="A9" column="A9"/>			<!-- 사업자등록번호 -->
+		<result property="A10" column="A10"/>		<!-- 사업장명 -->
+		<result property="A11" column="A11"/>		<!-- 제출담당부서명 -->
+		<result property="A12" column="A12"/>		<!-- 제출담당자성명 -->
+		<result property="A13" column="A13"/>		<!-- 제출담당자전화번호 -->
+		<result property="A14" column="A14"/>		<!-- 신고의무자수 -->
+	</resultMap>
+	
+	<!-- B레코드  -->
+	<resultMap id="bRecordMap" class="bRecordVO">	
+		<result property="B3" column="B3"/>			<!-- 관할세무서코드 -->
+		<result property="B5" column="B5"/>			<!-- 사업자등록번호 -->
+		<result property="B6" column="B6"/>			<!-- 사업장명 -->
+		<result property="B7" column="B7"/>			<!-- 대표자명 -->
+		<result property="B8" column="B8"/>			<!-- 법인등록번호_개인식별번호 -->
+		<result property="B9" column="B9"/>			<!-- 현근무처_건수 -->
+		<result property="B10" column="B10"/>		<!-- 전근무처_건수 -->
+		<result property="B11" column="B11"/>		<!-- 총급여 -->
+		<result property="B12" column="B12"/>		<!-- 결정세액_소득세 -->
+		<result property="B13" column="B13"/>		<!-- 결정세액_지방소득세 -->		
+		<result property="B14" column="B14"/>		<!-- 결정세액_농어촌특별세  -->
+		<result property="B15" column="B15"/>		<!-- 세액공제_계 -->		
+	</resultMap>
+	
+	<!-- C레코드  -->
+	<resultMap id="cRecordMap" class="cRecordVO">	
+		<result property="C3" column="C3"/>			<!-- 세무서코드 -->
+		<result property="C5" column="C5"/>			<!-- 사업자등록번호 -->
+		<result property="C6" column="C6"/>			<!-- 종(전)근무처 수 -->
+		<result property="C7" column="C7"/>			<!-- 거주지구분코드 -->
+		<result property="C8" column="C8"/>			<!-- 거주지국코드 -->
+		<result property="C9" column="C9"/>			<!-- 외국인단일세율적용 -->
+		<result property="C10" column="C10"/>		<!-- 외국법인소속파견근로자여부 -->
+		<result property="C11" column="C11"/>		<!-- 성명 -->
+		<result property="C12" column="C12"/>		<!-- 내외국인구분코드 -->
+		<result property="C13" column="C13"/>		<!-- 주민등록번호 -->		
+		<result property="C14" column="C14"/>		<!-- 국적코드  -->
+		<result property="C15" column="C15"/>		<!-- 세대주여부 -->
+		<result property="C16" column="C16"/>		<!-- 연말정산구분 -->		
+		<result property="C17" column="C17"/>		<!-- 사업자단위과세자여부 -->
+		<result property="C18" column="C18"/>		<!-- 종사업장일련번호 -->
+		<result property="C19" column="C19"/>		<!-- 주현근무처 - 사업자등록번호 -->						
+		<result property="C20" column="C20"/>		<!-- 주현근무처 - 근무처명 -->						
+		<result property="C21" column="C21"/>		<!-- 근무기간 시작연월일 -->
+		<result property="C22" column="C22"/>		<!-- 근무기간 종료연월일 -->
+		<result property="C23" column="C23"/>		<!-- 감면기간 시작연월일 -->
+		<result property="C24" column="C24"/>		<!-- 감면기간 종료연월일 -->
+		<result property="C25" column="C25"/>		<!-- 급여 -->
+		<result property="C26" column="C26"/>		<!-- 상여 -->
+		<result property="C27" column="C27"/>		<!-- 인정상여 -->
+		<result property="C28" column="C28"/>		<!-- 주식매수선택권행사이익 -->
+		<result property="C29" column="C29"/>		<!-- 우리사주조합인출금 -->
+		<result property="C30" column="C30"/>		<!-- 임원퇴직소득금액한도초과액 -->
+		<result property="C31" column="C31"/>		<!-- 직무발명보상금 -->
+		<result property="C34" column="C34"/>		<!-- 계 -->		
+		<result property="C35" column="C35"/>		<!-- G01, 비과세학자금 -->
+		<result property="C36" column="C36"/>		<!-- H01, 무보수위원수당 -->
+		<result property="C37" column="C37"/>		<!-- H05, 경호.승선수당 -->
+		<result property="C38" column="C38"/>		<!-- H06, 유아.초중등 -->
+		<result property="C39" column="C39"/>		<!-- H07, 고등교육법 -->
+		<result property="C40" column="C40"/>		<!-- H08, 특별법 -->		
+		<result property="C41" column="C41"/>		<!-- H09, 연구기관 등 -->
+		<result property="C42" column="C42"/>		<!-- H10, 기업부설연구소 -->
+		<result property="C43" column="C43"/>		<!-- H14, 보육교사 근무환경개선비 -->
+		<result property="C44" column="C44"/>		<!-- H15, 사립유치원수석교사 교사의 인건비 -->
+		<result property="C45" column="C45"/>		<!-- H11, 취재수당 -->
+		<result property="C46" column="C46"/>		<!-- H12, 벽지수당 -->
+		<result property="C47" column="C47"/>		<!-- H13, 재해관련급여 -->
+		<result property="C48" column="C48"/>		<!-- H16, 정부공공기관 지방이전기관 종사자 이주수당 -->
+		<result property="C49" column="C49"/>		<!-- H17, 종교활동비  -->
+		<result property="C50" column="C50"/>		<!-- I01, 외국정부등 근무자 -->		
+		<result property="C51" column="C51"/>		<!-- K01, 외국주둔군인등 -->		
+		<result property="C52" column="C52"/>		<!-- M01, 국외근로 100만원 -->		
+		<result property="C53" column="C53"/>		<!-- M02, 국외근로 300만원 -->		
+		<result property="C54" column="C54"/>		<!-- M03, 국외근로 -->
+		<result property="C55" column="C55"/>		<!-- O01, 양간근로수당 -->
+		<result property="C56" column="C56"/>		<!-- Q01, 출산보육수당 -->
+		<result property="C57" column="C57"/>		<!-- R10, 근로장학금 -->
+		<result property="C58" column="C58"/>		<!-- R11, 직무발명보상금 -->				
+		<result property="C59" column="C59"/>		<!-- S01, 주식매수선택권 -->
+		<result property="C60" column="C60"/>		<!-- U01, 벤처기업 주식매수선택권 -->
+		<result property="C61a" column="C61a"/>		<!-- Y02, 우리사주조합인출금 50% -->
+		<result property="C61b" column="C61b"/>		<!-- Y03, 우리사주조합인출금 75% -->
+		<result property="C61c" column="C61c"/>		<!-- Y04, 우리사주조합인출금 100% -->
+		<result property="C62" column="C62"/>		<!-- Y22, 전공의수련 보조 수당 -->
+		<result property="C63" column="C63"/>		<!-- T01, 외국인기술자 -->
+		<result property="C64a" column="C64a"/>		<!-- T10, 중소기업취업 청년소득세 감면 100% -->
+		<result property="C64b" column="C64b"/>		<!-- T11, 중소기업취업 청년소득세 감면 50% -->
+		<result property="C64c" column="C64c"/>		<!-- T12, 중소기업취업 청년소득세 감면 70% -->
+		<result property="C64d" column="C64d"/>		<!-- T13, 중소기업취업 청년소득세 감면 90% -->
+		<result property="C65" column="C65"/>		<!-- T20, 조세조약상교직자감면 -->				
+		<result property="C68" column="C68"/>		<!-- 비과세계 -->
+		<result property="C69" column="C69"/>		<!-- 감면소득 계 -->
+		<result property="C70" column="C70"/>		<!-- 총급여 -->
+		<result property="C71" column="C71"/>		<!-- 근로소득공제 -->
+		<result property="C72" column="C72"/>		<!-- 근로소득금액 -->
+		<result property="C73" column="C73"/>		<!-- 본인공제금액 -->	
+		<result property="C74" column="C74"/>		<!-- 배우자공제금액 -->
+		<result property="C75a" column="C75a"/>		<!-- 부양가족공제인원 -->
+		<result property="C75b" column="C75b"/>		<!-- 부양가족공제금액 -->
+		<result property="C76a" column="C76a"/>		<!-- 경로우대공제인원 -->
+		<result property="C76b" column="C76b"/>		<!-- 경로우대공제금액 -->
+		<result property="C77a" column="C77a"/>		<!-- 장애인공제인원 -->
+		<result property="C77b" column="C77b"/>		<!-- 장애인공제금액 -->
+		<result property="C78" column="C78"/>		<!-- 부녀자공제금액 -->
+		<result property="C79" column="C79"/>		<!-- 한부모가족공제금액 -->
+		<result property="C80a" column="C80a"/>		<!-- 국민연금보험료공제 대상금액  -->		
+		<result property="C80b" column="C80b"/>		<!-- 국민연금보험료공제 공제금액 -->
+		<result property="C81a" column="C81a"/>		<!-- 공적연금보험료공제 공무원 대상금액  -->
+		<result property="C81b" column="C81b"/>		<!-- 공적연금보험료공제 공무원 공제금액  -->
+		<result property="C82a" column="C82a"/>		<!-- 공적연금보험료공제 군인연금 대상금액  -->
+		<result property="C82b" column="C82b"/>		<!-- 공적연금보험료공제 군인연금 공제금액  -->
+		<result property="C83a" column="C83a"/>		<!-- 공적연금보험료공제 사립학교교직원연금 대상금액  -->
+		<result property="C83b" column="C83b"/>		<!-- 공적연금보험료공제 사립학교교직원연금 공제금액  -->
+		<result property="C84a" column="C84a"/>		<!-- 공적연금보험료공제 별정우체국연금 대상금액 -->
+		<result property="C84b" column="C84b"/>		<!-- 공적연금보험료공제 별정우체국연금 공제금액 -->		
+		<result property="C85a" column="C85a"/>		<!-- 보험료 건강보험료(노인장기요양보험료포함) 대상금액-->		
+		<result property="C85b" column="C85b"/>		<!-- 보험료 건강보험료(노인장기요양보험료포함) 공제금액 -->		
+		<result property="C86a" column="C86a"/>		<!-- 보험료 고용보험료 대상금액 -->		
+		<result property="C86b" column="C86b"/>		<!-- 보험료 고용보험료 공제금액-->		
+		<result property="C87a" column="C87a"/>		<!-- 주택자금 주택임차차입금원리금상환액 대출기관 -->
+		<result property="C87b" column="C87b"/>		<!-- 주택자금 주택임차차입금원리금상환액 거주자 -->
+		<result property="C88a" column="C88a"/>		<!-- (2011년이전 차입분)주택자금 장기주택저당차입금이자상환액 15년미만 -->
+		<result property="C88b" column="C88b"/>		<!-- (2011년이전 차입분)주택자금 장기주택저당차입금이자상환액 15년~29년 -->
+		<result property="C88c" column="C88c"/>		<!-- (2011년이전 차입분)주택자금 장기주택저당차입금이자상환액 30년이상 -->
+		<result property="C89a" column="C89a"/>		<!-- (2012년이후 차입분, 15년이상)고정금리.비거치식 상환대출 -->
+		<result property="C89b" column="C89b"/>		<!-- (2012년이후 차입분, 15년이상)기타 대출 -->
+		<result property="C90a" column="C90a"/>		<!-- (2015년이후 차입분,상환기간 15년이상) 고정금리 and 비거치상환 대출  -->
+		<result property="C90b" column="C90b"/>		<!-- (2015년이후 차입분,상환기간 15년이상) 고정금리 or 비거치상환 대출  -->
+		<result property="C90c" column="C90c"/>		<!-- (2015년이후 차입분,상환기간 15년이상) 그밖의 대출 -->
+		<result property="C90d" column="C90d"/>		<!-- (2015년이후 차입분,상환기간 10년이상) 고정금리 or 비거치상환 대출  -->		
+		<result property="C91" column="C91"/>		<!-- 기부금(이월분) -->
+		<result property="C94" column="C94"/>		<!-- 특별소득공제 계 -->
+		<result property="C95" column="C95"/>		<!-- 차감소득금액  -->		
+		<result property="C96" column="C96"/>		<!-- 개인연금저축 소득공제 -->
+		<result property="C97" column="C97"/>		<!-- 소기업.소상공인 공제부금 -->
+		<result property="C98" column="C98"/>		<!-- 주택마련저축소득공제 청약저축 -->
+		<result property="C99" column="C99"/>		<!-- 주택마련저축소득공제 주택청약종합저축 -->
+		<result property="C100" column="C100"/>		<!-- 주택마련저축소득공제 근로자주택마련저축 -->		
+		<result property="C101" column="C101"/>		<!-- 투자조합출자등 소득공제 -->
+		<result property="C102" column="C102"/>		<!-- 신용카드등 소득공제 -->
+		<result property="C103" column="C103"/>		<!-- 우리사주조합 출연금 -->
+		<result property="C104" column="C104"/>		<!-- 고용유지중소기업 근로자소득공제 -->
+		<result property="C105" column="C105"/>		<!-- 장기집합투자증권저축 -->		
+		<result property="C108" column="C108"/>	 	<!-- 그 밖의 소득공제계  -->
+		<result property="C109" column="C109"/>	 	<!-- 소득공제종합 한도초과액 -->
+		<result property="C110" column="C110"/>	 	<!-- 종합소득 과세표준 -->
+		<result property="C111" column="C111"/>	 	<!-- 산출세액 -->	
+		<result property="C112" column="C112"/>		<!-- 소득세법 -->
+		<result property="C113" column="C113"/>		<!-- 조특법 52제외 -->
+		<result property="C114" column="C114"/>		<!-- 조특법 제30조 -->
+		<result property="C115" column="C115"/>		<!-- 조세조약 -->
+		<result property="C118" column="C118"/>		<!-- 세액감면계 -->			
+		<result property="C119" column="C119"/>		<!-- 근로소득세액공제 -->
+		<result property="C120a" column="C120a"/>	<!-- 자녀세액공제인원 -->
+		<result property="C120b" column="C120b"/>	<!-- 자녀세액공제 -->
+		<result property="C121a" column="C121a"/>	<!-- 출산.입양 세액공제인원  -->
+		<result property="C121b" column="C121b"/>	<!-- 출산.입양 세액공제 -->			
+		<result property="C122a" column="C122a"/>	<!-- 연금계좌 과학기술인공제 공제대상금액 -->
+		<result property="C122b" column="C122b"/>	<!-- 연금계좌 과학기술인공제 세액공제액 -->
+		<result property="C123a" column="C123a"/>	<!-- 연금계좌 근로자퇴직급여보장법에 따른 퇴직급여 공제대상금액 -->
+		<result property="C123b" column="C123b"/>	<!-- 연금계좌 근로자퇴직급여보장법에 따른 퇴직급여 세액공제액 -->
+		<result property="C124a" column="C124a"/>	<!-- 연금계좌 연금저축 공제대상금액  -->
+		<result property="C124b" column="C124b"/>	<!-- 연금계좌 연금저축 세액공제액 -->		
+		<result property="C125a" column="C125a"/>	<!-- 특별세액공제 보장성보험료 공제대상금액  -->			
+		<result property="C125b" column="C125b"/>	<!-- 특별세액공제 보장성보험료 세액공제액 -->
+		<result property="C126a" column="C126a"/>	<!-- 특별세액공제 장애인전용보장성보험료 공제대상금액 -->
+		<result property="C126b" column="C126b"/>	<!-- 특별세액공제 장애인전용보장성보험료 세액공제액 -->
+		<result property="C127a" column="C127a"/>	<!-- 특별세액공제 의료비 공제대상금액  -->
+		<result property="C127b" column="C127b"/>	<!-- 특별세액공제 의료비 세액공제액 -->
+		<result property="C128a" column="C128a"/>	<!-- 특별세액공제 교육비 공제대상금액  -->
+		<result property="C128b" column="C128b"/>	<!-- 특별세액공제 교육비 세액공제액 -->		
+		<result property="C129a" column="C129a"/>	<!-- 특별세액공제 기부금 정치자금 10만원이하 공제대상금액 -->
+		<result property="C129b" column="C129b"/>	<!-- 특별세액공제 기부금 정치자금 10만원이하 세액공제액 -->
+		<result property="C130a" column="C130a"/>	<!-- 특별세액공제 기부금 정치자금 10만원초과 공제대상금액  -->
+		<result property="C130b" column="C130b"/>	<!-- 특별세액공제 기부금 정치자금 10만원초과 세액공제액 -->
+		<result property="C131a" column="C131a"/>	<!-- 특별세액공제 기부금 법정기부금 공제대상금액  -->
+		<result property="C131b" column="C131b"/>	<!-- 특별세액공제 기부금 법정기부금 세액공제액 -->
+		<result property="C132a" column="C132a"/>	<!-- 특별세액공제 기부금 우리사주조합기부금 공제대상금액 -->
+		<result property="C132b" column="C132b"/>	<!-- 특별세액공제 기부금 우리사주조합기부금 세액공제액 -->				
+		<result property="C133a" column="C133a"/>	<!-- 특별세액공제 기부금 지정기부금 종교단체외 공제대상금액 -->
+		<result property="C133b" column="C133b"/>	<!-- 특별세액공제 기부금 지정기부금 종교단체외 세액공제액 -->
+		<result property="C134a" column="C134a"/>	<!-- 특별세액공제 기부금 지정기부금 종교단체 공제대상금액 -->
+		<result property="C134b" column="C134b"/>	<!-- 특별세액공제 기부금 지정기부금 종교단체 세액공제액 -->
+		<result property="C137" column="C137"/>		<!-- 특별세액공제계 -->		
+		<result property="C138" column="C138"/>		<!-- 표준세액공제 -->	
+		<result property="C139" column="C139"/>		<!-- 납세조합공제 -->
+		<result property="C140" column="C140"/>		<!-- 주택차입금 -->
+		<result property="C141" column="C141"/>		<!-- 외국납부 -->
+		<result property="C142a" column="C142a"/>	<!-- 월세액공제대상금액 -->
+		<result property="C142b" column="C142b"/>	<!-- 웰세액세액공제액 -->		
+		<result property="C145" column="C145"/>		<!-- 세액공제계 -->
+		<result property="C146a" column="C146a"/>	<!-- 결정세액 - 소득세  -->
+		<result property="C146b" column="C146b"/>	<!-- 결정세액 - 지방소득세 -->
+		<result property="C146c" column="C146c"/>	<!-- 결정세액 - 농특세  -->
+		<result property="C147a" column="C147a"/>	<!-- 기납부세액 (주현근무지) - 소득세 -->
+		<result property="C147b" column="C147b"/>	<!-- 기납부세액 (주현근무지) - 지방소득세 -->
+		<result property="C147c" column="C147c"/>	<!-- 기납부세액 (주현근무지) - 농특세   -->
+		<result property="C148a" column="C148a"/>	<!-- 납부특례세액 - 소득세  -->
+		<result property="C148b" column="C148b"/>	<!-- 납부특례세액 - 지방소득세 -->
+		<result property="C148c" column="C148c"/>	<!-- 납부특례세액 - 농특세 -->				
+		<result property="C149a1" column="C149a1"/>	<!-- 차감징수세액 - 소득세 부호 -->
+		<result property="C149a2" column="C149a2"/>	<!-- 차감징수세액 - 소득세  -->
+		<result property="C149b1" column="C149b1"/>	<!-- 차감징수세액 - 지방소득세  부호 -->
+		<result property="C149b2" column="C149b2"/>	<!-- 차감징수세액 - 지방소득세  -->
+		<result property="C149c1" column="C149c1"/>	<!-- 차감징수세액 - 농특세 부호 -->
+		<result property="C149c2" column="C149c2"/>	<!-- 차감징수세액 - 농특세  -->		 								
+	</resultMap>
+	
+	
+	<!-- D레코드  -->
+	<resultMap id="dRecordMap" class="dRecordVO">	
+		<result property="D3" column="D3"/>			<!-- 관할세무서코드 -->
+		<result property="D5" column="D5"/>			<!-- 사업자등록번호 -->
+		<result property="D6" column="D6"/>			<!-- 소득자주민등록번호 -->
+		<result property="D7" column="D7"/>			<!-- 납세조합 여부 -->
+		<result property="D8" column="D8"/>			<!-- 법인명(상호) -->
+		<result property="D9" column="D9"/>			<!-- 사업자등록번호 -->
+		<result property="D10" column="D10"/>		<!-- 근무기간 시작연월일 -->
+		<result property="D11" column="D11"/>		<!-- 근무기간 종료연월일 -->
+		<result property="D12" column="D12"/>		<!-- 감면기간 시작연월일 -->
+		<result property="D13" column="D13"/>		<!-- 감면기간 종료연월일 -->		
+		<result property="D14" column="D14"/>		<!-- 급여  -->
+		<result property="D15" column="D15"/>		<!-- 상여 -->		
+		<result property="D16" column="D16"/>		<!-- 인정상여 -->
+		<result property="D17" column="D17"/>		<!-- 주식매수선택권행사이익 -->
+		<result property="D18" column="D18"/>		<!-- 우리사주조합인출금 -->
+		<result property="D19" column="D19"/>		<!-- 임원퇴직소득한도 초과액 -->
+		<result property="D20" column="D20"/>		<!-- 직무발명보상금 -->
+		<result property="D23" column="D23"/>		<!-- 종전근무처의 소득합계 -->		
+		<result property="D24" column="D24"/>		<!-- 비과세학자금 -->
+		<result property="D25" column="D25"/>		<!-- 무보수위원수당 -->
+		<result property="D26" column="D26"/>		<!-- 경호승선수당 -->
+		<result property="D27" column="D27"/>		<!-- 유아초중등 -->
+		<result property="D28" column="D28"/>		<!-- 고등교육법 -->
+		<result property="D29" column="D29"/>		<!-- 특별법 -->
+		<result property="D30" column="D30"/>		<!-- 연구기관등 -->
+		<result property="D31" column="D31"/>		<!-- 기업부설연구소 -->
+		<result property="D32" column="D32"/>		<!-- 보육교사근무환경개선비 -->
+		<result property="D33" column="D33"/>		<!-- 사립유치원수석교사_교사의인건비 -->
+		<result property="D34" column="D34"/>		<!-- 취재수당 -->
+		<result property="D35" column="D35"/>		<!-- 벽지수당 -->
+		<result property="D36" column="D36"/>		<!-- 재해관련급여 -->
+		<result property="D37" column="D37"/>		<!-- 정부_공공기관지방이전기관_종사자_이주수당 -->
+		<result property="D38" column="D38"/>		<!-- 종교활동비 -->
+		<result property="D39" column="D39"/>		<!-- 외국정부등근무자 -->
+		<result property="D40" column="D40"/>		<!-- 외국주둔군인등 -->
+		<result property="D41" column="D41"/>		<!-- 국외근로100만원 -->
+		<result property="D42" column="D42"/>		<!-- 국외근로300만원 -->
+		<result property="D43" column="D43"/>		<!-- 국외근로 -->
+		<result property="D44" column="D44"/>		<!-- 야간근로수당 -->
+		<result property="D45" column="D45"/>		<!-- 출근보육수당 -->
+		<result property="D46" column="D46"/>		<!-- 근로장학금 -->
+		<result property="D47" column="D47"/>		<!-- 직무발명보상금 -->
+		<result property="D48" column="D48"/>		<!-- 주식매수선택권 -->
+		<result property="D49" column="D49"/>		<!-- 변처기업주식매수선택권 -->
+		<result property="D50a" column="D50a"/>		<!-- 우리사주조합인출근 50% -->
+		<result property="D50b" column="D50b"/>		<!-- 우리사주조합인출근 75% -->
+		<result property="D50c" column="D50c"/>		<!-- 우리사주조합인출근 100% -->
+		<result property="D51" column="D51"/>		<!-- 전공의수련 보조수당 -->
+		<result property="D52" column="D52"/>		<!-- 외국인기술자 -->
+		<result property="D53a" column="D53a"/>		<!-- 중소기업취업청년 소득세 감면 100% -->
+		<result property="D53b" column="D53b"/>		<!-- 중소기업취업청년 소득세 감면 50% -->
+		<result property="D53c" column="D53c"/>		<!-- 중소기업취업청년 소득세 감면 70% -->
+		<result property="D53d" column="D53d"/>		<!-- 중소기업취업청년 소득세 감면 90% -->
+		<result property="D54" column="D54"/>		<!-- 조세조약상 교직자 감면 -->
+		<result property="D57" column="D57"/>		<!-- 비과세 계 -->
+		<result property="D58" column="D58"/>		<!-- 감면소득 계  -->
+		<result property="D59a" column="D59a"/>		<!-- 기납부세액 - 소득세 -->
+		<result property="D59b" column="D59b"/>		<!-- 기납부세액 - 지방소득세 -->
+		<result property="D59c" column="D59c"/>		<!-- 기납부세액 - 농어촌특별세 -->			
+	</resultMap>
+
+    <!-- CA레코드  -->
+	<resultMap id="caRecordMap" class="caRecordVO">	
+		<result property="CA3" column="CA3"/>			<!-- 세무서코드 -->
+		<result property="CA6" column="CA6"/>			<!-- 제출자 사업자등록번호 -->
+		<result property="CA7" column="CA7"/>			<!-- 홈택스아이디 -->
+		<result property="CA9" column="CA9"/>			<!-- 원천징수의무자 사업자등록번호 -->
+		<result property="CA10" column="CA10"/>		<!-- 원천징수의무자 상호 -->
+		<result property="CA11" column="CA11"/>		<!-- 소득자 개인식별번호 -->
+		<result property="CA12" column="CA12"/>		<!-- 소득자 내외국인구분코드-->
+		<result property="CA13" column="CA13"/>		<!-- 소득자 성명 -->		
+		<result property="CA14" column="CA14"/>		<!-- 지급처 사업자등록번호  -->
+		<result property="CA15" column="CA15"/>		<!-- 지급처 상호 -->
+		<result property="CA16" column="CA16"/>		<!-- 지급처 의료증빙코드 -->		
+		<result property="CA17" column="CA17"/>		<!-- 지급명세 건수 -->
+		<result property="CA18" column="CA18"/>		<!-- 지급명세 금액-->
+		<result property="CA19" column="CA19"/>		<!-- 지급명세 난임시술비해당여부 -->						
+		<result property="CA20" column="CA20"/>		<!-- 공제대상자 개인식별번호 -->						
+		<result property="CA21" column="CA21"/>		<!-- 공제대상자 내외국인코드 -->
+		<result property="CA22" column="CA22"/>		<!-- 공제대상자 본인등해당여부 -->
+	</resultMap>	
+	
+	
+	<!-- 전자신고 리스트 -->
+	<select id="ye800DAO.getYE800List" parameterClass="ye800VO" resultMap="ye800ListMap">
+		SELECT
+    		계약ID,사업장ID,BIZ_ID,지점여부,사업장명,사업자등록번호,종사업자일련번호,단위과세자여부, 
+    		COUNT(사용자ID) AS 근로자인원수,
+    		SUM(신고대상수) AS 신고대상수,
+    		SUM(총급여) AS 총급여, 
+    		SUM(결정세액) AS 결정세액,
+    		제작여부,전자신고ID,
+    		제출대상구분코드, 제출년월일, 파일위치, 파일명, 등록일시        
+		FROM(
+    		SELECT  
+    			B.계약ID, B.사업장ID,  A.BIZ_ID, B.지점여부, B.사업장명, B.사업자등록번호, B.종사업자일련번호, B.단위과세자여부, 
+            	C.사용자ID,
+            	(
+              		SELECT 
+                  		COUNT(YE000.사용자ID)
+              		FROM TBL_YE000 YE000
+              		WHERE YE000.계약ID = C.계약ID
+              		AND YE000.사용자ID = C.사용자ID
+              		AND YE000.사용여부 = '1'
+              		AND YE000.진행상태코드 = '5'
+            	) AS 신고대상수,
+            	IFNULL(D.총급여,0) AS 총급여, 
+            	(IFNULL(D.결정세액_소득세,0) + IFNULL(D.결정세액_지방소득세,0) + IFNULL(D.결정세액_농어촌특별세,0)) AS 결정세액,
+            	CASE WHEN F.전자신고ID IS NULL THEN 0 ELSE 1 END 제작여부, F.전자신고ID, 
+            	F.제출대상구분코드, F.제출년월일, F.파일위치, F.파일명, F.등록일시        
+    		FROM TBL_YS000 A
+      			INNER JOIN TBL_YS030 B
+          		ON A.계약ID = B.계약ID AND B.신고대상 = '1'
+      			INNER JOIN TBL_YE000 C
+          		ON B.계약ID = C.계약ID AND B.사업장ID = C.사업장ID AND C.사용여부 = '1'
+      			INNER JOIN TBL_YE700 D
+          		ON C.계약ID = D.계약ID AND C.사용자ID = D.사용자ID AND D.사용여부 = '1'     
+       			INNER JOIN TBL_EMP E
+    	 		ON C.사용자ID = E.USER_ID AND E.USE_YN = 'Y'      
+      			LEFT OUTER JOIN TBL_YE800 F
+          		ON D.계약ID = F.계약ID AND F.사용여부 = '1' AND F.구분자코드 = 'C'
+    		WHERE A.계약ID = #계약ID#
+			<isNotEmpty property="사업장ID">
+			AND	B.사업장ID = #사업장ID#
+			</isNotEmpty>
+		) TAB
+		GROUP BY 계약ID,사업장ID,지점여부,사업장명,사업자등록번호,종사업자일련번호,단위과세자여부	
+	</select>
+	
+
+	
+	<select id="ye800DAO.getYE800Cnt" parameterClass="ye800VO" resultClass="java.lang.Integer">
+		SELECT
+  			COUNT(계약ID)			
+		FROM TBL_YE800
+		WHERE 계약ID = #계약ID#
+		AND 구분자코드 = #구분자코드#
+		<isNotEmpty property="제출대상구분코드">
+		AND 제출대상구분코드 = #제출대상구분코드#
+		</isNotEmpty>
+		<isNotEmpty property="전자신고ID">
+		AND 전자신고ID = #전자신고ID#
+		</isNotEmpty>
+		<isNotEmpty property="사용여부">
+		AND 사용여부 = #사용여부#
+		</isNotEmpty>		
+	</select>
+	
+	<insert id="ye800DAO.insYE800" parameterClass="ye800VO">
+		<selectKey resultClass="java.lang.String" keyProperty="전자신고ID">
+			SELECT  getTableKey('TBL_YE800')
+		</selectKey>
+		INSERT INTO TBL_YE800 (
+  			계약ID,
+  			전자신고ID,
+  			제출대상구분코드,
+  			제출년월일,
+  			작업자ID,
+  			파일위치,
+  			파일명,
+  			구분자코드,
+  			사용여부,
+  			등록일시
+		) VALUES (
+			#계약ID#,
+			#전자신고ID#,
+			#제출대상구분코드#,
+			#제출년월일#,
+			#작업자ID#,
+			#파일위치#,
+			#파일명#,
+			#구분자코드#,
+			#사용여부#,
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>	  
+
+	<update id="ye800DAO.updYE800" parameterClass="ye800VO">	
+		UPDATE TBL_YE800
+		set 작업자ID = #작업자ID#,
+			사용여부 = '0'
+		WHERE 계약ID = #계약ID#
+		AND 제출대상구분코드 = #제출대상구분코드#
+		<isNotEmpty property="구분자코드">
+		AND 구분자코드 = #구분자코드#
+		</isNotEmpty>
+	</update>
+		 
+
+	<!-- 주(현)근무처의 사용자 아이디 정보를 조회한다. -->
+	<select id="ye800DAO.getEmpList" remapResults="true" parameterClass="ye800VO" resultClass="java.util.HashMap">
+		SELECT
+  			D.사용자ID,
+  			(
+       			SELECT COUNT(YE002.사용자ID) FROM TBL_YE002 YE002, TBL_YE003 YE003
+       			WHERE YE002.계약ID = YE003.계약ID
+       			and YE002.사용자ID = YE003.사용자ID
+       			and YE002.원천명세ID = YE003.원천명세ID
+       			and YE002.근무지구분 = '2'
+       			AND YE002.계약ID = G.계약ID
+    			AND YE002.사용자ID = G.사용자ID
+   			) AS 종전근무처수
+		FROM TBL_YS000 A
+	 		INNER JOIN TBL_BIZ B
+	 		ON A.BIZ_ID = B.BIZ_ID
+	 		INNER JOIN TBL_YS030 C
+	 		ON A.계약ID = C.계약ID AND C.사용여부 = '1' AND C.신고대상 = '1'
+	 		INNER JOIN TBL_YE000 D
+	 		ON A.계약ID = D.계약ID  AND C.사업장ID = D.사업장ID  AND D.사용여부 = '1' AND D.진행상태코드 = '5'
+	 		INNER JOIN TBL_EMP E
+	 		ON D.사용자ID = E.USER_ID AND E.USE_YN = 'Y'
+   			INNER JOIN TBL_YE700 F
+   			ON C.계약ID = F.계약ID AND D.사용자ID = F.사용자ID AND F.사용여부 = '1'
+   			INNER JOIN TBL_YE002 G
+   			ON A.계약ID = G.계약ID and D.사용자ID = G.사용자ID and G.근무지구분 = '1'  
+   			INNER JOIN TBL_YE003 H
+   			ON A.계약ID = H.계약ID and D.사용자ID = H.사용자ID and G.원천명세ID = H.원천명세ID
+		WHERE C.계약ID = #계약ID#
+		AND C.사업장ID = #사업장ID#
+		ORDER BY E.EMP_NO
+	</select>
+	
+	
+	<!-- A레코드 (본점정보)-->
+	<select id="ye800DAO.getARecordInfo" parameterClass="ye800VO" resultMap="aRecordMap">
+		SELECT
+     		C.관할세무서코드 AS A3, 
+     		CASE
+     			WHEN B.BIZ_TYPE = '1' THEN '2'
+     			WHEN B.BIZ_TYPE = '2' THEN '3'
+     			ELSE ''
+     		END AS A5, C.홈택스아이디 AS A7,
+     		<!-- B.BUSINESS_NO AS A9,B.BIZ_NAME AS A10, -->
+     		C.사업자등록번호 AS A9,C.사업장명 AS A10,
+     		C.제출담당부서명 AS A11, C.제출담당자성명 AS A12, C.제출담당자전화번호 AS A13,
+     		( SELECT COUNT(사업장ID)
+      		  FROM(
+        		SELECT T1.계약ID, T1.사업장ID
+        		FROM TBL_YS030 T1
+             		 INNER JOIN TBL_YE000 T2
+             		 ON T1.계약ID = T2.계약ID  AND T1.사업장ID = T2.사업장ID  AND T2.사용여부 = '1' AND T2.진행상태코드 = '5'
+        		WHERE T1.계약ID = #계약ID#
+        		AND T1.사용여부 = '1'
+        		AND T1.신고대상 = '1'
+        		GROUP BY T1.계약ID, T1.사업장ID
+      		) TAB)  AS A14        
+		FROM TBL_YS000 A
+			INNER JOIN TBL_BIZ B
+			ON A.BIZ_ID = B.BIZ_ID
+			INNER JOIN TBL_YS030 C
+			ON A.계약ID = C.계약ID AND C.지점여부 = '0' AND C.사용여부 = '1'
+			WHERE C.계약ID = #계약ID#
+			<!-- AND C.사업장ID = #사업장ID#  -->			
+	</select>
+	
+	
+	<!-- B레코드 -->
+	<select id="ye800DAO.getBRecordInfo" parameterClass="ye800VO" resultMap="bRecordMap">
+		SELECT
+    		관할세무서코드 as B3,
+    		사업자등록번호 AS B5,
+    		사업장명 AS B6,
+    		대표자명 AS B7,
+    		법인등록번호_개인식별번호 AS B8,
+    		sum(주현근무처수) as B9,
+    		sum(종전근무처수) as B10,
+    		sum(총급여) AS B11,
+    		sum(결정세액_소득세) AS B12,
+    		sum(결정세액_지방소득세) AS B13,
+    		sum(결정세액_농어촌특별세) AS B14,
+    		sum(결정세액총계) AS B15
+		FROM(
+    		SELECT 
+     			C.관할세무서코드, 
+     			C.사업자등록번호, 
+     			C.사업장명,
+     			C.대표자명, 
+     			C.법인등록번호_개인식별번호,       		
+     			(
+       				SELECT COUNT(YE002.사용자ID) FROM TBL_YE002 YE002, TBL_YE003 YE003
+          			WHERE YE002.계약ID = YE003.계약ID
+          			AND YE002.사용자ID = YE003.사용자ID
+          			AND YE002.원천명세ID = YE003.원천명세ID
+          			AND YE002.근무지구분 = '1'
+          			AND YE002.계약ID = C.계약ID
+       				AND YE002.사용자ID = E.USER_ID
+     			) AS 주현근무처수, 
+     			(
+          			SELECT COUNT(YE002.사용자ID) FROM TBL_YE002 YE002, TBL_YE003 YE003
+          			WHERE YE002.계약ID = YE003.계약ID
+          			AND YE002.사용자ID = YE003.사용자ID
+          			AND YE002.원천명세ID = YE003.원천명세ID
+          			AND YE002.근무지구분 = '2'
+          			AND YE002.계약ID = C.계약ID
+       				AND YE002.사용자ID = E.USER_ID
+     			) AS 종전근무처수, 
+     			IFNULL(F.총급여,0) AS 총급여,
+     			IFNULL(F.결정세액_소득세,0) AS 결정세액_소득세,
+     			IFNULL(F.결정세액_지방소득세,0) AS 결정세액_지방소득세,
+     			IFNULL(F.결정세액_농어촌특별세,0) AS 결정세액_농어촌특별세,
+     			(IFNULL(F.결정세액_소득세,0) + IFNULL(F.결정세액_지방소득세,0) + IFNULL(F.결정세액_농어촌특별세,0)) AS 결정세액총계
+    		FROM TBL_YS000 A
+    			 INNER JOIN TBL_BIZ B
+    			 ON A.BIZ_ID = B.BIZ_ID
+    			 INNER JOIN TBL_YS030 C
+    			 ON A.계약ID = C.계약ID AND C.사용여부 = '1' AND C.신고대상 = '1'
+    			 INNER JOIN TBL_YE000 D
+    			 ON A.계약ID = D.계약ID  AND C.사업장ID = D.사업장ID  AND D.사용여부 = '1' AND D.진행상태코드 = '5'
+    			 INNER JOIN TBL_EMP E
+    			 ON D.사용자ID = E.USER_ID AND E.USE_YN = 'Y'
+    			 INNER JOIN TBL_YE700 F
+    			 ON C.계약ID = F.계약ID AND D.사용자ID = F.사용자ID AND F.사용여부 = '1'
+	        	LEFT OUTER JOIN (
+				        	SELECT  T1.계약ID, T1.사용자ID,
+							       SUM(CASE WHEN T1.M1 = 'Y' THEN CASE WHEN IFNULL(T1.M1금액, 0) >= 200000 THEN 200000 ELSE IFNULL(T1.M1금액, 0) END ELSE 0 END +
+							        CASE WHEN T1.M2 = 'Y' THEN CASE WHEN IFNULL(T1.M2금액, 0) >= 200000 THEN 200000 ELSE IFNULL(T1.M2금액, 0) END ELSE 0 END +
+							        CASE WHEN T1.M3 = 'Y' THEN CASE WHEN IFNULL(T1.M3금액, 0) >= 200000 THEN 200000 ELSE IFNULL(T1.M3금액, 0) END ELSE 0 END +
+							        CASE WHEN T1.M4 = 'Y' THEN CASE WHEN IFNULL(T1.M4금액, 0) >= 200000 THEN 200000 ELSE IFNULL(T1.M4금액, 0) END ELSE 0 END +
+							        CASE WHEN T1.M5 = 'Y' THEN CASE WHEN IFNULL(T1.M5금액, 0) >= 200000 THEN 200000 ELSE IFNULL(T1.M5금액, 0) END ELSE 0 END +
+							        CASE WHEN T1.M6 = 'Y' THEN CASE WHEN IFNULL(T1.M6금액, 0) >= 200000 THEN 200000 ELSE IFNULL(T1.M6금액, 0) END ELSE 0 END +
+							        CASE WHEN T1.M7 = 'Y' THEN CASE WHEN IFNULL(T1.M7금액, 0) >= 200000 THEN 200000 ELSE IFNULL(T1.M7금액, 0) END ELSE 0 END +
+							        CASE WHEN T1.M8 = 'Y' THEN CASE WHEN IFNULL(T1.M8금액, 0) >= 200000 THEN 200000 ELSE IFNULL(T1.M8금액, 0) END ELSE 0 END +
+							        CASE WHEN T1.M9 = 'Y' THEN CASE WHEN IFNULL(T1.M9금액, 0) >= 200000 THEN 200000 ELSE IFNULL(T1.M9금액, 0) END ELSE 0 END +
+							        CASE WHEN T1.M10 = 'Y' THEN CASE WHEN IFNULL(T1.M10금액, 0) >= 200000 THEN 200000 ELSE IFNULL(T1.M10금액, 0) END ELSE 0 END +
+							        CASE WHEN T1.M11 = 'Y' THEN CASE WHEN IFNULL(T1.M11금액, 0) >= 200000 THEN 200000 ELSE IFNULL(T1.M11금액, 0) END ELSE 0 END +
+							        CASE WHEN T1.M12 = 'Y' THEN CASE WHEN IFNULL(T1.M12금액, 0) >= 200000 THEN 200000 ELSE IFNULL(T1.M12금액, 0) END ELSE 0 END) 차량비과세
+							FROM  TBL_YE006 T1
+							WHERE T1.계약ID = #계약ID#
+							GROUP BY T1.계약ID, T1.사용자ID
+	        	) K
+	        	ON C.계약ID = K.계약ID AND D.사용자ID = K.사용자ID
+    		WHERE C.계약ID = #계약ID#
+    		AND C.사업장ID = #사업장ID#
+		)TAB
+		GROUP BY 관할세무서코드,사업자등록번호,사업장명,대표자명,법인등록번호_개인식별번호
+	</select>
+	
+	
+	<!-- C레코드 -->
+	<select id="ye800DAO.getCRecordInfo" parameterClass="ye800VO" resultMap="cRecordMap">
+		
+		SELECT
+			<![CDATA[ 
+			D.사용자ID,
+       		C.관할세무서코드 AS C3, 
+       		C.사업자등록번호 AS C5, 
+          	(
+         		SELECT COUNT(YE002.사용자ID) FROM TBL_YE002 YE002, TBL_YE003 YE003
+        		WHERE YE002.계약ID = YE003.계약ID
+        		AND YE002.사용자ID = YE003.사용자ID
+        		AND YE002.원천명세ID = YE003.원천명세ID
+        		AND YE002.근무지구분 = '2'
+        		AND YE002.계약ID = C.계약ID
+     			AND YE002.사용자ID = E.USER_ID
+       		 ) AS C6,    
+          	 D.거주구분 AS C7,
+          	 CASE
+            	WHEN D.거주구분 = '1' THEN ''
+            	WHEN D.거주구분 = '2' THEN D.거주지국코드
+          	 END AS C8,
+          	CASE
+            	WHEN D.외국인단일세율적용 = '1' THEN '1'
+            	WHEN D.외국인단일세율적용 = '' OR D.외국인단일세율적용 = '2' THEN '2'
+          	END AS C9, 
+          	CASE
+          		WHEN D.외국법인파견근로자 = '1' THEN '1'
+          		ELSE '2'	
+          	END AS C10,          	
+          	UPPER(E.EMP_NAME) AS C11,          
+          	CASE
+            	WHEN D.내외국인구분 = '1' THEN '1'
+            	WHEN D.내외국인구분 = '2' THEN '9'
+          	END AS C12, 	
+          	D.개인식별번호 AS C13,    
+          	CASE
+            	WHEN D.내외국인구분 = '1' THEN ''
+            	WHEN D.내외국인구분 = '2' THEN D.국가코드
+          	END AS C14,  	
+          	D.세대주여부 AS C15,          
+          	CASE          	
+          		WHEN E.LEAVE_DATE = '0' THEN '1'
+    			WHEN E.LEAVE_DATE = '00000000' THEN '1'
+    			WHEN E.LEAVE_DATE = '00000101' THEN '1'    			
+            	WHEN IFNULL(E.LEAVE_DATE,'') = '' THEN '1' 
+            	WHEN SUBSTRING(E.LEAVE_DATE,1,4) > #귀속년도# THEN '1' 
+             	ELSE '2' 		
+          	END AS C16, 		
+          	CASE
+            	WHEN C.단위과세자여부 = '1' THEN '1'  
+            	ELSE '2' 
+          	END AS C17,  
+          	CASE
+            	WHEN C.단위과세자여부 = '1' THEN C.종사업자일련번호  
+            	ELSE '' 
+          	END AS C18, 
+          	C.사업자등록번호 AS C19,
+          	C.사업장명 AS C20,    
+          	CASE
+            	WHEN SUBSTRING(E.JOIN_DATE,1,4) = #귀속년도# THEN E.JOIN_DATE  
+            	WHEN SUBSTRING(E.JOIN_DATE,1,4) < #귀속년도# THEN CONCAT(#귀속년도#,'0101') 
+            	ELSE E.JOIN_DATE
+          	END AS C21,
+          	CASE 
+          		WHEN E.LEAVE_DATE = '0' THEN CONCAT(#귀속년도#,'1231')
+    			WHEN E.LEAVE_DATE = '00000000' THEN CONCAT(#귀속년도#,'1231')
+    			WHEN E.LEAVE_DATE = '00000101' THEN CONCAT(#귀속년도#,'1231')
+            	WHEN IFNULL(E.LEAVE_DATE,'') = '' THEN CONCAT(#귀속년도#,'1231')
+            	WHEN SUBSTRING(E.LEAVE_DATE,1,4) > #귀속년도# THEN CONCAT(#귀속년도#,'1231') 
+            	ELSE E.LEAVE_DATE
+          	END AS C22,          	          	
+          	CASE
+          		WHEN D.중소기업취업감면여부 = '1' AND IFNULL(D.감면기간_FROM,'') = '' THEN '00000000'          	          	
+            	WHEN D.중소기업취업감면여부 = '1' AND SUBSTRING(D.감면기간_FROM,1,4) = #귀속년도# THEN D.감면기간_FROM 
+            	WHEN D.중소기업취업감면여부 = '1' AND SUBSTRING(D.감면기간_FROM,1,4) < #귀속년도# THEN CONCAT(#귀속년도#,'0101')
+            	ELSE '00000000' 
+          	END AS C23,  
+          	CASE
+          		WHEN D.중소기업취업감면여부 = '1' AND IFNULL(D.감면기간_FROM,'') = '' THEN '00000000'
+            	WHEN D.중소기업취업감면여부 = '1' AND SUBSTRING(D.감면기간_TO,1,4) = #귀속년도# THEN D.감면기간_TO    
+            	WHEN D.중소기업취업감면여부 = '1' AND SUBSTRING(D.감면기간_TO,1,4) > #귀속년도# THEN CONCAT(#귀속년도#,'1231')
+            	ELSE '00000000'  
+          	END AS C24,  
+          	(IFNULL(G.급여,0)+IFNULL(G.비과세한도초과액,0)-IFNULL(K.차량비과세, 0)) AS C25,
+          	IFNULL(G.상여,0) AS C26,
+          	IFNULL(G.인정상여,0) AS C27,
+          	IFNULL(G.주식매수선택권행사이익,0) AS C28,
+          	IFNULL(G.우리사주조합인출금,0) AS C29,
+          	IFNULL(G.임원퇴직소득금액한도초과액,0) AS C30,
+          	IFNULL(G.직무발명보상금,0) AS C31,
+          	(IFNULL(G.급여,0)+IFNULL(G.비과세한도초과액,0)-IFNULL(K.차량비과세,0)+IFNULL(G.상여,0)+IFNULL(G.인정상여,0)+IFNULL(G.주식매수선택권행사이익,0)+IFNULL(G.우리사주조합인출금,0)+IFNULL(G.임원퇴직소득금액한도초과액,0)+IFNULL(G.직무발명보상금,0)) AS C34,   
+          	IFNULL(G.G01,0) AS C35, 
+          	IFNULL(G.H01,0) AS C36, 
+          	IFNULL(G.H05,0) AS C37, 
+          	IFNULL(G.H06,0) AS C38, 
+          	IFNULL(G.H07,0) AS C39, 
+          	IFNULL(G.H08,0) AS C40, 
+          	IFNULL(G.H09,0) AS C41,  
+          	IFNULL(G.H10,0) AS C42, 
+          	IFNULL(G.H14,0) AS C43, 
+          	IFNULL(G.H15,0) AS C44,  
+          	IFNULL(G.H11,0) AS C45, 
+          	IFNULL(G.H12,0) AS C46,  
+          	IFNULL(G.H13,0) AS C47,  
+          	IFNULL(G.H16,0) AS C48,  
+          	IFNULL(G.H17,0) AS C49,  
+          	IFNULL(G.I01,0) AS C50,  
+          	IFNULL(G.K01,0) AS C51, 
+          	IFNULL(G.M01,0) AS C52, 
+          	IFNULL(G.M02,0) AS C53, 
+          	IFNULL(G.M03,0) AS C54, 
+          	IFNULL(G.O01,0) AS C55, 
+          	IFNULL(G.Q01,0) AS C56, 
+          	IFNULL(G.R10,0) AS C57, 
+          	IFNULL(G.R11,0) AS C58,  
+          	IFNULL(G.S01,0) AS C59,  
+          	IFNULL(G.U01,0) AS C60,  
+          	IFNULL(G.Y02,0) AS C61a,
+          	IFNULL(G.Y03,0) AS C61b,
+          	IFNULL(G.Y04,0) AS C61c,
+          	IFNULL(G.Y22,0) AS C62,            
+          	IFNULL(G.T01,0) AS C63,  
+          	IFNULL(G.T10,0) AS C64a,
+          	IFNULL(G.T11,0) AS C64b,
+          	IFNULL(G.T12,0) AS C64c,
+          	IFNULL(G.T13,0) AS C64d,                    
+          	IFNULL(G.T20,0) AS C65, 
+          	(IFNULL(G.G01,0)+IFNULL(G.H01,0)+IFNULL(G.H05,0)+IFNULL(G.H06,0)+IFNULL(G.H07,0)+IFNULL(G.H08,0)+IFNULL(G.H09,0)+IFNULL(G.H10,0)+IFNULL(G.H14,0)+
+           		IFNULL(G.H15,0)+IFNULL(G.H11,0)+IFNULL(G.H12,0)+IFNULL(G.H13,0)+IFNULL(G.H16,0)+IFNULL(G.H17,0)+IFNULL(G.I01,0)+IFNULL(G.K01,0)+IFNULL(G.M01,0)+
+           		IFNULL(G.M02,0)+IFNULL(G.M03,0)+IFNULL(G.O01,0)+IFNULL(G.Q01,0)+IFNULL(G.R10,0)+IFNULL(G.R11,0)+IFNULL(G.S01,0)+IFNULL(G.U01,0)+IFNULL(G.Y02,0)+
+           		IFNULL(G.Y03,0)+IFNULL(G.Y04,0)+IFNULL(G.Y22,0)) as C68,  
+          	(IFNULL(G.T01,0)+IFNULL(G.T10,0)+IFNULL(G.T11,0)+IFNULL(G.T12,0)+IFNULL(G.T13,0)+IFNULL(G.T20,0)) AS C69, 
+          	IFNULL(F.총급여 ,0) AS C70,          	
+          	CASE 
+				WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+				WHEN IFNULL(F.근로소득공제,0) <= 0 THEN 0
+				ELSE F.근로소득공제
+			END as C71,             	
+          	CASE 
+				WHEN IFNULL(F.근로소득금액,0) <= 0 THEN 0
+				ELSE F.근로소득금액
+			END as C72, 			
+			CASE 
+				WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+				WHEN IFNULL(F.기본공제_본인,0) <= 0 THEN 0
+				ELSE F.기본공제_본인
+			END as C73,  			
+			CASE 
+				WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+				WHEN D.거주구분 = '2' THEN 0
+				WHEN IFNULL(F.기본공제_배우자,0) <= 0 THEN 0
+				ELSE F.기본공제_배우자
+			END as C74,			
+			CASE 
+				WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+				WHEN D.거주구분 = '2' THEN 0
+				WHEN IFNULL(F.부양가족_인원수,0) <= 0 THEN 0
+				ELSE F.부양가족_인원수
+			END as C75a,          	
+          	CASE 
+				WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+				WHEN D.거주구분 = '2' THEN 0
+				WHEN IFNULL(F.기본공제_부양가족,0) <= 0 THEN 0
+				ELSE F.기본공제_부양가족
+			END as C75b,
+			CASE 
+				WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+				WHEN IFNULL(F.경로우대_인원수,0) <= 0 THEN 0
+				ELSE F.경로우대_인원수
+			END as C76a,  	          	
+          	CASE 
+				WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+				WHEN IFNULL(F.추가공제_경로우대,0) <= 0 THEN 0
+				ELSE F.추가공제_경로우대
+			END as C76b, 
+			CASE 
+				WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+				WHEN IFNULL(F.장애인_인원수,0) <= 0 THEN 0
+				ELSE F.장애인_인원수
+			END as C77a,
+          	CASE 
+				WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+				WHEN IFNULL(F.추가공제_장애인,0) <= 0 THEN 0
+				ELSE F.추가공제_장애인
+			END as C77b,           	
+          	CASE 
+				WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+				WHEN IFNULL(F.추가공제_부녀자,0) <= 0 THEN 0
+				ELSE F.추가공제_부녀자
+			END as C78, 			
+			CASE 
+				WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+				WHEN D.거주구분 = '2' THEN 0
+				WHEN IFNULL(F.추가공제_한부모,0) <= 0 THEN 0
+				ELSE F.추가공제_한부모
+			END as C79,           	  
+          	CASE 
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN IFNULL(F.연금보험_국민연금_공제대상금액,0) <= 0 THEN 0
+          		ELSE F.연금보험_국민연금_공제대상금액
+          	END as C80a,
+          	CASE 
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN IFNULL(F.연금보험_국민연금_공제대상금액,0) <= 0 THEN 0
+          		WHEN IFNULL(F.연금보험_국민연금,0) <= 0 THEN 0
+          		ELSE F.연금보험_국민연금
+          	END as C80b,
+			CASE 
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN IFNULL(F.연금보험_공무원연금_공제대상금액,0) <= 0 THEN 0
+          		ELSE F.연금보험_공무원연금_공제대상금액
+          	END as C81a,
+          	CASE 
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN IFNULL(F.연금보험_공무원연금_공제대상금액,0) <= 0 THEN 0
+          		WHEN IFNULL(F.연금보험_공무원연금,0) <= 0 THEN 0
+          		ELSE F.연금보험_공무원연금
+          	END as C81b,                  	          	
+          	CASE 
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN IFNULL(F.연금보험_군인연금_공제대상금액,0) <= 0 THEN 0
+          		ELSE F.연금보험_군인연금_공제대상금액
+          	END as C82a,
+          	CASE 
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN IFNULL(F.연금보험_군인연금_공제대상금액,0) <= 0 THEN 0
+          		WHEN IFNULL(F.연금보험_군인연금,0) <= 0 THEN 0
+          		ELSE F.연금보험_군인연금
+          	END as C82b,             	  	
+			CASE 
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN IFNULL(F.연금보험_사립학교_공제대상금액,0) <= 0 THEN 0
+          		ELSE F.연금보험_사립학교_공제대상금액
+          	END as C83a,
+          	CASE 
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN IFNULL(F.연금보험_사립학교_공제대상금액,0) <= 0 THEN 0
+          		WHEN IFNULL(F.연금보험_사립학교,0) <= 0 THEN 0
+          		ELSE F.연금보험_사립학교
+          	END as C83b,           	          	
+          	CASE 
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN IFNULL(F.연금보험_별정우체국_공제대상금액,0) <= 0 THEN 0
+          		ELSE F.연금보험_별정우체국_공제대상금액
+          	END as C84a,
+          	CASE 
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN IFNULL(F.연금보험_별정우체국_공제대상금액,0) <= 0 THEN 0
+          		WHEN IFNULL(F.연금보험_별정우체국,0) <= 0 THEN 0
+          		ELSE F.연금보험_별정우체국
+          	END as C84b,
+          	CASE 
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+          		WHEN IFNULL(F.특별소득_건강보험_공제대상금액,0) <= 0 THEN 0
+          		ELSE F.특별소득_건강보험_공제대상금액
+          	END as C85a,
+          	CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+          		WHEN IFNULL(F.특별소득_건강보험_공제대상금액,0) <= 0 THEN 0
+          		WHEN IFNULL(F.특별소득_건강보험,0) <= 0 THEN 0  
+          		ELSE IFNULL(F.특별소득_건강보험,0)
+          	END AS C85b,          	
+          	CASE 
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+          		WHEN IFNULL(F.특별소득_고용보험_공제대상금액,0) <= 0 THEN 0
+          		ELSE F.특별소득_고용보험_공제대상금액
+          	END AS C86a,          	          	
+          	CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+          		WHEN IFNULL(F.특별소득_고용보험_공제대상금액,0) <= 0 THEN 0
+          		WHEN IFNULL(F.특별소득_고용보험,0) <= 0 THEN 0 
+          		ELSE IFNULL(F.특별소득_고용보험,0)
+          	END AS C86b, 
+          	IFNULL(F.특별소득_주택원리금_대출기관,0) AS C87a,
+          	IFNULL(F.특별소득_주택원리금_거주자,0) AS C87b,
+          	IFNULL(F.특별소득_장기주택_2011년이전_15년미만,0) AS C88a,
+          	IFNULL(F.특별소득_장기주택_2011년이전_15년29년,0) AS C88b,
+          	IFNULL(F.특별소득_장기주택_2011년이전_30년이상,0) AS C88c,
+          	IFNULL(F.특별소득_장기주택_2012년이후_고정이거나비거치,0) AS C89a, 
+          	IFNULL(F.특별소득_장기주택_2012년이후_그밖에,0) AS C89b,
+          	IFNULL(F.특별소득_장기주택_2015년이후_15년이상_고정이면서비거치,0) AS C90a, 
+          	IFNULL(F.특별소득_장기주택_2015년이후_15년이상_고정이거나비거치,0) AS C90b, 
+          	IFNULL(F.특별소득_장기주택_2015년이후_15년이상_그밖에,0) AS C90c,
+          	IFNULL(F.특별소득_장기주택_2015년이후_10년15년_고정이거나비거치,0) AS C90d,          	          	
+          	CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+          		WHEN IFNULL(F.특별소득_기부금_이월분,0) <= 0 THEN 0 
+          		ELSE F.특별소득_기부금_이월분
+          	END AS C91, 
+          	CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+          		WHEN IFNULL(F.특별소득_계,0) <= 0 THEN 0 
+          		ELSE F.특별소득_계
+          	END AS C94, 
+          	CASE
+          		WHEN IFNULL(F.차감소득금액,0) <= 0 THEN 0 
+          		ELSE F.차감소득금액
+          	END AS C95, 
+          	CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+          		WHEN IFNULL(F.그밖에소득공제_개인연금,0) <= 0 THEN 0 
+          		ELSE F.그밖에소득공제_개인연금
+          	END AS C96, 
+			CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+          		WHEN IFNULL(F.그밖에소득공제_소기업소상공인,0) <= 0 THEN 0 
+          		ELSE F.그밖에소득공제_소기업소상공인
+          	END AS C97, 
+          	CASE
+          		WHEN IFNULL(F.그밖에소득공제_주택마련_청약저축,0) <= 0 THEN 0 
+          		ELSE F.그밖에소득공제_주택마련_청약저축
+          	END AS C98, 
+          	CASE
+          		WHEN IFNULL(F.그밖에소득공제_주택마련_주택청약,0) <= 0 THEN 0 
+          		ELSE F.그밖에소득공제_주택마련_주택청약
+          	END AS C99,
+          	CASE
+          		WHEN IFNULL(F.그밖에소득공제_주택마련_근로자주택마련,0) <= 0 THEN 0 
+          		ELSE F.그밖에소득공제_주택마련_근로자주택마련
+          	END AS C100,
+          	
+          	CASE
+          		WHEN IFNULL(F.그밖에소득공제_투자조합출자,0) + IFNULL(F.그밖에소득공제_투자조합출자_조합,0) <= 0 THEN 0 
+          		ELSE IFNULL(F.그밖에소득공제_투자조합출자,0) + IFNULL(F.그밖에소득공제_투자조합출자_조합,0)
+          	END AS C101,
+          	CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+          		WHEN IFNULL(F.그밖에소득공제_신용카드등,0) <= 0 THEN 0 
+          		ELSE F.그밖에소득공제_신용카드등
+          	END AS C102, 
+			CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN IFNULL(F.그밖에소득공제_우리사주조합,0) <= 0 THEN 0 
+          		ELSE F.그밖에소득공제_우리사주조합
+          	END AS C103,
+          	CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+          		WHEN IFNULL(F.그밖에소득공제_고용유지근로자,0) <= 0 THEN 0 
+          		ELSE F.그밖에소득공제_고용유지근로자
+          	END AS C104,
+          	CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+          		WHEN IFNULL(F.그밖에소득공제_장기집합투자,0) <= 0 THEN 0 
+          		ELSE F.그밖에소득공제_장기집합투자
+          	END AS C105,
+			CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN IFNULL(F.그밖에소득공제_계,0) <= 0 THEN 0 
+          		ELSE F.그밖에소득공제_계
+          	END AS C108,
+          	CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN IFNULL(F.소득공제종합한도초과액,0) <= 0 THEN 0 
+          		ELSE F.소득공제종합한도초과액
+          	END AS C109,
+ 			CASE
+          		WHEN IFNULL(F.종합소득과세표준,0) <= 0 THEN 0 
+          		ELSE F.종합소득과세표준
+          	END AS C110,
+			CASE
+          		WHEN IFNULL(F.산출세액,0) <= 0 THEN 0 
+          		ELSE F.산출세액
+          	END AS C111,
+          	F.세액감면_소득세법 AS C112, 
+          	F.세액감면_조세특례52제외 AS C113,
+          	F.세액감면_조세특례30조 AS C114,
+          	F.세액감면_조세조약 AS C115,
+          	F.세액감면_계 AS C118,
+          	F.세액공제_근로소득 AS C119, 
+          	CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+          		WHEN IFNULL(F.자녀_인원수,0) <= 0 THEN 0 
+          		ELSE F.자녀_인원수
+          	END AS C120a,
+          	CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+          		WHEN IFNULL(F.세액공제_자녀,0) <= 0 THEN 0 
+          		ELSE F.세액공제_자녀
+          	END AS C120b,          	          	 
+          	CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+          		WHEN IFNULL(F.출산입양_인원수,0) <= 0 THEN 0 
+          		ELSE F.출산입양_인원수
+          	END AS C121a,
+      		CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+          		WHEN IFNULL(F.세액공제_출산입양,0) <= 0 THEN 0 
+          		ELSE F.세액공제_출산입양
+          	END AS C121b,
+          	CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+ 				WHEN IFNULL(F.세액공제_연금계좌_과학기술_공제대상금액,0) <= 0 THEN 0  
+ 				ELSE IFNULL(F.세액공제_연금계좌_과학기술_공제대상금액,0)
+ 			END AS C122a,
+ 			CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+          		WHEN IFNULL(F.세액공제_연금계좌_과학기술_공제대상금액,0) <= 0 THEN 0
+ 				WHEN IFNULL(F.세액공제_연금계좌_과학기술_세액공제액,0) <= 0 THEN 0  
+ 				ELSE IFNULL(F.세액공제_연금계좌_과학기술_세액공제액,0)
+ 			END AS C122b,          	
+          	CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+ 				WHEN IFNULL(F.세액공제_연금계좌_퇴직연금_공제대상금액,0) <= 0 THEN 0  
+ 				ELSE IFNULL(F.세액공제_연금계좌_퇴직연금_공제대상금액,0)
+ 			END AS C123a,
+ 			CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+          		WHEN IFNULL(F.세액공제_연금계좌_퇴직연금_공제대상금액,0) <= 0 THEN 0
+ 				WHEN IFNULL(F.세액공제_연금계좌_퇴직연금_세액공제액,0) <= 0 THEN 0  
+ 				ELSE IFNULL(F.세액공제_연금계좌_퇴직연금_세액공제액,0)
+ 			END AS C123b,          	
+          	CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+ 				WHEN IFNULL(F.세액공제_연금계좌_연금저축_공제대상금액,0) <= 0 THEN 0  
+ 				ELSE IFNULL(F.세액공제_연금계좌_연금저축_공제대상금액,0)
+ 			END AS C124a,
+ 			CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+          		WHEN IFNULL(F.세액공제_연금계좌_연금저축_공제대상금액,0) <= 0 THEN 0
+ 				WHEN IFNULL(F.세액공제_연금계좌_연금저축_세액공제액,0) <= 0 THEN 0  
+ 				ELSE IFNULL(F.세액공제_연금계좌_연금저축_세액공제액,0)
+ 			END AS C124b,
+          	CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+ 				WHEN IFNULL(F.특별세액_보험료_보장성_공제대상금액,0) <= 0 THEN 0  
+ 				ELSE IFNULL(F.특별세액_보험료_보장성_공제대상금액,0)
+ 			END AS C125a,           	
+          	CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+          		WHEN IFNULL(F.특별세액_보험료_보장성_공제대상금액,0) <= 0 THEN 0
+ 				WHEN IFNULL(F.특별세액_보험료_보장성_세액공제액,0) <= 0 THEN 0  
+ 				ELSE IFNULL(F.특별세액_보험료_보장성_세액공제액,0)
+ 			END AS C125b,
+ 			CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+ 				WHEN IFNULL(F.특별세액_보험료_장애인전용_공제대상금액,0) <= 0 THEN 0  
+ 				ELSE IFNULL(F.특별세액_보험료_장애인전용_공제대상금액,0)
+ 			END AS C126a,
+ 			CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+ 				WHEN IFNULL(F.특별세액_보험료_장애인전용_공제대상금액,0) <= 0 THEN 0
+ 				WHEN IFNULL(F.특별세액_보험료_장애인전용_세액공제액,0) <= 0 THEN 0  
+ 				ELSE IFNULL(F.특별세액_보험료_장애인전용_세액공제액,0)
+ 			END AS C126b,
+ 			CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+ 				WHEN IFNULL(I.특별세액_의료비_공제대상금액 ,0) <= 0 THEN 0  
+ 				ELSE IFNULL(I.특별세액_의료비_공제대상금액 ,0)
+ 			END AS C127a, 			
+ 			CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+ 				WHEN IFNULL(I.특별세액_의료비_공제대상금액 ,0) <= 0 THEN 0
+ 				WHEN IFNULL(F.특별세액_의료비_세액공제액 ,0) <= 0 THEN 0  
+ 				ELSE IFNULL(F.특별세액_의료비_세액공제액,0)
+ 			END AS C127b,
+ 			CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+ 				WHEN IFNULL(F.특별세액_교육비_공제대상금액,0) <= 0 THEN 0  
+ 				ELSE IFNULL(F.특별세액_교육비_공제대상금액,0)
+ 			END AS C128a,
+ 			CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+ 				WHEN IFNULL(F.특별세액_교육비_공제대상금액,0) <= 0 THEN 0
+ 				WHEN IFNULL(F.특별세액_교육비_세액공제액,0) <= 0 THEN 0  
+ 				ELSE IFNULL(F.특별세액_교육비_세액공제액,0)
+ 			END AS C128b,
+ 			CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+ 				WHEN IFNULL(J.특별세액_기부금_정치자금_10만이하_공제대상금액,0) <= 0 THEN 0  
+ 				ELSE IFNULL(J.특별세액_기부금_정치자금_10만이하_공제대상금액,0)
+ 			END AS C129a,
+ 			CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+ 				WHEN IFNULL(J.특별세액_기부금_정치자금_10만이하_공제대상금액,0) <= 0 THEN 0
+ 				WHEN IFNULL(J.특별세액_기부금_정치자금_10만이하_세액공제액,0) <= 0 THEN 0  
+ 				ELSE IFNULL(J.특별세액_기부금_정치자금_10만이하_세액공제액,0)
+ 			END AS C129b,
+ 			CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+ 				WHEN IFNULL(J.특별세액_기부금_정치자금_10만초과_공제대상금액,0) <= 0 THEN 0  
+ 				ELSE IFNULL(J.특별세액_기부금_정치자금_10만초과_공제대상금액,0)
+ 			END AS C130a,
+ 			CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+ 				WHEN IFNULL(J.특별세액_기부금_정치자금_10만초과_공제대상금액,0) <= 0 THEN 0
+ 				WHEN IFNULL(J.특별세액_기부금_정치자금_10만초과_세액공제액,0) <= 0 THEN 0  
+ 				ELSE IFNULL(J.특별세액_기부금_정치자금_10만초과_세액공제액,0)
+ 			END AS C130b,
+ 			CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+ 				WHEN IFNULL(J.특별세액_기부금_법정_공제대상금액,0) <= 0 THEN 0  
+ 				ELSE IFNULL(J.특별세액_기부금_법정_공제대상금액,0)
+ 			END AS C131a,
+          	CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+ 				WHEN IFNULL(J.특별세액_기부금_법정_공제대상금액,0) <= 0 THEN 0
+ 				WHEN IFNULL(J.특별세액_기부금_법정_세액공제액,0) <= 0 THEN 0  
+ 				ELSE IFNULL(J.특별세액_기부금_법정_세액공제액,0)
+ 			END AS C131b,
+ 			CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+ 				WHEN IFNULL(J.특별세액_기부금_우리사주_공제대상금액,0) <= 0 THEN 0  
+ 				ELSE IFNULL(J.특별세액_기부금_우리사주_공제대상금액,0)
+ 			END AS C132a,
+ 			CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+ 				WHEN IFNULL(J.특별세액_기부금_우리사주_공제대상금액,0) <= 0 THEN 0
+ 				WHEN IFNULL(J.특별세액_기부금_우리사주_세액공제액,0) <= 0 THEN 0  
+ 				ELSE IFNULL(J.특별세액_기부금_우리사주_세액공제액,0)
+ 			END AS C132b,
+ 			CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+ 				WHEN IFNULL(J.특별세액_기부금_지정_종교외_공제대상금액,0) <= 0 THEN 0  
+ 				ELSE IFNULL(J.특별세액_기부금_지정_종교외_공제대상금액,0)
+ 			END AS C133a,
+ 			CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+ 				WHEN IFNULL(J.특별세액_기부금_지정_종교외_공제대상금액,0) <= 0 THEN 0
+ 				WHEN IFNULL(J.특별세액_기부금_지정_종교외_세액공제액,0) <= 0 THEN 0  
+ 				ELSE IFNULL(J.특별세액_기부금_지정_종교외_세액공제액,0)
+ 			END AS C133b,
+ 			CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+ 				WHEN IFNULL(J.특별세액_기부금_지정_종교_공제대상금액,0) <= 0 THEN 0  
+ 				ELSE IFNULL(J.특별세액_기부금_지정_종교_공제대상금액,0)
+ 			END AS C134a,
+          	CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+ 				WHEN IFNULL(J.특별세액_기부금_지정_종교_공제대상금액,0) <= 0 THEN 0
+ 				WHEN IFNULL(J.특별세액_기부금_지정_종교_세액공제액,0) <= 0 THEN 0  
+ 				ELSE IFNULL(J.특별세액_기부금_지정_종교_세액공제액,0)
+ 			END AS C134b,
+			CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+ 				WHEN IFNULL(F.특별세액_계,0) <= 0 THEN 0  
+ 				ELSE IFNULL(F.특별세액_계,0)
+ 			END AS C137,
+			CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+ 				WHEN IFNULL(F.특별세액_표준세액공제,0) <= 0 THEN 0  
+ 				ELSE IFNULL(F.특별세액_표준세액공제,0)
+ 			END AS C138,
+ 			CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+ 				WHEN IFNULL(F.세액공제_납세조합공제,0) <= 0 THEN 0  
+ 				ELSE IFNULL(F.세액공제_납세조합공제,0)
+ 			END AS C139,
+ 			CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+ 				WHEN IFNULL(F.세액공제_주택차입금,0) <= 0 THEN 0  
+ 				ELSE IFNULL(F.세액공제_주택차입금,0)
+ 			END AS C140,
+ 			CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+ 				WHEN IFNULL(F.세액공제_외국납부,0) <= 0 THEN 0  
+ 				ELSE IFNULL(F.세액공제_외국납부,0)
+ 			END AS C141,
+ 			CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+ 				WHEN IFNULL(F.세액공제_월세액_공제대상금액,0) <= 0 THEN 0  
+ 				ELSE IFNULL(F.세액공제_월세액_공제대상금액,0)
+ 			END AS C142a,
+ 			CASE
+          		WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+          		WHEN D.거주구분 = '2' THEN 0
+ 				WHEN IFNULL(F.세액공제_월세액_공제대상금액,0) <= 0 THEN 0
+ 				WHEN IFNULL(F.세액공제_월세액_세액공제액,0) <= 0 THEN 0    
+ 				ELSE IFNULL(F.세액공제_월세액_세액공제액,0)
+ 			END AS C142b,
+ 			CASE
+ 				WHEN D.내외국인구분 = '2' AND D.외국인단일세율적용 = '1' THEN 0
+ 				WHEN IFNULL(F.세액공제_계,0) <= 0 THEN 0  
+ 				ELSE IFNULL(F.세액공제_계,0)
+ 			END AS C145, 			
+ 			CASE 
+ 				WHEN IFNULL(F.특별세액_표준세액공제,0) < 130000 and IFNULL(F.특별세액_표준세액공제,0) > 0 THEN 0 
+ 				WHEN IFNULL(F.결정세액_소득세,0) <= 0 THEN 0
+ 				ELSE IFNULL(F.결정세액_소득세,0)
+ 			END AS C146a,
+ 			CASE
+ 				WHEN IFNULL(F.결정세액_지방소득세,0) <= 0 THEN 0  
+ 				ELSE IFNULL(F.결정세액_지방소득세,0)
+ 			END AS C146b,
+ 			CASE
+ 				WHEN IFNULL(F.결정세액_농어촌특별세,0) <= 0 THEN 0  
+ 				ELSE IFNULL(F.결정세액_농어촌특별세,0)
+ 			END AS C146c,
+ 			CASE
+ 				WHEN IFNULL(F.주근무지_소득세,0) <= 0 THEN 0  
+ 				ELSE IFNULL(F.주근무지_소득세,0)
+ 			END AS C147a,
+ 			CASE
+ 				WHEN IFNULL(F.주근무지_지방소득세,0) <= 0 THEN 0  
+ 				ELSE IFNULL(F.주근무지_지방소득세,0)
+ 			END AS C147b,
+ 			CASE
+ 				WHEN IFNULL(F.주근무지_농어촌특별세,0) <= 0 THEN 0  
+ 				ELSE IFNULL(F.주근무지_농어촌특별세,0)
+ 			END AS C147c,
+ 			CASE
+ 				WHEN IFNULL(F.납부특례_소득세,0) <= 0 THEN 0  
+ 				ELSE IFNULL(F.납부특례_소득세,0)
+ 			END AS C148a,
+			CASE
+ 				WHEN IFNULL(F.납부특례_지방소득세,0) <= 0 THEN 0  
+ 				ELSE IFNULL(F.납부특례_지방소득세,0)
+ 			END AS C148b,
+ 			CASE
+ 				WHEN IFNULL(F.납부특례_농어촌특별세,0) <= 0 THEN 0  
+ 				ELSE IFNULL(F.납부특례_농어촌특별세,0)
+ 			END AS C148c,
+          	CASE
+            	WHEN F.차감징수_소득세 < 0 THEN '1'
+            	ELSE '0'
+          	END AS C149a1,        
+          	ABS(F.차감징수_소득세) AS C149a2,
+          	CASE
+            	WHEN F.차감징수_지방소득세 < 0 THEN '1'
+            	ELSE '0'
+          	END AS C149b1,                    
+          	ABS(F.차감징수_지방소득세) AS C149b2, 
+          	CASE
+            	WHEN F.차감징수_농어촌특별세 < 0 THEN '1'
+            	ELSE '0'
+          	END AS C149c1,                    
+          	ABS(F.차감징수_농어촌특별세) AS C149c2          
+          ]]>	
+  		FROM TBL_YS000 A
+  			INNER JOIN TBL_BIZ B
+  			ON A.BIZ_ID = B.BIZ_ID
+  			INNER JOIN TBL_YS030 C
+  			ON A.계약ID = C.계약ID AND C.사용여부 = '1'
+  			INNER JOIN TBL_YE000 D
+  			ON A.계약ID = D.계약ID  AND C.사업장ID = D.사업장ID  AND D.사용여부 = '1' AND D.진행상태코드 = '5'
+  			INNER JOIN TBL_EMP E
+  			ON D.사용자ID = E.USER_ID AND E.USE_YN = 'Y'
+  			INNER JOIN TBL_YE700 F
+  			ON C.계약ID = F.계약ID AND D.사용자ID = F.사용자ID AND F.사용여부 = '1'
+        	INNER JOIN TBL_YE003 G
+        	ON C.계약ID = G.계약ID AND D.사용자ID = G.사용자ID
+        	INNER JOIN TBL_YE002 H
+        	ON C.계약ID = H.계약ID AND D.사용자ID = H.사용자ID AND H.근무지구분 = '1' AND H.원천명세ID = G.원천명세ID
+        	LEFT OUTER JOIN (
+	        			SELECT
+						    T1.계약ID,
+						    T1.사용자ID,
+						    IFNULL(SUM(T2.공제대상금액),0) AS 특별세액_의료비_공제대상금액
+						FROM TBL_YE700 T1
+						    INNER JOIN TBL_YE409 T2
+						  	ON T1.계약ID = T2.계약ID AND T1.사용자ID = T2.사용자ID AND T1.세액공제구분코드 = T2.세액공제구분코드
+						WHERE T1.사용여부 = '1'  
+						GROUP BY T1.계약ID,T1.사용자ID
+        	) I
+        	ON C.계약ID = I.계약ID AND D.사용자ID = I.사용자ID
+        	LEFT OUTER JOIN (
+	        			SELECT T1.계약ID, T1.사용자ID, 
+						        SUM(CASE WHEN T1.일련번호 IN (0, 20) THEN IFNULL(T1.공제대상금액, 0) ELSE 0 END) 특별세액_기부금_정치자금_10만이하_공제대상금액,
+						        SUM(CASE WHEN T1.일련번호 IN (0, 20) THEN IFNULL(T1.공제액, 0) ELSE 0 END)    특별세액_기부금_정치자금_10만이하_세액공제액,
+						        SUM(CASE WHEN T1.일련번호 IN (1, 21) THEN IFNULL(T1.공제대상금액, 0) ELSE 0 END) 특별세액_기부금_정치자금_10만초과_공제대상금액,
+						        SUM(CASE WHEN T1.일련번호 IN (1, 21) THEN IFNULL(T1.공제액, 0) ELSE 0 END)    특별세액_기부금_정치자금_10만초과_세액공제액,
+						        SUM(CASE WHEN T1.일련번호 IN (2, 3, 4, 5, 6, 22, 23, 24, 25, 26) THEN IFNULL(T1.공제대상금액, 0) ELSE 0 END) 특별세액_기부금_법정_공제대상금액,
+						        SUM(CASE WHEN T1.일련번호 IN (2, 3, 4, 5, 6, 22, 23, 24, 25, 26) THEN IFNULL(T1.공제액, 0) ELSE 0 END)    특별세액_기부금_법정_세액공제액,
+						        SUM(CASE WHEN T1.일련번호 IN (7, 27) THEN IFNULL(T1.공제대상금액, 0) ELSE 0 END) 특별세액_기부금_우리사주_공제대상금액,
+						        SUM(CASE WHEN T1.일련번호 IN (7, 27) THEN IFNULL(T1.공제액, 0) ELSE 0 END)    특별세액_기부금_우리사주_세액공제액,
+						        SUM(CASE WHEN T1.일련번호 IN (10, 11, 12, 13, 14, 30, 31, 32, 33, 34) THEN IFNULL(T1.공제대상금액, 0) ELSE 0 END) 특별세액_기부금_지정_종교외_공제대상금액,
+						        SUM(CASE WHEN T1.일련번호 IN (10, 11, 12, 13, 14, 30, 31, 32, 33, 34) THEN IFNULL(T1.공제액, 0) ELSE 0 END) 특별세액_기부금_지정_종교외_세액공제액,
+						        SUM(CASE WHEN T1.일련번호 IN (15, 16, 17, 18, 19, 35, 36, 37, 38, 39) THEN IFNULL(T1.공제대상금액, 0) ELSE 0 END) 특별세액_기부금_지정_종교_공제대상금액,
+						        SUM(CASE WHEN T1.일련번호 IN (15, 16, 17, 18, 19, 35, 36, 37, 38, 39) THEN IFNULL(T1.공제액, 0) ELSE 0 END) 특별세액_기부금_지정_종교_세액공제액
+						FROM TBL_YE407 T1, TBL_YE700 T2
+						WHERE T1.계약ID = T2.계약ID
+						AND   T1.사용자ID = T2.사용자ID
+						AND   T1.세액공제구분코드 = T2.세액공제구분코드
+						AND   T2.사용여부 = '1'
+						AND   T1.계약ID = #계약ID#
+						GROUP BY T1.계약ID, T1.사용자ID
+        	) J
+        	ON C.계약ID = J.계약ID AND D.사용자ID = J.사용자ID
+        	LEFT OUTER JOIN (
+			        	SELECT  T1.계약ID, T1.사용자ID,
+						       SUM(CASE WHEN T1.M1 = 'Y' THEN CASE WHEN IFNULL(T1.M1금액, 0) >= 200000 THEN 200000 ELSE IFNULL(T1.M1금액, 0) END ELSE 0 END +
+						        CASE WHEN T1.M2 = 'Y' THEN CASE WHEN IFNULL(T1.M2금액, 0) >= 200000 THEN 200000 ELSE IFNULL(T1.M2금액, 0) END ELSE 0 END +
+						        CASE WHEN T1.M3 = 'Y' THEN CASE WHEN IFNULL(T1.M3금액, 0) >= 200000 THEN 200000 ELSE IFNULL(T1.M3금액, 0) END ELSE 0 END +
+						        CASE WHEN T1.M4 = 'Y' THEN CASE WHEN IFNULL(T1.M4금액, 0) >= 200000 THEN 200000 ELSE IFNULL(T1.M4금액, 0) END ELSE 0 END +
+						        CASE WHEN T1.M5 = 'Y' THEN CASE WHEN IFNULL(T1.M5금액, 0) >= 200000 THEN 200000 ELSE IFNULL(T1.M5금액, 0) END ELSE 0 END +
+						        CASE WHEN T1.M6 = 'Y' THEN CASE WHEN IFNULL(T1.M6금액, 0) >= 200000 THEN 200000 ELSE IFNULL(T1.M6금액, 0) END ELSE 0 END +
+						        CASE WHEN T1.M7 = 'Y' THEN CASE WHEN IFNULL(T1.M7금액, 0) >= 200000 THEN 200000 ELSE IFNULL(T1.M7금액, 0) END ELSE 0 END +
+						        CASE WHEN T1.M8 = 'Y' THEN CASE WHEN IFNULL(T1.M8금액, 0) >= 200000 THEN 200000 ELSE IFNULL(T1.M8금액, 0) END ELSE 0 END +
+						        CASE WHEN T1.M9 = 'Y' THEN CASE WHEN IFNULL(T1.M9금액, 0) >= 200000 THEN 200000 ELSE IFNULL(T1.M9금액, 0) END ELSE 0 END +
+						        CASE WHEN T1.M10 = 'Y' THEN CASE WHEN IFNULL(T1.M10금액, 0) >= 200000 THEN 200000 ELSE IFNULL(T1.M10금액, 0) END ELSE 0 END +
+						        CASE WHEN T1.M11 = 'Y' THEN CASE WHEN IFNULL(T1.M11금액, 0) >= 200000 THEN 200000 ELSE IFNULL(T1.M11금액, 0) END ELSE 0 END +
+						        CASE WHEN T1.M12 = 'Y' THEN CASE WHEN IFNULL(T1.M12금액, 0) >= 200000 THEN 200000 ELSE IFNULL(T1.M12금액, 0) END ELSE 0 END) 차량비과세
+						FROM  TBL_YE006 T1
+						WHERE T1.계약ID = #계약ID#
+						GROUP BY T1.계약ID, T1.사용자ID
+        	) K
+        	ON C.계약ID = K.계약ID AND D.사용자ID = K.사용자ID
+  		WHERE C.계약ID = #계약ID#
+  		AND C.사업장ID = #사업장ID#
+      	AND D.사용자ID = #사용자ID#
+	</select>
+	
+	
+	<!-- D 레코드  -->
+	<select id="ye800DAO.getDRecordInfo" parameterClass="ye800VO" resultMap="dRecordMap">	
+	 	SELECT 
+	 		<![CDATA[ 
+          	C.관할세무서코드 AS D3, 
+ 			C.사업자등록번호 AS D5,   
+    		D.개인식별번호 AS D6,
+    		D.종전근무지_납세조합유무 AS D7,
+    		F.회사명 AS D8,
+    		REPLACE(IFNULL(F.사업자등록번호,''), '-', '') AS D9,
+    		CASE
+    			WHEN IFNULL(F.근무시작일,'') = '' THEN CONCAT(#귀속년도#,'0101')
+    			WHEN F.근무시작일 = '0' THEN CONCAT(#귀속년도#,'0101')
+    			WHEN F.근무시작일 = '00000000' THEN CONCAT(#귀속년도#,'0101')
+    			WHEN F.근무시작일 = '00000101' THEN CONCAT(#귀속년도#,'0101')
+      			WHEN SUBSTRING(F.근무시작일,1,4) = #귀속년도# THEN F.근무시작일
+      			WHEN SUBSTRING(F.근무시작일,1,4) < #귀속년도# THEN CONCAT(#귀속년도#,'0101')
+      			ELSE F.근무시작일
+    		END AS D10,
+    		CASE 
+    			WHEN F.근무종료일 = '0' THEN ''
+    			WHEN F.근무종료일 = '00000000' THEN ''
+    			WHEN F.근무종료일 = '00000101' THEN ''    			
+      			WHEN SUBSTRING(F.근무종료일,1,4) = #귀속년도# THEN F.근무종료일
+      			WHEN SUBSTRING(F.근무종료일,1,4) > #귀속년도# THEN CONCAT(#귀속년도#,'1231')
+      			WHEN SUBSTRING(F.근무종료일,1,4) < #귀속년도# THEN ''      			
+      			ELSE ''
+    		END AS D11,  
+    		CASE
+	  			WHEN IFNULL(F.감면시작일,'') = '' THEN '00000000'
+	  			WHEN F.감면시작일 = '0' THEN '00000000'
+    			WHEN F.감면시작일 = '00000000' THEN '00000000'
+    			WHEN F.감면시작일 = '00000101' THEN '00000000'
+    			WHEN SUBSTRING(F.감면종료일,1,4) < #귀속년도# THEN '00000000'
+				WHEN SUBSTRING(F.감면시작일,1,4) = #귀속년도# THEN F.감면시작일
+				WHEN SUBSTRING(F.감면시작일,1,4) < #귀속년도# THEN CONCAT(#귀속년도#,'0101')
+				WHEN SUBSTRING(F.감면시작일,1,4) > #귀속년도# THEN '00000000'
+				ELSE '00000000'
+			END AS D12,
+			CASE 
+	  			WHEN IFNULL(F.감면시작일,'') = '' THEN '00000000'
+	  			WHEN F.감면시작일 = '0' THEN '00000000'
+    			WHEN F.감면시작일 = '00000000' THEN '00000000'
+    			WHEN F.감면시작일 = '00000101' THEN '00000000'
+    			WHEN SUBSTRING(F.감면시작일,1,4) > #귀속년도# THEN '00000000'
+				WHEN SUBSTRING(F.감면종료일,1,4) = #귀속년도# THEN F.감면종료일
+				WHEN SUBSTRING(F.감면종료일,1,4) < #귀속년도# THEN '00000000'
+				WHEN SUBSTRING(F.감면종료일,1,4) > #귀속년도# THEN CONCAT(#귀속년도#,'1231')
+				ELSE '00000000'
+			END AS D13,    		    		     			    
+          	(IFNULL(G.급여,0)+IFNULL(G.비과세한도초과액,0)) AS D14,
+          	IFNULL(G.상여,0) AS D15,
+          	IFNULL(G.인정상여,0) AS D16,
+          	IFNULL(G.주식매수선택권행사이익,0) AS D17,
+          	IFNULL(G.우리사주조합인출금,0) AS D18,
+          	IFNULL(G.임원퇴직소득금액한도초과액,0) AS D19,
+          	IFNULL(G.직무발명보상금,0) AS D20,
+          	(IFNULL(G.급여,0)+IFNULL(G.비과세한도초과액,0)+IFNULL(G.상여,0)+IFNULL(G.인정상여,0)+IFNULL(G.주식매수선택권행사이익,0)+IFNULL(G.우리사주조합인출금,0)+IFNULL(G.임원퇴직소득금액한도초과액,0)+IFNULL(G.직무발명보상금,0)) AS D23,
+    		IFNULL(G.G01,0) AS D24,
+    		IFNULL(G.H01,0) AS D25,
+    		IFNULL(G.H05,0) AS D26,
+    		IFNULL(G.H06,0) AS D27,
+    		IFNULL(G.H07,0) AS D28,
+    		IFNULL(G.H08,0) AS D29,
+    		IFNULL(G.H09,0) AS D30,
+    		IFNULL(G.H10,0) AS D31,
+    		IFNULL(G.H14,0) AS D32,
+    		IFNULL(G.H15,0) AS D33,
+    		IFNULL(G.H11,0) AS D34,
+    		IFNULL(G.H12,0) AS D35,
+    		IFNULL(G.H13,0) AS D36,
+    		IFNULL(G.H16,0) AS D37,
+    		IFNULL(G.H17,0) AS D38,
+    		IFNULL(G.I01,0) AS D39,
+    		IFNULL(G.K01,0) AS D40,
+    		IFNULL(G.M01,0) AS D41,
+    		IFNULL(G.M02,0) AS D42,
+    		IFNULL(G.M03,0) AS D43,
+          	IFNULL(G.O01,0) AS D44,
+    		IFNULL(G.Q01,0) AS D45,
+    		IFNULL(G.R10,0) AS D46,
+    		IFNULL(G.R11,0) AS D47,
+    		IFNULL(G.S01,0) AS D48,
+    		IFNULL(G.U01,0) AS D49,
+    		IFNULL(G.Y02,0) AS D50a,
+    		IFNULL(G.Y03,0) AS D50b,
+    		IFNULL(G.Y04,0) AS D50c,
+    		IFNULL(G.Y22,0) AS D51,
+    		IFNULL(G.T01,0) AS D52,
+    		IFNULL(G.T10,0) AS D53a,
+    		IFNULL(G.T11,0) AS D53b,
+    		IFNULL(G.T12,0) AS D53c,
+    		IFNULL(G.T13,0) AS D53d,
+    		IFNULL(G.T20,0) AS D54,
+    		(IFNULL(G.G01,0) + IFNULL(G.H01,0) + IFNULL(G.H05,0) + IFNULL(G.H06,0) + IFNULL(G.H07,0) +
+      		 IFNULL(G.H08,0) + IFNULL(G.H09,0) + IFNULL(G.H10,0) + IFNULL(G.H14,0) + IFNULL(G.H15,0) +
+      		 IFNULL(G.H11,0) + IFNULL(G.H12,0) + IFNULL(G.H13,0) + IFNULL(G.H16,0) + IFNULL(G.H17,0) +
+      		 IFNULL(G.I01,0) + IFNULL(G.K01,0) + IFNULL(G.M01,0) + IFNULL(G.M02,0) + IFNULL(G.M03,0) +
+      		 IFNULL(G.O01,0) + IFNULL(G.Q01,0) + IFNULL(G.R10,0) + IFNULL(G.R11,0) + IFNULL(G.S01,0) +
+      		 IFNULL(G.U01,0) + IFNULL(G.Y02,0) + IFNULL(G.Y03,0) + IFNULL(G.Y04,0) + IFNULL(G.Y22,0)) AS D57,
+    		(IFNULL(G.T01,0) + IFNULL(G.T10,0) + IFNULL(G.T11,0) + IFNULL(G.T12,0) + IFNULL(G.T13,0) + IFNULL(G.T20,0)) AS D58,   
+    		IFNULL(G.소득세,0) AS D59a,
+    		IFNULL(G.지방소득세,0)  AS D59b,
+    		IFNULL(G.농어촌특별세,0) AS D59c
+    		]]>
+      	FROM TBL_YS000 A
+  			  INNER JOIN TBL_BIZ B
+  			  ON A.BIZ_ID = B.BIZ_ID
+  			  INNER JOIN TBL_YS030 C
+  			  ON A.계약ID = C.계약ID AND C.사용여부 = '1'
+        	  INNER JOIN TBL_YE000 D
+  			  ON C.계약ID = D.계약ID  AND C.사업장ID = D.사업장ID  AND D.사용여부 = '1' AND D.진행상태코드 = '5'
+  			  INNER JOIN TBL_EMP E
+  			  ON D.사용자ID = E.USER_ID AND E.USE_YN = 'Y'
+        	  INNER JOIN TBL_YE002 F
+        	  ON C.계약ID = F.계약ID AND D.사용자ID = F.사용자ID AND F.근무지구분 = '2'
+        	  INNER JOIN TBL_YE003 G
+        	  ON F.계약ID = G.계약ID AND F.사용자ID = G.사용자ID AND F.원천명세ID = G.원천명세ID                
+        WHERE C.계약ID = #계약ID#
+  		AND C.사업장ID = #사업장ID#
+      	AND D.사용자ID = #사용자ID#
+	</select>
+       
+       
+       
+     
+	<resultMap id="ye001ListMap" class="ye001VO">
+		<result property="부양가족ID" column="부양가족ID"/>
+		<result property="가족관계" column="가족관계"/>
+		<result property="내외국인" column="내외국인"/>
+		<result property="성명" column="성명"/>
+		<result property="개인식별번호" column="개인식별번호"/>
+		<result property="기본공제" column="기본공제"/>
+		<result property="장애인" column="장애인"/>
+		<result property="부녀자" column="부녀자"/>
+		<result property="경로우대" column="경로우대"/>
+		<result property="한부모" column="한부모"/>
+		<result property="출산입양" column="출산입양"/>
+		<result property="자녀" column="자녀"/>
+		<result property="교육비공제" column="교육비공제"/>		
+	</resultMap>
+	 
+	 
+    <!-- E레코드 - 소득공제명세의 인적사항 조회   -->
+    <select id="ye800DAO.getYe001List" parameterClass="ye800VO" resultMap="ye001ListMap">   
+        SELECT
+        	A.부양가족ID,
+          	A.가족관계,
+          	case 
+              	when A.내외국인 = '1' then '1'
+              	when A.내외국인 = '2' then '9'
+              	else '1'
+          	end as 내외국인,
+          	A.성명,
+          	A.개인식별번호,
+          	case 
+              	when A.기본공제 = '1' then '1'
+              	else ''
+          	end as 기본공제 ,
+          	case 
+              	when A.장애인 = '4' then ''
+              	else A.장애인 
+          	end as 장애인,
+          	case 
+              	when A.부녀자 = '2' then ''
+              	else A.부녀자 
+          	end as 부녀자,
+          	case 
+              	when A.경로우대 = '2' then ''
+              	else A.경로우대 
+          	end as 경로우대,
+          	case 
+              	when A.한부모 = '2' then ''
+              	else A.한부모 
+          	end as 한부모,
+          	case 
+              	when A.출산입양 = '1' then '1'
+              	when A.출산입양 = '2' then '1'
+              	when A.출산입양 = '3' then '1'
+              	else ''
+          	end as 출산입양,
+          	case 
+              	when A.자녀 = '2' then ''
+              	else A.자녀 
+          	end as 자녀,
+          	IFNULL(B.교육비공제,'') as 교육비공제
+      	FROM TBL_YE001 A
+           	 LEFT OUTER JOIN (
+                          SELECT
+                            	계약ID,사용자ID,부양가족ID,
+                            	CASE 
+                              		WHEN MAX(공제종류코드) = '5' THEN ''
+                                    ELSE MAX(공제종류코드)
+                            	END AS 교육비공제   
+                       	  FROM TBL_YE403
+                       	  WHERE 계약ID = #계약ID#
+                       	  AND 사용자ID = #사용자ID#
+                       	  AND 사용여부 = '1'
+                       	  AND IFNULL(공납금, 0) + IFNULL(공납금_차감금액, 0) + IFNULL(교복구입비, 0) + IFNULL(교복구입비_차감금액, 0) + IFNULL(체험학습비, 0) + IFNULL(체험학습비_차감금액, 0)  &gt; 0
+                       	  GROUP BY 계약ID,사용자ID,부양가족ID) B
+             ON A.계약ID = B.계약ID AND A.사용자ID = B.사용자ID AND A.부양가족ID = B.부양가족ID
+     	WHERE A.계약ID = #계약ID#
+     	AND A.사용자ID = #사용자ID#
+     	ORDER BY A.가족관계,A.나이
+     </select>
+ 
+ 	<!-- 보험료 -->
+ 	<resultMap id="ye401ListMap" class="ye401VO">
+		<result property="자료구분코드" column="자료구분코드"/>
+		<result property="보험구분코드" column="보험구분코드"/>
+		<result property="납입금액" column="납입금액"/>		
+	</resultMap>
+	
+ 	<!-- 보험료 -->
+ 	<select id="ye800DAO.getYe401List" parameterClass="ye401VO" resultMap="ye401ListMap">
+ 		 SELECT 
+ 		 	<![CDATA[   
+ 		 	자료구분코드, 보험구분코드,
+ 			CASE
+ 				WHEN SUM(IFNULL(납입금액,0) - IFNULL(차감금액,0)) < 0 THEN 0  
+ 				ELSE SUM(IFNULL(납입금액,0) - IFNULL(차감금액,0))
+ 			END AS 납입금액 
+ 			]]>   
+		FROM TBL_YE401
+		WHERE 계약ID = #계약ID#
+		AND 사용자ID = #사용자ID#
+		AND 부양가족ID = #부양가족ID#
+		AND 사용여부 = '1'
+		AND 자료구분코드 != '2'
+		GROUP BY 자료구분코드, 보험구분코드
+ 	</select>
+ 
+ 	<!-- 의료비 -->
+ 	<resultMap id="ye402ListMap" class="ye402VO">
+		<result property="자료구분코드" column="자료구분코드"/>
+		<result property="의료비유형" column="의료비유형"/>
+		<result property="지출액" column="지출액"/>		
+	</resultMap>
+	
+ 	<!-- 의료비 -->
+ 	<select id="ye800DAO.getYe402List" parameterClass="ye402VO" resultMap="ye402ListMap">
+ 		SELECT 
+ 			<![CDATA[   
+ 			자료구분코드,의료비유형,
+ 			CASE 
+        	    WHEN SUM(IFNULL(지출액,0) - IFNULL(차감금액,0)) < 0 THEN 0
+	            ELSE SUM(IFNULL(지출액,0) - IFNULL(차감금액,0)) 
+        	END AS 지출액 
+ 			]]>   
+		FROM TBL_YE402
+		WHERE 계약ID = #계약ID#
+		AND 사용자ID = #사용자ID#
+		AND 부양가족ID = #부양가족ID#
+		AND 사용여부 = '1'
+		AND 자료구분코드 != '2'
+		GROUP BY 자료구분코드,의료비유형
+ 	</select>
+ 	
+ 	<!-- 교육비 -->
+ 	<resultMap id="ye403ListMap" class="ye403VO">
+		<result property="자료구분코드" column="자료구분코드"/>
+		<result property="공제종류코드" column="공제종류코드"/>
+		<result property="공납금" column="공납금"/>
+		<result property="교복구입비" column="교복구입비"/>		
+		<result property="체험학습비" column="체험학습비"/>				
+	</resultMap>
+	
+ 	<!-- 교육비 -->
+	<select id="ye800DAO.getYe403List" parameterClass="ye403VO" resultMap="ye403ListMap">
+ 		SELECT 
+ 			<![CDATA[   
+  			자료구분코드,공제종류코드,
+  			CASE
+ 				WHEN SUM(IFNULL(공납금,0) - IFNULL(공납금_차감금액,0)) < 0 THEN 0  
+ 				ELSE SUM(IFNULL(공납금,0) - IFNULL(공납금_차감금액,0))
+ 			END AS 공납금,
+ 			CASE
+ 				WHEN SUM(IFNULL(교복구입비,0) - IFNULL(교복구입비_차감금액,0)) < 0 THEN 0  
+ 				ELSE SUM(IFNULL(교복구입비,0) - IFNULL(교복구입비_차감금액,0))
+ 			END AS 교복구입비,
+ 			CASE
+ 				WHEN SUM(IFNULL(체험학습비,0) - IFNULL(체험학습비_차감금액,0)) < 0 THEN 0  
+ 				ELSE SUM(IFNULL(체험학습비,0) - IFNULL(체험학습비_차감금액,0))
+ 			END AS 체험학습비
+ 			]]> 
+		FROM (
+  			SELECT 
+   				자료구분코드,
+   				CASE
+      				WHEN 공제종류코드 = 5 THEN 5
+      				ELSE '1'
+    			END AS 공제종류코드,
+    			공납금,
+    			공납금_차감금액,
+    			교복구입비,
+    			교복구입비_차감금액,
+    			체험학습비,
+    			체험학습비_차감금액
+  			FROM TBL_YE403
+  			WHERE 계약ID = #계약ID#
+  			AND 사용자ID = #사용자ID#
+  			AND 부양가족ID = #부양가족ID#
+  			AND 자료구분코드 != '2'
+			AND 사용여부 = '1'
+		) TAB
+		GROUP BY 자료구분코드,공제종류코드
+ 	</select>
+
+
+	<!-- 신용카드 -->
+ 	<resultMap id="ye108ListMap" class="ye108VO">
+		<result property="자료구분코드" column="자료구분코드"/>
+		<result property="신용카드" column="신용카드"/>
+		<result property="현금영수증" column="현금영수증"/>		
+		<result property="직불_선불카드" column="직불_선불카드"/>		
+		<result property="도서공연" column="도서공연"/>						
+		<result property="도서공연_직불카드" column="도서공연_직불카드"/>		
+		<result property="도서공연_현금영수증" column="도서공연_현금영수증"/>				
+		<result property="전통시장" column="전통시장"/>
+		<result property="대중교통" column="대중교통"/>				
+	</resultMap>
+
+	<!-- 신용카드 -->
+	<select id="ye800DAO.getYe108List" parameterClass="ye108VO" resultMap="ye108ListMap">
+		SELECT 
+			<![CDATA[   
+  			자료구분코드,
+  			CASE
+ 				WHEN SUM(신용카드 - 신용카드_차감금액) < 0 THEN 0  
+ 				ELSE SUM(신용카드 - 신용카드_차감금액)
+ 			END AS 신용카드,
+  			CASE
+ 				WHEN SUM(현금영수증 - 현금영수증_차감금액) < 0 THEN 0  
+ 				ELSE SUM(현금영수증 - 현금영수증_차감금액)
+ 			END AS 현금영수증,
+ 			CASE
+ 				WHEN SUM(직불_선불카드 - 직불_선불카드_차감금액) < 0 THEN 0  
+ 				ELSE SUM(직불_선불카드 - 직불_선불카드_차감금액)
+ 			END AS 직불_선불카드,  			
+  			CASE
+ 				WHEN SUM(도서공연 - 도서공연_차감금액) < 0 THEN 0  
+ 				ELSE SUM(도서공연 - 도서공연_차감금액)
+ 			END AS 도서공연,
+ 			CASE
+ 				WHEN SUM(도서공연_직불카드 - 도서공연_직불카드_차감금액) < 0 THEN 0  
+ 				ELSE SUM(도서공연_직불카드 - 도서공연_직불카드_차감금액)
+ 			END AS 도서공연_직불카드, 			
+ 			CASE
+ 				WHEN SUM(도서공연_현금영수증 - 도서공연_현금영수증_차감금액) < 0 THEN 0  
+ 				ELSE SUM(도서공연_현금영수증 - 도서공연_현금영수증_차감금액)
+ 			END AS 도서공연_현금영수증,
+ 			CASE
+ 				WHEN SUM(전통시장 - 전통시장_차감금액) < 0 THEN 0  
+ 				ELSE SUM(전통시장 - 전통시장_차감금액)
+ 			END AS 전통시장,
+ 			CASE
+ 				WHEN SUM(대중교통 - 대중교통_차감금액) < 0 THEN 0  
+ 				ELSE SUM(대중교통 - 대중교통_차감금액)
+ 			END AS 대중교통
+ 			]]>   
+		FROM(
+			SELECT
+   				자료구분코드,
+   				IFNULL(신용카드,0) AS 신용카드,
+   				IFNULL(신용카드_차감금액,0) AS 신용카드_차감금액,
+   				IFNULL(현금영수증,0) AS 현금영수증,
+   				IFNULL(현금영수증_차감금액,0) AS 현금영수증_차감금액,
+   				IFNULL(직불_선불카드,0) AS 직불_선불카드,
+   				IFNULL(직불_선불카드_차감금액,0) AS 직불_선불카드_차감금액,
+   				IFNULL(도서공연,0) AS 도서공연,
+   				IFNULL(도서공연_차감금액,0) AS 도서공연_차감금액,
+   				IFNULL(도서공연_직불카드,0) AS 도서공연_직불카드,
+   				IFNULL(도서공연_직불카드_차감금액,0) AS 도서공연_직불카드_차감금액,
+   				IFNULL(도서공연_현금영수증,0) AS 도서공연_현금영수증,
+   				IFNULL(도서공연_현금영수증_차감금액,0) AS 도서공연_현금영수증_차감금액,
+   				IFNULL(전통시장,0) AS 전통시장,
+   				IFNULL(전통시장_차감금액,0) AS 전통시장_차감금액,
+   				IFNULL(대중교통,0) AS 대중교통,
+   				IFNULL(대중교통_차감금액,0) AS 대중교통_차감금액
+			FROM TBL_YE108
+			WHERE 계약ID = #계약ID#
+  			AND 사용자ID = #사용자ID#
+  			AND 부양가족ID = #부양가족ID#
+  			AND 자료구분코드 != '2'
+			AND 사용여부 = '1'
+		)TAB
+		GROUP BY 자료구분코드
+ 	</select>
+ 
+ 	
+ 	<!-- 기부금 -->
+ 	<resultMap id="ye404ListMap" class="ye404VO">
+		<result property="자료구분코드" column="자료구분코드"/>
+		<result property="기부명세_공제대상기부금" column="기부명세_공제대상기부금"/>
+		<result property="기부명세_기부장려금" column="기부명세_기부장려금"/>
+		<result property="기부명세_기타" column="기부명세_기타"/>					
+	</resultMap>
+	
+	<!-- 기부금 -->
+ 	<select id="ye800DAO.getYe404List" parameterClass="ye404VO" resultMap="ye404ListMap">
+ 		SELECT
+ 			<![CDATA[   
+    		자료구분코드,
+    		CASE
+ 				WHEN SUM(IFNULL(기부명세_공제대상기부금,0)) < 0 THEN 0  
+ 				ELSE SUM(IFNULL(기부명세_공제대상기부금,0))
+ 			END AS 기부명세_공제대상기부금,
+ 			CASE
+ 				WHEN SUM(IFNULL(기부명세_기부장려금,0)) < 0 THEN 0  
+ 				ELSE SUM(IFNULL(기부명세_기부장려금,0))
+ 			END AS 기부명세_기부장려금,
+ 			CASE
+ 				WHEN SUM(IFNULL(기부명세_기타,0)) < 0 THEN 0  
+ 				ELSE SUM(IFNULL(기부명세_기타,0))
+ 			END AS 기부명세_기타    	
+ 			]]>   	
+		FROM TBL_YE404
+		WHERE 계약ID = #계약ID#
+  		AND 사용자ID = #사용자ID#
+  		AND 부양가족ID = #부양가족ID#
+		AND 사용여부 = '1'
+		GROUP BY 자료구분코드
+ 	</select>
+ 
+ 	<!-- F 레코드 정보  (연금･저축등 소득·세액 공제명세) -->
+ 	<resultMap id="fRecordListMap" class="fRecordDataVO">
+		<result property="소득공제구분" column="소득공제구분"/>
+		<result property="금융기관코드" column="금융기관코드"/>
+		<result property="금융기관상호" column="금융기관상호"/>
+		<result property="계좌번호" column="계좌번호"/>
+		<result property="납입금액" column="납입금액"/>
+		<result property="소득세액공제금액" column="소득세액공제금액"/>
+		<result property="투자연도" column="투자연도"/>
+		<result property="투자구분" column="투자구분"/>					
+	</resultMap>
+	
+	
+ 	<!-- F 레코드 정보  (연금･저축등 소득·세액 공제명세) -->
+ 	<select id="ye800DAO.getFRecordList" parameterClass="ye800VO" resultMap="fRecordListMap">
+ 		SELECT *
+		FROM(
+ 			<!--  퇴직연금  -->
+			SELECT
+				<![CDATA[ 
+  				퇴직연금구분코드 AS 소득공제구분,
+  				금융회사등명칭 AS 금융기관코드,
+  				FN_CODE_NAME('404', 금융회사등명칭) AS 금융기관상호,	
+  				계좌번호_증권번호 AS 계좌번호,
+  				IFNULL(납입금액,0) - IFNULL(차감금액,0) AS 납입금액,
+  				CASE
+	 				WHEN IFNULL(세액공제액,0) < 0 THEN 0  
+	 				ELSE IFNULL(세액공제액,0)
+	 			END AS 소득세액공제금액,
+  				'0000' AS 투자연도,
+  				'' AS 투자구분
+  				]]>   
+			FROM TBL_YE301
+			WHERE 계약ID = #계약ID#
+			AND 사용자ID = #사용자ID#
+			AND 사용여부 = '1'
+			AND	IFNULL(납입금액,0) - IFNULL(차감금액,0) &gt; 0
+			UNION ALL 
+			<!-- 개인연금저축 -->
+			SELECT 
+				<![CDATA[
+   				연금저축구분,
+   				금융회사등명칭,
+   				FN_CODE_NAME('404', 금융회사등명칭) 금융회사명,
+   				계좌번호_증권번호,
+    			IFNULL(납입금액,0) - IFNULL(차감금액,0) AS 납입금액,
+    			CASE
+	 				WHEN IFNULL(세액공제액,0) < 0 THEN 0  
+	 				ELSE IFNULL(세액공제액,0)
+	 			END AS 소득세액공제금액,
+   				'0000' AS 투자년도,
+    			'' AS 투자구분
+    			]]>   
+			FROM TBL_YE106
+			WHERE 계약ID = #계약ID#
+			AND 사용자ID = #사용자ID#
+			AND 사용여부 = '1'
+			AND	IFNULL(납입금액,0) - IFNULL(차감금액,0) &gt; 0
+			UNION ALL
+			<!-- 연금저축계좌 -->
+			SELECT 
+				<![CDATA[
+   				연금저축구분코드,
+   				금융회사등명칭,
+   				FN_CODE_NAME('404', 금융회사등명칭) 금융회사명,
+   				계좌번호_증권번호,
+    			IFNULL(납입금액,0) - IFNULL(차감금액,0) AS 납입금액,
+    			CASE
+	 				WHEN IFNULL(세액공제액,0) < 0 THEN 0  
+	 				ELSE IFNULL(세액공제액,0)
+	 			END AS 소득세액공제금액,
+   				'0000' AS 투자년도,
+    			'' AS 투자구분
+    			]]>   
+			FROM TBL_YE302
+			WHERE 계약ID = #계약ID#
+			AND 사용자ID = #사용자ID#
+			AND 사용여부 = '1'
+			AND	IFNULL(납입금액,0) - IFNULL(차감금액,0) &gt; 0
+			UNION ALL
+			<!-- 주택마련 -->
+			SELECT
+				<![CDATA[
+   				주택마련저축구분,
+   				금융회사등명칭,
+   				FN_CODE_NAME('404', 금융회사등명칭) 금융회사명,
+   				계좌번호_증권번호,
+   				IFNULL(납입금액,0) - IFNULL(차감금액,0) AS 납입금액,
+   				CASE
+	 				WHEN IFNULL(소득공제금액,0) < 0 THEN 0  
+	 				ELSE IFNULL(소득공제금액,0)
+	 			END AS 소득세액공제금액,
+   				'0000' AS 투자년도,
+    			'' AS 투자구분
+    			]]>   
+			FROM TBL_YE107
+			WHERE 계약ID = #계약ID#
+			AND 사용자ID = #사용자ID#
+			AND 사용여부 = '1'
+			AND	IFNULL(납입금액,0) - IFNULL(차감금액,0) &gt; 0
+			UNION ALL
+			<!-- 장기집합투자증권 -->
+			SELECT 
+				<![CDATA[
+  				'51',
+  				취급기관명,
+  				FN_CODE_NAME('404', 취급기관명) 금융회사명,
+  				계좌번호_증권번호,
+  				IFNULL(납입금액,0) - IFNULL(차감금액,0) AS 납입금액,
+  				CASE
+	 				WHEN IFNULL(소득공제금액,0) < 0 THEN 0  
+	 				ELSE IFNULL(소득공제금액,0)
+	 			END AS 소득세액공제금액,
+  				'0000' AS 투자년도,
+  				'' AS 투자구분
+  				]]>   
+			FROM TBL_YE109
+			WHERE 계약ID = #계약ID#
+			AND 사용자ID = #사용자ID#
+			AND 사용여부 = '1'
+			AND	IFNULL(납입금액,0) - IFNULL(차감금액,0) &gt; 0
+			UNION ALL   
+			<!-- 투자조합출자 --> 
+			SELECT 
+				<![CDATA[
+   				'61',
+   				CASE
+   					WHEN IFNULL(금융회사등명칭,'') = '' THEN 'ZZZ'
+              		WHEN 금융회사등명칭 = '000' THEN 'ZZZ'
+   				    ELSE IFNULL(금융회사등명칭,'ZZZ')
+          		END AS 금융회사등명칭,    
+          		CASE
+   					WHEN IFNULL(금융회사등명칭,'') = '' THEN ''
+              		WHEN 금융회사등명칭 = '000' THEN ''
+   				    ELSE IFNULL(fn_code_name('404', 금융회사등명칭),'')
+          		END AS 금융회사등명칭명,  
+          		CASE
+	   					WHEN IFNULL(계좌번호_증권번호,'') = '' THEN 'ZZZZZZ' 
+	            ELSE 계좌번호_증권번호 END,
+   				IFNULL(납입금액,0) AS 납입금액,
+   				CASE
+	 				WHEN IFNULL(소득공제금액,0) < 0 THEN 0  
+	 				ELSE IFNULL(소득공제금액,0)
+	 			END AS 소득세액공제금액,
+   				IFNULL(년도,'0000'),
+				IFNULL(구분코드,'')
+				]]>   
+			FROM TBL_YE202
+			WHERE 계약ID = #계약ID#
+			AND 사용자ID = #사용자ID#
+			AND 사용여부 = '1'
+			AND	IFNULL(납입금액,0) &gt; 0
+		)TAB
+		ORDER BY 소득공제구분,금융기관코드
+ 	</select>
+ 	
+ 	
+ 	<!-- 월세액 세액공제명세  -->
+	<resultMap id="ye105ListMap" class="ye105VO">
+		<result property="임대인성명_상호" column="임대인성명_상호"/>
+		<result property="개인식별번호" column="개인식별번호"/>
+		<result property="유형코드" column="유형코드"/>
+		<result property="계약면적" column="계약면적"/>
+		<result property="임대차_주소지_물건지" column="임대차_주소지_물건지"/>
+		<result property="임대차_계약개시일" column="임대차_계약개시일"/>
+		<result property="임대차_계약종료일" column="임대차_계약종료일"/>
+		<result property="연간_월세액" column="연간_월세액"/>
+		<result property="세액공제액" column="세액공제액"/>					
+	</resultMap>
+	
+	
+ 	<!-- 월세액 세액공제명세 -->
+ 	<select id="ye800DAO.getYe105List" parameterClass="ye800VO" resultMap="ye105ListMap">
+ 		SELECT 
+ 			<![CDATA[   
+    		임대인성명_상호,
+    		개인식별번호,
+    		유형코드,
+    		계약면적,
+    		임대차_주소지_물건지,
+    		임대차_계약개시일,
+    		임대차_계약종료일,
+    		연간_월세액,
+    		CASE
+ 				WHEN IFNULL(세액공제액,0) < 0 THEN 0  
+ 				ELSE IFNULL(세액공제액,0)
+ 			END AS 세액공제액
+ 			]]>   
+		FROM TBL_YE105
+		WHERE 계약ID = #계약ID#
+		AND 사용자ID = #사용자ID#
+		AND 사용여부 = '1'
+		AND 공제대상금액 > 0
+ 	</select>
+
+
+	<!-- 거주자간 주택임차차입금원리금상환액 - 금전소비대차 계약내용 -->
+	<resultMap id="ye102ListMap" class="ye102VO">
+		<result property="대주성명" column="대주성명"/>
+		<result property="개인식별번호" column="개인식별번호"/>
+		<result property="금전소비대차_계약개시일" column="금전소비대차_계약개시일"/>
+		<result property="금전소비대차_계약종료일" column="금전소비대차_계약종료일"/>
+		<result property="차입금_이자율" column="차입금_이자율"/>
+		<result property="원리금상환액계" column="원리금상환액계"/>
+		<result property="원금" column="원금"/>
+		<result property="이자" column="이자"/>
+		<result property="소득공제금액" column="소득공제금액"/>					
+	</resultMap>
+	
+	<!-- 거주자간 주택임차차입금원리금상환액 - 금전소비대차 계약내용 -->
+	<select id="ye800DAO.getYe102List" parameterClass="ye800VO" resultMap="ye102ListMap">
+		SELECT 
+			<![CDATA[   
+  			대주성명,
+  			개인식별번호,
+  			금전소비대차_계약개시일,
+  			금전소비대차_계약종료일,
+  			차입금_이자율,
+  			(원금+이자) AS 원리금상환액계,
+  			IFNULL(원금,0) AS 원금,
+  			IFNULL(이자,0) AS 이자, 
+  			CASE
+ 				WHEN IFNULL(소득공제금액,0) < 0 THEN 0  
+ 				ELSE IFNULL(소득공제금액,0)
+ 			END AS 소득공제금액
+ 			]]>   
+		FROM TBL_YE102
+		WHERE 계약ID = #계약ID#
+		AND 사용자ID = #사용자ID#
+		AND 사용여부 = '1'
+	</select>
+	
+	
+	<!-- 거주자간 주택임차차입금원리금상환액 - 임대차 계약내용 -->
+	<resultMap id="ye103ListMap" class="ye103VO">
+		<result property="임대인성명_상호" column="임대인성명_상호"/>
+		<result property="개인식별번호" column="개인식별번호"/>
+		<result property="유형코드" column="유형코드"/>
+		<result property="계약면적" column="계약면적"/>
+		<result property="임대차_주소지_물건지" column="임대차_주소지_물건지"/>
+		<result property="임대차_계약개시일" column="임대차_계약개시일"/>
+		<result property="임대차_계약종료일" column="임대차_계약종료일"/>
+		<result property="전세보증금" column="전세보증금"/>					
+	</resultMap>
+	
+	<!-- 거주자간 주택임차차입금원리금상환액 - 임대차 계약내용 -->
+	<select id="ye800DAO.getYe103List" parameterClass="ye800VO" resultMap="ye103ListMap">
+		SELECT
+			<![CDATA[   
+  			임대인성명_상호,
+  			개인식별번호,
+  			유형코드,
+  			계약면적,
+  			임대차_주소지_물건지,
+  			임대차_계약개시일,
+  			임대차_계약종료일,
+  			IFNULL(전세보증금,0) AS 전세보증금  			
+  			]]>   
+		FROM TBL_YE103
+		WHERE 계약ID = #계약ID#
+		AND 사용자ID = #사용자ID#
+		AND 사용여부 = '1'
+	</select>
+
+
+	<!-- 기부금 조정명세 레코드  -->
+	<resultMap id="ye408ListMap" class="ye408VO">
+		<result property="기부금종류코드" column="기부금종류코드"/>
+		<result property="기부년도" column="기부년도"/>
+		<result property="기부금액" column="기부금액"/>
+		<result property="전년도까지공제금액" column="전년도까지공제금액"/>
+		<result property="공제대상기부금" column="공제대상기부금"/>
+		<result property="해당연도공제금액" column="해당연도공제금액"/>
+		<result property="소멸금액" column="소멸금액"/>
+		<result property="이월금액" column="이월금액"/>					
+	</resultMap>
+
+	<!-- 기부금 조정명세 레코드  -->
+	<select id="ye800DAO.getYe408List" parameterClass="ye800VO" resultMap="ye408ListMap">
+		SELECT 
+			<![CDATA[   
+  			기부금종류코드,
+  			기부년도,
+  			IFNULL(기부금액,0) AS 기부금액,
+  			IFNULL(전년도까지공제금액,0) AS 전년도까지공제금액,
+  			IFNULL(공제대상기부금,0) AS 공제대상기부금,
+  			IFNULL(해당연도공제금액,0) AS 해당연도공제금액,
+  			IFNULL(소멸금액,0) AS 소멸금액,
+  			IFNULL(이월금액,0) AS 이월금액
+  			]]>   
+		FROM TBL_YE408
+		WHERE 사용여부 = '1'
+		AND IFNULL(기부금종류코드,'') != ''
+		AND 계약ID = #계약ID#
+		AND 사용자ID = #사용자ID#
+		ORDER BY 기부금종류코드
+	</select>
+ 	
+ 	<!-- 해당 연도 기부명세 레코드 -->
+ 	<resultMap id="iRecordMap" class="iRecordVO">
+		<result property="I7" column="I7"/>
+		<result property="I8" column="I8"/>
+		<result property="I9" column="I9"/>
+		<result property="I10" column="I10"/>
+		<result property="I11" column="I11"/>
+		<result property="I12" column="I12"/>
+		<result property="I13" column="I13"/>
+		<result property="I14" column="I14"/>
+		<result property="I15" column="I15"/>
+		<result property="I16" column="I16"/>
+		<result property="I17" column="I17"/>
+		<result property="I18" column="I18"/>					
+	</resultMap>
+ 	
+ 	<!-- I레코드 (해당 연도 기부명세)-->
+	<select id="ye800DAO.getIRecordList" parameterClass="ye800VO" resultMap="iRecordMap">	
+		SELECT 
+			<![CDATA[ 
+    		A.기부코드 AS I7,
+    		CASE 
+        		WHEN A.기부내용 = '2' THEN '2'
+        		ELSE '1'
+    		END AS I8,
+    		CASE 
+    			WHEN A.기부코드 = '20' THEN ''
+    			ELSE REPLACE(IFNULL(A.기부처_사업자등록번호,''), '-', '')
+    		END AS I9,	
+    		CASE 
+    			WHEN A.기부코드 = '20' THEN ''
+    			ELSE IFNULL(A.상호,'')
+    		END AS I10,    		    
+    		CASE 
+        		WHEN B.가족관계 = '0' THEN '1'
+        		WHEN B.가족관계 = '3' THEN '2'
+        		WHEN B.가족관계 = '4' OR B.가족관계 = '5' THEN '3'
+        		WHEN B.가족관계 = '1' OR B.가족관계 = '2' THEN '4'
+        		WHEN B.가족관계 = '6' THEN '5'
+        		ELSE '6'
+    		END AS I11,
+    		CASE 
+        		WHEN B.내외국인 = '2' THEN '9'
+        		ELSE '1'
+    		END AS I12,
+    		UPPER(B.성명) AS I13,
+    		B.개인식별번호 AS I14,
+    		A.기부명세_건수 AS I15,
+    		CASE
+ 				WHEN (IFNULL(A.기부명세_공제대상기부금,0) + IFNULL(A.기부명세_기부장려금,0)) < 0 THEN 0  
+ 				ELSE (IFNULL(A.기부명세_공제대상기부금,0) + IFNULL(A.기부명세_기부장려금,0))
+ 			END AS I16,
+ 			CASE
+ 				WHEN IFNULL(A.기부명세_공제대상기부금,0) < 0 THEN 0  
+ 				ELSE IFNULL(A.기부명세_공제대상기부금,0)
+ 			END AS I17,
+ 			CASE
+ 				WHEN IFNULL(A.기부명세_기부장려금,0) < 0 THEN 0  
+ 				ELSE IFNULL(A.기부명세_기부장려금,0)
+ 			END AS I18
+ 			]]>   
+		FROM TBL_YE404 A,
+     		 TBL_YE001 B
+		WHERE A.계약ID = B.계약ID
+		AND A.사용자ID = B.사용자ID
+		AND A.부양가족ID = B.부양가족ID
+		AND IFNULL(A.기부코드,'') != ''
+		AND A.계약ID = #계약ID#
+		AND A.사용자ID = #사용자ID#
+		AND A.사용여부 = '1'
+		ORDER BY A.부양가족ID, A.기부코드
+	</select>
+	
+	
+	<!-- CA 레코드 정보  (의료비지급명세) -->
+ 	<select id="ye800DAO.getCARecordInfo" parameterClass="ye800VO" resultMap="caRecordMap">
+ 		
+ 		SELECT
+ 			CA3,CA6,CA7,CA9,CA10,
+	        CA11,CA12,CA13,CA14,CA15,CA16,
+	        SUM(CA17) AS CA17,
+	        SUM(CA18) AS CA18,
+	        CA19,CA20,CA21,CA22
+	    FROM(
+		     SELECT
+		     	  <![CDATA[ 
+			      C.관할세무서코드 AS CA3, C.사업자등록번호 AS CA6, C.홈택스아이디 AS CA7,     
+				    C.사업자등록번호 AS CA9, C.사업장명 AS CA10,
+			      D.개인식별번호 AS CA11,
+			      CASE
+					  WHEN D.내외국인구분 = '1' THEN '1'
+			          WHEN D.내외국인구분 = '2' THEN '9'
+				  END AS CA12,
+				  UPPER(E.EMP_NAME) AS CA13,
+			      F.지급처_사업자등록번호 AS CA14,
+			      F.상호 AS CA15,
+			      F.의료비증빙코드 AS CA16,
+			      IFNULL(F.건수,0) AS CA17,
+			      CASE 
+    		    	WHEN IFNULL(F.지출액,0) < 0 THEN 0 
+    		    	ELSE IFNULL(F.지출액,0)
+    		      END AS CA18,
+			      CASE
+					  WHEN F.의료비유형 = '3' THEN '1'
+			          WHEN F.의료비유형 != '3' THEN ''
+				  END AS CA19,
+			      G.개인식별번호 AS CA20,		    
+			      CASE
+					 WHEN G.내외국인 = '1' THEN '1'
+			         WHEN G.내외국인 = '2' THEN '9'
+				  END AS CA21,
+			      F.공제종류코드 AS CA22		  
+			      ]]>	  
+			  FROM tbl_ys000 A
+			    INNER JOIN tbl_biz B
+			    ON A.BIZ_ID = B.BIZ_ID
+			    INNER JOIN tbl_ys030 C
+			    ON A.계약ID = C.계약ID AND C.지점여부 = '0' AND C.사용여부 = '1'
+			    INNER JOIN tbl_ye000 D
+			    ON A.계약ID = D.계약ID AND C.사업장ID = D.사업장ID AND D.사용여부 = '1'
+			    INNER JOIN tbl_emp E
+			    ON D.사용자ID = E.USER_ID AND E.USE_YN = 'Y'
+			    INNER JOIN tbl_ye402 F
+			    ON C.계약ID = F.계약ID AND D.사용자ID = F.사용자ID AND F.사용여부 = '1'
+			    INNER JOIN tbl_ye001 G
+			    ON F.계약ID = G.계약ID AND F.사용자ID = G.사용자ID AND F.부양가족ID = G.부양가족ID
+			  WHERE C.계약ID = #계약ID#
+			  AND D.사용자ID = #사용자ID#
+			  AND F.의료비증빙코드 = '1'
+			  AND F.자료구분코드 != '2'
+	    )TAB
+	    GROUP BY CA3,CA6,CA7,CA9,CA10,CA19,CA20,CA21,CA22		
+		UNION ALL		     	    
+	    SELECT
+	    	CA3,CA6,CA7,CA9,CA10,
+	        CA11,CA12,CA13,CA14,CA15,CA16,
+	        SUM(CA17) AS CA17,
+	        SUM(CA18) AS CA18,
+	        CA19,CA20,CA21,CA22
+	    FROM(
+    		SELECT
+    		    <![CDATA[ 
+    		    C.관할세무서코드 AS CA3, C.사업자등록번호 AS CA6, C.홈택스아이디 AS CA7,     
+    			  C.사업자등록번호 AS CA9, C.사업장명 AS CA10,
+    		    D.개인식별번호 AS CA11,
+    		    CASE
+    			   WHEN D.내외국인구분 = '1' THEN '1'
+    		       WHEN D.내외국인구분 = '2' THEN '9'
+    			END AS CA12,
+    			UPPER(E.EMP_NAME) AS CA13,
+    		    F.지급처_사업자등록번호 AS CA14,
+    		    F.상호 AS CA15,
+    		    F.의료비증빙코드 AS CA16,
+    		    IFNULL(F.건수,0) AS CA17,    		    
+    		    CASE 
+    		    	WHEN IFNULL(F.지출액,0) < 0 THEN 0 
+    		    	ELSE IFNULL(F.지출액,0)
+    		    END AS CA18,
+    		    CASE
+    			   WHEN F.의료비유형 = '3' THEN '1'
+    		       WHEN F.의료비유형 != '3' THEN ''
+    			END AS CA19,
+    		    G.개인식별번호 AS CA20,		    
+    		    CASE
+    			   WHEN G.내외국인 = '1' THEN '1'
+    		       WHEN G.내외국인 = '2' THEN '9'
+    			END AS CA21,
+    		    F.공제종류코드 AS CA22	
+    		    ]]>		    
+    		FROM tbl_ys000 A
+    		  INNER JOIN tbl_biz B
+    		  ON A.BIZ_ID = B.BIZ_ID
+    		  INNER JOIN tbl_ys030 C
+    		  ON A.계약ID = C.계약ID AND C.지점여부 = '0' AND C.사용여부 = '1'
+    		  INNER JOIN tbl_ye000 D
+    		  ON A.계약ID = D.계약ID AND C.사업장ID = D.사업장ID AND D.사용여부 = '1' AND D.진행상태코드 = '5'
+    		  INNER JOIN tbl_emp E
+    		  ON D.사용자ID = E.USER_ID AND E.USE_YN = 'Y'
+    		  INNER JOIN tbl_ye402 F
+    		  ON C.계약ID = F.계약ID AND D.사용자ID = F.사용자ID AND F.사용여부 = '1'
+    		  INNER JOIN tbl_ye001 G
+    		  ON F.계약ID = G.계약ID AND F.사용자ID = G.사용자ID AND F.부양가족ID = G.부양가족ID
+    		  WHERE C.계약ID = #계약ID#
+    		  AND D.사용자ID = #사용자ID#
+    		  AND F.의료비증빙코드 != '1'
+    		  AND F.자료구분코드 != '2'
+	    ) TAB    
+	    GROUP BY CA3,CA6,CA7,CA9,CA10,CA11,CA12,CA13,CA14,CA15,CA16,CA19,CA20,CA21,CA22
+	        
+ 	</select>
+ 	
+ 
+</sqlMap>

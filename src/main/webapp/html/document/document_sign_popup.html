@@ -1,0 +1,462 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/electornic_contract.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.4.5.2.min.css">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+<!-- 1. jQuery UI -->
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/ui.biz.core.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+
+<script type="text/javascript" src="/js/bootstrap.4.5.2.min.js"></script>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+<link rel="resource" type="application/l10n" href="/module/pdfjs/web/locale/locale.properties">
+<script type="text/javascript" src="/module/pdfjs/build/pdf.js"></script>
+<script type="text/javascript"  src="/module/pdfjs/web/viewer.js"></script>
+
+<!-- 공인인증서 관련 -->
+<script type="text/javascript" src="/js/nxts/nxts.min.js"></script>
+<script type="text/javascript" src="/js/nxts/nxtspki_config.js"></script>
+<script type="text/javascript" src="/js/nxts/nxtspki.js"></script>
+<style>
+	.btn_adress {
+		display: inline-block;
+		vertical-align: middle;
+		padding: 8px 20px;
+		font-size: 13px;
+		font-weight: bold;
+		border-radius: 0px;
+		border: none;
+		color: #ffffff;
+		background-color: #00a9ea;
+		cursor: pointer
+	}
+	.inpstyle02 {
+		border: 0px solid #d5d5d5;
+		padding: 8px 10px;
+		color: #666;
+		font-weight: bold;
+		font-size: 12px;
+		background-color: white;
+		cursor: pointer;
+	}
+	#eleContract_wrap .container .contit .btn_confirm_group .btn_type{min-width:0% !important;}
+	#eleContract_wrap .container .contit .btn_confirm_group{max-width:100% !important;}
+	#eleContract_wrap .container .contit .pageNav{width:10%;}
+	#eleContract_wrap .container .contit .btn_confirm_group{width: 50%; max-width:350px; }
+	#eleContract_wrap .container .contit .btn_confirm_group .btn_type{padding-left: 0px; box-sizing: border-box; float: right; }
+	#eleContract_wrap .container .contit .btn_confirm_group .btn_type{width: calc(50% - 70px); max-width:171px; height: 46px; color:#fff; border-radius: 8px; font-size:20px; box-sizing: border-box;}
+	#eleContract_wrap .container .contit .btn_confirm_group .btn_type{width: 25%; max-width:171px; height: 40px; color:#fff; border-radius: 8px; font-size:15px; box-sizing: border-box;
+	word-break: keep-all; display: flex; display: -ms-flex; display: -webkit-flex; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+	#eleContract_wrap .container .contit .btn_confirm_group .btn_type:first-child{background-color: #a94442; margin-right:8px;}
+	#eleContract_wrap .container .contit .btn_confirm_group .btn_type:nth-child(2){background-color: #7c9dbc; margin-right:8px !important;}
+	#eleContract_wrap .container .contit .btn_confirm_group .btn_type:nth-child(3){background-color: #1383d5 !important;margin-right:8px}
+	#eleContract_wrap .container .contit .btn_confirm_group .btn_type:nth-child(4){background-color: #fe7d7d !important;}
+	#eleContract_wrap .container .contit .btn_confirm_group .btn_type{padding-left:3px !important; box-sizing: border-box;}
+	#draggable { width: 150px; height: 70px; padding: 0.5em; position: absolute; background-color:rgba(255, 235, 59, 0.5); /* opacity:0.5; */ z-index:999; display:none;}
+</style>
+
+<script>
+
+	var url			= "";
+	var result		=  '{"master":{"RUserName":"윤석모","TUserName":"","authCode":"","authType":"N","bizId":"999999999999999","bookmark":"N","code":"","completeDate":"","conFileId":"","dbMode":"","digitNonce":"ujc0m3ooi2dm5p6","docuId":"2dddd240bccf49e1aa7758b68fe2e108","docuName":"공란 근로계약서_20200917_완료","docuStatus":"1","docuStatusName":"발송","documentDetailList":[],"domainName":"","endPage":0,"expireDate":"","expireType":"N","fileId":"","hashData":"",	"inputType":"0","insDate":"20201210042840","message":"","nextDocuId":"","nextDocuName":"","orgFileId":"794dd29dab8b41628445cadef4ecf61d","orgFileName":"공란 근로계약서_20200917_완료.pdf","pdfFile":"","prevDocuId":"","prevDocuName":"","prevFileId":"","rcount":"","recvType":"","reqComment":"","reviewType":"N","searchKey":"","searchValue":"","sendOrd":"S",	"sendType":"K","signType":"T","sortName":"","sortOrder":"","startPage":0,"tcount":"","tempSaveDate":"","tempSaveType":"S","tsaType":"N","updDate":"20201210042840","useYn":"","userId":"admin@newzenpnp.com","userName":"슈퍼관리자"},"detail":{"bizId":"","code":"","confirmDate":"","dbMode":"","docuId":"2dddd240bccf49e1aa7758b68fe2e108","docuName":"공란 근로계약서_20200917_완료","docuStatus":"","domainName":"","endPage":0,"insDate":"20201210042840","message":"","recvEmail":"seokmo@newzenpnp.com","recvMessage":"","recvOrd":"1","recvPhone":"01079120350","recvSign":"","recvStatus":"0","recvStatusName":"수신","recvType":"R","recvTypeName":"","recvUserId":"201210042840902","recvUserName":"윤석모","searchKey":"","searchValue":"","sortName":"","sortOrder":"","startPage":0,"updDate":"20201210042840","userId":"","viewDate":""},"data":[{"fileName":"53b269cf-8004-4eae-8614-96d369156adb01.png","filePath":"temp/file/202012/20201210/","height":841,"imageFormat":"png","imageURL":"","page":1,"title":"","width":595},{"fileName":"53b269cf-8004-4eae-8614-96d369156adb02.png","filePath":"temp/file/202012/20201210/",	"height":841,"imageFormat":"png","imageURL":"","page":2,"title":"","width":595}],"file":[]}';
+	var jsonData 	= JSON.parse(result);
+	var docuStatus	="1";
+	var recvStatus	="1";
+
+	function modeDrag() {
+
+		$("#draggable").show();
+		$("#draggable").resizable({"disabled": true});
+			// 모드 전환으로 처리
+		$("#draggable").draggable({
+			disabled: false,
+			containment: "#pageView",
+			scroll: false
+		});
+			
+	}
+
+	function signAdd(){
+
+		var signCloneCdr = $("#pageView")[0].children[0];
+		$(signCloneCdr).clone().appendTo($("#draggable"));
+		var childSignNum = Number($("#draggable")[0].childElementCount)-1;
+		$($("#pageView")[0].children[childSignNum]).attr('sign-id',childSignNum);
+	}
+	 
+	function fn_send(){
+		var fieldVal = [];
+			var object = {
+				recvId:"id01",
+				recvType:"4",
+				signX:$("#draggable").offset().left,
+				signY:$("#draggable").offset().top,
+				signWidth:$("#draggable").width(),
+				signHeight:$("#draggable").height(),
+				signPage:"2",
+				signName:"윤석모"
+			};
+			fieldVal.push(object);
+			opener.getfieldVal(fieldVal);
+			window.close();
+		}
+	 
+	$(document).ready(function() {
+		
+		if(isNotNull(jsonData.master.reqComment)){
+			alert("[작성자 메모]\r\n"+jsonData.master.reqComment.replace(/<br>/g, "\r\n"));
+		}
+		
+		//첨부파일
+		if(jsonData.data.length == 0){ location.href="/document/goDocumentStepNone.do"; }
+		
+		url = "/" + jsonData.data[0].filePath;
+
+		$("#docuId").val(jsonData.master.docuId);
+		$("#bizId").val(jsonData.master.bizId);
+		$("#recvUserId").val(jsonData.detail.recvUserId);
+		$("#userId").val(jsonData.master.userId);
+		$("#recvType").val(jsonData.detail.recvType);
+		
+		var htmlBtnView = "";
+		
+		//첨부파일
+		$.each(jsonData.file, function(i, row) {
+			htmlFile = '	<a class="dropdown-item" href="#" onclick="fn_fileDocumentDownload(\''+row.fileId+'\');">'+row.fileName+'</a>';
+			$("#fileList").append(htmlFile);
+		});
+		
+		if(jsonData.file.length == 0) $("#dropdownMenuButton").addClass("hidden");
+		
+		$("#btnView").append(htmlBtnView);
+
+		var pageList = "";
+		$.each(jsonData.data, function(i, row) {
+			var page = fullPath+row.filePath+row.fileName;
+			pageList += "<div class=\"swiper-slide\"><img class=\"pinch-zoom-image\" src=\""+page+"\"></div>";
+		});
+		
+		$("#pageList").html(pageList);
+	});
+
+</script>
+</head>
+<body>
+	<input type="hidden" id="docuId">
+	<input type="hidden" id="bizId">
+	<input type="hidden" id="recvUserId">
+	<input type="hidden" id="userId">
+	<input type="hidden" id="recvType">
+	<input type="file" id="attachFile" name="attachFile" style="visibility: hidden; position: absolute; left: -9999px; top: -9999px;">
+	
+	<input type="hidden" id="recvId">
+	<input type="hidden" id="signX">
+	<input type="hidden" id="signY">
+	<input type="hidden" id="signWidth">
+	<input type="hidden" id="signHeight">
+	<input type="hidden" id="signPage">
+	<input type="hidden" id="signName">
+	
+	<div id="eleContract_wrap" class="">
+    <div class="header">
+        <div class="logo"></div>
+        <div class="pagetit"><span class="NanumGothic">전자문서</span></div>
+    </div>
+    <div class="container">
+
+        <div class="contit">
+
+		<div class="dropdown">
+		  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		    파일
+		  </button>
+		  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="fileList">
+		  </div>
+		</div>
+				<div class="pageNav">
+                <div class="btn_prev btn_type Material_icons">이전보기</div>
+                <div class="swiper-pagination NanumGothic"></div>
+                <div class="btn_next btn_type Material_icons">다움보기</div>
+            </div>
+			<div class="NameDivTd" id="fileView">
+			</div>
+			
+            <div class="btn_confirm_group" id="btnView">
+            	<a class="btn_type btn_request" onclick="fn_send()" >발송</a>
+				<a class="btn_type btn_signature" onclick="modeDrag()" >수신자1+</a>
+				<a class="btn_type btn_signature" onclick="signAdd()" >수신자2+</a>
+				<a class="btn_type btn_request" onclick="signfieldtest()">test</a>
+            </div>
+        </div>
+        <div class="swiper-container" id="pageView">
+	        
+	        <div id="draggable" class="ui-widget-content" sign-id="0" style="left:20%; top:25%; ">
+		  		<p>사인할 자리에 놓아주세요ㄴ</p>
+			</div>
+			
+			<div class="swiper-wrapper" id="pageList">
+			
+			</div>
+		</div>
+        <!-- Add Arrows -->
+        <div class="btn_next swiper-button-next"></div>
+        <div class="btn_prev swiper-button-prev"></div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="/js/zoomEvent.js"></script>
+<script type="text/javascript" src="/js/page_swiper.js"></script>
+
+<script type="text/javascript">
+
+// 수기전자서명 팝업
+function popupSign() {
+	var param = getParams();
+	var url = rootPath + "document/goSignPad.do?id="+param.id+"&key="+jsonData.id+"&num=1";
+	openWin(url, "document_signpad", 520, 466);
+}
+
+// 정정요청 팝업
+function popupReject() {
+	var param = getParams();
+	var url = rootPath + "document/goRejectPad.do?id="+param.id;
+	openWin(url, "document_signpad", 520, 466);
+}
+
+//정정요청 팝업(검토용)
+function popupReviewReject() {
+	var param = getParams();
+	var url = rootPath + "document/goReviewRejectPad.do?id="+param.id;
+	openWin(url, "document_signpad", 520, 466);
+}
+
+//검토완료 시 팝업
+function popupReviewComment(){
+	var param = getParams();
+	var url = rootPath + "document/goReviewCommentPad.do?id="+param.id;
+	openWin(url, "document_signpad", 520, 266);
+}
+
+// 서명완료 페이지 이동
+function moveDocumentComplete(docuStatus) {
+	if(docuStatus == "4"){
+		//검토를 완료했을 경우
+		location.href=rootPath+"document/goDocumentReviewComplete.do";
+	} else {
+		//서명을 완료했을 경우
+		location.href=rootPath+"document/goDocumentComplete.do";
+	}
+}
+
+// 정정완료 페이지 이동
+function moveContractRejectComplete() {
+	location.href=rootPath+"document/goDocumentRejectComplete.do";
+}
+
+// 근로자서명없이 완료처리
+function goComplete() {
+	if(!confirm("완료 하시겠습니까?")) return;
+
+	var formData = new FormData();
+	
+	var url = rootPath + "document/forwardDocument.do";
+	var docuId = $("#docuId").val();
+	var recvUserId = $("#recvUserId").val();
+	var bizId = $("#bizId").val();
+	var userId = $("#userId").val();
+	var recvType = $("#recvType").val();
+	
+	formData.append("docuId", docuId);
+	formData.append("recvUserId", recvUserId);
+	formData.append("bizId", bizId);
+	formData.append("recvStatus", "9");
+	formData.append("userId", userId);
+	formData.append("recvType", recvType);
+	
+
+	var maxSize  = 2 * 1024 * 1024 * 100; // 200MB
+	var totalSize = 0;
+	var attachFileList = document.getElementsByName("attachFile");
+
+	for(var i=0;i<attachFileList.length;i++) {
+		if (attachFileList[i].files[0] != undefined) {
+			if(checkSpecial(attachFileList[i].files[0].name)) {
+				alert("파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.");
+				return;
+			}
+		    formData.append("ATTACH_FILE["+i+"]",attachFileList[i].files[0]);
+		}
+	}
+	
+    $.ajax({
+    	url:url,
+	    crossDomain : true,
+		dataType:"json",
+		async:false,
+		type:"POST",
+		processData: false,
+	    contentType: false,
+	    data:formData,
+        success: function (result) {
+            if (result.success == true) {
+                moveDocumentComplete("9");
+            } else {
+                if (!isNull(result.message)) alert(result.message);
+            }
+        },
+        error: function (request, status, error) {
+            $.unblockUI();
+            alert("전자문서 정보 전송 중 장애가 발생하였습니다. 잠시 후 다시 진행해주시기 바랍니다.");
+        }
+    });
+}
+//공인인증서 서명
+function fn_signCert(){ setTimeout("callSignData();", 1000); }
+
+
+//***************					공인인증서 본인인증					***************//
+
+
+function callSignData() {
+    var options = {};
+    var signdata = [];
+    signdata.push($("#docuId").val());
+    if(signdata.length>0) { nxTSPKI.multiSignData(signdata, options, sign_complete_callback); }
+    
+}
+
+function sign_complete_callback(res) {
+    if (res.code == 0) {
+    	var multiData = "";
+    	if(res.data.length!=1) {
+    		alert("전자서명한 문서의 건수가 맞지 않습니다.\r\n다시 전자서명을 진행해주시기 바랍니다.");
+    		return;
+    	}
+    	var digitSign = "";
+    	for(var i=0;i<res.data.length;i++) {
+    		
+			digitSign = res.data[i].signedData;
+    	}
+    	goCompleteCert(digitSign);
+    } else { alert(res.errorMessage); }
+}
+
+//서명정보 저장
+
+// 근로자서명없이 완료처리
+function goCompleteCert(recvSign) {
+	var formData = new FormData();
+	
+	var url = rootPath + "document/forwardDocument.do";
+	var docuId = $("#docuId").val();
+	var recvUserId = $("#recvUserId").val();
+	var bizId = $("#bizId").val();
+	var userId = $("#userId").val();
+	var recvType = $("#recvType").val();
+	
+	formData.append("docuId", docuId);
+	formData.append("recvUserId", recvUserId);
+	formData.append("bizId", bizId);
+	formData.append("recvStatus", "9");
+	formData.append("userId", userId);
+	formData.append("recvType", recvType);
+	formData.append("recvSign", recvSign);
+	
+
+	var maxSize  = 2 * 1024 * 1024 * 100; // 200MB
+	var totalSize = 0;
+	var attachFileList = document.getElementsByName("attachFile");
+
+	for(var i=0;i<attachFileList.length;i++) {
+		if (attachFileList[i].files[0] != undefined) {
+			if(checkSpecial(attachFileList[i].files[0].name)) {
+				alert("파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.");
+				return;
+			}
+		    formData.append("ATTACH_FILE["+i+"]",attachFileList[i].files[0]);
+		}
+	}
+	
+    $.ajax({
+    	url:url,
+	    crossDomain : true,
+		dataType:"json",
+		async:false,
+		type:"POST",
+		processData: false,
+	    contentType: false,
+	    data:formData,
+        success: function (result) {
+            if (result.success == true) {
+                moveDocumentComplete("9");
+            } else {
+                if (!isNull(result.message)) alert(result.message);
+            }
+        },
+        error: function (request, status, error) {
+            $.unblockUI();
+            alert("전자문서 정보 전송 중 장애가 발생하였습니다. 잠시 후 다시 진행해주시기 바랍니다.");
+        }
+    });
+}
+
+$(document).ready(function(){
+
+    var _targetY=$(window).height()/2;
+    $("[class *='"+"swiper-button"+"']").css("top",_targetY);
+   var _swiper=new swiperPage();
+    _swiper.init();
+})
+
+var _orient="";
+var _zoom;
+
+$(window).load(function(){
+	if(window.orientation == 0){ // Portrait
+        _orient="portrait";
+    }else{
+         _orient="landscape";
+    }
+    _zoom.orientListener(_orient);
+});
+$(window).on("orientationchange", function(event){
+	
+	if(window.orientation == 0){ // Portrait
+        // 세로 모드 (평소 사용하는 각도)
+        _orient="portrait";
+    }else{
+        // 가로 모드 (동영상 볼때 사용하는 각도)
+    	 _orient="landscape";
+    }
+    _zoom.orientListener(_orient);
+});
+
+function bPopup(_target){
+    var _targetW=$(document).width();
+    window.open("electroniclabor_contract_"+_target+".html", "width="+_targetW+", height=466, toolbar=no, menubar=no, scrollbars=no, resizable=yes" );  
+}  
+
+function attachFile() {
+	$('[name=attachFile]').val("");
+	$('[name=attachFile]').click();
+}
+</script>
+
+</body>
+</html>

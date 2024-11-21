@@ -1,0 +1,433 @@
+
+	<!--****************************************************************************************************************
+	* 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+	* 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+	********************************************************************************************************************
+	--------------------------------------------------------------------------------------------------------------------
+	* 회사       : 뉴젠피앤피
+	* 화면명     : 양식명 변경 팝업
+	* 화면설명   : 전자계약(양식변환) > 양식 관리 > 변경
+	* 작성자     :
+	* 생성일     :
+	--------------------------------------------------------------------------------------------------------------------
+	* 수정자     : 이정훈
+	* 수정일     : 2023.11.17
+	* 수정내용   :
+	------------------------------------------------------------------------------------------------------------------->
+
+	<!DOCTYPE html>
+	<html>
+	<title>양식명 변경</title>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+	<link rel="stylesheet" type="text/css" href="/css/contract_write.css">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+	<script type='text/javascript' src="/js/common.js"></script>
+	<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+	<script>
+
+		//***************					윈도우 로딩					***************//
+
+
+		var fileId = "";
+		var bizId = "";
+
+		$(document).ready(function(){
+
+			if (getCookie("loginType") === "9") {
+				$("#chkShowType").removeClass("hidden");
+				$("#useOtherLayout").removeClass("hidden");
+				$("#chkPreType").removeClass("hidden");
+				$("#chkEtcType").removeClass("hidden");
+				$("#chkOrgType").removeClass("hidden");
+			}
+
+			fileId = getURLParameters("fileId");
+			bizId  = getURLParameters("bizId");
+
+			fn_contractNewList();
+		});
+
+
+		//***************					전자계약 양식 리스트					***************//
+
+
+		function fn_contractNewList() {
+
+			var url = rootPath+"contract/getContractNewList.do";
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"GET",
+				data: {
+					fileId:fileId,
+					bizId:bizId
+				},
+				success:function(result) {
+					if (result.success==true) {
+						$.each(result.data, function(i, row) {
+
+							if(row.signUserType == "1" && row.signBizType == "1" && row.signCustomerType == "0"){
+								$("#ck1_1").prop("checked", true);
+								$("#ck1_2").prop("checked", true);
+								$("#ck1_3").prop("checked", false);
+							} else if (row.signUserType == "0" && row.signBizType == "1" && row.signCustomerType == "1"){
+								$("#ck1_1").prop("checked", true);
+								$("#ck1_2").prop("checked", false);
+								$("#ck1_3").prop("checked", true);
+							} else if (row.signUserType == "1" && row.signBizType == "0" && row.signCustomerType == "0"){
+								$("#ck1_1").prop("checked", false);
+								$("#ck1_2").prop("checked", true);
+								$("#ck1_3").prop("checked", false);
+							} else if (row.signUserType == "0" && row.signBizType == "1" && row.signCustomerType == "0"){
+								$("#ck1_1").prop("checked", true);
+								$("#ck1_2").prop("checked", false);
+								$("#ck1_3").prop("checked", false);
+							} else if (row.signUserType == "0" && row.signBizType == "0" && row.signCustomerType == "1"){
+								$("#ck1_1").prop("checked", false);
+								$("#ck1_2").prop("checked", false);
+								$("#ck1_3").prop("checked", true);
+							} else if (row.signUserType == "0" && row.signBizType == "0" && row.signCustomerType == "0"){
+								$("#ck1_1").prop("checked", false);
+								$("#ck1_2").prop("checked", false);
+								$("#ck1_3").prop("checked", false);
+							}
+
+							if (row.useOtherLayout == "Y")
+								 { $("#ck4_1").prop("checked", true); }
+							else { $("#ck4_2").prop("checked", true); }
+
+							if (row.laborType == "1")
+								 { $("#ck2_1").prop("checked", true); }
+							else { $("#ck2_2").prop("checked", true); }
+
+							if(row.useEtc == "Y"){
+								$("#ck5_1").prop("checked", true);
+								$("#useEtcUrl").removeClass("hidden");
+							}
+							else { $("#ck5_2").prop("checked", true); }
+							$("#etcUrl").val(row.etcUrl);
+
+							if (row.usePre == "Y") {
+								$("#ck7_1").prop("checked", true);
+								$("#usePreUrl").removeClass("hidden");
+							} else { $("#ck7_2").prop("checked", true); }
+							$("#preUrl").val(row.preUrl);
+
+							if (row.viewYn == "Y")
+								 { $("#ck3_1").prop("checked", true); }
+							else { $("#ck3_2").prop("checked", true); }
+
+							if (row.orgImgYn == "Y")
+								 { $("#ck6_1").prop("checked", true); }
+							else { $("#ck6_2").prop("checked", true); }
+
+							console.log(row);
+
+							$("#fileTitle").val(row.fileTitle);
+							$("#expireDay").val(row.expireDay);
+
+							if (row.fontConvertType == "Y")
+								 { $("#fontConvertType_Y").prop("checked", true); }
+							else { $("#fontConvertType_N").prop("checked", true); }
+
+							if (row.correctionType == "Y")
+								 { $("#correction_Y").prop("checked", true); }
+							else { $("#correction_N").prop("checked", true); }
+						});
+					}
+				},
+				error:function(request,status,error){
+					if (request.status=="401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						window.close();
+					} else { alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error); }
+				}
+			});
+		}
+
+		function fn_contractNewUploadSign() {
+
+			var url				 = rootPath+"contract/contractNewUpdateSign.do";
+			var fileTitle		 = $("#fileTitle").val();
+			var signUserType	 = "0";
+			var signBizType		 = "0";
+			var signCustomerType = "0";
+			var laborType		 = "0";
+			var fontConvertType	 = "";
+			var correctionType	 = "";
+			var signType		 = "";
+			var useOtherLayout	 = "";
+			var useEtc			 = "";
+			var etcUrl			 = "";
+			var usePre			 = "";
+			var preUrl			 = "";
+			var expireDay		 = $("#expireDay").val();
+
+			signBizType		 = $("#ck1_1").is(":checked") ? "1" : "0";
+			signUserType	 = $("#ck1_2").is(":checked") ? "1" : "0";
+			signCustomerType = $("#ck1_3").is(":checked") ? "1" : "0";
+			useOtherLayout	 = $("#ck4_1").is(":checked") ? "Y" : "N";
+			laborType		 = $("#ck2_1").is(":checked") ? "1" : "0";
+			useEtc			 = $("#ck5_1").is(":checked") ? "Y" : "N";
+			orgImgYn		 = $("#ck6_1").is(":checked") ? "Y" : "N";
+			usePre			 = $("#ck7_1").is(":checked") ? "Y" : "N";
+			fontConvertType	 = $("#fontConvertType_Y").is(":checked") ? "Y" : "N";
+			correctionType	 = $("#correction_Y").is(":checked") ? "Y" : "N";
+
+			if(signUserType == "1" && signBizType == "1" && signCustomerType == "0"){
+				signType = "[회사, 근로자]";
+			} else if (signUserType == "0" && signBizType == "1" && signCustomerType == "1"){
+				signType = "[회사, 거래처]";
+			} else if (signUserType == "0" && signBizType == "0" && signCustomerType == "1"){
+				signType = "[거래처]";
+			} else if (signUserType == "1" && signBizType == "0" && signCustomerType == "0"){
+				signType = "[근로자]";
+			} else if (signUserType == "0" && signBizType == "1" && signCustomerType == "0"){
+				signType = "[회사]";
+			} else if (signUserType == "0" && signBizType == "0" && signCustomerType == "0"){
+				signType = "[해당없음]";
+			}
+
+			if(useEtc == "Y"){
+
+				etcUrl = $("#etcUrl").val();
+				if(etcUrl == ""){
+					alert("추가 정보입력 URL을 입력해주세요.");
+					return;
+				}
+			}
+
+			if(usePre == "Y"){
+
+				preUrl = $("#preUrl").val();
+				if(preUrl == ""){
+					alert("사전 정보입력 URL을 입력해주세요.");
+					return;
+				}
+			}
+
+			if(checkNumber(expireDay)) {
+				if(expireDay < 0 || expireDay > 365) {
+					alert("0이상 365이하의 값만 입력하실 수 있습니다.");
+					return;
+				}
+			} else {
+				if(isNotNull(expireDay)){
+					alert("문서 유효일수는 숫자만 입력하실 수 있습니다.");
+					return;
+				}
+			}
+
+			if(!confirm("양식 명칭을 변경하시겠습니까?")) return;
+
+			var formData = new FormData();
+			formData.append("fileId", fileId);
+			formData.append("fileTitle", fileTitle);
+			formData.append("signBizType", signBizType);
+			formData.append("signUserType", signUserType);
+			formData.append("signCustomerType", signCustomerType);
+			formData.append("laborType", laborType);
+			formData.append("useOtherLayout", useOtherLayout);
+			formData.append("fontConvertType", fontConvertType);
+			formData.append("correctionType", correctionType);
+			formData.append("useEtc", useEtc);
+			formData.append("etcUrl", etcUrl);
+			formData.append("usePre", usePre);
+			formData.append("preUrl", preUrl);
+			formData.append("orgImgYn", orgImgYn);
+			formData.append("expireDay", expireDay);
+
+			if(getCookie("loginType") === "9"){
+				viewYn = $("#ck3_1").is(":checked") ? "Y" : "N";
+				formData.append("viewYn", viewYn);
+			}
+
+			$.blockUI();
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				data:formData,
+				contentType:false,
+				processData:false,
+				cache:false,
+				success:function(result) {
+					$.unblockUI();
+					if(result.success) {
+						alert("적용되었습니다.");
+						opener.fn_contractNewList(1);
+						window.close();
+					}
+				},
+				error:function(request,status,error){
+					$.unblockUI();
+					if (request.status=="401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						window.close();
+					} else { alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error); }
+				}
+			});
+		}
+
+
+		function fn_checkLaborType() {
+			if($("#ck2_1").is(":checked")) {
+				alert("첨삭 내용은 귀사의 취업규칙 및 내부상황을 모르는 상태이므로 등록하신 원본파일 내용만으로 검토했음을 알려드립니다. 따라서 당사는 첨삭내용에 대해 법적 의무가 없음을 알려드립니다.");
+				return;
+			}
+		}
+
+		function changeUseEtc(){
+			if($('input[name="useEtcInfo"]:checked').val() == "Y")
+				 { $("#useEtcUrl").removeClass("hidden"); }
+			else { $("#useEtcUrl").addClass("hidden"); }
+		}
+
+		function changeUsePre(){
+			if ($('input[name="usePreInfo"]:checked').val() == "Y")
+				 { $("#usePreUrl").removeClass("hidden"); }
+			else { $("#usePreUrl").addClass("hidden"); }
+		}
+
+
+		function fn_checkFontConvertType_Y(){
+
+			if ($("#fontConvertType_Y").is(":checked"))  { $("#fontConvertType_N").prop('checked',false); }
+			if (!$("#fontConvertType_Y").is(":checked")) { $("#fontConvertType_Y").prop('checked',true); }
+		}
+
+
+		function fn_checkFontConvertType_N(){
+
+			if ($("#fontConvertType_N").is(":checked"))  { $("#fontConvertType_Y").prop('checked',false); }
+
+			if (!$("#fontConvertType_N").is(":checked")) { $("#fontConvertType_N").prop('checked',true); }
+		}
+
+		function fn_checkCorrectionType_Y(){
+
+			if ($("#correction_Y").prop('checked'))
+				 { $("#correction_N").prop('checked',false); }
+			else { $("#correction_Y").prop('checked',true); }
+		}
+
+		function fn_checkCorrectionType_N(){
+
+			if ($("#correction_N").prop('checked'))
+				 { $("#correction_Y").prop('checked',false); }
+			else { $("#correction_N").prop('checked',true); }
+		}
+
+	</script>
+	</head>
+	<body>
+		<div id="contract_popup" class="changInfo" style="height: 300px; width: 500px;">
+			<div class="container">
+				<div id="popup_tit">
+					<div class="tit_icon"></div>
+					<div class="tit_text col_skyblue NanumGothic">양식명 변경</div>
+					<a id="popup_close" class="btn_type btn_close" onclick="window.close();"></a>
+				</div>
+				<div>
+					<ul class="contents NanumGothic" style="padding-top: 8px; padding-bottom: 17px;">
+						<li>
+							<div class="label_tit">양식명 변경</div>
+							<input type="text" id="fileTitle">
+						</li>
+						<li class="hidden">
+							<div class="label_tit">문서 유효일수(리셋값 : 0)</div>
+							<input type="text" id="expireDay" placeholder="표준 일수를 입력하세요.">
+						</li>
+						<li class="hidden">
+							<div class="label_tit">서명 참여자(복수선택가능)</div>
+							<div class="chBox"><input type="checkbox" id="ck1_1" name="sigin"><label for="ck1_1">회사</label></div>
+							<div class="chBox"><input type="checkbox" id="ck1_2" name="sigin"><label for="ck1_2">근로자</label></div>
+							<div class="chBox"><input type="checkbox" id="ck1_3" name="sigin"><label for="ck1_3">거래처</label></div>
+						</li>
+						<li id="chkShowType" class="hidden">
+							<div class="label_tit">양식표시여부</div>
+							<div class="chBox"><input type="radio" id="ck3_1" name="sigin"><label for="ck3_1">표시</label></div>
+							<div class="chBox"><input type="radio" id="ck3_2" name="sigin"><label for="ck3_2">미표시</label></div>
+						</li>
+						<li id = "fontConvertType" class="hidden">
+							<div class="label_tit">글꼴맞춤 요청</div>
+							<div class="chBox"><input type="checkbox" id="fontConvertType_Y" name="fontConvertType_Y" onclick = "fn_checkFontConvertType_Y()" ><label for="fontConvertType_Y">신청</label></div>
+							<div class="chBox"><input type="checkbox" id="fontConvertType_N" name="fontConvertType_N" onclick = "fn_checkFontConvertType_N()" ><label for="fontConvertType_N">미신청</label></div>
+						</li>
+						<li id = "correctionType" class="hidden">
+							<div class="label_tit">정정 요청</div>
+							<div class="chBox"><input type="checkbox" id="correction_Y" name="correction_Y" onclick = "fn_checkCorrectionType_Y()" ><label for="correction_Y">표시</label></div>
+							<div class="chBox"><input type="checkbox" id="correction_N" name="correction_N" onclick = "fn_checkCorrectionType_N()" ><label for="correction_N">미표시</label></div>
+						</li>
+						<li id="useOtherLayout" class="hidden">
+							<div class="label_tit">타사레이아웃 사용</div>
+							<div class="chBox"><input type="radio" id="ck4_1" name="layout"><label for="ck4_1">사용</label></div>
+							<div class="chBox"><input type="radio" id="ck4_2" name="layout"><label for="ck4_2">미사용</label></div>
+						</li>
+						<li id="chkPreType" class="hidden">
+							<div class="label_tit">사전 정보입력 사용여부</div>
+							<div class="chBox"><input type="radio" id="ck7_1" name="usePreInfo" onchange="changeUsePre();" value="Y"><label for="ck7_1">사용</label></div>
+							<div class="chBox"><input type="radio" id="ck7_2" name="usePreInfo" onchange="changeUsePre();" value="N"><label for="ck7_2">미사용</label></div>
+						</li>
+						<li id="usePreUrl" class="hidden">
+							<div class="label_tit">사전 정보입력 URL</div>
+							<input type="text" id="preUrl" placeholder="확장자를 제거하고 입력해주세요.">
+						</li>
+						<li id="chkEtcType" class="hidden">
+							<div class="label_tit">추가 정보입력 사용여부</div>
+							<div class="chBox"><input type="radio" id="ck5_1" name="useEtcInfo" onchange="changeUseEtc();" value="Y"><label for="ck5_1">사용</label></div>
+							<div class="chBox"><input type="radio" id="ck5_2" name="useEtcInfo" onchange="changeUseEtc();" value="N"><label for="ck5_2">미사용</label></div>
+						</li>
+						<li id="useEtcUrl" class="hidden">
+							<div class="label_tit">추가 정보입력 URL</div>
+							<input type="text" id="etcUrl" placeholder="확장자를 제거하고 입력해주세요.">
+						</li>
+						<li id="chkOrgType" class="hidden">
+							<div class="label_tit">사진 원본 첨부 여부</div>
+							<div class="chBox"><input type="radio" id="ck6_1" name="orgImgYn" value="Y"><label for="ck6_1">사용</label></div>
+							<div class="chBox"><input type="radio" id="ck6_2" name="orgImgYn" value="N"><label for="ck6_2">미사용</label></div>
+						</li>
+					</ul>
+				</div>
+				<div class="foot_box NanumGothic">
+					<dl>
+						<dt class="num">-</dt><dd>양식명을 수정하실 수 있습니다.</dd>
+					</dl>
+					<dl>
+						<dt class="num">-</dt><dd>기존 양식과 중복되지 않도록 주의하시기 바랍니다.</dd>
+					</dl>
+					<dl>
+						<dt class="num">-</dt><dd>작성하신 "양식명" 으로 계약서가 발송됩니다.</dd>
+					</dl>
+				</div>
+				<ul>
+					<li class="hidden">
+						<div class="label_tit"><span class="dot">*</span>노무첨삭지원(필수선택)</div>
+						<div class="chBox"><input type="radio" id="ck2_1" name="editing" onclick="fn_checkLaborType()"><label for="ck2_1">필요</label></div>
+						<div class="chBox"><input type="radio" id="ck2_2" name="editing"><label for="ck2_2">불필요</label></div>
+					</li>
+					<li class="dec hidden">※ 노무첨삭지원은 유료 서비스입니다. </li>
+					<li class="btn_group NanumGothic">
+						<a class="btn_type type1" onclick="fn_contractNewUploadSign()">확인</a>
+						<a class="btn_type type4" onclick="window.close()">취소하기</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</body>
+	</html>

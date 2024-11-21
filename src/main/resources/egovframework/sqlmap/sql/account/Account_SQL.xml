@@ -1,0 +1,1066 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Account">
+
+	<typeAlias alias="accountVO" type="com.ezsign.account.vo.AccountVO"/>
+	<resultMap id="delContentListMap" class="accountVO">
+		<result property="fileId" column="FILE_ID"/>
+	</resultMap>
+
+	<resultMap id="delFileListMap" class="accountVO">
+		<result property="filePath" column="FILE_PATH"/>
+	</resultMap>
+
+    <parameterMap id="leaveAccountData" class="accountVO">
+    	<parameter property="bizId" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+	</parameterMap>
+
+
+	<select id="accountDAO.getDelContentList" parameterClass="accountVO" resultMap="delContentListMap">
+		SELECT FILE_ID FROM TBL_CONTRACT_PERSON_NEW
+		WHERE BIZ_ID = #bizId#
+		UNION ALL
+		SELECT CONTRACT_ID FILE_ID FROM TBL_CONTRACT_PERSON_NEW
+		WHERE BIZ_ID = #bizId#
+		UNION ALL
+		SELECT DATA_FILE_ID FILE_ID FROM TBL_CONTRACT_PERSON_NEW
+		WHERE BIZ_ID = #bizId#
+		UNION ALL
+		SELECT CONTRACT_ID FILE_ID FROM TBL_CONTRACT_PERSON_DEL
+		WHERE BIZ_ID = #bizId#
+		UNION ALL
+		SELECT CONTRACT_ID FILE_ID FROM TBL_CONTRACT_PERSON_LOG
+		WHERE BIZ_ID = #bizId#
+		UNION ALL
+		SELECT CONTRACT_ID FILE_ID FROM TBL_CONTRACT_PERSON
+		WHERE BIZ_ID = #bizId#
+		UNION ALL
+		SELECT CONTRACT_MONTH_ID FILE_ID FROM TBL_BIZ_SERVICE
+		WHERE BUSINESS_NO = (SELECT X.BUSINESS_NO FROM TBL_BIZ X WHERE X.BIZ_ID = #bizId#)
+		AND   CONTRACT_MONTH_ID IS NOT NULL
+		UNION ALL
+		SELECT CONTRACT_DAY_ID FILE_ID FROM TBL_BIZ_SERVICE
+		WHERE BUSINESS_NO = (SELECT X.BUSINESS_NO FROM TBL_BIZ X WHERE X.BIZ_ID = #bizId#)
+		AND   CONTRACT_DAY_ID IS NOT NULL
+		UNION ALL
+		SELECT CONTRACT_TIME_ID FILE_ID FROM TBL_BIZ_SERVICE
+		WHERE BUSINESS_NO = (SELECT X.BUSINESS_NO FROM TBL_BIZ X WHERE X.BIZ_ID = #bizId#)
+		AND   CONTRACT_TIME_ID IS NOT NULL
+		UNION ALL
+		SELECT FILE_ID FROM TBL_PAYSTUB
+		WHERE BIZ_ID = #bizId#
+		UNION ALL
+		SELECT 파일ID FILE_ID FROM TBL_YE004
+		WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+		UNION ALL
+		SELECT 파일ID FILE_ID FROM TBL_YE020
+		WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+		UNION ALL
+		SELECT 파일ID FILE_ID FROM TBL_YE030
+		WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+		UNION ALL
+		SELECT 파일ID FILE_ID FROM TBL_YE750
+		WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+		UNION ALL
+		SELECT 파일ID FILE_ID FROM TBL_YS080
+		WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</select>
+
+
+	<select id="accountDAO.getDelUserContentList" parameterClass="accountVO" resultMap="delContentListMap">
+		SELECT CONTRACT_ID FILE_ID FROM TBL_CONTRACT_PERSON_DEL
+		WHERE BIZ_ID = #bizId#
+		AND	  USER_ID = #userId#
+		UNION ALL
+		SELECT CONTRACT_ID FILE_ID FROM TBL_CONTRACT_PERSON_LOG
+		WHERE BIZ_ID = #bizId#
+		AND	  USER_ID = #userId#
+		UNION ALL
+		SELECT CONTRACT_ID FILE_ID FROM TBL_CONTRACT_PERSON
+		WHERE BIZ_ID = #bizId#
+		AND	  USER_ID = #userId#
+		UNION ALL
+		SELECT FILE_ID FROM TBL_PAYSTUB
+		WHERE BIZ_ID = #bizId#
+		AND	  USER_ID = #userId#
+	</select>
+
+	<select id="accountDAO.getDelFileList" parameterClass="accountVO" resultMap="delFileListMap">
+		SELECT CONCAT(파일위치, 파일명) FILE_PATH FROM TBL_YE800
+		WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+		UNION ALL
+		SELECT CONCAT(파일위치, 파일명) FILE_PATH FROM TBL_YP800
+		WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+		UNION ALL
+		SELECT CONCAT(#filePath#, COMPANY_IMAGE) FILE_PATH FROM TBL_BIZ
+		WHERE BIZ_ID = #bizId#
+		AND   COMPANY_IMAGE IS NOT NULL
+		UNION ALL
+		SELECT CONCAT(#filePath#, COMPANY_LOGO) FILE_PATH FROM TBL_BIZ
+		WHERE BIZ_ID = #bizId#
+		AND   COMPANY_LOGO IS NOT NULL
+	</select>
+
+	<delete id="accountDAO.delContentMeta" parameterClass="accountVO">
+		DELETE FROM TBL_CONTENT_META
+		WHERE	FILE_ID = #fileId#
+	</delete>
+
+	<delete id="accountDAO.delAccountData1" parameterClass="accountVO">
+		DELETE FROM TBL_CONTRACT_FORM
+    	WHERE BIZ_ID = #bizId#
+	</delete>
+
+
+	<delete id="accountDAO.delAccountData2" parameterClass="accountVO">
+	    DELETE FROM TBL_CONTRACT_PERSON_NEW
+	    WHERE BIZ_ID = #bizId#
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData3" parameterClass="accountVO">
+    DELETE FROM TBL_CONTRACT_PERSON_LOG
+    WHERE BIZ_ID = #bizId#
+	<isNotNull property="userId">
+	    <isNotEmpty property="userId">
+	AND	  USER_ID = #userId#
+		</isNotEmpty>
+	</isNotNull>
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData4" parameterClass="accountVO">
+    DELETE FROM TBL_CONTRACT_PERSON_DEL
+    WHERE BIZ_ID = #bizId#
+	<isNotNull property="userId">
+	    <isNotEmpty property="userId">
+	AND	  USER_ID = #userId#
+		</isNotEmpty>
+	</isNotNull>
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData5" parameterClass="accountVO">
+    DELETE FROM TBL_CONTRACT_PERSON_DATA
+    WHERE BIZ_ID = #bizId#
+	<isNotNull property="userId">
+	    <isNotEmpty property="userId">
+	AND	  USER_ID = #userId#
+		</isNotEmpty>
+	</isNotNull>
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData6" parameterClass="accountVO">
+    DELETE FROM TBL_CONTRACT_FORM
+    WHERE BIZ_ID = #bizId#
+	<isNotNull property="userId">
+	    <isNotEmpty property="userId">
+	AND	  USER_ID = #userId#
+		</isNotEmpty>
+	</isNotNull>
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData7" parameterClass="accountVO">
+    DELETE FROM TBL_CONTRACT_PERSON
+    WHERE BIZ_ID = #bizId#
+	<isNotNull property="userId">
+	    <isNotEmpty property="userId">
+	AND	  USER_ID = #userId#
+		</isNotEmpty>
+	</isNotNull>
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData8" parameterClass="accountVO">
+    DELETE FROM TBL_PAYSTUB_LOG
+    WHERE BIZ_ID = #bizId#
+	<isNotNull property="userId">
+	    <isNotEmpty property="userId">
+	AND	  USER_ID = #userId#
+		</isNotEmpty>
+	</isNotNull>
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData9" parameterClass="accountVO">
+    DELETE FROM TBL_PAYSTUB_DATA
+    WHERE BIZ_ID = #bizId#
+	<isNotNull property="userId">
+	    <isNotEmpty property="userId">
+	AND	  USER_ID = #userId#
+		</isNotEmpty>
+	</isNotNull>
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData10" parameterClass="accountVO">
+    DELETE FROM TBL_PAYSTUB
+    WHERE BIZ_ID = #bizId#
+	<isNotNull property="userId">
+	    <isNotEmpty property="userId">
+	AND	  USER_ID = #userId#
+		</isNotEmpty>
+	</isNotNull>
+	</delete>
+
+
+
+
+
+	<delete id="accountDAO.delAccountData11" parameterClass="accountVO">
+    DELETE FROM TBL_LEGACY_DATA
+    WHERE BUSINESS_NO = (SELECT X.BUSINESS_NO FROM TBL_BIZ X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData12" parameterClass="accountVO">
+    DELETE FROM tbl_vacation_request
+    WHERE BIZ_ID = #bizId#
+	<isNotNull property="userId">
+	    <isNotEmpty property="userId">
+	AND	  USER_ID = #userId#
+		</isNotEmpty>
+	</isNotNull>
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData13" parameterClass="accountVO">
+    DELETE FROM TBL_ANNUAL_CONFIG
+    WHERE BIZ_ID = #bizId#
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData14" parameterClass="accountVO">
+    DELETE FROM TBL_ANNUAL_TYPE
+    WHERE BIZ_ID = #bizId#
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData15" parameterClass="accountVO">
+    DELETE FROM tbl_annual_vacation
+    WHERE BIZ_ID = #bizId#
+	<isNotNull property="userId">
+	    <isNotEmpty property="userId">
+	AND	  USER_ID = #userId#
+		</isNotEmpty>
+	</isNotNull>
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData16" parameterClass="accountVO">
+    DELETE FROM TBL_ANNUAL_VACATION_LOG
+    WHERE BIZ_ID = #bizId#
+	<isNotNull property="userId">
+	    <isNotEmpty property="userId">
+	AND	  USER_ID = #userId#
+		</isNotEmpty>
+	</isNotNull>
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData17" parameterClass="accountVO">
+    DELETE FROM TBL_APPROVAL
+    WHERE BIZ_ID = #bizId#
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData18" parameterClass="accountVO">
+    DELETE FROM tbl_approval_bookmark
+    WHERE BIZ_ID = #bizId#
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData19" parameterClass="accountVO">
+    DELETE FROM TBL_ATTEND
+    WHERE BIZ_ID = #bizId#
+	<isNotNull property="userId">
+	    <isNotEmpty property="userId">
+	AND	  USER_ID = #userId#
+		</isNotEmpty>
+	</isNotNull>
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData20" parameterClass="accountVO">
+    DELETE FROM TBL_ATTEND_PLACE
+    WHERE BIZ_ID = #bizId#
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData21" parameterClass="accountVO">
+    DELETE FROM TBL_ATTEND_PROP
+    WHERE BIZ_ID = #bizId#
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData22" parameterClass="accountVO">
+    DELETE FROM tbl_bbs_comment
+    WHERE BIZ_ID = #bizId#
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData23" parameterClass="accountVO">
+    DELETE FROM TBL_BBS_CONTENTS
+    WHERE BIZ_ID = #bizId#
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData24" parameterClass="accountVO">
+    DELETE FROM TBL_BBS_FILE
+    WHERE BIZ_ID = #bizId#
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData25" parameterClass="accountVO">
+    DELETE FROM TBL_BIZ_GRP
+    WHERE BIZ_ID = #bizId#
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData26" parameterClass="accountVO">
+    DELETE FROM TBL_BIZ_SERVICE
+    WHERE BUSINESS_NO = (SELECT X.BUSINESS_NO FROM TBL_BIZ X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+	<delete id="accountDAO.delAccountData27" parameterClass="accountVO">
+    DELETE FROM TBL_CALENDAR
+    WHERE BIZ_ID = #bizId#
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData28" parameterClass="accountVO">
+    DELETE FROM TBL_CUSTOMER
+    WHERE BIZ_ID = #bizId#
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData29" parameterClass="accountVO">
+    DELETE FROM TBL_DEPT
+    WHERE BIZ_ID = #bizId#
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData30" parameterClass="accountVO">
+    DELETE FROM TBL_EXCEL_COLUMN_MAPPING
+    WHERE BIZ_ID = #bizId#
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData31" parameterClass="accountVO">
+    DELETE FROM TBL_PG_SETTLEBANK
+    WHERE BIZ_ID = #bizId#
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData32" parameterClass="accountVO">
+    DELETE FROM TBL_PG_REQUEST
+    WHERE BIZ_ID = #bizId#
+	<isNotNull property="userId">
+	    <isNotEmpty property="userId">
+	AND	  USER_ID = #userId#
+		</isNotEmpty>
+	</isNotNull>
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData33" parameterClass="accountVO">
+    DELETE FROM TBL_POINT
+    WHERE BIZ_ID = #bizId#
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData34" parameterClass="accountVO">
+    DELETE FROM TBL_POINT_LOG
+    WHERE BIZ_ID = #bizId#
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData35" parameterClass="accountVO">
+    DELETE FROM TBL_SCHEDULE
+    WHERE BIZ_ID = #bizId#
+	<isNotNull property="userId">
+	    <isNotEmpty property="userId">
+	AND	  USER_ID = #userId#
+		</isNotEmpty>
+	</isNotNull>
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData36" parameterClass="accountVO">
+    DELETE FROM TBL_USER_CERT
+    WHERE PHON_NO IN (SELECT X.PHONE_NUM FROM TBL_EMP X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+	<!-- 
+	<delete id="accountDAO.delAccountData37" parameterClass="accountVO">
+    DELETE FROM TBL_USER_DEVICE
+    WHERE USER_ID IN (SELECT X.USER_ID FROM TBL_USER X, TBL_EMP Y WHERE X.USER_ID = Y.LOGIN_ID AND Y.BIZ_ID = #bizId#)
+	<isNotNull property="userId">
+	    <isNotEmpty property="userId">
+	AND	  USER_ID = (SELECT Y.LOGIN_ID FROM TBL_EMP Y WHERE Y.USER_ID = #userId#)
+		</isNotEmpty>
+	</isNotNull>
+	</delete>
+ 	-->
+ 	<delete id="accountDAO.delAccountData37" parameterClass="accountVO">
+    	DELETE FROM TBL_USER_DEVICE
+    	<isEmpty property="userId">
+    		WHERE USER_ID IN (SELECT X.USER_ID FROM TBL_USER X, TBL_EMP Y WHERE X.USER_ID = Y.LOGIN_ID AND Y.BIZ_ID = #bizId#)
+    	</isEmpty>
+		<isNotEmpty property="userId">
+			<isEmpty property="loginId">
+			WHERE USER_ID = (SELECT Y.LOGIN_ID FROM TBL_EMP Y WHERE Y.BIZ_ID = #bizId# AND Y.USER_ID = #userId#)
+			</isEmpty>
+			<isNotEmpty property="loginId">
+			WHERE USER_ID = #loginId#
+			</isNotEmpty>
+		</isNotEmpty>
+	</delete>
+
+	<!-- 
+	<delete id="accountDAO.delAccountData38" parameterClass="accountVO">
+    DELETE FROM TBL_USER_GRP
+    WHERE USER_ID IN (SELECT X.USER_ID FROM TBL_EMP X WHERE X.BIZ_ID = #bizId#)
+	<isNotNull property="userId">
+	    <isNotEmpty property="userId">
+	AND	  USER_ID = #userId#
+		</isNotEmpty>
+	</isNotNull>
+	</delete>
+	 -->
+	 <delete id="accountDAO.delAccountData38" parameterClass="accountVO">
+    	DELETE FROM TBL_USER_GRP
+    	<isEmpty property="userId">
+    	WHERE USER_ID IN (SELECT X.USER_ID FROM TBL_EMP X WHERE X.BIZ_ID = #bizId#)
+		</isEmpty>
+	    <isNotEmpty property="userId">
+		WHERE USER_ID = #userId#
+		</isNotEmpty>
+	</delete>
+
+	<!-- 
+	<delete id="accountDAO.delAccountData39" parameterClass="accountVO">
+    DELETE FROM TBL_USER_JOIN_CERT
+    WHERE PHON_NO IN (SELECT X.PHONE_NUM FROM TBL_EMP X WHERE X.BIZ_ID = #bizId#)
+	<isNotNull property="userId">
+	    <isNotEmpty property="userId">
+	AND	  PHON_NO = (SELECT Y.PHONE_NUM FROM TBL_EMP Y WHERE Y.USER_ID = #userId#)
+		</isNotEmpty>
+	</isNotNull>
+	</delete>
+	 -->
+	<delete id="accountDAO.delAccountData39" parameterClass="accountVO">
+    	DELETE FROM TBL_USER_JOIN_CERT
+    	<isEmpty property="userId">
+    	WHERE PHON_NO IN (SELECT X.PHONE_NUM FROM TBL_EMP X WHERE X.BIZ_ID = #bizId#)
+		</isEmpty>
+	    <isNotEmpty property="userId">
+			<isEmpty property="phoneNum">
+			WHERE PHON_NO = (SELECT Y.PHONE_NUM FROM TBL_EMP Y WHERE Y.BIZ_ID = #bizId# AND Y.USER_ID = #userId#)
+			</isEmpty>
+			<isNotEmpty property="phoneNum">
+			WHERE PHON_NO = #phoneNum#
+			</isNotEmpty>
+		</isNotEmpty>
+	</delete>
+
+	<!-- 
+	<delete id="accountDAO.delAccountData40" parameterClass="accountVO">
+    DELETE FROM TBL_USER_LOG
+    WHERE USER_ID IN (SELECT X.LOGIN_ID FROM TBL_EMP X WHERE X.BIZ_ID = #bizId#)
+	<isNotNull property="userId">
+	    <isNotEmpty property="userId">
+	AND	  USER_ID = (SELECT Y.LOGIN_ID FROM TBL_EMP Y WHERE Y.USER_ID = #userId#)
+		</isNotEmpty>
+	</isNotNull>
+	</delete>
+ 	-->
+	<delete id="accountDAO.delAccountData40" parameterClass="accountVO">
+    	DELETE FROM TBL_USER_LOG
+    	<isEmpty property="userId">
+    	WHERE USER_ID IN (SELECT X.LOGIN_ID FROM TBL_EMP X WHERE X.BIZ_ID = #bizId#)
+		</isEmpty>
+	    <isNotEmpty property="userId">
+	    	<isEmpty property="loginId">
+			WHERE USER_ID = (SELECT Y.LOGIN_ID FROM TBL_EMP Y WHERE Y.BIZ_ID = #bizId# AND Y.USER_ID = #userId#)
+			</isEmpty>
+			<isNotEmpty property="loginId">
+			WHERE USER_ID = #loginId#
+			</isNotEmpty>
+		</isNotEmpty>
+	</delete>
+
+	<delete id="accountDAO.delAccountData41" parameterClass="accountVO">
+    DELETE FROM TBL_YE000
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData42" parameterClass="accountVO">
+    DELETE FROM TBL_YE001
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData43" parameterClass="accountVO">
+    DELETE FROM TBL_YE002
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData44" parameterClass="accountVO">
+    DELETE FROM TBL_YE003
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData45" parameterClass="accountVO">
+    DELETE FROM TBL_YE004
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData46" parameterClass="accountVO">
+    DELETE FROM TBL_YE005
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData47" parameterClass="accountVO">
+    DELETE FROM TBL_YE006
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData48" parameterClass="accountVO">
+    DELETE FROM TBL_YE011
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData49" parameterClass="accountVO">
+    DELETE FROM TBL_YE012
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData50" parameterClass="accountVO">
+    DELETE FROM TBL_YE013
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData51" parameterClass="accountVO">
+    DELETE FROM TBL_YE020
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData52" parameterClass="accountVO">
+    DELETE FROM TBL_YE030
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData53" parameterClass="accountVO">
+    DELETE FROM TBL_YE040
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData54" parameterClass="accountVO">
+    DELETE FROM TBL_YE051
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData55" parameterClass="accountVO">
+    DELETE FROM TBL_YE052
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData56" parameterClass="accountVO">
+    DELETE FROM TBL_YE101
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData57" parameterClass="accountVO">
+    DELETE FROM TBL_YE102
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData58" parameterClass="accountVO">
+    DELETE FROM TBL_YE103
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData59" parameterClass="accountVO">
+    DELETE FROM TBL_YE104
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData60" parameterClass="accountVO">
+    DELETE FROM TBL_YE105
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData61" parameterClass="accountVO">
+    DELETE FROM TBL_YE106
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData62" parameterClass="accountVO">
+    DELETE FROM TBL_YE107
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData63" parameterClass="accountVO">
+    DELETE FROM TBL_YE108
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData64" parameterClass="accountVO">
+    DELETE FROM TBL_YE109
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData65" parameterClass="accountVO">
+    DELETE FROM TBL_YE201
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData66" parameterClass="accountVO">
+    DELETE FROM TBL_YE202
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData67" parameterClass="accountVO">
+    DELETE FROM TBL_YE203
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData68" parameterClass="accountVO">
+    DELETE FROM TBL_YE204
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData69" parameterClass="accountVO">
+    DELETE FROM TBL_YE301
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData70" parameterClass="accountVO">
+    DELETE FROM TBL_YE302
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData71" parameterClass="accountVO">
+    DELETE FROM TBL_YE401
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData72" parameterClass="accountVO">
+    DELETE FROM TBL_YE402
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData73" parameterClass="accountVO">
+    DELETE FROM TBL_YE403
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData74" parameterClass="accountVO">
+    DELETE FROM TBL_YE404
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData75" parameterClass="accountVO">
+    DELETE FROM TBL_YE405
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData76" parameterClass="accountVO">
+    DELETE FROM TBL_YE406
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData77" parameterClass="accountVO">
+    DELETE FROM TBL_YE407
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData78" parameterClass="accountVO">
+    DELETE FROM TBL_YE408
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData79" parameterClass="accountVO">
+    DELETE FROM TBL_YE409
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData80" parameterClass="accountVO">
+    DELETE FROM TBL_YE410
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData81" parameterClass="accountVO">
+    DELETE FROM TBL_YE411
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData82" parameterClass="accountVO">
+    DELETE FROM TBL_YE501
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData83" parameterClass="accountVO">
+    DELETE FROM TBL_YE502
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData84" parameterClass="accountVO">
+    DELETE FROM TBL_YE503
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData85" parameterClass="accountVO">
+    DELETE FROM TBL_YE700
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData86" parameterClass="accountVO">
+    DELETE FROM TBL_YE710
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData87" parameterClass="accountVO">
+    DELETE FROM TBL_YE750
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData88" parameterClass="accountVO">
+    DELETE FROM TBL_YE800
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData89" parameterClass="accountVO">
+    DELETE FROM TBL_YE801
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData90" parameterClass="accountVO">
+    DELETE FROM TBL_YE810
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData91" parameterClass="accountVO">
+    DELETE FROM TBL_YE811
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData92" parameterClass="accountVO">
+    DELETE FROM TBL_YE820
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData93" parameterClass="accountVO">
+    DELETE FROM TBL_YE821
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData94" parameterClass="accountVO">
+    DELETE FROM TBL_YE900
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData95" parameterClass="accountVO">
+    DELETE FROM TBL_YE901
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData96" parameterClass="accountVO">
+    DELETE FROM TBL_YP000
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData97" parameterClass="accountVO">
+    DELETE FROM TBL_YP002
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData98" parameterClass="accountVO">
+    DELETE FROM TBL_YP003
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData99" parameterClass="accountVO">
+    DELETE FROM TBL_YP040
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData100" parameterClass="accountVO">
+    DELETE FROM TBL_YP800
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData101" parameterClass="accountVO">
+    DELETE FROM TBL_YS010
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData102" parameterClass="accountVO">
+    DELETE FROM TBL_YS030
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData103" parameterClass="accountVO">
+    DELETE FROM TBL_YS031
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData104" parameterClass="accountVO">
+    DELETE FROM TBL_YS040
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData105" parameterClass="accountVO">
+    DELETE FROM TBL_YS041
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData106" parameterClass="accountVO">
+    DELETE FROM TBL_YS050
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData107" parameterClass="accountVO">
+    DELETE FROM TBL_YS060
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData108" parameterClass="accountVO">
+    DELETE FROM TBL_YS070
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData109" parameterClass="accountVO">
+    DELETE FROM TBL_YS080
+    WHERE 계약ID IN (SELECT X.계약ID FROM TBL_YS000 X WHERE X.BIZ_ID = #bizId#)
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData110" parameterClass="accountVO">
+    DELETE FROM TBL_YS000
+    WHERE BIZ_ID = #bizId#
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData111" parameterClass="accountVO">
+		<isEmpty property="loginId">
+	    	DELETE FROM TBL_USER
+	    	WHERE USER_ID IN (SELECT X.LOGIN_ID FROM TBL_EMP X
+	    						WHERE X.LOGIN_ID IS NOT NULL
+	    						AND X.LOGIN_ID != ''
+		    					<isNotEmpty property="userId">
+								AND	X.USER_ID = #userId#
+								</isNotEmpty>
+								AND X.BIZ_ID = #bizId# )
+		</isEmpty>
+		<isNotEmpty property="loginId">
+			DELETE FROM TBL_USER
+			WHERE USER_ID = #loginId#
+		</isNotEmpty>
+	</delete>
+
+
+
+	<delete id="accountDAO.delAccountData112" parameterClass="accountVO">
+    	DELETE FROM TBL_EMP
+    	WHERE BIZ_ID = #bizId#
+	  	<isNotEmpty property="userId">
+		AND	USER_ID = #userId#
+		</isNotEmpty>
+	</delete>
+
+	<delete id="accountDAO.delAccountData113" parameterClass="accountVO">
+		<isEmpty property="loginId">
+		    DELETE 	FROM TBL_USER_SNS
+		    WHERE	USER_ID = (
+		    	SELECT	LOGIN_ID
+		    	FROM	TBL_EMP
+				WHERE 	LOGIN_ID IS NOT NULL
+				AND 	LOGIN_ID != ''
+		    	AND 	BIZ_ID = #bizId#
+		    	AND		USER_ID = #userId#
+		    )
+		 </isEmpty>
+		 <isNotEmpty property="loginId">
+			DELETE 	FROM TBL_USER_SNS
+			WHERE USER_ID = #loginId#
+		</isNotEmpty>
+	</delete>
+
+</sqlMap>
+		

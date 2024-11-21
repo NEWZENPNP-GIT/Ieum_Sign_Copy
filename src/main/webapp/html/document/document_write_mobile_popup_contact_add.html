@@ -1,0 +1,394 @@
+
+	<!--****************************************************************************************************************
+	* 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+	* 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+	********************************************************************************************************************
+	--------------------------------------------------------------------------------------------------------------------
+	* 회사       : 뉴젠피앤피
+	* 화면명     : 주소록 직접입력 팝업
+	* 화면설명   : 전자계약 작성 > 직접입력 팝업
+	* 작성자     :
+	* 생성일     :
+	--------------------------------------------------------------------------------------------------------------------
+	* 수정자     : 이정훈
+	* 수정일     : 2023.10.31
+	* 수정내용   :
+	------------------------------------------------------------------------------------------------------------------->
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/personnel_management.css">
+	<link rel="stylesheet" type="text/css" href="/css/jquery.alerts.css">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+	<script type="text/javascript" src="/js/jquery.alerts.js"></script>
+	<title>수신자(계약서) 입력</title>
+	<style>
+		.contact_chk {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			width: 100%;
+			margin-bottom: 10px;
+		}
+		.contact_chk input {display: none;}
+		.contact_chk label {
+			display: block;
+			padding: 8px 0;
+			border: 0;
+			outline: none;
+			font-size: 14px;
+			text-align: center;
+			color: #666666;
+			background-color: #c8ebfa;
+		}
+		.contact_chk input:checked + label {
+			color: #fff;
+			background-color: #017bae;
+		}
+	</style>
+
+	<script>
+
+		var typeContact = "R";
+		var contactType = "P";
+
+
+		//***************					윈도우 로딩					***************//
+
+
+		$(document).ready(function(){
+
+			typeContact = getParams().type
+
+			if 		(typeContact=="R") { $("#contactTitle").html("수신자(계약자) 입력"); }
+			else if (typeContact=="T") { $("#contactTitle").html("참조자 입력"); }
+
+			$('[data-index="1"]').focus();
+
+			$('#inputForm').on('keydown', 'input', function (event) {
+				if (event.which == 13) {
+					event.preventDefault();
+					var $this = $(event.target);
+					var index = parseFloat($this.attr('data-index'));
+					$('[data-index="' + (index + 1).toString() + '"]').focus();
+				}
+			});
+
+
+			//***************					인사/거래처 라디오 버튼 기능					***************//
+
+
+			document.querySelectorAll('input[name="contact_chk"]').forEach(function(radio) {
+				radio.addEventListener('change', function() {
+					if (radio.value === 'insa') {
+						$("#insaDiv").show();
+						$("#corpDiv").hide();
+						contactType = "P";
+					} else if (radio.value === 'corp') {
+						$("#insaDiv").hide();
+						$("#corpDiv").show();
+						contactType = "C";
+					}
+				});
+			});
+		});
+
+
+		//***************					전자계약 작성 리스트에 추가					***************//
+
+		function fn_add() {
+
+			var phoneNumber = "";							// 핸드폰 번호
+			var mailAddr 	= "";							// 이메일
+			var contName 	= $("#userName").val();			// 성명
+			var corpName 	= $("#corpName").val();			// 회사명
+			var corpBizNum 	= $("#corpBizNum").val();		// 사업자번호
+
+			if(contactType == "P"){
+				phoneNumber = $("#insaPhoneNumber").val();
+				mailAddr 	= $("#insaEmail").val();
+			} else if(contactType == "C"){
+				phoneNumber = $("#corpPhoneNumber").val();
+				mailAddr 	= $("#corpEmail").val();
+			}
+
+			if(typeContact=="R") {	// 수신자(계약자) 입력
+				// 기존정보
+				var resRList = [];
+				var rList 	 = opener.getContactRList();
+				var row 	 = 0;
+				for (var i=0; i<rList.length; i++) {
+					row++;
+					var object = {
+						contName:rList[i].contName,			// 성명
+						phoneNumber: rList[i].phoneNumber,	// 전화번호
+						mailAddr: rList[i].mailAddr,		// 이메일주소
+						corpName: rList[i].corpName,		// 거래처명
+						corpBizNum: rList[i].corpBizNum,	// 사업자 번호
+						contactType: rList[i].contactType,	// P: 개인 , C:거래처 주소록
+						recvOrd:row,
+						recvType:'R',
+						recvStatus:'0'
+					};
+					resRList.push(object);
+				}
+				row++;
+				// 신규정보 추가
+				var addobject = {
+					contName:contName,			// 성명
+					phoneNumber:phoneNumber,	// 전화번호
+					mailAddr:mailAddr,			// 이메일주소
+					corpName:corpName,			// 거래처명
+					corpBizNum:corpBizNum,		// 사업자 번호
+					contactType:contactType,	// P: 개인 , C:거래처 주소록
+					recvOrd:row,
+					recvType:'R',
+					recvStatus:'0'
+				};
+				resRList.push(addobject);
+				opener.setContactRList(resRList);
+
+			} else if (typeContact == "T") { // 참조자 입력
+				// 기존정보
+				var resTList = [];
+				var tList = opener.getContactTList();
+				var row = 0;
+				for(var i=0;i<tList.length;i++) {
+					row++;
+					var object = {
+						contName:tList[i].contName,			// 성명
+						phoneNumber: tList[i].phoneNumber,	// 전화번호
+						mailAddr: tList[i].mailAddr,		// 이메일주소
+						corpName: tList[i].corpName,		// 거래처명
+						corpBizNum: tList[i].corpBizNum,	// 사업자 번호
+						contactType:tList[i].contactType,	// P: 개인 , C:거래처 주소록
+						recvOrd:row,
+						recvType:'R',
+						recvStatus:'0'
+					};
+					resTList.push(object);
+				}
+				row++;
+				// 신규정보 추가
+				var addobject = {
+					contName:contName,			// 성명
+					phoneNumber:phoneNumber,	// 전화번호
+					mailAddr:mailAddr,			// 이메일주소
+					corpName:corpName,			// 거래처명
+					corpBizNum:corpBizNum,		// 사업자 번호
+					contactType:contactType,	// P: 개인 , C:거래처 주소록
+					recvOrd:row,
+					recvType:'R',
+					recvStatus:'0'
+				};
+				resTList.push(addobject);
+				opener.setContactTList(resTList);
+			}
+			window.close();
+		}
+
+
+		//***************					추가하기 버튼					***************//
+
+
+		function fn_save(){
+
+			var url 		= rootPath+"contact/insContact.do";
+			var bizId		= getCookie("bizId");
+			var grpId		= "";
+			var contName 	= $("#userName").val();		// 성명
+			var corpName 	= $("#corpName").val();		// 회사명
+			var corpBizNum 	= $("#corpBizNum").val();	// 사업자 등록번호
+			var phoneNumber = "";						// 핸드폰 번호
+			var mailAddr 	= "";						// 이메일
+
+			if (contactType == "P") {
+				phoneNumber = $("#insaPhoneNumber").val();
+				mailAddr 	= $("#insaEmail").val();
+				// 성명 확인
+				if (isNull(contName)) {
+					jAlert("성명을 입력해주시기 바랍니다.", "필수체크");
+					return false;
+				} else if (contName.indexOf("_") > -1) {
+					jAlert("성명에는 특수문자 [ _ ]를 사용하실 수 없습니다.", "필수체크");
+					return false;
+				}
+			} else if (contactType == "C") {
+				phoneNumber = $("#corpPhoneNumber").val();
+				mailAddr 	= $("#corpEmail").val();
+				// 거래처명 확인
+				if (isNull(corpName)) {
+					jAlert("거래처명을 입력해주세요.", "필수체크")
+					return false;
+				}
+				// 거래처사업자번호
+				if (isNull(corpBizNum)) {
+					jAlert("거래처 사업자 번호를 입력해주세요.", "필수체크")
+					return false;
+				} else {
+					if (!check_busino(corpBizNum)) {
+						jAlert("거래처 사업자 번호 형식이 맞지 않습니다.", "필수체크")
+						return false;
+					}
+				}
+			}
+			// 휴대폰 번호 확인
+			if (isNull(phoneNumber)) {
+				jAlert("휴대폰번호를 입력해주시기 바랍니다.", "필수체크");
+				return false;
+			} else {
+				if (!checkPhoneNumNoHypen(phoneNumber)) {
+					jAlert("휴대폰번호의 형식이 맞지 않습니다.", "형식체크");
+					return false;
+				}
+			}
+
+			// 이메일 확인
+			if (isNull(mailAddr)) {
+				jAlert("이메일주소를 입력해주시기 바랍니다.", "필수체크");
+				return false;
+			} else {
+				if (!checkEmail(mailAddr)) {
+					jAlert("이메일 형식이 맞지 않습니다.", "형식체크");
+					return false;
+				}
+			}
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				data: {
+					OPEN_KEY: getCookie("OPEN_KEY"),
+					bizId: bizId,
+					grpId: grpId,
+					phoneNumber: phoneNumber,   		// 휴대폰번호
+					mailAddr: mailAddr,         		// 이메일
+					contType: "1",              		// 1: 일반주소록, 2: 내부사용자
+					contactType: contactType,    		// P: 개인 , C:거래처 주소록
+					contName : contName,				// 성명
+					corpName : corpName,				// 거래처명
+					corpBizNum : corpBizNum				// 거래처 사업자 번호
+				},
+				success:function(result) {
+					if (result.success==true) { fn_add(); }
+					else 					  { jAlert("이미 등록된 정보입니다.", "중복체크"); }
+				},
+				error:function(request,status,error) { goInvalidPage(request, error); }
+			});
+		}
+
+	</script>
+	</head>
+	<body>
+
+	<!-- ********************************************* 수신자(계약서) 입력  *********************************************  -->
+
+	<div id="person_popup" >
+		<div class="container">
+			<div id="popup_tit">
+				<div class="tit_icon"></div>
+				<div class="tit_text col_skyblue NanumGothic" id="contactTitle">수신자(계약자) 입력</div>
+				<div id="popup_close" class="btn_type col_skyblue" onclick="window.close();"></div>
+			</div>
+			<div class="contents" id="inputForm" style="height: 200px;">
+				<div id="" class="contact_chk">
+					<input type="radio" name="contact_chk" value="insa" id="insaRadio" checked>
+					<label for="insaRadio" class="NanumGothic">인사</label>
+					<input type="radio" name="contact_chk" value="corp" id="corpRadio">
+					<label for="corpRadio" class="NanumGothic">거래처</label>
+				</div>
+
+				<!-- ***************	인사 입력란	***************-->
+
+				<div class="input_wrap" id="insaDiv">
+					<dl class="boxRow input_bx NanumGothic">
+						<dt>
+							<span class="dot_red">*</span>
+							<label class="label_txt NanumGothic">성명</label>
+						</dt>
+						<dd>
+							<input type="text" id="userName" value="" name="" class="input_txt" data-index="1" placeholder="">
+						</dd>
+					</dl>
+					<dl class="boxRow NanumGothic">
+						<dt>
+							<span class="dot_red">*</span>
+							<label class="label_txt NanumGothic">휴대폰번호</label>
+						</dt>
+						<dd>
+							<input type="text" id="insaPhoneNumber" value="" data-index="2" class="input_txt" placeholder="예) 01099991234">
+						</dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt>
+							<span class="dot_red">*</span>
+							<label class="label_txt NanumGothic">이메일</label>
+						</dt>
+						<dd>
+							<input type="text" id="insaEmail" value="" data-index="3" class="input_txt" placeholder="예) abc@company.com">
+						</dd>
+					</dl>
+				</div>
+
+				<!-- ***************	거래처 입력란		***************-->
+
+				<div class="input_wrap" id="corpDiv" style="display: none;">
+					<dl class="boxRow input_bx NanumGothic">
+						<dt>
+							<span class="dot_red">*</span>
+							<label class="label_txt NanumGothic">거래처명</label>
+						</dt>
+						<dd>
+							<input type="text" id="corpName" value="" name="" class="input_txt" data-index="1" placeholder="">
+						</dd>
+					</dl>
+					<dl class="boxRow NanumGothic">
+						<dt>
+							<span class="dot_red">*</span>
+							<label class="label_txt NanumGothic">거래처 사업자번호</label>
+						</dt>
+						<dd>
+							<input type="text" id="corpBizNum" value="" data-index="2" class="input_txt">
+						</dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt>
+							<span class="dot_red">*</span>
+							<label class="label_txt NanumGothic">담당자 휴대폰번호</label>
+						</dt>
+						<dd>
+							<input type="text" id="corpPhoneNumber" value="" data-index="3" class="input_txt">
+						</dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt>
+							<span class="dot_red">*</span>
+							<label class="label_txt NanumGothic">담당자이메일</label>
+						</dt>
+						<dd>
+							<input type="text" id="corpEmail" value="" data-index="4" class="input_txt">
+						</dd>
+					</dl>
+				</div>
+			</div>
+			<div class="btn_group">
+				<div class="btn_type type1 NanumGothic" onclick="fn_save()" >추가하기</div>
+				<div class="btn_type type3 NanumGothic" onclick="window.close()">취소하기</div>
+			</div>
+		</div>
+	</div>
+	</body>
+	</html>

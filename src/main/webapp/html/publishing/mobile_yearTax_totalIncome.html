@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+
+<link rel="stylesheet" type="text/css" href="/css/font.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/mobile_common.css">
+<link rel="stylesheet" type="text/css" href="/css/mobile_yearTax.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+</head>
+<body>
+	<header class="header yearTax">
+		<ul class="gnb">
+			<li class="prev"><a class="btn_type btn_prev" href="mobile_yearTax_progress.html"></a></li>
+			<li class="head_text NanumBarunGothic">소득명세 합계</li>
+			<li class="menu"><a class="btn_type btn_menu"></a></li>
+		</ul>
+	</header>
+	<div id="container" class="yearTax">
+		<section class="wrap">
+			<ul class="boxWrap income">
+				<li class="tit que"><div class="NanumSquare_R txt">소득명세 합계</div><div class="NanumBarunGothic btn"><a class="btn_type">문의 ＞</a></div></li>
+				<li class="NanumBarunGothic summary">
+					<div><span>◎&nbsp;</span><span class="userName">김캔디</span><span>&nbsp;님의&nbsp;</span><span class="year">2018년 귀속 소득명세합계</span><span>&nbsp;입니다.&nbsp;</span></div>
+					<div><span>◎&nbsp;</span><span>종전근무지&nbsp;</span><span class="count">2건</span><span>&nbsp;을 포함한 소득의 총 합계입니다.</span></div>
+				</li>
+			</ul>
+			
+			<div class="NanumBarunGothic group-cell">
+				<div class="fix_viewer">
+					<ul class="fix_column">
+						<li class="thead">구분</li>
+						<li class="tbody">근무처명</li>
+						<li class="tbody">사업자번호</li>
+						<li class="tbody">근무기간</li>
+						<li class="tbody">감면기간</li>
+						<li class="tbody itemgroup">
+							<input id="tgroup-1" type="checkbox" class="dep-1 hidden">
+							<div class="item-gnb">
+								<label for="tgroup-1" class="btn_type NanumBarunGothic icon" ></label>
+								<label for="tgroup-1" class="label tit">총급여 </label>
+							</div>
+							<ul class="item-list">
+								<li class="nav">급여</li>
+								<li class="nav">상여</li>
+								<li class="nav">비과세 한도 초과액</li>
+							</ul>
+						</li>
+						<li class="tbody itemgroup">
+							<input id="tgroup-2" type="checkbox" class="dep-1 hidden">
+							<div class="item-gnb">
+								<label for="tgroup-2" class="btn_type NanumBarunGothic icon" ></label>
+								<label for="tgroup-2" class="label tit">비과세 합계 </label>
+							</div>
+							<ul class="item-list">
+								<li class="nav">야간근로수당</li>
+								<li class="nav">기업연구소 연구보조비</li>
+							</ul>
+						</li>
+						<li class="tbody itemgroup">
+							<input id="tgroup-3" type="checkbox" class="dep-1 hidden">
+							<div class="item-gnb">
+								<label for="tgroup-3" class="btn_type NanumBarunGothic icon" ></label>
+								<label for="tgroup-3" class="label tit">감면소득합계</label>
+							</div>
+							<ul class="item-list">
+								<li class="nav">중소기업취업청년감면(100%)</li>
+							</ul>
+						</li>
+						<li class="tbody itemgroup">
+							<input id="tgroup-4" type="checkbox" class="dep-1 hidden">
+							<div class="item-gnb">
+								<label for="tgroup-4" class="btn_type NanumBarunGothic icon" ></label>
+								<label for="tgroup-4" class="label tit">공제합계</label>
+							</div>
+							<ul class="item-list">
+								<li class="nav">건강보험료</li>
+								<li class="nav">장기요양보험료</li>
+								<li class="nav">고용보험</li>
+								<li class="nav">국민연금보험료</li>
+							</ul>
+						</li>
+						<li class="tbody cell_part">
+							<div class="block2 col_merger3"> 기납부 세액</div>
+							<div class="block2">
+								<div class="cell-child">소득세</div>
+								<div class="cell-child">지방 소득세</div>
+								<div class="cell-child">농어촌특별세</div>
+							</div>
+						</li>
+					</ul>
+				</div>	
+				<div class="column_viewer">
+					<div class="column_data">
+						<ul class="NanumSquare_R data-list sum">
+							<li class="thead">합계</li>
+							<li class="tbody data"></li>
+							<li class="tbody data"></li>
+							<li class="tbody data">2018.08.01~2018.12.31</li>
+							<li class="tbody data">2018.08.01~2018.12.31</li>
+							<li class="tbody itemgroup tgroup-1">
+								<div class="item-gnb data accent">1,000,000,000</div>
+								<ul class="item-list-data">
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+									<li class="nav data">20,000,000</li>
+								</ul>
+							</li>
+							<li class="tbody itemgroup tgroup-2">
+								<div class="item-gnb data">01
+								</div>
+								<ul class="item-list-data">
+									<li class="nav data"></li>
+									<li class="nav data">800,000</li>
+								</ul>
+							</li>
+							<li class="tbody itemgroup tgroup-3">
+								<div class="item-gnb data"></div>
+								<ul class="item-list-data">
+									<li class="nav data"></li>
+								</ul>
+							</li>
+							<li class="tbody itemgroup tgroup-4">
+								<div class="item-gnb data">1212
+								</div>
+								<ul class="item-list-data">
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+								</ul>
+							</li>
+							<li class="tbody data"></li>
+							<li class="tbody data"></li>
+							<li class="tbody data"></li>
+						</ul>
+							
+						<ul class="data-list">
+							<li class="thead">주(현)근무지</li>
+							<li class="tbody sort_center data">뉴젠 pnp</li>
+							<li class="tbody sort_center data"></li>
+							<li class="tbody data">2018.08.01~2018.12.31</li>
+							<li class="tbody data">2018.08.01~2018.12.31</li>
+							<li class="tbody itemgroup tgroup-1">
+								<div class="item-gnb data accent">40,000,000</div>
+								<ul class="item-list-data">
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+									<li class="nav data">30,000,000</li>
+								</ul>
+							</li>
+							<li class="tbody itemgroup tgroup-2">
+								<div class="item-gnb data">200,000,000
+								</div>
+								<ul class="item-list-data">
+									<li class="nav data"></li>
+									<li class="nav data">80,000,000</li>
+								</ul>
+							</li>
+							<li class="tbody itemgroup tgroup-3">
+								<div class="item-gnb data"></div>
+								<ul class="item-list-data">
+									<li class="nav data"></li>
+								</ul>
+							</li>
+							<li class="tbody itemgroup tgroup-4">
+								<div class="item-gnb data">9,000
+								</div>
+								<ul class="item-list-data">
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+								</ul>
+							</li>
+							<li class="tbody data"></li>
+							<li class="tbody data"></li>
+							<li class="tbody data"></li>
+						</ul>	
+						
+						<ul class="data-list">
+							<li class="thead">종전 근무지 2</li>
+							<li class="tbody sort_center data"></li>
+							<li class="tbody sort_center data"></li>
+							<li class="tbody data">2018.08.01~2018.12.31</li>
+							<li class="tbody data">2018.08.01~2018.12.31</li>
+							<li class="tbody itemgroup tgroup-1">
+								<div class="item-gnb data accent">60,000,000</div>
+								<ul class="item-list-data">
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+									<li class="nav data">5,400</li>
+								</ul>
+							</li>
+							<li class="tbody itemgroup tgroup-2">
+								<div class="item-gnb data">500,000
+								</div>
+								<ul class="item-list-data">
+									<li class="nav data"></li>
+									<li class="nav data">900,000</li>
+								</ul>
+							</li>
+							<li class="tbody itemgroup tgroup-3">
+								<div class="item-gnb data"></div>
+								<ul class="item-list-data">
+									<li class="nav data"></li>
+								</ul>
+							</li>
+							<li class="tbody itemgroup tgroup-4">
+								<div class="item-gnb data">87,110
+								</div>
+								<ul class="item-list-data">
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+									<li class="nav data"></li>
+								</ul>
+							</li>
+							<li class="tbody data"></li>
+							<li class="tbody data"></li>
+							<li class="tbody data"></li>
+						</ul>
+					</div> <!--  column_data -->
+				</div> <!--   column_view  -->
+				
+				</div> <!-- group_column -->
+		
+			<ul class="page-selection">
+				<li class="circle active"></li>
+				<li class="circle"></li>
+			</ul>
+		</section>
+		
+	</div>
+	
+</body>
+<script type="text/javascript">
+/* 페이지 링크 샘플 */
+function pageLink(state){
+	if(state=="wait"){
+		window.location.href="#";
+	}else{
+		window.location.href="#";
+	}
+	
+}
+
+//**** 펼치기 event
+$( "input[type=checkbox]" ).on( "click", function(){
+	var _target=$(this).attr("id");
+	if($(this).is(":checked")){
+		$('[class~="'+_target+'"]').addClass("show");
+		
+	}else{
+		$('[class~="'+_target+'"]').removeClass("show");
+	}
+	console.log(_target)
+});
+
+</script>
+</html>

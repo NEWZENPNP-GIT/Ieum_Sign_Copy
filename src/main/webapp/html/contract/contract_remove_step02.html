@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/contract_write.css">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<!-- bootPag -->
+
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+	<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/ui.biz.core.js"></script>
+	<script>
+		function fn_contractList(page) {
+			var url = rootPath+"contract/getRemoveContractList.do";
+
+			var contractDateFrom = $("#contractDateFrom").val();
+			var contractDateTo = $("#contractDateTo").val();
+
+			var viewPage = 10;
+			if(viewPage==""||viewPage=="0") viewPage = 10;
+
+			if (page==0)
+				curPage=0;
+			else
+				curPage = page-1;
+
+			if (curPage<0) {
+				curPage=0;
+				return;
+			}
+			if (curPage*viewPage>totPage) {
+				curPage-=1;
+				return;
+			}
+
+			var statusCode = "Y";
+			var startPage = (curPage*viewPage);
+			var endPage = viewPage;
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"GET",
+				data: {
+					statusCode:statusCode,
+					transType:'Y',
+					startPage:-1,
+					endPage:-1,
+					delContId:getCookie("delContId"),
+					delBizId:getCookie("delBizId")
+				},
+				success:function(result) {
+					var htmlData = "";
+					console.log("contract_list:" + result);
+
+					if (result.success==true) {
+
+						completeCount = result.completeCount;
+						downloadCount = result.downloadCount;
+
+						var totalPage = Math.ceil(totPage/viewPage);
+						var progress = Math.ceil(completeCount/totPage*100);
+
+						$("#totalCount").text(completeCount);
+						// 계약내역
+						$.each(result.data, function(i, row) {
+							//if(list.indexOf(row.contId)>=0){ //삭제 선택된 데이터만 출력한다.
+							var num = (curPage * viewPage) + i + 1;
+							htmlData += '<tr class="databox" id="chk" name="chk"> ';
+							htmlData += ' <td class="chk_area"><input type="checkbox" name="chk" value="'+row.userId+'_'+row.contractDate+'_'+row.contId+'_'+row.hashData+'_'+row.statusCode+'"></td> ';
+							//성명
+							htmlData += ' <td>'+row.empName+'</td> ';
+							//사번
+							htmlData += ' <td class="name">'+row.empNo+'</td> ';
+							//문서종류
+							htmlData += ' <td>'+row.contractFileName+'</td> ';
+							//생성일자
+							htmlData += ' <td class="complete_date">'+convertDate(row.contractDate).format("yyyy-MM-dd")+'</td> ';
+							htmlData += '</tr> ';
+							//}
+						});
+
+						if(page==1) {
+
+							$('#page-selection').bootpag({
+								total: totalPage,       // total pages
+								page: page,         	// default page
+								maxVisible: 10, 	   	// visible pagination
+								leaps: true,	      	// next/prev leaps through maxVisible
+								firstLastUse: true,
+								first: '',
+								last: '',
+								wrapClass: 'pagination',
+								activeClass: 'active',
+								disabledClass: 'disabled',
+								nextClass: 'btn_next',
+								prevClass: 'btn_prev',
+								lastClass: 'end_page',
+								firstClass: 'first_page'
+							}).on("page", function(event, num){
+								fn_contractList(num);
+							});
+						}
+					} else {
+						htmlData += '<tr> <td colspan="14">요청하신 자료가 존재하지 않습니다.</td></tr>';
+
+					}
+					$("#dataList").html(htmlData);
+				},
+				error:function(request,status,error){
+					if (request.status=="401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						location.href=rootPath;
+					} else {
+						alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+					}
+				}
+			});
+		}
+
+
+		//***************					체크박스 전체 선택					***************//
+
+
+		function fn_checkAll() {
+			if($("#checkAll").prop("checked")){
+				$("input[name=chk]").prop("checked",true);
+			}else{
+				$("input[name=chk]").prop("checked",false);
+			}
+		}
+
+		function fn_formRegister(obj, menuCode) {
+
+			var url=$(obj).attr('data-url');
+			var tagName=$("#nav_list > li:nth-child(2) > label > a").prop('tagName');
+
+			$("#contents_wrap").empty();
+			$(window).off("resize");
+			$.ajax({
+				url : url ,
+				success : function(result) {
+					$("#contents_wrap").html(result);
+				}
+			});
+		}
+
+
+		$('#page-selection').bootpag({
+			total: 10,
+			page: 1,
+			maxVisible: 5,
+			leaps: true,
+			firstLastUse: true,
+			first: '',
+			last: '',
+			wrapClass: 'pagination',
+			activeClass: 'active',
+			disabledClass: 'disabled',
+			nextClass: 'btn_next',
+			prevClass: 'btn_prev',
+			lastClass: 'end_page',
+			firstClass: 'first_page'
+		}).on("page", function(event, num){});
+
+		$(document).ready(function(){
+
+			//선택 다운로드 계약일자 세팅
+			var lastDate = new Date(1900,0,1);
+			var afterDate = new Date(2999,0,1);
+			document.getElementById("contractDateFrom1").value = lastDate.format('yyyyMMdd');
+			document.getElementById("contractDateTo1").value = afterDate.format('yyyyMMdd');
+
+			//일괄다운로드 계약일자 세팅
+			var lastDate = new Date();
+			var afterDate = new Date();
+			lastDate.setMonth(lastDate.getMonth() - 1);
+			afterDate.setMonth(afterDate.getMonth() + 1);
+
+			document.getElementById("contractDateFrom").value = lastDate.format('yyyyMMdd');	// 한달전
+			document.getElementById("contractDateTo").value = afterDate.format('yyyyMMdd');		// 한달후
+
+			fn_contractList(1);
+		});
+
+		function fn_contractSelectDownload(){
+			var contractDateFrom = $("#contractDateFrom1").val();
+			var contractDateTo = $("#contractDateTo1").val();
+			var multiData = "";
+
+			if(contractDateFrom.length > 0) {
+				contractDateFrom = contractDateFrom.replace(/-/gi, "");
+			}
+
+			if(contractDateTo.length > 0) {
+				contractDateTo = contractDateTo.replace(/-/gi, "");
+			}
+
+			var cnt = $("input:checkbox[name=chk]:checked").length;
+
+			// 선택된 계약서 확인
+			if(cnt == 0) {
+				alert("다운로드할 문서를 선택 바랍니다.");
+				return;
+			} else {
+
+				if(!confirm("선택하신 문서를 다운로드 하시겠습니까?")) return;
+				cnt=0;
+				$("input:checkbox[name=chk]:checked").each(function (){
+					var key = this.value;
+					var data = key.split("_");
+
+					if(data.length > 3) {
+						if(data[4] != "Y") {
+							cnt++;
+						}
+					}
+
+					multiData += data[0] + "-" + data[1]+ "-" + data[2] + "|";
+				});
+				if(cnt>0) {
+					alert("선택하신 문서중 완료되지 않은 문서가 존재합니다. \r\n확인 후 진행해주시기 바랍니다.");
+					return;
+				}
+
+				var contractDate = contractDateFrom.substring(0,4);
+				var url = rootPath+"contract/downloadContractSelectZip.do?contractDate=" + contractDate + "&contractDateFrom=" + contractDateFrom + "&contractDateTo=" + contractDateTo + "&multiData=" + encodeURI(multiData);
+
+				downloadDataUrlFromJavascript(url);
+			}
+		}
+
+		function fn_nextPage(){
+			if(confirm("삭제하실 전자문서를 다운로드하셨는지 확인해주시기 바랍니다.\r\n확인을 누르시면 문서가 삭제되고\r\n복원되지 않습니다.\r\n정말로 삭제하시겠습니까?")) {
+				$("#contract_wrap").empty();
+				$(window).off("resize");
+				$.ajax({
+					url : "/html/contract/contract_remove_step03.html" ,
+					success : function(result) {
+						$("#contract_wrap").html(result);
+					}
+				});
+			} else {
+				return false;
+			}
+		}
+
+	</script>
+</head>
+
+<body>
+<div id="contract_wrap" class="">
+	<div class="container">
+		<div class="location"><span class="loc_main NanumGothic">전자문서 > 전자계약(양식변환) > </span><span class="loc_sub NanumGothic">완료계약 문서함</span></div>
+		<div class="pagtit"><span class="NanumGothic">2. 목록 확인 및 백업</span></div>
+		<div class="tit_dec NanumGothic">
+			<span class="speaker"></span>
+			<span>총 <span id="totalCount"></span>건의 전자문서가 선택되었습니다. 전자문서 관리 화면으로 돌아가길 원하신다면 </span>
+			<span class="point"><a class="btn_type" data-url="/html/contract/contract_list_complete.html" onclick="fn_formRegister(this,190916153141273)">[여기]</a></span>
+			<span>를 클릭하세요.</span></div>
+		<div class="nav_snb">
+			<ul class="nav_tabGroup tab3">
+				<li class="clear">
+					<div class="hor_line"></div>
+					<div class="num"><span>1</span></div>
+					<div class="btn_tab"><span class="tabBox NanumGothic">삭제 동의</span></div>
+				</li>
+				<li class="active">
+					<div class="hor_line"></div>
+					<div class="num"><span>2</span></div>
+					<div class="btn_tab"><span class="tabBox NanumGothic">목록 확인 및 다운로드</span></div>
+				</li>
+				<li>
+					<div class="hor_line"></div>
+					<div class="num"><span>3</span></div>
+					<div class="btn_tab"><span class="tabBox NanumGothic">삭제</span></div>
+				</li>
+			</ul>
+		</div>
+		<div class="tab_contents delTab">
+			<div class="list NanumGothic">
+				<table>
+					<colgroup>
+						<col width="30px">
+						<col width="20%">
+						<col width="25%">
+						<col width="35%">
+						<col width="20%">
+					</colgroup>
+					<thead>
+					<tr>
+						<th class="chk_area"><input type="checkbox" id="checkAll" onclick="fn_checkAll();"></th>
+						<th>성명</th>
+						<th>사번</th>
+						<th>문서종료</th>
+						<th>생성일자</th>
+					</tr>
+					</thead>
+					<tbody id="dataList">
+					<tr class="databox">
+						<td colspan="14">요청하신 자료가 존재하지 않습니다.</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+			<input type="text" min="1900-01-01" max="2999-01-01" id="contractDateFrom" style="display:none;"/>
+			<input type="text" min="1900-01-01" max="2999-01-01" id="contractDateTo" style="display:none;"/>
+			<input type="text" min="1900-01-01" max="2999-01-01" id="contractDateFrom1" style="display:none;"/>
+			<input type="text" min="1900-01-01" max="2999-01-01" id="contractDateTo1" style="display:none;"/>
+		</div>
+		<div class="warning NanumGothic">
+			<span>※ 전자문서가 영구적으로 삭제 되기 전에 다운로드를 진행해야 합니다. 반드시 다운로드가 완료된 것을 확인하고 다음을 눌러주시기 바랍니다.</span>
+		</div>
+		<div class="btn_footGroup NanumGothic sort-R">
+			<a class="btn_type type2" onclick="fn_contractSelectDownload();">선택 다운로드 </a>
+			<a class="btn_type type4" onclick="fn_contractDownload();">일괄 다운로드</a>
+			<a class="btn_type btn_next" onclick="fn_nextPage();">다음 ＞ </a>
+		</div>
+	</div>
+</div>
+</body>
+</html>

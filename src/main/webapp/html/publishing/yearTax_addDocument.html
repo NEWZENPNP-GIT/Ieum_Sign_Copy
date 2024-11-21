@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>추가제출서류</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+
+</head>
+<body>
+	<div id="yearTax_wrap" class="yearTax">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연말정산 > </span><span class="loc_sub NanumSquare_R">추가제출서류</span></div>
+			<div class="pagtit NanumSquare_R">
+				<span class="">추가제출서류</span>
+			</div>
+			
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">추가제출서류</span>
+					</div>
+				
+					<div class="grid_field full">
+						<ul class="gridRow2">
+							<li class="search_wrap">
+								<div class="group_row row3">
+									<dl class="NanumSquare_R rat4-6">
+										<dt><label class="label_txt NanumSquare_R">사업장 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R">
+												<option value="" >전체</option>
+											</select>
+										</dd>
+									</dl>
+									<dl class="NanumSquare_R rat4-6">
+										<dt><label class="label_txt NanumSquare_R">부서 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R">
+												<option value="" >전체</option>
+											</select>
+										</dd>
+									</dl>
+									<dl class="NanumSquare_R rat4-6">
+										<dt><label class="label_txt NanumSquare_R">근무상태 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R">
+												<option value="" >전체</option>
+												<option value="" >계속근로</option>
+												<option value="" >중도퇴사</option>
+											</select>
+										</dd>
+									</dl>
+								</div>
+								<div class="group_row row3">
+									<dl class="NanumSquare_R rat4-6">
+										<dt><label class="label_txt NanumSquare_R">공제구분 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R">
+												<option value="" >인적공제</option>
+												<option value="" >보험료공제</option>
+												<option value="" >주택자금공제</option>
+												<option value="" >월세공제</option>
+												<option value="" >신용카드공제</option>
+												<option value="" >기부금공제</option>
+												<option value="" >교육비공제</option>
+												<option value="" >종(전)근무</option>
+											</select>
+										</dd>
+									</dl>
+									<dl class="NanumSquare_R rat4-6">
+										<dt><label class="label_txt NanumSquare_R">처리여부 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R">
+												<option value="" >전체</option>
+												<option value="" >처리</option>
+												<option value="" >미처리</option>
+											</select>
+										</dd>
+									</dl>
+									<dl class="NanumSquare_R rat4-6">
+										<dt><label class="label_txt NanumSquare_R">직책(직급): </label></dt>
+										<dd class="input_box"><input class="" type="text" ></dd>
+									</dl>
+									
+								</div>
+								<div class="group_row row3">
+									<dl class="NanumSquare_R rat4-6">
+										<dt><label class="label_txt NanumSquare_R">성명  : </label></dt>
+										<dd class="input_box"><input class="" type="text" ></dd>
+									</dl>
+									<dl class="NanumSquare_R rat4-6">
+										<dt><label class="label_txt NanumSquare_R">사번 : </label></dt>
+										<dd class="input_box"><input class="" type="text" ></dd>
+									</dl>
+									
+									<div class="btns"><a class="btn_type btn_grid_search NanumSquare_R"><span class="icon Material_icons">search</span> 검색</a></div>
+								</div>
+							</li>
+							<li class="NanumSquare_R btns sort_right sort_bottom">
+								<div class="sortWrap ">
+									<a class="btn_type type1">신규 등록<span class="icon add"></span></a><a class="btn_type type2">선택삭제</a>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="grid_paging">
+						<div class="select_box">
+							<dl>
+								<dt><label class="label_txt NanumSquare_R">Rows</label></dt>
+								<dd class="select_box">
+									<select class="NanumSquare_R">
+										<option value="" >10</option>
+									</select>
+								</dd>
+							</dl>
+						</div>
+						<div id="page-selection" class="pagingnav_wrap_mid"></div>
+					</div>
+					<div class="group_table">
+						<table class="hasHead NanumSquare_R">
+							<colgroup>
+								<col width="4%">
+								<col width="10%">
+								<col width="8%">
+								<col width="12%">
+								<col width="clac(18% - 37px)">
+								<col width="37px">
+								<col width="18%">
+								<col width="20%">
+								<col width="10%">
+							</colgroup>
+							<thead>
+								<tr>
+									<th class="chk_area"><input type="checkbox"></th>
+									<th>사업장</th>
+									<th>성명</th>
+									<th>사번</th>
+									<th colspan="2">공제구분</th>
+									<th>남기실내용</th>
+									<th>메모</th>
+									<th>처리일자</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="">
+									<td class="chk_area"><input type="checkbox"> </td>
+									<td class="value">뉴젠연말정산</td>
+									<td class="value"><a class="btn_type btn_detailView">김연말</a></td>
+									<td class="value">201701010001</td>
+									<td class="value cols">인적공제</td>
+									<td class="value"><a class="btn_type boxin btn_view">보기</a></td>
+									<td class="value">가족관계증명서 입니다.</td>
+									<td class="value"></td>
+									<td class="value"></td>
+								</tr>
+								<tr class="">
+									<td class="chk_area"><input type="checkbox"> </td>
+									<td class="value">뉴젠연말정산</td>
+									<td class="value"><a class="btn_type btn_detailView">김연말</a></td>
+									<td class="value">201701010001</td>
+									<td class="value cols">보험료공제</td>
+									<td class="value"><a class="btn_type boxin btn_view">보기</a></td>
+									<td class="value">보험료 납입증명서 입니다.</td>
+									<td class="value"></td>
+									<td class="value"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div><!--  content -->
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+$('#page-selection').bootpag({
+    total: 10,
+    page: 1,
+    maxVisible: 5,
+    leaps: true,
+    firstLastUse: true,
+    first: '',
+    last: '',
+    wrapClass: 'pagination',
+    activeClass: 'active',
+    disabledClass: 'disabled',
+    nextClass: 'btn_next',
+    prevClass: 'btn_prev',
+    lastClass: 'end_page',
+    firstClass: 'first_page'
+}).on("page", function(event, num){
+    
+}); 
+</script>
+</html>

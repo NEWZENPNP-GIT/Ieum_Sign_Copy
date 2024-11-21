@@ -1,0 +1,1286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Document">
+
+	<typeAlias alias="documentMasterVO" type="com.ezsign.document.vo.DocumentMasterVO"/>
+	<resultMap id="documentMasterListMap" class="documentMasterVO">
+		<result property="docuId" column="DOCU_ID"/>
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="bizName" column="BIZ_NAME"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="userName" column="USER_NAME"/>
+		<result property="docuName" column="DOCU_NAME"/>
+		<result property="prevDocuId" column="PREV_DOCU_ID"/>
+		<result property="prevDocuName" column="PREV_DOCU_NAME"/>
+		<result property="nextDocuId" column="NEXT_DOCU_ID"/>
+		<result property="nextDocuName" column="NEXT_DOCU_NAME"/>
+		<result property="prevFileId" column="PREV_FILE_ID"/>
+		<result property="orgFileId" column="ORG_FILE_ID"/>
+		<result property="orgFileName" column="ORG_FILE_NAME"/>
+		<result property="conFileId" column="CON_FILE_ID"/>
+		<result property="reqComment" column="REQ_COMMENT"/>
+		<result property="authType" column="AUTH_TYPE"/>
+		<result property="authCode" column="AUTH_CODE"/>
+		<result property="signType" column="SIGN_TYPE"/>
+		<result property="sendType" column="SEND_TYPE"/>
+		<result property="sendOrd" column="SEND_ORD"/>
+		<result property="reviewType" column="REVIEW_TYPE"/>
+		<result property="expireType" column="EXPIRE_TYPE"/>
+		<result property="expireDate" column="EXPIRE_DATE"/>
+		<result property="tempSaveType" column="TEMP_SAVE_TYPE"/>
+		<result property="tempSaveDate" column="TEMP_SAVE_DATE"/>
+		<result property="tsaType" column="TSA_TYPE"/>
+		<result property="docuStatus" column="DOCU_STATUS"/>
+		<result property="docuStatusName" column="DOCU_STATUS_NAME"/>
+		<result property="digitNonce" column="DIGIT_NONCE"/>
+		<result property="completeDate" column="COMPLETE_DATE"/>
+		<result property="inputType" column="INPUT_TYPE"/>
+		<result property="rUserName" column="R_USER_NAME"/>
+		<result property="tUserName" column="T_USER_NAME"/>
+		<result property="bookmark" column="BOOKMARK"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="updDate" column="UPD_DATE"/>
+	</resultMap>
+
+	<typeAlias alias="documentDetailVO" type="com.ezsign.document.vo.DocumentDetailVO"/>
+	<resultMap id="documentDetailListMap" class="documentDetailVO">
+		<result property="docuId" column="DOCU_ID"/>
+		<result property="docuName" column="DOCU_NAME"/>
+		<result property="recvUserId" column="RECV_USER_ID"/>
+		<result property="recvUserName" column="RECV_USER_NAME"/>
+		<result property="recvPhone" column="RECV_PHONE"/>
+		<result property="recvEmail" column="RECV_EMAIL"/>
+		<result property="recvOrd" column="RECV_ORD"/>
+		<result property="recvType" column="RECV_TYPE"/>
+		<result property="viewDate" column="VIEW_DATE"/>
+		<result property="confirmDate" column="CONFIRM_DATE"/>
+		<result property="recvStatus" column="RECV_STATUS"/>
+		<result property="recvStatusName" column="RECV_STATUS_NAME"/>
+		<result property="recvMessage" column="RECV_MESSAGE"/>
+		<result property="recvSign" column="RECV_SIGN"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="updDate" column="UPD_DATE"/>
+		<result property="contactType" column="CONTACT_TYPE"/>
+	</resultMap>
+
+	<typeAlias alias="documentFileVO" type="com.ezsign.document.vo.DocumentFileVO"/>
+	<resultMap id="documentFileListMap" class="documentFileVO">
+		<result property="docuId" column="DOCU_ID"/>
+		<result property="fileId" column="FILE_ID"/>
+		<result property="fileName" column="FILE_NAME"/>
+		<result property="fileUserId" column="FILE_USER_ID"/>
+		<result property="fileUserName" column="FILE_USER_NAME"/>
+		<result property="recvSign" column="RECV_SIGN"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="updDate" column="UPD_DATE"/>
+	</resultMap>
+
+	<typeAlias alias="documentCommentVO" type="com.ezsign.document.vo.DocumentCommentVO"/>
+	<resultMap id="documentCommentListMap" class="documentCommentVO">
+		<result property="docuId" column="DOCU_ID"/>
+		<result property="recvUserId" column="RECV_USER_ID"/>
+		<result property="recvUserName" column="RECV_USER_NAME"/>
+		<result property="recvComment" column="RECV_COMMENT"/>
+		<result property="sendType" column="SEND_TYPE"/>
+		<result property="insDate" column="INS_DATE"/>
+	</resultMap>
+
+	<typeAlias alias="documentLogVO" type="com.ezsign.document.vo.DocumentLogVO"/>
+	<resultMap id="documentLogListMap" class="documentLogVO">
+		<result property="docuId" column="DOCU_ID"/>
+		<result property="docuName" column="DOCU_NAME"/>
+		<result property="logType" column="LOG_TYPE"/>
+		<result property="logTypeName" column="LOG_TYPE_NAME"/>
+		<result property="logMessage" column="LOG_MESSAGE"/>
+		<result property="workUserId" column="WORK_USER_ID"/>
+		<result property="workUserName" column="WORK_USER_NAME"/>
+		<result property="insDate" column="INS_DATE"/>
+	</resultMap>
+
+	<typeAlias alias="documentEformVO" type="com.ezsign.document.vo.DocumentEformVO"/>
+	<resultMap id="documentEformListMap" class="documentEformVO">
+		<result property="docuId" column="DOCU_ID"/>
+		<result property="docuName" column="DOCU_NAME"/>
+		<result property="formId" column="FORM_ID"/>
+		<result property="formName" column="FORM_NAME"/>
+		<result property="formType" column="FORM_TYPE"/>
+		<result property="formTypeName" column="FORM_TYPE_NAME"/>
+		<result property="formValue" column="FORM_VALUE"/>
+		<result property="insDate" column="INS_DATE"/>
+	</resultMap>
+
+	<typeAlias alias="documentSettingVO" type="com.ezsign.document.vo.DocumentSettingVO"/>
+	<resultMap id="documentSettingListMap" class="documentSettingVO">
+		<result property="docuId" column="DOCU_ID"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="recvType" column="RECV_TYPE"/>
+		<result property="settingType" column="SETTING_TYPE"/>
+		<result property="settingValue" column="SETTING_VALUE"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="updDate" column="UPD_DATE"/>
+	</resultMap>
+
+	<!-- SELECT -->
+	<select id="documentDAO.getDocumentMasterWriteList" parameterClass="documentMasterVO" resultMap="documentMasterListMap">
+		SELECT
+		A.DOCU_ID,
+		A.BIZ_ID,
+		J.BIZ_NAME,
+		A.USER_ID,
+		C.USER_NAME,
+		A.DOCU_NAME,
+		A.PREV_DOCU_ID,
+		B.DOCU_NAME 						PREV_DOCU_NAME,
+		B.CON_FILE_ID 						PREV_FILE_ID,
+		A.ORG_FILE_ID,
+		E.ORG_FILE_NAME,
+		A.CON_FILE_ID,
+		A.REQ_COMMENT,
+		A.AUTH_TYPE,
+		A.AUTH_CODE,
+		A.SIGN_TYPE,
+		A.SEND_TYPE,
+		A.SEND_ORD,
+		A.REVIEW_TYPE,
+		A.TSA_TYPE,
+		A.EXPIRE_TYPE,
+		A.EXPIRE_DATE,
+		A.TEMP_SAVE_TYPE,
+		A.TEMP_SAVE_DATE,
+		A.DOCU_STATUS,
+		D.COMM_NAME 						DOCU_STATUS_NAME,
+		A.DIGIT_NONCE,
+		A.COMPLETE_DATE,
+		A.INPUT_TYPE,
+		A.INS_DATE,
+		A.UPD_DATE,
+		IFNULL(H.DOCU_ID,'') 				NEXT_DOCU_ID,
+		IFNULL(H.DOCU_NAME,'') 				NEXT_DOCU_NAME,
+		(CASE WHEN G.SETTING_VALUE = 'Y' THEN 'Y' ELSE 'N' END) BOOKMARK,
+		(SELECT COUNT(*)
+		FROM TBL_DOCUMENT_DETAIL X
+		WHERE X.DOCU_ID   = A.DOCU_ID
+		AND X.RECV_TYPE = 'R')		R_USER_CNT,
+		(SELECT
+		CASE WHEN R_USER_CNT > 1
+		THEN MAX(CONCAT(X.RECV_USER_NAME, ' 외 ', R_USER_CNT - 1, ' 명'))
+		ELSE MAX(X.RECV_USER_NAME)
+		END
+		FROM TBL_DOCUMENT_DETAIL X
+		WHERE X.DOCU_ID   = A.DOCU_ID
+		AND X.RECV_TYPE = 'R'
+		AND X.RECV_ORD  = '1')			R_USER_NAME,
+		(SELECT COUNT(*)
+		FROM TBL_DOCUMENT_DETAIL X
+		WHERE X.DOCU_ID   = A.DOCU_ID
+		AND X.RECV_TYPE = 'T')			T_USER_CNT,
+		(SELECT
+		CASE WHEN T_USER_CNT > 1
+		THEN MAX(CONCAT(X.RECV_USER_NAME, ' 외 ', T_USER_CNT - 1, ' 명'))
+		ELSE MAX(X.RECV_USER_NAME)
+		END
+		FROM TBL_DOCUMENT_DETAIL X
+		WHERE X.DOCU_ID   = A.DOCU_ID
+		AND X.RECV_TYPE = 'T'
+		AND X.RECV_ORD  = '1' )				T_USER_NAME
+		FROM TBL_DOCUMENT_MASTER A
+		LEFT JOIN TBL_DOCUMENT_MASTER B
+		ON A.PREV_DOCU_ID = B.DOCU_ID
+		AND A.BIZ_ID  = B.BIZ_ID
+		AND B.USE_YN  = 'Y'
+		LEFT JOIN TBL_USER C
+		ON A.USER_ID = C.USER_ID
+		LEFT JOIN TBL_CODE D
+		ON D.GRP_COMM_CODE = '1003'
+		AND A.DOCU_STATUS   = D.COMM_CODE
+		LEFT JOIN TBL_CONTENT E
+		ON E.FILE_ID = A.ORG_FILE_ID
+		LEFT JOIN TBL_DOCUMENT_DETAIL F
+		ON A.DOCU_ID = F.DOCU_ID
+		LEFT OUTER JOIN	TBL_DOCUMENT_MASTER H
+		ON H.BIZ_ID  = A.BIZ_ID
+		AND H.PREV_DOCU_ID = A.DOCU_ID
+		AND H.USE_YN  = 'Y'
+		LEFT OUTER JOIN	TBL_DOCUMENT_SETTING G
+		ON G.DOCU_ID = A.DOCU_ID
+		AND G.USER_ID = #userId#
+		AND G.RECV_TYPE = #recvType#
+		AND G.SETTING_TYPE = 'B'
+		LEFT JOIN TBL_BIZ J
+		ON A.BIZ_ID  = J.BIZ_ID
+		WHERE (FIND_IN_SET(A.BIZ_ID, (	SELECT GROUP_CONCAT(I.REF_ID)
+		FROM TBL_BIZ_GRP I
+		WHERE I.BIZ_ID  = #bizId#) ) OR A.BIZ_ID = #bizId#	)
+		AND A.USE_YN = 'Y'
+		<isNotNull property="searchCompany">
+			<isNotEmpty property="searchCompany">
+				AND A.BIZ_ID = #searchCompany#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="docuId">
+			<isNotEmpty property="docuId">
+				AND A.DOCU_ID = #docuId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="docuName">
+			<isNotEmpty property="docuName">
+				AND A.DOCU_NAME LIKE CONCAT('%',  #docuName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="docuStatus">
+			<isNotEmpty property="docuStatus">
+				AND A.DOCU_STATUS = #docuStatus#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchKey">
+			<isNotEmpty property="searchKey">
+				<isEqual property="searchKey" compareValue="empName">
+					AND (SELECT MAX(X.RECV_USER_NAME)
+					FROM TBL_DOCUMENT_DETAIL X
+					WHERE X.DOCU_ID   = A.DOCU_ID
+					AND X.RECV_TYPE = 'R'
+					AND X.RECV_ORD  = '1' )
+					LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="docName">
+					AND A.DOCU_NAME	LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		GROUP BY A.DOCU_ID,
+		A.BIZ_ID,
+		A.USER_ID,
+		C.USER_NAME,
+		A.DOCU_NAME,
+		A.PREV_DOCU_ID,
+		B.DOCU_NAME,
+		B.CON_FILE_ID,
+		A.ORG_FILE_ID,
+		E.ORG_FILE_NAME,
+		A.CON_FILE_ID,
+		A.REQ_COMMENT,
+		A.AUTH_TYPE,
+		A.AUTH_CODE,
+		A.SIGN_TYPE,
+		A.SEND_TYPE,
+		A.SEND_ORD,
+		A.REVIEW_TYPE,
+		A.TSA_TYPE,
+		A.EXPIRE_TYPE,
+		A.EXPIRE_DATE,
+		A.TEMP_SAVE_TYPE,
+		A.TEMP_SAVE_DATE,
+		A.DOCU_STATUS,
+		D.COMM_NAME,
+		A.COMPLETE_DATE,
+		A.INPUT_TYPE,
+		A.INS_DATE,
+		A.UPD_DATE
+		<isNotNull property="sortName">
+			<isNotEmpty property="sortName">
+				ORDER BY $sortName$ $sortOrder$
+			</isNotEmpty>
+		</isNotNull>
+		limit #endPage# offset #startPage#
+	</select>
+
+	<select id="documentDAO.getDocumentMasterWriteListCount" parameterClass="documentMasterVO" resultClass="java.lang.Integer">
+		SELECT 	COUNT(*)
+		FROM 	(SELECT	DISTINCT A.DOCU_ID
+				 FROM 	TBL_DOCUMENT_MASTER A
+				 LEFT JOIN TBL_DOCUMENT_MASTER B
+				   ON 	A.PREV_DOCU_ID  = B.DOCU_ID
+				  AND 	A.BIZ_ID        = B.BIZ_ID
+				 LEFT JOIN TBL_USER C
+				   ON	 A.USER_ID      = C.USER_ID
+				 LEFT JOIN TBL_CODE D
+				   ON 	D.GRP_COMM_CODE = '1003'
+				  AND 	A.DOCU_STATUS   = D.COMM_CODE
+				 LEFT JOIN TBL_CONTENT E
+				   ON 	E.FILE_ID       = A.ORG_FILE_ID
+				 LEFT JOIN TBL_DOCUMENT_DETAIL F
+				   ON 	A.DOCU_ID 		= F.DOCU_ID
+				 LEFT OUTER JOIN	TBL_DOCUMENT_MASTER H
+				   ON 	H.BIZ_ID      	= A.BIZ_ID
+				  AND 	H.PREV_DOCU_ID	= A.DOCU_ID
+				  AND 	H.USE_YN      	= 'Y'
+				 LEFT OUTER JOIN TBL_DOCUMENT_SETTING G
+				   ON	G.DOCU_ID     	= A.DOCU_ID
+				  AND	G.USER_ID     	= #userId#
+				  AND	G.RECV_TYPE   	= #recvType#
+				  AND	G.SETTING_TYPE	= 'B'
+				 WHERE (FIND_IN_SET(A.BIZ_ID, (SELECT 	GROUP_CONCAT(I.REF_ID)
+											   FROM 	TBL_BIZ_GRP I
+											   WHERE 	I.BIZ_ID = #bizId#)) OR A.BIZ_ID = #bizId#)
+				   AND 	A.USE_YN = 'Y'
+		<isNotNull property="searchCompany">
+			<isNotEmpty property="searchCompany">
+				AND A.BIZ_ID = #searchCompany#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="docuId">
+			<isNotEmpty property="docuId">
+				AND A.DOCU_ID = #docuId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="docuName">
+			<isNotEmpty property="docuName">
+				AND A.DOCU_NAME LIKE CONCAT('%', #docuName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="docuStatus">
+			<isNotEmpty property="docuStatus">
+				AND A.DOCU_STATUS = #docuStatus#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchKey">
+			<isNotEmpty property="searchKey">
+				<isEqual property="searchKey" compareValue="empName">
+					 AND   (SELECT MAX(X.RECV_USER_NAME)
+					FROM 	TBL_DOCUMENT_DETAIL X
+					WHERE	X.DOCU_ID   = A.DOCU_ID
+					  AND	X.RECV_TYPE = 'R'
+					  AND	X.RECV_ORD  = '1' )
+					LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="docName">
+					AND A.DOCU_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		GROUP BY A.DOCU_ID,
+				 A.BIZ_ID,
+				 A.USER_ID,
+				 C.USER_NAME,
+				 A.DOCU_NAME,
+				 A.PREV_DOCU_ID,
+				 B.DOCU_NAME,
+				 B.CON_FILE_ID ,
+				 A.ORG_FILE_ID,
+				 E.ORG_FILE_NAME,
+				 A.CON_FILE_ID,
+				 A.REQ_COMMENT,
+				 A.AUTH_TYPE,
+				 A.AUTH_CODE,
+				 A.SIGN_TYPE,
+				 A.SEND_TYPE,
+				 A.SEND_ORD,
+				 A.REVIEW_TYPE,
+				 A.TSA_TYPE,
+				 A.EXPIRE_TYPE,
+				 A.EXPIRE_DATE,
+				 A.TEMP_SAVE_TYPE,
+				 A.TEMP_SAVE_DATE,
+				 A.DOCU_STATUS,
+				 D.COMM_NAME,
+				 A.COMPLETE_DATE,
+				 A.INPUT_TYPE,
+				 A.INS_DATE,
+				 A.UPD_DATE	) A
+	</select>
+
+	<!-- SELECT -->
+	<select id="documentDAO.getDocumentMasterList" parameterClass="documentMasterVO" resultMap="documentMasterListMap">
+		SELECT 	A.DOCU_ID,
+				A.BIZ_ID,
+				J.BIZ_NAME,
+				A.USER_ID,
+				C.USER_NAME,
+				A.DOCU_NAME,
+				A.PREV_DOCU_ID,
+				B.DOCU_NAME 											 PREV_DOCU_NAME,
+				B.CON_FILE_ID 											 PREV_FILE_ID,
+				A.ORG_FILE_ID,
+				E.ORG_FILE_NAME, A.CON_FILE_ID,
+				A.REQ_COMMENT,
+				A.AUTH_TYPE,
+				A.AUTH_CODE,
+				A.SIGN_TYPE,
+				A.SEND_TYPE,
+				A.SEND_ORD,
+				A.REVIEW_TYPE, A.TSA_TYPE,
+				A.EXPIRE_TYPE,
+				A.EXPIRE_DATE,
+				A.TEMP_SAVE_TYPE,
+				A.TEMP_SAVE_DATE,
+				A.DOCU_STATUS,
+				D.COMM_NAME 											 DOCU_STATUS_NAME,
+				A.DIGIT_NONCE,
+				A.COMPLETE_DATE,
+				A.INPUT_TYPE,
+				A.INS_DATE,
+				A.UPD_DATE,
+				IFNULL(H.DOCU_ID,'')									 NEXT_DOCU_ID,
+				IFNULL(H.DOCU_NAME,'')									 NEXT_DOCU_NAME,
+				(CASE WHEN G.SETTING_VALUE = 'Y' THEN 'Y' ELSE 'N' END)	 BOOKMARK,
+				(SELECT MAX(X.RECV_USER_NAME)
+				 FROM 	TBL_DOCUMENT_DETAIL X
+				 WHERE 	X.DOCU_ID   = A.DOCU_ID
+				   AND 	X.RECV_TYPE = 'R'
+				   AND 	X.RECV_ORD  = '1' ) R_USER_NAME,
+					   (SELECT 	MAX(X.RECV_USER_NAME)
+						FROM 	TBL_DOCUMENT_DETAIL X
+						WHERE	X.DOCU_ID   = A.DOCU_ID
+						  AND 	X.RECV_TYPE = 'T'
+						  AND 	X.RECV_ORD  = '1' ) T_USER_NAME
+		FROM 	TBL_DOCUMENT_MASTER A
+		LEFT JOIN TBL_DOCUMENT_MASTER B
+		  ON	A.PREV_DOCU_ID  = B.DOCU_ID
+		 AND 	A.BIZ_ID	    = B.BIZ_ID
+		LEFT JOIN TBL_USER C
+		  ON 	A.USER_ID	    = C.USER_ID
+		LEFT JOIN TBL_CODE D
+		  ON	D.GRP_COMM_CODE = '1003'
+		 AND	A.DOCU_STATUS   = D.COMM_CODE
+		LEFT JOIN TBL_CONTENT E
+		  ON 	E.FILE_ID       = A.ORG_FILE_ID
+		LEFT JOIN TBL_DOCUMENT_DETAIL F
+		  ON	 A.DOCU_ID      = F.DOCU_ID
+		LEFT OUTER JOIN	TBL_DOCUMENT_MASTER H
+		  ON	H.BIZ_ID        = A.BIZ_ID
+		 AND	H.PREV_DOCU_ID  = A.DOCU_ID
+		 AND	H.USE_YN        = 'Y'
+		LEFT OUTER JOIN	TBL_DOCUMENT_SETTING G
+		  ON	G.DOCU_ID       = A.DOCU_ID
+		 AND	G.USER_ID       = #userId#
+		 AND	G.RECV_TYPE     = #recvType#
+		 AND	G.SETTING_TYPE  = 'B'
+		LEFT JOIN TBL_BIZ J
+		  ON 	A.BIZ_ID        = J.BIZ_ID
+		WHERE (FIND_IN_SET(A.BIZ_ID,   (SELECT 	GROUP_CONCAT(I.REF_ID)
+										FROM 	TBL_BIZ_GRP I
+										WHERE	I.BIZ_ID = #bizId#)) OR A.BIZ_ID = #bizId#)
+		  AND	A.USE_YN = 'Y'
+		<isNotNull property="searchCompany">
+			<isNotEmpty property="searchCompany">
+				AND A.BIZ_ID = #searchCompany#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="docuId">
+			<isNotEmpty property="docuId">
+				AND A.DOCU_ID = #docuId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="docuName">
+			<isNotEmpty property="docuName">
+				AND A.DOCU_NAME LIKE CONCAT('%', #docuName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="docuStatus">
+			<isNotEmpty property="docuStatus">
+				<isEqual property="docuStatus" compareValue="X">
+					AND A.DOCU_STATUS NOT IN ('0', '2', '9', 'Z')
+				</isEqual>
+				<isEqual property="docuStatus" compareValue="W">
+					AND A.DOCU_STATUS NOT IN ('Z')
+				</isEqual>
+				<isNotEqual property="docuStatus" compareValue="X">
+					<isNotEqual property="docuStatus" compareValue="W">
+						AND A.DOCU_STATUS = #docuStatus#
+					</isNotEqual>
+				</isNotEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchKey">
+			<isNotEmpty property="searchKey">
+				<isEqual property="searchKey" compareValue="empName">
+					 AND   (SELECT 	MAX(X.RECV_USER_NAME)
+							FROM 	TBL_DOCUMENT_DETAIL X
+							WHERE	X.DOCU_ID   = A.DOCU_ID
+							  AND	X.RECV_TYPE = 'R'
+							  AND	X.RECV_ORD  = '1' )
+					LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="docName">
+					AND A.DOCU_NAME	LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		GROUP BY 	A.DOCU_ID,
+					A.BIZ_ID,
+					A.USER_ID,
+					C.USER_NAME,
+					A.DOCU_NAME,
+					A.PREV_DOCU_ID,
+					B.DOCU_NAME,
+					B.CON_FILE_ID,
+					A.ORG_FILE_ID,
+					E.ORG_FILE_NAME,
+					A.CON_FILE_ID,
+					A.REQ_COMMENT,
+					A.AUTH_TYPE,
+					A.AUTH_CODE,
+					A.SIGN_TYPE,
+					A.SEND_TYPE,
+					A.SEND_ORD,
+					A.REVIEW_TYPE,
+					A.TSA_TYPE,
+					A.EXPIRE_TYPE,
+					A.EXPIRE_DATE,
+					A.TEMP_SAVE_TYPE,
+					A.TEMP_SAVE_DATE,
+					A.DOCU_STATUS,
+					D.COMM_NAME,
+					A.COMPLETE_DATE,
+					A.INPUT_TYPE,
+					A.INS_DATE,
+					A.UPD_DATE
+		<isNotNull property="sortName">
+			<isNotEmpty property="sortName">
+				ORDER BY $sortName$ $sortOrder$
+			</isNotEmpty>
+		</isNotNull>
+		limit #endPage# offset #startPage#
+	</select>
+
+	<select id="documentDAO.getDocumentMasterListCount" parameterClass="documentMasterVO" resultClass="java.lang.Integer">
+		SELECT	COUNT(*)
+		FROM   (SELECT 	DISTINCT A.DOCU_ID
+				FROM 	TBL_DOCUMENT_MASTER A
+				LEFT JOIN TBL_DOCUMENT_MASTER B
+				  ON 	A.PREV_DOCU_ID  = B.DOCU_ID
+				 AND 	A.BIZ_ID        = B.BIZ_ID
+				LEFT JOIN TBL_USER C
+				  ON 	A.USER_ID       = C.USER_ID
+				LEFT JOIN TBL_CODE D
+				  ON 	D.GRP_COMM_CODE = '1003'
+				 AND 	A.DOCU_STATUS   = D.COMM_CODE
+				LEFT JOIN TBL_CONTENT E
+				  ON 	E.FILE_ID       = A.ORG_FILE_ID
+				LEFT JOIN TBL_DOCUMENT_DETAIL F
+				  ON 	A.DOCU_ID       = F.DOCU_ID
+				LEFT OUTER JOIN	TBL_DOCUMENT_MASTER H
+				  ON 	H.BIZ_ID        = A.BIZ_ID
+				 AND 	H.PREV_DOCU_ID  = A.DOCU_ID
+				 AND 	H.USE_YN        = 'Y'
+				LEFT OUTER JOIN	TBL_DOCUMENT_SETTING G
+				  ON 	G.DOCU_ID       = A.DOCU_ID
+				 AND 	G.USER_ID       = #userId#
+				 AND 	G.RECV_TYPE 	= #recvType#
+			  	 AND 	G.SETTING_TYPE  = 'B'
+				WHERE (FIND_IN_SET(A.BIZ_ID, (SELECT	GROUP_CONCAT(I.REF_ID)
+											  FROM 		TBL_BIZ_GRP I
+											  WHERE 	I.BIZ_ID = #bizId#)) OR A.BIZ_ID = #bizId#)
+											  	AND 	A.USE_YN = 'Y'
+		<isNotNull property="searchCompany">
+			<isNotEmpty property="searchCompany">
+				AND A.BIZ_ID = #searchCompany#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="docuId">
+			<isNotEmpty property="docuId">
+				AND A.DOCU_ID = #docuId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="docuName">
+			<isNotEmpty property="docuName">
+				AND A.DOCU_NAME LIKE CONCAT('%', #docuName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="docuStatus">
+			<isNotEmpty property="docuStatus">
+				<isEqual property="docuStatus" compareValue="X">
+					AND A.DOCU_STATUS NOT IN ('0', '2', '9', 'Z')
+				</isEqual>
+				<isEqual property="docuStatus" compareValue="W">
+					AND A.DOCU_STATUS NOT IN ('Z')
+				</isEqual>
+				<isNotEqual property="docuStatus" compareValue="X">
+					<isNotEqual property="docuStatus" compareValue="W">
+						AND A.DOCU_STATUS = #docuStatus#
+					</isNotEqual>
+				</isNotEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchKey">
+			<isNotEmpty property="searchKey">
+				<isEqual property="searchKey" compareValue="empName">
+					AND (	SELECT 	MAX(X.RECV_USER_NAME)
+							FROM 	TBL_DOCUMENT_DETAIL X
+							WHERE 	X.DOCU_ID   = A.DOCU_ID
+							  AND	X.RECV_TYPE = 'R'
+							  AND	X.RECV_ORD  = '1' )
+					LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="docName">
+					AND A.DOCU_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		GROUP BY 	A.DOCU_ID,
+					A.BIZ_ID,
+					A.USER_ID,
+					C.USER_NAME,
+					A.DOCU_NAME,
+					A.PREV_DOCU_ID,
+					B.DOCU_NAME,
+					B.CON_FILE_ID,
+					A.ORG_FILE_ID,
+					E.ORG_FILE_NAME,
+					A.CON_FILE_ID,
+					A.REQ_COMMENT,
+					A.AUTH_TYPE,
+					A.AUTH_CODE,
+					A.SIGN_TYPE,
+					A.SEND_TYPE,
+					A.SEND_ORD,
+					A.REVIEW_TYPE,
+					A.TSA_TYPE,
+					A.EXPIRE_TYPE,
+					A.EXPIRE_DATE,
+					A.TEMP_SAVE_TYPE,
+					A.TEMP_SAVE_DATE,
+					A.DOCU_STATUS,
+					D.COMM_NAME,
+					A.COMPLETE_DATE,
+					A.INPUT_TYPE,
+					A.INS_DATE,
+					A.UPD_DATE		) A
+	</select>
+
+	<select id="documentDAO.getDocumentNonce" parameterClass="documentMasterVO" resultMap="documentMasterListMap">
+		SELECT	A.DOCU_ID,
+				A.BIZ_ID,
+				J.BIZ_NAME,
+				A.USER_ID,
+				C.USER_NAME,
+				A.DOCU_NAME,
+				A.PREV_DOCU_ID,
+				B.DOCU_NAME 				PREV_DOCU_NAME,
+				B.CON_FILE_ID 				PREV_FILE_ID,
+				A.ORG_FILE_ID,
+				E.ORG_FILE_NAME,
+				A.CON_FILE_ID,
+				A.REQ_COMMENT,
+				A.AUTH_TYPE,
+				A.AUTH_CODE,
+				A.SIGN_TYPE,
+				A.SEND_TYPE,
+				A.SEND_ORD,
+				A.REVIEW_TYPE,
+				A.TSA_TYPE,
+				A.EXPIRE_TYPE,
+				A.EXPIRE_DATE,
+				A.TEMP_SAVE_TYPE,
+				A.TEMP_SAVE_DATE,
+				A.DOCU_STATUS,
+				D.COMM_NAME 				DOCU_STATUS_NAME,
+				A.DIGIT_NONCE,
+				A.COMPLETE_DATE,
+				A.INPUT_TYPE,
+				A.INS_DATE,
+				A.UPD_DATE,
+				IFNULL(H.DOCU_ID,'') 		NEXT_DOCU_ID,
+				IFNULL(H.DOCU_NAME,'') 		NEXT_DOCU_NAME,
+				'N' BOOKMARK,
+				(SELECT MAX(X.RECV_USER_NAME) FROM TBL_DOCUMENT_DETAIL X WHERE X.DOCU_ID = A.DOCU_ID AND X.RECV_TYPE = 'R' AND X.RECV_ORD = '1' ) R_USER_NAME,
+				(SELECT MAX(X.RECV_USER_NAME) FROM TBL_DOCUMENT_DETAIL X WHERE X.DOCU_ID = A.DOCU_ID AND X.RECV_TYPE = 'T' AND X.RECV_ORD = '1' ) T_USER_NAME
+		FROM 	TBL_DOCUMENT_MASTER A
+		LEFT JOIN TBL_DOCUMENT_MASTER B
+		  ON	A.PREV_DOCU_ID  = B.DOCU_ID
+		 AND	A.BIZ_ID        = B.BIZ_ID
+		 AND	B.USE_YN        = 'Y'
+		LEFT JOIN TBL_USER C
+		  ON	A.USER_ID       = C.USER_ID
+		LEFT JOIN TBL_CODE D
+		  ON	D.GRP_COMM_CODE = '1003'
+		 AND	A.DOCU_STATUS   = D.COMM_CODE
+		LEFT JOIN TBL_CONTENT E
+		  ON	E.FILE_ID       = A.ORG_FILE_ID
+		LEFT OUTER JOIN TBL_DOCUMENT_DETAIL F
+		  ON	A.DOCU_ID       = F.DOCU_ID
+		LEFT OUTER JOIN	TBL_DOCUMENT_MASTER H
+		  ON	H.BIZ_ID        = A.BIZ_ID
+		 AND	H.PREV_DOCU_ID  = A.DOCU_ID
+		 AND	H.USE_YN        = 'Y'
+		LEFT JOIN TBL_BIZ J
+		  ON	A.BIZ_ID        = J.BIZ_ID
+		WHERE	A.USE_YN        = 'Y'
+		 AND	A.DIGIT_NONCE   = #digitNonce#
+		GROUP BY	A.DOCU_ID,
+					A.BIZ_ID,
+					A.USER_ID,
+					C.USER_NAME,
+					A.DOCU_NAME,
+					A.PREV_DOCU_ID,
+					B.DOCU_NAME,
+					B.CON_FILE_ID,
+					A.ORG_FILE_ID,
+					E.ORG_FILE_NAME,
+					A.CON_FILE_ID,
+					A.REQ_COMMENT,
+					A.AUTH_TYPE,
+					A.AUTH_CODE,
+					A.SIGN_TYPE,
+					A.SEND_TYPE,
+					A.SEND_ORD,
+					A.REVIEW_TYPE,
+					A.TSA_TYPE,
+					A.EXPIRE_TYPE,
+					A.EXPIRE_DATE,
+					A.TEMP_SAVE_TYPE,
+					A.TEMP_SAVE_DATE,
+					A.DOCU_STATUS,
+					D.COMM_NAME ,
+					A.COMPLETE_DATE,
+					A.INPUT_TYPE,
+					A.INS_DATE,
+					A.UPD_DATE
+	</select>
+
+	<select id="documentDAO.getDocumentDetailList" parameterClass="documentDetailVO" resultMap="documentDetailListMap">
+		SELECT	A.DOCU_ID,
+				A.DOCU_NAME,
+				B.RECV_USER_ID,
+				B.RECV_USER_NAME,
+				B.RECV_PHONE,
+				B.RECV_EMAIL,
+				B.RECV_ORD,
+				B.RECV_TYPE,
+				B.VIEW_DATE,
+				B.CONFIRM_DATE,
+				B.RECV_STATUS,
+				D.COMM_NAME RECV_STATUS_NAME,
+				B.RECV_MESSAGE,
+				B.RECV_SIGN,
+				B.INS_DATE,
+				B.UPD_DATE,
+				B.CONTACT_TYPE
+		FROM TBL_DOCUMENT_MASTER A
+		LEFT JOIN TBL_DOCUMENT_DETAIL B
+		  ON 	A.DOCU_ID    	= B.DOCU_ID
+		LEFT JOIN TBL_CODE D
+		  ON 	B.RECV_STATUS   = D.COMM_CODE
+		 AND 	D.GRP_COMM_CODE = '1002'
+		WHERE 	A.DOCU_ID 		= #docuId#
+		<isNotNull property="recvType">
+			<isNotEmpty property="recvType">
+				AND B.RECV_TYPE = #recvType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="recvStatus">
+			<isNotEmpty property="recvStatus">
+				AND B.RECV_STATUS = #recvStatus#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="docuStatus">
+			<isNotEmpty property="docuStatus">
+				AND A.DOCU_STATUS = #docuStatus#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="recvUserId">
+			<isNotEmpty property="recvUserId">
+				AND B.RECV_USER_ID = #recvUserId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sortName">
+			<isNotEmpty property="sortName">
+				ORDER BY $sortName$ $sortOrder$
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+
+	<select id="documentDAO.getDocumentFileList" parameterClass="documentFileVO" resultMap="documentFileListMap">
+		SELECT	A.DOCU_ID,
+				A.FILE_ID,
+				A.FILE_NAME,
+				A.FILE_USER_ID,
+				B.RECV_USER_NAME FILE_USER_NAME,
+				A.RECV_SIGN,
+				A.INS_DATE,
+				A.UPD_DATE
+		FROM 	TBL_DOCUMENT_FILE A
+		LEFT JOIN TBL_DOCUMENT_DETAIL B
+		  ON	A.DOCU_ID      = B.DOCU_ID
+		 AND	A.FILE_USER_ID = B.RECV_USER_ID
+		WHERE 	A.DOCU_ID      = #docuId#
+		<isNotNull property="fileUserId">
+			<isNotEmpty property="fileUserId">
+				AND A.FILE_USER_ID = #fileUserId#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+
+	<select id="documentDAO.getDocumentCommentList" parameterClass="documentCommentVO" resultMap="documentCommentListMap">
+		SELECT	A.DOCU_ID,
+				B.RECV_USER_NAME,
+				A.RECV_COMMENT,
+				A.SEND_TYPE,
+				A.INS_DATE
+		FROM TBL_DOCUMENT_COMMENT A
+		LEFT JOIN TBL_DOCUMENT_DETAIL B
+		  ON	A.DOCU_ID      = B.DOCU_ID
+		 AND	A.RECV_USER_ID = B.RECV_USER_ID
+		 AND	B.RECV_TYPE    = 'R'
+		WHERE	A.DOCU_ID      = #docuId#
+	</select>
+
+	<select id="documentDAO.getDocumentEformList" parameterClass="documentEformVO" resultMap="documentEformListMap">
+		SELECT	A.DOCU_ID,
+				B.DOCU_NAME,
+				A.FORM_ID,
+				A.FORM_NAME,
+				A.FORM_TYPE,
+				C.COMM_CODE FORM_TYPE_NAME,
+				A.FORM_VALUE,
+				A.INS_DATE
+		FROM 	TBL_DOCUMENT_EFORM A,
+		    	TBL_DOCUMENT_MASTER B,
+		    	TBL_CODE C
+		WHERE	A.DOCU_ID       = B.DOCU_ID
+		  AND	A.FORM_TYPE     = C.COMM_CODE
+		  AND	C.GRP_COMM_CODE = '1000'
+		  AND	A.DOCU_ID       = #docuId#
+	</select>
+
+	<select id="documentDAO.getDocumentLogList" parameterClass="documentLogVO" resultMap="documentLogListMap">
+		SELECT 	A.DOCU_ID,
+				B.DOCU_NAME,
+				A.LOG_TYPE,
+				C.COMM_NAME 	 LOG_TYPE_NAME,
+				A.LOG_MESSAGE,
+				A.WORK_USER_ID,
+				D.RECV_USER_NAME WORK_USER_NAME,
+				A.INS_DATE
+		FROM 	TBL_DOCUMENT_LOG A
+		LEFT JOIN TBL_DOCUMENT_MASTER B
+		  ON 	A.DOCU_ID       = B.DOCU_ID
+		LEFT JOIN TBL_CODE C
+		  ON 	A.LOG_TYPE      = C.COMM_CODE
+		 AND 	C.GRP_COMM_CODE = '1001'
+		LEFT JOIN TBL_DOCUMENT_DETAIL D
+		  ON 	A.WORK_USER_ID  = D.RECV_USER_ID
+		WHERE 	A.DOCU_ID       = #docuId#
+		ORDER BY A.INS_DATE DESC
+	</select>
+
+	<!-- DELETE -->
+	<update id="documentDAO.delDocumentMaster" parameterClass="documentMasterVO">
+		UPDATE TBL_DOCUMENT_MASTER
+		SET   USE_YN   = 'N',
+			  UPD_DATE = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE DOCU_ID  = #docuId#
+	</update>
+
+	<delete id="documentDAO.delDocumentDetail" parameterClass="documentDetailVO">
+		DELETE FROM TBL_DOCUMENT_DETAIL
+		WHERE DOCU_ID      = #docuId#
+		  AND RECV_TYPE    = #recvType#
+		  AND RECV_USER_ID = #recvUserId#
+	</delete>
+
+	<delete id="documentDAO.delDocumentDetailById" parameterClass="documentDetailVO">
+		DELETE FROM TBL_DOCUMENT_DETAIL
+		WHERE DOCU_ID = #docuId#
+	</delete>
+
+	<delete id="documentDAO.delDocumentFile" parameterClass="documentFileVO">
+		DELETE FROM TBL_DOCUMENT_FILE
+		WHERE DOCU_ID = #docuId#
+		  AND FILE_ID = #fileId#
+	</delete>
+
+	<delete id="documentDAO.delDocumentComment" parameterClass="documentCommentVO">
+		DELETE FROM TBL_DOCUMENT_COMMENT
+		WHERE DOCU_ID = #docuId#
+		  AND SEQ_NO  = #seqNo#
+	</delete>
+
+	<delete id="documentDAO.delDocumentSetting" parameterClass="documentSettingVO">
+		DELETE FROM TBL_DOCUMENT_SETTING
+		WHERE DOCU_ID      = #docuId#
+		  AND USER_ID      = #userId#
+		  AND RECV_TYPE    = #recvType#
+		  AND SETTING_TYPE = #settingType#
+	</delete>
+
+	<delete id="documentDAO.delDocumentEform" parameterClass="documentEformVO">
+		DELETE FROM TBL_DOCUMENT_EFORM
+		WHERE DOCU_ID = #docuId#
+	</delete>
+
+	<!-- UPDATE -->
+	<update id="documentDAO.updDocumentMaster" parameterClass="documentMasterVO">
+		UPDATE TBL_DOCUMENT_MASTER
+		SET
+		<isNotNull property="docuName">
+			<isNotEmpty property="docuName">
+				DOCU_NAME = #docuName#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="prevDocuId">
+			<isNotEmpty property="prevDocuId">
+				PREV_DOCU_ID = #prevDocuId#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="conFileId">
+			<isNotEmpty property="conFileId">
+				CON_FILE_ID = #conFileId#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="orgFileId">
+			<isNotEmpty property="orgFileId">
+				ORG_FILE_ID = #orgFileId#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="authType">
+			<isNotEmpty property="authType">
+				AUTH_TYPE = #authType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="authCode">
+			<isNotEmpty property="authCode">
+				AUTH_CODE = #authCode#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="signType">
+			<isNotEmpty property="signType">
+				SIGN_TYPE = #signType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sendType">
+			<isNotEmpty property="sendType">
+				SEND_TYPE = #sendType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sendOrd">
+			<isNotEmpty property="sendOrd">
+				SEND_ORD = #sendOrd#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="reviewType">
+			<isNotEmpty property="reviewType">
+				REVIEW_TYPE = #reviewType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="expireType">
+			<isNotEmpty property="expireType">
+				EXPIRE_TYPE = #expireType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="expireType">
+			<isNotEmpty property="expireType">
+				<isEqual property="expireType" compareValue="Y">
+					EXPIRE_DATE = #expireDate#,
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="tempSaveType">
+			<isNotEmpty property="tempSaveType">
+				TEMP_SAVE_TYPE = #tempSaveType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="tempSaveDate">
+			<isNotEmpty property="tempSaveDate">
+				TEMP_SAVE_DATE = #tempSaveDate#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="tsaType">
+			<isNotEmpty property="tsaType">
+				TSA_TYPE = #tsaType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="docuStatus">
+			<isNotEmpty property="docuStatus">
+				DOCU_STATUS = #docuStatus#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="reqComment">
+			<isNotEmpty property="reqComment">
+				REQ_COMMENT = #reqComment#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="completeDate">
+			<isNotEmpty property="completeDate">
+				COMPLETE_DATE = #completeDate#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="inputType">
+			<isNotEmpty property="inputType">
+				INPUT_TYPE = #inputType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="useYn">
+			<isNotEmpty property="useYn">
+				USE_YN = #useYn#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="digitNonce">
+			<isNotEmpty property="digitNonce">
+				DIGIT_NONCE = #digitNonce#,
+			</isNotEmpty>
+		</isNotNull>
+		UPD_DATE = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE DOCU_ID  = #docuId#
+		AND BIZ_ID   = #bizId#
+	</update>
+
+	<update id="documentDAO.updDocumentDetail" parameterClass="documentDetailVO">
+		UPDATE TBL_DOCUMENT_DETAIL
+		SET
+		<isNotNull property="recvUserName">
+			<isNotEmpty property="recvUserName">
+				RECV_USER_NAME = #recvUserName#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="recvPhone">
+			<isNotEmpty property="recvPhone">
+				RECV_PHONE = #recvPhone#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="recvEmail">
+			<isNotEmpty property="recvEmail">
+				RECV_EMAIL = #recvEmail#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="recvStatus">
+			<isNotEmpty property="recvStatus">
+				RECV_STATUS = #recvStatus#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="viewDate">
+			<isNotEmpty property="viewDate">
+				VIEW_DATE = #viewDate#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="confirmDate">
+			<isNotEmpty property="confirmDate">
+				CONFIRM_DATE = #confirmDate#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="recvStatus">
+			<isNotEmpty property="recvStatus">
+				RECV_STATUS = #recvStatus#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="recvMessage">
+			<isNotEmpty property="recvMessage">
+				RECV_MESSAGE = #recvMessage#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="recvSign">
+			<isNotEmpty property="recvSign">
+				RECV_SIGN = #recvSign#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contactType">
+			<isNotEmpty property="contactType">
+				CONTACT_TYPE = #contactType#,
+			</isNotEmpty>
+		</isNotNull>
+		UPD_DATE     = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE DOCU_ID      = #docuId#
+		  AND RECV_TYPE	   = #recvType#
+		  AND RECV_USER_ID = #recvUserId#
+	</update>
+
+	<update id="documentDAO.updDocumentEform" parameterClass="documentEformVO">
+		UPDATE TBL_DOCUMENT_EFORM
+		SET
+		<isNotNull property="formValue">
+			<isNotEmpty property="formValue">
+				FORM_VALUE = #formValue#,
+			</isNotEmpty>
+		</isNotNull>
+		UPD_DATE = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE DOCU_ID  = #docuId#
+		  AND FORM_ID  = #formId#
+	</update>
+
+	<update id="documentDAO.updDocumentFile" parameterClass="documentFileVO">
+		UPDATE TBL_DOCUMENT_FILE
+		SET
+		<isNotNull property="recvSign">
+			<isNotEmpty property="recvSign">
+				RECV_SIGN = #recvSign#,
+			</isNotEmpty>
+		</isNotNull>
+		UPD_DATE = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE DOCU_ID = #docuId#
+		  AND FILE_ID = #fileId#
+	</update>
+
+	<!-- INSERT -->
+	<insert id="documentDAO.insDocumentMaster" parameterClass="documentMasterVO">
+		INSERT INTO TBL_DOCUMENT_MASTER (
+			DOCU_ID,
+			BIZ_ID,
+			USER_ID,
+			DOCU_NAME,
+			PREV_DOCU_ID,
+			ORG_FILE_ID,
+			CON_FILE_ID,
+			REQ_COMMENT,
+			AUTH_TYPE,
+			AUTH_CODE,
+			SIGN_TYPE,
+			SEND_TYPE,
+			SEND_ORD,
+			REVIEW_TYPE,
+			EXPIRE_TYPE,
+			EXPIRE_DATE,
+			DIGIT_NONCE,
+			HASH_DATA,
+			TSA_TYPE,
+			TEMP_SAVE_TYPE,
+			TEMP_SAVE_DATE,
+			DOCU_STATUS,
+			COMPLETE_DATE,
+			INPUT_TYPE,
+			INS_DATE,
+			UPD_DATE
+		) VALUES (
+			#docuId#,
+			#bizId#,
+			#userId#,
+			#docuName#,
+			#prevDocuId#,
+			#orgFileId#,
+			#conFileId#,
+			#reqComment#,
+			#authType#,
+			#authCode#,
+			#signType#,
+			#sendType#,
+			#sendOrd#,
+			#reviewType#,
+			#expireType#,
+			#expireDate#,
+			#digitNonce#,
+			#hashData#,
+			#tsaType#,
+			#tempSaveType#,
+			#tempSaveDate#,
+			#docuStatus#,
+			#completeDate#,
+			#inputType#,
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'),
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+
+	<insert id="documentDAO.insDocumentLog" parameterClass="documentLogVO">
+		INSERT INTO TBL_DOCUMENT_LOG (
+			DOCU_ID,
+			LOG_TYPE,
+			LOG_MESSAGE,
+			WORK_USER_ID,
+			FILE_ID,
+			INS_DATE
+		) VALUES (
+			#docuId#,
+			#logType#,
+			#logMessage#,
+			#workUserId#,
+			#fileId#,
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+
+	<insert id="documentDAO.insDocumentEform" parameterClass="documentEformVO">
+		INSERT INTO TBL_DOCUMENT_EFORM (
+			DOCU_ID,
+			FORM_ID,
+			FORM_NAME,
+			FORM_TYPE,
+			FORM_VALUE,
+			INS_DATE
+		) VALUES (
+			#docuId#,
+			#formId#,
+			#formName#,
+			#formType#,
+			#formValue#,
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+
+	<insert id="documentDAO.insDocumentDetail" parameterClass="DocumentDetailVO">
+		<selectKey resultClass="java.lang.String" keyProperty="recvUserId">
+			SELECT  getTableKey('TBL_DOCUMENT_DETAIL')
+		</selectKey>
+		INSERT INTO TBL_DOCUMENT_DETAIL (
+			DOCU_ID,
+			RECV_USER_ID,
+			RECV_USER_NAME,
+			RECV_PHONE,
+			RECV_EMAIL,
+			RECV_ORD,
+			RECV_TYPE,
+			VIEW_DATE,
+			CONFIRM_DATE,
+			RECV_STATUS,
+			RECV_MESSAGE,
+			INS_DATE,
+			UPD_DATE,
+			CONTACT_TYPE
+		) VALUES (
+			#docuId#,
+			#recvUserId#,
+			#recvUserName#,
+			#recvPhone#,
+			#recvEmail#,
+			#recvOrd#,
+			#recvType#, #viewDate#, #confirmDate#, #recvStatus#, #recvMessage#,
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'),
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), #contactType#
+		)
+	</insert>
+
+	<insert id="documentDAO.insDocumentFile" parameterClass="DocumentFileVO">
+		INSERT INTO TBL_DOCUMENT_FILE (
+			DOCU_ID,
+			FILE_ID,
+			FILE_NAME,
+			FILE_USER_ID,
+			RECV_SIGN,
+			INS_DATE,
+			UPD_DATE
+		) VALUES (
+			 #docuId#,
+			 #fileId#,
+			 #fileName#,
+			 #fileUserId#,
+			 #recvSign#,
+			 DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'),
+			 DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		 )
+	</insert>
+
+	<insert id="documentDAO.insDocumentComment" parameterClass="DocumentCommentVO">
+		INSERT INTO TBL_DOCUMENT_COMMENT (
+			DOCU_ID,
+			RECV_USER_ID,
+			RECV_COMMENT,
+			SEND_TYPE,
+			INS_DATE
+		) VALUES (
+			#docuId#,
+			#recvUserId#,
+			#recvComment#,
+			#sendType#,
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+
+	<insert id="documentDAO.insDocumentSetting" parameterClass="documentSettingVO">
+		INSERT INTO TBL_DOCUMENT_SETTING (
+			DOCU_ID,
+			USER_ID,
+			RECV_TYPE,
+			SETTING_TYPE,
+			SETTING_VALUE, INS_DATE, UPD_DATE
+		) VALUES (
+			#docuId#,
+			#userId#,
+			#recvType#,
+			#settingType#,
+			#settingValue#,
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'),
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+
+</sqlMap>
+		

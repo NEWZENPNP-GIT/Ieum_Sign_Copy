@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/menuTree.css">
+<link rel="stylesheet" type="text/css" href="/css/menu_manage.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/menuTree/menuTree.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script>
+	
+	// 메뉴타입 선택 이벤트
+	function fn_setMenuType() {
+		var menuTypeName = $("#menuType option:selected").text();
+		$("#menuTypeName").html(menuTypeName);
+		
+		fn_getMenuTreeList();
+	}
+	
+	// 메뉴선택
+	function onTreeClick(event,menuCode) {
+		$("#menuCode").val(menuCode);
+		
+		// 이벤트처리
+		if($(event).hasClass("child-hide")){
+            // 하위 메뉴 보이기 
+            $(event).addClass("child-show").removeClass("child-hide");
+        }else{
+            // 하위 메뉴 숨기기
+            if($(event).attr("parent")=="0"){
+                $(event).next().find("a").addClass("child-hide").removeClass("child-show");
+            }
+            $(event).addClass("child-hide").removeClass("child-show");
+        }
+		
+		// 메뉴조회
+		fn_getMenuList();
+	}
+
+	// 메뉴구성
+	function fn_getMenuList() {
+	
+		var url = rootPath+"menu/getMenuMngList.do";
+		
+		var menuType = $("#menuType").val();
+		var menuCode = $("#menuCode").val();
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				menuType:menuType,
+				menuCode:menuCode
+			},
+			success:function(result)
+			{
+				if(result.success) {
+					$.each(result.data, function(i, row) {
+						$("#menuName").val(row.menuName);
+						$("#pmenuCode").val(row.pmenuCode);
+						if(row.pmenuName=="") {row.pmenuName="ROOT";}
+						$("#pmenuName").html(row.pmenuName);
+						$("#menuLvl").val(row.menuLvl);
+						$("#menuLvlName").html("LV - "+row.menuLvl);
+						$("#menuOdr").val(row.menuOdr);
+						$("#menuUrl").val(row.menuUrl);
+						$("#menuInfo").val(row.menuInfo);
+						$("#useYn").val(row.useYn);
+						$("#dbMode").val("U");
+						$("#openType").val(row.openType);
+						$("#popupWidth").val(row.popupWidth);
+						$("#popupHeight").val(row.popupHeight);
+					});
+				}
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+	
+	// 메뉴 트리구성
+	function fn_getMenuTreeList() {
+
+		var url = rootPath+"menu/getMenuTreeList.do";
+		
+		var menuType = $("#menuType").val();
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				menuType:menuType
+			},
+			success:function(result)
+			{
+				if(result.success) {
+					treeRender(result.data);
+				}
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+	
+	// 메뉴 신규추가
+	function fn_addMenu() {
+		var menuCode = $("#menuCode").val();
+		var menuLvl = $("#menuLvl").val();
+
+		if(menuCode=="") {
+			alert("메뉴를 먼저 선택해주시기 바랍니다.");
+			return;
+		}
+		if(menuLvl=="0") {
+			$("#menuLvl").val("1");
+			$("#menuLvlName").html("LV - 1");
+			$("#pmenuCode").val(menuCode);
+			$("#pmenuName").html($("#menuName").val());
+		} else if(menuLvl=="1") {
+			$("#menuLvl").val("2");
+			$("#menuLvlName").html("LV - 2");
+			$("#pmenuCode").val(menuCode);
+			$("#pmenuName").html($("#menuName").val());
+		}
+		
+		$("#dbMode").val("C");
+		$("#menuCode").val("");
+		$("#menuName").val("");
+		$("#menuOdr").val("0");
+		$("#menuUrl").val("");
+		$("#menuInfo").val("");
+		$("#openType").val("0");
+		$("#popupWidth").val("0");
+		$("#popupHeight").val("0");
+		$("#useYn").val("Y");
+		$("#useYn").val("Y");
+	}
+	
+	// 메뉴저장
+	function fn_saveMenu() {
+		if(!confirm("메뉴를 저장하시겠습니까?")) return;
+		
+		var dbMode = $("#dbMode").val();
+		if(dbMode=="C") {
+			fn_newSave();
+		} else {
+			fn_updSave();
+		}
+	}
+	
+	// 신규등록
+	function fn_newSave() {
+		
+		var url = rootPath+"menu/insMenu.do";
+		
+		var menuType = $("#menuType").val();
+		var menuName = $("#menuName").val();
+		var pmenuCode = $("#pmenuCode").val();
+		var menuLvl = $("#menuLvl").val();
+		var menuOdr = $("#menuOdr").val();
+		var menuUrl = $("#menuUrl").val();
+		var menuInfo = $("#menuInfo").val();
+		var openType = $("#openType").val();
+		var popupWidth = $("#popupWidth").val();
+		var popupHeight = $("#popupHeight").val();
+		var useYn = $("#useYn").val();
+		if(menuType=="") {
+			alert("메뉴타입을 선택하세요.");
+		}
+
+		if(menuName==""||menuOdr==""||menuUrl=="") {
+			alert("필수항목(메뉴명, 메뉴순서, 메뉴URL)을 입력해주시기 바랍니다.");
+			return;
+		}
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				menuType:menuType,
+				menuName:menuName,
+				pmenuCode:pmenuCode,
+				menuLvl:menuLvl,
+				menuOdr:menuOdr,
+				menuUrl:menuUrl,
+				menuInfo:menuInfo,
+				openType:openType,
+				popupWidth:popupWidth,
+				popupHeight:popupHeight,
+				useYn:useYn
+			},
+			success:function(result)
+			{
+				if(result.success) {
+					alert("메뉴를 추가하였습니다.");
+					fn_getMenuTreeList();
+				} else {
+					alert("메뉴추가를 진행중 실패하였습니다.");
+				}
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+
+	// 수정
+	function fn_updSave() {
+
+		var url = rootPath+"menu/updMenu.do";
+		
+		var menuType = $("#menuType").val();
+		var menuCode = $("#menuCode").val();
+		var menuName = $("#menuName").val();
+		var menuOdr = $("#menuOdr").val();
+		var menuUrl = $("#menuUrl").val();
+		var menuInfo = $("#menuInfo").val();
+		var openType = $("#openType").val();
+		var popupWidth = $("#popupWidth").val();
+		var popupHeight = $("#popupHeight").val();
+		var useYn = $("#useYn").val();
+		
+		if(menuCode=="") {
+			alert("메뉴를 선택하세요.");
+			return;
+		}
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				menuType:menuType,
+				menuCode:menuCode,
+				menuName:menuName,
+				menuOdr:menuOdr,
+				menuUrl:menuUrl,
+				menuInfo:menuInfo,
+				openType:openType,
+				popupWidth:popupWidth,
+				popupHeight:popupHeight,
+				useYn:useYn
+			},
+			success:function(result)
+			{
+				if(result.success) {
+					alert("메뉴를 저장하였습니다.");
+					fn_getMenuTreeList();
+				} else {
+					alert("메뉴추가를 진행중 실패하였습니다.");
+				}
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+	
+	// 삭제
+	function fn_delMenu() {
+		if(!confirm("메뉴를 삭제하시겠습니까?")) return;
+
+		var url = rootPath+"menu/delMenu.do";
+		
+		var menuType = $("#menuType").val();
+		var menuCode = $("#menuCode").val();
+
+		if(menuCode=="") {
+			alert("메뉴를 선택하세요.");
+			return;
+		}
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				menuType:menuType,
+				menuCode:menuCode
+			},
+			success:function(result)
+			{
+				if(result.success) {
+					alert("메뉴를 삭제하였습니다.");
+					fn_getMenuTreeList();
+				} else {
+					alert("메뉴삭제를 진행중 실패하였습니다.");
+				}
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+	
+</script>
+</head>
+<body>
+<input type="hidden" id="dbMode" value="C">
+<input type="hidden" id="pmenuCode" value="ROOT">
+<input type="hidden" id="menuCode" value="">
+<input type="hidden" id="menuLvl" value="">
+<!-- *********************************************    *********************************************  -->
+<div id="menuManage_wrap" class="">
+	<div class="container">
+		<div class="location"><span class="loc_main NanumGothic">메뉴관리 > </span><span class="loc_sub NanumGothic">상세메뉴관리</span></div>
+		<div class="pagtit"><span class="NanumGothic">상세 메뉴관리</span></div>
+		
+		<div class="con">
+			<div class="row left">
+				<div class="select_box NanumGothic">
+					<select id="menuType" onchange="fn_setMenuType()">
+						<option value="USR" selected>임직원</option>
+						<option value="BSA">기업중간관리자</option>
+						<option value="BAD">기업관리자</option>
+						<option value="CHN">협력사중간관리자</option>
+						<option value="PAD">협력사관리자</option>
+						<option value="SAD">시스템관리자</option>
+					</select>
+				</div>
+				<div class="tree_wrap NanumGothic">
+					<div class="horizontalTreeTop"></div>
+				</div>
+			</div>
+			<div class="row right">
+				<div class="detail NanumGothic">
+					<dl class="input_bx">
+						<dt><label class="NanumGothic">메뉴타입</label></dt>
+						<dd><div id="menuTypeName" class="disable_txt gray">임직원</div></dd>
+					</dl>
+					<dl class="input_bx">
+						<dt><label class="NanumGothic">메뉴명</label></dt>
+						<dd><input id="menuName" type="text"class="input_txt"></dd>
+					</dl>
+					<dl class="input_bx">
+						<dt><label class="NanumGothic">상위 메뉴명</label></dt>
+						<dd><div id="pmenuName" class="disable_txt gray">ROOT</div></dd>
+					</dl>
+					<dl class="input_bx">
+						<dt><label class="NanumGothic">메뉴LV</label></dt>
+						<dd><div id="menuLvlName"class="disable_txt gray">LV - 1</div></dd>
+					</dl>
+					<dl class="input_bx">
+						<dt><label class="NanumGothic">메뉴순서</label></dt>
+						<dd><input id="menuOdr" type="number"class="input_txt"></dd>
+					</dl>
+					<dl class="select_bx">
+						<dt><label class="NanumGothic">사용여부</label></dt>
+						<dd>
+							<select id="useYn">
+								<option value="Y">사용</option>
+								<option value="N">미사용</option>
+							</select>
+						</dd>
+					</dl>
+					<dl class="input_bx full">
+					    <dt><label class="NanumGothic">메뉴URL</label></dt>
+					    <dd><input id="menuUrl" type="text"class="input_txt"></dd>
+					</dl>
+					<dl class="input_bx full">
+						<dt><label class="NanumGothic">팝업여부</label></dt>
+						<dd class="split_3"> 
+							<div class="select">
+								<select id="openType">
+									<option value="0">미사용</option>
+									<option value="1">사용</option>
+								</select>
+							</div>
+							<div><label>width : </label><input id="popupWidth" type="number"class="input_txt"></div>
+							<div><label>height : </label><input id="popupHeight" type="number"class="input_txt"></div>
+						</dd>
+					</dl>
+					<dl class="input_bx full">
+						<dt><label class="NanumGothic">기타정보</label></dt>
+						<dd class="textarea"><textarea id="menuInfo" name="textarea" class="input_txt" >인사정보는 모든 이음싸인 서비스를 이용하기위한  필수적인 정보입니다. </textarea></dd>
+					</dl>
+				</div>
+				<div class="desc_group">
+					<span class="NanumGothic">※ 메뉴 추가는 최대 LV - 2 까지만 가능합니다.</span>
+					<span class="NanumGothic">※ 선택중인 메뉴 하단에 메뉴가 추가됩니다.</span>
+				</div>
+				<div class="btn_group">
+					<div><div class="btn_type Material_icons" onclick="fn_addMenu()">추가</div></div>
+					<div><div class="btn_type Material_icons" onclick="fn_saveMenu()">저장</div></div>
+					<div><div class="btn_type Material_icons" onclick="fn_delMenu()">삭제</div></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+
+<script type="text/javascript">
+
+function treeRender(jsonData) {
+	$(".horizontalTreeTop").empty();
+	$(".horizontalTreeTop").zooTree(jsonData, {
+		//forceCreate: true,
+		render: function(data) { // <li>...</li> 태그안에 내용을 커스텀 할 수 있다
+			var _url="";
+			if(data.url == undefined){
+				_url="";
+			}else{
+				_url=data.url;
+			}
+			
+		    var $div = $("<a item='"+data.itemId+"' itemLv='"+data.itemLv+"' parent='"+data.parentId+"' class='child-hide' onclick='onTreeClick(this,"+_url+")'><span class='text'>"+data.label+"</span><span class='icon'></span></a></div>");
+		    return $div;
+		}
+	});
+}
+
+$(document).ready(function(){
+    
+    fn_getMenuTreeList();
+})
+
+</script>
+</html>

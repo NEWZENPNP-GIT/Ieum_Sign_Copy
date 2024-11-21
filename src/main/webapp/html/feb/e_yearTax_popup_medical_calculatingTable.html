@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>의료비  공제대상금액</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+<script type='text/javascript' src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+
+<script>
+	$(document).ready(function() {
+		계약ID = getParams().yearContractId;
+		사용자ID = getParams().userId;
+		세액공제구분코드 = getParams().taxDeductCode;
+		
+		fn_getList();
+	})
+	
+	function fn_getList() {
+		var url = rootPath + '/febworker/medicalYW710.do';
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				계약ID:계약ID,
+				사용자ID:사용자ID,
+				세액공제구분코드:세액공제구분코드
+			},
+			success:function(result) {
+				if (result.success) {
+					var htmlData = "";
+					var value1 = 0;
+					var value2 = 0;
+					
+					// 합계
+					var sum1 = 0;
+					var sum2 = 0;
+					var sum3 = 0;
+					var sum4 = 0;
+					
+					// 의료비 상세계산 내역
+					$.each(result.의료비계산결과, function(i, row) {
+						
+						 if (row.일련번호  == 0) {
+							htmlData += '<tr>';
+							htmlData += '	<td class="subHead">① 난임시술비</td><td class="data sort_right">' + AddComma( Number(row.지출액)) + '</td>';
+							htmlData += '	<td class="data sort_right">' + AddComma( Number(row.공제제외금액)) + '</td>';
+							htmlData += '	<td class="data sort_right">' + AddComma( Number(row.공제대상금액)) + '</td>';
+							htmlData += '	<td class="subHead sort_center">' + row.공제율 + '</td>';
+							htmlData += '	<td class="data sort_right">' + AddComma( Number(row.공제율금액)) + '</td>';
+							htmlData += '</tr>';						
+						} else if (row.일련번호  == 1) {
+							htmlData += '<tr>';
+							htmlData += '	<td class="subHead">② 본인,경로자,장애인,건강보험특례</td><td class="data sort_right">' + AddComma( Number(row.지출액)) + '</td>';
+							htmlData += '	<td class="data sort_right">' + AddComma( Number(row.공제제외금액)) + '</td>';
+							htmlData += '	<td class="data sort_right">' + AddComma( Number(row.공제대상금액)) + '</td>';
+							htmlData += '	<td class="subHead sort_center" rowspan="2">' + row.공제율 + '</td>';
+							htmlData += '	<td class="data sort_right">' + AddComma( Number(row.공제율금액)) + '</td>';
+							htmlData += '</tr>';
+						} else {
+							htmlData += '<tr>';
+							htmlData += '	<td class="subHead">③ 일반</td><td class="data sort_right">' + AddComma( Number(row.지출액)) + '</td>';
+							htmlData += '	<td class="data sort_right">' + AddComma( Number(row.공제제외금액)) + '</td>';
+							htmlData += '	<td class="data sort_right">' + AddComma( Number(row.공제대상금액)) + '</td>';
+							htmlData += '	<td class="data sort_right">' + AddComma( Number(row.공제율금액)) + '</td>';
+							htmlData += '</tr>';
+						}
+						
+						sum1 += Number(row.지출액);
+						sum2 += Number(row.공제제외금액);
+						sum3 += Number(row.공제대상금액);
+						sum4 += Number(row.공제율금액);
+					});
+					
+					htmlData += '<tr>';
+					htmlData += '	<td class="subHead">의료비 합계 ( ①~③ )</td><td class="data sort_right">' + AddComma( Number(sum1)) + '</td>';
+					htmlData += '	<td class="data sort_right">' + AddComma( Number(sum2)) + '</td>';
+					htmlData += '	<td class="data sort_right">' + AddComma( Number(sum3)) + '</td>';
+					htmlData += '	<td class="subHead sort_center"></td>';
+					htmlData += '	<td class="data sort_right">' + AddComma( Number(sum4)) + '</td>';
+					htmlData += '</tr>';
+					
+					value1 = result.근무년월.총급여;
+					value2 = Math.floor(Number(result.근무년월.총급여) * 0.03);
+					
+					$("#value1").text(AddComma(value1));
+					$("#value2").text(AddComma(value2));
+					$("#dataList").html(htmlData);
+				}
+			},
+			error:function(request,status,error){
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					window.close();
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+</script>	
+</head>
+<body>
+	<div id="yearTax_wrap_popup" class="yearTax_popup sheet medi">
+		<div class="container">
+			<div id="popup_tit">
+				<div class="tit_icon icon_set"></div>
+				<div class="tit_text NanumSquare_R">의료비</div>
+				<div id="popup_close" class="btn_type col_skyblue" onclick="window.close();"></div>
+			</div>
+			<div class="contents">
+				<div class="part NanumSquare_R">
+					<div class="cellTit"><span class="icon"></span><span class="ttxt">의료비 공제액 산출 과정</span></div>
+					<div class="box_wrap">
+						<dl class="">
+							<dt class="">총급여</dt>
+							<dd class="data sort_right" id="value1"></dd>
+						</dl>
+						<dl class="">
+							<dt class="">최저사용금액 (총급여의 3%)</dt>
+							<dd class="data sort_right" id="value2"></dd>
+						</dl>
+					</div>
+				</div>
+				<div class="part">
+					<table class="NanumSquare_R">
+						<colgroup>
+							<col width="24%">
+							<col width="17%">
+							<col width="17%">
+							<col width="17%">
+							<col width="8%">
+							<col width="17%">
+						</colgroup>
+						<thead>
+							<tr>
+								<th>구분</th>	<th>지출액</th><th >공제제외금액</th><th>공제대상금액</th><th colspan="2">공제율금액</th>
+							</tr>
+						</thead>
+						<tbody id="dataList">
+							<tr>
+								<td class="subHead">① 난임시술비</td><td class="data sort_right"></td><td class="data sort_right"></td>
+								<td class="data sort_right"></td><td class="subHead sort_center">20%</td><td class="data sort_right"></td>
+							</tr>
+							<tr>
+								<td class="subHead">② 본인,경로자,장애인,건강보험특례</td><td class="data sort_right"></td><td class="data sort_right"></td>
+								<td class="data sort_right"></td><td class="subHead sort_center" rowspan="2">15%</td><td class="data sort_right"></td>
+							</tr>
+							<tr>
+								<td class="subHead">③ 일반</td><td class="data sort_right"></td><td class="data sort_right"></td>
+								<td class="data sort_right"></td><td class="data sort_right"></td>
+							</tr>
+							<tr>
+								<td class="subHead">의료비 합계 ( ①~③ )</td><td class="data sort_right"></td><td class="data sort_right"></td>
+								<td class="data sort_right"></td><td class="subHead sort_center"></td><td class="data result sort_right "></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="part NanumSquare_R">
+					<div class="cellTit"><span class="icon"></span><span class="ttxt">의료비 사용금액 공제금액 산출식</span></div>
+				</div>
+				<div class="part">
+					<table class="NanumSquare_R">
+						<colgroup>
+							<col width="25%">
+							<col width="20%">
+							<col width="33%">
+							<col width="22%">
+						</colgroup>
+						<thead>
+							<tr>
+								<th>항목</th><th colspan="2">공제금액 한도 및 계산식</th><th>공제금액</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="subHead">① 난임시술비</td><td>한도없음</td><td rowspan="3">①＋②＋MIN[(③-총급여액×3%),700만원]</td><td>최저사용금액×20%</td>
+							</tr>
+							<tr>
+								<td class="subHead">② 본인,경로자,장애인,건강보험특례</td><td>한도없음</td><td>최저사용금액×15%</td>
+							</tr>
+							<tr>
+								<td class="subHead">③ 일반</td><td>연 700만원</td><td>최저사용금액×15%</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<ul class="explain_wrap NanumSquare_R">
+					<li class="col_red">※공제 제외 금액은 세법상 유리한 순서인 ③ → ② → ① 순으로 차감합니다.</li>
+					
+				</ul>
+				<div class="foot_btn NanumSquare_R">
+					<a class="btn_type" onclick="window.close();">확인</a>
+				</div>
+			</div>
+		</div> <!--  container -->
+	</div>
+</body>
+</html>

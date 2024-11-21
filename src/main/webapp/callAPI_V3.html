@@ -1,0 +1,193 @@
+<!DOCTYPE HTML> 
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="user-scalable=yes, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">	
+<title>인적자원관리 전문IT기업 - 뉴젠P&amp;P</title>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/common.js"></script>
+<script>
+
+	$(document).ready(function() {		
+		var currentPosition = parseInt($("#txtArea").css("top")); 
+		$(window).scroll(function() { 
+			var position = $(window).scrollTop(); 
+			$("#txtArea").stop().animate({"top":position+currentPosition+"px"},0); 
+		});
+
+	});
+
+	
+	// 이음싸인 가입여부
+	function fn_checkMemberJoin() {
+		var url = rootPath+"checkMemberJoin.do";
+		
+		var businessNo = $("#businessNo").val();
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				businessNo:businessNo
+			},
+			success:function(result)
+			{
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	function fn_memberJoin() {
+		openWin(rootPath+"menu/goMemberJoin.do", "memberJoin");
+	}
+	
+	
+	// 연말정산 가입여부
+	function fn_checkService() {
+		var url = rootPath+"checkService.do";
+		
+		var businessNo = $("#businessNo").val();
+		var serviceType = '003';
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				businessNo:businessNo,
+				serviceType:serviceType
+			},
+			success:function(result)
+			{
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+
+	function fn_serviceJoin() {
+		var businessNo = $("#businessNo").val();
+		var serviceType = '003';
+		
+		openWin(rootPath+"serviceJoin.do?businessNo="+businessNo+"&serviceType="+serviceType, "serviceJoin", "738", "658");
+	}
+	
+	// 연말정산 서비스등록
+	function fn_insBizServiceAdd() {
+		var url = rootPath+"biz/insBizServiceAdd.do";
+
+		var businessNo = $("#businessNo").val();
+		var serviceType = '003';
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				businessNo:businessNo,
+				serviceType: serviceType
+			},
+			success:function(result)
+			{
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+
+	function fn_uploadRawData() {
+
+		var url = rootPath+"sendRawDataXML.do";
+		
+		// 데이터설정
+		var formData = new FormData();
+		formData.append("businessNo",$("#businessNo").val());
+		formData.append("serviceType","003");
+		formData.append("febYear",$("#febYear").val());
+		var file = document.getElementsByName("rawData");
+		for(var i=0;i<file.length;i++) {
+			if (file[i].files[0] != undefined) {
+				if(!checkFileExt(file[i].files[0].name, "xml")) {
+					alert("파일확장자는 xml파일만 가능합니다.");
+					return;
+				}
+				if(checkSpecial(file[i].files[0].name)) {
+					alert("파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.");
+					return;
+				}
+			    formData.append("addFile"+i,file[i].files[0]);
+			}
+		}
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data:formData,
+			contentType:false,
+			processData:false,
+			cache:false,
+			success:function(result)
+			{
+				$("#txtResult").val(JSON.stringify(result, null, 2));
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});	
+	}
+	
+	
+	
+</script>
+<style>
+	#txtArea{
+		position: absolute;
+        /* border: 3px solid #f00; */
+        left : 500px;
+        top : 30px;
+        width: 800px;
+        height: 700px;
+	}
+</style>
+</head>
+<body>
+<div style="float:left; margin-right:50px;">
+--------------------------------------------------------------<p>
+사업장번호	: <input type="text" id="businessNo" value="8238100154"><p>
+귀속년도	: <input type="text" id="febYear" value="2017"><p>
+:::::::::::::::::::::::::::::::::::: 케이랩 XML 연동  :::::::::::::::::::::::::::::::::::: <p>
+<button onclick="fn_checkMemberJoin()">이음싸인 가입여부</button><p>
+<button onclick="fn_memberJoin()">가입페이지</button><p>
+<button onclick="fn_checkService()">연말정산 가입여부</button><p>
+<button onclick="fn_serviceJoin()">서비스이용확인</button><p>
+<!-- <button onclick="fn_insBizServiceAdd()">연말정산 서비스등록</button><p> -->
+
+:::::::::::::::::: XML연동  :::::::::::::::::: <p>
+<input type="file" id="rawData" name="rawData"><p>
+<button onclick="fn_uploadRawData()">업로드</button><p>
+
+</div>
+<div id="txtArea">
+	<div style="overflow:hidden;">	
+	</div>
+	<div>
+	<p>결과값:<p>
+	</div>
+	<textarea id="txtResult" style="width:800px; height:680px;"></textarea><p>
+</div>
+</body>
+</html>

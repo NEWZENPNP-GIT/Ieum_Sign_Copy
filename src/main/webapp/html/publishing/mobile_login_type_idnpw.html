@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+
+<link rel="stylesheet" type="text/css" href="/css/font.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/mobile_common.css">
+<link rel="stylesheet" type="text/css" href="/css/mobile_intro.css">
+<script src="/js/jquery.min.js"></script>
+</head>
+<body>
+	<header class="header">
+		<ul class="gnb">
+			<li class="prev disable"><a class="btn_type btn_prev"></a></li>
+			<li class="head_text NanumBarunGothic">CANDY</li>
+			<li class="menu disable"><a class="btn_type btn_menu"></a></li>
+		</ul>
+	</header>
+	<div id="lnb" class="login type_id">
+		<div class="innerbox">
+			<div class="icon Gulim smile"></div>
+			<div class="location wel HelveticaNeue_th">Welcome</div>
+		</div>
+	</div>
+	<div id="container" class="type_id">
+		<section class="wrap">
+			<ul class="contents NanumBarunGothic">
+				<li class="loc">
+					<div class="icon bg_my"></div>
+					<div class="text NanumBarunGothic">로그인</div>
+				</li>
+				<li class="id_wrap input_box">
+					<input type="text" id="id" value="" placeholder="아이디" name="id" title="아이디"  class="inputbx">
+					<label class="input_icon id"></label>
+				</li>
+				<li class="pw_wrap input_box">
+					<input type="password" id="password" value="" placeholder="비밀번호" name="password" title="비밀번호"  class="inputbx">
+					<label class="input_icon password"></label>
+				</li>
+				<li class="remember"><span>Remember</span><div class="chk"><input type="checkbox" ></div></li>
+				<li class="btn_wrap"><a class="btn_type NanumBarunGothic">가입 하기 </a></li>
+			</ul>
+			<div class="btns_group NanumSquare_R">
+				<div class="btn_wrap"><a class="btn_type" onclick="popup('id')">아이디 찾기</a></div>
+				<div class="btn_wrap"><a class="btn_type" onclick="popup('pw')">비밀번호 찾기</a></div>
+			</div>
+			<div class="footer type_id NanumSquare_R">
+				<a class="btn_type btn_login">
+					<span class="arrow"></span>
+					<span class="text">로그인 방법 다시 선택</span>
+				</a>
+				<span class="slashMark">/</span>
+				<a class="btn_type btn_memberJoin">
+					<span class="text">회원가입</span>
+					<span class="arrow"></span>
+				</a>
+			</div>
+		</section>
+		
+	</div>
+	
+	<!--  POPUP class(숨기기:hidden) -->
+	<!-- 아이디 찾기 popup_wrap -->
+	<div id="popup_wrap" class="search_id hidden">
+		<div id="popup_bg"></div>
+		<div id="alert_bg" class="alert_bg">
+			<div id="popup_close" class="btn_type col_skyblue" onclick="popClose('id')"></div>
+			<div id="alert_tit">
+				<span class="tit_text col_skyblue NanumSquare_B">아이디 찾기</span>
+			</div>
+			<div id="alert_inputbx">
+				<dl class="input_bx">
+					<dt><label class="label_txt NanumGothic">아이디</label>
+					</dt>
+					<dd><input type="text" id="search_id" value="" name="search_id" class="input_txt"></dd>
+				</dl>
+				<dl class="input_bx">
+					<dt><label class="label_txt NanumGothic">휴대폰 번호</label>
+					</dt>
+					<dd><input type="number" id="search_phone" value="" name="search_phone"class="input_txt"></dd>
+				</dl>
+			</div>
+			<div id="alert_btn" class="col_skyblue">
+				<ul>
+					<li class="btn_type col_skyblue NanumGothic"><a>확인</a></li>
+				</ul>
+			</div>
+		</div>
+	</div><!-- id popup_wrap -->
+	
+	<!-- 비밀번호 찾기 popup_wrap -->
+	<div id="popup_wrap" class="search_pw hidden">
+		<div id="popup_bg"></div>
+		<div id="alert_bg" class="alert_bg">
+			<div id="popup_close" class="btn_type col_skyblue" onclick="popClose('pw')"></div>
+			<div id="alert_tit">
+				<span class="tit_text col_skyblue NanumSquare_B">비밀번호 찾기</span>
+			</div>
+			<div id="alert_inputbx" class="wide">
+				<dl class="input_bx">
+					<dt><label class="label_txt NanumGothic">사용자 이름</label>
+					</dt>
+					<dd><input type="text" id="search_userName" value="" name="search_userName" class="input_txt"></dd>
+				</dl>
+				<dl class="input_bx">
+					<dt><label class="label_txt NanumGothic">사용자 아이디</label>
+					</dt>
+					<dd><input id="search_userId" value="" name="search_userId" type="text"class="input_txt"></dd>
+				</dl>
+				<dl class="input_bx">
+					<dt><label class="label_txt NanumGothic">사용자 휴대폰 번호</label>
+					</dt>
+					<dd><input type="number" id="search_userPhone" value="" name="search_userPhone" class="input_txt"></dd>
+					</dl>
+			</div>
+			<div id="alert_warning_box" class="NanumGothic">
+				<p>직원정보에 등록된 이메일(아이디)로 비밀번호 변경 URL 전송</p>
+				<p>받은메일함에서 확인이 되지 않으면 스팸 메일함을 확인하여 주시기바랍니다.</p>
+			</div>
+			<div id="alert_btn" class="col_skyblue">
+				<ul>
+					<li class="btn_type col_skyblue NanumGothic"><a>찾기</a></li>
+				</ul>
+			</div>
+		</div>
+	</div><!-- password  popup_wrap -->
+</body>
+<script type="text/javascript">
+
+function popup(type){
+	if(type=="id"){
+		$(".search_id").removeClass("hidden")
+	}else{
+		$(".search_pw").removeClass("hidden");
+	}
+}
+
+function popClose(type){
+	if(type=="id"){
+		$(".search_id").addClass("hidden")
+	}else{
+		$(".search_pw").addClass("hidden");
+	}
+}
+</script>
+
+</html>

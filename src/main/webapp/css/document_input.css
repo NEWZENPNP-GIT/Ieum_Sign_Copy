@@ -1,0 +1,53 @@
+@charset "utf-8";
+/*>>>>>>  default <<<<<*/
+body,p,span,a,input,ul,li,article,dl,img{margin: 0px; padding:0px; -webkit-margin:0px;-webkit-padding:0px;}
+ul{list-style-type: none}
+/* html{min-height:100%;position:relative;} */
+
+.btn_type{cursor: pointer;}
+.none{display: none;}
+.hidden{visibility: hidden}
+
+.document_inputWrap{}
+.document_inputWrap .header{ width: 100%;;}
+.document_inputWrap .header .logo{ height: 45px;background: #00aae8 url(image/contract/logo.png) no-repeat; background-position: 28px 50%;color: #fff; font-size: 14px;font-weight: bold;  padding-left: 190px}
+.document_inputWrap .header .title{padding-top:16px;display:block}
+.document_inputWrap .header .subtitle{background:#3a61a3;text-align:center;font-size:22px;font-weight: bold;padding:15px 0;color:#fff;}
+
+.document_inputWrap .contents_txt{}
+.document_inputWrap .contents_txt dl, .document_inputWrap .contents_txt ul{border-bottom:1px solid #ccc;padding:20px;box-shadow:1px 2px 2px rgba(183, 183, 183, 0.4);
+background: -moz-linear-gradient(top, #ffffff 25%, #eeeeee 100%);
+background: -webkit-linear-gradient(top, #ffffff 25%,#eeeeee 100%);
+background: linear-gradient(to bottom, #ffffff 25%,#eeeeee 100%);}
+.document_inputWrap .contents_txt dt{font-family: 'NanumGothic',sans-serif;font-size:17px;font-weight:bold;color:#009cff;padding:15px 5px}
+.document_inputWrap .contents_txt dd{position:relative;font-family: 'NanumGothic',sans-serif;font-size:14px;font-weight:bold;color:#777;margin:0;padding:5px 0 5px 26px}
+.document_inputWrap .contents_txt dd span{position:absolute;top:0;left:0;display:block;width:20px;height:17px;border-radius:50%;background:#7d7d7d;color:#fff;text-align:center;padding-top:3px}
+
+.document_inputWrap .contents_tb{padding:30px 10px 30px 0}
+.document_inputWrap .contents_tb table{width:100%;border-collapse: collapse;border-spacing: 0}
+.document_inputWrap .contents_tb th{width:17%;min-width:120px;vertical-align:top;padding-top:15px}
+.document_inputWrap .contents_tb td{width:83%;padding:5px 0}
+.document_inputWrap .contents_tb th:first-child {text-align:left;padding-left:20px;}
+
+ .document_inputWrap .search_div{width:100%;position:relative;}
+.document_inputWrap .word_input{font-size: 15px;vertical-align: middle;width:100%;height:40px;  border: 1px solid #dcdcdc; padding:0 40px 0 5px; outline: none;box-sizing:border-box;border-radius:3px}
+.document_inputWrap .btn_search{position:absolute;top:4px;right:5px;font-size:26px;color:#00a9e9;}
+.document_inputWrap .txtinput01 {background-color:white;width:100%;height:40px; border: 1px solid #dcdcdc; padding-left: 5px; outline: none;box-sizing:border-box;border-radius:3px; font-size:15px}
+.document_inputWrap .txtinput02 {width:45%;height:40px; border: 1px solid #dcdcdc; padding-left: 5px; outline: none;box-sizing:border-box;border-radius:3px}
+.document_inputWrap .txtinput03 {width:10%;height:40px; border: 1px solid #dcdcdc; padding-left: 5px; outline: none;box-sizing:border-box;border-radius:3px}
+
+.document_inputWrap .btn_wrap{text-align:center;padding:10px}
+.document_inputWrap .btn_wrap .btn_send{background-color: #00a9e9; color:#fff; max-width:395px; padding:12px 0;border-radius:8px; font-size:22px;font-weight:bold;display:block;margin:0 auto}
+
+/**/
+.document_inputWrap .contents_txt li{font-family: 'NanumGothic',sans-serif;font-size:17px;text-align:center;padding:10px 5px;color:#5a5a5a}
+.document_inputWrap .contents_txt li .txtblue{color:#2370f0}
+.document_inputWrap .contents_txt li .txtred{color:#f00}
+.document_inputWrap .contents_txt li .txtbold{font-weight:bold}
+.additionalInfo{margin:40px 20px}
+.additionalInfo table{width:100%}
+.additionalInfo table th{width:50%;/* min-width:180px; */text-align:left;padding:font-family: 'NanumGothic',sans-serif;padding:8px 0;color:#666}
+.additionalInfo table td{/* width:75%; */text-align:left;padding:8px 0;/* float:right */}
+.additionalInfo .selectbtn{cursor:pointer;background:#00aae8;border:0;color:#fff;padding:8px 15px;margin-right:5px;font-size:14px;/* width:50%; */float:right}
+.additionalInfo .selectbtn:focus{outline:none}
+.spanEtc{min-width:40px;color:red;}

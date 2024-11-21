@@ -1,0 +1,255 @@
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/contract_write.css">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<!-- bootPag -->
+
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+	<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/ui.biz.core.js"></script>
+	<script>
+
+		//***************					윈도우 로딩					***************//
+
+
+		var contractFileId = "";
+
+		$(document).ready(function() {
+			contractFileId = getCookie("contractFileId");
+			console.log("contract_write_step_05.html");
+			fn_contractList(1);
+		});
+
+		/* input box 처리 */
+		function checkAgree() {
+			if ($('input:checkbox[id="chk_agree"]').is(":checked")) {
+				if ($(".btnArea").find(".btn_type").hasClass("disable")) {
+					$(".btnArea").find(".btn_type").removeClass("disable");
+				}
+				if ($(".btn_footGroup").find(".btn_next").hasClass("disable")) {
+					$(".btn_footGroup").find(".btn_next").removeClass("disable");
+				}
+			} else {
+				if (!$(".btnArea").find(".btn_type").hasClass("disable")) {
+					$(".btnArea").find(".btn_type").addClass("disable");
+				}
+				if (!$(".btn_footGroup").find(".btn_next").hasClass("disable")) {
+					$(".btn_footGroup").find(".btn_next").addClass("disable");
+				}
+			}
+		}
+
+		function fn_contractList(page) {
+
+			var url				 = rootPath+"contract/getContractList.do";
+			var annualYear		 = date.getFullYear();
+			var contractDateFrom = new Date(annualYear, '00', '01').format('yyyy-MM-dd');
+			var contractDateTo	 = new Date(annualYear, '11', '31').format('yyyy-MM-dd');
+			var searchKey		 = $("#searchKey").val();
+			var searchValue		 = $("#searchValue").val();
+			var startPage		 = 0;
+			var endPage			 = 999999999;
+			var statusCode		 = "2";	// 사업주서명
+
+			if (contractDateFrom.length > 0) contractDateFrom = contractDateFrom.replace(/-/gi, "");
+			if (contractDateTo.length > 0)	 contractDateTo	  = contractDateTo.replace(/-/gi, "");
+
+			$.blockUI();
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"GET",
+				data: {
+					contractDateFrom:contractDateFrom,
+					contractDateTo:contractDateTo,
+					statusCode:statusCode,
+					contractFileId:contractFileId,
+					searchKey:searchKey,
+					searchValue:searchValue,
+					startPage:startPage,
+					endPage:endPage
+				},
+				success:function(result) {
+					var htmlData = "";
+					if (result.success === true) {
+						dataList	  = result.data;
+						totPage		  = result.total;
+						completeCount = result.completeCount;
+
+						// 계약서전송 진행건수
+						$("#createPdfCntText").text(totPage);
+						$("#createCnt").text(totPage);
+
+						// 계약내역
+						$.each(result.data, function(i, row) {
+							var num = (curPage * viewPage) + i + 1;
+							htmlData += '<tr> ';
+							htmlData += ' <td><input type="checkbox" id="chk" name="chk" value="'+row.userId+'_'+row.contractDate+'_'+row.contId+'_'+row.hashData+'_'+row.statusCode+'" checked></td> ';
+							htmlData += ' <td>'+row.empName+'</td> ';
+							htmlData += ' <td>'+row.empNo+'</td> ';
+							htmlData += ' <td>'+row.userDate+'</td> ';
+							htmlData += ' <td>'+row.phoneNum+'</td> ';
+							htmlData += ' <td class="contractDate">'+convertDate(row.contractDate).format("yyyy-MM-dd")+'</td> ';
+							htmlData += '</tr> ';
+						});
+					} else { htmlData += '<tr> <td colspan="10">요청하신 자료가 존재하지 않습니다.</td></tr>'; }
+					$("#dataList").html(htmlData);
+					$.unblockUI();
+				},
+				error:function(request,status,error) {
+					$.unblockUI();
+					if (request.status === "401") { alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다."); location.href = rootPath; }
+					else 						  { alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error); }
+				}
+			});
+		}
+
+
+		//***************					이전 페이지					***************//
+
+
+		function fn_prevPage() {
+			$("#contents_wrap").empty();
+			$(window).off("resize");
+			$.ajax({
+				url : "/html/contract/contract_write_step04.html" ,
+				success : function(result) { $("#contents_wrap").html(result); }
+			});
+		}
+
+
+		//***************					다음 페이지					***************//
+
+
+		function fn_nextPage() {
+			if ($('input:checkbox[id="chk_agree"]').is(":checked")) fn_contractSend();
+			else 													alert("주의사항 확인을 동의하여 주시기 바립니다.");
+		}
+
+
+		function fn_contractSend() {
+
+			var cnt 	  = 0;
+			var multiData = "";
+
+			$("input:checkbox[name=chk]:checked").each(function() {
+				var key  = this.value;
+				var data = key.split("_");
+				if (data.length>3 && data[4] === "Y") cnt++;
+				multiData += data[0]+"-"+data[1]+"-"+data[2]+"|"
+			});
+
+			if (cnt > 0) { alert("선택하신 문서중 완료된 문서가 존재합니다.\r\n체크를 해제하신 후 진행해주시기 바랍니다."); return; }
+
+			if (multiData.length === 0) { alert("전송할 문서를 먼저 선택해주시기 바랍니다."); return; }
+
+			var url = rootPath+"html/contract/contract_popup_send.html?data="+encodeURIComponent(multiData);
+			openWin(url, "send_contract", 490, 550);
+		}
+
+	</script>
+	</head>
+
+	<body>
+	<div id="contract_wrap" class="">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumGothic">전자문서 > 전자계약(양식변환) > </span><span class="loc_sub NanumGothic">전자계약 작성</span></div>
+			<div class="pagtit"><span class="NanumGothic">5.전자문서 전송</span></div>
+			<div class="tit_dec NanumGothic"><span class="speaker"></span>총<span class="count" id="createCnt">0</span>건의 전자문서 정보가 등록되었습니다.</div>
+			<div class="nav_snb">
+				<ul class="nav_tabGroup">
+					<li class="clear">
+						<div class="hor_line"></div>
+						<div class="num"><span>1</span></div>
+						<div class="btn_tab"><span class="tabBox NanumGothic"> 양식선택</span></div>
+					</li>
+					<li class="clear">
+						<div class="hor_line"></div>
+						<div class="num"><span>2</span></div>
+						<div class="btn_tab"><span class="tabBox NanumGothic">조건 업로드 및 확인</span></div>
+					</li>
+					<li class="clear">
+						<div class="hor_line"></div>
+						<div class="num"><span>3</span></div>
+						<div class="btn_tab"><span class="tabBox NanumGothic">전자문서 생성완료/ 미리보기 </span></div>
+					</li>
+					<li class="clear">
+						<div class="hor_line"></div>
+						<div class="num"><span>4</span></div>
+						<div class="btn_tab"><span class="tabBox NanumGothic">공인인증 서명</span></div>
+					</li>
+					<li class="clear">
+						<div class="hor_line"></div>
+						<div class="num"><span>5</span></div>
+						<div class="btn_tab"><span class="tabBox NanumGothic">전자문서 전송</span></div>
+					</li>
+				</ul>
+			</div>
+			<div class="tab_contents">
+				<div id="submit">
+					<div class="iconArea"><span class="icon_warning"></span><span class="NanumGothic font_30 col_skyblue">주의사항</span></div>
+					<div class="textArea NanumGothic font_17 col_gray ">
+						총 <span class="doc_count" id="createPdfCntText">0</span>건의 계약서에 대하여 근로자에게 알림톡을 전송합니다 (카카오톡 미설치시 SMS 전송)<br>
+						전자문서는 최초 전송과 1회 재전송까지 무료지만, 추가 재 전송시 포인트가 차감됩니다.(건당 5포인트)<br>
+						또, 인사정보가 다르거나 본인인증을 할 수 없거나 인터넷이 안되는 모바일 기기(폴더폰)<br>
+						사용자의 경우는 진행이 불가 합니다. 이점 주의해주세요.
+					</div>
+					<div class="checkArea"><input type="checkbox" id="chk_agree" onclick="checkAgree();"><span class="NanumGothic"> 주의사항을 확인하였으며 동의합니다.</span></div>
+				</div>
+			</div>
+			<div class="" style="display:none;">
+				<div class="list">
+					<table>
+						<colgroup>
+							<col width="5%">
+							<col width="15%">
+							<col width="15%">
+							<col width="30%">
+							<col width="15%">
+							<col width="10%">
+						</colgroup>
+						<thead>
+							<tr>
+								<th class="chk_area"><input type="checkbox" id="checkAll"></th>
+								<th>성명</th>
+								<th>사번</th>
+								<th>생년월일</th>
+								<th>휴대폰번호</th>
+								<th>문서작성일</th>
+							</tr>
+						</thead>
+						<tbody id="dataList">
+							<tr class="databox">
+								<td class="chk_area"><input type="checkbox"></td>
+								<td class=""></td>
+								<td class=""></td>
+								<td class=""></td>
+								<td class=""></td>
+								<td class=""></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div id="page-selection" class="pagingnav_wrap"></div>
+			</div>
+		</div>
+		<div class="btn_footGroup NanumGothic">
+			<a class="btn_type btn_prev" onclick="fn_prevPage();">＜  이전</a>
+			<a class="btn_type btn_next disable" onclick="fn_nextPage();">다음 ＞</a>
+		</div>
+	</div>
+	</body>
+	</html>

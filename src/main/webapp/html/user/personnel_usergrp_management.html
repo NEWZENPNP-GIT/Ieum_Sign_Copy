@@ -1,0 +1,369 @@
+
+	<!--****************************************************************************************************************
+	* 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+	* 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+	********************************************************************************************************************
+	--------------------------------------------------------------------------------------------------------------------
+	* 회사       : 뉴젠피앤피
+	* 화면명     : 인사관리 페이지(부문 관리자)
+	* 화면설명   : 수신자관리 > 인사목록
+	* 작성자     :
+	* 생성일     :
+	--------------------------------------------------------------------------------------------------------------------
+	* 수정자     : 이정훈
+	* 수정일     : 2024.04.30
+	* 수정내용   :
+	------------------------------------------------------------------------------------------------------------------->
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/personnel_management.css">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<!-- bootPag -->
+	<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/ui.biz.core.js"></script>
+
+	<script type="text/javascript">
+
+		//***************					윈도우 로딩					***************//
+
+		var bizId;
+		var bizName;
+		var groupName;
+
+		$(document).ready(function(){
+
+			console.log('personnel_usergrp_management.html');
+
+			$('#searchValue').keypress(function(event){
+				var keycode = (event.keyCode ? event.keyCode : event.which);
+				if (keycode == '13') { fn_empList(1); }
+				event.stopPropagation();
+			});
+			fn_empList(1);
+			$("#searchCompany").val(getCookie("bizId"));
+		});
+
+
+		//***************					체크박스 전체 선택					***************//
+
+
+		function fn_checkAll() {
+			if ($("#checkall").prop("checked"))	{ $("input[name=chk]").prop("checked",true); }
+			else 								{ $("input[name=chk]").prop("checked",false); }
+		}
+
+
+		//***************					인사 리스트 (부문 관리자)					***************//
+
+
+		function fn_empList(page) {
+			var url 	 = rootPath+"emp/getEmpUserGrpList.do";
+			var viewPage = $("#viewPage").val();
+
+			if (viewPage=="" || viewPage=="0") viewPage = 10;
+
+			if (page==0) curPage = 0;
+			else		 curPage = page-1;
+
+			if (curPage<0) {
+				curPage=0;
+				return;
+			}
+			if (curPage*viewPage>totPage) {
+				curPage-=1;
+				return;
+			}
+
+			var searchKey	= $("#searchKey").val();
+			var searchValue = $("#searchValue").val();
+			var startPage	= (curPage*viewPage);
+			var endPage		= viewPage;
+			var sortName	= $("#sortName").val();
+			var sortOrder	= $("#sortOrder").val();
+
+			$.blockUI();
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"GET",
+				data: {
+					searchKey:searchKey,
+					searchValue:searchValue,
+					startPage:startPage,
+					endPage:endPage,
+					sortName:sortName,
+					sortOrder:sortOrder
+				},
+				success:function(result) {
+					var htmlData = "";
+
+					if (result.success == true) {
+						totPage 	  = result.total;
+						var totalPage = Math.ceil(totPage/viewPage);
+						bizId 		  = result.data[0].bizId;
+						bizName		  = result.data[0].bizName;
+						groupName     = result.data[0].groupName;
+
+						// 인사내역
+						$.each(result.data, function(i, row) {
+							var num = (curPage * viewPage) + i + 1;
+							htmlData += '<tr> ';
+							htmlData += ' <td><input type="checkbox" id="chk" name="chk" value="'+row.userId+'"></td> ';
+							htmlData += ' <td>'+num+'</td> ';
+							htmlData += ' <td>'+row.empName+'</td> ';
+							htmlData += ' <td>'+row.empNo+'</td> ';
+							htmlData += ' <td>'+row.groupName+'</td> ';
+							htmlData += ' <td>'+row.deptName+'</td> ';
+							htmlData += ' <td>'+row.loginId+'</td> ';
+							htmlData += ' <td>'+row.empTypeName+'</td> ';
+							if(!isNull(row.joinDate) && row.joinDate!="0") {
+								htmlData += ' <td>'+convertDate(row.joinDate).format("yyyy-MM-dd")+'</td> ';
+							} else {
+								htmlData += ' <td></td>';
+							}
+							if(!isNull(row.leaveDate) && row.leaveDate!="0") {
+								htmlData += ' <td>'+convertDate(row.leaveDate).format("yyyy-MM-dd")+'</td> ';
+							} else {
+								htmlData += ' <td></td>';
+							}
+							if(!isNull(row.userDate) && row.userDate!="0") {
+								htmlData += ' <td>'+convertDate(row.userDate).format("yyyy-MM-dd")+'</td> ';
+							} else {
+								htmlData += ' <td></td>';
+							}
+							htmlData += ' <td>'+row.phoneNum+'</td> ';
+							htmlData += ' <td>'+row.EMail+'</td> ';
+							htmlData += ' <td><span style="cursor:pointer;" class="glyphicon glyphicon-edit" onclick="fn_userEdit(\''+row.userId+'\', \''+row.empType +'\', \''+row.userDate+'\', \''+row.loginId +'\', \''+row.bizId+'\')"></span></td> ';
+							htmlData += '</tr> ';
+						});
+
+						if(page==1) {
+							$('#page-selection').bootpag({
+								total: totalPage,
+								page: page,
+								maxVisible: 10,
+								firstLastUse: true,
+								leaps: true,
+								first: '',
+								last: '',
+								wrapClass: 'pagination',
+								activeClass: 'active',
+								disabledClass: 'disabled',
+								nextClass: 'btn_next',
+								prevClass: 'btn_prev',
+								lastClass: 'end_page',
+								firstClass: 'first_page'
+							}).on("page", function(event, num) { fn_empList(num); });
+						}
+					} else { htmlData += '<tr> <td colspan="8">요청하신 자료가 존재하지 않습니다.</td></tr>'; }
+					$("#dataList").html(htmlData);
+					$.unblockUI();
+				},
+				error:function(request,status,error){
+					$.unblockUI();
+					if (request.status=="401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						location.href=rootPath;
+					} else { alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error); }
+				}
+			});
+		}
+
+		//***************					인사목록 선택 수정					***************//
+
+
+		function fn_userEdit(userId, userType , userDate, loginId, bizId) {
+			openWin(rootPath+"html/user/personnel_popup_edit.html?userId="+userId+"&userType="+userType+"&userDate="+userDate+"&loginId="+loginId+"&bizId="+bizId, "UserAdd", 500, 670);
+		}
+
+
+		//***************					인사목록 개별등록					***************//
+
+
+		function fn_userAdd() {
+			var searchCompany = $("#searchCompany").val();
+			if(getCookie("deptCode") == "" || getCookie("deptCode") == undefined || getCookie("deptCode").length == 0){
+				alert("배정된 부문이 없습니다. 기업관리자에게 문의하세요");
+				return;
+			}
+			openWin(rootPath+"html/user/personnel_popup_add.html?searchCompany="+searchCompany, "UserAdd", 500, 600);
+		}
+
+
+		//***************					인사목록 일괄등록					***************//
+
+
+		function fn_userUpload() {
+			if(getCookie("deptCode") == "" || getCookie("deptCode") == undefined || getCookie("deptCode").length == 0){
+				alert("배정된 부문이 없습니다. 기업관리자에게 문의하세요");
+				return;
+			}
+			openWin(rootPath+"html/user/personnel_popup_batchregist.html", "UserAdd", 500, 570);
+		}
+
+
+		//***************					인사목록 다운로드					***************//
+
+
+		function fn_userDownload() {
+
+			if (!confirm("인사목록 다운로드를 진행하시겠습니까?")) return;
+
+			var url = rootPath+"emp/excelUserGrpDown.do";
+
+			$.ajax({
+				url: url,
+				crossDomain: true,
+				dataType: "text",
+				type: "POST",
+				data: {
+					bizId: bizId,
+					bizName: bizName,
+					groupName: groupName,
+					deptCode: getCookie("deptCode")
+				},
+				async: true,
+				success: function () {
+					var currentDate   = new Date();
+					var formattedDate = currentDate.getFullYear() +
+							('0' + (currentDate.getMonth() + 1)).slice(-2) +
+							('0' + currentDate.getDate()).slice(-2);
+					var fileName 	= encodeURIComponent(bizName + "_" + groupName + "_인사정보_" + formattedDate + ".xls");
+					var downloadUrl = rootPath + "emp/excelUserDownFile.do?fileName=" + fileName;
+					window.location.href = downloadUrl;
+				}
+			});
+		}
+
+	</script>
+	</head>
+
+	<body>
+	<!-- *********************************************  계약 관리  *********************************************  -->
+	<div id="personList_wrap" class="">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumGothic">수신자관리 > </span><span class="loc_sub NanumGothic">부문별 인사관리</span></div>
+
+			<div class="field_area">
+				<div class="selBox NanumGothic">
+					<input id="searchCompany" type="hidden" disabled="disabled"></input>
+					<select id="searchKey">
+						<option value="empName" class="lt">성명</option>
+						<option value="eMail" class="lt">이메일</option>
+						<option value="phoneNum" class="lt">휴대폰번호</option>
+						<option value="loginId" class="lt">로그인ID</option>
+						<option value="deptName" class="lt">부서명</option>
+					</select>
+				</div>
+				<div class="inputBox">
+					<fieldset>
+						<input type="text" id="searchValue" class="word_input NanumGothic">
+						<a class="btn_search btn_type Material_icons" onclick="fn_empList(1);">search</a>
+					</fieldset>
+				</div>
+				<div class="selBox NanumGothic">
+					<select id="sortName" onchange="fn_empList(1);">
+						<option value="A.JOIN_DATE" selected>정렬항목</option>
+						<option value="A.EMP_NAME">성명</option>
+						<option value="A.EMP_NO">사번</option>
+						<option value="A.DEPT_NAME">부서명</option>
+						<option value="A.JOIN_DATE">입사일자</option>
+						<option value="A.LEAVE_DATE">퇴사일자</option>
+						<option value="A.USER_DATE">생년월일</option>
+						<option value="A.E_MAIL">이메일</option>
+						<option value="A.PHONE_NUM">휴대폰번호</option>
+					</select>
+				</div>
+				<div class="selBox NanumGothic">
+					<select id="sortOrder" onchange="fn_empList(1);">
+						<option value="DESC" selected>정렬기준</option>
+						<option value="DESC">내림차순</option>
+						<option value="ASC">올림차순</option>
+					</select>
+				</div>
+				<div class="selBox NanumGothic">
+					<select id="viewPage" onchange="fn_empList(1);">
+						<option value="10" selected>조회건수</option>
+						<option value="10">10건</option>
+						<option value="20">20건</option>
+						<option value="30">30건</option>
+						<option value="50">50건</option>
+						<option value="100">100건</option>
+						<option value="250">250건</option>
+					</select>
+				</div>
+			</div>
+			<div class="table_contents">
+				<div class="list">
+					<table class="NanumGothic">
+						<colgroup>
+							<col width="3%">
+							<col width="3%">
+							<col width="5%">
+							<col width="8%">
+							<col width="8%">
+							<col width="8%">
+							<col width="9%">
+							<col width="8%">
+							<col width="7%">
+							<col width="7%" >
+							<col width="7%" >
+							<col width="9%" >
+							<col width="13%" >
+							<col width="5%" >
+						</colgroup>
+						<thead>
+							<tr>
+								<th class="chk_area"><input type="checkbox" id="checkall" onclick="fn_checkAll()"></th>
+								<th>순번</th>
+								<th>성명</th>
+								<th>사번</th>
+								<th>부문명</th>
+								<th>부서명</th>
+								<th>로그인ID</th>
+								<th>사용자권한</th>
+								<th>입사일자</th>
+								<th>퇴사일자</th>
+								<th>생년월일</th>
+								<th>휴대폰번호</th>
+								<th>이메일</th>
+								<th>수정</th>
+							</tr>
+						</thead>
+						<tbody id="dataList">
+							<tr class="databox">
+								<td class=""></td>
+								<td colspan="11">
+									직원정보가 존재하지 않습니다.
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div id="page-selection" class="pagingnav_wrap"></div>
+
+			</div>
+			<div class="btn_footGroup NanumGothic">
+				<a class="btn_type type1" onclick="fn_userAdd();">개별등록</a>
+				<a class="btn_type type2" onclick="fn_userUpload();">일괄등록 </a>
+				<a class="btn_type type1" onclick="fn_userDownload();">다운로드</a>
+			</div>
+		</div>
+	</div>
+	</body>
+	</html>

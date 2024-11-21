@@ -1,0 +1,643 @@
+
+	<!--****************************************************************************************************************
+	* 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+	* 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+	********************************************************************************************************************
+	--------------------------------------------------------------------------------------------------------------------
+	* 회사       : 뉴젠피앤피
+	* 화면명     : 사용자정보변경 팝업창
+	* 화면설명   : 인사목록 > 사용자정보변경 팝업창
+	* 작성자     :
+	* 생성일     :
+	--------------------------------------------------------------------------------------------------------------------
+	* 수정자     : 이정훈
+	* 수정일     : 2024.02.21
+	* 수정내용   :
+	------------------------------------------------------------------------------------------------------------------->
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/personnel_management.css">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+	<title>사용자정보변경</title>
+	<script>
+
+		//***************					윈도우 로딩					***************//
+
+
+		$(document).ready(function() {
+
+			fn_empInfo();
+
+			if (getCookie("loginType") < "6") $("#btnDel").hide();
+
+			if (getCookie("loginType") === "9") {
+				$("#loginId").attr("readonly", false);
+				$("#userType").attr("disabled", false);
+				$("#userTypeBtn1").show();
+			} else { $("#userTypeBtn1").hide(); }
+
+			if (getCookie("loginType") === "5") {
+				$("#userType").prop("")
+				$("#userTypeBtn2").hide();
+			}
+		});
+
+
+		//***************					저장하기(아이디체크)					***************//
+
+
+		function fn_findUserId() {
+
+			var userId = $("#loginId").val();
+
+			if (getCookie("loginType") === "9" && userId.length > 0) {
+
+				if (confirm("로그인ID를 체크하시겠습니까?")) {
+
+					var url = rootPath+"user/findUserId.do";
+
+					$.ajax({
+						url:url,
+						crossDomain : true,
+						dataType:"json",
+						type:"GET",
+						data: { userId:userId },
+						success:function(result) {
+							if (result.success === true && result.total === 0) fn_empSave();
+							else										  	   alert("동일한 로그인ID가 존재합니다.");
+						}
+					});
+				} else 		fn_empSave();
+
+			} else 	fn_empSave();
+		}
+
+
+		//***************					사용자 정보					***************//
+
+
+		function fn_empInfo() {
+
+			var url    = rootPath+"emp/getEmp.do";
+			var userId = getURLParameters("userId");
+			var bizId  = getURLParameters("bizId");
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"GET",
+				data: {
+					userId:userId,
+					bizId:bizId,
+					startPage:0,
+					endPage:10
+				},
+				success:function(result) {
+					if (result.success === true) {
+						// 인사정보
+						$("#bizId").val(result.data.bizId);
+						$("#bizName").val(result.data.bizName);
+						$("#loginId").val(result.data.loginId);
+						$("#empNo").val(result.data.empNo);
+						$("#empName").val(result.data.empName);
+						$("#deptName").val(result.data.deptName);
+						$("#eMail").val(result.data.EMail);
+						$("#empNonce").val(result.data.empNonce);
+						if (!isNull(result.data.joinDate) && result.data.joinDate!=="0") {
+							$("#joinDate").val(convertDate(result.data.joinDate).format("yyyyMMdd"));
+						}
+						if (!isNull(result.data.leaveDate) && result.data.leaveDate!=="0" && result.data.leaveDate !== "99999999") {
+							$("#leaveDate").val(convertDate(result.data.leaveDate).format("yyyyMMdd"));
+						}
+						if (!isNull(result.data.userDate) && result.data.userDate!=="0") {
+							$("#userDate").val(convertDate(result.data.userDate).format("yyyyMMdd"));
+						}
+						$("#phoneNum").val(result.data.phoneNum);
+						$("#addr1").val(result.data.addr1);
+						$("#positionName").val(result.data.positionName);
+						$("#stepName").val(result.data.stepName);
+						$("#empType").val(result.data.empType);
+						$("#userType").val(result.data.empType).prop("selected", true);
+
+						if (result.data.useYn) $("#useCk_1").prop("checked", true);
+						else 				   $("#useCk_2").prop("checked", true);
+
+					} else { alert("입력하신 정보를 다시 확인해주시기 바랍니다."); }
+				},
+				error:function(request,status,error) {
+					if (request.status === "401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						window.close();
+					} else { alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error); }
+				}
+			});
+		}
+
+
+		//***************					저장하기					***************//
+
+
+		function fn_empSave() {
+
+			if (!confirm("저장하시겠습니까?")) return;
+
+			var url			 = rootPath+"emp/updEmp.do";
+			var userId		 = getURLParameters("userId");
+			var loginId		 = $("#loginId").val();
+			var eMail		 = $("#eMail").val();
+			var empName		 = $("#empName").val();
+			var deptName	 = $("#deptName").val();
+			var joinDate	 = $("#joinDate").val();
+			var leaveDate	 = $("#leaveDate").val();
+			var userDate	 = $("#userDate").val();
+			var phoneNum	 = $("#phoneNum").val();
+			var positionName = $("#positionName").val();
+			var bizId		 = $("#bizId").val();
+			var useYn		 = "N";
+
+			if ($("#useCk_1").attr("checked"))  useYn = "Y";
+
+			if (joinDate.length>0)  joinDate=joinDate.replace(/-/gi,"");
+			if (leaveDate.length>0) leaveDate=leaveDate.replace(/-/gi,"");
+			if (userDate.length>0)  userDate=userDate.replace(/-/gi,"");
+
+			if (joinDate.length !== 0 && !checkDateNoHypen(joinDate)) {
+				alert("입사일자 날짜 형식이 맞지 않습니다.\r\n다시 입력해주시기 바랍니다.");
+				$("#joinDate").focus();
+				return;
+			}
+
+			if (leaveDate.length !== 0 && !checkDateNoHypen(leaveDate)) {
+				alert("퇴사일자 날짜 형식이 맞지 않습니다.\r\n다시 입력해주시기 바랍니다.");
+				$("#leaveDate").focus();
+				return;
+			}
+
+			if (userDate.length !== 0 && !checkDateNoHypen(userDate)) {
+				alert("생년월일 날짜 형식이 맞지 않습니다.\r\n다시 입력해주시기 바랍니다.");
+				$("#userDate").focus();
+				return;
+			}
+
+			if (phoneNum.length === 0) {
+				alert("휴대폰번호를 입력해주시기 바랍니다.");
+				$("#phoneNum").focus();
+				return;
+			} else if (!checkPhoneNumNoHypen(phoneNum)) {
+				alert("휴대폰번호 형식이 맞지 않습니다.\r\n다시 입력해주시기 바랍니다.");
+				$("#phoneNum").focus();
+				return;
+			}
+
+			if (eMail.length === 0) {
+				alert("이메일을 입력해주시기 바랍니다.");
+				$("#eMail").focus();
+				return;
+			} else if (!checkEmail(eMail)) {
+				alert("이메일 형식이 맞지 않습니다.\r\n다시 입력해주시기 바랍니다.");
+				$("#eMail").focus();
+				return;
+			}
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				data: {
+					loginId:loginId,
+					userId:userId,
+					eMail:eMail,
+					empName:empName,
+					deptName:deptName,
+					joinDate:joinDate,
+					leaveDate:leaveDate,
+					userDate:userDate,
+					phoneNum:phoneNum,
+					positionName:positionName,
+					bizId:bizId
+				},
+				success:function(result) {
+					if (result.success === true) {
+						alert("직원정보가 변경되었습니다.");
+						window.close();
+						opener.fn_empList(1);
+					} else { alert("입력하신 정보를 다시 확인해주시기 바랍니다."); }
+				},
+				error:function(request,status,error){
+					if (request.status === "401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						window.close();
+					} else { alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error); }
+				}
+			});
+		}
+
+
+		//***************					삭제하기(선택한 사용자 문서 체크)					***************//
+
+
+		function fn_delEmpInfo() {
+
+			// 본인은 삭제할 수 없도록 수정
+			if ($("#loginId").val() === getCookie("loginId")) {
+				alert("현재 접속한 계정은 삭제할 수 없습니다.");
+				return;
+			}
+
+			// 시스템관리자만 삭제할 수 있도록 변경
+			if ($("#empType").val() >= "6" && getCookie("loginType") !== "9") {
+				alert("기업관리자 권한 이상 사용자는 삭제하실 수 없습니다.");
+				return;
+			}
+
+			var url	  = rootPath+"contract/getContractListCount.do";
+			var empNo = getURLParameters("userId");
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				data: { empNo:empNo },
+				success:function(result) {
+					if (result.success === true) {
+						if (result.total > 0) alert("해당 사용자의 전자문서 ["+result.total+"]건이 존재합니다.\r\n삭제를 먼저 진행해주시기 바랍니다.");
+						else				  fn_empDel();
+
+					} else 		alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+				},
+				error:function(request,status,error){
+					if (request.status === "401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						window.close();
+					} else { alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error); }
+				}
+			});
+		}
+
+
+		//***************					삭제하기					***************//
+
+
+		function fn_empDel(cnt) {
+
+			if (!confirm("삭제를 진행하시겠습니까?")) return;
+
+			fncOnBlockUI();
+
+			var url		   = rootPath+"account/leaveUser.do";
+			var methodType = "POST";
+			var bizId	   = getURLParameters("bizId");
+			var userId	   = getURLParameters("userId");
+			var userType   = $("#empType").val();
+
+			if (userType >= "5") {
+				url		   = rootPath+"emp/delEmp.do";
+				methodType = "GET";
+			}
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:methodType,
+				data: {
+					bizId:bizId,
+					userId:userId
+				},
+				success:function(result) {
+					if (result.success === true) {
+						alert("직원정보가 삭제되었습니다.\r\n다시 조회하시기 바랍니다.");
+						window.close();
+						opener.fn_empList(1);
+					} else { alert("입력하신 정보를 다시 확인해주시기 바랍니다."); }
+					$.unblockUI();
+				},
+				error:function(request,status,error){
+					$.unblockUI();
+					if (request.status === "401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						window.close();
+					} else { alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error); }
+				}
+			});
+		}
+
+
+		//***************					계정 초기화					***************//
+
+
+		function fn_resetID() {
+
+			if ($("#empType").val() >= "5") {
+				alert("관리자 권한이상 사용자는  초기화를 진행하실 수 없습니다.");
+				return;
+			}
+
+			var loginId = $("#loginId").val();
+			if (loginId.length === 0) {
+				alert("계정이 생성된 임직원이 아닙니다.\r\n계정생성 이후에 초기화 진행이 가능하십니다.");
+				return;
+			}
+
+			if(!confirm("계정 초기화를 진행하시겠습니까?\r\n기존 로그인정보가 삭제됨으로 유의하시기 바랍니다.")) return;
+
+			var url	   = rootPath+"emp/updEmpNonce.do";
+			var userId = getURLParameters("userId");
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"GET",
+				data: { userId:userId },
+				success:function(result) {
+					if (result.success === true) {
+						$("#empNonce").val(result.data.empNonce);
+						$("#loginId").val("");
+						alert("계정이 초기화되었습니다.\r\n사용자에게 인증코드를 배포하여 계정을 다시 생성해주시기 바랍니다.");
+					} else { alert("입력하신 정보를 다시 확인해주시기 바랍니다."); }
+				},
+				error:function(request,status,error){
+					if (request.status === "401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						window.close();
+					} else { alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error); }
+				}
+			});
+		}
+
+
+		//***************					계정 초기화					***************//
+
+
+		function fn_rstAccount(){
+
+			if ($("#empType").val() >= "5") {
+				alert("관리자 권한이상 사용자는  초기화를 진행하실 수 없습니다.");
+				return;
+			}
+
+			var loginId = $("#loginId").val();
+			if (loginId.length === 0) {
+				alert("계정이 생성된 임직원이 아닙니다.\r\n계정생성 이후에 초기화 진행이 가능하십니다.");
+				return;
+			}
+
+			if (confirm("계정 초기화를 하시겠습니까?\r\n계정초기화시 아이디와 비밀번호 정보가 삭제됩니다.")) {
+
+				var url	   = rootPath+"/user/delUserLoginInfo.do";
+				var userId = getURLParameters("userId");
+
+				$.ajax({
+					url:url,
+					crossDomain : true,
+					dataType:"json",
+					type:"POST",
+					data: { userId:userId },
+					success:function(result) {
+						if (result.success === true) {
+							alert("아이디와 비밀번호가 삭제되었습니다.\r\n다시 조회하시기 바랍니다.");
+							fn_empInfo();
+						} else { alert("계정초기화 중 오류가 발생하였습니다.\r\nmessage:"+result.message); }
+					},
+					error:function(request,status,error){
+						if (request.status === "401") {
+							alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+							window.close();
+						} else { alert("비밀번호 변경 중 오류가 발생하였습니다."+error); }
+					}
+				});
+			}
+		}
+
+
+		//***************					비밀번호 초기화					***************//
+
+
+		function fn_rstPasswd() {
+
+			var loginId = $("#loginId").val();
+			if (loginId.length === 0) {
+				alert("계정이 생성된 임직원이 아닙니다.\r\n계정생성 이후에 초기화 진행이 가능하십니다.");
+				return;
+			}
+
+			if (confirm("비밀번호 초기화를 하시겠습니까?\r\n초기 비밀번호는 생년월일 8자리 입니다.")) {
+
+				var url		 = rootPath+"/user/resetUserPwdByDate.do";
+				var loginId	 = $("#loginId").val();
+				var userDate = $("#userDate").val();
+
+				$.ajax({
+					url:url,
+					crossDomain : true,
+					dataType:"json",
+					type:"POST",
+					data: {
+						userId:loginId,
+						userPwd:userDate
+					},
+					success:function(result) {
+						if (result.success === true) alert("비밀번호가 인사정보에 등록된\r\n생년월일 8자리로 변경되었습니다.");
+						else 				  		 alert("비밀번호 변경 중 오류가 발생하였습니다.\r\nmessage:"+result.message);
+					},
+					error:function(request,status,error) {
+						if (request.status === "401") {
+							alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+							window.close();
+						} else { alert("비밀번호 변경 중 오류가 발생하였습니다."+error); }
+					}
+				});
+			}
+		}
+
+
+		//***************					권한 조정					***************//
+
+
+		function fn_rstUserType() {
+
+			var url		 = rootPath+"/emp/updEmpType.do";
+			var userId	 = getURLParameters("userId");
+			var bizId	 = $("#bizId").val();
+			var userType = isSetNull($("#userType option:selected").val(), "");
+
+			if (getCookie("loginType") !== "9") {
+				alert("관리자만 변경이 가능합니다.");
+				return;
+			}
+
+			if (userType === "") {
+				alert("권한을 선택하세요.");
+				return;
+			}
+
+			if (confirm("사용자권한을 조정하시겠습니까?")) {
+
+				$.ajax({
+					url:url,
+					crossDomain : true,
+					dataType:"json",
+					type:"POST",
+					data: {
+						bizId:bizId,
+						userId:userId,
+						empType:userType
+					},
+					success:function(result) {
+						if (result.success === true) alert("사용자권한이 조정되었습니다.");
+						else 					     alert("사용자권한 변경 중 오류가 발생하였습니다.\r\nmessage:"+result.message);
+					},
+					error:function(request,status,error) {
+						if (request.status === "401") {
+							alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+							window.close();
+						} else { alert("비밀번호 변경 중 오류가 발생하였습니다."+error); }
+					}
+				});
+			}
+		}
+
+
+		//***************					관리자 등록					***************//
+
+
+		function fn_rstUserTypeAdmin() {
+
+			var userId = getURLParameters("userId");
+			var bizId  = $("#bizId").val();
+
+			if (isNull(bizId)) {
+				alert("기업을 먼저 선택해주시기 바랍니다.");
+				return;
+			}
+
+			if (isNull(userId)) {
+				alert("사용자를 먼저 선택해주시기 바랍니다.");
+				return;
+			}
+			openWin (rootPath+"html/biz/company_popup_addManager.html?bizId="+bizId+"&userId="+userId,"기업관리자","430","490");
+		}
+
+	</script>
+	</head>
+
+	<body>
+	<input type="hidden" id="bizId">
+	<input type="hidden" id="empType">
+	<div id="person_popup" class="edit">
+		<div class="container">
+			<div id="popup_tit">
+				<div class="tit_icon"></div>
+				<div class="tit_text col_skyblue NanumGothic">사용자정보변경</div>
+				<div id="popup_close" class="btn_type col_skyblue" onclick="window.close()"></div>
+			</div>
+			<div class="contents">
+				<div class="input_wrap">
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">소속기업명</label></dt>
+						<dd><input type="text" id="bizName" value="" name="" class="input_txt" readonly></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">로그인 ID</label></dt>
+						<dd><input type="text" id="loginId" value="" name="" class="input_txt" readonly></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">사용자명</label></dt>
+						<dd><input type="text" id="empName" value="" name="" class="input_txt"></dd>
+					</dl>
+					<dl class="boxRow NanumGothic">
+						<dt><label class="label_txt NanumGothic">부서명</label></dt>
+						<dd><input type="text" id="deptName" value="" name="" class="input_txt"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">이메일</label></dt>
+						<dd><input type="text" id="eMail" value="" name="" class="input_txt" placeholder="예) abc@company.com"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">입사일자</label></dt>
+						<dd><input type="text" id="joinDate" value="" name="" class="input_txt" placeholder="예) 19990101"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">퇴사일자</label></dt>
+						<dd><input type="text" id="leaveDate" value="" name="" class="input_txt" placeholder="예) 19990101"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">생년월일</label></dt>
+						<dd><input type="text" id="userDate"value="" name="" class="input_txt" placeholder="예) 19990101"></dd>
+					</dl>
+					<!-- 2019.07.02 - 인증코드 인증 사용안함 -->
+					<dl class="boxRow NanumGothic" style="display:none;">
+						<dt><label class="label_txt NanumGothic">인증코드</label></dt>
+						<dd class="column2"><input type="text" id="empNonce" value="" name="" class="input_txt" readonly>
+							<div class="btn_type type1" onclick="fn_resetID()">계정 초기화</div>
+						</dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">휴대폰번호</label></dt>
+						<dd><input type="text" id="phoneNum" value="" name="" class="input_txt" placeholder="예) 01099991234"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">주소</label></dt>
+						<dd><input type="text" id="addr1" value="" name="" class="input_txt"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">직급</label></dt>
+						<dd><input type="text" id="positionName" value="" name="" class="input_txt"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">호봉</label></dt>
+						<dd><input type="text" id="stepName" value="" name="" class="input_txt"></dd>
+					</dl>
+					<dl id="userTypeEdit" class="boxRow NanumGothic">
+						<dt><label class="label_txt NanumGothic">사용자권한</label></dt>
+						<dd class="column2">
+							<select id="userType" class="input_txt" disabled="disabled">
+								<option value="1">근로자</option>
+								<option value="5">기업중간관리자</option>
+								<option value="6">기업관리자</option>
+							</select>
+							<div id="userTypeBtn1" class="btn_type type1" onclick="fn_rstUserType()">권한 조정</div>
+							<div id="userTypeBtn2" class="btn_type type1" onclick="fn_rstUserTypeAdmin()">관리자 등록</div>
+						</dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic" style="display:none;">
+						<dt><label class="label_txt NanumGothic">캔디사용여부</label></dt>
+						<dd class="row2">
+							<div class="chBox"><input type="radio" id="useCk_1" name="sigin"><label for="useCk_1">사용</label></div>
+							<div class="chBox"><input type="radio" id="useCk_2" name="sigin"><label for="useCk_2">미사용</label></div>
+						</dd>
+					</dl>
+					<dl class="boxRow input_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">계정관리</label></dt>
+						<dd>
+							<div class="btn_type type1 NanumGothic" onclick="fn_rstAccount()">계정초기화</div>
+							<div class="btn_type type1 NanumGothic" onclick="fn_rstPasswd()">비밀번호초기화</div>
+						</dd>
+					</dl>
+				</div>
+			</div>
+			<div class="btn_group">
+				<div class="btn_type type1 NanumGothic" onclick="fn_findUserId()">저장하기</div>
+				<div id="btnDel" class="btn_type type2 NanumGothic" onclick="fn_delEmpInfo()">삭제하기</div>
+				<div class="btn_type type3 NanumGothic" onclick="window.close()">취소하기</div>
+			</div>
+		</div>
+	</div>
+	</body>
+	</html>

@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<META http-equiv="Pragma" content="no-cache">
+<META http-equiv="Expires" content="-1">
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>연말정산 현황 : 입력현황 </title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+<link rel="stylesheet" type="text/css" href="/css/ScrollTable.css"  media="screen" />
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+
+</head>
+<body>
+	<div id="yearTax_wrap" class="yearTax">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연말정산 > 연말정산 관리  > </span><span class="loc_sub NanumSquare_R">연말정산 현황물</span></div>
+			<div class="pagtit NanumSquare_R">
+				<span class="">입력현황</span>
+			</div>
+			
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">입력현황</span>
+					</div>
+				
+					<div class="grid_field full">
+						<ul class="gridRow2">
+							<li class="search_wrap">
+								<div class="group_row row4">
+									<dl class="NanumSquare_R rat3n-7">
+										<dt><label class="label_txt NanumSquare_R">사업장 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R" id="사업장ID">
+												<option value="" >전체</option>
+											</select>
+										</dd>
+									</dl>
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">부서 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R" id="부서ID">
+												<option value="" >전체</option>
+											</select>
+										</dd>
+									</dl>
+								</div>
+								<div class="group_row row4">
+									<dl class="NanumSquare_R rat3n-7">
+										<dt><label class="label_txt NanumSquare_R">성명 : </label></dt>
+										<dd class="input_box"><input class="" type="text" id="성명"></dd>
+									</dl>
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">사번 : </label></dt>
+										<dd class="input_box"><input class="" type="text" id="사번"></dd>
+									</dl>
+									<dl class="NanumSquare_R rat4n-6">
+										<dt><label class="label_txt NanumSquare_R">직책(직급) : </label></dt>
+										<dd class="input_box"><input class="" type="text" id="직책"></dd>
+									</dl>
+									<div class="btns"><a class="btn_type btn_grid_search NanumSquare_R"><span class="icon Material_icons">search</span> 검색</a></div>
+								</div>
+							</li>
+							<li class="NanumSquare_R btns sort_right sort_bottom">
+								<div class="sortWrap ">
+									<a class="btn_type excelDown">다운로드</a>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<!--  셀 넓이 조정 class w70/w90/w100/w120/w150/w180-/w200/w220/w250/w260/w280/w300 -->
+					<div class="fix-table-container NanumSquare_R">
+						<div class="ContenedorTabla h600" >
+							<table id="pruebatabla" class="fht-table">
+								<thead>
+									<tr>
+										<th rowspan="2">법인명</th><th rowspan="2">사업장 (단위사업장)</th><th rowspan="2">부서</th><th rowspan="2">사원코드</th><th rowspan="2">사원명</th><th rowspan="2">주민등록번호</th><th rowspan="2">분납신청 여부</th><th rowspan="2">정산년월</th><th rowspan="2">귀속년도 시작일</th><th rowspan="2">귀속년도 종료일</th>
+										<th colspan="9">근로소득(과세)</th><th colspan="5">인적공제(기본공제)</th><th colspan="4">인적공제(추가공제)</th><th colspan="3">연금보험료공제</th><th colspan="3">특별소득공제-보험료</th><th colspan="11">특별소득공제-주택자금</th><th>특별소득공제-기부금</th><th colspan="13">그 밖의 소득공제</th><th colspan="4">세액감면</th>
+										<th colspan="4">세액공제</th><th colspan="2">특별세액공제-보험료</th><th colspan="4">특별세액공제-의료비</th><th colspan="12">별세액공제-교육비</th><th colspan="6">특별세액공제-기부금</th><th colspan="4">세액공제</th><th colspan="3">기납부세액</th><th colspan="20">비과세/감면</th> 
+									</tr>
+									<tr>
+										<th>급여</th><th>기타급여</th><th>상여</th><th>기타상여</th><th>인정상여</th><th>주식매수선택권 행사이익</th><th>우리사주조합 인출금</th><th >임원퇴직소득 한도초과액</th><th>총급여</th>
+										<th>배우자유무</th><th>20세이하</th><th>60세이상</th><th>장애인</th><th>기타수급자/위탁아동</th>
+										<th>경로우대</th><th>장애인</th><th>부녀자</th><th>한부모가족</th>
+										<th>국민연금</th><th>국민연금(지역)</th><th>공적연금</th>
+										<th>건강보험료</th><th>건강보험료(지역)</th><th>고용보험료</th>
+										<th class="w250">주택임차차입금원리금상환액_대출기관차입</th>
+										<th class="w250">주택임차차입금원리금상환액_거주자</th>
+										<th class="w250">장기주택저당차임금이자상환액 (15년미만) -2011년 이전 차입분</th>
+										<th class="w250">장기주택저당차임금이자상환액 (15년~29년) -2011년 이전 차입분</th>
+										<th class="w250">장기주택저당차임금이자상환액 (30년이상) -2011년 이전 차입분</th>
+										<th class="w250">장기주택저당차임금이자상환액 (고정금리·비거치상환) -2012년 이후 차입분(15년이상)</th>
+										<th class="w250">장기주택저당차임금이자상환액 (기타대출) -2012년 이후 차입분(15년이상)</th>
+										<th class="w250">장기주택저당차임금이자상환액 (15년이상_고정금리&비거치상환대출) -2015년 이후 차입분</th>
+										<th class="w250">장기주택저당차임금이자상환액 (15년이상_고정금리OR비거치상환대출) -2015년 이후 차입분</th>
+										<th class="w250">장기주택저당차임금이자상환액 (15년이상_기타대출) - 2015년 이후 차입분</th>
+										<th class="w280">장기주택저당차임금 이자상환액 (10년~15년_고정금리 OR 비거치상환대출) -2015년 이후 차입분</th> 
+										<th>기부금(이월분)</th><th>개인연금저축 납입액</th><th>소기업소상공인 공제부금</th>
+										<th>주택마련저축 불입액</th><th>투자조합출자등 투자금액</th><th>신용카드</th><th>직불카드등</th><th>현금영수증</th><th>전통시장사용액</th><th>대중교통이용액</th><th>체크카드등 사용액 증가분(상반기)</th><th>우리사주조합 출연금</th><th>고용유지 중소기업</th><th>장기집합 투자증권저축</th><th>소득세법</th><th>조세특례제한법(54제외)</th><th>중소기업 취업감면</th><th>조세조약</th><th>자녀인원수</th><th>6세이하 자녀수</th><th>출산·입양 자녀수</th><th>연금계좌</th><th>일반 보장성보험</th><th>장애인 전용보험</th><th>본인,65세이상,장애인,난임시술비</th><th>그밖의대상자</th><th>안경구입-본인등</th>
+										<th>안경구입-그밖의대상</th><th>본인교육비</th><th>취학전인원</th><th>취학전교육비</th><th>초중고인원</th><th>초중고교육비</th><th>교복구입비</th><th>방과후교육비</th><th>체험학습비</th><th>대학생인원</th><th>대학생교육비</th><th>장애인인원</th><th>장애인교육비</th><th>정치기부금 10만원이하</th><th>정치기부금 10만원초과</th><th>법정기부금</th><th>우리사주기부금</th><th>종교단체외 기부금</th><th>종교단체 기부금</th><th>납세조합 공제</th><th>주택차입금</th><th>외국납부</th><th>월세액</th><th>소득세</th><th>지방소득세</th><th>농특세</th>
+										<th>비과세명1</th><th>비과세금액1</th><th>비과세명2</th><th>비과세금액2</th><th>비과세명3</th><th>비과세금액3</th><th>비과세명4</th><th>비과세금액4</th><th>비과세명5</th><th>비과세금액5</th><th>비과세명6</th><th>비과세금액6</th><th>비과세명7</th><th>비과세금액7</th><th>비과세명8</th><th>비과세금액8</th><th>감면명1</th><th>감면금액1</th><th>감면명2</th><th>감면금액2</th>		
+									</tr> 
+									<tr class="sum-cell">
+										<th colspan="5"> 합계</th><th>6</th><th>7</th><th> 8</th><th>9</th><th>10</th>
+										<th class="sort_right">125,000,000</th><th class="sort_right">12</th><th class="sort_right">13</th><th class="sort_right">14</th><th class="sort_right">15</th><th class="sort_right">16</th><th class="sort_right">17</th><th class="sort_right">18</th><th class="sort_right">19</th><th class="sort_right">20</th>
+										<th class="sort_right">21</th><th class="sort_right">22</th><th class="sort_right">23</th><th class="sort_right">24</th><th class="sort_right ">25</th><th class="sort_right">26</th><th class="sort_right">27</th><th class="sort_right">28</th><th class="sort_right">29</th><th class="sort_right">30</th>
+										<th class="sort_right">31</th><th class="sort_right">32</th><th class="sort_right">33</th><th class="sort_right">34</th><th class="sort_right">35</th><th class="sort_right">36</th><th class="sort_right">37</th><th class="sort_right">38</th><th class="sort_right">39</th><th class="sort_right">40</th>
+										<th class="sort_right">41</th><th class="sort_right">42</th><th class="sort_right">43</th><th class="sort_right">44</th><th class="sort_right">45</th><th class="sort_right">46</th><th class="sort_right">47</th><th class="sort_right">48</th><th class="sort_right">49</th>
+										<th class="sort_right">50</th><th class="sort_right">51</th><th class="sort_right">52</th><th class="sort_right">53</th><th class="sort_right">54</th><th class="sort_right">55</th><th class="sort_right">56</th><th class="sort_right">57</th><th class="sort_right">58</th><th class="sort_right">59</th><th class="sort_right">60</th>
+										<th class="sort_right">61</th><th class="sort_right">62</th><th class="sort_right">63</th><th class="sort_right">64</th><th class="sort_right">65</th><th class="sort_right">66</th><th class="sort_right">67</th><th class="sort_right">68</th><th class="sort_right">69</th><th class="sort_right">70</th>
+										<th class="sort_right">71</th><th class="sort_right">72</th><th class="sort_right">73</th><th class="sort_right">74</th><th class="sort_right">75</th><th class="sort_right">76</th><th class="sort_right">77</th><th class="sort_right">78</th><th class="sort_right">79</th><th class="sort_right">80</th>
+										<th class="sort_right">81</th><th class="sort_right">82</th><th class="sort_right">83</th><th class="sort_right">84</th><th class="sort_right">85</th><th class="sort_right">86</th><th class="sort_right">87</th><th class="sort_right">88</th><th class="sort_right">89</th><th class="sort_right">90</th>
+										<th class="sort_right">91</th><th class="sort_right">92</th><th class="sort_right">93</th><th class="sort_right">94</th><th class="sort_right">95</th><th class="sort_right">96</th><th class="sort_right">97</th><th class="sort_right">98</th><th class="sort_right">99</th><th class="sort_right">100</th>
+										<th class="sort_right">101</th><th class="sort_right">102</th><th class="sort_right">103</th><th class="sort_right">104</th><th class="sort_right">105</th><th class="sort_right">106</th><th class="sort_right">107</th><th class="sort_right">108</th><th class="sort_right">109</th><th class="sort_right">110</th>
+										<th class="sort_right">111</th><th class="sort_right">112</th><th class="sort_right">113</th><th class="sort_right">114</th><th class="sort_right">115</th><th class="sort_right">116</th><th class="sort_right">117</th><th class="sort_right">118</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>ss1</td><td> 솔루션주식회사사</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td> 8</td><td>9</td><td>10</td>
+										<td class="sort_right">125,000,000</td><td class="sort_right">12</td><td class="sort_right">13</td><td class="sort_right">14</td><td class="sort_right">15</td><td class="sort_right">16</td><td class="sort_right">17</td><td class="sort_right">18</td><td class="sort_right">19</td><td class="sort_right">20</td>
+										<td class="sort_right">21</td><td class="sort_right">22</td><td class="sort_right">23</td><td class="sort_right">24</td><td class="sort_right ">25</td><td class="sort_right">26</td><td class="sort_right">27</td><td class="sort_right">28</td><td class="sort_right">29</td><td class="sort_right">30</td>
+										<td class="sort_right">31</td><td class="sort_right">32</td><td class="sort_right">33</td><td class="sort_right">34</td><td class="sort_right">35</td><td class="sort_right">36</td><td class="sort_right">37</td><td class="sort_right">38</td><td class="sort_right">39</td><td class="sort_right">40</td>
+										<td class="sort_right">41</td><td class="sort_right">42</td><td class="sort_right">43</td><td class="sort_right">44</td><td class="sort_right">45</td><td class="sort_right">46</td><td class="sort_right">47</td><td class="sort_right">48</td><td class="sort_right">49</td>
+										<td class="sort_right">50</td><td class="sort_right">51</td><td class="sort_right">52</td><td class="sort_right">53</td><td class="sort_right">54</td><td class="sort_right">55</td><td class="sort_right">56</td><td class="sort_right">57</td><td class="sort_right">58</td><td class="sort_right">59</td><td class="sort_right">60</td>
+										<td class="sort_right">61</td><td class="sort_right">62</td><td class="sort_right">63</td><td class="sort_right">64</td><td class="sort_right">65</td><td class="sort_right">66</td><td class="sort_right">67</td><td class="sort_right">68</td><td class="sort_right">69</td><td class="sort_right">70</td>
+										<td class="sort_right">71</td><td class="sort_right">72</td><td class="sort_right">73</td><td class="sort_right">74</td><td class="sort_right">75</td><td class="sort_right">76</td><td class="sort_right">77</td><td class="sort_right">78</td><td class="sort_right">79</td><td class="sort_right">80</td>
+										<td class="sort_right">81</td><td class="sort_right">82</td><td class="sort_right">83</td><td class="sort_right">84</td><td class="sort_right">85</td><td class="sort_right">86</td><td class="sort_right">87</td><td class="sort_right">88</td><td class="sort_right">89</td><td class="sort_right">90</td>
+										<td class="sort_right">91</td><td class="sort_right">92</td><td class="sort_right">93</td><td class="sort_right">94</td><td class="sort_right">95</td><td class="sort_right">96</td><td class="sort_right">97</td><td class="sort_right">98</td><td class="sort_right">99</td><td class="sort_right">100</td>
+										<td class="sort_right">101</td><td class="sort_right">102</td><td class="sort_right">103</td><td class="sort_right">104</td><td class="sort_right">105</td><td class="sort_right">106</td><td class="sort_right">107</td><td class="sort_right">108</td><td class="sort_right">109</td><td class="sort_right">110</td>
+										<td class="sort_right">111</td><td class="sort_right">112</td><td class="sort_right">113</td><td class="sort_right">114</td><td class="sort_right">115</td><td class="sort_right">116</td><td class="sort_right">117</td><td class="sort_right">118</td>
+									</tr> 
+									<tr>
+										<td>ss1</td><td> 솔루션주식회사사</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td> 8</td><td>9</td><td>10</td>
+										<td class="sort_right">125,000,000</td><td class="sort_right">12</td><td class="sort_right">13</td><td class="sort_right">14</td><td class="sort_right">15</td><td class="sort_right">16</td><td class="sort_right">17</td><td class="sort_right">18</td><td class="sort_right">19</td><td class="sort_right">20</td>
+										<td class="sort_right">21</td><td class="sort_right">22</td><td class="sort_right">23</td><td class="sort_right">24</td><td class="sort_right ">25</td><td class="sort_right">26</td><td class="sort_right">27</td><td class="sort_right">28</td><td class="sort_right">29</td><td class="sort_right">30</td>
+										<td class="sort_right">31</td><td class="sort_right">32</td><td class="sort_right">33</td><td class="sort_right">34</td><td class="sort_right">35</td><td class="sort_right">36</td><td class="sort_right">37</td><td class="sort_right">38</td><td class="sort_right">39</td><td class="sort_right">40</td>
+										<td class="sort_right">41</td><td class="sort_right">42</td><td class="sort_right">43</td><td class="sort_right">44</td><td class="sort_right">45</td><td class="sort_right">46</td><td class="sort_right">47</td><td class="sort_right">48</td><td class="sort_right">49</td>
+										<td class="sort_right">50</td><td class="sort_right">51</td><td class="sort_right">52</td><td class="sort_right">53</td><td class="sort_right">54</td><td class="sort_right">55</td><td class="sort_right">56</td><td class="sort_right">57</td><td class="sort_right">58</td><td class="sort_right">59</td><td class="sort_right">60</td>
+										<td class="sort_right">61</td><td class="sort_right">62</td><td class="sort_right">63</td><td class="sort_right">64</td><td class="sort_right">65</td><td class="sort_right">66</td><td class="sort_right">67</td><td class="sort_right">68</td><td class="sort_right">69</td><td class="sort_right">70</td>
+										<td class="sort_right">71</td><td class="sort_right">72</td><td class="sort_right">73</td><td class="sort_right">74</td><td class="sort_right">75</td><td class="sort_right">76</td><td class="sort_right">77</td><td class="sort_right">78</td><td class="sort_right">79</td><td class="sort_right">80</td>
+										<td class="sort_right">81</td><td class="sort_right">82</td><td class="sort_right">83</td><td class="sort_right">84</td><td class="sort_right">85</td><td class="sort_right">86</td><td class="sort_right">87</td><td class="sort_right">88</td><td class="sort_right">89</td><td class="sort_right">90</td>
+										<td class="sort_right">91</td><td class="sort_right">92</td><td class="sort_right">93</td><td class="sort_right">94</td><td class="sort_right">95</td><td class="sort_right">96</td><td class="sort_right">97</td><td class="sort_right">98</td><td class="sort_right">99</td><td class="sort_right">100</td>
+										<td class="sort_right">101</td><td class="sort_right">102</td><td class="sort_right">103</td><td class="sort_right">104</td><td class="sort_right">105</td><td class="sort_right">106</td><td class="sort_right">107</td><td class="sort_right">108</td><td class="sort_right">109</td><td class="sort_right">110</td>
+										<td class="sort_right">111</td><td class="sort_right">112</td><td class="sort_right">113</td><td class="sort_right">114</td><td class="sort_right">115</td><td class="sort_right">116</td><td class="sort_right">117</td><td class="sort_right">118</td>
+									</tr> 
+									<tr>
+										<td>ss1</td><td> 솔루션주식회사사</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td> 8</td><td>9</td><td>10</td>
+										<td class="sort_right">125,000,000</td><td class="sort_right">12</td><td class="sort_right">13</td><td class="sort_right">14</td><td class="sort_right">15</td><td class="sort_right">16</td><td class="sort_right">17</td><td class="sort_right">18</td><td class="sort_right">19</td><td class="sort_right">20</td>
+										<td class="sort_right">21</td><td class="sort_right">22</td><td class="sort_right">23</td><td class="sort_right">24</td><td class="sort_right ">25</td><td class="sort_right">26</td><td class="sort_right">27</td><td class="sort_right">28</td><td class="sort_right">29</td><td class="sort_right">30</td>
+										<td class="sort_right">31</td><td class="sort_right">32</td><td class="sort_right">33</td><td class="sort_right">34</td><td class="sort_right">35</td><td class="sort_right">36</td><td class="sort_right">37</td><td class="sort_right">38</td><td class="sort_right">39</td><td class="sort_right">40</td>
+										<td class="sort_right">41</td><td class="sort_right">42</td><td class="sort_right">43</td><td class="sort_right">44</td><td class="sort_right">45</td><td class="sort_right">46</td><td class="sort_right">47</td><td class="sort_right">48</td><td class="sort_right">49</td>
+										<td class="sort_right">50</td><td class="sort_right">51</td><td class="sort_right">52</td><td class="sort_right">53</td><td class="sort_right">54</td><td class="sort_right">55</td><td class="sort_right">56</td><td class="sort_right">57</td><td class="sort_right">58</td><td class="sort_right">59</td><td class="sort_right">60</td>
+										<td class="sort_right">61</td><td class="sort_right">62</td><td class="sort_right">63</td><td class="sort_right">64</td><td class="sort_right">65</td><td class="sort_right">66</td><td class="sort_right">67</td><td class="sort_right">68</td><td class="sort_right">69</td><td class="sort_right">70</td>
+										<td class="sort_right">71</td><td class="sort_right">72</td><td class="sort_right">73</td><td class="sort_right">74</td><td class="sort_right">75</td><td class="sort_right">76</td><td class="sort_right">77</td><td class="sort_right">78</td><td class="sort_right">79</td><td class="sort_right">80</td>
+										<td class="sort_right">81</td><td class="sort_right">82</td><td class="sort_right">83</td><td class="sort_right">84</td><td class="sort_right">85</td><td class="sort_right">86</td><td class="sort_right">87</td><td class="sort_right">88</td><td class="sort_right">89</td><td class="sort_right">90</td>
+										<td class="sort_right">91</td><td class="sort_right">92</td><td class="sort_right">93</td><td class="sort_right">94</td><td class="sort_right">95</td><td class="sort_right">96</td><td class="sort_right">97</td><td class="sort_right">98</td><td class="sort_right">99</td><td class="sort_right">100</td>
+										<td class="sort_right">101</td><td class="sort_right">102</td><td class="sort_right">103</td><td class="sort_right">104</td><td class="sort_right">105</td><td class="sort_right">106</td><td class="sort_right">107</td><td class="sort_right">108</td><td class="sort_right">109</td><td class="sort_right">110</td>
+										<td class="sort_right">111</td><td class="sort_right">112</td><td class="sort_right">113</td><td class="sort_right">114</td><td class="sort_right">115</td><td class="sort_right">116</td><td class="sort_right">117</td><td class="sort_right">118</td>
+									</tr>
+								</tbody>
+							</table>
+						</div> <!-- ContenedorTabla  -->
+					</div><!-- fix-table-container -->
+				</div>
+			</div><!--  content -->
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="/js/jquery.CongelarFilaColumna.js"></script> <!--  table plugin -->
+<script type="text/javascript">
+	
+	var contractId;
+	
+	$(document).ready(function(){
+
+		contractId = getCookie('yearContractId');
+		Set_table();
+		
+		$("#사업장ID").on("change", function(e){
+			getDept();
+		});
+		
+		init();
+		
+	});
+	
+	$(window).resize(function(){
+		Set_table();
+	});
+	
+	function init() {
+		if ((contractId.length <=  0) || (contractId === undefined) || (contractId === 'undefined')) {
+			alert( '사용불가 메뉴 입니다. 기본설정값을 확인 해주세요' );
+			location.href = "/";
+			return;
+	    }
+		
+		getCodeList()
+	}
+
+	function getList(){
+		var url = rootPath + 'febworker/status/getInputStatus.do';
+	    var params = {
+			"계약ID": contractId,
+			"사업장ID": $("#사업장ID").val(),
+			"부서ID": $("#부서ID").val(),
+			"성명": $("#성명").val(),
+			"사번": $("#사번").val(),
+			"직책": $("#직책").val()
+		};
+		
+	    request = $.ajax({
+			url: url,
+	        type: "get",
+	        cache: false,
+	        dataType:"json",
+	        data: params
+	    });
+		
+	    request.done(function(res){
+
+			if(res.success){
+				$("#tbody tr").remove();
+				
+				var tbodyHtml = "";
+				
+				if(!$.isEmptyObject(res.list)){
+				
+					var list = res.list;
+					var sum = res.sum;
+console.log("list :", list);
+					$.each(list, function(i, data){
+						
+						var 현근무지_총지급액 = 0;
+						var 전근무지_총지급액 = 0;
+						var 과세소득_합계 = 0;
+						var 비과세소득_합계 = 0;
+						var 감면소득_합계 = 0;
+						var 근로소득_합계 = 0;
+						var 차감징수세액_소득세 = 0;
+						var 차감징수세액_지방소득세 = 0;
+						var 차감징수세액_농어촌특별세 = 0;
+						
+						tbodyHtml += "<tr>";
+						
+						tbodyHtml += "<td>" + data.bizName + "</td>";
+						tbodyHtml += "<td>" + data.사업장명 + "</td>";
+						tbodyHtml += "<td>" + data.부서명 + "</td>";
+						tbodyHtml += "<td>" + data.사번 + "</td>";
+						tbodyHtml += "<td>" + data.성명 + "</td>";
+						tbodyHtml += "<td>" + data.개인식별번호 + "</td>";
+						tbodyHtml += "<td>" + get분납신청여부(data.연말정산분납여부) + "</td>";
+						tbodyHtml += "<td style='color:red;'>" + "정산년월" + "</td>";
+						tbodyHtml += "<td>" + data.근무시작일 + "</td>";
+						tbodyHtml += "<td>" + data.근무종료일 + "</td>";
+						
+						현근무지_총지급액 = data.현근무지_과세소득 + data.현근무지_비과세소득;
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.현근무지_과세소득) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.현근무지_비과세소득) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.현근무지_감면소득) + "</td>";						
+						tbodyHtml += "<td class='sort_right'>" + AddComma(현근무지_총지급액) + "</td>";
+						
+						전근무지_총지급액 = data.전근무지_과세소득 + data.전근무지_비과세소득;
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.전근무지_과세소득) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.전근무지_비과세소득) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.전근무지_감면소득) + "</td>";						
+						tbodyHtml += "<td class='sort_right'>" + AddComma(전근무지_총지급액) + "</td>";
+						
+						과세소득_합계 = data.현근무지_과세소득 + data.전근무지_과세소득;
+						비과세소득_합계 = data.현근무지_비과세소득 + data.전근무지_비과세소득;
+						감면소득_합계 = data.현근무지_감면소득 + data.전근무지_감면소득;
+						근로소득_합계 = 과세소득_합계 + 비과세소득_합계;
+						
+						tbodyHtml += "<td class='sort_right'>" + AddComma(과세소득_합계) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(비과세소득_합계) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(감면소득_합계) + "</td>";						
+						tbodyHtml += "<td class='sort_right'>" + AddComma(근로소득_합계) + "</td>";
+						
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.결정세액_소득세) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.결정세액_지방소득세) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.결정세액_농어촌특별세) + "</td>";
+
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.기납부세액_소득세) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.기납부세액_지방소득세) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.기납부세액_농어촌특별세) + "</td>";
+						
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.납부특례_소득세) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.납부특례_지방소득세) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.납부특례_농어촌특별세) + "</td>";
+						
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.차감징수_소득세) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.차감징수_지방소득세) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.차감징수_농어촌특별세) + "</td>";
+						
+						tbodyHtml += "</tr>"
+					});
+					
+					tbodyHtml += "<tr class='sum-cell'>";
+					
+					tbodyHtml += "<td colspan='10'>합 계</td>";
+					
+					현근무지_총지급액 = sum.현근무지_과세소득 + sum.현근무지_비과세소득;
+					tbodyHtml += "<td class='sort_right'>" + AddComma(sum.현근무지_과세소득) + "</td>";
+					tbodyHtml += "<td class='sort_right'>" + AddComma(sum.현근무지_비과세소득) + "</td>";
+					tbodyHtml += "<td class='sort_right'>" + AddComma(sum.현근무지_감면소득) + "</td>";						
+					tbodyHtml += "<td class='sort_right'>" + AddComma(현근무지_총지급액) + "</td>";
+					
+					전근무지_총지급액 = sum.전근무지_과세소득 + sum.전근무지_비과세소득;
+					tbodyHtml += "<td class='sort_right'>" + AddComma(sum.전근무지_과세소득) + "</td>";
+					tbodyHtml += "<td class='sort_right'>" + AddComma(sum.전근무지_비과세소득) + "</td>";
+					tbodyHtml += "<td class='sort_right'>" + AddComma(sum.전근무지_감면소득) + "</td>";						
+					tbodyHtml += "<td class='sort_right'>" + AddComma(전근무지_총지급액) + "</td>";
+					
+					과세소득_합계 = sum.현근무지_과세소득 + sum.전근무지_과세소득;
+					비과세소득_합계 = sum.현근무지_비과세소득 + sum.전근무지_비과세소득;
+					감면소득_합계 = sum.현근무지_감면소득 + sum.전근무지_감면소득;
+					근로소득_합계 = 과세소득_합계 + 비과세소득_합계;
+					
+					tbodyHtml += "<td class='sort_right'>" + AddComma(과세소득_합계) + "</td>";
+					tbodyHtml += "<td class='sort_right'>" + AddComma(비과세소득_합계) + "</td>";
+					tbodyHtml += "<td class='sort_right'>" + AddComma(감면소득_합계) + "</td>";						
+					tbodyHtml += "<td class='sort_right'>" + AddComma(근로소득_합계) + "</td>";
+					
+					tbodyHtml += "<td class='sort_right'>" + AddComma(sum.결정세액_소득세) + "</td>";
+					tbodyHtml += "<td class='sort_right'>" + AddComma(sum.결정세액_지방소득세) + "</td>";
+					tbodyHtml += "<td class='sort_right'>" + AddComma(sum.결정세액_농어촌특별세) + "</td>";
+
+					tbodyHtml += "<td class='sort_right'>" + AddComma(sum.기납부세액_소득세) + "</td>";
+					tbodyHtml += "<td class='sort_right'>" + AddComma(sum.기납부세액_지방소득세) + "</td>";
+					tbodyHtml += "<td class='sort_right'>" + AddComma(sum.기납부세액_농어촌특별세) + "</td>";
+					
+					tbodyHtml += "<td class='sort_right'>" + AddComma(sum.납부특례_소득세) + "</td>";
+					tbodyHtml += "<td class='sort_right'>" + AddComma(sum.납부특례_지방소득세) + "</td>";
+					tbodyHtml += "<td class='sort_right'>" + AddComma(sum.납부특례_농어촌특별세) + "</td>";
+					
+					tbodyHtml += "<td class='sort_right'>" + AddComma(sum.차감징수_소득세) + "</td>";
+					tbodyHtml += "<td class='sort_right'>" + AddComma(sum.차감징수_지방소득세) + "</td>";
+					tbodyHtml += "<td class='sort_right'>" + AddComma(sum.차감징수_농어촌특별세) + "</td>";
+					
+					tbodyHtml += "</tr>";
+				}
+				
+	        
+	        	$("#tbody").html(tbodyHtml);
+				Set_table();
+			}
+		});
+	    
+	    request.fail(function (request, textStatus, error) {
+			if (request.status=="401") {
+				alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+				location.href=rootPath;
+			} else {
+				alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+		        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	};
+	
+	function getCodeList(){
+		
+		var url = rootPath + 'febworker/status/getCodeList.do';
+	    var params = {
+			"계약ID": contractId
+		};
+		
+	    request = $.ajax({
+			url: url,
+	        type: "get",
+	        cache: false,
+	        dataType:"json",
+	        data: params
+	    });
+	    
+	    request.done(function(res){
+	    	if(res.success){
+		    	var ys030 = res.ys030;
+				$.each(ys030, function(i, data){
+					$("#사업장ID").append($("<option>", {
+						value: data.사업장ID,
+						text: data.사업장명
+					}));
+				});
+
+	        	getList();
+	    	}
+		});
+	    
+	    request.fail(function (request, textStatus, error) {
+			if (request.status=="401") {
+				alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+				location.href=rootPath;
+			} else {
+				alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+		        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	function getDept(){
+		var 사업장ID = $("#사업장ID").val();
+
+		$("#부서ID option").remove();
+		$("#부서ID").append($("<option>", {
+			value: "",
+			text: "전체"
+		}));
+		
+	    if(사업장ID === ""){
+	    	return;
+	    }
+		
+		var url = rootPath + 'febsystem/getYS031List.do';
+	    var params = {
+			"계약ID": contractId,
+			"사업장ID": 사업장ID,
+			startPage: 0,
+		    endPage: 100
+		};
+
+	    request = $.ajax({
+			url: url,
+	        type: "get",
+	        cache: false,
+	        dataType:"json",
+	        data: params
+	    });
+	    
+	    request.done(function(res){
+	    	if(res.success){
+	    		var 부서 = res.data;
+				$.each(부서, function(i, data){
+					$("#부서ID").append($("<option>", {
+						value: data.부서ID,
+						text: data.부서명
+					}));
+				});
+	    	}
+		});
+	    
+	    request.fail(function (request, textStatus, error) {
+			if (request.status=="401") {
+				alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+				location.href=rootPath;
+			} else {
+				alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+		        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	function get분납신청여부(code){
+		var 분납신청 = "";
+		if(code == '1'){
+			분납신청 = "신청"
+		}else if(code == '2'){
+			분납신청 = "미신청"
+		}
+		return 분납신청;
+	}
+	
+	function Set_table(){
+		//$("#pruebatabla").CongelarFilaColumna({Columnas:5,coloreacelda:true});
+	}
+	
+</script>
+</html>

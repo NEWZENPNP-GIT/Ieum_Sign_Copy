@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+
+<link rel="stylesheet" type="text/css" href="/css/font.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/mobile_common.css">
+<link rel="stylesheet" type="text/css" href="/css/mobile_yearTax.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+</head>
+<body>
+	<header class="header yearTax">
+		<ul class="gnb">
+			<li class="prev"><a class="btn_type btn_prev" href="mobile_yearTax_progress.html"></a></li>
+			<li class="head_text NanumBarunGothic">추가증빙서류</li>
+			<li class="menu"><a class="btn_type btn_menu"></a></li>
+		</ul>
+	</header>
+	<div id="container" class="yearTax">
+		<section class="wrap">
+			<ul class="boxWrap">
+				<li class="tit que"><div class="NanumSquare_R txt">추가증빙</div><div class="NanumBarunGothic btn"><a class="btn_type">문의 ＞</a></div></li>
+				<li class="NanumBarunGothic addType">
+					<a class="btn_type">
+						<span class="icon photo"></span>
+						<span class="text">사진촬영하기</span>
+					</a>
+					<a class="btn_type">
+						<span class="icon gallery"></span>
+						<span class="text">사진가져오기</span>
+					</a>
+				</li>
+				
+				
+			</ul>
+			
+			<ul class="NanumSquare_R boxWrap board_list">
+				<li class="tit que"><div class="NanumSquare_R txt">추가증빙 내역</div><div class="NanumBarunGothic btn"><a class="btn_type">문의 ＞</a></div></li>
+				<li class="board_item" onclick="pageLink('wait')">
+					<div class="category">부양가족</div>
+					<div class="text">
+						<div class="board_tit">질문 질문 질문 질문 질문 질문 질문 질문 질문 질문</div>
+						<div class="date">2018.07.25 10:11</div>
+					</div>
+					<div class="state waiting"></div>
+				</li>
+				<li class="board_item" onclick="pageLink('wait')">
+					<div class="category">부양가족</div>
+					<div class="text">
+						<div class="board_tit">질문 질문 질문 질문 질문 질문 질문 질문 질문 질문</div>
+						<div class="date">2018.07.25 10:11</div>
+					</div>
+					<div class="state nonAnswer"></div>
+				</li>
+				<li class="board_item" onclick="pageLink('complete')">
+					<div class="category">의료비</div>
+					<div class="text">
+						<div class="board_tit">질문 질문 질문 질문 질문</div>
+						<div class="date">2018.07.25 10:11</div>
+					</div>
+					<div class="state complete"><span class="date">10.25</span></div>
+				</li>
+			</ul>
+		</section>
+		
+	</div>
+	
+</body>
+<script type="text/javascript">
+/* 페이지 링크 샘플 */
+function pageLink(state){
+	if(state=="wait"){
+		window.location.href="#";
+	}else{
+		window.location.href="#";
+	}
+	
+}
+
+//**** 펼치기 event
+$( "input[type=checkbox]" ).on( "click", function(){
+	var _target=$(this).attr("id");
+	if($(this).is(":checked")){
+		$('[class~="'+_target+'"]').addClass("show");
+		
+	}else{
+		$('[class~="'+_target+'"]').removeClass("show");
+	}
+	console.log(_target)
+});
+
+</script>
+</html>

@@ -1,0 +1,100 @@
+
+	<!--****************************************************************************************************************
+	* 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+	* 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+	********************************************************************************************************************
+	--------------------------------------------------------------------------------------------------------------------
+	* 회사       : 뉴젠피앤피
+	* 화면명     : 그룹 추가 팝업
+	* 화면설명   : 주소록관리 > 그룹추가
+	* 작성자     :
+	* 생성일     :
+	--------------------------------------------------------------------------------------------------------------------
+	* 수정자     : 이정훈
+	* 수정일     : 2023.11.17
+	* 수정내용   :
+	------------------------------------------------------------------------------------------------------------------->
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<title>그룹 추가</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/myPage.css">
+	<link rel="stylesheet" type="text/css" href="/css/contract_electronic.css">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/ui.biz.core.js"></script>
+	<script>
+
+
+		//***************					그룹 추가					***************//
+
+
+		function fn_save(){
+
+			var url = rootPath+"contact/insContactGrp.do";
+			var bizId= getURLParameters("bizId");
+			var grpName= $("#grpName").val();
+
+			if(grpName.length <= 0){
+				alert("그룹명을 입력해주세요.");
+				return false;
+			}
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				data: {
+					OPEN_KEY:getCookie("OPEN_KEY"),
+					bizId:bizId,
+					grpName:grpName
+				},
+				success:function(result) {
+					if (result.success==true) {
+						alert("저장되었습니다.");
+						window.close();
+					}
+				},
+				error:function(request,status,error){
+					$.unblockUI();
+					goInvalidPage(request, error);
+				}
+			});
+		}
+
+	</script>
+	</head>
+	<body>
+		<div id="" class="contract_electronic_popup">
+			<div class="pop_title">
+				<h3>그룹 추가</h3>
+				<a class="col_skyblue" onclick="window.close()"></a>
+			</div>
+			<div class="tbstyle01">
+				<table class="NanumSquare_R">
+					<tr>
+						<th>그룹명</th>
+						<td>
+							<input type="text" id="grpName" class="inpstyle01" >
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="btn_group">
+				<div class="NanumRound btn_type type1" onclick="fn_save()">등록하기</div>
+				<div class="NanumRound btn_type type3" onclick="window.close()">취소하기</div>
+			</div>
+		</div>
+	</body>
+	</html>

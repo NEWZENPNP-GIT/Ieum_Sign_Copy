@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/annual_manage.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+</head>
+<body>
+	<div id="annual_wrap" class="">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연차 관리 > 현황/관리 ></span><span class="loc_sub NanumSquare_R">연차촉진제 관리</span></div>
+			<div class="pagtit"><span class="NanumSquare_R">연차촉진제 관리</span></div>
+			<div class="tit_dec NanumRound"><span class="speaker"></span><span> 알림 ㅣ 미승인 연차신청서가 5건 존재합니다. </span></div>
+			
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">연차촉진제 관련 문서 출력 및 관리 </span>
+					</div>
+					<div class="box_wrap topBlue">
+						<ul class="NanumSquare_R field_area" >
+							<li class="selBox month">
+								<select>
+									<option value="" class="">2018년</option>
+									<option value="" class="">2017년</option>
+								</select>
+							</li>
+							<li class="_blank"></li>
+							<li class="selBox">
+								<select>
+									<option value="" class="">분류</option>
+								</select>
+							</li>
+							<li class="inputBox">
+								<fieldset>
+									<input type="text" class="word_input NanumSquare_R" placeholder="검색할 내용을 20자 이내로 적어주세요">
+									<a class="btn_search btn_type Material_icons">search</a>
+								</fieldset>
+							</li>
+						</ul>
+						<div class="group_table">
+							<table class="NanumSquare_R hasChk">
+								<colgroup>
+									<col width="4%">
+									<col width="8%">
+									<col width="11%">
+									<col width="11%">
+									<col width="10%">
+									<col width="8%">
+									<col width="7%">
+									<col width="5%">
+									<col width="7%">
+									<col width="5%">
+									<col width="7%">
+									<col width="5%">
+									<col width="7%">
+									<col width="5%">
+								</colgroup>
+								<thead>
+								<tr>
+									<th rowspan="2" class="chk_area"><input type="checkbox"></th>
+									<th rowspan="2">성명</th>
+									<th rowspan="2">사번</th>
+									<th rowspan="2">부서명</th>
+									<th rowspan="2">입사 일자</th>
+									<th rowspan="2">잔여 일수</th>
+									<th colspan="2">미사용 연차</th>
+									<th colspan="2">사용계획</th>
+									<th colspan="2">사용시기 지정</th>
+									<th colspan="2">노무수령거부</th>
+								</tr>
+								<tr>
+									<th>출력일</th>
+									<th>회수</th>
+									<th>출력일</th>
+									<th>회수</th>
+									<th>출력일</th>
+									<th>회수</th>
+									<th>출력일</th>
+									<th>회수</th>
+								</tr>
+								</thead>
+								<tbody class="top-border">
+									<tr>
+										<td class="chk_area"><input type="checkbox"></td>
+										<td class="value">홍길동</td>
+										<td class="value">1004</td>
+										<td class="value">미래전략개발본부</td>
+										<td class="value">2018.07.05</td>
+										<td class="value">16</td>
+										<td class="value">17.08.29</td>
+										<td class="value">-</td>
+										<td class="value">17.08.29</td>
+										<td class="value">○</td>
+										<td class="value">17.08.29</td>
+										<td class="value">○</td>
+										<td class="value">17.08.29</td>
+										<td class="value">-</td>
+									</tr>
+									<tr>
+										<td class="chk_area"><input type="checkbox"></td>
+										<td class="value">홍길동</td>
+										<td class="value">1004</td>
+										<td class="value">개발1팀</td>
+										<td class="value">2018.07.05</td>
+										<td class="value">16</td>
+										<td class="value">17.08.29</td>
+										<td class="value">-</td>
+										<td class="value">17.08.29</td>
+										<td class="value">○</td>
+										<td class="value">17.08.29</td>
+										<td class="value">○</td>
+										<td class="value">17.08.29</td>
+										<td class="value">-</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div id="page-selection" class="pagingnav_wrap_mid"></div>
+						<!-- 
+						<div class="NanumSquare_R notice_btns btn4">
+							<a class="btn_type">1.미사용 연차일자 통지서 ＞ </a>
+							<a class="btn_type">2.미사용 연차 사용계획 통보서 ＞</a>
+							<a class="btn_type">3.미사용 연차 사용시기 지정 ＞ </a>
+							<a class="btn_type">4.노무수령 거부 통지서 ＞</a>
+						</div>
+						 -->
+					</div>
+				</div>
+				<!-- 
+				<div class="NanumSquare_R btn_group ">
+					<a class="btn_type default"><span class="icon_check"></span>저장하기</a>
+				</div>
+				 -->
+			</div> <!--  contents -->
+				
+			
+		</div> <!--  container -->
+	</div>
+</body>
+<script  type="text/javascript">
+$('#page-selection').bootpag({
+    total: 10,
+    page: 1,
+    maxVisible: 5,
+    leaps: true,
+    firstLastUse: true,
+    first: '',
+    last: '',
+    wrapClass: 'pagination',
+    activeClass: 'active',
+    disabledClass: 'disabled',
+    nextClass: 'btn_next',
+    prevClass: 'btn_prev',
+    lastClass: 'end_page',
+    firstClass: 'first_page'
+}).on("page", function(event, num){
+    
+});
+</script>
+</html>

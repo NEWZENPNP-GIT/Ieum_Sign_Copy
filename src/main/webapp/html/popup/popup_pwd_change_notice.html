@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/popup.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+
+<script>
+
+	function openPopPwChange() {
+		openWin(rootPath + "html/mypage/myPage_popup_pwchange.html","popPwChange","600","435");
+		self.close();
+	}
+	
+	function laterChangePwd(){
+		var today = new Date();
+		setCookie("PwdChangeAskExpires",true,new Date(today.getTime() + (30 * 24 * 60 * 60 * 1000)),"/");
+		self.close();
+
+	}
+</script>
+
+
+</head>
+<body>
+
+<div class="common_popup notice">
+	<div class="contents">
+		<div class="notice_box">
+			<img src="/css/image/popup_pwd_change_notice.png" usemap="#pwdchangenocice" width="580" heigth="450">
+				<map name="pwdchangenocice" id="pwdchangenocice">
+					<area shape="ract" coords="547,12,569,35" alt="close" href="javascript:self.close();" />
+					<area shape="ract" coords="317,380,431,419" alt="change" href="javascript:openPopPwChange();" />
+					<area shape="ract" coords="167,380,281,419" alt="change" href="javascript:laterChangePwd();" />			
+				</map>					
+		</div>
+	</div>
+</div><!-- popup_wrap -->
+
+
+</body>
+
+</html>

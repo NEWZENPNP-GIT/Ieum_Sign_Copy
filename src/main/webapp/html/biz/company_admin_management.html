@@ -1,0 +1,1472 @@
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+
+    <link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+    <link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+    <link rel="stylesheet" type="text/css" href="/css/company_manage.css">
+	<link rel="stylesheet" type="text/css" href="/css/jquery.alerts.css">
+	<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+	
+    <script type='text/javascript' src="/js/jquery.min.js"></script>
+    <script type='text/javascript' src="/js/common.js"></script>
+    <script type='text/javascript' src="/js/ui.biz.core.js"></script>
+    <script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+    <script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+    <script type="text/javascript" src="/js/jquery.alerts.js"></script>
+    
+    <script>
+        var chkUserId = false;
+        var userGrpList = [];
+        var isVoucherContractChange = false;
+        var detailSearch = new Object();
+
+        $(document).ready(function () {
+
+            $('[data-index="1"]').focus();
+
+            $('#inputForm').on('keydown', 'input', function (event) {
+                if (event.which == 13) {
+                    event.preventDefault();
+                    var $this = $(event.target);
+                    var index = parseFloat($this.attr('data-index'));
+                    $('[data-index="' + (index + 1).toString() + '"]').focus();
+                    $('[data-index="' + (index + 1).toString() + '"]').select();
+                }
+            });
+
+            $('#searchValue').keypress(function (event) {
+                var keycode = (event.keyCode ? event.keyCode : event.which);
+                if (keycode == '13') { fn_bizAdminList(); }
+                event.stopPropagation();
+            });
+
+            //비대면바우처 변경시
+            $('#openVoucherType').change(function (event) {
+                changeVoucherControl($(this).val() == "1");
+                changeVoucherTransControl($(this).val() == "2");
+                //재전송 포인트 변경
+                if ($(this).val() == "1") {//여이면
+                	var sendPoint = $("#contractType option:selected").attr('data-send-point');
+                    var reSendPoint = $("#contractType option:selected").attr('data-resend-point');
+                    var payPoint = $("#contractType option:selected").attr('data-pay-point');
+                	$('#resendPoint').val(reSendPoint);
+                    $("#sendPoint").val(sendPoint);
+                    $("#payPoint").val(payPoint);
+                } else {
+                    $('#resendPoint').val("1");
+                    $("#sendPoint").val("10");
+                    $("#payPoint").val("0");
+                }
+            });
+
+            //계약구분 변경시
+            $('#contractType').change(function (event) {
+                var point       = $("#point").val();
+                var freePoint   = $("#contractType option:selected").attr('data-point');
+                var sendPoint   = $("#contractType option:selected").attr('data-send-point');
+                var reSendPoint = $("#contractType option:selected").attr('data-resend-point');
+                var payPoint    = $("#contractType option:selected").attr('data-pay-point');
+
+                console.log(freePoint);
+
+                //데이터 없으면 넣기
+                if (isNull(point)) { chageVoucherPoint(freePoint); }
+
+                //데이터가 0이면 선택시 넣기
+                if (isNotNull(point) && parseInt(point) == 0) { chageVoucherPoint(freePoint); }
+
+                //변경된 이력이 있으면 넣기
+                if (isVoucherContractChange) { chageVoucherPoint(freePoint); }
+
+                //전송, 재전송 값은 그냥 넣기
+                $("#sendPoint").val(sendPoint);
+                $("#resendPoint").val(reSendPoint);
+                $("#payPoint").val(payPoint);
+            });
+            
+            //계약구분세팅
+            fn_contractType2022List();
+
+            //기업관리 목록조회
+            fn_bizAdminList();
+            
+            //기업구분 비대면 가입년도조회
+            fn_funnelYear();
+            
+            $("#funnelYear").hide();
+            
+            //전용설정 추가 2021.12.07 이두호
+            $(".priCheck").click(function(){
+            	if ($(this).attr("id") == "useElecDoc" || $(this).attr("id") == "usePayStub") {
+            		$("#useContract").attr("checked", false);
+                } else {
+            		$("#useElecDoc").attr("checked", false);
+            		$("#usePayStub").attr("checked", false);
+            	}
+            });
+            
+            //기업구분 변경시 포인트 변경 추가 2021.12.07 이두호
+            $('#funnel').change(function () {
+            	if (isNull($("#bizId").val())) {
+	            	if ($(this).val() == "100" || $(this).val() == "500") {
+	            		$("#point").val("100");
+	            		$("#comment").val("최초등록");
+	            	} else {
+	            		$("#point").val("");
+	            		$("#comment").val("");
+	            	}
+	            	$('#funnelYear').val("2022");
+            	}
+            	
+            	if ($(this).val() == "200") {
+            		$("#funnelYear").show();
+            		$("#funnel").css("width", "calc(50% - 10.5px)");
+            		$("#funnelYear").css("width", "calc(50% - 10.5px)");
+            	} else {
+            		$("#funnelYear").hide();
+            		$("#funnel").css("width", "calc(100% - 18px)");
+            	}
+            });
+            
+          //기업구분 변경시 포인트 변경 추가 2021.12.07 이두호
+            $('#funnelYear').change(function () {
+            	if ($(this).val() == "2021") { fn_contractType2021List(); }
+                else                         { fn_contractType2022List(); }
+            });
+        });
+
+        //포인트 변경시
+        function chageVoucherPoint(changePoint) {
+            $('#comment').val("비대면 바우처 신규 등록");
+            $('#point').val(changePoint);
+            isVoucherContractChange = true;
+        }
+
+        //바우처 컨트롤 초기화
+        function initVoucherControl() {
+            isVoucherContractChange = false;
+            changeVoucherControl(false);
+        }
+
+        //바우쳐 컨트롤 읽기 속성 세팅
+        function changeVoucherControl(isChanged) {
+            if (isChanged) {
+                $('#voucherOrder').removeAttr("disabled");
+                $('#salesChannel').removeAttr("readonly");
+                $('#otherGoodsPurchase').removeAttr("readonly");
+                $('#contractType').removeAttr("disabled");
+                $('#contractStartDate').removeAttr("readonly");
+                $('#contractEndDate').removeAttr("readonly");
+            } else {
+                $('#voucherOrder').attr("disabled", true);
+                $('#salesChannel').attr("readonly", true);
+                $('#otherGoodsPurchase').attr("readonly", true);
+                $('#contractType').attr("disabled", true);
+                $('#contractStartDate').attr("readonly", true);
+                $('#contractEndDate').attr("readonly", true);
+            }
+        }
+
+        //바우처 전송일자 컨트롤 세팅
+        function changeVoucherTransControl(isChanged) {
+            if (isChanged) { $('#generalTransDate').removeAttr("readonly"); }
+            else           { $('#generalTransDate').attr("readonly", true); }
+        }
+
+        //기업정보 가지고 오기
+        function fn_bizView(id) {
+
+            var url = rootPath + "biz/getBizList.do";
+
+            $.blockUI();
+
+            $.ajax({
+                url: url,
+                crossDomain: true,
+                dataType: "json",
+                type: "GET",
+                data: {
+                    bizId: id,
+                    startPage: 0,
+                    endPage: 1
+                },
+                success: function (result) {
+                    if (result.success == true) {
+
+                        $("#bizList > li ").removeClass("active");
+                        // 기업내역
+                        $.each(result.data, function (i, row) {
+                            $("#bizId").val(row.bizId);
+                            $("#bizList").find("li[id='" + row.bizId + "']").addClass("active");
+                            $("#companyName").val(row.bizName);
+                            $("#businessNo").val(row.businessNo);
+                            $("#ownerName").val(row.ownerName);
+                            $("#addr1").val(row.addr1);
+                            $("#companyTelNum").val(row.companyTelNum);
+                            $("#companyFaxNum").val(row.companyFaxNum);
+                            $("#point").val(row.curPoint);
+                            $("#paymentType").val(row.curPoint);
+                            $("#comment").val("");
+                            $("#oriPoint").val(row.curPoint);
+                            $("#formPoint").val(row.formPoint);
+                            $("#scanPoint").val(row.scanPoint);
+                            $("#sendPoint").val(row.sendPoint);
+                            $("#resendPoint").val(row.resendPoint);
+                            $("#payPoint").val(row.payPoint);
+                            $("#useContract").prop("checked", (row.useContract == "Y" ? true : false));
+
+                            $("#personUserName").val(row.personUserName);
+                            $("#personUserTelNum").val(row.personUserTelNum);
+                            $("#personEMail").val(row.personEMail);
+                            $("#openVoucherType").val(row.openVoucherType);
+                            $("#voucherOrder").val(row.voucherOrder);
+                            $("#salesChannel").text(row.salesChannel);
+                            $("#otherGoodsPurchase").val(row.otherGoodsPurchase);
+                            $("#contractType").val(row.contractType);
+                            $("#contractStartDate").val(row.contractStartDate);
+                            $("#contractEndDate").val(row.contractEndDate);
+                            $("#generalTransDate").val(row.generalTransDate);
+
+                            if (!isNull(row.contractStartDate) && row.contractStartDate != "0") {
+                                $("#contractStartDate").val(convertDate(row.contractStartDate).format("yyyy-MM-dd"));
+                            }
+
+                            if (!isNull(row.contractEndDate) && row.contractEndDate != "0") {
+                                $("#contractEndDate").val(convertDate(row.contractEndDate).format("yyyy-MM-dd"));
+                            }
+
+                            if (!isNull(row.generalTransDate) && row.generalTransDate != "0") {
+                                $("#generalTransDate").val(convertDate(row.generalTransDate).format("yyyy-MM-dd"));
+                            }
+
+                            $("#loginId").val(row.loginId);
+							$("#prevLoginId").val(row.loginId);
+                            $("#channelId").val(row.channelId);
+							$("#userId").val(row.userId);
+							$("#funnel").val(row.funnel);
+							if (row.funnel == "200") {
+			            		$("#funnelYear").show();
+			            		$("#funnel").css("width", "calc(50% - 10.5px)");
+			            		$("#funnelYear").css("width", "calc(50% - 10.5px)");
+			            	} else {
+			            		$("#funnelYear").hide();
+			            		$("#funnel").css("width", "calc(100% - 18px)");
+			            	}
+							$("#funnelYear").val(row.funnelYear);
+							$("#useElecDoc").prop("checked", (row.useElecDoc == "Y" ? true : false));
+							$("#usePayStub").prop("checked", (row.usePayStub == "Y" ? true : false));
+
+                            $("#useJumin").val(row.useJumin);
+                            $("#paymentType").val(row.paymentType);
+
+                            $("#memo").val(row.memo);
+                            $("#useContractData").prop("checked", (row.useContractData == "Y" ? true : false));
+                        });
+
+                        isVoucherContractChange = false;
+                        chkUserId = false;
+                        changeVoucherControl($("#openVoucherType").val() == "1");
+                        changeVoucherTransControl($("#openVoucherType").val() == "2");
+                    }
+                    $.unblockUI();
+                },
+                error: function (request, status, error) {
+                    $.unblockUI();
+                    if (request.status == "401") {
+                        jAlert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+                        location.href = rootPath;
+                    } else { jAlert("입력하신 정보를 다시 확인해주시기 바랍니다." + error); }
+                }
+            });
+        }
+
+        //신규 버튼 클릭
+        function fn_newBizGrp() {
+            chkUserId = false;
+
+            $("#bizId").val("");
+            $("#companyName").val("");
+            $("#businessNo").val("");
+            $("#ownerName").val("");
+            $("#addr1").val("");
+            $("#companyTelNum").val("");
+            $("#companyFaxNum").val("");
+
+            $("#personUserName").val("");
+            $("#personUserTelNum").val("");
+            $("#personEMail").val("");
+
+            $("#point").val("0");
+            
+            $("#formPoint").val("100");
+            $("#sendPoint").val("10");
+            $("#payPoint").val("0");
+            $("#scanPoint").val("5");
+            $("#resendPoint").val("1");
+
+            $("#comment").val("");
+
+            $("#subAdmin").html("");
+
+            $("#useContract").attr("checked", false);
+            $("#openVoucherType").val("");
+            $("#voucherOrder").val("");
+            $("#salesChannel").html("");
+            $("#otherGoodsPurchase").val("");
+            $("#contractType").val("");
+            $("#generalTransDate").val("");
+
+            userGrpList = [];
+
+            $("#userId").val("");
+            $("#empName").val("");
+            $("#email").val("");
+            $("#phoneNum").val("");
+            $("#loginId").val("");
+            $("#prevLoginId").val("");
+			$("#channelId").val("");
+			
+            $("#userPwd").val("");
+
+            $("#searchStartDate").val("");
+            $("#searchEndDate").val("");
+
+            $("#contractStartDate").val("");
+            $("#contractEndDate").val("");
+			$("#userId").val("");
+			$("#funnel").val("");
+			$("#funnelYear").val("");
+			$("#funnelYear").hide();
+    		$("#funnel").css("width", "calc(100% - 18px)");
+			$("#useElecDoc").prop("checked", true);
+			$("#usePayStub").prop("checked", true);
+            
+            isVoucherContractChange = false;
+            chkUserId = false;
+            changeVoucherControl($("#openVoucherType").val() == "1");
+            changeVoucherTransControl($("#openVoucherType").val() == "2");
+
+            $("#useJumin").val("N");
+            $("#paymentType").val("1");
+
+            $("#memo").val("");
+        }
+        
+        //업체삭제
+        function fn_delBizGrp() {
+
+    		var url   = rootPath+"biz/delBizGrp.do";
+    		var bizId = $("#bizId").val();
+    		
+    		if(isNull(bizId)) {
+    			jAlert("기업을 먼저 선택해주시기 바랍니다.");
+    			return;
+    		}
+    		jAlert("업체 삭제는 기술팀에 요청하시기 바랍니다.");
+        }
+        
+        //기업리스트 가져오기
+        function fn_bizAdminList() {
+
+            var url         = rootPath + "biz/getBizList.do";
+            var searchKey   = "bizName";
+            var searchValue = $("#searchValue").val();
+
+            $.blockUI();
+
+            $.ajax({
+                url: url,
+                crossDomain: true,
+                dataType: "json",
+                type: "GET",
+                data: {
+                    searchKey: searchKey,
+                    searchValue: searchValue,
+                    startPage: 0,
+                    endPage: 99999,
+                    sortName: "INS_DATE",
+                    sortOrder: "ASC"
+                },
+                success: function (result) {
+                	var htmlData = "";
+                    if (result.success == true) {
+                        // 기업내역
+                        $.each(result.data, function (i, row) {
+                            var num = i + 1;
+                            htmlData += '<li id="' + row.bizId + '" onClick="fn_bizView(' + row.bizId + ')"><span>' + row.bizName + '</span></li> ';
+                        });
+
+                    }
+                    $("#bizList").html(htmlData);
+                    $.unblockUI();
+                },
+                error: function (request, status, error) {
+                    $.unblockUI();
+                    if (request.status == "401") {
+                    	jAlert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+                        location.href = rootPath;
+                    } else { jAlert("입력하신 정보를 다시 확인해주시기 바랍니다." + error); }
+                }
+            });
+        }
+
+        //기업 선택하기
+        function fn_setBizId() {
+
+            var bizId = $("#bizId").val();
+
+            if (isNull(bizId)) {
+            	jAlert("기업을 먼저 선택해주시기 바랍니다.");
+                return;
+            }
+
+            if (!confirm("선택된 기업으로 변경하시겠습니까?\r\n변경된 기업으로 모든 정보가 조회됩니다.")) return;
+
+            var url = rootPath + "setBizId.do";
+
+            $.blockUI();
+
+            $.ajax({
+                url: url,
+                crossDomain: true,
+                dataType: "json",
+                type: "POST",
+                data: { bizId: bizId },
+                success: function (result) {
+                    if (result.success) {
+
+                        var today = new Date();
+                        setCookie("bizName", result.bizName, new Date(today.getTime() + (1 * 24 * 60 * 60 * 1000)), '/');
+                        setCookie("bizId", result.bizId, new Date(today.getTime() + (1 * 24 * 60 * 60 * 1000)), '/');
+                        setCookie("yearContractId", result.yearContractId, new Date(today.getTime() + (1 * 24 * 60 * 60 * 1000)), '/');	// 연말정산 계약ID
+                        setCookie("febYear", result.febYear, new Date(today.getTime() + (1 * 24 * 60 * 60 * 1000)), '/');
+                        setCookie("useContractData", result.useContractData, new Date(today.getTime() + (1 * 24 * 60 * 60 * 1000)), '/');
+                        setCookie("useContractMenu", result.useContractMenu, new Date(today.getTime() + (1 * 24 * 60 * 60 * 1000)), '/');
+                        setCookie("useElecDoc", result.useElecDoc, new Date(today.getTime() + (1 * 24 * 60 * 60 * 1000)), '/');
+                        setCookie("usePayStub", result.usePayStub, new Date(today.getTime() + (1 * 24 * 60 * 60 * 1000)), '/');
+
+                        var lastName = "";
+
+                        if (getCookie("loginType") > "5") lastName = textLengthOverCut(getCookie("bizName"), 10, "...");
+                        else                              lastName = textLengthOverCut(getCookie("loginName"), 10, "...");
+
+                        $("#lastName").html(lastName + " 님");
+                        $("#lastDate").html(AddComma(result.curPoint) + " 점");
+                        $("#bizName").html(lastName)
+                        setCookie("curPoint", result.curPoint, new Date(today.getTime() + (1 * 24 * 60 * 60 * 1000)), '/');
+                        $("#curPoint").text(AddComma(result.curPoint));
+                        jAlert("해당 기업이 설정되었습니다.")
+                    }
+                    $.unblockUI();
+                },
+                error: function (request, status, error) {
+                    $.unblockUI();
+                    if (request.status == "401") {
+                    	jAlert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+                        location.href = rootPath;
+                    } else { jAlert("입력하신 정보를 다시 확인해주시기 바랍니다." + error); }
+                }
+            });
+        }
+
+
+        function fn_pointAdjust() {
+
+        	var bizId = $("#bizId").val();
+
+            if (isNull(bizId)) {
+            	jAlert("기업을 먼저 선택해주시기 바랍니다.");
+                return;
+            }
+            window.open(rootPath + "html/biz/point_popup_update.html?bizId=" + bizId, "PointUpdateList", "width=650, height=550, scrollbars=yes");
+        }
+
+        //포인트 팝업
+        function fn_pointList() {
+
+            var bizId = $("#bizId").val();
+
+            if (isNull(bizId)) {
+            	jAlert("기업을 먼저 선택해주시기 바랍니다.");
+                return;
+            }
+            window.open(rootPath + "html/biz/point_popup_log_list.html?bizId=" + bizId, "PointLogList", "width=700, height=480, scrollbars=yes");
+        }
+
+        //그룹 팝업
+        function fn_bizGrpList() {
+
+            var bizId = $("#bizId").val();
+
+            if (isNull(bizId)) {
+            	jAlert("기업을 먼저 선택해주시기 바랍니다.");
+                return;
+            }
+            window.open(rootPath + "html/biz/bizgrp_popup_list.html?bizId=" + bizId, "BizGrpList", "width=420, height=400, scrollbars=yes");
+        }
+
+        function fn_saveBizPoint(showMessage) {
+
+            if (showMessage == true) {
+                var res = confirm("포인트 변경 시 기존 차감된 포인트와 차별이 발생하므로 \r\n저장 시 주의하시기 바랍니다. \r\n그래도 저장하시겠습니까?");
+                if (!res) { return; }
+            }
+
+            var bizId       = $("#bizId").val();
+            var url         = rootPath + "biz/updBizPoint.do";
+            var formPoint   = $("#formPoint").val();
+            var scanPoint   = $("#scanPoint").val();
+            var sendPoint   = $("#sendPoint").val();
+            var resendPoint = $("#resendPoint").val();
+            var payPoint    = $("#payPoint").val();
+
+            $.blockUI();
+
+            var params = {
+                bizId: bizId,
+                formPoint: formPoint,
+                scanPoint: scanPoint,
+                sendPoint: sendPoint,
+                resendPoint: resendPoint,
+                payPoint:payPoint
+            };
+
+            $.ajax({
+                url: url,
+                crossDomain: true,
+                dataType: "json",
+                type: "POST",
+                data: params,
+                success: function (result) {
+                    $.unblockUI();
+                    if (result.success) {
+                        if (showMessage == true) { alert("저장되었습니다."); }
+                        fn_bizView(bizId);
+                    } else { alert(result.message); }
+                },
+                error: function (request, status, error) {
+                    $.unblockUI();
+                    if (request.status == "401") {
+                    	jAlert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+                        window.close();
+                    } else { jAlert("입력하신 정보를 다시 확인해주시기 바랍니다." + error); }
+                }
+            });
+        }
+
+        //비대면 계약구분 데이터 가져오기
+        function fn_contractType2021List() {
+
+            var url = rootPath + "code/getCodeList.do";
+
+            $.blockUI();
+
+            $.ajax({
+                url: url,
+                crossDomain: true,
+                dataType: "json",
+                type: "GET",
+                data: { grpCommCode: '901' },
+                success: function (result) {
+
+                    var htmlData = "";
+                    var option   = "";
+                    if (result.success == true) {
+                        bbsList = result.data;
+                        $('#contractType').html("<option value='' data-send-point='10' data-resend-point='1' data-pay-point='0'></option>");
+                        // 대분류
+                        $.each(result.data, function (i, row) {
+                            if (row.commCode.charAt(0) == "P") {
+                                option = $("<option value='" + row.commCode + "' data-point='" + row.refCode + "' data-send-point='10' data-resend-point='1' data-pay-point='0'>" + row.commName + "</option>");
+                            } else {
+                                option = $("<option value='" + row.commCode + "' data-point='" + row.refCode + "' data-send-point='0' data-resend-point='0' data-pay-point='0'>" + row.commName + "</option>");
+                            }
+                            $('#contractType').append(option);
+                        });
+                    }
+                    $.unblockUI();
+                },
+                error: function (request, status, error) {
+                    $.unblockUI();
+                    if (request.status == "401") {
+                    	jAlert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+                        location.href = rootPath;
+                    } else { jAlert("입력하신 정보를 다시 확인해주시기 바랍니다." + error); }
+                }
+            });
+        }
+        
+      //비대면 계약구분 데이터 가져오기
+        function fn_contractType2022List() {
+
+            var url = rootPath + "code/getCodeList.do";
+
+            $.blockUI();
+
+            $.ajax({
+                url: url,
+                crossDomain: true,
+                dataType: "json",
+                type: "GET",
+                data: { grpCommCode: '902' },
+                success: function (result) {
+
+                    var htmlData = "";
+                    var option   = "";
+
+                    if (result.success == true) {
+                        bbsList = result.data;
+                        $('#contractType').html("<option value='' data-send-point='10' data-resend-point='1' data-pay-point='5'></option>");
+                        // 대분류
+                        $.each(result.data, function (i, row) {
+                            option = $("<option value='" + row.commCode + "' data-point='" + row.refCode + "' data-send-point='10' data-resend-point='1' data-pay-point='5'>" + row.commName + "</option>");
+                            $('#contractType').append(option);
+                        });
+                    }
+                    $.unblockUI();
+                },
+                error: function (request, status, error) {
+                    $.unblockUI();
+                    if (request.status == "401") {
+                    	jAlert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+                        location.href = rootPath;
+                    } else { jAlert("입력하신 정보를 다시 확인해주시기 바랍니다." + error); }
+                }
+            });
+        }
+
+      	//비대면 계약구분 데이터 가져오기
+        function fn_funnelYear() {
+
+            var url = rootPath + "code/getCodeList.do";
+
+            $.blockUI();
+
+            $.ajax({
+                url: url,
+                crossDomain: true,
+                dataType: "json",
+                type: "GET",
+                data: { grpCommCode: '913' },
+                success: function (result) {
+
+                    var htmlData = "";
+                    var option   = "";
+
+                    if (result.success == true) {
+                        // 대분류
+                        $.each(result.data, function (i, row) {
+                        	option = "<option value='" + row.commCode + "'>" + row.commName + "</option>";
+                            $('#funnelYear').append(option);
+                        });
+                    }
+                    $.unblockUI();
+                },
+                error: function (request, status, error) {
+                    $.unblockUI();
+                    if (request.status == "401") {
+                    	jAlert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+                        location.href = rootPath;
+                    } else { jAlert("입력하신 정보를 다시 확인해주시기 바랍니다." + error); }
+                }
+            });
+        }
+        
+        function fn_saveBizInfo() {
+
+            var bizId = $("#bizId").val();
+            var url   = "";
+            
+            if (isNull(bizId)) { url = rootPath + "/biz/insBiz.do"; }
+            else               { url = rootPath + "/biz/updBiz.do"; }
+
+			var bizName            = $("#companyName").val();
+			var ownerName          = $("#ownerName").val();
+			var businessNo         = $("#businessNo").val();
+			var addr1              = $("#addr1").val();
+			var companyTelNum      = $("#companyTelNum").val();
+			var companyFaxNum      = $("#companyFaxNum").val();
+			
+			var personUserName     = $("#personUserName").val();
+            var personUserTelNum   = $("#personUserTelNum").val();
+            var personEMail        = $("#personEMail").val();
+            
+            var loginId            = $("#loginId").val();
+            var userPwd            = $("#userPwd").val();
+            var useContract        = $("#useContract").is(":checked") ? "Y":"N";
+            var channelId          = $("#channelId").val();
+            
+            var openVoucherType    = $("#openVoucherType").val();
+            var voucherOrder       = $("#voucherOrder").val();
+            var salesChannel       = $("#salesChannel").text();
+            var otherGoodsPurchase = $("#otherGoodsPurchase").val();
+            var contractType       = $("#contractType").val();
+            var contractStartDate  = $("#contractStartDate").val();
+            var contractEndDate    = $("#contractEndDate").val();
+            var generalTransDate   = $("#generalTransDate").val();
+            
+            var funnel             = $("#funnel").val();
+            var funnelYear         = $("#funnelYear").val();
+
+            if(funnel != "200"){ funnelYear = ""; }
+            
+            var useElecDoc         = $("#useElecDoc").is(":checked") ? "Y":"N";
+            var usePayStub         = $("#usePayStub").is(":checked") ? "Y":"N";
+
+            var useJumin           = $("#useJumin").val();
+            var paymentType        = $("#paymentType").val();
+            var memo               = $("#memo").val();
+
+            var useContractData    = $("#useContractData").is(":checked") ? "Y":"N";
+            var curPoint           = $("#point").val();
+            
+            if (isNull(curPoint)) { curPoint = "0"; }
+            else                  { curPoint = $("#point").val(); }
+
+            var comment            = $("#comment").val();
+            var prevLoginId        = "";
+            
+         	// 아이디 변경 시 체크
+            if (isNull(bizId)) {
+				if (!chkUserId) {
+    				jAlert("신규 등록 시 아이디 확인을 필히 진행해 주시기 바랍니다.");
+    				return;
+    			} else { prevLoginId = loginId; }
+            } else {
+            	prevLoginId = $("#prevLoginId").val();
+            	if(loginId != prevLoginId) {
+	            	if(!chkUserId) {
+	    				jAlert("아이디를 변경하시는 경우 아이디 확인을 필히 진행해 주시기 바랍니다.");
+	    				return;
+	    			}
+            	}
+            }
+            
+			var userId = $("#userId").val();
+
+            if (isNull(bizId)) {
+                if (userPwd.length==0) {
+                    jAlert("비밀 번호를 입력해 주시기 바랍니다.");
+                    return;
+                }
+            }
+
+    		if (bizName.length==0) {
+    			jAlert("회사명을 입력해 주시기 바랍니다.");
+    			return;
+    		}
+    		if (bizName.indexOf("_") != -1) {
+    			jAlert("기업명에 특수문자(_)를 입력하실  수 없습니다.");
+    			return;
+    		}
+    		if (ownerName.length==0) {
+    			jAlert("대표자 성명을 입력해 주시기 바랍니다.");
+    			return;
+    		}
+    		if(personUserName.length==0) {
+    			jAlert("담당자 성명을 입력해 주시기 바랍니다.");
+    			return;
+    		}
+    		if (personUserName.indexOf("_") != -1) {
+    			jAlert("담당자 성명에 특수문자(_)를 입력하실  수 없습니다.");
+    			return;
+    		}
+    		if(personEMail.length==0) {
+    			jAlert("담당자 이메일을 입력해 주시기 바랍니다.");
+    			return;
+    		}
+    		if(personUserTelNum.length==0) {
+    			jAlert("담당자 연락처를 입력해 주시기 바랍니다.");
+    			return;
+    		}
+    		
+    		if(!check_busino(businessNo)) {
+    			jAlert("사업자등록번호가 맞지 않습니다.");
+    			return;
+    		}
+    		
+    		if(loginId == "") {
+    			jAlert("로그인아이디를 설정해주시기 바랍니다.");
+    			return;
+    		}
+
+            //전화번호 데이터 검증
+            if (isNotNull(personUserTelNum)) {
+                if (!checkNumber(personUserTelNum)) {
+                	jAlert("담당자 전화번호는 숫자만 입력 가능합니다.");
+                    $("#personUserTelNum").focus();
+                    return;
+                }
+            }
+
+            //이메일 데이터 검증
+            if (isNotNull(personEMail)) {
+                if (!checkEmail(personEMail)) {
+                	jAlert("담당자 이메일 형식이 일치하지 않습니다.");
+                    $("#personEMail").focus();
+                    return;
+                }
+            }
+
+            //날짜형식 데이터 검증
+            if (isNotNull(contractStartDate)) {
+                if (!checkDate(contractStartDate)) {
+                	jAlert("계약시작 일자가 날짜 형식이 맞지 않습니다.\r\n다시 입력해 주시기 바랍니다.");
+                    $("#contractStartDate").focus();
+                    return;
+                }
+            }
+
+            if (isNotNull(contractEndDate)) {
+                if (!checkDate(contractEndDate)) {
+                	jAlert("계약종료 일자가 날짜 형식이 맞지 않습니다.\r\n다시 입력해 주시기 바랍니다.");
+                    $("#contractEndDate").focus();
+                    return;
+                }
+            }
+
+            if (isNotNull(generalTransDate)) {
+                if (!checkDate(generalTransDate)) {
+                	jAlert("일반전환 일자가 날짜 형식이 맞지 않습니다.\r\n다시 입력해 주시기 바랍니다.");
+                    $("#generalTransDate").focus();
+                    return;
+                }
+            }
+
+            if (contractStartDate.length > 0) contractStartDate = contractStartDate.replace(/-/gi, "");
+            if (contractEndDate.length > 0) contractEndDate = contractEndDate.replace(/-/gi, "");
+            if (generalTransDate.length > 0) generalTransDate = generalTransDate.replace(/-/gi, "");
+
+            if (!confirm("저장하시겠습니까?")) { return; }
+
+            $.ajax({
+                url: url,
+                crossDomain: true,
+                dataType: "json",
+                type: "POST",
+                data: {
+                    bizId: bizId,
+                    personUserName: personUserName,
+                    personUserTelNum: personUserTelNum,
+                    personEMail: personEMail,
+                    openVoucherType: openVoucherType,
+                    voucherOrder: voucherOrder,
+                    salesChannel: salesChannel,
+                    otherGoodsPurchase: otherGoodsPurchase,
+                    contractType: contractType,
+                    contractStartDate: contractStartDate,
+                    contractEndDate: contractEndDate,
+                    generalTransDate: generalTransDate,
+                    bizName: bizName,
+                    businessNo: businessNo,
+                    ownerName: ownerName,
+                    addr1: addr1,
+                    companyTelNum: companyTelNum,
+                    companyFaxNum: companyFaxNum,
+                    userPwd: userPwd,
+                    useContract: useContract,
+                    channelId: channelId,
+                    userId: userId,
+                    loginId:prevLoginId,
+    				changeUserId:loginId,
+    				funnel: funnel,
+    				funnelYear: funnelYear,
+    				useElecDoc:useElecDoc,
+    				usePayStub:usePayStub,
+                    useJumin:useJumin,
+                    paymentType:paymentType,
+    				curPoint:curPoint,
+    				comment:comment,
+                    memo:memo,
+                    useContractData:useContractData
+                },
+                success: function (result) {
+                    if (result.success == true) {
+                    	
+                    	if (result.bizId == "-1") {
+                    		jAlert("이미 가입하신 기업입니다.");
+                    		return;
+                    	}
+                    	
+                    	jAlert("저장되었습니다.");
+                    	
+                        //신규 저장시 비즈ID없으면 넣어준다.
+                        if ($("#bizId").val() == "") { $("#bizId").val(result.bizId); }
+                        
+                        if (isVoucherContractChange) {
+                        	//비즈 ID 넣기
+                            //포인트조정
+                            //fn_pointUpdate();
+                        } else {
+                            //포인트저장
+                            fn_saveBizPoint(false);
+                        }
+                    } else { jAlert("기업정보 저장 중 오류가 발생하였습니다."); }
+                },
+                error: function (request, status, error) { jAlert("입력하신 정보를 다시 확인해주시기 바랍니다."); }
+            });
+        }
+
+        function fn_pointUpdate() {
+
+            var url      = rootPath + "updPoint.do";
+            var bizId    = $("#bizId").val();
+            var curPoint = $("#point").val();
+            var comment  = $("#comment").val();
+
+            if (isNull(bizId)) {
+            	jAlert("기업을 먼저 선택해주시기 바랍니다.");
+                return;
+            }
+
+            $.ajax({
+                url: url,
+                crossDomain: true,
+                dataType: "json",
+                type: "POST",
+                data: {
+                    bizId: bizId,
+                    curPoint: curPoint,
+                    comment: comment
+                },
+                success: function (result) {
+                    if (result.success == true) {
+                        $("#comment").val('');
+
+                        isVoucherContractChange = false;
+
+                        fn_saveBizPoint(false);
+                    } else { jAlert("문제가 발생하였습니다.\r\n다시 입력해주시기 바랍니다."); }
+                },
+                error: function (request, status, error) { jAlert("입력하신 정보를 다시 확인해주시기 바랍니다."); }
+            });
+        }
+
+        function getSearch() {
+        	if ($("#openVoucherType").val() == "1")	{
+            //비대면 바우처가 있으면 팝업
+            openWin(rootPath + "html/biz/sales_channel_popup.html", "salesChannelPopup", "600", "700");
+        	}
+        }
+
+        function setSalesChannel(channelId, salesChannel) {
+            $("#channelId").val(channelId);
+            $("#salesChannel").text(salesChannel);
+        }
+        
+        function fn_addSubUser() {
+    		var bizId = $("#bizId").val();
+    		
+    		if(isNull(bizId)) {
+    			alert("기업을 먼저 선택해주시기 바랍니다.");
+    			return;
+    		}
+    		openWin (rootPath+"html/biz/company_popup_addManager.html?bizId="+bizId,"기업관리자","380","340");
+    	}
+
+        //아이디 중복 확인
+        function fn_checkUserId() {
+    		var loginId     = $("#loginId").val();
+        	var prevLoginId = $("#prevLoginId").val();
+        	// 아이디 변경 시 체크
+            if (isNull(bizId)) { prevLoginId = loginId; }
+            else               { prevLoginId = $("#prevLoginId").val(); }
+    		var url = rootPath+"user/getUserList.do";
+
+
+    		if (loginId.length==0) {
+    			jAlert("아이디를 입력해주시기 바랍니다.");
+    			return;
+    		}
+    		if(!checkEmail(loginId)) {
+    			jAlert("아이디는 이메일 형식으로 입력해주시기 바랍니다.");
+    			return;
+    		}
+
+    		if (!isNull(bizId)) {
+	    		if(loginId == prevLoginId) {
+	   				jAlert("변경사항이 없습니다.");
+	   				return;
+	        	}
+    		}
+
+    		chkUserId = false;
+
+    		$.ajax({
+    			url:url,
+    		    crossDomain : true,
+    			dataType:"json",
+    			type:"GET",
+    			data: { userId:loginId },
+    			success:function(result) {
+    				if (result.success==true) {
+
+    					if(result.total==0) {
+    						chkUserId = true;
+    						jAlert("사용가능하신 아이디입니다.");
+    					} else { jAlert("입력하신 아이디는 사용중인 아이디입니다.\r\n다시 입력해주시기 바랍니다."); }
+    				} else { jAlert("입력하신 아이디는 사용중인 아이디입니다.\r\n다시 입력해주시기 바랍니다."); }
+    			},
+    			error:function(request,status,error){ jAlert("입력하신 정보를 다시 확인해주시기 바랍니다."); }
+    		});
+    	}
+
+        function fn_detailSearch() { openWin (rootPath+"html/biz/company_popup_detailSearch.html","조건검색","440","500"); }
+
+        //기업리스트 가져오기
+        function fn_bizDetailAdminList(popupParams) {
+
+            var url = rootPath + "biz/getBizList.do";
+            detailSearch.funnel = popupParams.funnel;
+            detailSearch.openVoucherType = popupParams.openVoucherType;
+            detailSearch.voucherOrder = popupParams.voucherOrder;
+            detailSearch.channelId = popupParams.channelId;
+            detailSearch.salesChannel = popupParams.salesChannel;
+            detailSearch.contractStartDate = popupParams.contractStartDate;
+            detailSearch.contractEndDate = popupParams.contractEndDate;
+            detailSearch.generalTransDate = popupParams.generalTransDate;
+            detailSearch.moduleType = popupParams.moduleType;
+            detailSearch.useJumin = popupParams.useJumin;
+            detailSearch.paymentType = popupParams.paymentType;
+
+            $.blockUI();
+
+            $.ajax({
+                url: url,
+                crossDomain: true,
+                dataType: "json",
+                type: "GET",
+                data: {
+                    funnel: detailSearch.funnel,
+                    openVoucherType: detailSearch.openVoucherType,
+                    voucherOrder: detailSearch.voucherOrder,
+                    channelId: detailSearch.channelId,
+                    contractStartDate: detailSearch.contractStartDate,
+                    contractEndDate: detailSearch.contractEndDate,
+                    generalTransDate: detailSearch.generalTransDate,
+                    moduleType: detailSearch.moduleType,
+                    useJumin: detailSearch.useJumin,
+                    paymentType: detailSearch.paymentType,
+                    startPage: 0,
+                    endPage: 99999,
+                    sortName: "INS_DATE",
+                    sortOrder: "ASC"
+                },
+                success: function (result) {
+                    var htmlData = "";
+
+                    if (result.success == true) {
+                        // 기업내역
+                        $.each(result.data, function (i, row) {
+                            var num = i + 1;
+                            htmlData += '<li id="' + row.bizId + '" onClick="fn_bizView(' + row.bizId + ')"><span>' + row.bizName + '</span></li> ';
+                        });
+                    }
+                    $("#bizList").html(htmlData);
+                    $("#detail_funnel").html(popupParams.funnelText);
+                    $("#detail_openVoucherType").html(popupParams.openVoucherTypeText);
+                    $("#detail_voucherOrder").html(popupParams.voucherOrderText);
+                    $("#detail_salesChannel").html(popupParams.salesChannel);
+                    $("#detail_contractStartDate").html(popupParams.contractStartDate);
+                    $("#detail_contractEndDate").html(popupParams.contractEndDate);
+                    $("#detail_generalTransDate").html(popupParams.generalTransDate);
+                    $("#detail_moduleType").html(popupParams.moduleTypeText);
+                    $("#detail_useJumin").html(popupParams.useJuminText);
+                    $("#detail_paymentType").html(popupParams.paymentTypeText);
+
+                    $.unblockUI();
+                },
+                error: function (request, status, error) {
+                    $.unblockUI();
+                    if (request.status == "401") {
+                        jAlert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+                        location.href = rootPath;
+                    } else { jAlert("입력하신 정보를 다시 확인해주시기 바랍니다." + error); }
+                }
+            });
+        }
+
+    </script>
+</head>
+<body>
+    <input type="hidden" id="bizId" value="">
+    <input type="hidden" id="userId" value="">
+    <input type="hidden" id="prevLoginId" value="">
+    <input type="hidden" id="oriPoint" value="">
+
+    <!-- *********************************************  html 시작 부분  body안에 붙여 넣으시면 됩니다.  *********************************************  -->
+    <div id="comManage_wrap" class="">
+        <div class="container">
+            <div class="location"><span class="loc_sub NanumGothic">기업 관리</span></div>
+            <div class="con">
+                <div class="company_list">
+                    <div class="searchBox">
+                        <fieldset style="width: calc(100% - 90px);">
+                            <input type="text" id="searchValue" class="word_input NanumGothic">
+                            <div class="btn_search btn_type Material_icons" onclick="fn_bizAdminList()">search</div>
+                        </fieldset>
+                        <div class="NanumGothic btn_type btn_detailSearch" onClick="fn_detailSearch()">조건검색</div>
+                    </div>
+                    <ul class="list" id="bizList">
+                    </ul>
+                    <ul style="font-size: 13px; line-height: 22px;">
+                        <li>기업구분 : <span id="detail_funnel"></span></li>
+                        <li>비대면바우처 : <span id="detail_openVoucherType"></span></li>
+                        <li>차수 : <span id="detail_voucherOrder"></span></li>
+                        <li>영업채널 : <span id="detail_salesChannel"></span></li>
+                        <li>계약기간 : <span id="detail_contractStartDate"></span> ~ <span id="detail_contractEndDate"></span></li>
+                        <li>일반전환일 : <span id="detail_generalTransDate"></span></li>
+                        <li>모듈설정 : <span id="detail_moduleType"></span></li>
+                        <li>주민등록번호 : <span id="detail_useJumin"></span></li>
+                        <li>정산방식 : <span id="detail_paymentType"></span></li>
+                    </ul>
+                </div>
+                <div class="company_info" id="inputForm">
+                    <ul class="report">
+                        <li class="company_input NanumGothic">
+                            <div class="bx_wrap tit">
+                                <span class="icon"></span>
+                                <span class="txt NanumGothic">기업정보</span>
+                            </div>
+                            <div class="bx_wrap">
+                                <dl class="input_bx">
+                                    <dt><label class="NanumGothic">회사명</label></dt>
+                                    <dd><input type="text" id="companyName" data-index="1" class="input_txt"></dd>
+                                </dl>
+                                <dl class="input_bx">
+                                    <dt><label class="NanumGothic">사업자 등록번호</label></dt>
+                                    <dd><input type="text" id="businessNo" data-index="2" class="input_txt"></dd>
+                                </dl>
+                                <dl class="input_bx">
+                                    <dt><label class="NanumGothic">대표자 성명</label></dt>
+                                    <dd><input type="text" id="ownerName" data-index="3" class="input_txt"></dd>
+                                </dl>
+                                <dl class="select_bx">
+                                    <dt><label class="NanumGothic">기업구분</label></dt>
+                                    <dd>
+                                    	<select id="funnel">
+                                            <option value=""></option>
+                                            <option value="100">일반</option>
+                                            <option value="200">비대면</option>
+                                            <option value="300">뉴젠솔루션</option>
+                                            <option value="400">캔디캐시</option>
+                                            <option value="410">이음체크</option>
+                                            <option value="420">비즈라운지</option>
+                                            <option value="500">데모</option>
+                                            <option value="600">뉴젠솔루션P</option>
+                                        </select>
+                                        <select id="funnelYear">
+                                        </select>
+                                    </dd>
+                                </dl>
+                                <dl class="input_bx full">
+                                    <dt><label class="NanumGothic">사업장소재지</label></dt>
+                                    <dd><input type="text" id="addr1" data-index="5" class="input_txt"></dd>
+                                </dl>
+                                <dl class="input_bx">
+                                    <dt><label class="NanumGothic">대표번호</label></dt>
+                                    <dd><input type="text" id="companyTelNum" data-index="6" class="input_txt"></dd>
+                                </dl>
+                                <dl class="input_bx">
+                                    <dt><label class="NanumGothic">팩스번호</label></dt>
+                                    <dd><input type="text" id="companyFaxNum" data-index="6" class="input_txt"></dd>
+                                </dl>
+                                <dl class="select_bx">
+                                    <dt><label class="NanumGothic">주민등록번호 사용</label></dt>
+                                    <dd>
+                                        <select id="useJumin">
+                                            <option value="N">미사용</option>
+                                            <option value="Y">사용</option>
+                                        </select>
+                                    </dd>
+                                </dl>
+                                <dl class="input_bx">
+                                    <dt><label class="NanumGothic">MEMO</label></dt>
+                                    <dd><input type="text" id="memo" class="input_txt"></dd>
+                                </dl>
+                            </div>
+                            <br />
+                            <div class="bx_wrap tit">
+                                <span class="icon"></span>
+                                <span class="txt NanumGothic">담당자 정보</span>
+                            </div>
+                            <div class="bx_wrap">
+                                <dl class="input_bx">
+                                    <dt><label class="NanumGothic">담당자성명</label></dt>
+                                    <dd><input type="text" id="personUserName" data-index="7" class="input_txt"></dd>
+                                </dl>
+                                <dl class="input_bx">
+                                    <dt><label class="NanumGothic">담당자연락처</label></dt>
+                                    <dd><input type="text" id="personUserTelNum" data-index="8" class="input_txt"></dd>
+                                </dl>
+                                <dl class="input_bx">
+                                    <dt><label class="NanumGothic">담당자이메일</label></dt>
+                                    <dd><input type="text" id="personEMail" data-index="9" class="input_txt"></dd>
+                                </dl>
+                                <dl class="input_bx">
+                                    <dt><label class="NanumGothic">로그인아이디</label></dt>
+                                    <dd class="multiBox">
+                                        <input type="text" id="loginId" data-index="10" class="input_txt" style="width: calc(100% - 112px);">
+                                        <div class="NanumGothic btn_type btn_idCheck" onClick="fn_checkUserId()">아이디 확인</div>
+                                    </dd>
+                                </dl>
+                                <dl class="input_bx">
+                                    <dt><label class="NanumGothic">비밀번호</label></dt>
+                                    <dd><input type="password" id="userPwd" data-index="11" class="input_txt">
+                                </dl>
+                            </div>
+                            <br />
+                            <div class="bx_wrap tit">
+                                <span class="icon"></span>
+                                <span class="txt NanumGothic">사업장 모듈 설정</span>
+                            </div>
+                            <div class="bx_wrap">
+                                <dl class="input_bx">
+                                    <dt><label class="NanumGothic">전자문서<br>(포인트 관리 미제공)</label></dt>
+                                    <dd><input type="checkbox" id="useContract" value="Y" class="input_txt priCheck" style="width:20px;"> 사용</dd>
+                                    <dt><label class="NanumGothic">전자문서<br>(포인트 관리 제공)</label></dt>
+                                    <dd><input type="checkbox" id="useElecDoc" value="Y" class="input_txt priCheck" style="width:20px;"> 사용</dd>
+
+                                </dl>
+                                <dl class="input_bx">
+                                    <dt><label class="NanumGothic">전자문서 데이터<br>엑셀일괄 다운로드</label></dt>
+                                    <dd><input type="checkbox" id="useContractData" value="Y" class="input_txt" style="width:20px;"> 사용</dd>
+                                </dl>
+                            </div>
+                            <br />
+                            <div class="bx_wrap tit">
+                                <span class="icon"></span>
+                                <span class="txt NanumGothic">비대면 정보</span>
+                            </div>
+                            <div class="bx_wrap">
+                                <dl class="select_bx">
+                                    <dt><label class="NanumGothic">비대면바우처</label></dt>
+                                    <dd>
+                                        <select id="openVoucherType">
+                                            <option value=""></option>
+                                            <option value="1">여</option>
+                                            <option value="2">일반전환</option>
+                                            <option value="3">종료</option>
+                                        </select>
+                                    </dd>
+                                </dl>
+                                <dl class="select_bx">
+                                    <dt><label class="NanumGothic">차수</label></dt>
+                                    <dd>
+                                        <select id="voucherOrder" disabled="disabled">
+                                            <option value=""></option>
+                                            <option value="1">1차</option>
+                                            <option value="2">2차</option>
+                                            <option value="3">3차</option>
+                                        </select>
+                                    </dd>
+                                </dl>
+                                <dl class="search_bx">
+                                    <dt><label class="NanumGothic">영업채널</label></dt>
+                                    <dd>
+                                        <input type="hidden" id="channelId" />
+                                        <div class="search_result" id="salesChannel"></div><div class="btn_search btn_type Material_icons" onClick="getSearch()">search</div>
+                                    </dd>
+                                </dl>
+                                <dl class="input_bx">
+                                    <dt><label class="NanumGothic">타상품구매</label></dt>
+                                    <dd><input type="text" id="otherGoodsPurchase" data-index="12" class="input_txt" readonly="readonly"></dd>
+                                </dl>
+                                <dl class="select_bx">
+                                    <dt><label class="NanumGothic">계약구분</label></dt>
+                                    <dd>
+                                        <select id="contractType" disabled="disabled">
+                                            <option value="" data-send-point='10' data-resend-point='1'></option>
+                                        </select>
+                                    </dd>
+                                </dl>
+                                <dl class="input_bx">
+                                    <dt><label class="NanumGothic">계약기간</label></dt>
+                                    <dd><input type="date" max="2999-12-31" data-index="13" id="contractStartDate" readonly="readonly"></dd>
+                                    <dd><input type="date" max="2999-12-31" data-index="14" id="contractEndDate" readonly="readonly"></dd>
+                                </dl>
+                                <dl class="input_bx">
+                                    <dt><label class="NanumGothic">일반전환일</label></dt>
+                                    <dd><input type="date" max="2999-12-31" data-index="15" id="generalTransDate" readonly="readonly"></dd>
+                                </dl>
+                                <dl class="input_bx">
+                                    <dt>&nbsp;</dt>
+                                    <dd>&nbsp;</dd>
+                                </dl>
+                                <!--
+                                <dl class="input_bx">
+                                    <dt><label class="NanumGothic">로그인아이디</label></dt>
+                                    <dd><input type="text" id="loginId" class="input_txt"></dd>
+                                </dl>
+                                 -->
+                            </div>
+                            <br />
+                            <div class="bx_wrap tit">
+                                <span class="icon"></span>
+                                <span class="txt NanumGothic">포인트 관리</span>
+                            </div>
+                            <div class="bx_wrap">
+                                <dl class="input_bx">
+                                    <dt><label class="NanumGothic">잔여포인트</label></dt>
+                                    <dd><input type="text" id="point" class="input_txt" data-index="16" value="0" readonly></dd>
+                                    <dt><div class="btns" style="margin-top: 0px;"><div class="btn_type Material_icons btn_point" onClick="fn_pointAdjust()">포인트 조정</div></div></dt>
+                                </dl>
+                                <!-- <dl class="input_bx">
+                                    <dt><label class="NanumGothic">포인트조정사유</label></dt>
+                                    <dd><input type="text" id="comment" class="input_txt" maxlength="50" data-index="17"></dd>
+                                    <dt><div class="btns"><div class="btn_type Material_icons btn_point" onClick="fn_pointAdd()">포인트 조정</div></div></dt>
+                                </dl> -->
+                                <dl class="select_bx">
+                                    <dt><label class="NanumGothic">포인트 정산 방식</label></dt>
+                                    <dd>
+                                        <select id="paymentType">
+                                            <option value="1">선불결제</option>
+                                            <option value="2">후불결제(월)</option>
+                                            <option value="3">후불결제(분기)</option>
+                                        </select>
+                                    </dd>
+                                </dl>
+                            </div>
+                            <br />
+                            <!-- 포인트 조정 -->
+                            <div class="bx_wrap tit">
+                                <span class="icon"></span>
+                                <span class="txt NanumGothic">포인트 정책</span>
+                            </div>
+                            <div class="bx_wrap">
+                               <!--  <dl class="input_bx hidden">
+                                    <dt><label class="NanumGothic">양식 등록</label></dt>
+                                    <dd><input type="text" data-index="18" id="formPoint" readonly></dd>
+                                </dl>
+                                <dl class="input_bx hidden">
+                                    <dt><label class="NanumGothic">스캔파일 등록</label></dt>
+                                    <dd><input type="text" data-index="19" id="scanPoint" readonly></dd>
+                                </dl>
+                                <dl class="input_bx">
+                                    <dt><label class="NanumGothic">전송(최초 전송)</label></dt>
+                                    <dd><input type="text" data-index="20" id="sendPoint" value="10"></dd>
+                                </dl>
+                                <dl class="input_bx">
+                                    <dt><label class="NanumGothic">재전송</label></dt>
+                                    <dd><input type="text" data-index="21" id="resendPoint" value="1" readonly></dd>
+                                </dl>
+                                <dl class="input_bx">
+                                    <dt></dt>
+                                    <dd></dd>
+                                </dl>
+                                <dl class="input_bx">
+                                    <dt></dt>
+                                    <dd><font color="red">*진행된 계약이 존재하는 경우 포인트 변경은 불가합니다.</font></dd>
+                                </dl> -->
+                                <!-- <input type="hidden" id="scanPoint" readonly> -->
+                                <dl class="input_bx">
+                                    <dt><label class="NanumGothic">전자문서 양식변환</label></dt>
+                                    <dd><input type="text" data-index="18" id="formPoint" value="100"></dd>
+                                </dl>
+                                <dl class="input_bx">
+                                    <dt><label class="NanumGothic">전자문서 전송</label></dt>
+                                    <dd><input type="text" data-index="19" id="sendPoint" value="10"></dd>
+                                </dl>
+
+                                <dl class="input_bx">
+                                    <dt><label class="NanumGothic">스캔문서 등록</label></dt>
+                                    <dd><input type="text" data-index="21" id="scanPoint" value="5"></dd>
+                                </dl>
+                                
+                                <dl class="input_bx">
+                                    <dt><label class="NanumGothic">재전송</label></dt>
+                                    <dd><input type="text" data-index="22" id="resendPoint" value="1"></dd>
+                                </dl>
+                            </div>
+
+                            <br />
+                            <!-- 포인트 조정 -->
+                            <div class="bx_wrap tit">
+                                <span class="icon"></span>
+                                <span class="txt NanumGothic">사용현황</span>
+                            </div>
+                            <div class="bx_wrap">
+                                <dl class="input_bx">
+                                    <dt><label class="NanumGothic">기간</label></dt>
+                                    <dd><input type="date" max="2999-12-31" data-index="23" id="searchStartDate"></dd>
+                                    <dd><input type="date" max="2999-12-31" data-index="24" id="searchEndDate"></dd>
+                                </dl>
+                                <div class="btns"><div class="btn_type Material_icons btn_point" onClick="fn_download()">다운로드</div></div>
+                            </div>
+                        </li>
+                        <!--
+                        <li class="service_list">
+                            <div class="tit"><span class="icon"></span><span class="txt NanumGothic">서비스 이용현황</span></div>
+                            <ul class="row left NanumGothic">
+                                <li><div><span class="label">전자계약서</span></div><div><input type="radio" name="row1">사용</div><div><input type="radio" name="row1">미사용</div></li>
+                                <li><div><span class="label">급여관리</span></div><div><input type="radio" name="row2">사용</div><div><input type="radio" name="row2">미사용</div></li>
+                                <li><div><span class="label">연차관리</span></div><div><input type="radio" name="row3">사용</div><div><input type="radio" name="row3">미사용</div></li>
+                            </ul>
+                            <ul class="row right NanumGothic">
+                                <li><div><span class="label">문서보관 서비스</span></div><div><input type="radio" name="row4">사용</div><div><input type="radio" name="row4">미사용</div></li>
+                                <li><div><span class="label">서비스 추가 +</span></div><div><input type="radio" name="row5">사용</div><div><input type="radio" name="row5">미사용</div></li>
+                                <li><div><span class="label">서비스 추가 +</span></div><div><input type="radio" name="row6">사용</div><div><input type="radio" name="row6">미사용</div></li>
+                            </ul>
+                        </li>
+                         -->
+                        <!-- <li class="btn_group">
+                        </li>
+                        -->
+                        <!--
+                        <div><div class="btn_type Material_icons" onClick="fn_delBizGrp()">업체 탈퇴</div></div>
+                         -->
+
+                    </ul>
+                    <div class="btn_group">
+                        <div><div class="btn_type Material_icons" onClick="fn_setBizId()">기업선택</div></div>
+                        <div><div class="btn_type Material_icons" onClick="fn_pointList()">포인트 조회</div></div>
+                        <div><div class="btn_type Material_icons" onClick="fn_addSubUser()">관리자 등록</div></div>
+                        <div><div class="btn_type Material_icons" onClick="fn_bizGrpList()">기업배정</div></div>
+                        <div><div class="btn_type Material_icons" onClick="fn_newBizGrp()">신규등록</div></div>
+                        <div><div class="btn_type Material_icons" onClick="fn_saveBizInfo()">정보저장</div></div>
+                        <div><div class="btn_type Material_icons" onClick="fn_delBizGrp()">업체 삭제</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- comManage_wrap_wrap -->
+</body>
+
+<script type="text/javascript">
+    $('#page-selection').bootpag({
+        total: 10,
+        page: 1,
+        maxVisible: 5,
+        leaps: true,
+        firstLastUse: true,
+        first: '',
+        last: '',
+        wrapClass: 'pagination',
+        activeClass: 'active',
+        disabledClass: 'disabled',
+        nextClass: 'btn_next',
+        prevClass: 'btn_prev',
+        lastClass: 'end_page',
+        firstClass: 'first_page'
+    }).on("page", function (event, num) {
+
+    });
+
+    function fn_download() {
+        var searchStartDate = $("#searchStartDate").val();
+        var searchEndDate = $("#searchEndDate").val();
+
+        console.log(searchStartDate);
+
+        var url = rootPath + "status/downloadStatusExcel.do?searchStartDate=" + searchStartDate + "&searchEndDate=" + searchEndDate;
+
+        downloadDataUrlFromJavascript(url);
+    }
+</script>
+</html>

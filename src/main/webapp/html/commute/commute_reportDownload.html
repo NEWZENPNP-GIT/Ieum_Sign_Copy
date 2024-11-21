@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/commute_manage.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+<script>
+	
+	$(document).ready(function(){
+		
+		var workMonth = new Date().format('yyyy-MM');
+		
+		$(".commuteMonth").html(new Date().format('MM')+"월 근무현황");
+		$("#workMonth").val(workMonth);
+		
+		$('#searchValue').keypress(function(event){
+			var keycode = (event.keyCode ? event.keyCode : event.which);
+			if(keycode == '13'){
+				fn_commuteList();
+			}
+		});
+		
+		
+		
+		getBizGrpCombo();
+		fn_commuteList(workMonth);
+		
+		$("#searchCompany").change(function(){
+			fn_commuteList(workMonth);
+		});
+		
+		$("#workMonth").change(function(){
+			fn_commuteList(this.value);
+			$(".commuteMonth").html(this.value.substring(5, 7)+"월 근무현황");
+		});
+	});
+	
+	
+	function fn_parseMinute(minutes) {
+		var seconds = minutes * 60;
+	  	var pad = function(x) { return (x < 10) ? "0"+x : x; }
+	  	return pad(parseInt(seconds / (60*60))) + ":" +
+	         pad(parseInt(seconds / 60 % 60))
+	}
+	
+	function fn_commuteList(workMonth) {
+		var url = rootPath+"attend/getAttendSumList.do";
+		
+		var bizId = getCookie("bizId");
+		var searchCompany = $("#searchCompany").val();
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				workMonth:workMonth.replace(/-/gi, ""),
+				endDate:workMonth.replace(/-/gi, ""),
+				bizId:bizId,
+				searchCompany:searchCompany
+			},
+			success:function(result)
+			{
+				var htmlDataHeader = "";
+				var htmlData = "";
+				
+				if (result.success==true) {
+					
+					htmlDataHeader += '<tr>';
+					htmlDataHeader += '	<th class="no">사번</th><th class="name">이름</th><th class="lebel">직급</th>';
+					
+					$.each(result.attendDay.workMinutes, function(j, row1) {
+						htmlDataHeader += '	<th>'+(j+1)+'</th>';
+					});
+					htmlDataHeader += '	<th class="total">합계</th>';
+					htmlDataHeader += '</tr>';
+					
+					
+					$.each(result.attendSums, function(i, row) {
+						htmlData += '<tr>';
+						htmlData += '	<td class="no">'+row.empNo+'</td><td class="name">'+row.empName+'</td><td class="lebel">'+row.positionName+'</td>';
+						$.each(row.workMinutes, function(j, row1) {
+							if( row1 == 0){
+								htmlData += '	<td>00:00</td>';
+							}else{
+								htmlData += '	<td>'+fn_parseMinute(row1)+'</td>';	
+							}
+						});
+						htmlData += '	<td class="total">'+fn_parseMinute(row.workMinuteSum)+'</td>';
+						htmlData += '</tr>';
+					});		
+						
+					htmlData += '<tr class="sum">';
+					htmlData += '	<td colspan="3">합계</td>';
+					$.each(result.attendSumsTotal.workMinutes, function(j, row1) {
+						if( row1 == 0){
+							htmlData += '	<td>00:00</td>';
+						}else{
+							htmlData += '	<td>'+fn_parseMinute(row1)+'</td>';	
+						}
+					});
+					htmlData += '	<td class="total">'+fn_parseMinute(result.attendSumsTotal.workMinuteSum)+'</td>';
+					htmlData += '</tr>';
+							
+				} 
+	
+				$("#dataHeader").html(htmlDataHeader);
+				$("#dataList").html(htmlData);
+				$.unblockUI();
+				
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+				}
+			}
+		});
+	}
+	
+	function fn_download() {
+		if(isNull($("#workMonth").val())){
+			alert("기간을 설정해주세요.");
+			return false;
+		}
+		if(isNull($("#searchCompany").val())){
+			alert("기업을 선택해주세요.");
+			return false;
+		}
+		downloadDataUrlFromJavascript('/attend/getAttendSumExcelList.do?workMonth='+$("#workMonth").val().replace(/-/gi, "")+'&bizId='+$("#searchCompany").val()+'&bizName='+$("#searchCompany option:checked").text());
+	}
+
+
+	//***************					기업 조회					***************//
+
+
+	function getBizGrpCombo() {
+
+		var url = rootPath+"biz/getBizGrpCombo.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			async: false,
+			type:"GET",
+			data: { },
+			success:function(result) {
+				if(result.success){
+		    		var workStatus = result.data;
+					$.each(workStatus, function(i, data){
+                        $("#searchCompany").append($("<option>", {
+                            value: data.id,
+                            text: data.name
+                        }));
+					});
+					$("#searchCompany").append($("<option>", {
+						value: '',
+						text: '전체'
+					}));
+		    	}
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+</script>	
+</head>
+<body>
+	<div id="commute_wrap" class="">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumGothic">근태 관리 > 출퇴근 관리 ></span><span class="loc_sub NanumGothic">출근부 다운로드</span></div>
+			<div class="pagtit"><span class="NanumGothic">출근부 다운로드</span></div>
+			
+			<div class="contents">
+				<div class="NanumGothic col_red dec"><span class="dot"></span><span>로 표시된 항목은 필수입력 사항입니다. 필히 입력해 주시기 바랍니다.</span></div>
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumGothic">조회설정</span>
+					</div>
+					<div class="box_wrap">
+						<div class="group_row row1 mar_top_10">
+							<dl class="w110 NanumGothic">
+								<dt><span class="icon circle"></span><span class="dot col_red"></span><label class="label_txt NanumGothic">기업명</label></dt>
+								<dd class="field_area" style="margin: 0;"><select id="searchCompany"></select></dd>
+							</dl>
+						</div>
+						<div class="group_row row1 mar_top_10">
+							<dl class="w110 NanumGothic">
+								<dt><span class="icon circle"></span><span class="dot col_red"></span><label class="label_txt NanumGothic">지정 기간</label></dt>
+								<dd class="date_box"><input type="month" id="workMonth" class="NanumGothic"></dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+				
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumGothic">출근부</span>
+					</div>
+					<div class="box_wrap table">
+						<ul class="NanumGothic header"><li class="commuteMonth"></li><li>근무일</li></ul>
+						<table class="NanumGothic month_report">
+							<thead id="dataHeader">
+								
+							</thead>
+							<tbody id="dataList">
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="NanumGothic btn_group mar_top_20">
+					<a class="btn_type btn_download" onclick="fn_download()"><span class="icon_check"></span>다운로드</a>
+				</div>
+			</div> <!--  contents -->
+				
+			
+		</div> <!--  container -->
+	</div>
+</body>
+<script  type="text/javascript">
+
+</script>
+</html>

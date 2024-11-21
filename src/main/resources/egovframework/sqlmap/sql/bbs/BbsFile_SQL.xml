@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BbsFile">
+	
+	<typeAlias alias="bbsFileVO" type="com.ezsign.bbs.vo.BbsFileVO"/>
+	<resultMap id="bbsFileListMap" class="bbsFileVO">
+		<result property="bbsId" column="BBS_ID"/>
+		<result property="bbsId" column="BIZ_ID"/>
+		<result property="bbsNo" column="BBS_NO"/>
+		<result property="fileNo" column="FILE_NO"/>
+		<result property="filePath" column="FILE_PATH"/>
+		<result property="fileName" column="FILE_NAME"/>
+		<result property="orgFileName" column="ORG_FILE_NAME"/>
+		<result property="fileSize" column="FILE_SIZE"/>
+		<result property="useYn" column="USE_YN"/>
+		<result property="downCnt" column="DOWN_CNT"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="updDate" column="UPD_DATE"/>
+	</resultMap>
+	
+	<select id="bbsDAO.getBbsFileList" parameterClass="bbsFileVO" resultMap="bbsFileListMap">
+		SELECT  A.BBS_ID, A.BIZ_ID, A.BBS_NO, A.FILE_NO, A.FILE_PATH, A.FILE_NAME, A.ORG_FILE_NAME, A.FILE_SIZE, 
+        	A.USE_YN, A.DOWN_CNT, A.USER_ID, A.INS_DATE, A.UPD_DATE
+		FROM  tbl_bbs_info M, tbl_bbs_file A, tbl_bbs_contents B, tbl_biz C
+		WHERE 	M.BBS_ID = A.BBS_ID
+		AND		A.BIZ_ID = B.BIZ_ID
+	    AND   	A.BBS_ID = B.BBS_ID
+	    AND   	A.BBS_NO = B.BBS_NO
+		AND		A.BIZ_ID = C.BIZ_ID
+		AND		M.USE_YN = 'Y'
+		AND		A.BBS_ID = #bbsId#
+		<isNotNull property="bizId">
+		    <isNotEmpty property="bizId">
+			AND     A.BIZ_ID = #bizId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="bbsNo">
+		    <isNotEmpty property="bbsNo">
+			AND     A.BBS_NO = #bbsNo#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="userId">
+		    <isNotEmpty property="userId">
+			AND     A.USER_ID = #userId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="fileNo">
+		    <isNotEmpty property="fileNo">
+			AND     A.FILE_NO = #fileNo#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<insert id="bbsDAO.insBbsFile" parameterClass="bbsFileVO">
+		<selectKey resultClass="java.lang.String" keyProperty="fileNo">
+			SELECT  getTableKey('TBL_BBS_FILE')
+		</selectKey>
+		INSERT INTO tbl_bbs_file (
+			BBS_ID, BIZ_ID, BBS_NO, FILE_NO, FILE_PATH, FILE_NAME, ORG_FILE_NAME, FILE_SIZE, USE_YN, 
+      		DOWN_CNT, USER_ID, INS_DATE, UPD_DATE
+		) VALUES (
+		   #bbsId#, #bizId#, #bbsNo#, #fileNo#, #filePath#, #fileName#, #orgFileName#, #fileSize#, #useYn#,
+		   #downCnt#, #userId#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<update id="bbsDAO.updBbsFile" parameterClass="bbsFileVO">
+		UPDATE tbl_bbs_file
+		SET	
+		<isNotNull property="filePath">
+		    <isNotEmpty property="filePath">
+			FILE_PATH		= #filePath#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="fileName">
+		    <isNotEmpty property="fileName">
+			FILE_NAME		= #fileName#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="orgFileName">
+		    <isNotEmpty property="orgFileName">
+			ORG_FILE_NAME		= #orgFileName#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="fileSize">
+		    <isNotEmpty property="fileSize">
+			FILE_SIZE		= #fileSize#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="downCnt">
+		    <isNotEmpty property="downCnt">
+			DOWN_CNT		= #downCnt#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="useYn">
+		    <isNotEmpty property="useYn">
+			USE_YN		= #useYn#,
+			</isNotEmpty>
+		</isNotNull>
+			UPD_DATE		= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	BBS_ID	 = #bbsId#
+		AND		BBS_NO	 = #bbsNo#
+		AND		FILE_NO	 = #fileNo#
+	</update>
+	
+	<delete id="bbsDAO.delBbsFile" parameterClass="bbsFileVO">
+		DELETE FROM tbl_bbs_file
+		WHERE	BBS_ID	 = #bbsId#
+		AND		BBS_NO	 = #bbsNo#
+		<isNotNull property="fileNo">
+		    <isNotEmpty property="fileNo">
+			AND		FILE_NO	 = #fileNo#
+			</isNotEmpty>
+		</isNotNull>
+	</delete>
+	
+	
+</sqlMap>
+		

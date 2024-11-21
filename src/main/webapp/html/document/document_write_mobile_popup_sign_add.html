@@ -1,0 +1,420 @@
+
+	<!--****************************************************************************************************************
+	* 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+	* 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+	********************************************************************************************************************
+	--------------------------------------------------------------------------------------------------------------------
+	* 회사       : 뉴젠피앤피
+	* 화면명     : 서명위치 지정 페이지
+	* 화면설명   : 전자계약 작성 > 서명위치 지정
+	* 작성자     : 이정훈
+	* 생성일     : 2023.10.26
+	--------------------------------------------------------------------------------------------------------------------
+	* 수정자     :
+	* 수정일     :
+	* 수정내용   :
+	------------------------------------------------------------------------------------------------------------------->
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta charset="UTF-8">
+	<title>전자문서 서명위치 지정</title>
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" href="/css/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="/css/layerpopup_sign.css">
+	<link rel="stylesheet" type="text/css" href="/css/font_awesome/css/all.css">
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+
+	<!-- bootPag -->
+	<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/ui.biz.core.js"></script>
+	<script type="text/javascript" src="/js/jquery-ui.js"></script>
+	<script>
+
+		//***************					윈도우 로딩					***************//
+
+
+		var pageWidth	 = 593.33;
+		var pageHeight	 = 838.95;
+		var fieldWidthP  = 82;		// 인사 사인 가로
+		var fieldWidthC  = 40;		// 거래처 직인 가로
+		var fieldHeightP = 46;		// 인사 사인 세로
+		var fieldHeightC = 40;		// 거래처 직인 세로
+		var signIdx		 = 0;
+		var focusPage	 = 1;
+		var recvList	 = [];
+		var signList	 = [];
+		var pageList	 = [];
+
+		$(document).ready(function () {
+
+			console.log('document_write_mobile_popup_sign_add.html');
+
+			$("#page_area").attr("width", pageWidth);
+			$("#page_area").attr("height", pageHeight);
+
+			rotatePageMenu();
+
+			recvList = parent.resRList;
+			pageList = parent.imageList;
+			signList = parent.fieldList;
+			signIdx  = signList.length;
+
+			$("#popmodal1").css("display", "none");
+			$("#popmodal2").css("display", "");
+			$("#popmodal3").css("display", "none");
+			$(".countNum").append(recvList.length);
+
+			if (recvList.length == 0) {
+				alert("지정된 수신자(서명 참여자)가 존재하지 않습니다.\r\n다시 확인해주시기 바랍니다.");
+				window.close();
+				return;
+			}
+
+			// 2페이지 대상자 리스트 표시
+			recvList.forEach(function (recvUser) {
+
+				var htmlRecvUser = "";
+				htmlRecvUser    += ' <div class="recvProfile">';
+
+				if (recvUser.contactType == "P") {
+					htmlRecvUser += '  <ul><li class="li-name">' + recvUser.contName + '</li><li class="li-side">' + recvUser.phoneNumber + '</li><li class="li-side">' + recvUser.mailAddr + '</li></ul>';
+				} else if (recvUser.contactType == "C") {
+					htmlRecvUser += '  <ul><li class="li-name">' + recvUser.corpName + '</li><li class="li-side">' + recvUser.phoneNumber + '</li><li class="li-side">' + recvUser.mailAddr + '</li></ul>';
+				}
+
+				// 서명건수
+				var signCount = 0;
+
+				signList.forEach(function (signUser) { if (recvUser.recvOrd == signUser.key) { signCount++; } });
+
+				if (isNull(recvUser.email)) {
+					htmlRecvUser += '<div class="recvAddnDel2" ><a href="#" id="addSign_' + recvUser.recvOrd + '" class="addbtn">+</a><a href="#" id="allDel_' + recvUser.recvOrd + '" class="allDel">전체삭제</a></div>';
+				} else {
+					htmlRecvUser += '<div class="recvAddnDel" ><a href="#" id="addSign_' + recvUser.recvOrd + '" class="addbtn">+</a><a href="#" id="allDel_' + recvUser.recvOrd + '" class="allDel">전체삭제</a></div>';
+				}
+
+				htmlRecvUser += '</div>';
+
+				$(".attendList-sm").append(htmlRecvUser);
+
+				// 서명 추가
+				var addSginLink = document.getElementById("addSign_" + recvUser.recvOrd);
+				addSginLink.addEventListener('click', function (event) { fn_addSign(recvUser); });
+
+				// 전체삭제 추가
+				var delSginLink = document.getElementById("allDel_" + recvUser.recvOrd);
+				delSginLink.addEventListener('click', function (event) { fn_delSign(recvUser); });
+			});
+			fn_firstPage();
+		})
+
+
+		//***************					BlockUI 제거					***************//
+
+
+		function removeModal() { parent.removePop(); }
+
+
+		//***************					서명추가					***************//
+
+
+		function fn_addSign(user) {
+
+			signIdx++;
+			var eleSign	  = '';
+			var eleId	  = "sign_" + user.recvOrd + "_" + signIdx;
+			var eleName	  = "";
+			var left	  = pageWidth / 2;
+			var top 	  = (pageHeight / 2) - 82;
+			var signField = {};
+
+			if (user.contactType == "P") {	// 인사 사인
+				eleName   = user.contName;
+				signField = {
+					key: user.recvOrd,
+					id: eleId,
+					name: eleName,
+					x: left,
+					y: top,
+					pdfY: 0,
+					width: fieldWidthP,
+					height: fieldHeightP,
+					type: '4',
+					page: focusPage
+				};
+			} else if (user.contactType == "C") {	// 거래처 직인
+				eleName   = user.corpName;
+				signField = {
+					key: user.recvOrd,
+					id: eleId,
+					name: eleName,
+					x: left,
+					y: top,
+					pdfY: 0,
+					width: fieldWidthC,
+					height: fieldHeightC,
+					type: '4',
+					page: focusPage
+				};
+			}
+
+			signList.push(signField);
+
+			if (user.contactType == "P") {
+				eleSign += '<div id="' + eleId + '" class="ui-widget-content ui-button" style="left:' + left + 'px; top:' + top + 'px; width:' + fieldWidthP + 'px; height:' + fieldHeightP + 'px;position: absolute;">';
+			} else if (user.contactType == "C") {
+				eleSign += '<div id="' + eleId + '" class="ui-widget-content ui-button" style="left:' + left + 'px; top:' + top + 'px; width:' + fieldWidthC + 'px; height:' + fieldHeightC + 'px;position: absolute;">';
+			}
+			eleSign += '<p id="userName">' + eleName + '</p>';
+			eleSign += '<button type="button" onclick="signRemove(\'' + eleId + '\')" class="deleteSign"><i class="fa fa-times"></i></button>';
+			eleSign += '</div>';
+
+			$(".document_area").append(eleSign);
+
+			$("#" + eleId).draggable({
+				disabled: false,
+				containment: "#page_area",
+				scroll: true
+			});
+			fn_setUserSignCount();
+		}
+
+
+		//***************					전체삭제					***************//
+
+
+		function fn_delSign(user) {
+
+			if (!confirm("해당 서명참여자의 서명위치를 전체 삭제하시겠습니까?")) { return false; }
+			var eleId  = "sign_" + user.recvOrd;
+			var result = $("[id^='" + eleId + "']");
+
+			for (i = 0; i < result.length; i++) {
+				var signData = result[i];
+
+				for (j = signList.length - 1; j >= 0; j--) {
+					var signUser = signList[j];
+					if (signUser.id == signData.id) { signList.splice(j, 1); }
+				}
+				$("#" + signData.id).remove();
+			}
+			fn_setUserSignCount();
+		}
+
+
+		//***************					서명 제거					***************//
+
+
+		function signRemove(eleId) {
+			for (j = signList.length - 1; j >= 0; j--) {
+				var signUser = signList[j];
+				if (signUser.id == eleId) { signList.splice(j, 1); }
+			}
+			$("#" + eleId).remove();
+			fn_setUserSignCount();
+		}
+
+
+		//***************					서명 추가 건수					***************//
+
+
+		function fn_setUserSignCount() {
+			recvList.forEach(function (recvUser) {
+				var signCount = 0;
+				signList.forEach(function (signUser) { if (recvUser.recvOrd == signUser.key) { signCount++; } });
+			});
+		}
+
+
+		//***************					페이지이동시 필드현위치 저장					***************//
+
+
+		function fn_setPageField() {
+			for (var i = 0; i < signList.length; i++) {
+				var signField = signList[i];
+				var page	  = signField.page;
+				if (focusPage == page && isNotNull($("#" + signField.id).offset())) {
+					var fieldPosition = $("#" + signField.id).offset();
+					signField.x    = fieldPosition.left;
+					signField.y    = fieldPosition.top;
+					signField.pdfY = pageHeight - signField.y - signField.height;
+					signList[i]    = signField;
+				}
+			}
+		}
+
+
+		//***************					페이지이동시 사인객체 표시					***************//
+
+
+		function fn_drawPage() {
+			for (var i = 0; i < signList.length; i++) {
+				var signField = signList[i];
+				var eleId 	  = signField.id;
+				var page	  = signField.page;
+				$("#" + eleId).remove();
+
+				if (focusPage == page) {
+					var eleName 	= signField.name;
+					var left		= signField.x;
+					var top 		= signField.y;
+					var fieldWidth  = signField.width;
+					var fieldHeight = signField.height;
+					var eleSign 	= "";
+
+					eleSign += '<div id="' + eleId + '" class="ui-widget-content ui-button" style="left:' + left + 'px; top:' + top + 'px; width:' + fieldWidth + 'px; height:' + fieldHeight + 'px;position: absolute;">';
+					eleSign += '<p id="userName">' + eleName + '</p>';
+					eleSign += '<button type="button" onclick="signRemove(\'' + eleId + '\')" class="deleteSign"><i class="fa fa-times"></i></button>';
+					eleSign += '</div>';
+
+					$(".document_area").append(eleSign);
+
+					$("#" + eleId).draggable({
+						disabled: false,
+						containment: "#page_area",
+						scroll: true
+					});
+				}
+			}
+		}
+
+
+		//***************					페이지 이동					***************//
+
+
+		function fn_movePage(idx) {
+			pageInfo   = pageList[idx - 1];
+			focusPage  = idx;
+			$("#page_area").attr("src", parent.domainName + "/" + pageInfo.filePath + pageInfo.fileName);
+			$("#pageNumDisp").html("페이지 " + focusPage + " / " + pageList.length);
+			pageHeight = $("#page_area").height();
+			pageWidth  = $("#page_area").width();
+			fn_drawPage();
+		}
+
+
+		//***************					이전 페이지					***************//
+
+
+		function fn_prevPage() {
+			fn_setPageField();
+			var page = focusPage - 1;
+			if (page < 1) 	{ focusPage = 1; }
+			else 			{ focusPage = page; }
+			fn_movePage(focusPage);
+		}
+
+
+		//***************					다음 페이지					***************//
+
+
+		function fn_nextPage() {
+			fn_setPageField();
+			var page = focusPage + 1;
+			if (page > pageList.length) { focusPage = pageList.length; }
+			else 						{ focusPage = page; }
+			fn_movePage(focusPage);
+		}
+
+
+		//***************					처음 페이지					***************//
+
+
+		function fn_firstPage() {
+			fn_setPageField();
+			fn_movePage(1);
+		}
+
+
+		//***************					마지막 페이지					***************//
+
+
+		function fn_lastPage() {
+			fn_setPageField();
+			fn_movePage(pageList.length);
+		}
+
+
+		//***************					서명 위치 지정					***************//
+
+
+		function fn_saveSign() {
+			fn_setPageField();
+			if (signList.length == 0) {
+				if (confirm("작업하신 내용이 없습니다.\r\n종료하시겠습니까?")) {
+					removeModal();
+					return;
+				}
+			}
+			parent.fieldList 	 = signList;
+			parent.checkSignWork = true;
+			removeModal();
+		}
+
+
+		//***************					문서방향 지정					***************//
+
+
+		function rotatePageMenu() {
+			if ($("#page_area").width() > 800) {
+				var fontPcCss   = document.createElement("link");
+				fontPcCss.href  = rootPath + "css/layerpopup_sign_width.css";
+				fontPcCss.type  = "text/css";
+				fontPcCss.rel   = "stylesheet";
+				fontPcCss.media = "screen,print";
+				document.getElementsByTagName("head")[0].appendChild(fontPcCss);
+			} else {
+				var fontPcCss   = document.createElement("link");
+				fontPcCss.href  = rootPath + "css/layerpopup_sign.css";
+				fontPcCss.type  = "text/css";
+				fontPcCss.rel   = "stylesheet";
+				fontPcCss.media = "screen,print";
+				document.getElementsByTagName("head")[0].appendChild(fontPcCss);
+			}
+		}
+
+	</script>
+	</head>
+
+	<body>
+	<!-- page 2 -->
+	<div class="modal_bg_se" id="popmodal2">
+		<div class="document_area">
+			<div class="document_warp">
+				<img id="page_area" src="/data/emptyDocument.png"/>
+			</div>
+		</div>
+
+		<div class="modal_title_se">
+			<span>서명 위치를 지정해주세요.</span>
+			<a href="javascript:removeModal()" class="close"><img src="/images/ico_close.png"/></a>
+		</div>
+
+		<div class="recvList" id="recvList">
+			<div class="document_toolbar">
+				<div class="page_bar">
+					<div class="icoLeft">
+						<a href="#" onclick="fn_firstPage()"><i class="fa fa-angle-double-left"></i></a>
+						<a href="#" onclick="fn_prevPage()"><i class="fa fa-angle-left"></i></a>
+					</div>
+					<div class="icoMid"><span id="pageNumDisp">페이지 1/1</span></div>
+					<div class="icoRight">
+						<a href="#" onclick="fn_nextPage()"><i class="fa fa-angle-right"></i></a>
+						<a href="#" onclick="fn_lastPage()"><i class="fa fa-angle-double-right"></i></a>
+					</div>
+				</div>
+			</div>
+			<div class="attendList-sm"></div>
+			<div class="startRecvSign">
+				<a href="javascript:fn_saveSign()" class="btn btn-primary" id="">위치 지정 완료</a>
+			</div>
+		</div>
+	</div>
+	</body>
+	</html>

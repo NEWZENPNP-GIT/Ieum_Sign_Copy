@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/myPage.css">
+<link rel="stylesheet" type="text/css" href="/css/contract_electronic.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/ui.biz.core.js"></script>
+<!-- 운영반영시 url변경 -->
+</head>
+<script>
+var bizId = "";
+var docuId = "";
+
+function fn_insAttachFile(){
+	$("[name=attachFile]").click();
+}
+
+$(document).ready(function(){
+
+	bizId = isSetNull(getURLParameters("bizId"), getCookie("bizId"));
+	docuId = isSetNull(getURLParameters("docuId"), "");
+	
+	$("#bizId").val(bizId);
+	$("#docuId").val(docuId);
+	$("#docuId").attr('onclick', 'fn_fileDownload("'+docuId+'", "'+bizId+'")');
+	
+	
+	$("[name=attachFile]").change(function(e){
+		var file = document.getElementsByName("attachFile");
+		for(var i=0;i<file.length;i++) {
+			if (file[i].files[0] != undefined) {
+				$("#fileName").val(file[i].files[0].name);
+			}
+		}
+	});
+});
+
+function fn_fileDownload(docuId, bizId){
+	var url = rootPath+"document/downOrgPdf.do?docuId="+docuId+"&bizId="+bizId;
+	downloadDataUrlFromJavascript(url);
+}
+
+function fn_save(){
+	
+	var formData = new FormData();
+	
+	var url = rootPath + "document/saveDocumentComplete.do";
+
+	formData.append("bizId", bizId);
+	formData.append("docuId", docuId);
+	
+	var file = document.getElementsByName("attachFile");
+	
+	for(var i=0;i<file.length;i++) {
+		if (file[i].files[0] != undefined) {
+			if(!checkFileExt(file[i].files[0].name, "pdf")) {
+				alert("파일확장자는 pdf파일만 가능합니다.");
+				return;
+			}
+			if(checkSpecial(file[i].files[0].name)) {
+				alert("파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.");
+				return;
+			}
+		    formData.append("ATTACH_FILE",file[i].files[0]);
+		}
+	}
+	
+    $.ajax({
+    	url:url,
+	    crossDomain : true,
+		dataType:"json",
+		async:false,
+		type:"POST",
+		processData: false,
+	    contentType: false,
+	    data:formData,
+        success: function (result) {
+            if (result.success == true) {
+                alert("완료문서가 등록되었습니다.");
+            } else {
+                alert(result.message);
+            }
+        },
+        error: function (request, status, error) {
+			alert(error);
+        }
+    });
+}
+
+</script>
+<body>
+
+	<div id="" class="contract_electronic_popup" style="width: 400px">
+		<div class="pop_title">
+			<h3>완료문서 등록</h3>
+			<a class="col_skyblue"></a>
+		</div>
+
+		<div class="tbstyle01">
+			<table class="NanumSquare_R">
+				<tr>
+					<th>기업ID</th>
+					<td>
+						<input type="text" id="bizId" value="" class="inpstyle01 NanumSquare_R" style="width: 75%" > 
+					</td>
+				</tr>
+				<tr>
+					<th>문서ID</th>
+					<td>
+						<input type="text" id="docuId" value="" class="inpstyle01 NanumSquare_R" style="width: 75%;cursor:pointer;" onclick="fn_fileDownload()"> 
+					</td>
+				</tr>
+				<tr>
+					<th>완료문서</th>
+					<td>
+						<div class="filesearch">
+							<input type="file" class="hidden" name="attachFile" accept=".pdf">
+							<input type="text" id="fileName" class="inpstyle01"> <a class="btn" onclick="fn_insAttachFile()">파일선택</a>
+						</div>
+					</td>
+				</tr>
+			</table>
+			<p class="attention NanumSquare_R">* 폼이 생성된 전자문서만 등록해주시기 바랍니다. 저장이 완료계약서가 전송됩니다.</p>
+		</div>
+		<div class="btnstyle01">
+			<a class="NanumRound" onclick="fn_save();">등록하기</a>
+		</div>
+	</div>
+
+
+</body>
+</html>

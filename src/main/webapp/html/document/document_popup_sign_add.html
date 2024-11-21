@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>전자문서 서명위치 지정</title>
+
+<link rel="stylesheet" href="/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/css/layerpopup_sign.css">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<!-- bootPag -->
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/ui.biz.core.js"></script>
+<script type="text/javascript" src="/js/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/layerpopup_sign.css">
+<link rel="stylesheet" type="text/css" href="/css/font_awesome/css/all.css">
+</head>
+<body>
+<!-- page 1-->
+<div class="modal_bg" id="popmodal1" >
+		<div class="modal_title" id="">
+			<span>전자서명 참여자를 확인하세요.</span>
+			<a href="javascript:removeModal()" class="close"><img src="/images/ico_close.png"/></a>
+		</div>
+		
+		<div class="nameList" id="addSignPage1">			
+		</div>
+		<div class="countRecv">
+			<span>총 <b class="countNum"></b> 명</span>
+		</div>
+		
+		<div class="startRecvSign">
+			<a href="javascript:moveSignAddStep1()" class="btn btn-primary" >시작하기</a>
+		</div>
+	
+	</div>
+	
+	
+<!-- page 2 -->
+
+	
+	<div class="modal_bg_se" id="popmodal2" >
+			
+			
+				
+		<div class="document_area">
+			<div class="document_warp">
+			<img id="page_area" src="" />
+<!-- 			<img id="page_area" src="/images/document_rotate90.png"/> -->
+			</div>
+			
+		</div>
+		
+		<div class="modal_title_se" id="">
+				<span>서명 위치를 지정해주세요.</span>
+				<a href="javascript:removeModal()" class="close"><img src="/images/ico_close.png"/></a>
+		</div>
+		
+		<div class="recvList" id="recvList">
+			<div class="document_toolbar">
+				<div class="page_bar">
+					<div class="icoLeft">
+					<a href="#" onclick="fn_firstPage()"><i class="fa fa-angle-double-left"></i></a>
+					<a href="#" onclick="fn_prevPage()"><i class="fa fa-angle-left"></i></a>
+				</div>
+				<div class="icoMid"><span id="pageNumDisp">페이지 1/1</span></div>
+				<div class="icoRight">
+					<a href="#" onclick="fn_nextPage()"><i class="fa fa-angle-right"></i></a>
+					<a href="#" onclick="fn_lastPage()"><i class="fa fa-angle-double-right"></i></a>
+				</div>
+				</div>
+				
+			</div>
+				
+				<div class="attendList-sm">
+					
+				</div>
+				
+				<div class="startRecvSign">
+				<a href="javascript:moveSignAddStep2()" class="btn btn-primary" id="" >위치 지정 완료</a>
+				</div>
+			</div>
+		
+</div>
+	
+		<!-- 전자문서 화면 영역  -->
+			
+<!-- 	page 3 -->
+	
+	<div class="modal_bg_se" id="popmodal3" >
+			<div class="modal_title" id="">
+			<span>최종 서명이 완료되었습니다.</span>
+			<a href="javascript:removeModal()" class="close"><img src="/images/ico_close.png"/></a>
+		</div>
+		
+		<div class="attendListWarp" id="addSignPage3">
+			
+		</div>
+			<div class="countRecvProc">
+				<span>총 <b class="countSignNum"></b> 건</span>
+			</div>
+			<div class="btn btn-primary startRecvSign" >
+				<a href="javascript:fn_sendContract()">최종 문서 발송하기</a>
+			</div>
+	</div>
+<script>
+	
+	
+	function removeModal(){
+		parent.removePop();	
+	}
+	
+	
+	var pageWidth = 593.33;
+	var pageHeight = 838.95;
+	var fieldWidth = 82;
+	var fieldHeight = 46;
+	var signIdx = 0;
+	var focusPage = 1;
+	var recvList = [];
+	var signList = [];
+	var pageList = [];
+
+	// 서명추가
+	function fn_addSign(user) {	
+		
+		signIdx++;
+		var eleSign = '';
+		var eleId = "sign_"+user.recvOrd+"_"+signIdx;
+// 		var eleName = user.userName +"\r" + user.phoneNumber + "\r" + user.email;
+		var eleName = user.userName;
+		var left = pageWidth / 2;
+		var top = (pageHeight / 2)-82;
+		
+		var signField = {
+			key:user.recvOrd,
+			id:eleId,			
+			name:user.userName,
+			x:left,
+			y:top,
+			pdfY:0,
+			width:fieldWidth,
+			height:fieldHeight,
+			type:'4',
+			page:focusPage
+		};
+		
+		signList.push(signField);
+		
+		eleSign += '<div id="'+eleId+'" class="ui-widget-content ui-button" style="left:'+left+'px; top:'+top+'px; width:'+fieldWidth+'px; height:'+fieldHeight+'px;position: absolute;">';
+		eleSign += '<p id="userName">'+eleName+'</p>';
+		eleSign += '<button type="button" onclick="signRemove(\''+eleId+'\')" class="deleteSign"><i class="fa fa-times"></i></button>';
+		eleSign += '</div>';
+		
+		$(".document_area").append(eleSign);
+		
+		$("#"+eleId).draggable({
+			disabled: false,
+			containment: "#page_area",
+			scroll: true
+		});
+		
+		fn_setUserSignCount();
+	}
+	
+	// 전체삭제
+	function fn_delSign(user) {
+		if(!confirm("해당 서명참여자의 서명위치를 전체 삭제하시겠습니까?")) {
+			return false;
+		}
+		var eleId = "sign_"+user.recvOrd;
+		var result = $("[id^='"+eleId+"']");
+		
+		for(i=0;i<result.length;i++) {
+			var signData = result[i];
+			
+			for(j=signList.length-1; j>=0; j--) {
+				var signUser = signList[j];
+				if(signUser.id == signData.id) {
+					signList.splice(j,1);
+				}
+			}
+			$("#"+signData.id).remove();
+		}
+		
+		fn_setUserSignCount();
+	}
+	
+	function signRemove(eleId){	
+		for(j=signList.length-1; j>=0; j--) {
+			var signUser = signList[j];
+			if(signUser.id == eleId) {
+				signList.splice(j,1);
+			}
+		}
+		
+		$("#"+eleId).remove();
+		
+		fn_setUserSignCount();
+	}
+	// 서명추가건수
+	function fn_setUserSignCount() {
+		
+		recvList.forEach(function(recvUser) {
+			var signCount = 0;
+			signList.forEach(function(signUser) {
+				if(recvUser.recvOrd==signUser.key) {
+					signCount++;
+				}				
+			});
+			
+			$("#userSignCnt_"+recvUser.recvOrd).html("총 "+signCount +"건 ");
+		});
+	}
+	
+	// 페이지이동시 필드현위치 저장
+	function fn_setPageField() {
+		
+		
+		for(var i=0;i<signList.length;i++){
+		    var signField = signList[i];
+			var page = signField.page;
+			if(focusPage == page) {
+				var fieldPosition = $("#"+signField.id).offset();
+				signField.x = fieldPosition.left;
+				signField.y = fieldPosition.top;
+				signField.pdfY = pageHeight - signField.y - signField.height;
+				signList[i] = signField;
+			}
+		}
+	}
+	
+	// 페이지이동시 사인객체 표시
+	function fn_drawPage() {
+		for(var i=0;i<signList.length;i++) {
+			var signField = signList[i];
+			var eleId = signField.id;
+			var page = signField.page;
+			$("#"+eleId).remove();
+			if(focusPage == page) {
+			    var eleName = signField.name;
+				var left = signField.x;
+				var top = signField.y;
+				var fieldWidth = signField.width;
+				var fieldHeight = signField.height;
+				
+				var eleSign = "";
+				
+				eleSign += '<div id="'+eleId+'" class="ui-widget-content ui-button" style="left:'+left+'px; top:'+top+'px; width:'+fieldWidth+'px; height:'+fieldHeight+'px;position: absolute;">';
+				eleSign += '<p id="userName">'+eleName+'</p>';
+				eleSign += '<button type="button" onclick="signRemove(\''+eleId+'\')" class="deleteSign"><i class="fa fa-times"></i></button>';
+				eleSign += '</div>';
+				
+				$(".document_area").append(eleSign);
+				
+				$("#"+eleId).draggable({
+					disabled: false,
+					containment: "#page_area",
+					scroll: true
+				});
+			}
+		}
+	}
+	
+	// 페이지 이동
+	function fn_movePage(idx) {
+		pageInfo = pageList[idx-1];
+		focusPage = idx;
+		fn_drawPage();
+		$("#page_area").attr("src", parent.domainName + "/" + pageInfo.filePath + pageInfo.fileName);
+		$("#pageNumDisp").html("페이지 " + focusPage + " / " + pageList.length);
+		pageHeight = $("#page_area").height();
+		pageWidth = $("#page_area").width();
+	}
+
+
+	//***************					이전 페이지					***************//
+
+
+	function fn_prevPage() {
+		fn_setPageField();
+		var page = focusPage - 1;
+		if (page < 1)	{ focusPage = 1; }
+		else			{ focusPage = page; }
+		fn_movePage(focusPage);
+	}
+
+
+	//***************					다음 페이지					***************//
+
+
+	function fn_nextPage() {
+		fn_setPageField();
+		var page = focusPage + 1;
+		if (page > pageList.length) { focusPage = pageList.length; }
+		else                        { focusPage = page; }
+		fn_movePage(focusPage);		
+	}
+
+
+	// 처음페이지
+	function fn_firstPage() {
+		fn_setPageField();
+		fn_movePage(1);
+	}
+	// 마지막페이지
+	function fn_lastPage() {
+		fn_setPageField();
+		fn_movePage(pageList.length);
+	}
+	var sendType = parent.fn_getSendType();
+
+
+	//***************					계약서 전송					***************//
+
+
+	function fn_sendContract() {
+		if(signList.length==0) {
+			if(confirm("작업하신 내용이 없습니다.\r\n발송하시겠습니까?")) {				
+				parent.fn_send();				
+				window.close();
+				return;
+			}
+		}		
+		parent.fieldList = signList;
+		parent.fn_send();		
+		window.close();
+	}
+	
+	function moveSignAddStep1(){
+		
+		$("#popmodal2").css("display","");
+		$("#popmodal1").css("display","none");
+		
+	}
+	
+	function moveSignAddStep2(){
+	
+		fn_setPageField();
+		$("#popmodal3").css("display","");
+		$("#popmodal2").css("display","none");
+
+		// 3페이지 대상자 리스트 표시
+		var totSignUserCount = 0;
+		recvList.forEach(function(recvUser) {
+			var htmlRecvUser = "";
+			var signUserCount = 0;
+						
+			signList.forEach(function(signUser) {
+				if(signUser.id.indexOf("sign_"+recvUser.recvOrd) >= 0) {
+					signUserCount++;
+					totSignUserCount++;
+				} 
+			});
+			
+			$("#step3-sign-count-"+recvUser.recvOrd).html("총 " + signUserCount+" 건");
+			   
+		});
+		
+		$(".countSignNum").html(totSignUserCount);
+		
+	 
+	}
+	
+	function rotatePageMenu(){
+		if($("#page_area").width() > 800){
+			//console.log("문서 가로길이 800이상입니다");	
+			var fontPcCss = document.createElement( "link" );
+			fontPcCss.href = rootPath + "css/layerpopup_sign_width.css";
+			fontPcCss.type = "text/css";
+			fontPcCss.rel = "stylesheet";
+			fontPcCss.media = "screen,print";
+			document.getElementsByTagName( "head" )[0].appendChild( fontPcCss );
+		}else{
+			//console.log("문서 가로길이 800이하입니다");
+			var fontPcCss = document.createElement( "link" );
+			fontPcCss.href = rootPath + "css/layerpopup_sign.css";
+			fontPcCss.type = "text/css";
+			fontPcCss.rel = "stylesheet";
+			fontPcCss.media = "screen,print";
+			document.getElementsByTagName( "head" )[0].appendChild( fontPcCss );
+		}
+	}
+	
+	$(document).ready( function() {
+		$("#page_area").attr("width", $("#page_area").width() / 1.95);
+		//문서 방향 체크
+		rotatePageMenu();
+		
+		recvList = parent.resRList;
+		pageList = parent.imageList;
+
+		$("#popmodal1").css("display","none");
+		$("#popmodal2").css("display","");
+		$("#popmodal3").css("display","none");
+		$(".countNum").append(recvList.length);
+		
+		/*
+		//1명일 때 사인지정화면으로 
+		if(recvList.length==1){			
+			$("#popmodal2").css("display","");
+			$("#popmodal1").css("display","none");
+		}
+		*/
+		
+		if(recvList.length==0) {
+			alert("지정된 수신자(서명 참여자)가 존재하지 않습니다.\r\n다시 확인해주시기 바랍니다.");
+			window.close();
+			return;
+		}
+		
+		fn_firstPage();
+		
+		// 1페이지 대상자 리스트 표시
+		recvList.forEach(function(recvUser) {
+			var htmlRecvUser = '<div class="attendList" id="" ><span>'+recvUser.userName+'</span></div>';			
+			$("#addSignPage1").append(htmlRecvUser);		   
+		});
+		
+		// 2페이지 대상자 리스트 표시 
+		recvList.forEach(function(recvUser) {
+			var htmlRecvUser = "";
+			
+			htmlRecvUser +=' <div class="recvProfile">';
+			htmlRecvUser +='  <ul><li class="li-name">'+recvUser.userName+'</li><li class="li-side">'+recvUser.phoneNumber+'</li><li class="li-side">'+recvUser.email+'</li></ul>';
+			
+			if(isNull(recvUser.email)){
+				htmlRecvUser +='<div class="recvAddnDel2" ><a href="#" id="addSign_'+recvUser.recvOrd+'" class="addbtn">+</a><a href="#" id="allDel_'+recvUser.recvOrd+'" class="allDel">전체삭제</a></div>';
+				htmlRecvUser +='<div class="signAddNum2" id="userSignCnt_'+recvUser.recvOrd+'">총 0건</div>';
+			}else{
+				htmlRecvUser +='<div class="recvAddnDel" ><a href="#" id="addSign_'+recvUser.recvOrd+'" class="addbtn">+</a><a href="#" id="allDel_'+recvUser.recvOrd+'" class="allDel">전체삭제</a></div>';
+				htmlRecvUser +='<div class="signAddNum" id="userSignCnt_'+recvUser.recvOrd+'">총 0건</div>';
+			}
+			
+			htmlRecvUser +='</div>';
+			
+			$(".attendList-sm").append(htmlRecvUser);
+			// 서명 추가
+			var addSginLink = document.getElementById("addSign_"+recvUser.recvOrd);
+			addSginLink.addEventListener('click', function(event){
+		    	fn_addSign(recvUser);
+			});
+			
+			// 전체삭제 추가
+			var delSginLink = document.getElementById("allDel_"+recvUser.recvOrd);
+			delSginLink.addEventListener('click', function(event){
+		    	fn_delSign(recvUser);
+			});
+		});
+		
+		// 3페이지 대상자 리스트 표시
+		recvList.forEach(function(recvUser) {
+			var htmlRecvUser = "";
+			
+			htmlRecvUser +=   '<div class="attendList-fn">';
+			htmlRecvUser += '  <div class="attendList-fn-nm" > <span>'+recvUser.userName+'</span> </div>';
+			htmlRecvUser += '	  <div class="attendList-total"><span id="step3-sign-count-'+recvUser.recvOrd+'">총 0 건</span></div>';
+			htmlRecvUser += '	</div>';
+						
+			$("#addSignPage3").append(htmlRecvUser);
+			   
+		});
+		
+		//1페이지이동
+		 fn_firstPage();
+	 })
+	 
+	 
+</script>
+
+
+</body>
+</html>

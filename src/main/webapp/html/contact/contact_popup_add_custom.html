@@ -1,0 +1,278 @@
+
+    <!--****************************************************************************************************************
+    * 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+    * 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+    ********************************************************************************************************************
+    --------------------------------------------------------------------------------------------------------------------
+    * 회사       : 뉴젠피앤피
+    * 화면명     : 주소록추가 팝업 (거래처)
+    * 화면설명   : 주소록관리(거래처) > 주소록 추가
+    * 작성자     : 이정훈
+    * 생성일     : 2023.10.31
+    --------------------------------------------------------------------------------------------------------------------
+    * 수정자     :
+    * 수정일     :
+    * 수정내용   :
+    ------------------------------------------------------------------------------------------------------------------->
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <title>주소록 추가(거래처)</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+
+    <link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+    <link rel="stylesheet" type="text/css" href="/css/myPage.css">
+    <link rel="stylesheet" type="text/css" href="/css/contract_electronic.css">
+
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+    <script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/ui.biz.core.js"></script>
+    <script>
+
+
+        //***************					거래처 주소록 저장					***************//
+
+
+        function fn_save(){
+
+            var url = rootPath+"contact/insContact.do";
+            var bizId= getURLParameters("bizId");
+            var grpId= $("#grpId").val();               // 그룹
+            var corpName= $("#corpName").val();         // 거래처명
+            var corpBizNum = $("#corpBizNum").val();    // 사업자등록번호
+            var corpRepName = $("#corpRepName").val();  // 대표자명
+            var corpAddr= $("#corpAddr").val();         // 주소
+            var contName= $("#contName").val();         // 담당자명
+            var phoneNumber= $("#phoneNumber").val();   // 담당자휴대폰번호
+            var mailAddr= $("#mailAddr").val();         // 담당자이메일
+            var corpDept= $("#corpDept").val();         // 담당자부서명
+
+            // 그룹 확인
+            if(grpId.length == 0){
+                alert("그룹을 선택해주세요.");
+                $("#grpId").focus();
+                return false;
+            }
+
+            // 거래처명 확인
+            if(corpName.length == 0){
+                alert("거래처명을 입력해주세요.")
+                $("#corpName").focus();
+            }
+
+            // 거래처사업자번호
+            if(corpBizNum.length == 0){
+                alert("거래처 사업자 번호를 입력해주세요.")
+                $("#corpBizNum").focus();
+                return;
+            } else {
+                if(!check_busino(corpBizNum)){
+                    alert("거래처 사업자 번호 형식이 맞지 않습니다. 다시 입력해주세요.")
+                    $("#corpBizNum").focus();
+                    return;
+                }
+            }
+
+            // 담당자휴대폰번호 확인
+            if(phoneNumber.length==0) {
+                alert("휴대폰번호를 입력해주시기 바랍니다.");
+                $("#phoneNumber").focus();
+                return;
+            } else {
+                if(!checkPhoneNumNoHypen(phoneNumber)) {
+                    alert("휴대폰번호 형식이 맞지 않습니다.\r\n다시 입력해주시기 바랍니다.");
+                    $("#phoneNumber").focus();
+                    return;
+                }
+            }
+
+            // 담당자 이메일 확인
+            if(mailAddr.length==0) {
+                alert("이메일을 입력해주시기 바랍니다.");
+                $("#mailAddr").focus();
+                return;
+            } else {
+                if (!checkEmail(mailAddr)) {
+                    alert("이메일 형식이 맞지 않습니다.\r\n다시 입력해주시기 바랍니다.");
+                    $("#mailAddr").focus();
+                    return;
+                }
+            }
+
+            $.ajax({
+                url:url,
+                crossDomain : true,
+                dataType:"json",
+                type:"POST",
+                data: {
+                    OPEN_KEY:getCookie("OPEN_KEY"),
+                    bizId:bizId,
+                    grpId:grpId,
+                    corpName:corpName,
+                    corpBizNum:corpBizNum,
+                    corpRepName:corpRepName,
+                    corpAddr:corpAddr,
+                    contName:contName,
+                    phoneNumber:phoneNumber,
+                    mailAddr:mailAddr,
+                    corpDept:corpDept,
+                    contType:"1",
+                    contactType: "C"
+                },
+                success:function(result) {
+                    if (result.success==true) {
+                        alert("저장되었습니다.");
+                        window.close();
+                        opener.fn_contactList(1);
+                    } else {
+                        alert("이미 등록된 정보입니다.");
+                    }
+                },
+                error:function(request,status,error){
+                    goInvalidPage(request, error);
+                }
+            });
+        }
+
+
+        //***************					그룹 리스트 조회					***************//
+
+
+        function fn_getGrpList(){
+
+            var bizId= getURLParameters("bizId");
+            var url = rootPath+"contact/getContactGrpList.do";
+
+            $.ajax({
+                url:url,
+                crossDomain : true,
+                dataType:"json",
+                type:"POST",
+                data: {
+                    OPEN_KEY:getCookie("OPEN_KEY"),
+                    bizId:bizId
+                },
+                success:function(result) {
+                    if (result.success==true) {
+                        var htmlData = "";
+                        $.each(result.data, function(i, row) {
+                            htmlData+="<option value='"+row.grpId+"'>"+row.grpName+"</option>";
+                        });
+                        $("#grpId").html(htmlData);
+                    }
+                },
+                error:function(request,status,error){
+                    $.unblockUI();
+                    goInvalidPage(request, error);
+                }
+            });
+        }
+
+
+        //***************					그룹명 수정					***************//
+
+
+        function fn_updGrp() {
+            var grpId = $("#grpId").val();
+            if(isNull(grpId)) return false;
+            openWin(rootPath+"html/contact/contact_grp_popup_edit.html?grpId="+grpId, "그룹수정", 470, 180);
+        }
+
+
+        //***************					윈도우 로딩					***************//
+
+
+        $(document).ready(function(){ fn_getGrpList(); });
+
+    </script>
+    </head>
+    <style>
+        .contract_electronic_popup .tbstyle01 th {width: 30%;}
+        td{width:25%;font-size:14px;font-weight:bold;;color:#333;text-align:left}
+    </style>
+    <body>
+        <div id="" class="contract_electronic_popup">
+            <div class="pop_title">
+                <h3>주소록 추가(거래처)</h3>
+                <a class="col_skyblue" onclick="window.close()"></a>
+            </div>
+            <div class="tbstyle01">
+                <table class="NanumSquare_R">
+                    <tr>
+                        <th><span class="dot_red">*</span> 그룹</th>
+                        <td>
+                            <div class="select_box">
+                                <select class="NanumSquare_R" id="grpId">
+                                    <option value="">그룹명</option>
+                                </select>
+                                <button onclick="fn_updGrp()" class="select_updateBtn">수정</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><span class="dot_red">*</span> 거래처명</th>
+                        <td>
+                            <input type="text" name="" id="corpName" class="inpstyle01">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><span class="dot_red">*</span> 거래처사업자번호</th>
+                        <td>
+                            <input type="text" name="" id="corpBizNum" class="inpstyle01">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>대표자명</th>
+                        <td>
+                            <input type="text" name="" id="corpRepName" class="inpstyle01">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>주소</th>
+                        <td>
+                            <input type="text" name="" id="corpAddr" class="inpstyle01">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>담당자명</th>
+                        <td>
+                            <input type="text" name="" id="contName" class="inpstyle01">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><span class="dot_red">*</span> 담당자휴대폰번호</th>
+                        <td>
+                            <input type="text" name="" id="phoneNumber" class="inpstyle01">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><span class="dot_red">*</span> 담당자이메일</th>
+                        <td>
+                            <input type="text" name="" id="mailAddr" class="inpstyle01">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>담당자부서명</th>
+                        <td>
+                            <input type="text" name="" id="corpDept" class="inpstyle01">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="red_box">
+                <p>로 표시된 항목은 필수입력 사항입니다.</p>
+            </div>
+
+            <div class="btn_group">
+                <div class="NanumRound btn_type type1" onclick="fn_save()">저장하기</div>
+                <div class="NanumRound btn_type type3" onclick="window.close()">취소하기</div>
+            </div>
+        </div>
+    </body>
+    </html>

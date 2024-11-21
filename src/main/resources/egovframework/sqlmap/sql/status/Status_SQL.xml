@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Status">
+	
+	<typeAlias alias="StatusVO" type="com.ezsign.status.vo.StatusVO"/>
+	<resultMap id="statusListMap" class="StatusVO">
+		<result property="cnt" column="CNT"/>
+	</resultMap>
+	
+	<resultMap id="bizListMap" class="StatusVO">
+		<result property="bizName" column="BIZ_NAME"/>
+	</resultMap>
+	
+	<resultMap id="contractListMap" class="StatusVO">
+		<result property="bizName" column="BIZ_NAME"/>
+		<result property="cnt" column="CNT"/>
+	</resultMap>
+	
+	<!-- 기간 내 가입 기업 수 -->
+	<select id="statusDAO.getBizListCount" parameterClass="statusVO" resultClass="java.lang.Integer">
+		SELECT  COUNT(*) CNT
+		FROM    tbl_biz
+		WHERE   LEFT(INS_DATE, 8) between REPLACE(#searchStartDate#, '-', '') AND REPLACE(#searchEndDate#, '-', '')
+	</select>
+	
+	<!-- 기간 내 가입 근로자 수 -->
+	<select id="statusDAO.getUserListCount" parameterClass="statusVO" resultClass="java.lang.Integer">
+		SELECT  COUNT(*) CNT
+		FROM    tbl_user
+		WHERE   LEFT(INS_DATE, 8) between REPLACE(#searchStartDate#, '-', '') AND REPLACE(#searchEndDate#, '-', '')
+	</select>
+	
+	<!-- 기간 내 가입 기업 리스트 -->
+	<select id="statusDAO.getBizList" parameterClass="statusVO" resultMap="bizListMap">
+		SELECT  BIZ_NAME
+		FROM    tbl_biz
+		WHERE   LEFT(INS_DATE, 8) between REPLACE(#searchStartDate#, '-', '') AND REPLACE(#searchEndDate#, '-', '')
+	</select>
+	
+	<!-- 기간 내 전송완료 계약현황-->
+	<select id="statusDAO.getContractSendList" parameterClass="statusVO" resultMap="contractListMap">
+		SELECT 	MAX(B.BIZ_NAME) BIZ_NAME, COUNT(*) CNT
+		FROM 	tbl_contract_person A, TBL_BIZ B 
+		WHERE 	A.BIZ_ID = B.BIZ_ID 
+		AND 	A.STATUS_CODE NOT IN ('1', '2', 'D')
+		AND 	LEFT(A.INS_DATE, 8) BETWEEN REPLACE(#searchStartDate#, '-', '') AND REPLACE(#searchEndDate#, '-', '')
+		GROUP 	BY A.BIZ_ID 
+		ORDER BY B.BIZ_NAME
+	</select>
+	
+	<!-- 기간 내 전송완료 계약현황-->
+	<select id="statusDAO.getDocumentSendList" parameterClass="statusVO" resultMap="contractListMap">
+		SELECT 	MAX(B.BIZ_NAME) BIZ_NAME, COUNT(*) CNT
+		FROM 	tbl_document_master A, TBL_BIZ B 
+		WHERE 	A.BIZ_ID = B.BIZ_ID 
+		AND 	A.DOCU_STATUS NOT IN ('0')
+		AND 	LEFT(A.INS_DATE, 8) BETWEEN REPLACE(#searchStartDate#, '-', '') AND REPLACE(#searchEndDate#, '-', '')
+		GROUP 	BY A.BIZ_ID 
+		ORDER BY B.BIZ_NAME
+	</select>
+	
+	<!-- 기간 내 모든문서 계약현황-->
+	<select id="statusDAO.getContractList" parameterClass="statusVO" resultMap="contractListMap">
+		<!-- SELECT 	MAX(B.BIZ_NAME) BIZ_NAME, COUNT(*) CNT
+		FROM 	tbl_contract_person A, TBL_BIZ B 
+		WHERE 	A.BIZ_ID = B.BIZ_ID 
+		AND 	LEFT(A.INS_DATE, 8) BETWEEN REPLACE(#searchStartDate#, '-', '') AND REPLACE(#searchEndDate#, '-', '')
+		GROUP 	BY A.BIZ_ID 
+		ORDER BY B.BIZ_NAME -->
+		SELECT MAX(a.BIZ_NAME) BIZ_NAME, COUNT(*) CNT FROM
+			(SELECT 	B.BIZ_ID, BIZ_NAME
+					FROM 	tbl_document_master A, TBL_BIZ B 
+					WHERE 	A.BIZ_ID = B.BIZ_ID 
+					AND 	A.DOCU_STATUS = 'Z'
+					AND 	LEFT(A.INS_DATE, 8) BETWEEN REPLACE(#searchStartDate#, '-', '') AND REPLACE(#searchEndDate#, '-', '')
+					
+			UNION ALL
+			SELECT 	B.BIZ_ID, B.BIZ_NAME
+					FROM 	tbl_contract_person A, TBL_BIZ B 
+					WHERE 	A.BIZ_ID = B.BIZ_ID 
+					AND 	A.STATUS_CODE = 'Y'
+					AND 	LEFT(A.INS_DATE, 8) BETWEEN REPLACE(#searchStartDate#, '-', '') AND REPLACE(#searchEndDate#, '-', '')
+			    ) a
+		GROUP BY a.BIZ_ID
+		ORDER BY a.BIZ_NAME
+	</select>
+	
+</sqlMap>
+		

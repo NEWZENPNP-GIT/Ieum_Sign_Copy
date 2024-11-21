@@ -1,0 +1,138 @@
+
+#contract_electronic_Wrap a, .contract_electronic_popup a{cursor:pointer}
+#contract_electronic_Wrap{position: relative; left: 0; top: 0; padding:18px 20px 0 20px; min-width: 862px;margin-bottom: 50px;}
+#contract_electronic_Wrap .container .location{font-size: 12px; font-weight: bold; border-bottom: 0px solid #dddddd; line-height: 28px; color:#777777;}
+#contract_electronic_Wrap .container .location .loc_sub{font-size: 13px;  color:#333333;}
+#contract_electronic_Wrap .container .pagtit {font-size:20px; font-weight:bold; color:#333333; line-height: 35px;    margin: 12px 0;}
+#contract_electronic_Wrap .container .state{font-size: 20px;}
+
+#contract_electronic_Wrap .electronic_tablediv{min-height:600px; height:600px; overflow-x: hidden; overflow-y: auto}
+#contract_electronic_Wrap .electronic_tablediv table{table-layout: fixed; width: 100%; border-collapse: collapse;}
+#contract_electronic_Wrap .electronic_tablediv table tr th{height:35px; font-size: 12px; color:#333333; background-color: #e5eff3; border-top: 1px solid #5c9dda; border-right: 1px solid #e1e1e1;}
+#contract_electronic_Wrap .electronic_tablediv table tr th:last-child {border-right: none;}
+#contract_electronic_Wrap .electronic_tablediv table tr td{height: 34px; font-size: 12px; font-weight:bold; color:#666666; text-align: center; border-right: 1px solid #e1e1e1; border-bottom: 1px solid #e1e1e1;}
+#contract_electronic_Wrap .electronic_tablediv table tr td:last-child{border-right: none;}
+#contract_electronic_Wrap .electronic_tablediv table tr td a{color:#666}
+#contract_electronic_Wrap .electronic_tablediv .chk_area input{width: 15px;height: 15px; border: 1px solid #d5d5d5; vertical-align: middle;}
+
+#contract_electronic_Wrap .electronic_tablediv .NameDivTd{position: relative;}
+#contract_electronic_Wrap .electronic_tablediv .NameDivTd .clickNameDiv{position: absolute;top:30px;left:10px;border:1px solid #0d94d6;background:#fff;padding:10px;width:auto;box-shadow:2px 2px 2px rgba(0,0,0,.3)}
+#contract_electronic_Wrap .electronic_tablediv .NameDivTd .clickNameDiv li{width:100%;white-space:nowrap;padding:5px;text-align:left}
+#contract_electronic_Wrap .electronic_tablediv .NameDivTd .clickNameDiv li .name{color:#0d94d6}
+
+#contract_electronic_Wrap .electronic_tableviewdiv{}
+#contract_electronic_Wrap .electronic_tableviewdiv table{margin-bottom:50px;table-layout: fixed; width: 100%; border-collapse: collapse;border-top: 1px solid #5c9dda}
+#contract_electronic_Wrap .electronic_tableviewdiv th{height:45px; font-size: 12px; color:#333333; background-color: #e5eff3; border-bottom: 1px solid #c7c7c7; text-align:left; padding-left:5pt; }
+#contract_electronic_Wrap .electronic_tableviewdiv td{border-bottom: 1px solid #e1e1e1;padding:5px 10px 5px 15px}
+#contract_electronic_Wrap .electronic_tableviewdiv td .ul_list01 li{padding:2px 0}
+#contract_electronic_Wrap .inpstyle01{border:1px solid #d5d5d5;padding:8px 10px;color:#666;font-weight:bold;font-size:12px}
+#contract_electronic_Wrap .inpstyle02{border:0px solid #d5d5d5;padding:8px 10px;color:#666;font-weight:bold;font-size:12px;background-color:white;}
+#contract_electronic_Wrap .inpstyle01:focus{outline:0}
+#contract_electronic_Wrap .electronic_tableviewdiv td .ul_list02 {overflow:hidden}
+#contract_electronic_Wrap .electronic_tableviewdiv td .ul_list02 li{float:left;font-size:12px;font-weight:bold; color:#666;padding-right:30px;line-height:30px}
+#contract_electronic_Wrap .electronic_tableviewdiv td .ul_list02 li input[type=checkbox]{width:18px;height:18px;vertical-align:middle;margin-right:5px}
+#contract_electronic_Wrap .electronic_tableviewdiv td .ul_list02 li span{margin:0 15px 0 0}
+
+
+#contract_electronic_Wrap .btnareadiv.topdiv{margin-bottom:15px}
+#contract_electronic_Wrap .btnareadiv a{display:inline-block;text-decoration:none}
+#contract_electronic_Wrap .btnareadiv a.electronic_btn01{color:#fff; font-size:18px; font-weight:bold;padding:15px 50px;border-radius:10px;
+/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#2491e5+23,2172a5+98 */
+background: #2491e5; /* Old browsers */
+background: -moz-linear-gradient(top,  #2491e5 23%, #2172a5 98%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  #2491e5 23%,#2172a5 98%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  #2491e5 23%,#2172a5 98%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2491e5', endColorstr='#2172a5',GradientType=0 ); /* IE6-9 */
+}
+/* #contract_electronic_Wrap .btnareadiv.footdiv{text-align:right;margin:15px 0} */
+#contract_electronic_Wrap .btnareadiv.footdiv{text-align:center;margin-top:20px;padding:20px 0;background: #fff;width: 100%;/* position: fixed; */bottom:0;}
+#contract_electronic_Wrap .btnareadiv.footcenterdiv{text-align:center;margin:15px 0}
+#contract_electronic_Wrap .btnareadiv a.electronic_btn02{color:#fff; font-size:14px; font-weight:bold;background:#0d94d6;border-radius:8px;padding:12px 45px}
+#contract_electronic_Wrap .btnareadiv a.electronic_btn03{color:#fff; font-size:14px; font-weight:bold;background:#8c8c8c;border-radius:8px;padding:12px 45px}
+#contract_electronic_Wrap .btnareadiv a.electronic_btn04{color:#fff; font-size:14px; font-weight:bold;background:#1575b1;border-radius:8px;padding:12px 45px}
+
+#contract_electronic_Wrap .electronic_tablewrite{}
+#contract_electronic_Wrap .electronic_tablewrite table{border-collapse: collapse;width: 100%;}
+ #contract_electronic_Wrap .electronic_tablewrite th{height:45px; font-size: 14px; color:#333;}
+
+#contract_electronic_Wrap .btn_adress{display:inline-block;vertical-align: middle;padding:8px 20px;font-size: 13px; font-weight:bold; border-radius: 0px; border:none; color:#ffffff; background-color: #00a9ea;cursor:pointer}
+#contract_electronic_Wrap .btn_adress2{vertical-align: middle;padding:8px 20px;font-size: 13px; font-weight:bold; border-radius: 0px; border:none; color:#ffffff; background-color: #00a9ea;cursor:pointer}
+
+#contract_electronic_Wrap .referrerDiv{border:1px solid #ccc;padding:10px}
+#contract_electronic_Wrap .referrerDiv .referrer_address{width:100%;border-bottom:1px solid #ccc;overflow:hidden;padding:10px 0}
+#contract_electronic_Wrap .referrerDiv .referrer_address p{font-size:14px;font-weight:bold;padding:8px 20px;float:left}
+#contract_electronic_Wrap .referrerDiv .referrer_group{display: flex;width:100%;border-bottom:1px solid #ccc;padding:10px 0}
+#contract_electronic_Wrap .referrerDiv .referrer_group .
+groupdiv{width:50%;padding-left:10px;box-sizing:border-box}
+#contract_electronic_Wrap .referrerDiv .referrer_group .groupdiv dl{padding:10px;box-sizing:border-box}
+#contract_electronic_Wrap .referrerDiv .referrer_group .groupdiv dt{font-size: 14px; font-weight:bold; color:#009be4;padding:10px 0}
+#contract_electronic_Wrap .referrerDiv .referrer_group .groupdiv dd{font-size:12px; font-weight:bold; color:#888;margin:0;padding:0;padding:5px 0}
+#contract_electronic_Wrap .referrerDiv .referrer_group .groupdiv dd span.name{color:#333}
+
+#contract_electronic_Wrap .referrerDiv .referrer_group .arrowformdiv{width:50%;padding:20px 0}
+#contract_electronic_Wrap .referrerDiv .referrer_group .workform{position: relative;padding-left:80px;box-sizing:border-box}
+#contract_electronic_Wrap .referrerDiv .referrer_group .workform.reference{margin-top:30px}
+#contract_electronic_Wrap .referrerDiv .referrer_group .workform .title{font-size:15px;font-weight:bold;padding:10px 0}
+#contract_electronic_Wrap .referrerDiv .referrer_group .arrowdiv{position: absolute;top:35px;left:0}
+#contract_electronic_Wrap .referrerDiv .referrer_group .arrowdiv a{display:block;cursor:pointer;margin:10px 0}
+#contract_electronic_Wrap .referrerDiv .referrer_group .workform textarea{width:95%;height:130px;resize:none;border: 1px solid #b9b9b9}
+
+#contract_electronic_Wrap .referrerDiv .referrer_address .input_box{width:calc(100% - 100px);height: 28px;  border: 1px solid #00a9e9; vertical-align: middle;float:left}
+#contract_electronic_Wrap .referrerDiv .referrer_address .input_box input[type="text"]{height: 28px; width: calc(100% - 40px); border: none; outline: none; float: left; padding-left:10px; color:#666666;}
+#contract_electronic_Wrap .referrerDiv .referrer_address .input_box input[type="text"]::-webkit-input-placeholder{ color:#a6a6a6; font-size:12px;}
+#contract_electronic_Wrap .referrerDiv .referrer_address .input_box input[type="text"]:-ms-input-placeholder{color:#a6a6a6; font-size:12px; }
+#contract_electronic_Wrap .referrerDiv .referrer_address .input_box .btn_search{ position: relative; display: inline-block; width:25px; font-size: 23px; margin-top: -1px; color: #00a9e9; top: 3px;}
+
+#contract_electronic_Wrap .small_btnstyle01{display:inline-block;color:#fff !important;background:#2491e5;padding:7px 15px;border-radius:3px;text-decoration:none}
+.modify_btn{display:inline-block;width:26px; height: 26px;background: url('image/btn_modify.png') no-repeat;background-size:26px auto}
+
+.contract_electronic_popup {padding: 10px 20px; box-sizing:border-box;}
+.contract_electronic_popup .dot_red {color: #ff0000;}
+.contract_electronic_popup .pop_title{position: relative;padding:10px 0;border-bottom:1px solid #00acff}
+.contract_electronic_popup .pop_title h3{color:#00acff;font-size:18px;font-weight:bold;padding:0;margin:0}
+.contract_electronic_popup .pop_title .col_skyblue{position:absolute; right:0px;top:8px;width:20px; height: 20px;background: url('image/popup_btn_closeSkyblue.png') no-repeat; z-index:10;cursor:pointer}
+.contract_electronic_popup .tbstyle01{padding:10px 0}
+.contract_electronic_popup .tbstyle01 table{border-collapse: collapse;width: 100%;}
+.contract_electronic_popup .tbstyle01 th{width:25%;font-size:13px;font-weight:bold;;color:#333;text-align:left}
+.contract_electronic_popup .tbstyle01 td{width:75%;padding:4px 0}
+
+.contract_electronic_popup .select_box{display: grid; grid-template-columns: 1fr auto; align-items: center; column-gap: 6px;}
+.contract_electronic_popup select{width:100%; height: 30px; color:#666666; font-size:12px; font-weight: bold; outline: none; border: 1px solid #dcdcdc; text-align:center; padding-left:5px; -webkit-appearance: none; -moz-appearance: none; appearance: none; background-image: url('image/select_arrow.png'); background-repeat: no-repeat; background-position: 97% 50%}
+.contract_electronic_popup .select_updateBtn{display: inline-block;padding: 0 16px;border: 1px solid #00acff;font-size: 12px;line-height: 28px;color: #00acff;background-color: #d4ecf7; cursor: pointer;}
+.contract_electronic_popup select::-ms-expand { display: none; }
+.contract_electronic_popup select option{text-align-last: center;}
+
+.contract_electronic_popup input[type="text"]{height: 30px; width:100%;border: 1px solid #dcdcdc; outline: none; color:#666666; font-size:12px; font-weight: bold;padding:0 10px;box-sizing:border-box}
+.contract_electronic_popup input[type="password"]{height: 30px; width:100%;border: 1px solid #dcdcdc; outline: none; color:#666666; font-size:12px; font-weight: bold;padding:0 10px;box-sizing:border-box}
+
+.contract_electronic_popup .red_box {display: grid;grid-auto-flow: column;justify-content: start;align-items: center;column-gap: 4px;padding: 10px 16px;margin-bottom: 14px;border: 1px solid #ebb5b5;background-color: #fff2f2;}
+.contract_electronic_popup .red_box > p {position: relative;padding-left: 10px;font-size: 12px;font-weight: bold;color: #ff0000;}
+.contract_electronic_popup .red_box > p::after {content: "*";display: block;position: absolute;left: 0;top: 1px;}
+
+.contract_electronic_popup .btnstyle01{margin:15px 0;text-align:center;}
+.contract_electronic_popup .btnstyle01 a{color:#fff; font-size:14px; font-weight:bold;background:#00a9e9;border-radius:5px;padding:10px 40px}
+
+.contract_electronic_popup .btn_group {display: flex;display: -ms-flex;display: -webkit-flex;justify-content: flex-end;-ms-justify-content: flex-end;-webkit-justify-content: flex-end;width: 100%;box-sizing: border-box;}
+.contract_electronic_popup .btn_group .btn_type{width: 116px; height: 36px; font-size:13px; border-radius:5px; font-weight:bold;
+ display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex;
+ justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;
+ align-items: center; -ms-align-items: center; -wenbkit-align-items: center; }
+.contract_electronic_popup .btn_group .btn_type{margin-right: 5px;}
+.contract_electronic_popup .btn_group .btn_type:last-child{margin-right: 0;}
+.contract_electronic_popup .btn_group .btn_type.type1 {background-color: #00a9e9; color: #ffffff; border:1px solid #00a9e9;}
+.contract_electronic_popup .btn_group .btn_type.type2 {background-color: #1a5fa4; color: #ffffff; border:1px solid #1a5fa4}
+.contract_electronic_popup .btn_group .btn_type.type3 {background-color: #eeeeee; color: #00a9e9; border:1px solid #00a9e9;}
+.contract_electronic_popup .btn_group .btn_type.type4 {background-color: #fff2f2; color: #e90000; border:1px solid #fe7d7d;}
+
+.filesearch{}
+.filesearch  input[type="text"]{width:calc(100% - 95px);}
+.filesearch .btn{display:inline-block;vertical-align: middle;padding:8px 20px;font-size: 13px; font-weight:bold; border-radius: 0px; border:none; color:#ffffff; background-color: #00a9ea;cursor:pointer}
+
+#contract_electronic_Wrap .attention{font-size:13px;padding:10px 0;color:#444}
+#contract_electronic_Wrap .attention02{font-size:13px;padding:10px 0;color:#444;text-align:right}
+.contract_electronic_popup .attention{font-size:13px;margin-top:10px;font-weight:bold;;color:#777}
+
+/* document_write 태그  */
+.tag-container { display: flex; flex-flow: row wrap;}
+.tag{ pointer-events: none; background-color: #00a9ea; color: white; padding: 6px; margin: 5px;}
+.tag::after { pointer-events: all; display: inline-block; content: 'x'; height: 20px; width: 20px; margin-left: 6px; text-align: center; color: #fff;  cursor: pointer; font-size:15px;}

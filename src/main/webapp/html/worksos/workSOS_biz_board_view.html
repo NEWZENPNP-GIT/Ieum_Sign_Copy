@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/board_notice.css">
+
+<script type='text/javascript' src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+
+<script>
+	var bizId = "";
+	var bbsId = "";
+	var bbsNo = "";
+	var statusCode = "";
+	var statusName = {
+	      '0': '처리중',
+	      '1': '답변 완료'
+	    };
+	
+	
+	$(document).ready(function(){
+		if(getCookie("loginType")>"6") {
+			// 기업관리자 제외한 관리자만 확정 처리기능 활성화
+			$("#check_confirm").show();
+		} else {
+			$("#check_confirm").hide();
+		}
+		
+		//기업관리자(6), 협력사관리자(8), 협력사 중간관리자(7), 슈퍼관리자(9)만 댓글을 달 수 있다.
+		if(getCookie("loginType")>="6") {
+			// 기업관리자 제외한 관리자만 확정 처리기능 활성화
+			$("#write").removeClass("hidden");
+		} 
+		
+		$("#commentBizName").html(getCookie("bizName"));
+		$("#commentEmpName").html(getCookie("loginName"));
+
+    	bbsId = getCookie("bbsId");
+    	bbsNo = getCookie("bbsNo");
+		fn_bbsContentView();
+				
+	});
+
+	function fn_bbsContentView() {
+		var url = rootPath + 'bbs/getBbsContents.do';
+
+		$.blockUI();
+
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				bbsId:bbsId,
+				bbsNo:bbsNo
+			},
+			success:function(result)
+			{
+				if (result.success==true) {
+
+					if(result.data.userId==getCookie("userId")||getCookie("loginType")=="9") {
+						$("#delete_confirm").show();
+					}
+					bizId = result.data.bizId;
+					statusCode = result.data.statusCode;
+					$("#companybizName").html(result.data.bizName);					
+					$("#statusName").html(result.data.statusName);
+					$("#insDate").text(convertDateTime(result.data.insDate).format("yyyy-MM-dd HH:mm:ss"));
+					$("#subject").html(result.data.subject);
+					$("#empName").html(result.data.empName);
+					$("#contents").html(result.data.contents);
+
+					var fileData = "";
+					$.each(result.file, function(i, row) {
+						fileData += ' <div><span class="fileName" >'+row.orgFileName+'</span><a class="btn_type btn_download" onclick="doDownload('+row.fileNo+')">다운로드</a></div>';			             
+					});
+					$("#fileList").html(fileData);
+					
+					var commentData = "";
+					$.each(result.comment, function(i, row) {
+						commentData += '<div class="area head_group">';
+						commentData += '	<div class="company">'+row.bizName+'</div>';
+						commentData += '	<div class="userName">'+row.empName+'</div>';
+						commentData += '	<div class="date">'+convertDate(row.insDate).format("yyyy-MM-dd")+'</div>';
+						commentData += '</div>';
+						commentData += '<div class="area text_group"><textarea rows="" cols="" style="resize:none;background-color:whitesmoke;" readonly>'+row.commentContents+'</textarea></div>';
+						if(row.userId==getCookie("userId")&&statusCode=="0") {
+							commentData += '<div class="area right_btngroup"><a class="btn_type btn_del NanumGothic" onclick="doRemoveComment('+row.commNo+')" >삭제</a></div>';
+						}
+				        
+					});
+					$("#commentContents").val('');
+					$("#commentList").html(commentData);
+					$("#commentContents").focus();
+				}
+				
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+
+	function goList() {
+		var url = "/html/worksos/workSOS_list.html";
+		openPage(url);
+	}
+	
+	function doRemove() {
+		if(statusCode=="1") {
+			alert("이미 답변이 완료된 글을 삭제하실 수 없습니다.");
+			return;
+		}
+		if (!confirm('댓글에 대한 내용도 같이 삭제가 됩니다.\r\n삭제 하시겠습니까?')) {
+	    	return;
+	    }
+		
+		var url = rootPath + 'bbs/delBbsContents.do';
+
+		$.blockUI();
+
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				bbsId:bbsId,
+				bbsNo:bbsNo
+			},
+			success:function(result)
+			{
+				console.log(result);
+				if (result.success==true) {
+					alert("삭제되었습니다.");
+					goList();
+				}
+				
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+		
+	} 
+	
+	function doConfirm() {
+		var confirmMsg = "";
+		var url = rootPath + 'bbs/updBbsContents.do';
+
+	    if (statusCode == '0') {
+			statusCode = '1';
+			confirmMsg = statusName[statusCode] + ' 상태로 변경 하시겠습니까?';
+	    } else if (statusCode == '1') {
+	    	statusCode = '0';
+	    	confirmMsg = statusName[statusCode] + ' 상태로 변경 하시겠습니까?';
+	    }
+	    
+	    if(!confirm(confirmMsg)) return;
+
+		$.blockUI();
+
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				bbsId:bbsId,
+				bbsNo:bbsNo,
+				statusCode:statusCode
+			},
+			success:function(result)
+			{
+				console.log(result);
+				if (result.success==true) {
+					alert("변경되었습니다.");
+					fn_bbsContentView();
+				}
+				
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+		
+	}
+
+	function doDownload(fileNo) {
+		var url = rootPath + 'bbs/getBbsFile.do';
+		url += '?bbsId=' + bbsId;
+		url += '&bbsNo=' + bbsNo;
+		url += '&fileNo=' + fileNo;
+		
+		downloadDataUrlFromJavascript(url);
+	}
+	
+	function doWriteComment() {
+
+		var url = rootPath + 'bbs/insBbsComment.do';
+		
+		var commentContents = $("#commentContents").val();
+		
+		if(commentContents.length==0) {
+			alert("글을 등록해주시기 바랍니다.");
+			return;
+		}
+
+		$.blockUI();
+
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				bbsId:bbsId,
+				bbsNo:bbsNo,
+				commentContents:commentContents
+			},
+			success:function(result)
+			{
+				console.log(result);
+				if (result.success==true) {
+					alert("등록되었습니다.");
+					fn_bbsContentView();
+				}
+				
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+	
+	function doRemoveComment(commNo) {
+
+		var url = rootPath + 'bbs/delBbsComment.do';
+		
+		if(!confirm("글을 삭제하시겠습니까?")) {
+			return;
+		}
+
+		$.blockUI();
+
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				bbsId:bbsId,
+				bbsNo:bbsNo,
+				commNo:commNo
+			},
+			success:function(result)
+			{
+				console.log(result);
+				if (result.success==true) {
+					alert("삭제되었습니다.");					
+					fn_bbsContentView();
+				}
+				
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+		
+	}
+	
+</script>
+</head>
+<body>
+
+<div id="boardque_wrap" class="">
+	<div class="container">
+		<div class="location"><span class="loc_main NanumGothic">노무 SOS > </span><span class="loc_sub NanumGothic">글 보기</span></div>
+		<div class="pagtit"><span class="NanumGothic">글 보기</span></div>
+	</div>
+	<div class="board_con_admin">
+		<div class="tab_con">
+		<table class="tab_data NanumGothic">
+			<tr>
+				<td class="tit">회사명</td>
+				<td class="text company" colspan="3" id="companybizName"></td>
+				<td class="tit">등록일시</td>
+				<td class="text type" id="insDate"></td>
+			</tr>
+			<tr>
+				<td class="tit title">작성자</td>
+				<td class="text" colspan="3" id="empName"></td>
+				<td class="tit ">처리여부</td>
+				<td class="text writer" id="statusName"></td>
+			</tr>
+			<tr>
+				<td class="tit">제목</td>
+				<td class="text" colspan="5" id="subject"></td>
+			</tr>
+			<tr>
+				<td class="tit">내용</td>
+				<td class="con text" colspan="5" id="contents"></td>
+			</tr>
+			<tr>
+				<td class="tit">첨부파일</td>
+				<td colspan="5" class="attach" id="fileList">
+		        </td>
+			</tr>
+		</table>
+		</div>
+		<div class="tab_btnGroup NanumGothic">
+			<a class="btn_type" onclick="doRemove()" id="delete_confirm" style="display:none">삭제</a>
+      		<a class="btn_type" onclick="goList()">목록</a>
+      		<a class="btn_type" onclick="doConfirm()" id="check_confirm"><span class="icon Material_icons">check_circle</span>처리</a>
+		</div>
+		<ul class="comment_list">
+			<li class="write hidden" id="write">
+			<div class="area head_group">
+				<div class="company" id="commentBizName"></div>
+				<div class="userName" id="commentEmpName"></div>
+			</div>
+			<div class="area text_group">
+				<textarea rows="" cols="" id="commentContents" style="resize:none;"></textarea>
+			</div>
+			<div class="area right_btngroup"><a class="btn_type btn_write NanumGothic" onclick="doWriteComment()">등록</a></div>
+			</li>
+		    <li id="commentList">
+		    </li>
+		</ul>
+	</div>
+</div>
+
+
+</body>
+</html>

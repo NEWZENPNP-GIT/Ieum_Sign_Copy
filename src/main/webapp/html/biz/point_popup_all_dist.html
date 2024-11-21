@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>포인트 분배</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/company_manage.css">
+
+<script type='text/javascript' src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+
+<script>
+	$(document).ready(function(){
+		$('input[type=text]').on('keydown', function(e) {
+		    if (e.which == 13) {
+		        e.preventDefault();
+		        fn_getPointLogList();
+		    }
+		});
+
+		var bizId = getURLParameters("bizId");
+		
+		$("#bizId").val(bizId);
+		
+		fn_getPointLogList();
+		fn_bizView();
+		
+		$("input[name='adjustGb']").change(function(){
+			var chkPoint = false;
+			if($(this).val() == "give"){
+				var totalAdjust = 0;
+	        	$(".chkBiz").each(function(){
+					if($(this).is(':checked')){
+						var remain = Number($("#remain"+$(this).attr("id").replace("bizId","")).text());
+						totalAdjust += Number($("#adjustPoint").val());
+						if(totalAdjust <= Number(removeCommas($("#point").text()))){
+							$("#last"+$(this).attr("id").replace("bizId","")).text(remain + Number($("#adjustPoint").val()));
+						}else{
+							$(this).prop("checked", false);
+							$("#last"+$(this).attr("id").replace("bizId","")).text(remain);
+							chkPoint = true;
+						}
+					}
+				});
+	        }else if($(this).val() == "take"){
+	        	$(".chkBiz").each(function(){
+					if($(this).is(':checked')){
+						var remain = Number($("#remain"+$(this).attr("id").replace("bizId","")).text());
+						if(remain - Number($("#adjustPoint").val()) >= 0){
+							$("#last"+$(this).attr("id").replace("bizId","")).text(remain - Number($("#adjustPoint").val()));
+						}else{
+							$(this).prop("checked", false);
+							$("#last"+$(this).attr("id").replace("bizId","")).text(remain);
+							chkPoint = true;
+						}
+					}
+				});
+	        }
+			if(chkPoint){
+				if($(this).val() == "give"){
+					alert("제공 가능한 포인트를 초과하여 입력하였습니다.\n주사업장의 잔여 포인트를 확인하시기 바랍니다.");
+				}else if($(this).val() == "take"){
+					alert("회수 가능한 포인트를 초과하여 입력하였습니다.\n종사업장의 잔여 포인트를 확인하시기 바랍니다.");
+				}
+			}
+		});
+		
+		$("#adjustPoint").keyup(function(){
+			var adjustGb = $("input[name='adjustGb']:checked").val();
+			var totalAdjust = 0;
+			var chkPoint = false;
+			if(isNotNull(adjustGb)){
+		        if(adjustGb == "give"){
+		        	$(".chkBiz").each(function(){
+						if($(this).is(':checked')){
+							var remain = Number($("#remain"+$(this).attr("id").replace("bizId","")).text());
+							totalAdjust += Number($("#adjustPoint").val());
+							if(totalAdjust <= Number(removeCommas($("#point").text()))){
+								$("#last"+$(this).attr("id").replace("bizId","")).text(remain + Number($("#adjustPoint").val()));
+							}else{
+								$(this).prop("checked", false);
+								$("#last"+$(this).attr("id").replace("bizId","")).text(remain);
+								chkPoint = true;
+							}
+						}
+					});
+		        }else if(adjustGb == "take"){
+		        	$(".chkBiz").each(function(){
+						if($(this).is(':checked')){
+							var remain = Number($("#remain"+$(this).attr("id").replace("bizId","")).text());
+							if(remain - Number($("#adjustPoint").val()) >= 0){
+								$("#last"+$(this).attr("id").replace("bizId","")).text(remain - Number($("#adjustPoint").val()));
+							}else{
+								$(this).prop("checked", false);
+								$("#last"+$(this).attr("id").replace("bizId","")).text(remain);
+								chkPoint = true;
+							}
+						}
+					});
+		        }
+		        
+		        if(chkPoint){
+					if(adjustGb == "give"){
+						alert("제공 가능한 포인트를 초과하여 입력하였습니다.\n주사업장의 잔여 포인트를 확인하시기 바랍니다.");
+					}else if(adjustGb == "take"){
+						alert("회수 가능한 포인트를 초과하여 입력하였습니다.\n종사업장의 잔여 포인트를 확인하시기 바랍니다.");
+					}
+				}
+		    }else{
+		    	alert("왼쪽의 조정 구분을 선택하시기 바랍니다.");
+		    	$("#adjustPoint").val("");
+	            $("#adjustPoint").focus();
+		    }
+		});
+		
+		
+		$(document).on('click', '.chkBiz', function () {
+		    var adjustGb = $("input[name='adjustGb']:checked").val();
+			var remain = Number($("#remain"+$(this).attr("id").replace("bizId","")).text());
+			var totalAdjust = 0;
+			var chkPoint = false;
+			$(".chkBiz").each(function(){
+				if($(this).is(':checked')){
+					totalAdjust += Number($("#adjustPoint").val());
+				}
+			});
+			if(isNotNull(adjustGb) && $("#adjustPoint").val() != ""){
+				if(adjustGb == "give"){
+					if($(this).is(':checked')){
+						if(totalAdjust <= Number(removeCommas($("#point").text()))){
+							$("#last"+$(this).attr("id").replace("bizId","")).text(remain + Number($("#adjustPoint").val()));
+						}else{
+							$(this).prop("checked", false);
+							$("#last"+$(this).attr("id").replace("bizId","")).text(remain);
+							chkPoint = true;
+						}
+					}else{
+						$("#last"+$(this).attr("id").replace("bizId","")).text(remain);
+					}
+		        }else if(adjustGb == "take"){
+		        	if($(this).is(':checked')){
+		        		if(remain - Number($("#adjustPoint").val()) >= 0){
+			        		$("#last"+$(this).attr("id").replace("bizId","")).text(remain - Number($("#adjustPoint").val()));
+		        		}else{
+		        			$(this).prop("checked", false);
+		        			$("#last"+$(this).attr("id").replace("bizId","")).text(remain);
+		        			chkPoint = true;
+		        		}
+		        	}else{
+		        		$("#last"+$(this).attr("id").replace("bizId","")).text(remain);
+		        	}
+		        }
+				
+				if(chkPoint){
+					if(adjustGb == "give"){
+						alert("제공 가능한 포인트를 초과하여 입력하였습니다.\n주사업장의 잔여 포인트를 확인하시기 바랍니다.");
+					}else if(adjustGb == "take"){
+						alert("회수 가능한 포인트를 초과하여 입력하였습니다.\n종사업장의 잔여 포인트를 확인하시기 바랍니다.");
+					}
+				}
+			}
+		});
+		
+		$("#allChk").click(function(){
+			if($(this).is(':checked')){
+				var totalAdjust = 0;
+				$(".chkBiz").each(function(){
+					if($(this).is(':checked')){
+						totalAdjust += Number($("#adjustPoint").val());
+					}
+				});
+				var adjustGb = $("input[name='adjustGb']:checked").val();
+				var chkPoint = false;
+				$(".chkBiz").each(function(){
+					if(!$(this).is(':checked')){
+						var remain = Number($("#remain"+$(this).attr("id").replace("bizId","")).text());
+						totalAdjust += Number($("#adjustPoint").val());
+						if(isNotNull(adjustGb) && $("#adjustPoint").val() != ""){
+							if(adjustGb == "give"){
+								if(totalAdjust <= Number(removeCommas($("#point").text()))){
+									$("#last"+$(this).attr("id").replace("bizId","")).text(remain + Number($("#adjustPoint").val()));
+									$(this).prop("checked", true);
+								}else{
+									$("#last"+$(this).attr("id").replace("bizId","")).text(remain);
+									chkPoint = true;
+								}
+					        }else if(adjustGb == "take"){
+					        	if(remain - Number($("#adjustPoint").val()) >= 0){
+					        		$("#last"+$(this).attr("id").replace("bizId","")).text(remain - Number($("#adjustPoint").val()));
+					        		$(this).prop("checked", true);
+				        		}else{
+				        			$("#last"+$(this).attr("id").replace("bizId","")).text(remain);
+				        			chkPoint = true;
+				        		}
+					        }
+						}
+					}
+				});
+				if(chkPoint){
+					if(adjustGb == "give"){
+						alert("제공 가능한 포인트를 초과하여 입력하였습니다.\n주사업장의 잔여 포인트를 확인하시기 바랍니다.");
+					}else if(adjustGb == "take"){
+						alert("회수 가능한 포인트를 초과하여 입력하였습니다.\n종사업장의 잔여 포인트를 확인하시기 바랍니다.");
+					}
+				} 
+			}else{
+				$(".chkBiz").each(function(){
+					var remain = Number($("#remain"+$(this).attr("id").replace("bizId","")).text());
+					$("#last"+$(this).attr("id").replace("bizId","")).text(remain);
+					$(this).prop("checked", false);
+				});
+			}
+		});
+	});
+	
+	function fn_getPointLogList() {
+		var bizId = $("#bizId").val();
+		var url = rootPath+"biz/getBizGrpCombo.do";
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+			},
+			success:function(result)
+			{
+				var htmlData = "";
+				
+				if (result.success==true) {
+					$.each(result.data, function(i, row) {
+                    	if(row.id != $("#bizId").val()){
+							htmlData += '<tr>';
+							htmlData += '     <td><input type="checkbox" id="bizId'+i+'" class="chkBiz" value="'+row.id+'"></td>';
+							htmlData += '     <td>'+row.name+'</td>';
+							htmlData += '     <td><span id="remain'+i+'">'+row.curPoint+'</span></td>';
+							htmlData += '	  <td><span id="last'+i+'" class="lastInput">'+row.curPoint+'</span></td>';
+							htmlData += '</tr>';
+                    	}
+					});
+					
+				}
+				$("#subBizList").html(htmlData);
+				
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});		
+	}
+	
+	//기업정보 가지고 오기
+    function fn_bizView() {
+        var url = rootPath + "biz/getBizList.do";
+        var bizId = $("#bizId").val();
+
+		$.blockUI();
+
+        $.ajax({
+            url: url,
+            crossDomain: true,
+            dataType: "json",
+            type: "GET",
+            data: {
+                bizId: bizId,
+                startPage: 0,
+                endPage: 1
+            },
+            success: function (result) {
+                if (result.success == true) {
+
+                    // 기업내역
+                    $.each(result.data, function (i, row) {
+                    	$("#companyName").text(row.bizName);
+                        $("#point").text(addCommas(row.curPoint));
+                        $("#curPoint").val(row.curPoint);
+					});
+                }
+
+                $.unblockUI();
+            },
+            error: function (request, status, error) {
+                $.unblockUI();
+                if (request.status == "401") {
+                    alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+                    location.href = rootPath;
+                } else {
+                	alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error);
+                    //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                }
+            }
+        });
+
+    }
+	
+	function fn_save(){
+		
+		var url = rootPath + "updPointAdjust.do";
+		
+		var bizArr = new Array();
+		var adjustPoint = Number($("#adjustPoint").val());
+		var adjustGb = $("input[name='adjustGb']:checked").val();
+		var totalAdjust = 0;
+		
+		if(adjustPoint == 0){
+			alert("조정포인트를 입력하세요");
+			$("#adjustPoint").focus();
+			return;
+		}
+		
+		$(".chkBiz").each(function(){
+			if($(this).is(':checked')){
+				var bizList = new Object();
+				bizList["bizId"] = $(this).val();
+				if(adjustGb == "give"){
+					bizList["chargePoint"] = adjustPoint;
+					bizList["deduPoint"] = 0;
+					bizList["comment"] = "주사업장 포인트를 종사업장으로 분배";
+				}else{
+					bizList["chargePoint"] = 0;
+					bizList["deduPoint"] = adjustPoint;
+					bizList["comment"] = "종사업장 포인트를 주사업장으로 회수";
+				}
+				totalAdjust += adjustPoint;
+				bizArr.push(bizList);
+			}
+		});
+		
+		if(bizArr.length == 0){
+			alert("조정 할 종사업장을 선택하세요.");
+			return;
+		}
+		
+		var bizList = new Object();
+		bizList["bizId"] = $("#bizId").val();
+		if(adjustGb == "give"){
+			bizList["chargePoint"] = 0;
+			bizList["deduPoint"] = totalAdjust;
+			bizList["comment"] = "주사업장 포인트를 종사업장으로 분배";
+		}else{
+			bizList["chargePoint"] = totalAdjust;
+			bizList["deduPoint"] = 0;
+			bizList["comment"] = "종사업장 포인트를 주사업장으로 회수";
+		}
+		bizArr.push(bizList);
+		
+		var data = JSON.stringify(bizArr);
+		
+        $.ajax({
+            url: url,
+            crossDomain: true,
+            dataType: "json",
+            type: "POST",
+            data:JSON.stringify(bizArr),
+            contentType : "application/json; charset=UTF-8",
+            success: function (result) {
+                if (result.success == true) {
+                	alert("포인트가 조정되었습니다.");
+                	window.close();
+                	opener.fn_bizView($("#bizId").val());
+                } else {
+                	alert("문제가 발생하였습니다.\r\n다시 입력해주시기 바랍니다.");
+                }
+            },
+            error: function (request, status, error) {
+            	alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+                //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+        });
+	}
+	
+</script>
+<style>
+._popup{
+	width : 600px;
+}
+</style>
+</head>
+<body>
+<input type="hidden" id="bizId" value="">
+<input type="hidden" id="curPoint" value="">
+	<div id="company_popup" class="_popup">
+		<div class="container" style="width : calc(100% - 5px)">
+			<div id="popup_tit">
+				<div class="tit_text col_skyblue NanumGothic">일괄 분배</div>
+				<div id="popup_close" class="btn_type col_skyblue" onclick="window.close();"></div>
+			</div>
+			<div class="contents">
+				<span>주사업장 [<span id="companyName" style="color: #0d94d6;"></span>] 잔여 포인트 <span id="point" style="color: #0d94d6;"></span> P</span>
+				<div class="grid_field">
+					<div class="group_table">
+						<table class="NanumGothic">
+							<colgroup>
+								<col width="20%">
+								<col width="40%">
+								<col width="20%">
+								<col width="20%">
+							</colgroup>
+							<thead>
+								<tr>
+									<th><input type="checkbox" id="allChk"></th>
+									<th>종사업장명</th>
+									<th>잔여 포인트</th>
+									<th>최종 포인트</th>
+								</tr>
+							</thead>
+							<tbody id="subBizList">
+							</tbody>
+						</table>
+					</div>
+				
+					<div class="result_text NanumGothic">
+						<span>조정 구분 : <input type="radio" name="adjustGb" value="give">제공&nbsp;&nbsp;&nbsp;<input type="radio" name="adjustGb" value="take">회수</span>
+						<span style="margin-left: 120px;">조정 포인트 : <input type="text" id="adjustPoint" oninput="this.value = this.value.replace(/[^0-9.]/g, '');"></span>
+					</div>
+					<div class="btns sort-right" style="float: right; margin-top: 30px;">
+						<div><div class="type3 btn_type Material_icons" onClick="fn_save()">저장</div></div>
+						<div><div class="type4 btn_type Material_icons" onClick="window.close()">취소</div></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

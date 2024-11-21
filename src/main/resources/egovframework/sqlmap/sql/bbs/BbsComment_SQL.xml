@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BbsComment">
+	
+	<typeAlias alias="bbsCommentVO" type="com.ezsign.bbs.vo.BbsCommentVO"/>
+	<resultMap id="bbsCommentListMap" class="bbsCommentVO">
+		<result property="bbsId" column="BBS_ID"/>
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="bizName" column="BIZ_NAME"/>
+		<result property="bbsNo" column="BBS_NO"/>
+		<result property="commNo" column="COMM_NO"/>
+		<result property="commentContents" column="COMMENT_CONTENTS"/>
+		<result property="scoreNum" column="SCORE_NUM"/>
+		<result property="regPasswd" column="REG_PASSWD"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="userType" column="USER_TYPE"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="updDate" column="UPD_DATE"/>
+	</resultMap>
+	
+	<select id="bbsDAO.getBbsCommentList" parameterClass="bbsCommentVO" resultMap="bbsCommentListMap">
+		SELECT A.BBS_ID, A.BIZ_ID, C.BIZ_NAME, A.BBS_NO, A.COMM_NO, A.COMMENT_CONTENTS, A.SCORE_NUM, A.REG_PASSWD, 
+				A.USER_ID, D.EMP_NAME, E.USER_TYPE, A.INS_DATE, A.UPD_DATE 
+		FROM tbl_bbs_info M, tbl_bbs_comment A, tbl_bbs_contents B, tbl_biz C, tbl_emp D, tbl_user E 
+		WHERE M.BBS_ID = A.BBS_ID 
+		AND 	A.BBS_ID   	 = B.BBS_ID 
+		AND 	A.BBS_NO	 = B.BBS_NO 
+		AND 	C.BIZ_ID	 = D.BIZ_ID
+		AND 	A.USER_ID	 = D.USER_ID
+		AND		D.LOGIN_ID 	 = E.USER_ID
+		AND		M.USE_YN	 = 'Y'
+		AND		A.BBS_ID	 = #bbsId#
+		<isNotNull property="bizId">
+		    <isNotEmpty property="bizId">
+			AND     A.BIZ_ID	= #bizId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="bbsNo">
+		    <isNotEmpty property="bbsNo">
+			AND     A.BBS_NO = #bbsNo#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="commNo">
+		    <isNotEmpty property="commNo">
+			AND     A.COMM_NO = #commNo#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="userId">
+		    <isNotEmpty property="userId">
+			AND     A.USER_ID = #userId#
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY A.INS_DATE DESC
+		<isNotNull property="startPage">
+		    <isNotEmpty property="startPage">
+		limit #endPage# offset #startPage#
+			</isNotEmpty>
+		</isNotNull>
+		
+	</select>
+	
+	<select id="bbsDAO.getBbsCommentListCount" parameterClass="bbsCommentVO" resultClass="java.lang.Integer">
+		SELECT	COUNT(A.BBS_ID)
+		FROM tbl_bbs_info M, tbl_bbs_comment A, tbl_bbs_contents B, tbl_biz C, tbl_emp D, tbl_user E 
+		WHERE M.BBS_ID = A.BBS_ID 
+		AND 	A.BBS_ID   	 = B.BBS_ID 
+		AND 	A.BBS_NO	 = B.BBS_NO 
+		AND 	C.BIZ_ID	 = D.BIZ_ID
+		AND 	A.USER_ID	 = D.USER_ID
+		AND		D.LOGIN_ID 	 = E.USER_ID
+		AND		M.USE_YN	 = 'Y'
+		AND		A.BBS_ID	 = #bbsId#
+		<isNotNull property="bizId">
+		    <isNotEmpty property="bizId">
+			AND     A.BIZ_ID	= #bizId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="bbsNo">
+		    <isNotEmpty property="bbsNo">
+			AND     A.BBS_NO = #bbsNo#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="commNo">
+		    <isNotEmpty property="commNo">
+			AND     A.COMM_NO = #commNo#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="userId">
+		    <isNotEmpty property="userId">
+			AND     A.USER_ID = #userId#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<insert id="bbsDAO.insBbsComment" parameterClass="bbsCommentVO">
+		<selectKey resultClass="java.lang.String" keyProperty="commNo">
+			SELECT  getTableKey('TBL_BBS_COMMENT')
+		</selectKey>
+		INSERT INTO tbl_bbs_comment (
+			BBS_ID, BIZ_ID, BBS_NO, COMM_NO, COMMENT_CONTENTS, SCORE_NUM, REG_PASSWD, USER_ID, INS_DATE, UPD_DATE
+		) VALUES (
+		   #bbsId#, #bizId#, #bbsNo#, #commNo#, #commentContents#, #scoreNum#, #regPasswd#, #userId#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<update id="bbsDAO.updBbsComment" parameterClass="bbsCommentVO">
+		UPDATE tbl_bbs_comment
+		SET	
+		<isNotNull property="commentContents">
+		    <isNotEmpty property="commentContents">
+			COMMENT_CONTENTS		= #commentContents#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="scoreNum">
+		    <isNotEmpty property="scoreNum">
+			SCORE_NUM		= #scoreNum#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="regPasswd">
+		    <isNotEmpty property="regPasswd">
+			REG_PASSWD		= #regPasswd#,
+			</isNotEmpty>
+		</isNotNull>
+			UPD_DATE		= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	BBS_ID	 = #bbsId#
+		AND		BBS_NO	 = #bbsNo#
+		AND		COMM_NO	 = #commNo#
+	</update>
+	
+	<delete id="bbsDAO.delBbsComment" parameterClass="bbsCommentVO">
+		DELETE FROM tbl_bbs_comment
+		WHERE	BBS_ID	 = #bbsId#
+		AND		BBS_NO	 = #bbsNo#
+		<isNotNull property="commNo">
+		    <isNotEmpty property="commNo">
+			AND		COMM_NO	 = #commNo#
+			</isNotEmpty>
+		</isNotNull>
+	</delete>
+	
+	
+</sqlMap>
+		

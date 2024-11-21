@@ -1,0 +1,80 @@
+/* font */
+@charset "utf-8";
+
+/** font set **/
+.NanumSquare_R{font-family: 'NanumSquareRegular',sans-serif; font-smoothing:antialiased; -webkit-font-smoothing:antialiased; -ms-font-smoothing:antialiased;}
+.NanumSquare_B{font-family: 'NanumSquareBold',sans-serif; font-smoothing:antialiased; -webkit-font-smoothing:antialiased;}
+.NanumGothic{font-family: 'NanumGothic',sans-serif; font-smoothing:antialiased; -webkit-font-smoothing:antialiased;}
+.NanumBarunGothic{font-family: 'NanumBarunGothic',sans-serif; font-smoothing:antialiased; -webkit-font-smoothing:antialiased; font-weight: bold;}
+.HelveticaNeue_th{font-family: 'HelveticaNeue_th',sans-serif; font-smoothing:antialiased; -webkit-font-smoothing:antialiased;} 
+.Material_icons{font-family: 'MaterialIcons'; font-smoothing:antialiased; -webkit-font-smoothing:antialiased; -ms-font-smoothing:antialiased; text-rendering: optimizeLegibility;}
+/** 
+* --> 모바일 대응위해 하나의 폰트로 통일
+  --> NanumSquareB ==>  NanumSquareR로 대체
+  --> NanumBarunGothic ==>  NanumSquareRoundL 로 대체 ::: (NanumSquareR는 password ㆍ 표현하지 못함)
+  --> NanumGothic=> NanumSquareR 대체
+**/
+
+@font-face {
+    font-family: NanumSquareRegular;
+    src: local("☺"),
+    url('fonts/NanumSquareR.eot') format('embedded-opentype'),
+    url('fonts/NanumSquareR.woff') format('woff'),
+    url('fonts/NanumSquareR.ttf') format('truetype');
+}
+@font-face {
+    font-family: NanumSquareBold;
+    src: local("☺"),
+    /* url('fonts/NanumSquareB.eot') format('embedded-opentype'),
+    url('fonts/NanumSquareB.woff') format('woff'),
+    url('fonts/NanumSquareB.ttf') format('truetype'); */
+
+    url('fonts/NanumSquareR.eot') format('embedded-opentype'),
+    url('fonts/NanumSquareR.woff') format('woff'),
+    url('fonts/NanumSquareR.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: NanumBarunGothic;
+    src: local("☺"),
+/*     url('fonts/NanumBarunGothic.eot') format('embedded-opentype'),
+    url('fonts/NanumBarunGothic.otf') format('opentype'),
+    url('fonts/NanumBarunGothic.woff') format('woff'),
+    url('fonts/NanumBarunGothic.ttf') format('truetype');   */
+    url('fonts/NanumSquareRoundL.eot') format('embedded-opentype'),
+    url('fonts/NanumSquareRoundL.otf') format('opentype'),
+    url('fonts/NanumSquareRoundL.woff') format('woff'),
+    url('fonts/NanumSquareRoundL.ttf') format('truetype');
+
+}
+
+@font-face {
+    font-family: NanumGothic;
+    src: local("☺"),
+    /* url('fonts/NanumGothic.eot') format('embedded-opentype'),
+    url('fonts/NanumGothic.otf') format('opentype'),
+    url('fonts/NanumGothic.woff') format('woff'),
+    url('fonts/NanumGothic.ttf') format('truetype');  */
+    url('fonts/NanumSquareR.eot') format('embedded-opentype'),
+    url('fonts/NanumSquareR.woff') format('woff'),
+    url('fonts/NanumSquareR.ttf') format('truetype'); 
+
+}
+@font-face {
+    font-family: HelveticaNeue_th;
+    src: local("☺"),
+    url('fonts/helvetica-neue-light.eot') format('embedded-opentype'),
+    url('fonts/helvetica-neue-light.woff') format('woff'),
+    url('fonts/helvetica-neue-light.ttf') format('truetype'); 
+    
+}
+
+@font-face {
+    font-family: MaterialIcons;
+    src: local("☺"),
+    url('fonts/MaterialIcons-Regular.eot') format('embedded-opentype'),
+    url('fonts/MaterialIcons-Regular.woff') format('woff'),
+    url('fonts/MaterialIcons-Regular.ttf') format('truetype'); 
+    
+}
+

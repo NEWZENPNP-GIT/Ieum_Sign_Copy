@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font.css">
+<link rel="stylesheet" type="text/css" href="/css/electronic_layout.css">
+</head>
+<style>
+#main_contents{width:100%;}
+.mail_div .info_complete dd{padding-left:95px;}
+</style>
+<script>
+$(document).ready(function(){
+	var docuName = getCookie("docuName");
+	var resRList = getCookie("resRList");
+	var resList = JSON.parse(resRList);
+
+	setCookie("#docuName", "");
+	setCookie("resRList", "");
+	
+	$("#docuName").text(docuName);
+
+	var htmlData = "";
+	$.each(resList, function(i, row) {
+		if(row.recvType == "R")
+			htmlData += "<dd> "+row.userName+" &lt;"+row.email+"/"+row.phoneNumber+"&gt;</dd>"
+	});
+	$("#resRList").html(htmlData);
+});
+
+function fn_goList(){
+	fn_loadHtml("/html/document/document_send_list.html");
+}
+</script>
+<body>
+
+	<div class="mail_div">
+		<div class="tit_complete">계약서 임시저장이 완료되었습니다.</div>
+
+		<dl class="info_complete">
+			<dt>제목 :</dt>
+			<dd id="docuName"></dd>
+			<dt>수신자 :</dt>
+			<div id="resRList"></div>
+		</dl>
+
+
+		<div id="" class="btnareadiv">
+			<a onclick="fn_goList()">목록으로</a> 
+		</div>
+
+
+	</div>
+
+</body>
+</html>

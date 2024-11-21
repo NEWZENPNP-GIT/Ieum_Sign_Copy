@@ -1,0 +1,518 @@
+
+<!--****************************************************************************************************************
+	* 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+	* 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+	********************************************************************************************************************
+	--------------------------------------------------------------------------------------------------------------------
+	* 회사       : 뉴젠피앤피
+	* 화면명     : 전자계약 수신함 페이지
+	* 화면설명   : 전자문서 > 전자계약(직접입력) > 전자계약 수신함
+	* 작성자     :
+	* 생성일     :
+	--------------------------------------------------------------------------------------------------------------------
+	* 수정자     : 이정훈
+	* 수정일     : 2023.11.20
+	* 수정내용   :
+	------------------------------------------------------------------------------------------------------------------->
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/personnel_management.css">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+	<style type="text/css">
+		tbody tr .fa-trash-alt:hover {
+		  color:#333333 !important;
+		}
+
+		tr:hover .active{
+			background-color:#ebfaff;
+			cursor:pointer;
+		}
+	</style>
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<!-- bootPag -->
+	<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/ui.biz.core.js"></script>
+
+	<script type="text/javascript">
+
+
+		//***************					윈도우 로딩					***************//
+
+
+		$(document).ready(function(){
+
+			$('#page-selection').bootpag({
+					total: 0          // total pages
+				}).on("page", function(event, num){
+					console.log(num);
+					fn_searchList(num);
+			});
+
+			$('#searchValue').keypress(function(event) {
+				var keycode = (event.keyCode ? event.keyCode : event.which);
+				if (keycode == '13') {
+					fn_searchList(1);
+				}
+				event.stopPropagation();
+			});
+
+			$(".list").find("th").click(function(e){
+				$(".list").find("th").removeClass("active");
+				var name = $(e.currentTarget).attr("sort-name");
+				var order = $(e.currentTarget).attr("sort-order");
+				if(!isNull(name)) {
+					$(e.currentTarget).addClass("active");
+					$("#sortName").val(name);
+					$("#sortOrder").val(order);
+					fn_searchList(1);
+
+					if(order=="ASC") {
+						order = "DESC";
+					} else {
+						order = "ASC";
+					}
+					$(e.currentTarget).attr("sort-order", order);
+				}
+				$("#sortName").val("A.CLIENT_NAME");
+				$("#sortOrder").val("DESC");
+			});
+			getBizGrpCombo();
+			fn_searchList(1);
+
+			if(getCookie("systemType") == "2"){
+				$("#serviceCenter").removeClass("hidden")
+			}
+
+			if(getCookie("useContractMenu") == "Y"){
+				$(".pointSetting").hide();
+			}
+
+			$("#searchCompanyPoint").text(addCommas($("#searchPoint option:selected").text()));
+			$("#searchCompany").change(function(){
+				$("#searchPoint").val($(this).val())
+				$("#searchCompanyPoint").text(addCommas($("#searchPoint option:selected").text()));
+			});
+		});
+
+
+		//***************					체크박스 전체 선택					***************//
+
+
+		function fn_checkAll() {
+			if ($("#checkall").prop("checked"))	{ $("input[name=chk]").prop("checked",true); }
+			else 								{ $("input[name=chk]").prop("checked",false); }
+		}
+
+		function fn_searchList(page) {
+			var url = rootPath+"document/getDocumentMasterList.do";
+
+			var viewPage = $("#viewPage").val();
+			if(viewPage==""||viewPage=="0") viewPage = 10;
+
+			if (page==0)	curPage=0;
+			else			curPage = page-1;
+
+			if (curPage<0) {
+				curPage=0;
+				return;
+			}
+
+			if (curPage*viewPage>totPage) {
+				curPage-=1;
+				return;
+			}
+
+			var bizId= getCookie("bizId");
+			var searchCompany = $("#searchCompany").val();
+			var userId= getCookie("loginId");
+			var searchKey = $("#searchKey").val();
+			var searchValue = $("#searchValue").val();
+			var startPage = (curPage*viewPage);
+			var endPage = viewPage;
+			var sortName = $("#sortName").val();
+			var sortOrder = $("#sortOrder").val();
+
+			$.blockUI();
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				data: {
+					OPEN_KEY:getCookie("OPEN_KEY"),
+					bizId:bizId,
+					searchCompany:searchCompany,
+					userId:userId,
+					recvType:'W',
+					docuStatus:'X',
+					searchKey:searchKey,
+					searchValue:searchValue,
+					startPage:startPage,
+					endPage:endPage,
+					sortName:sortName,
+					sortOrder:sortOrder
+				},
+				success:function(result) {
+
+					var htmlData = "";
+					$("#dataList").html(htmlData);
+
+					if (result.success==true && result.total > 0) {
+						totPage = result.total;
+						var totalPage = Math.ceil(totPage/viewPage);
+
+						// 인사내역
+						$.each(result.data, function(i, row) {
+							console.log(result.data);
+							var num = (curPage * viewPage) + i + 1;
+							htmlData += '<tr data-id="'+row.docuId+'"> ';
+							htmlData += ' <td><input type="checkbox" id="chk" name="chk" value="'+row.docuId+'"></td> ';
+							if(row.bookmark=="Y") {
+								htmlData += ' <td>';
+								htmlData += ' <i id="bookmark-'+row.docuId+'" data-value="Y" class="fa fa-bookmark" style="font-size:16px; color:#FFC107" onclick=\'fn_bookmark("'+row.docuId+'","'+getCookie("loginId")+'")\'></i>';
+								htmlData += ' </td>';
+							} else {
+								htmlData += ' <td>';
+								htmlData += ' <i id="bookmark-'+row.docuId+'" data-value="N" class="fa fa-bookmark" style="font-size:16px; color:#EEE" onclick=\'fn_bookmark("'+row.docuId+'","'+getCookie("loginId")+'")\'></i>';
+								htmlData += ' </td>';
+							}
+							var rUserName = row.RUserName;
+							var tUserName = row.TUserName;
+							htmlData += ' <td>'+rUserName+'</td> ';
+
+							//발송이 완료되었을 경우
+							htmlData += ' <td class="active sort_left" onclick="fn_view(\''+row.docuId+'\', \''+row.tempSaveType+'\')"><u>'+row.docuName+'</u></td> ';
+							htmlData += ' <td>'+tUserName+'</td> ';
+							htmlData += ' <td>'+convertDateTime(row.insDate).format("yyyy-MM-dd HH:mm")+'</td> ';
+							htmlData += ' <td>'+row.docuStatusName+'</td> ';
+							htmlData += ' <td class="iconForm" style="cursor:pointer;" onclick="fn_documentView(\''+row.orgFileId+'\')"><a class="btn_type icon_pdf"></td> ';
+							if(row.docuStatus === "9"){ //완료단계일 경우 슈퍼관리자가 완료문서를 등록해야 한다.
+								if(getCookie("loginType") === "9")
+									htmlData += '<td><a class="small_btnstyle01" onclick="fn_insConFile(\''+row.docuId+'\');">등록</a></td>';
+								else
+									htmlData += ' <td></td> ';
+							} else if(row.docuStatus === "Z"){
+								htmlData += ' <td class="iconForm" style="cursor:pointer;" onclick="fn_documentView(\''+row.conFileId+'\')"><a class="btn_type icon_pdf"></td> ';
+							} else {
+								htmlData += ' <td></td> ';
+							}
+							htmlData += ' <td><a onclick=\'fn_del("'+row.docuId+'","'+row.tempSaveType+'")\'>';
+							htmlData += ' <i class="fa fa-trash-alt" style="font-size:16px; color:#EEE;"></i>';
+							htmlData += ' </a></td>';
+							htmlData += '</tr> ';
+						});
+
+						if(page==1) {
+
+							$('#page-selection').bootpag({
+								total: totalPage,          // total pages
+								page: page,            // default page
+								maxVisible: 10,     // visible pagination
+								firstLastUse: true,
+								leaps: true,        // next/prev leaps through maxVisible
+								first: '',
+								last: '',
+								wrapClass: 'pagination',
+								activeClass: 'active',
+								disabledClass: 'disabled',
+								nextClass: 'btn_next',
+								prevClass: 'btn_prev',
+								lastClass: 'end_page',
+								firstClass: 'first_page'
+							});
+						}
+					} else {
+						htmlData += '<tr> <td colspan="10">요청하신 자료가 존재하지 않습니다.</td></tr>';
+						$('#page-selection').empty();
+						$('#page-selection').removeData("twbs-pagination");
+						$('#page-selection').unbind("page");
+					}
+
+					$("#dataList").html(htmlData);
+					$.unblockUI();
+				},
+				error:function(request,status,error){
+					$.unblockUI();
+					goInvalidPage(request, error);
+				}
+			});
+		}
+
+		function fn_view(docuId, type){
+			setCookie("redirectUrl", "/html/document/document_recv_list.html");
+			setCookie("docuId", docuId);
+
+			$("#contents_wrap").empty();
+			$(window).off("resize");
+
+			var url = "";
+
+			if(type == "S"){
+				url = "/html/document/document_detail_view.html";
+			} else {
+				url = "/html/document/document_detail_edit.html";
+			}
+
+			$.ajax({
+				url : url,
+				success : function(result) {
+					$("#contents_wrap").html(result);
+				},
+				error: function(request,status, error) {
+					alert("다시 확인해주시기 바랍니다."+error);
+				}
+			});
+		}
+
+
+		//***************					중요문서 체크					***************//
+
+
+		function fn_bookmark(docuId, userId){
+
+			var dbMode = 'D';
+			var url = rootPath + 'document/saveDocumentSetting.do';
+			var value = $("#bookmark-"+docuId).attr("data-value");
+
+			if(value=="N") {
+				dbMode = "U";
+			}
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				data:{
+					OPEN_KEY:getCookie("OPEN_KEY"),
+					dbMode:dbMode,
+					docuId:docuId,
+					userId:userId,
+					recvType:'W',
+					settingType:'B',
+					settingValue:'Y'
+				},
+				success:function(res) {
+					if(value=="Y") {
+						$("#bookmark-"+docuId).attr("data-value", "N");
+						$("#bookmark-"+docuId).css("color","#EEE");
+					} else {
+						$("#bookmark-"+docuId).attr("data-value", "Y");
+						$("#bookmark-"+docuId).css("color","#FFC107");
+					}
+				},
+				error:function(request,status,error){
+					goInvalidPage(request, error);
+				}
+			});
+		}
+		function fn_del(docuId, type){
+
+			if(!confirm("삭제를 하시겠습니까?")) return false;
+			var formData = new FormData();
+			formData.append("OPEN_KEY", getCookie("OPEN_KEY"));
+			formData.append("dbMode", 'D');
+			formData.append('documentMaster.bizId',$("#searchCompany").val());
+			formData.append('documentMaster.docuId', docuId);
+
+			var url = rootPath + 'document/saveDocument.do';
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				async:false,
+				type:"POST",
+				processData: false,
+				contentType: false,
+				data:formData,
+				success:function(res) {
+					fn_searchList(curPage);
+					alert(res.message);
+				},
+				error:function(request,status,error){
+					goInvalidPage(request, error);
+				}
+			});
+		}
+
+
+		//***************					원본 / 최종 전자문서 보기					***************//
+
+
+		function fn_documentView(conFileId) {
+			openWin(rootPath+"module/pdfjs/web/viewer.html?conFileId="+conFileId, "전자계약서 조회", 900, 700);
+
+		}
+
+
+		//***************					완료문서 등록					***************//
+
+
+		function fn_insConFile(docuId){
+			openWin(rootPath+"html/document/document_popup_add_complete.html?docuId="+docuId, "전자계약서 조회", 400, 300);
+		}
+
+
+		//***************					기업 조회					***************//
+
+
+		function getBizGrpCombo() {
+
+			var url = rootPath+"biz/getBizGrpCombo.do";
+			$("#searchCompany").html("");
+			$("#searchPoint").html("");
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				async: false,
+				type:"GET",
+				data: { },
+				success:function(result) {
+					if(result.success){
+						var workStatus = result.data;
+						$.each(workStatus, function(i, data){
+							$("#searchCompany").append($("<option>", {
+								value: data.id,
+								text: data.name
+							}));
+							$("#searchPoint").append($("<option>", {
+								value: data.id,
+								text: data.curPoint
+							}));
+						});
+						$("#searchCompany").append($("<option>", {
+							value: '',
+							text: '전체'
+						}));
+					}
+				},
+				error:function(request,status,error){
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			});
+		}
+
+	</script>
+	</head>
+
+	<body>
+	<div id="personList_wrap" class="">
+		<div class="container">
+			<div class="location">
+				<span class="loc_main NanumGothic">전자문서 > 전자계약(직접입력) > </span><span class="loc_sub NanumGothic">전자계약 수신함</span>
+				<span onclick="openHelpWindow('recvlist')" class="btn btn-default" style="color:#07a6ff;float:right;"><i class="fa fa-question"></i> 도움말</span>
+				<span id="serviceCenter" class="hidden" style="float:right; color:red;padding-top:5px;">고객센터 02-3270-6285&nbsp;&nbsp;</span>
+			</div>
+			<div class="field_area">
+				<div class="selBox NanumGothic">
+					<select id="searchCompany" onchange="fn_searchList(1)"></select>
+					<select id="searchPoint" style="display:none;"></select>
+				</div>
+				<span class="NanumGothic pointSetting" style="font-size: 13px; color: #333333; font-weight: bold; line-height: 30px; height: 30px; float: left; margin-top: 3px; margin-left: 15px;">
+					잔여 포인트 :&nbsp;
+					<span id="searchCompanyPoint" class="NanumGothic" style="font-size: 13px; color: blue; font-weight: bold; line-height: 30px; height: 30px; margin-top: 3px;"></span>
+					&nbsp;P
+				</span>
+			</div>
+			<div class="field_area">
+				<div class="selBox NanumGothic">
+					<select id="searchKey">
+						<option value="empName" class="lt">수신자</option>
+						<option value="docName" class="lt">문서명</option>
+					</select>
+				</div>
+				<div class="inputBox">
+					<fieldset>
+						<input type="text" id="searchValue" class="word_input NanumGothic">
+						<a class="btn_search btn_type Material_icons" onclick="fn_searchList(1)" style="float:right;">search</a>
+					</fieldset>
+				</div>
+				<div class="selBox NanumGothic">
+					<select id="sortName" onchange="fn_searchList(1)">
+						<option value="A.INS_DATE" selected>정렬항목</option>
+						<option value="A.DOCU_NAME">문서명</option>
+						<option value="A.INS_DATE">작성일시</option>
+						<option value="A.DOCU_STATUS">상태</option>
+					</select>
+				</div>
+				<div class="selBox NanumGothic">
+					<select id="sortOrder" onchange="fn_searchList(1)">
+						<option value="DESC" selected>정렬기준</option>
+						<option value="DESC">내림차순</option>
+						<option value="ASC">올림차순</option>
+					</select>
+				</div>
+				<div class="selBox NanumGothic">
+					<select id="viewPage" onchange="fn_searchList(1)">
+						<option value="20" selected>조회건수</option>
+						<option value="20">20건</option>
+						<option value="50">50건</option>
+						<option value="100">100건</option>
+						<option value="250">250건</option>
+					</select>
+				</div>
+			</div>
+			<div class="table_contents">
+				<div class="list">
+					<table class="NanumGothic">
+						<colgroup>
+							<col width="3%">	<!--체크박스-->
+							<col width="5%">	<!--북마크-->
+							<col width="13%">	<!--수신자-->
+							<col width="25%">	<!--문서명-->
+							<col width="13%">	<!--참조자-->
+							<col width="15%">	<!--작성일시-->
+							<col width="8%">	<!--상태-->
+							<col width="6%">	<!--전자문서-->
+							<col width="6%">	<!--완료문서-->
+							<col width="6%">	<!--삭제-->
+						</colgroup>
+						<thead>
+							<tr>
+								<th class="chk_area"><input type="checkbox" id="checkall" onclick="fn_checkAll()"></th>
+								<th></th>
+								<th>수신자</th>
+								<th sort-name="A.DOCU_NAME" sort-order="ASC">문서명</th>
+								<th>참조자</th>
+								<th sort-name="A.INS_DATE" sort-order="ASC">작성일시</th>
+								<th sort-name="A.DOCU_STATUS" sort-order="ASC">상태</th>
+								<th>전자문서</th>
+								<th>완료문서</th>
+								<th>삭제</th>
+							</tr>
+						</thead>
+						<tbody id="dataList">
+							<tr class="databox">
+								<td class=""></td>
+								<td colspan="9">
+									정보가 존재하지 않습니다.
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div id="page-selection" class="pagingnav_wrap"></div>
+
+			</div>
+			<div class="btn_footGroup NanumGothic">
+			</div>
+		</div>
+	</div>
+	</body>
+	</html>

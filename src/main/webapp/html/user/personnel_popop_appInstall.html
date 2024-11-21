@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+
+    <link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+    <link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/personnel_management.css">
+
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+    <title>모바일 캔디 설치 안내문 발송</title>
+
+    <script>
+        var $toggleFormText = {
+            scan: function (o) {
+                o.find(".hint").each(function () {
+                    if (this.value == this.title) {
+                        $(this).addClass('hintText');
+                        this.value = this.title;
+                    }
+                    if (this.value == '') {
+                        $(this).addClass('hintText');
+                        this.value = this.title;
+                    }
+                });
+                o.find(".hint").focus(function () {
+                    if (this.value == this.title) {
+                        $(this).removeClass('hintText');
+                        this.value = '';
+                    }
+                });
+                o.find(".hint").blur(function () {
+                    if (this.value == '') {
+                        $(this).addClass('hintText');
+                        this.value = this.title;
+                    } else { $(this).removeClass('hintText'); }
+                });
+            },
+            toString: function () { return "toggleFormText"; }
+        };
+
+        $(document).ready(function () {
+			//resize
+			window.resizeTo(475, 504);
+
+            $toggleFormText.scan($("body"));
+            multiData = decodeURIComponent(getParams().multiData);
+            var cnt   = getParams().cnt;
+
+            $("#smsCount").val(cnt);
+        });
+
+        // 메시지 전송
+        function fn_sendSms() {
+
+            var url = rootPath + "emp/sendAppInsSms.do";
+
+            $.blockUI();
+
+            $.ajax({
+                url: url,
+                crossDomain: true,
+                dataType: "json",
+                type: "GET",
+                data: { multiData: multiData },
+                success: function (result) {
+                    if (result.success) {
+                        alert(result.total + "건의 메시지를 전송하였습니다.");
+                        window.close();
+                    } else { alert("SMS 전송에 실패하였습니다."); }
+                    $.unblockUI();
+                },
+                error: function (request, status, error) { alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error); }
+            });
+        }
+    </script>
+</head>
+
+<body>
+<!-- *********************************************  계약 관리  *********************************************  -->
+<div id="person_popup" class="edit" style="width: 100%; height: auto;">
+    <div class="container">
+        <div id="popup_tit">
+            <div class="tit_icon document"></div>
+            <div class="tit_text col_skyblue NanumGothic">모바일 캔디 설치 안내문 발송</div>
+            <div id="popup_close" class="btn_type col_skyblue" onclick="window.close();"
+            ">
+        </div>
+    </div>
+    <div class="contents" style="height: auto; margin-bottom: 16px;">
+        <div class="input_wrap">
+            <dl class="boxRow input_bx NanumGothic">
+                <dt><label class="label_txt NanumGothic">전송 건수</label></dt>
+                <dd><input type="text" id="smsCount" value="" name="" class="input_txt"></dd>
+            </dl>
+        </div>
+        <div class="notice NanumGothic">※ 주의사항</div>
+        <div class="foot_box NanumGothic">
+            <dl class="">
+                <dt class="num">1.</dt>
+                <dd>선택한 사원에게 모바일캔디 설치 안내문을 SMS문자로 발송합니다.</dd>
+            </dl>
+            <dl>
+                <dt class="num">2.</dt>
+                <dd>인사정보에 등록되어있는 휴대폰번호로 설치안내문을 보내니 <br>다시 확인해주시기 바랍니다.</dd>
+            </dl>
+            <dl>
+                <dt class="num">3.</dt>
+                <dd>캔디 모바일을 근로자들이 설치하지 않으면 이음싸인 서비스중 일부 서비스에 제한이 있을 수 있습니다.</dd>
+            </dl>
+            <dl>
+                <dt class="num">4.</dt>
+                <dd>문자 수신에 이상이 있는 근로자들에겐 캔디모바일 설치안내주소 (<a href="https://app.ieumsign.co.kr">app.ieumsign.co.kr</a>)을 안내해 설치를
+                    진행할 수 있습니다
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <div class="btn_group">
+        <a class="btn_type type1 NanumGothic" onclick="fn_sendSms();">전송하기</a>
+        <a class="btn_type type3 NanumGothic" onclick="window.close();">취소하기</a>
+    </div>
+</div>
+</body>
+</html>

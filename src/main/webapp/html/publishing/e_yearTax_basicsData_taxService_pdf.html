@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>국세청 PDF업로드</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+</head>
+<body>
+	<div id="yearTax_wrap" class="yearTax hasEmplist">
+		<input id="btn_left" id="btn_left" type="checkbox" class="hidden">
+		<label class="btn_type btn_emplist" for="btn_left"></label>
+		<div id="employ-list-wrap">
+			<div class="fieldBox">
+				<div class="select_box">
+					<select class="NanumSquare_R">
+						<option value="" >사업장</option>
+					</select>
+				</div>
+				<fieldset>
+					<input type="text" class="word_input NanumSquare_R"><a class="btn_search btn_type Material_icons">search</a>
+				</fieldset>
+			</div>
+			<div class="employ-list NanumSquare_R">
+				<ul>
+					<li class="thead"><div class="no">사번</div><div class="name">이름</div><div class="state code-0">확정</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-0">미입력</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-1">진행중</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-2">근로자 확정</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-3">관리자 확정</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-4">최종 확정</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state"></div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state"></div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state"></div></li>
+				</ul>
+			</div>
+		</div>
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연말정산 > 연말정산입력  > </span><span class="loc_sub NanumSquare_R">국세청 PDF업로드</span></div>
+			<div class="pagtit">
+				<span class="NanumSquare_R">국세청 PDF업로드</span>
+			</div>
+			
+			<div class="contents">
+				<div class="notice_wrap">
+					<div class="notice_con list NanumSquare_R">
+						<dl><dt>·</dt><dd>연말정산간소화 서비스에서 <span class="col_skyblue">"조회한 항목 한번에 다운로드하기"</span>를 이용하여 다운로드한 간소화PDF 문서를 업로드 하시기 바랍니다.</dd>	</dl>
+						<dl><dt>·</dt><dd>근무개월수(종.전근무지 포함)가 <span class="col_skyblue">12개월이 아닌 사용자의 경우 반드시 상세 항목을 업로드</span>하시기 바랍니다</dd></dl>
+						<dl><dt>·</dt><dd><span class="col_skyblue">패스워드를 설정하지 않은 간소화PDF 문서</span>를 업로드 하시기 바랍니다.</dd>	</dl>
+						<dl><dt>·</dt><dd><span class="col_red">파일은 다시 업로드 한 경우 기존에 업로드한 데이터는 모두 삭제됩니다.</span></dd></dl>
+						<dl><dt>·</dt><dd>파일 업로드 후 항목을 개별 선택하여 데이터 적용 할 수 있습니다. 체크 해제한 항목은 PDF에 금액이 있더라도 제외하고 데이터 적용합니다.</dd></dl>
+					</div>
+					
+					<div class="group_row pdfSearch_wrap sort_cetner">
+						<dl class="NanumSquare_R">
+							<dt><label class="label_txt NanumSquare_R">PDF 파일첨부 : </label></dt>
+							<dd class="default_box"><div class="underline col_blue"> 요약설명 및 공제요건 다운로드</div></dd>
+						</dl>
+						<div class="btns"><a class="btn_type btn_pdf_search NanumSquare_R"><span class="icon Material_icons">search</span> PDF 파일검색</a></div>
+					</div>
+				</div>
+				
+				<div class="notice_wrap bg_skyblue nonborder">
+					<div class="notice_tit NanumSquare_R"><span class="icon calendar"></span><span class="txt font_15">2018년 귀속 근로월 체크 </span></div>
+					<div class="notice_con NanumSquare_R bg_skyblue">
+					<span>현근무지와 종전근무지의 재직기간을 체크하여 재직하지 않은 월은 노란색으로 처리됩니다.<br>  
+						<span class="underline">월별 상세 PDF가 아닌 경우 재직하지 않은 월의 지출액은 차감하여 연말정산에 반영하시기 바랍니다.</span></span>
+						<ul class="month">
+							<li><span>1월</span></li><li><span>2월</span></li><li class="active"><span>3월</span></li><li class="active"><span>4월</span></li><li><span>5월</span></li><li><span>6월</span></li>
+							<li><span>7월</span></li><li><span>8월</span></li><li><span>9월</span></li><li><span>10월</span></li><li><span>11월</span></li><li><span>12월</span></li>
+						</ul>
+					</div>
+				</div>
+				
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<div class="text NanumSquare_R">부양가족(인적)공제 명세</div>
+					</div>
+					<div class="group_table">
+						<table class="hasHead NanumSquare_R">
+							<colgroup>
+								<col width="7%">
+								<col width="7%">
+								<col width="10%">
+								<col width="15%">
+								<col width="7%">
+								<col width="7%">
+								<col width="7%">
+								<col width="7%">
+								<col width="7%">
+								<col width="7%">
+								<col width="6%">
+								<col width="6%">
+								<col width="7%">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>관계</th>
+									<th>내외국인</th>
+									<th>성명</th>
+									<th>주민등록번호</th>
+									<th>나이</th>
+									<th>기본공제</th>
+									<th>세대주</th>
+									<th>부녀자</th>
+									<th>한부모</th>
+									<th>경로우대</th>
+									<th>장애인</th>
+									<th>자녀</th>
+									<th>출산입양</th>
+								</tr>
+									
+							</thead>
+							<tbody>
+								<tr>
+									<td class="value">배우자</td>
+									<td class="value">내국인</td>
+									<td class="value">이름입니다</td>
+									<td class="value">810111-1111111</td>
+									<td class="value">38</td>
+									<td class="value">Y</td>
+									<td class="value">Y</td>
+									<td class="value">N</td>
+									<td class="value">N</td>
+									<td class="value">N</td>
+									<td class="value">N</td>
+									<td class="value blank"></td>
+									<td class="value blank"></td>
+								</tr>
+								<tr>
+									<td class="value">직계비속</td>
+									<td class="value">내국인</td>
+									<td class="value">이름입니다</td>
+									<td class="value">810111-1111111</td>
+									<td class="value">38</td>
+									<td class="value">Y</td>
+									<td class="value disable"></td>
+									<td class="value disable"></td>
+									<td class="value disable"></td>
+									<td class="value">N</td>
+									<td class="value">N</td>
+									<td class="value disable"></td>
+									<td class="value disable"></td>
+								</tr>
+								<tr class="editable">
+									<td class="value">직계비속</td>
+									<td class="value">내국인</td>
+									<td class="value">이름입니다</td>
+									<td class="value">810111-1111111</td>
+									<td class="value">38</td>
+									<td class="value">Y</td>
+									<td class="value disable"></td>
+									<td class="value disable"></td>
+									<td class="value disable"></td>
+									<td class="value">N</td>
+									<td class="value">N</td>
+									<td class="value disable"></td>
+									<td class="value disable"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				
+					<div class="notice_wrap nonborder">
+						<div class="notice_con NanumSquare_R bg_purple col_purple">
+							※ 감면기간은 외국인 기술자에 대한 소득세 감면, 중소기업 취업 청년 소득세 감면 등에 의한 감면에 해당하는 경우 해당 기간을 입력합니다.
+						</div>
+					</div>
+				
+					<!--  우측으로 데이터의 가변이 있으므로 테이블 사용안함. -->
+					
+					<div class="group_column NanumSquare_R">
+						<ul class="fix_column w100">
+							<li class="thead text_center">구분</li>
+							<li class="tbody col_merger2">건강보험</li>
+							<li class="tbody col_merger2">장기요양보험</li>
+							<li class="tbody col_merger2">국민연금</li>
+							<li class="tbody col_merger4">신용카드</li>
+							<li class="tbody col_merger4">직불카드</li>
+							<li class="tbody col_merger4">현금영수증</li>
+							<li class="tbody col_merger2">보험료</li>
+							<li class="tbody col_merger2">의료비</li>
+							<li class="tbody col_merger4">교육비</li>
+							<li class="tbody col_merger2">주택자금</li>
+							<li class="tbody wid_merger2">개인연금저축/연금저축/퇴직연금</li>
+							<li class="tbody wid_merger2">소기업소상공인공제부금</li>
+							<li class="tbody wid_merger2">장기집합투자증권저축</li>
+							<li class="tbody wid_merger2">주택자금</li>
+							<li class="tbody wid_merger2">주택마련저축</li>
+							<li class="tfoot wid_merger2 text_center">지출액 합계</li>
+						</ul>
+						<ul class="fix_column w150">
+							<li class="thead text_center">구분</li>
+							<li class="tbody">보수월액</li>
+							<li class="tbody">소득월액</li>
+							<li class="tbody">보수월액</li>
+							<li class="tbody">소득월액</li>
+							<li class="tbody">직장</li>
+							<li class="tbody">지역</li>
+							<li class="tbody">일반</li>
+							<li class="tbody">전통시장</li>
+							<li class="tbody">대중교통</li>
+							<li class="tbody">도서공연</li>
+							<li class="tbody">일반</li>
+							<li class="tbody">전통시장</li>
+							<li class="tbody">대중교통</li>
+							<li class="tbody">도서공연</li>
+							<li class="tbody">일반</li>
+							<li class="tbody">전통시장</li>
+							<li class="tbody">대중교통</li>
+							<li class="tbody">도서공연</li>
+							<li class="tbody">일반보장성</li>
+							<li class="tbody">장애인보장성</li>
+							<li class="tbody">의료비</li>
+							<li class="tbody">안경구입비</li>
+							<li class="tbody">교육비/직업훈련비</li>
+							<li class="tbody">교복구입비</li>
+							<li class="tbody">체험학습비</li>
+							<li class="tbody">장애인특수</li>
+							<li class="tbody">공제대상</li>
+							<li class="tbody">기부장려</li>
+							<li class="tbody"></li>
+							<li class="tbody"></li>
+							<li class="tbody"></li>
+							<li class="tbody"></li>
+							<li class="tbody"></li>
+							<li class="tbody"></li>
+						</ul>
+						<ul class="fix_column sort_right sum_data">
+							<li class="thead text_center">구분별 합계</li>
+							<li class="tbody">100,000,000</li>
+							<li class="tbody">500,000,000</li>
+							<li class="tbody">600,000,000</li>
+							<li class="tbody">800,000,000</li>
+							<li class="tbody">50,000,000</li>
+							<li class="tbody">100,000,000</li>
+							<li class="tbody">500,000,000</li>
+							<li class="tbody">600,000,000</li>
+							<li class="tbody">800,000,000</li>
+							<li class="tbody">50,000,000</li>
+							<li class="tbody">500,000,000</li>
+							<li class="tbody">600,000,000</li>
+							<li class="tbody">600,000,000</li>
+							<li class="tbody">800,000,000</li>
+							<li class="tbody">50,000,000</li>
+							<li class="tbody">100,000,000</li>
+							<li class="tbody">500,000,000</li>
+							<li class="tbody">600,000,000</li>
+							<li class="tbody">800,000,000</li>
+							<li class="tbody">50,000,000</li>
+							<li class="tbody">500,000,000</li>
+							<li class="tbody">600,000,000</li>
+							<li class="tbody">800,000,000</li>
+							<li class="tbody">50,000,000</li>
+							<li class="tbody">500,000,000</li>
+							<li class="tbody">50,000,000</li>
+							<li class="tbody">500,000,000</li>
+							<li class="tbody">600,000,000</li>
+							<li class="tbody">50,000,000</li>
+							<li class="tbody">500,000,000</li>
+							<li class="tbody">50,000,000</li>
+							<li class="tbody">500,000,000</li>
+							<li class="tbody">600,000,000</li>
+							<li class="tfoot">600,000,000</li>
+						</ul>
+						<div class="column_viewer vw-column3">
+							<div class="column_data">
+								<ul class="column sort_right data">
+									<li class="thead text_center">등록자1</li>
+									<li class="tbody">100,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">100,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">100,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tfoot">600,000,000</li>
+								</ul>
+								<ul class="column sort_right data">
+									<li class="thead text_center">등록자2</li>
+									<li class="tbody">100,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">100,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">100,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tfoot">600,000,000</li>
+								</ul>
+								<ul class="column sort_right data">
+									<li class="thead text_center">등록자3</li>
+									<li class="tbody">100,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">100,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">100,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tfoot">600,000,000</li>
+								</ul>
+								<ul class="column sort_right data">
+									<li class="thead text_center">등록자4</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">100,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">100,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tfoot">600,000,000</li>
+								</ul>
+								<ul class="column sort_right data">
+									<li class="thead text_center">등록자5</li>
+									<li class="tbody">100,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">100,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">100,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tfoot">600,000,000</li>
+								</ul>
+								<ul class="column sort_right data">
+									<li class="thead text_center">등록자6</li>
+									<li class="tbody">100,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">100,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">100,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tbody">800,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">50,000,000</li>
+									<li class="tbody">500,000,000</li>
+									<li class="tbody">600,000,000</li>
+									<li class="tfoot">600,000,000</li>
+								</ul>
+							 
+							</div> <!--  column_view -->
+						</div>
+					</div>
+				</div> <!-- group_column -->
+			</div> <!--  contents -->
+			
+			<div class="group_btns foot NanumSquare_R">
+				<a class="btn_type type1">＜  이전</a>
+				<a class="btn_type type2"><span class="icon_save Material_icons"></span>적용</a>
+				<a class="btn_type type3">다음 ＞</a>
+				<!-- <a class="btn_type type4">Map ＞</a> -->
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+/*  *************** 근로자 리스트 스크롤 위치에 따라 이동   ***************  */ 
+$(document).ready(function(){
+	var _scrollTop=$("#main_wrap").scrollTop();
+	var _posY=($("#main_wrap").height()/2 + 40)+_scrollTop-57;
+
+	if($("#yearTax_wrap").height() < $("#main_wrap").height()){
+		$("#employ-list-wrap").css("height",$("#main_contents").height()-10)
+	}
+	$(".btn_emplist").css("top",_posY);
+
+})
+
+$("#main_wrap").scroll(function(){
+	var _scrollTop=$("#main_wrap").scrollTop();
+	var _posY=($("#main_wrap").height()/2 + 40)+_scrollTop-57;
+	$(".btn_emplist").css("top",_posY);
+})
+
+</script>
+</html>

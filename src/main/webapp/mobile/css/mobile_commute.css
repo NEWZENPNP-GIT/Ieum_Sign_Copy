@@ -1,0 +1,197 @@
+@charset "utf-8";
+
+
+/** -------------------- media ----------------------------- **/
+@media all and (max-width: 320px){
+	#container.commute ul.today{margin-top: 39px !important; left: calc(50% - 100px) !important; width: 200px !important; height: 200px !important; }
+	#container.commute ul.today .date{margin-top: 56px !important; font-size: 17px !important;}
+	#container.commute ul.today .time{margin-top: 7px !important;}
+	#container.commute ul.today .time span:first-child{width: 50px !important; margin-top: 19px !important; font-size: 17px !important;}
+	#container.commute ul.today .time span:last-child{width: calc(100% - 58px)!important; margin-left: 8px !important; font-size: 38px !important;}
+	#container.commute ul.today .btn{margin-top: 15px !important;}
+	#container.commute ul.today .btn .btn_type{font-size: 14px !important;}
+	#container.commute .checkBox{margin: 28px 14px 8px 14px !important; width: calc(100% - 28px) !important;}
+	#container.commute .checkBox .goWork{height: 117px !important;}
+	#container.commute .checkBox .goWork .btn_type .icon{margin-top:14px !important; width: 28px !important; height: 28px !important;}
+	#container.commute .checkBox .goWork .btn_type .check:after{height:104px !important; -webkit-transform: scale(0.26) !important; -o-transform:scale(0.26) !important; -ms-transform:scale(0.26) !important; transform:scale(0.26) !important;}
+	#container.commute .checkBox .goWork .btn_type .icon.check + .text{margin-top: 12px !important;}
+	#container.commute .checkBox .goWork .btn_type .text{margin-top: 0px !important; height:26px !important; font-size: 20px !important;}
+	#container.commute .checkBox .goWork .btn_type .time{margin: 5px 0 10px 0 !important; font-size: 15px !important;}
+	
+	#container.commute .checkBox .leave{height: 117px !important; font-size: 20px !important;}
+	#container.commute .checkBox .leave .btn_type{font-size: 20px !important;}
+	#container.commute .checkBox .goOut{height: 35px !important;}
+	#container.commute .checkBox .goOut .btn_type{font-size: 16px !important;}
+	#container.commute .checkBox .return{height: 35px !important;}
+	#container.commute .checkBox .return .btn_type{font-size: 16px !important;}
+	#container.commute .report{margin: 4px 14px 15px 14px !important; width: calc(100% - 28px) !important;}
+	#container.commute .report .tit{padding: 10px 10px 0px 18px !important; margin-bottom: 4px !important; height: 33px !important; font-size: 16px !important;}
+	#container.commute .report li:not(.tit){height: 25px !important;}
+	#container.commute .report li div{font-size: 15px !important;}
+	
+	/****** list *****/
+	#container.commute .top_search{height: 82px !important;}
+	#container.commute .top_search .tit{padding: 9px 0 0 12px !important; font-size: 15px !important;}
+	#container.commute .top_search .dateTerm{height:38px !important; padding: 8px 10px 5px 10px !important;  width: calc(100% - 20px) !important;}
+	#container.commute .top_search .dateTerm input[type="text"],
+	#container.commute .top_search .dateTerm input[type="date"]{width: calc(50% - 9px) !important; height: 38px !important; font-size:14px !important; padding-left: 2px !important;}
+	#container.commute .top_search .dateTerm input[type="date"]::-webkit-calendar-picker-indicator{background-position: 100% 50% !important; background-size:70% !important;}
+	#container.commute .top_search .dateTerm span{width: 18px !important; font-size: 20px !important; height: 38px !important;}
+	
+	#container.commute .list_head{padding: 8px 10px 8px 10px !important;}
+	#container.commute .list_wrap{height:calc(100% - 173px) !important;}
+	#container .footer.overlap .btn_type{height: 50px !important;}
+	#container.commute .date_wrap .part{font-size: 14px !important;}
+	#container .footer.overlap .btn_type:before{ top: 15px !important;}
+	#container.commute .list_head div{width:  17% !important; font-size: 15px !important;}
+	#container.commute .list_head .date{width: calc(30% - 10px) !important;}
+	#container.commute .list_head .return{width: calc(19% - 10px) !important;}
+	#container.commute .date_wrap .head_date{font-size: 15px !important;}
+	#container.commute .date_wrap .part div{width: 17% !important; } 
+	#container.commute .date_wrap .part .date{width: calc(30% - 10px) !important; }
+	#container.commute .date_wrap .part .return{width: calc(19% - 10px) !important;}
+
+}
+@media all and (min-width: 321px) and (max-width: 360px) {
+	#container.commute ul.today{margin-top: 44px !important; left: calc(50% - 113px) !important; width: 226px !important; height: 226px !important; }
+	#container.commute ul.today .date{margin-top: 63px !important;}
+	#container.commute ul.today .time{margin-top: 7px !important;}
+	#container.commute ul.today .time span:first-child{width: 58px !important; margin-top: 19px !important;}
+	#container.commute ul.today .time span:last-child{width: calc(100% - 65px)!important; margin-left: 7px !important; font-size: 44px !important;}
+	#container.commute ul.today .btn{margin-top: 20px !important;}
+	#container.commute ul.today .btn .btn_type{font-size: 15px !important;}
+	#container.commute .checkBox{margin: 32px 16px 12px 16px !important; width: calc(100% - 32px) !important;}
+	#container.commute .checkBox .goWork{height: 130px !important;}
+	#container.commute .checkBox .goWork .btn_type .icon{margin-top:16px !important; width: 30px !important; height: 30px !important;}
+	#container.commute .checkBox .goWork .btn_type .check:after{height:104px !important; -webkit-transform: scale(0.28) !important; -o-transform:scale(0.28) !important; -ms-transform:scale(0.28) !important; transform:scale(0.28) !important;}
+	#container.commute .checkBox .goWork .btn_type .icon.check + .text{margin-top: 12px !important;}
+	#container.commute .checkBox .goWork .btn_type .text{margin-top: 0px !important; font-size: 20px !important;}
+	#container.commute .checkBox .goWork .btn_type .time{margin: 7px 0 13px 0 !important; font-size: 15px !important;}
+	
+	#container.commute .checkBox .leave{height: 130px !important;}
+	#container.commute .checkBox .leave .btn_type{font-size: 20px !important;}
+	#container.commute .checkBox .goOut{height: 38px !important;}
+	#container.commute .checkBox .goOut .btn_type{font-size: 17px !important;}
+	#container.commute .checkBox .return{height: 38px !important;}
+	#container.commute .checkBox .return .btn_type{font-size: 17px !important;}
+	#container.commute .report{margin: 10px 16px 15px 16px !important; width: calc(100% - 32px) !important;}
+	#container.commute .report .tit{padding: 16px 10px 0px 18px !important; margin-bottom: 7px !important; height: 36px !important; font-size: 17px !important;}
+	#container.commute .report li:not(.tit){height: 27px !important;}
+	#container.commute .report li div{font-size: 16px !important;}
+	#container.commute .top_search .dateTerm{padding: 11px 16px 15px 16px !important;  width: calc(100% - 32px) !important;}
+	#container.commute .top_search .dateTerm input[type="text"],
+	#container.commute .top_search .dateTerm input[type="date"]{font-size:15px !important; padding-left: 5px !important; }
+	#container.commute .top_search .dateTerm input[type="date"]::-webkit-calendar-picker-indicator{background-size:80% !important;}
+	
+	#container .footer.overlap .btn_type{height: 60px !important;}
+	#container.commute .list_wrap{height: calc(100% - 212px) !important;}
+}
+@media all and (min-width: 361px) and (max-width: 410px) {
+	#container.commute ul.today{margin-top: 45px !important; left: calc(50% - 119px) !important; width: 237px !important; height: 237px !important; }
+	#container.commute ul.today .date{margin-top: 66px !important;}
+	#container.commute ul.today .time span:first-child{width: 62px !important; margin-top: 21px !important;}
+	#container.commute ul.today .time span:last-child{width: calc(100% - 69px)!important; margin-left: 7px !important; font-size: 45px !important;}
+	#container.commute ul.today .btn{margin-top: 24px !important;}
+	#container.commute ul.today .btn .btn_type{font-size: 15px !important;}
+	#container.commute .checkBox{margin: 32px 16px 12px 16px !important; width: calc(100% - 32px) !important;}
+	#container.commute .checkBox .goWork{height: 138px !important;}
+	#container.commute .checkBox .goWork .btn_type .icon{margin-top:19px !important; width: 31px !important; height: 31px !important;}
+	#container.commute .checkBox .goWork .btn_type .check:after{height:104px !important; -webkit-transform: scale(0.30) !important; -o-transform:scale(0.30) !important; -ms-transform:scale(0.30) !important; transform:scale(0.30) !important;}
+	#container.commute .checkBox .goWork .btn_type .icon.check + .text{margin-top: 12px !important;}
+	#container.commute .checkBox .goWork .btn_type .text{margin-top: 9px !important; font-size: 22px !important;}
+	#container.commute .checkBox .goWork .btn_type .time{margin: 8px 0 16px 0 !important; font-size: 15px !important;}
+	
+	#container.commute .checkBox .leave{height: 138px !important;}
+	#container.commute .checkBox .leave .btn_type{font-size: 22px !important;}
+	#container.commute .checkBox .goOut{height: 40px !important;}
+	#container.commute .checkBox .goOut .btn_type{font-size: 17px !important;}
+	#container.commute .checkBox .return{height: 40px !important;}
+	#container.commute .checkBox .return .btn_type{font-size: 17px !important;}
+	#container.commute .report{margin: 10px 16px 20px 16px !important; width: calc(100% - 32px) !important;}
+	#container.commute .report .tit{padding: 17px 10px 0px 18px !important; margin-bottom: 7px !important; height: 36px !important;  font-size: 17px !important;}
+	#container.commute .report li:not(.tit){height: 27px !important;}
+	#container.commute .report li div{font-size: 16px !important;}
+	#container.commute .top_search .dateTerm{padding: 11px 16px 15px 16px !important;  width: calc(100% - 32px) !important;}
+	#container.commute .top_search .dateTerm input[type="text"],
+	#container.commute .top_search .dateTerm input[type="date"]{font-size:15px !important; padding-left: 5px !important; }
+	#container.commute .top_search .dateTerm input[type="date"]::-webkit-calendar-picker-indicator{background-size:85% !important;}
+	#container .footer.overlap .btn_type{height: 65px !important;}
+	#container.commute .list_wrap{height: calc(100% - 217px) !important;}
+}
+@media all and (min-width: 1024px){
+	
+}
+@media all and (max-height: 640px) {
+}
+
+@media all and (min-height: 641px) and (max-height: 730px) {
+}
+header.commute{ background-color: #0c8297;}
+#container{padding: 0px; min-height: calc(100% - 65px);}
+#container.bg{background: url(image/mobile/bg_mobile_commute.jpg) no-repeat; background-size: 100%; background-position: 0 0;}
+#container .wrap{height: 100%; width: 100%;}
+#container.commute ul.today{position:relative; margin-top:50px; left: calc(50% - 131px); width:262px; height: 262px; border:3px solid #ffffff; border-radius: 140px; float: left}
+#container.commute ul.today{display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: column; text-align: center;}
+#container.commute ul.today .date{margin-top: 74px; font-size: 19px; color: #ffffff;}
+#container.commute ul.today .time{margin-top: 9px; color: #ffffff;}
+#container.commute ul.today .time span:first-child{position: relative; display: inline-block; font-size: 20px; width: 67px;  float: left; margin-top: 26px; text-align: right;}
+#container.commute ul.today .time span:last-child{position: relative; display: inline-block; font-size: 50px; width:calc(100% - 78px); margin-left:11px;  letter-spacing: 1.2px; font-weight: bold; float:left; text-align: left;}
+#container.commute ul.today .btn{margin-top: 27px}
+#container.commute ul.today .btn .btn_type{display:inline-block; width: 133px; height: 25px; color:#12b2cf; font-size: 16px; background-color: #ffffff; border-radius: 10px; letter-spacing:-0.7px;}
+#container.commute ul.today .btn .btn_type{display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center}
+#container.commute .checkBox{position:relative; width: calc(100% - 36px); margin: 36px 18px 12px 18px; float:left;}
+#container.commute .checkBox .goWork{display:inline-block; width:calc(50% - 5px); height: 150px; float:left}
+#container.commute .checkBox .leave{display:inline-block; width:calc(50% - 5px); height: 150px; float:right;}
+#container.commute .checkBox .goOut{display:inline-block; width:calc(50% - 5px); height: 45px; margin-top:10px; float:left; }
+#container.commute .checkBox .return{display:inline-block; width:calc(50% - 5px); height: 45px; margin-top:10px; float:right; }
+#container.commute .checkBox .btn_type{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center}
+#container.commute .checkBox .btn_type{color:#12b2cf; width: 100%; height: 100%;}
+#container.commute .checkBox .goWork .btn_type{flex-direction: column; border-radius: 8px; background-color: #fff100;}
+#container.commute .checkBox .goWork .btn_type .icon{position:relative; top:0px; float: left; margin-top: 18px; width: 36px; height: 36px;}
+/* #container.commute .checkBox .goWork .btn_type .check:after {border: 1px solid red; box-sizing: border-box;} */
+#container.commute .checkBox .goWork .btn_type .check:after{position:relative;  width:104px; height:104px; content:url(image/mobile/icon_commute_check.png); display: inline-block;  -webkit-transform: scale(0.34); -o-transform:scale(0.34); -ms-transform:scale(0.34); transform:scale(0.34); transform-origin:0 0; -ms-transform-origin:0 0; -o-transform-origin:0 0; -webkit-transform-origin:0 0;}
+#container.commute .checkBox .goWork .btn_type .icon.check + .text{margin-top: 15px;}
+#container.commute .checkBox .goWork .btn_type .text{margin-top: 0px; width:100%; height:30px; color:#12b2cf; font-size: 24px; font-weight: bold; text-align: center;}
+#container.commute .checkBox .goWork .btn_type .time{margin: 10px 0 21px 0 ; width:100%; height:22px; text-align:center; color:#666666; font-size: 17px; font-weight: bold;}
+#container.commute .checkBox .leave .btn_type{background-color:#ffffff; font-size: 24px; font-weight: bold; border-radius: 6px}
+#container.commute .checkBox .goOut .btn_type{background-color:#0b5f6e; font-size: 18px; font-weight: bold; border-radius: 6px}
+#container.commute .checkBox .return .btn_type{background-color:#c4f5ef; font-size: 18px; font-weight: bold; border-radius: 6px}
+
+#container.commute .report{position:relative; width: calc(100% - 36px); margin: 12px 18px 20px 18px; padding-bottom:4px; background-color:#ffffff; border-radius:5px; float:left; display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: column;}
+#container.commute .report .tit{padding: 25px 10px 0px 18px; margin-bottom:9px; width: calc(100% - 28px); height: 36px; letter-spacing: 0.3px; border-bottom: 1px solid #a7a7a7; font-size: 18px; font-weight: bold; color:#12b2cf;}
+#container.commute .report .tit{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#container.commute .report li:not(.tit){width:calc(100% - 36px);  margin:4px 18px 0 18px; height: 30px;}
+#container.commute .report li div{width:calc(50% - 10px); padding:0 5px;  height:100%; float:left; text-align: center; color:#666666; font-size: 17px;}
+#container.commute .report li div{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container.commute .report li:last-child {margin-bottom: 8px}
+
+#container.commute.list{height: calc(100% - 65px);}
+#container.commute .top_search{display: inline-block; width: 100%; height:104px; background: linear-gradient(170deg, #1ea2b7 15%, #0982a7 85%); float:left;}
+#container.commute .top_search .tit{width:calc(100% - 20px); color:#ffffff; font-size: 16px; padding:13px 0 0 20px; float: left;}
+#container.commute .top_search .dateTerm{display:inline-block; padding:11px 20px 15px 20px; width: calc(100% - 40px); float: left;}
+#container.commute .top_search .dateTerm input[type="text"],
+#container.commute .top_search .dateTerm input[type="date"]{width:calc(50% - 12px); height:45px; padding-left:10px; box-sizing: border-box; border: none; background-color: #f5f5f5; border-radius: 4px; font-size: 16px;/*  font-weight: bold; */ color: #7e7e7e; float:left; vertical-align: middle;}
+#container.commute .top_search .dateTerm input[type="text"]:focus,
+#container.commute .top_search .dateTerm input[type="date"]:focus{outline: none;}
+#container.commute .top_search .dateTerm input[type="date"]::-webkit-inner-spin-button {outline: none; appearance: none; -moz-appearance: none; -webkit-appearance: none; -o-appearance: none;}
+#container.commute .top_search .dateTerm input[type="date"]:-webkit-calendar-picker-indicator{outline: none; width:35px; height:45px; color: rgba(0, 0, 0, 0); opacity: 1; padding:0px; margin: 0px; margin-right:6px; appearance: none; -moz-appearance: none; -webkit-appearance: none; -o-appearance: none; background-size:90%; background-image: url('image/mobile/icon_date_calender.png'); background-repeat: no-repeat; background-position: 95% 50%}
+#container.commute .top_search .dateTerm input[type="date"]::-webkit-calendar-picker-indicator{outline: none; width:35px; height:45px; color: rgba(0, 0, 0, 0); opacity: 1; padding:0px; margin: 0px; margin-right:6px; appearance: none; -moz-appearance: none; -webkit-appearance: none; -o-appearance: none; background-size:90%; background-image: url('image/mobile/icon_date_calender.png'); background-repeat: no-repeat; background-position: 95% 50%}
+#container.commute .top_search .dateTerm span{width: 24px; height:45px; float:left; color:#ffffff; font-size: 27px; font-weight: normal;}
+#container.commute .top_search .dateTerm span{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container.commute .list_head{position: relative; height:25px; width:calc(100% - 10px); padding:15px 0px 8px 10px; background-color:#ffffff;  float:left; display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: row;}
+#container.commute .list_head div{width: 18%; color:#12b2cf; font-size: 16px; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container.commute .list_head .date{width: calc(26% - 10px); padding-left: 10px;}
+#container.commute .list_head .return{width: calc(20% - 10px); padding-right: 10px;}
+#container.commute .list_wrap{position: relative; width:100%; height: calc(100% - 227px); overflow-y:auto;  float:left; background-color: #ffffff;} 
+#container.commute .date_wrap{position: relative; width:100%; float:left;}
+#container.commute .date_wrap .head_date{ width:calc(100% - 23px); padding-left:23px; height: 45px; background-color:#12b2cf; color:#ffffff; margin-bottom:4px; font-size:16px; font-weight:bold; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; }
+#container.commute .date_wrap .part{width:100%; padding:0; font-size:17px; font-weight:bold; color:#666666; display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: row;}
+#container.commute .date_wrap .part div{width: 18%; height:47px; border-bottom: 1px solid #e5e5e5;} 
+#container.commute .date_wrap .part .date{width: calc(26% - 10px); padding-left: 10px;}
+#container.commute .date_wrap .part .return{width: calc(20% - 10px); padding-right: 10px;}
+#container.commute .date_wrap .part div{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+
+#container .footer.overlap{position: absolute; width: 100%; bottom: 0px;}
+#container .footer.overlap .btn_type{background-color: rgba(0,0,0,0.7); position: relative;width: 100%; height: 75px; color: #ffffff;  float: left;  font-size: 19px; letter-spacing: 1px; border-radius: 0 !important;}
+#container .footer.overlap .btn_type{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container .footer.overlap .btn_type:before{content:url(image/mobile/btn_foot_arrow.png); position:absolute; top:27px; left:20px; width: 65px; height: 60px; display: inline-block; -webkit-transform: scale(0.35); -o-transform:scale(0.35); -ms-transform:scale(0.35); transform:scale(0.35); transform-origin:0 0; -ms-transform-origin:0 0; -o-transform-origin:0 0; -webkit-transform-origin:0 0;}

@@ -1,0 +1,1034 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Biz">
+	
+	<typeAlias alias="bizVO" type="com.ezsign.biz.vo.BizVO"/>
+	<typeAlias alias="pointLogVO" type="com.ezsign.point.vo.PointLogVO"/>
+	<resultMap id="bizListMap" class="bizVO">
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="bizType" column="BIZ_TYPE"/>
+		<result property="businessNo" column="BUSINESS_NO"/>
+		<result property="bizStatus" column="BIZ_STATUS"/>		
+		<result property="pinNo" column="PIN_NO"/>
+		<result property="bizName" column="BIZ_NAME"/>
+		<result property="ownerName" column="OWNER_NAME"/>
+		<result property="addr1" column="ADDR1"/>
+		<result property="addr2" column="ADDR2"/>
+		<result property="companyTelNum" column="COMPANY_TEL_NUM"/>
+		<result property="companyFaxNum" column="COMPANY_FAX_NUM"/>
+		<result property="companyImage" column="COMPANY_IMAGE"/>
+		<result property="companyLogo" column="COMPANY_LOGO"/>
+		<result property="curPoint" column="CUR_POINT"/>
+		<result property="bizGrpCount" column="BIZ_GRP_COUNT"/>
+		<result property="formPoint" column="FORM_POINT"/>
+		<result property="scanPoint" column="SCAN_POINT"/>
+		<result property="sendPoint" column="SEND_POINT"/>
+		<result property="resendPoint" column="RESEND_POINT"/>
+		<result property="payPoint" column="PAY_POINT"/>
+		<result property="useContract" column="USE_CONTRACT_MENU"/>
+		<result property="personUserName" column="PERSON_USER_NAME"/>
+		<result property="personUserTelNum" column="PERSON_USER_TEL_NUM"/>
+		<result property="personEMail" column="PERSON_E_MAIL"/>
+		<result property="openVoucherType" column="OPEN_VOUCHER_TYPE"/>
+		<result property="voucherOrder" column="VOUCHER_ORDER"/>
+		<result property="salesChannel" column="SALES_CHANNEL"/>
+		<result property="otherGoodsPurchase" column="OTHER_GOODS_PURCHASE"/>
+		<result property="contractType" column="CONTRACT_TYPE"/>
+		<result property="contractStartDate" column="CONTRACT_START_DATE"/>
+		<result property="contractEndDate" column="CONTRACT_END_DATE"/>
+		<result property="generalTransDate" column="GENERAL_TRANS_DATE"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="updDate" column="UPD_DATE"/>
+		<result property="loginId" column="LOGIN_ID"/>
+		<result property="channelId" column="CHANNEL_ID"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="funnel" column="FUNNEL"/>
+		<result property="useElecDoc" column="USE_ELEC_DOC"/>
+		<result property="usePayStub" column="USE_PAY_STUB"/>
+		<result property="bizMngYn" column="BIZ_MNG_YN"/>
+		<result property="mainBizYn" column="MAIN_BIZ_YN"/>
+		<result property="usePayPassword" column="USE_PAY_PASSWORD"/>
+		<result property="funnelYear" column="FUNNEL_YEAR"/>
+		<result property="useJumin" column="USE_JUMIN"/>
+		<result property="paymentType" column="PAYMENT_TYPE"/>
+		<result property="sendDate" column="SEND_DATE"/>
+		<result property="memo" column="MEMO"/>
+		<result property="useContractData" column="USE_CONTRACT_DATA"/>
+	</resultMap>
+
+	<resultMap id="bizEmailMap" class="BizVO">
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="bizName" column="BIZ_NAME"/>
+		<result property="personEMail" column="PERSON_E_MAIL"/>
+		<result property="phoneNum" column="PHONE_NUM"/>
+	</resultMap>
+	
+	<typeAlias alias="bizGrpVO" type="com.ezsign.biz.vo.BizGrpVO"/>
+	<resultMap id="bizGrpNameListMap" class="bizGrpVO">
+		<result property="grpType" column="GRP_TYPE"/>
+		<result property="id" column="ID"/>
+		<result property="name" column="NAME"/>
+		<result property="no" column="NO"/>
+		<result property="num" column="NUM"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="ownerName" column="OWNER_NAME"/>
+		<result property="addr1" column="ADDR1"/>
+		<result property="companyFaxNum" column="COMPANY_FAX_NUM"/>
+		<result property="empName" column="PERSON_USER_NAME"/>
+		<result property="email" column="PERSON_E_MAIL"/>
+		<result property="phoneNum" column="PERSON_USER_TEL_NUM"/>
+		<result property="curPoint" column="CUR_POINT"/>
+		<result property="formPoint" column="FORM_POINT"/>
+		<result property="scanPoint" column="SCAN_POINT"/>
+		<result property="sendPoint" column="SEND_POINT"/>
+		<result property="resendPoint" column="RESEND_POINT"/>
+		<result property="bizMngYn" column="BIZ_MNG_YN"/>
+		<result property="mainBizYn" column="MAIN_BIZ_YN"/>
+		<result property="payPoint" column="PAY_POINT"/>
+		<result property="useContract" column="USE_CONTRACT_MENU"/>
+		<result property="useElecDoc" column="USE_ELEC_DOC"/>
+		<result property="usePayStub" column="USE_PAY_STUB"/>
+	</resultMap>
+	<resultMap id="bizGrpListMap" class="bizGrpVO">
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="bizName" column="BIZ_NAME"/>
+	</resultMap>
+	
+	<resultMap id="serviceListMap" class="bizVO">
+		<result property="serviceId" column="SERVICE_ID"/>
+		<result property="serviceName" column="SERVICE_NAME"/>
+		<result property="serviceType" column="SERVICE_TYPE"/>
+	</resultMap>
+	
+	<resultMap id="mailListMap" class="bizVO">
+		<result property="personEMail" column="PERSON_E_MAIL"/>
+	</resultMap>
+	
+	<resultMap id="openListMap" class="bizVO">
+		<result property="bizId" column="BIZ_ID"/>
+	</resultMap>
+	
+	<typeAlias alias="candycashBizVO" type="com.ezsign.biz.vo.CandycashBizVO"/>
+	<resultMap id="candycashBizListMap" class="candycashBizVO">
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="bizName" column="BIZ_NAME"/>
+		<result property="businessNo" column="BUSINESS_NO"/>
+		<result property="addr1" column="ADDR1"/>
+		<result property="addr2" column="ADDR2"/>
+		<result property="hpNumber" column="PHONE_NUM"/>
+		<result property="emailAddress" column="PERSON_E_MAIL"/>
+		<result property="companyImage" column="COMPANY_IMAGE"/>
+	</resultMap>
+	
+	<select id="bizDAO.getCandyCashBizList" parameterClass="candycashBizVO" resultMap="candycashBizListMap">
+		SELECT	A.BIZ_ID
+			,	A.BIZ_NAME
+			,	A.BUSINESS_NO
+			,	A.ADDR1
+			,	A.ADDR2
+			,	B.PHONE_NUM
+			,	A.PERSON_E_MAIL
+			,	A.COMPANY_IMAGE
+		FROM	tbl_biz AS A
+				INNER JOIN tbl_emp AS B
+					ON	A.BIZ_ID = B.BIZ_ID
+					AND B.EMP_TYPE = '6'
+		WHERE	A.BIZ_ID 		= #bizId#
+	</select>
+	
+	<update id="bizDAO.updCandyCashBizInfo" parameterClass="candycashBizVO">
+		UPDATE tbl_biz
+		SET	
+		<isNotNull property="addr1">
+		    <isNotEmpty property="addr1">
+			ADDR1		= #addr1# ,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="addr2">
+		    <isNotEmpty property="addr2">
+			ADDR2		= #addr2# ,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="emailAddress">
+		    <isNotEmpty property="emailAddress">
+			PERSON_E_MAIL		= #emailAddress# ,
+			</isNotEmpty>
+		</isNotNull>
+			UPD_DATE		= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	BIZ_ID 		= #bizId#
+		
+	</update>
+	
+	<select id="bizDAO.getCheckService" parameterClass="bizVO" resultClass="java.lang.Integer">
+		SELECT  COUNT(A.BIZ_ID)
+		FROM    tbl_biz A, tbl_biz_service B, tbl_service C
+		WHERE   A.BUSINESS_NO  = B.BUSINESS_NO
+		AND		B.SERVICE_ID   = C.SERVICE_ID
+		AND     A.BIZ_ID       = #bizId#
+		AND     C.SERVICE_TYPE = #serviceType#
+	</select>
+	
+	<select id="bizDAO.getBizList" parameterClass="bizVO" resultMap="bizListMap">
+		SELECT  A.BIZ_ID, A.BUSINESS_NO, A.BIZ_STATUS, A.PIN_NO, A.BIZ_NAME, A.ADDR1, A.ADDR2, A.OWNER_NAME, A.BIZ_TYPE,
+        		A.COMPANY_TEL_NUM, A.COMPANY_FAX_NUM, A.COMPANY_IMAGE, A.COMPANY_LOGO, A.INS_DATE, A.UPD_DATE,
+        		IFNULL((SELECT X.CUR_POINT FROM tbl_point X WHERE X.BIZ_ID = A.BIZ_ID), 0) CUR_POINT,
+        		IFNULL((SELECT COUNT(X.REF_ID) FROM tbl_biz_grp X WHERE X.BIZ_ID = A.BIZ_ID), 0) BIZ_GRP_COUNT,
+        		A.FORM_POINT, A.SCAN_POINT, A.SEND_POINT, A.RESEND_POINT, A.PAY_POINT, A.USE_CONTRACT_MENU,
+        		IFNULL(A.PERSON_USER_NAME,B.EMP_NAME) AS PERSON_USER_NAME, IFNULL(A.PERSON_USER_TEL_NUM,B.TEL_NUM) AS PERSON_USER_TEL_NUM, 
+        		IFNULL(A.PERSON_E_MAIL,B.E_MAIL) AS PERSON_E_MAIL, A.OPEN_VOUCHER_TYPE, A.VOUCHER_ORDER,
+        		A.SALES_CHANNEL, A.OTHER_GOODS_PURCHASE, A.CONTRACT_TYPE, A.CONTRACT_START_DATE, A.CONTRACT_END_DATE, A.GENERAL_TRANS_DATE,
+        		B.LOGIN_ID, A.CHANNEL_ID, B.USER_ID, A.FUNNEL, A.USE_ELEC_DOC, A.USE_PAY_STUB, A.BIZ_MNG_YN, A.MAIN_BIZ_YN, A.USE_PAY_PASSWORD, A.FUNNEL_YEAR,
+				A.USE_JUMIN, A.PAYMENT_TYPE, '' SEND_DATE, A.MEMO, A.USE_CONTRACT_DATA
+		FROM    tbl_biz A
+				LEFT OUTER JOIN	tbl_emp AS B
+					ON	A.BIZ_ID = B.BIZ_ID
+					AND B.USER_ID = ( SELECT USER_ID FROM tbl_emp WHERE USE_YN = 'Y' AND BIZ_ID = #bizId# AND EMP_TYPE != '1' ORDER BY INS_DATE LIMIT 1)
+					AND B.USE_YN = 'Y'
+		WHERE   1 = 1
+		<isNotNull property="bizId">
+		    <isNotEmpty property="bizId">
+			AND     A.BIZ_ID = #bizId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="bizName">
+		    <isNotEmpty property="bizName">
+			AND     A.BIZ_NAME LIKE CONCAT('%', #bizName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="businessNo">
+		    <isNotEmpty property="businessNo">
+			AND     A.BUSINESS_NO = #businessNo#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="bizStatus">
+		    <isNotEmpty property="bizStatus">
+			AND     A.BIZ_STATUS = #bizStatus#
+			</isNotEmpty>	
+		</isNotNull>
+		<isNotNull property="funnel">
+		    <isNotEmpty property="funnel">
+			AND     A.FUNNEL = #funnel#
+			</isNotEmpty>	
+		</isNotNull>
+		<isNotNull property="openVoucherType">
+			<isNotEmpty property="openVoucherType">
+				AND     A.OPEN_VOUCHER_TYPE = #openVoucherType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="voucherOrder">
+			<isNotEmpty property="voucherOrder">
+				AND     A.VOUCHER_ORDER = #voucherOrder#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="channelId">
+			<isNotEmpty property="channelId">
+				AND     A.CHANNEL_ID = #channelId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contractStartDate">
+			<isNotEmpty property="contractStartDate">
+				AND     A.CONTRACT_START_DATE &gt;= REPLACE(#contractStartDate#, '-', '')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contractEndDate">
+			<isNotEmpty property="contractEndDate">
+				AND     A.CONTRACT_END_DATE &lt;= REPLACE(#contractEndDate#, '-', '')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="generalTransDate">
+			<isNotEmpty property="generalTransDate">
+				AND     A.GENERAL_TRANS_DATE &lt;= #generalTransDate#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="moduleType">
+			<isNotEmpty property="moduleType">
+				<isEqual property="moduleType" compareValue="1">
+					AND A.USE_CONTRACT_MENU = 'Y'
+				</isEqual>
+				<isEqual property="moduleType" compareValue="2">
+					AND A.USE_ELEC_DOC = 'Y'
+					AND A.USE_PAY_STUB = 'N'
+				</isEqual>
+				<isEqual property="moduleType" compareValue="3">
+					AND A.USE_ELEC_DOC = 'N'
+					AND A.USE_PAY_STUB = 'Y'
+				</isEqual>
+				<isEqual property="moduleType" compareValue="4">
+					AND A.USE_ELEC_DOC = 'Y'
+					AND A.USE_PAY_STUB = 'Y'
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="useJumin">
+			<isNotEmpty property="useJumin">
+				AND     A.USE_JUMIN = #useJumin#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="paymentType">
+			<isNotEmpty property="paymentType">
+				AND     A.PAYMENT_TYPE = #paymentType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchKey">
+		    <isNotEmpty property="searchKey">
+		    	<isEqual property="searchKey" compareValue="ownerName">
+					AND		A.OWNER_NAME LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="bizName">
+					AND		A.BIZ_NAME LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="businessNo">
+					AND		A.BUSINESS_NO = #searchValue#
+		    	</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sortName">
+		    <isNotEmpty property="sortName">
+		ORDER BY $sortName$ $sortOrder$
+			</isNotEmpty>
+		</isNotNull>
+		limit #endPage# offset #startPage#
+	</select>
+
+	<select id="bizDAO.getCsBizList" parameterClass="bizVO" resultMap="bizListMap">
+		SELECT  B.BIZ_ID, A.BUSINESS_NO, IFNULL(B.BIZ_STATUS, 'B00') BIZ_STATUS, B.PIN_NO, A.BIZ_NAME, B.ADDR1, B.ADDR2, B.OWNER_NAME, B.BIZ_TYPE,
+		B.COMPANY_TEL_NUM, B.COMPANY_FAX_NUM, B.COMPANY_IMAGE, B.COMPANY_LOGO, B.INS_DATE, B.UPD_DATE,
+		IFNULL((SELECT X.CUR_POINT FROM tbl_point X WHERE X.BIZ_ID = B.BIZ_ID), 0) CUR_POINT,
+		IFNULL((SELECT COUNT(X.REF_ID) FROM tbl_biz_grp X WHERE X.BIZ_ID = B.BIZ_ID), 0) BIZ_GRP_COUNT,
+		B.FORM_POINT, B.SCAN_POINT, B.SEND_POINT, B.RESEND_POINT, B.PAY_POINT, B.USE_CONTRACT_MENU,
+		IFNULL(B.PERSON_USER_NAME,C.EMP_NAME) AS PERSON_USER_NAME, A.PERSON_USER_TEL_NUM,
+		A.PERSON_E_MAIL, B.OPEN_VOUCHER_TYPE, B.VOUCHER_ORDER,
+		B.SALES_CHANNEL, B.OTHER_GOODS_PURCHASE, B.CONTRACT_TYPE, B.CONTRACT_START_DATE, B.CONTRACT_END_DATE, B.GENERAL_TRANS_DATE,
+		C.LOGIN_ID, B.CHANNEL_ID, C.USER_ID, A.FUNNEL, B.USE_ELEC_DOC, B.USE_PAY_STUB, B.BIZ_MNG_YN, B.MAIN_BIZ_YN, B.USE_PAY_PASSWORD, A.FUNNEL_YEAR,
+		B.USE_JUMIN, B.PAYMENT_TYPE, A.INS_DATE SEND_DATE, B.MEMO, B.USE_CONTRACT_DATA
+		FROM    TBL_APP_RQUST A
+		LEFT OUTER JOIN tbl_biz B
+		ON A.BUSINESS_NO = B.BUSINESS_NO
+		LEFT OUTER JOIN	tbl_emp AS C
+		ON	B.BIZ_ID = C.BIZ_ID
+		AND C.USER_ID = ( SELECT MIN(USER_ID) FROM tbl_emp WHERE USE_YN = 'Y' AND BIZ_ID = B.BIZ_ID AND EMP_TYPE != '1')
+		AND C.USE_YN = 'Y'
+		WHERE   1 = 1
+		<isNotNull property="searchKey">
+			<isNotEmpty property="searchKey">
+				<isEqual property="searchKey" compareValue="ownerName">
+					AND		B.OWNER_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="bizName">
+					AND		A.BIZ_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="businessNo">
+					AND		A.BUSINESS_NO = #searchValue#
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sortName">
+			<isNotEmpty property="sortName">
+				ORDER BY $sortName$ $sortOrder$
+			</isNotEmpty>
+		</isNotNull>
+		limit #endPage# offset #startPage#
+	</select>
+	
+	<select id="bizDAO.getBiz" parameterClass="bizVO" resultMap="bizListMap">
+		SELECT  A.BIZ_ID, A.BUSINESS_NO, A.BIZ_STATUS, A.PIN_NO, A.BIZ_NAME, A.ADDR1, A.ADDR2, A.OWNER_NAME, A.BIZ_TYPE,
+        		A.COMPANY_TEL_NUM, A.COMPANY_FAX_NUM, A.COMPANY_IMAGE, A.COMPANY_LOGO, A.INS_DATE, A.UPD_DATE,
+        		IFNULL((SELECT X.CUR_POINT FROM tbl_point X WHERE X.BIZ_ID = A.BIZ_ID), 0) CUR_POINT,
+        		IFNULL((SELECT COUNT(X.REF_ID) FROM tbl_biz_grp X WHERE X.BIZ_ID = A.BIZ_ID), 0) BIZ_GRP_COUNT,
+        		A.FORM_POINT, A.SCAN_POINT, A.SEND_POINT, A.RESEND_POINT, A.PAY_POINT, A.USE_CONTRACT_MENU,
+        		IFNULL(A.PERSON_USER_NAME,B.EMP_NAME) AS PERSON_USER_NAME, IFNULL(A.PERSON_USER_TEL_NUM,B.TEL_NUM) AS PERSON_USER_TEL_NUM,
+        		IFNULL(A.PERSON_E_MAIL,B.E_MAIL) AS PERSON_E_MAIL, A.OPEN_VOUCHER_TYPE, A.VOUCHER_ORDER,
+        		A.SALES_CHANNEL, A.OTHER_GOODS_PURCHASE, A.CONTRACT_TYPE, A.CONTRACT_START_DATE, A.CONTRACT_END_DATE, A.GENERAL_TRANS_DATE,
+        		B.LOGIN_ID, A.CHANNEL_ID, B.USER_ID, A.FUNNEL, A.USE_ELEC_DOC, A.USE_PAY_STUB, A.BIZ_MNG_YN, A.MAIN_BIZ_YN, A.USE_PAY_PASSWORD, A.FUNNEL_YEAR,
+				A.USE_JUMIN, A.PAYMENT_TYPE, '' SEND_DATE, A.MEMO, A.USE_CONTRACT_DATA
+		FROM    tbl_biz AS A
+				LEFT OUTER JOIN	tbl_emp AS B
+					ON	A.BIZ_ID = B.BIZ_ID
+					AND B.USER_ID = ( SELECT MIN(USER_ID) FROM tbl_emp WHERE USE_YN = 'Y' AND BIZ_ID = A.BIZ_ID AND EMP_TYPE != '1')
+					AND B.USE_YN = 'Y'
+		WHERE   1 = 1
+		<isNotNull property="bizId">
+		    <isNotEmpty property="bizId">
+			AND     A.BIZ_ID = #bizId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="bizName">
+		    <isNotEmpty property="bizName">
+			AND     A.BIZ_NAME LIKE CONCAT('%', #bizName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="businessNo">
+		    <isNotEmpty property="businessNo">
+			AND     A.BUSINESS_NO = #businessNo#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="bizStatus">
+		    <isNotEmpty property="bizStatus">
+			AND     A.BIZ_STATUS = #bizStatus#
+			</isNotEmpty>
+		</isNotNull>
+
+		<isNotNull property="searchKey">
+		    <isNotEmpty property="searchKey">
+		    	<isEqual property="searchKey" compareValue="ownerName">
+					AND		A.OWNER_NAME LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="bizName">
+					AND		A.BIZ_NAME LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="businessNo">
+					AND		A.BUSINESS_NO = #searchValue#
+		    	</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sortName">
+		    <isNotEmpty property="sortName">
+		ORDER BY $sortName$ $sortOrder$
+			</isNotEmpty>
+		</isNotNull>
+		limit 1
+	</select>
+	
+	<select id="bizDAO.getBizListCount" parameterClass="bizVO" resultClass="java.lang.Integer">
+		SELECT	COUNT(A.BIZ_ID)
+		FROM    tbl_biz A
+		WHERE   1 = 1
+		<isNotNull property="bizId">
+		    <isNotEmpty property="bizId">
+			AND     A.BIZ_ID = #bizId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="bizName">
+		    <isNotEmpty property="bizName">
+			AND     A.BIZ_NAME LIKE CONCAT('%', #bizName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="businessNo">
+		    <isNotEmpty property="businessNo">
+			AND     A.BUSINESS_NO = #businessNo#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="bizStatus">
+		    <isNotEmpty property="bizStatus">
+			AND     A.BIZ_STATUS = #bizStatus#
+			</isNotEmpty>
+		</isNotNull>		
+		<isNotNull property="searchKey">
+		    <isNotEmpty property="searchKey">
+		    	<isEqual property="searchKey" compareValue="ownerName">
+					AND		A.OWNER_NAME LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="bizName">
+					AND		A.BIZ_NAME LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="businessNo">
+					AND		A.BUSINESS_NO = #searchValue#
+		    	</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+
+	<select id="bizDAO.getCsBizListCount" parameterClass="bizVO" resultClass="java.lang.Integer">
+		SELECT	COUNT(A.REQUEST_ID)
+		FROM    TBL_APP_RQUST A
+		LEFT OUTER JOIN tbl_biz B
+		ON A.BUSINESS_NO = B.BUSINESS_NO
+		WHERE   1 = 1
+		<isNotNull property="searchKey">
+			<isNotEmpty property="searchKey">
+				<isEqual property="searchKey" compareValue="ownerName">
+					AND		B.OWNER_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="bizName">
+					AND		A.BIZ_NAME LIKE CONCAT('%', #searchValue#, '%')
+				</isEqual>
+				<isEqual property="searchKey" compareValue="businessNo">
+					AND		A.BUSINESS_NO = #searchValue#
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<insert id="bizDAO.insBiz" parameterClass="bizVO">
+		<selectKey resultClass="java.lang.String" keyProperty="bizId">
+			SELECT  getTableKey('TBL_BIZ')
+		</selectKey>
+		INSERT INTO tbl_biz (
+			BIZ_ID, BUSINESS_NO, BIZ_NAME, OWNER_NAME, ADDR1, ADDR2, COMPANY_TEL_NUM, COMPANY_FAX_NUM, COMPANY_IMAGE, COMPANY_LOGO, INS_DATE, UPD_DATE,
+			PERSON_USER_NAME, PERSON_USER_TEL_NUM, PERSON_E_MAIL, OPEN_VOUCHER_TYPE, VOUCHER_ORDER,
+       		SALES_CHANNEL, OTHER_GOODS_PURCHASE, CONTRACT_TYPE, CONTRACT_START_DATE, CONTRACT_END_DATE, GENERAL_TRANS_DATE, CHANNEL_ID,
+       		FUNNEL, FUNNEL_YEAR, USE_ELEC_DOC, USE_PAY_STUB, BIZ_MNG_YN, MAIN_BIZ_YN, PAY_POINT, TAX_BILL_BIZ_NAME, MEMO
+			
+		) VALUES (
+		   #bizId#, #businessNo#, #bizName#, #ownerName#, #addr1#, #addr2#, #companyTelNum#, #companyFaxNum#, #companyImage#, #companyLogo#,  
+		   DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'),
+		   #personUserName#, #personUserTelNum#, #personEMail#, #openVoucherType#, #voucherOrder#,
+       	   #salesChannel#, #otherGoodsPurchase#, #contractType#, #contractStartDate#, #contractEndDate#, #generalTransDate#, #channelId#,
+       	   #funnel#, #funnelYear#, #useElecDoc#, #usePayStub#, #bizMngYn#, #mainBizYn#, #payPoint#, #bizName#, #memo#
+		   
+		)
+	</insert>
+	
+	<update id="bizDAO.updBiz" parameterClass="bizVO">
+		UPDATE tbl_biz
+		SET
+		<isNotNull property="openVoucherType">
+			<isNotEmpty property="openVoucherType">
+				OPEN_VOUCHER_TYPE		= #openVoucherType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="ownerName">
+		    <isNotEmpty property="ownerName">
+			OWNER_NAME		= #ownerName#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="bizName">
+		    <isNotEmpty property="bizName">
+			BIZ_NAME		= #bizName#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="businessNo">
+		    <isNotEmpty property="businessNo">
+			BUSINESS_NO			= #businessNo#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="bizStatus">
+		    <isNotEmpty property="bizStatus">
+			BIZ_STATUS			= #bizStatus#,
+			</isNotEmpty>
+		</isNotNull>			
+		<isNotNull property="pinNo">
+		    <isNotEmpty property="pinNo">
+			PIN_NO				= #pinNo#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="addr1">
+		    <isNotEmpty property="addr1">
+			ADDR1		= #addr1#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="addr2">
+		    <isNotEmpty property="addr2">
+			ADDR2		= #addr2#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="companyTelNum">
+		    <isNotEmpty property="companyTelNum">
+			COMPANY_TEL_NUM		= #companyTelNum#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="companyFaxNum">
+		    <isNotEmpty property="companyFaxNum">
+			COMPANY_FAX_NUM		= #companyFaxNum#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="companyImage">
+		    <isNotEmpty property="companyImage">
+			COMPANY_IMAGE		= #companyImage#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="companyLogo">
+		    <isNotEmpty property="companyLogo">
+			COMPANY_LOGO		= #companyLogo#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="bizType">
+		    <isNotEmpty property="bizType">
+			BIZ_TYPE			= #bizType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="formPoint">
+		    <isNotEmpty property="formPoint">
+			FORM_POINT			= #formPoint#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="scanPoint">
+		    <isNotEmpty property="scanPoint">
+			SCAN_POINT			= #scanPoint#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sendPoint">
+		    <isNotEmpty property="sendPoint">
+			SEND_POINT			= #sendPoint#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="resendPoint">
+		    <isNotEmpty property="resendPoint">
+			RESEND_POINT		= #resendPoint#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="useContract">
+		    <isNotEmpty property="useContract">
+			USE_CONTRACT_MENU		= #useContract#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="personUserName">
+		    <isNotEmpty property="personUserName">
+			PERSON_USER_NAME		= #personUserName#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="personUserTelNum">
+		    <isNotEmpty property="personUserTelNum">
+			PERSON_USER_TEL_NUM		= #personUserTelNum#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="personEMail">
+		    <isNotEmpty property="personEMail">
+			PERSON_E_MAIL		= #personEMail#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="voucherOrder">
+		    <isNotEmpty property="voucherOrder">
+			VOUCHER_ORDER		= #voucherOrder#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="salesChannel">
+		    <isNotEmpty property="salesChannel">
+			SALES_CHANNEL		= #salesChannel#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="otherGoodsPurchase">
+		    <isNotEmpty property="otherGoodsPurchase">
+			OTHER_GOODS_PURCHASE		= #otherGoodsPurchase#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contractType">
+		    <isNotEmpty property="contractType">
+			CONTRACT_TYPE		= #contractType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contractStartDate">
+		    <isNotEmpty property="contractStartDate">
+			CONTRACT_START_DATE		= #contractStartDate#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="contractEndDate">
+		    <isNotEmpty property="contractEndDate">
+			CONTRACT_END_DATE		= #contractEndDate#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="generalTransDate">
+		    <isNotEmpty property="generalTransDate">
+			GENERAL_TRANS_DATE		= #generalTransDate#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="channelId">
+		    <isNotEmpty property="channelId">
+			CHANNEL_ID		= #channelId#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="funnel">
+		    <isNotEmpty property="funnel">
+			FUNNEL		= #funnel#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="funnelYear">
+		    <isNotEmpty property="funnelYear">
+			FUNNEL_YEAR	= #funnelYear#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="useElecDoc">
+		    <isNotEmpty property="useElecDoc">
+			USE_ELEC_DOC		= #useElecDoc#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="usePayStub">
+		    <isNotEmpty property="usePayStub">
+			USE_PAY_STUB		= #usePayStub#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="bizMngYn">
+		    <isNotEmpty property="bizMngYn">
+			BIZ_MNG_YN		= #bizMngYn#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="mainBizYn">
+		    <isNotEmpty property="mainBizYn">
+			MAIN_BIZ_YN		= #mainBizYn#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="payPoint">
+		    <isNotEmpty property="payPoint">
+			PAY_POINT		= #payPoint#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="useJumin">
+			<isNotEmpty property="useJumin">
+			USE_JUMIN		= #useJumin#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="paymentType">
+			<isNotEmpty property="paymentType">
+			PAYMENT_TYPE	= #paymentType#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="memo">
+			<isNotEmpty property="memo">
+				MEMO	= #memo#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="useContractData">
+			<isNotEmpty property="useContractData">
+				USE_CONTRACT_DATA	= #useContractData#,
+			</isNotEmpty>
+		</isNotNull>
+			UPD_DATE		= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	BIZ_ID	 = #bizId#
+	</update>
+
+	<update id="bizDAO.updBizTax" parameterClass="bizVO">
+		UPDATE tbl_biz
+		SET
+		TAX_BILL_BIZ_NAME = #taxBillBizName#,
+		TAX_BILL_NAME = #taxBillName#,
+		TAX_BILL_TEL = #taxBillTel#,
+		TAX_BILL_EMAIL = #taxBillEmail#,
+		UPD_DATE		= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	BIZ_ID	 = #bizId#
+	</update>
+	
+	<delete id="bizDAO.delBiz" parameterClass="bizVO">
+		DELETE FROM tbl_biz
+		WHERE	BIZ_ID	 = #bizId#
+	</delete>
+	
+	<insert id="bizDAO.insBizService" parameterClass="bizVO">
+		INSERT INTO  tbl_biz_service
+		(SERVICE_ID, BUSINESS_NO, START_DATE, END_DATE, APPROVE1, APPROVE2, APPROVE3, APPROVE4, INS_DATE, UPD_DATE)
+		(SELECT  SERVICE_ID, #businessNo#, DATE_FORMAT(SYSDATE(), '%Y%m%d'), '99991231', 'true', 'true', 'true', 'true', DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+	 		FROM  tbl_service
+         	WHERE SERVICE_ID IN ('171010134547001', '171011142644002', '180223115310004'))
+	</insert>
+	
+	<delete id="bizDAO.delBizService" parameterClass="bizVO">
+		DELETE FROM tbl_biz_service
+		WHERE	BUSINESS_NO	 = #businessNo#
+	</delete>
+	
+	<insert id="bizDAO.insBizGrp" parameterClass="bizGrpVO">
+		INSERT INTO tbl_biz_grp (
+			BIZ_ID, GRP_TYPE, REF_ID, STATUS_CODE, INS_DATE
+		) VALUES (
+		   #bizId#, #grpType#, #refId#, #statusCode#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<delete id="bizDAO.delBizGrp" parameterClass="bizGrpVO">
+		DELETE FROM tbl_biz_grp
+		WHERE	BIZ_ID   = #bizId#
+		AND		GRP_TYPE = #grpType#
+		AND		REF_ID   = #refId#
+	</delete>
+	
+	
+	<select id="bizDAO.getBizGrp" parameterClass="bizGrpVO" resultMap="bizGrpNameListMap" >		
+		SELECT  'B' GRP_TYPE, B.BIZ_ID ID, B.BIZ_NAME NAME, B.BUSINESS_NO NO, B.COMPANY_TEL_NUM NUM, B.COMPANY_FAX_NUM, B.OWNER_NAME, B.ADDR1, B.INS_DATE,
+      			B.PERSON_USER_NAME, B.PERSON_E_MAIL, B.PERSON_USER_TEL_NUM, B.FORM_POINT, B.SCAN_POINT, B.SEND_POINT, B.RESEND_POINT,
+      			IFNULL((SELECT X.CUR_POINT FROM tbl_point X WHERE X.BIZ_ID = B.BIZ_ID), 0) CUR_POINT, B.BIZ_MNG_YN, B.MAIN_BIZ_YN, B.PAY_POINT, B.USE_CONTRACT_MENU, B.USE_ELEC_DOC, B.USE_PAY_STUB
+		FROM    tbl_biz B
+		WHERE   B.BIZ_ID   = #bizId#
+	</select>
+	
+	<select id="bizDAO.getBizGrpList" parameterClass="bizGrpVO" resultMap="bizGrpNameListMap" >
+		SELECT	'B' GRP_TYPE, A.BIZ_ID ID, A.BIZ_NAME NAME, A.BUSINESS_NO NO, A.COMPANY_TEL_NUM NUM, A.COMPANY_FAX_NUM, A.OWNER_NAME, A.ADDR1, A.INS_DATE,
+      			A.PERSON_USER_NAME, A.PERSON_E_MAIL, A.PERSON_USER_TEL_NUM, A.FORM_POINT, A.SCAN_POINT, A.SEND_POINT, A.RESEND_POINT,
+      			IFNULL((SELECT X.CUR_POINT FROM tbl_point X WHERE X.BIZ_ID = A.BIZ_ID), 0) CUR_POINT, A.BIZ_MNG_YN, A.MAIN_BIZ_YN, A.PAY_POINT, A.USE_CONTRACT_MENU, A.USE_ELEC_DOC, A.USE_PAY_STUB
+		FROM	tbl_biz A
+		
+		WHERE 	A.BIZ_ID   = #bizId#
+		<isNotNull property="searchKey">
+		    <isNotEmpty property="searchKey">
+		    	<isEqual property="searchKey" compareValue="bizName">
+					AND		A.BIZ_NAME LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="businessNo">
+					AND		A.BUSINESS_NO LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		UNION
+		SELECT  A.GRP_TYPE, B.BIZ_ID ID, B.BIZ_NAME NAME, B.BUSINESS_NO NO, B.COMPANY_TEL_NUM NUM, B.COMPANY_FAX_NUM, B.OWNER_NAME, B.ADDR1, A.INS_DATE,
+      			B.PERSON_USER_NAME, B.PERSON_E_MAIL, B.PERSON_USER_TEL_NUM, B.FORM_POINT, B.SCAN_POINT, B.SEND_POINT, B.RESEND_POINT,
+      			IFNULL((SELECT X.CUR_POINT FROM tbl_point X WHERE X.BIZ_ID = B.BIZ_ID), 0) CUR_POINT, B.BIZ_MNG_YN, B.MAIN_BIZ_YN, B.PAY_POINT, B.USE_CONTRACT_MENU, B.USE_ELEC_DOC, B.USE_PAY_STUB
+		FROM    tbl_biz_grp A, tbl_biz B
+		WHERE   A.REF_ID   = B.BIZ_ID
+		AND     A.GRP_TYPE = 'B'
+		AND		A.BIZ_ID   = #bizId#
+		AND     A.STATUS_CODE = 'RES'
+		<isNotNull property="refId">
+		    <isNotEmpty property="refId">
+			AND		A.REF_ID    = #refId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchKey">
+		    <isNotEmpty property="searchKey">
+		    	<isEqual property="searchKey" compareValue="bizName">
+					AND		B.BIZ_NAME LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="businessNo">
+					AND		B.BUSINESS_NO LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<select id="bizDAO.getBizGrpCombo" parameterClass="bizGrpVO" resultClass="bizGrpVO" >
+		SELECT
+	        A.BIZ_ID id,
+	        A.BIZ_NAME name,
+	        B.CUR_POINT curPoint
+	    FROM
+	        tbl_biz A
+	        LEFT OUTER JOIN
+	        tbl_point B
+	        ON A.BIZ_ID = B.BIZ_ID
+	    WHERE A.BIZ_ID = #bizId#         
+	    UNION
+	    SELECT
+	        B.BIZ_ID id,
+	        B.BIZ_NAME name,
+	        C.CUR_POINT curPoint
+	    FROM
+	        tbl_biz_grp A,
+	        tbl_biz B
+	        LEFT OUTER JOIN
+	        tbl_point C
+	        ON B.BIZ_ID = C.BIZ_ID
+	    WHERE A.REF_ID = B.BIZ_ID
+	      AND A.GRP_TYPE = 'B' 
+	      AND A.BIZ_ID   =  #bizId#
+	      AND A.STATUS_CODE = 'RES'
+	</select>
+	
+	<select id="bizDAO.getBizGrpSubAdminList" parameterClass="bizGrpVO" resultMap="bizGrpNameListMap" >
+		SELECT  A.GRP_TYPE, B.BIZ_ID ID, B.BIZ_NAME NAME, B.BUSINESS_NO NO, B.COMPANY_TEL_NUM NUM, B.COMPANY_FAX_NUM, B.OWNER_NAME, B.ADDR1, A.INS_DATE,
+      			C.USER_ID, C.EMP_NAME, C.E_MAIL, C.PHONE_NUM, B.FORM_POINT, B.SCAN_POINT, B.SEND_POINT, B.RESEND_POINT,
+      			IFNULL((SELECT X.CUR_POINT FROM tbl_point X WHERE X.BIZ_ID = B.BIZ_ID), 0) CUR_POINT, B.BIZ_MNG_YN, B.MAIN_BIZ_YN, B.PAY_POINT, B.USE_CONTRACT_MENU, B.USE_ELEC_DOC, B.USE_PAY_STUB
+		FROM    tbl_user_grp A, tbl_biz B, tbl_emp C  
+		WHERE   A.REF_ID   = B.BIZ_ID
+		AND     B.BIZ_ID   = C.BIZ_ID
+		AND     A.GRP_TYPE = 'B'
+		AND     C.EMP_TYPE = '6'
+		AND		C.USE_YN   = 'Y'
+		AND     A.STATUS_CODE = 'RES'
+		AND		A.USER_ID  = #userId#
+		<isNotNull property="searchKey">
+		    <isNotEmpty property="searchKey">
+		    	<isEqual property="searchKey" compareValue="bizName">
+					AND		B.BIZ_NAME LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="businessNo">
+					AND		B.BUSINESS_NO LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<insert id="bizDAO.insBizServiceAdd" parameterClass="bizVO">
+		INSERT INTO  tbl_biz_service
+		(SERVICE_ID, BUSINESS_NO, START_DATE, END_DATE, APPROVE1, APPROVE2, APPROVE3, APPROVE4, INS_DATE, UPD_DATE)
+		(SELECT  SERVICE_ID, #businessNo#, DATE_FORMAT(SYSDATE(), '%Y%m%d'), '99991231', 'true', 'true', 'true', 'true', DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+	 		FROM  tbl_service
+	 		WHERE SERVICE_TYPE = #serviceType#)
+	</insert>
+	
+	<select id="bizDAO.getServiceList" parameterClass="bizVO" resultMap="serviceListMap" >		
+		SELECT SERVICE_ID, SERVICE_NAME, SERVICE_TYPE
+			FROM tbl_service
+			<isNotNull property="serviceType">
+			    <isNotEmpty property="serviceType">
+				WHERE SERVICE_TYPE 		= #serviceType#
+				</isNotEmpty>
+			</isNotNull>
+	</select>
+	
+	
+	<select id="bizDAO.getBizGrpNameList" parameterClass="bizGrpVO" resultMap="bizGrpListMap" >		
+		SELECT  B.BIZ_ID, B.BIZ_NAME
+		FROM    (
+		        SELECT  REF_ID
+		        FROM  tbl_user_grp
+		        WHERE GRP_TYPE = 'B'
+		        AND   USER_ID  = #userId#
+		        UNION ALL
+		        SELECT  X.REF_ID
+		        FROM    tbl_biz_grp X, tbl_emp Y
+		        WHERE   X.BIZ_ID   = Y.BIZ_ID
+		        AND     X.GRP_TYPE = 'B'
+		        AND     Y.USER_ID  = #userId# ) A,
+		        tbl_biz B
+		WHERE   A.REF_ID = B.BIZ_ID
+	</select>
+	
+	<update id="bizDAO.updatePointContractEnd" parameterClass="bizVO">
+	<![CDATA[
+		UPDATE tbl_point
+		SET		CUR_POINT		= 0,
+				UPD_DATE		= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	BIZ_ID	 = #bizId#
+	]]>
+	</update>
+	
+	<insert id="bizDAO.updatePointLogContractEnd" parameterClass="pointLogVO">
+		INSERT INTO tbl_point_log (
+			BIZ_ID, USER_ID, SERVICE_ID, POINT_TYPE, POINT_PRICE, PAYMENT_AMT, ETC_DESC, INS_DATE, UPD_DATE
+		) VALUES (
+		   #bizId#, #userId#, #serviceId#, #pointType#, (SELECT CUR_POINT FROM TBL_POINT WHERE BIZ_ID = #bizId#), #paymentAmt#, #etcDesc#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<update id="bizDAO.updateOpenVoucherContractEnd">
+	<![CDATA[
+		UPDATE  tbl_biz
+		SET     OPEN_VOUCHER_TYPE = '3' 
+			,	RESEND_POINT = 1
+			,	SEND_POINT = 10
+			,	UPD_DATE = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE   OPEN_VOUCHER_TYPE = '1'
+		AND     CONTRACT_END_DATE < DATE_FORMAT(CURDATE(), "%Y%m%d")
+	]]>
+	</update>
+	
+	<select id="bizDAO.getupdateOpenVoucher" resultMap="openListMap" >
+	<![CDATA[
+		SELECT  BIZ_ID
+		FROM	TBL_BIZ
+		WHERE   OPEN_VOUCHER_TYPE = '1'
+		AND     CONTRACT_END_DATE < DATE_FORMAT(CURDATE(), "%Y%m%d")
+	]]>
+	</select>
+	
+	<select id="bizDAO.getContractD30List" resultMap="mailListMap" >		
+		SELECT  PERSON_E_MAIL
+		FROM	TBL_BIZ
+		WHERE	CONTRACT_END_DATE = DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL 30 DAY), "%Y%m%d")
+	</select>
+	
+	<select id="bizDAO.getContractEndList" resultMap="mailListMap" >		
+		SELECT  PERSON_E_MAIL
+		FROM	TBL_BIZ
+		WHERE	CONTRACT_END_DATE = DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL -1 DAY), "%Y%m%d")
+	</select>
+	
+	<select id="bizDAO.getDownloadExpireList" resultMap="mailListMap" >		
+		SELECT  PERSON_E_MAIL
+		FROM	TBL_BIZ
+		WHERE	CONTRACT_END_DATE = DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL -30 DAY), "%Y%m%d")
+	</select>
+	
+	<insert id="bizDAO.insertBizRequst" parameterClass="bizVO">
+		<selectKey resultClass="java.lang.String" keyProperty="requestId">
+			SELECT  getTableKey('TBL_APP_RQUST')
+		</selectKey>
+		INSERT INTO tbl_app_rqust (
+			REQUEST_ID
+		   ,BIZ_NAME
+		   ,BUSINESS_NO
+		   ,PERSON_E_MAIL
+		   ,PERSON_USER_TEL_NUM
+		   ,FUNNEL
+		   ,FUNNEL_YEAR
+		   ,INS_DATE
+		   ,INS_EMP_NO
+		   ,UPD_DATE
+		   ,UPD_EMP_NO
+			
+		) VALUES (
+		   #requestId#
+		  ,#bizName#
+		  ,#businessNo#
+		  ,#personEMail#
+		  ,#personUserTelNum#
+		  ,#funnel#
+		  ,#funnelYear#
+		  ,DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		  ,#userId#
+		  ,DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		  ,#userId#
+		   
+		)
+	</insert>
+
+	<insert id="bizDAO.insDefaultContractForm" parameterClass="bizVO">
+
+		INSERT INTO tbl_contract_person_new
+		(SERVICE_ID,
+		 BIZ_ID,
+		 FILE_ID,
+		 CONTRACT_ID,
+		 DATA_FILE_ID,
+		 LAST_FILE_ID,
+		 TRANS_TYPE,
+		 CONTRACT_TYPE,
+		 SIGN_USER_TYPE,
+		 SIGN_BIZ_TYPE,
+		 LABOR_TYPE,
+		 FILE_TITLE,
+		 VIEW_YN,
+		 USE_OTHER_LAYOUT,
+		 USE_ETC,
+		 ETC_URL,
+		 USE_PRE,
+		 PRE_URL,
+		 EXPIRE_DAY,
+		 INS_DATE,
+		 UPD_DATE,
+		 ORG_IMG_YN,
+		 FONT_CONVERT_TYPE,
+		 CORRECTION_TYPE,
+		 ALTER_FILE_ID,
+		 SIGN_CUSTOMER_TYPE)
+		VALUES
+			('171010134547001',
+			 #bizId#,
+			 '758178837a4d45aabb01518d6395a99a',
+			 '10000000000000000000000000000010',
+			 '758178837a4d45aabb01518d6395a99a',
+			 null,
+			 'C',
+			 '1',
+			 '1',
+			 '1',
+			 '0',
+			 '모바일_전자근로계약서_기본',
+			 'Y',
+			 'N',
+			 'N',
+			 null,
+			 'N',
+			 null,
+			 null,
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'),
+			 DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'),
+			 'N',
+			 'N',
+			 'Y',
+			 null,
+			 '0');
+	</insert>
+	
+	<select id="bizDAO.getBizExsit" parameterClass="bizGrpVO" resultMap="bizGrpListMap" >		
+		SELECT  A.BIZ_ID, A.BIZ_NAME
+		FROM    TBL_BIZ A
+		WHERE   A.BUSINESS_NO = #businessNo#
+		  AND	(FIND_IN_SET(A.BIZ_ID, (SELECT GROUP_CONCAT(C.REF_ID) FROM TBL_BIZ_GRP C WHERE C.BIZ_ID  = #bizId#)) OR A.BIZ_ID = #bizId#)
+	</select>
+
+	<select id="bizDAO.getBizEmail" parameterClass="bizVO" resultMap="bizEmailMap">
+		SELECT  A.BIZ_ID , A.BIZ_NAME, IFNULL(A.PERSON_E_MAIL,B.E_MAIL) AS PERSON_E_MAIL, B.PHONE_NUM
+		FROM    tbl_biz A
+		LEFT OUTER JOIN	tbl_emp AS B
+		ON	A.BIZ_ID = B.BIZ_ID
+		AND B.USER_ID = ( SELECT USER_ID FROM tbl_emp WHERE USE_YN = 'Y' AND BIZ_ID = #bizId# AND EMP_TYPE != '1' ORDER BY INS_DATE LIMIT 1)
+		AND B.USE_YN = 'Y'
+		WHERE   1 = 1
+		<isNotNull property="bizId">
+			<isNotEmpty property="bizId">
+				AND     A.BIZ_ID = #bizId#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+
+</sqlMap>
+		

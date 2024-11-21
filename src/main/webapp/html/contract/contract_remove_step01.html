@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/contract_write.css">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<!-- bootPag -->
+
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+	<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+	<script type="text/javascript">
+
+		function fn_prevPage(){
+			$("#contents_wrap").empty();
+			$(window).off("resize");
+			$.ajax({
+				url : "/html/contract/contract_list_complete.html" ,
+				success : function(result) {
+					$("#contents_wrap").html(result);
+				}
+			});
+		}
+
+		function fn_nextPage(){
+			if($("#agree_ck1").is(":checked") && $("#agree_ck2").is(":checked") && $("#agree_ck3").is(":checked")) {
+				$("#contract_wrap").empty();
+				$(window).off("resize");
+				$.ajax({
+					url : "/html/contract/contract_remove_step02.html" ,
+					success : function(result) {
+						$("#contract_wrap").html(result);
+					}
+				});
+			} else {
+				alert("삭제 주의사항에 동의해야\r\n전자문서의 삭제가 가능합니다.");
+				return false;
+			}
+		}
+
+	</script>
+
+</head>
+
+<body>
+<div id="contract_wrap" class="">
+	<div class="container">
+		<div class="location"><span class="loc_main NanumGothic">전자문서 > 전자계약(양식변환) > </span><span class="loc_sub NanumGothic">완료계약 문서함</span></div>
+		<div class="pagtit"><span class="NanumGothic">1. 삭제 동의</span></div>
+		<div class="tit_dec NanumGothic"><span class="speaker"></span><span>전자문서 삭제 전</span> <span class="point">주의사항을 반드시 숙지</span><span>하시고 동의해주세요.</span></div>
+		<div class="nav_snb">
+			<ul class="nav_tabGroup tab3">
+				<li class="active">
+					<div class="hor_line"></div>
+					<div class="num"><span>1</span></div>
+					<div class="btn_tab"><span class="tabBox NanumGothic">삭제 동의</span></div>
+				</li>
+				<li class="">
+					<div class="hor_line"></div>
+					<div class="num"><span>2</span></div>
+					<div class="btn_tab"><span class="tabBox NanumGothic">목록 확인 및 다운로드</span></div>
+				</li>
+				<li>
+					<div class="hor_line"></div>
+					<div class="num"><span>3</span></div>
+					<div class="btn_tab"><span class="tabBox NanumGothic">삭제</span></div>
+				</li>
+			</ul>
+		</div>
+		<div class="tab_contents">
+			<ul class="agree_box NanumGothic">
+				<li>
+					<span>1. 전자문서 삭제 시 파일이 영구적으로 삭제됩니다.</span>
+					<span>삭제된 전자문서는 재확인 및 복원이 불가하오니 신중하게 선택하시기 바랍니다.</span>
+					<div class="bot"><div class="agree_ckBox"><input type="checkbox" name="agree" id="agree_ck1"><label for="agree_ck1"></label><div>주의사항을 확인했으며, 이에 동의합니다.</div></div></div>
+				</li>
+				<li>
+					<span>2. 전자문서 삭제 선택 전 선택한 전자문서의 다운로드를 진행하셨나요?</span>
+					<span>전자문서가 삭제 되기 전에 전자문서를 다운로드 받아 보관하시기 바랍니다.</span>
+					<div class="bot"><div class="agree_ckBox"><input type="checkbox" name="agree" id="agree_ck2"><label for="agree_ck2"></label><div>주의사항을 확인했으며, 이에 동의합니다.</div></div></div>
+				</li>
+				<li>
+					<span>3. 전자문서를 삭제하면 수신자에게 발송된 전자문서 다운로드 URL은 폐기됩니다.</span>
+					<div class="bot"><div  class="agree_ckBox"><input type="checkbox" name="agree" id="agree_ck3"><label for="agree_ck3"></label><div>주의사항을 확인했으며, 이에 동의합니다.</div></div></div>
+				</li>
+			</ul>
+		</div>
+		<div class="btn_footGroup NanumGothic sort-R">
+			<a class="btn_type btn_cancel" onclick="fn_prevPage();">취소</a>
+			<a class="btn_type btn_next" onclick="fn_nextPage();">다음 ＞ </a>
+		</div>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>전자 신고</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+<link rel="stylesheet" type="text/css" href="/css/jquery.alerts.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.alerts.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+
+<script type='text/javascript' src="/js/ezsign/feb/hometax/yearTax_payment_electronicReport.js"></script>
+
+</head>
+<body>
+<iframe name="blankFrame" id="blankFrame" border="0" width="0" height="0"></iframe>
+<form name="frm" id="frm" method="post">
+<input type="hidden" name="제출년월일" id="제출년월일" value="" />
+<input type="hidden" name="yp800FileName" id="yp800FileName" value="" />
+<input type="hidden" name="yp800FilePath" id="yp800FilePath" value="" />
+<input type="hidden" name="전자문서비밀번호" id="전자문서비밀번호" value="" />
+<input type="hidden" name="근무시기" id="근무시기" value="1" />
+
+	<div id="yearTax_wrap" class="yearTax">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">간이지급명세서 > 상반기 지급분  > </span><span class="loc_sub NanumSquare_R">전자 신고</span></div>
+			<div class="pagtit NanumSquare_R">
+				<span class="">상반기 전자 신고</span>
+			</div>
+			
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">전자 신고</span>
+					</div>
+					<div class="grid_field full">
+						<ul class="gridRow2">
+							<li class="search_wrap">
+								<div class="group_row row3">
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">사업장 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R" id="사업장ID" name="사업장ID">
+												<option value="" >전체</option>
+											</select>
+										</dd>
+									</dl>
+								</div>
+							</li>
+							<li class="btns sort_right">
+								<a class="NanumSquare_R btn_type btn_grid_search" onclick="fn_getYP800List()"><span class="icon Material_icons">search</span> 검색</a>
+							</li>
+						</ul>
+					</div>
+					<div class="grid_paging">
+						<div class="select_box">
+							<dl>
+								<dt><label class="label_txt NanumSquare_R">Rows</label></dt>
+								<dd class="select_box">
+									<select class="NanumSquare_R" id="viewPage">
+										<option value="10" >10</option>
+										<option value="20" >20</option>
+										<option value="30" >30</option>
+										<option value="50" >50</option>
+									</select>
+								</dd>
+							</dl>
+						</div>
+						<div id="page-selection" class="pagingnav_wrap_mid"></div>
+					</div>
+					<div class="group_table">
+						<table class="hasHead NanumSquare_R">
+							<colgroup>
+								<col width="4%">
+								<col width="">
+								<col width="11%">
+								<col width="11%">
+								<col width="6%">
+								<col width="6%">
+								<col width="6%">
+								<col width="11%">
+								<col width="11%">
+								<col width="7%">
+								<col width="7%">
+								<col width="10%">
+							</colgroup>
+							<thead>
+								<tr>
+									<th class="chk_area"><input type="checkbox" id="chkAll" name="chkAll"></th>
+									<th>사업장</th>
+									<th>사업자등록번호</th>
+									<th>종사업자 일련번호</th>
+									<th>단위과세</th>
+									<th>대상인원</th>
+									<th>신고인원</th>
+									<th>과세소득</th>
+									<th>비과세소득</th>
+									<th>근무시기</th>
+									<th>제작여부</th>
+									<th>제작일자</th>
+								</tr>
+							</thead>
+							<tbody id="dataList">
+								<tr class="">
+									<td class="chk_area"></td>
+									<td class="value"></td>
+									<td class="value"></td>
+									<td class="value"></td>
+									<td class="value"></td>
+									<td class="value"></td>
+									<td class="value"></td>
+									<td class="value sort_right"></td>
+									<td class="value sort_right"></td>
+									<td class="value"></td>
+									<td class="value"></td>
+									<td class="value"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="group_row full">
+						<ul class="gridRow-pub field_sort_right">
+							<li class="w600">
+								<div class="group_row row2">
+									<dl class="NanumSquare_R rat4-6">
+										<dt><label class="label_txt NanumSquare_R">제출대상구분 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R" id=제출대상구분코드 name="제출대상구분코드">
+												<option value="77" >1.근로소득 간이지급명세서 (근로소득)</option>
+											</select>
+										</dd>
+									</dl>
+									
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">제출년월일 : </label></dt>
+										<dd class="multi_box date_input">
+											<div class="year"><input id="제출년" name="제출년" type="number" value="">년</div>
+											<div class="month"><input id="제출월" name="제출월" type="number" value="">월</div>
+											<div class="day"><input id="제출일" name="제출일" type="number" value="">일</div>
+										</dd>
+									</dl>
+								</div>
+							</li>
+							<li class="btns">
+								<a class="NanumSquare_R btn_type btn_making" href="javascript:saveYP800();">제작</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div><!--  content -->
+		</div>
+	</div>
+</form>	
+
+
+<div class="window">
+	<div id="layer_popupWrap" class="ckPassword">
+		<div class="container">
+			<div id="popup_tit" class="nonborder">
+				<div id="popup_close" class="btn_type col_skyblue"></div>
+			</div>			
+			<div class="contents">
+				<ul class="pwCheck_wrap NanumSquare_R">
+					<li class="icon"></li>
+					<li class="tit">파일 비밀번호 입력</li>
+					<li class="txt">파일 암호화를 위해 비밀번호를 입력하세요.</li>
+					<li class="input"><input type="password" id="file_password" name="file_password" maxlength="14" value="" class="NanumRound"></li>
+					<li class="btns">
+						<a class="btn_type type1 NanumSquare_R" onclick="fnc_filedownload('Y');">확인</a>
+						<a class="btn_type type2 NanumSquare_R" onclick="fnc_pup_close();">닫기</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+		
+<!-- 파일 암호화 레이아웃 팝업 -->
+<style> 
+	.window{
+    	display: none;      
+ 	}
+</style>
+
+<script type="text/javascript"> 
+
+    $(document).ready(function(){
+        /*$("#popup_open").click(function(e){
+            e.preventDefault();
+            $("#file_password").val("");
+            $(".window").show();
+        });*/
+ 
+        //닫기 버튼을 눌렀을 때
+        $(".window #popup_close").click(function (e) {  
+            //링크 기본동작은 작동하지 않도록 한다.
+            e.preventDefault();
+            $("#file_password").val("");
+            $(".window").hide();       
+            
+            //fnc_filedownload('N');
+        });       
+        
+        var date = new Date();
+        
+        var year = date.getFullYear();
+        var month = date.getMonth()+1;
+        var day = date.getDate();
+        
+        $("#제출년").val(year);
+        
+        if(month < 10){
+        	$("#제출월").val('0'+month);	
+        }else{
+        	$("#제출월").val(month);
+        }
+        if(day < 10){
+        	$("#제출일").val('0'+day);	
+        }else{
+        	$("#제출일").val(day);
+        }        
+        
+    });
+ 
+    function fnc_pup_close(){
+    	$("#file_password").val("");
+    	$(".window").hide();  
+    	
+    	fnc_filedownload('N');
+    }
+
+</script>    
+
+</body>
+</html>

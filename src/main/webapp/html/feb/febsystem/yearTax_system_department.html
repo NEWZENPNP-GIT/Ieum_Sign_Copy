@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>전자 신고</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+<link rel="stylesheet" type="text/css" href="/css/chosen_v1.8.7/chosen.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+
+<script src="/js/chosen_v1.8.7/chosen.jquery.js" type="text/javascript"></script>
+<script src="/js/chosen_v1.8.7/docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/chosen_v1.8.7/docsupport/init.js" type="text/javascript" charset="utf-8"></script>
+
+<script type='text/javascript' src="/js/ezsign/session_storage.js"></script>
+<script type='text/javascript' src="/js/ezsign/yearTax_basicsData_common.js"></script>
+<script type='text/javascript' src="/js/ezsign/feb/febsystem/yearTax_system_department.js"></script>
+
+</head>
+<body>
+	<div id="yearTax_wrap" class="yearTax">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">간이지급명세서 > </span><span class="loc_sub NanumSquare_R">부서 등록</span></div>
+			<div class="pagtit NanumSquare_R">
+				<span class="">부서 등록</span>
+				<ul class="top_items NanumSquare_R">
+					<li><a class="btn_type icon_file NanumSquare_R" onClick="openExcel('1')">일괄등록 <span class="icon icon_file"></span></a></li>
+					<li><a class="btn_type btn_excel NanumSquare_R" onClick="downExcel(event)">서식 다운로드 <span class="icon excelDown"></span></a></li>
+					<li><a class="btn_type" onClick="setDepartmontInfo();" id="saveBtn" ><span class="icon_save Material_icons"></span>저장</a></li>
+				</ul>
+			</div>
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">부서등록</span>
+					</div>
+					<div class="grid_field">
+						<ul class="between">
+							<li class="label_before">
+								<label class="NanumSquare_R label_sort_right">부서명 : </label>
+								<fieldset class="">
+                  				<input class="" type="text" id="searchText" ><a class="btn_type btn_search Material_icons" onClick="getList()">search</a>
+								</fieldset>
+							</li>
+							<li class="NanumSquare_R"><a class="btn_type type1" onClick="addDepartmentList()">라인추가<span class="icon add"></span></a></li>
+							<li class="NanumSquare_R"><a class="btn_type type2" onClick="delDepartmentList()">선택삭제</a></li>
+						</ul>
+					</div>
+					
+					<!-- 19.05.14 : 페이징 처리 제거
+					<div class="grid_paging">
+						<div class="select_box">
+							<dl>								
+								<dt><label class="label_txt NanumSquare_R">Rows</label></dt>
+								<dd class="select_box">
+									<select class="NanumSquare_R" id="perPage" onChange="onChangeperPage()">                  
+                					</select>
+								</dd>								 
+							</dl>
+						</div>
+						<div id="page-selection" class="pagingnav_wrap_mid">
+						</div>
+					</div>
+					-->
+					
+					<div class="group_table">
+						<table class="NanumSquare_R" appFocusNext>
+							<colgroup>
+								<col width="4%">
+								<col width="23%">
+								<col width="20%">
+								<col width="23%">
+								<col width="20%">
+							</colgroup>
+							<tbody id="departmentRListBody">
+                  				
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+   <!-- <app-excel (outpupExcel)="closeExcel($event)"></app-excel>  -->
+   
+</body>
+</html>   

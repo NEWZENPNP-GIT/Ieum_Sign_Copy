@@ -1,0 +1,194 @@
+@charset "utf-8";
+
+
+/** -------------------- media ----------------------------- **/
+@media all and (max-width: 320px){
+	.waiting_wrap .text{font-size: 15px !important;}
+	.confirm_wrap .text{font-size: 15px !important;}
+	.contract_wrap .ongoing ul.list li{height:79px !important; }
+	.contract_wrap .ongoing ul.list li.non{ font-size: 15px !important;}
+	.contract_wrap .ongoing ul.list li.btn_type .userName{width: calc(100% - 20px) !important; margin: 20px 0 0 20px !important; font-size: 15px !important;}
+	.contract_wrap .ongoing ul.list li.btn_type .docName{width: calc(100% - 60px) !important; margin: 4px 40px 0 20px !important; font-size: 15px !important;}
+	.contract_wrap .ongoing ul.list li.btn_type.editing:before{margin: 6px 0 0 20px !important; font-size: 13px !important; padding: 3px 7px !important;}
+	.contract_wrap .ongoing ul.list li.btn_type.editing .userName{margin: 6px 0 0 20px !important;}
+	
+	.contract_wrap .complete .list li{height:50px !important;}
+	.contract_wrap .complete .list li .icon{width:50px !important; height:50px !important;}
+	.contract_wrap .complete .list li .icon:after{ top: 9px !important;  left: 13px !important; -webkit-transform: scale(0.26) !important; -ms-transform:scale(0.26) !important; -o-transform:scale(0.26) !important; transform: scale(0.26) !important;}
+	.contract_wrap .complete .list li .text{font-size: 15px !important; width: calc(100% - 109px) !important; height: calc(100% - 5px) !important; padding: 5px 0 0 12px !important;}
+	.contract_wrap .complete .list li .text span {line-height: 20px !important;}
+	.contract_wrap .complete .list li .arrow{ width: 47px !important; height: 28px !important;}
+	.contract_wrap .complete .list li .arrow:after{font-size: 13px !important;}
+	
+	#container .top_select{padding: 20px 20px 20px 20px !important; height: 42px !important;}
+	#container .top_select .btns_box .btn_type{font-size: 16px !important;}
+	#container .contract_view:before{height: 50px !important;}
+	
+	#container .top_select{padding: 20px 20px 20px 20px !important; height: 40px !important;}
+	#container .top_select .btns_box .btn_type{font-size: 15px !important;}
+	#container .contract_view:before{height: 45px !important;}
+	
+}
+@media all and (min-width: 321px) and (max-width: 360px) {
+	.waiting_wrap .text{font-size: 15px !important;}
+	.confirm_wrap .text{font-size: 15px !important;}
+	.contract_wrap .ongoing ul.list li{height:90px !important; }
+	.contract_wrap .ongoing ul.list li.non{ font-size: 15px !important;}
+	.contract_wrap .ongoing ul.list li.btn_type .userName{margin: 25px 0 0 25px !important; font-size: 15px !important;}
+	.contract_wrap .ongoing ul.list li.btn_type .docName{ font-size: 15px !important;}
+	.contract_wrap .ongoing ul.list li.btn_type.editing:before{margin: 8px 0 0 25px !important; font-size: 15px !important; padding: 3px 7px !important;}
+	.contract_wrap .ongoing ul.list li.btn_type.editing .userName{margin: 6px 0 0 25px !important;}
+	
+	.contract_wrap .complete .list li{height:50px !important;}
+	.contract_wrap .complete .list li .icon{width:50px !important; height:50px !important;}
+	.contract_wrap .complete .list li .icon:after{ top: 9px !important;  left: 13px !important; -webkit-transform: scale(0.26) !important; -ms-transform:scale(0.26) !important; -o-transform:scale(0.26) !important; transform: scale(0.26) !important;}
+	.contract_wrap .complete .list li .text{font-size: 15px !important; width: calc(100% - 112px) !important; height: calc(100% - 5px) !important; padding: 5px 0 0 12px !important;}
+	.contract_wrap .complete .list li .text span {line-height: 20px !important;}
+	.contract_wrap .complete .list li .arrow{ width: 50px !important; height: 28px !important;}
+	.contract_wrap .complete .list li .arrow:after{font-size: 14px !important;}
+	
+	#container .top_select{padding: 20px 20px 20px 20px !important; height: 42px !important;}
+	#container .top_select .btns_box .btn_type{font-size: 16px !important;}
+	#container .contract_view:before{height: 50px !important;}
+}
+@media all and (min-width: 361px) and (max-width: 410px) {
+	.contract_wrap .ongoing ul.list li{height:93px !important; }
+	.contract_wrap .ongoing ul.list li.btn_type .userName{margin: 25px 0 0 25px !important;}
+	.contract_wrap .ongoing ul.list li.btn_type.editing:before{margin: 8px 0 0 25px !important; font-size: 15px !important;}
+	.contract_wrap .ongoing ul.list li.btn_type.editing .userName{margin: 8px 0 0 25px !important;}
+	
+	.contract_wrap .complete .list li{height:55px !important;}
+	.contract_wrap .complete .list li .icon{width:55px !important; height:55px !important;}
+	.contract_wrap .complete .list li .icon:after{ top: 9px !important;  left: 13px !important; -webkit-transform: scale(0.30) !important; -ms-transform:scale(0.30) !important; -o-transform:scale(0.30) !important; transform: scale(0.30) !important;}
+	.contract_wrap .complete .list li .text{font-size: 16px !important; width: calc(100% - 117px) !important; height: calc(100% - 7px) !important; padding: 7px 0 0 12px !important;}
+	.contract_wrap .complete .list li .arrow{ width: 50px !important; height: 28px !important;}
+	.contract_wrap .complete .list li .text span {line-height: 20px !important;}
+	
+	#container .top_select{padding: 20px 20px 20px 20px !important; height: 42px !important;}
+	#container .top_select .btns_box .btn_type{font-size: 16px !important;}
+	#container .contract_view:before{height: 50px !important;}
+	
+	#container .top_select{padding: 22px 20px 22px 20px !important; height: 44px !important;}
+	#container .top_select .btns_box .btn_type{font-size: 17px !important;}
+	#container .contract_view:before{height: 55px !important;}
+}
+@media all and (min-width: 768px) and (max-width: 1023px){
+	.contract_wrap .ongoing ul.list li.btn_type{background: linear-gradient(45deg, #ffffff 87%, #d9e7ff 12%) !important;}
+}
+@media all and (min-width: 1024px){
+	.contract_wrap .ongoing ul.list li.btn_type{background: linear-gradient(45deg, #ffffff 90%, #d9e7ff 10%) !important;}
+}
+@media all and (max-height: 640px) {
+}
+
+@media all and (min-height: 641px) and (max-height: 730px) {
+}
+
+header.contract{background-color: #4949b5}
+#container.contract{padding: 0px; min-height: calc(100% - 65px); background: #99b9e4; /* linear-gradient(180deg, #4741b1 15%, #fafafa 10%, #99b9e4 75%); */}
+#container .wrap{height: 100%; }
+
+.waiting_wrap{position:relative; width:calc(100% - 40px); float:left; padding: 25px 20px 23px 20px; line-height: 22px; letter-spacing: -0.3px; background: linear-gradient(178deg, #5578d2 8%, #4741b1 92%);}
+.waiting_wrap .text{position:relative; height:45px; color:#ffffff; font-size: 17px; font-weight:normal; float:left; margin-bottom: 23px; }
+.waiting_wrap .btns{width:100%; float:left;}
+.waiting_wrap .btn_type{width:100%; height:50px; background-color: #16196f; color:#ffffff; font-size: 18px; border-radius: 8px; display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+
+.confirm_wrap{position:relative; width:calc(100% - 40px); float:left; padding: 25px 20px 15px 20px; line-height: 22px; letter-spacing: -0.3px; background: linear-gradient(180deg, #5578d2 15%, #4741b1 85%);}
+.confirm_wrap .text{position:relative; height:45px; color:#ffffff; font-size: 17px; font-weight:normal; float:left; }
+.confirm_wrap .text span{vertical-align: baseline;}
+
+.contract_wrap{position:relative; width:100%; height:100%; float:left; }
+.contract_wrap .ongoing{position: relative; width:100%; float:left; padding-top:30px; background: linear-gradient(180deg, #5783d8 25%, #453daa 75%);}
+.contract_wrap .ongoing > .tit{position: relative; color:#ffffff; width:calc(100% - 22px); font-size: 18px; padding-left:22px; height: 30px; float:left; margin-bottom: 2px;}
+.contract_wrap .ongoing ul.list{position:relative; float:left; width: 100%; display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: column;}
+.contract_wrap .ongoing ul.list li:not(.lastDate){position:relative; width:calc(100%  - 40px); height:105px; display:inline-block; overflow:hidden; border-radius:4px; float:left; margin:0 20px 15px 20px; box-shadow: 4px 4px 5px 3px rgba(0,0,0,0.2);}
+.contract_wrap .ongoing ul.list li.lastDate{position:relative; width:calc(100%  - 40px); height:auto; float:left; margin:0 20px 12px 20px; color:#ffffff; display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: column;}
+.contract_wrap .ongoing ul.list li.lastDate > div{width: 100%; margin-bottom: 5px; text-align: center;}
+.contract_wrap .ongoing ul.list li.lastDate > div > span{height:20px; font-weight:normal; color:#ffffff; display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+.contract_wrap .ongoing ul.list li.lastDate .dot{width: 15px; font-size: 10px;}
+.contract_wrap .ongoing ul.list li.lastDate .tit{width: 60px; font-size: 14px; padding-left: 0px;}
+.contract_wrap .ongoing ul.list li.lastDate .date{font-size: 14px;}
+.contract_wrap .ongoing ul.list li.lastDate .btn_type{font-size: 15px; color:#ffffff; text-underline-position: under; text-decoration: underline; font-weight:normal; }
+.contract_wrap .ongoing ul.list li.non{margin: 0 20px 30px 20px; background-color: #989898; color:#ffffff; font-size: 17px; font-weight: normal;}
+.contract_wrap .ongoing ul.list li.non{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+.contract_wrap .ongoing ul.list li.btn_type{background-color: #ffffff; background: linear-gradient(45deg, #ffffff 78%, #d9e7ff 22%); background-repeat: no-repeat;}
+.contract_wrap .ongoing ul.list li.btn_type .userName{position:relative; width:calc(100% - 25px); margin: 32px 0 0 25px; font-size: 17px; color:#333333; float:left}
+.contract_wrap .ongoing ul.list li.btn_type .docName{position:relative; width:calc(100% - 65px); margin: 4px 40px 0 25px; font-size: 17px; color:#333333; float:left; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.contract_wrap .ongoing ul.list li.btn_type .icon{position:absolute; bottom:5px; right:5px; width:38px; height:38px; background-color: #494949; border-radius: 35px; overflow: hidden;}
+.contract_wrap .ongoing ul.list li.btn_type .icon:after{display:inline-block; position:relative; top:8px; left:9px;  content:url('image/mobile/icon_plus_white.png'); width: 61px; height: 61px; -webkit-transform: scale(0.34); -ms-transform:scale(0.34); -o-transform:scale(0.34); transform: scale(0.34); transform-origin:0 0;  -o-transform-origin:0 0; -webkit-transform-origin:0 0; -ms-transform-origin:0 0;}
+.contract_wrap .ongoing ul.list li.btn_type.editing{background: linear-gradient(45deg, #ffffff 78%, #ffcbcb 22%);}
+.contract_wrap .ongoing ul.list li.btn_type.editing .userName{margin: 11px 0 0 25px;}
+.contract_wrap .ongoing ul.list li.btn_type.editing:before{content:"정정요청 "; display: inline-block; position:relative; padding:3px 7px; margin: 10px 0 0 25px; color:#ffffff; font-size:16px; background-color:#824747; border-radius: 5px;}
+
+.contract_wrap .complete{position: relative; width: 100%; min-height: calc(100% - 182px); float:left; padding:15px 0 0 0; background: linear-gradient(180deg, #ffffff 25%, #9dbbe5 75%);}
+.contract_wrap .complete .tit{position: relative; color:#4742b1; width:calc(100% - 60px); font-size: 18px; font-weight:bold; margin:0px 20px 0px 20px; padding: 20px 0 0 20px; height: 28px; float:left;}
+.contract_wrap .complete .list{position: relative; float:left; width:calc(100% - 40px); margin:0 20px 0 20px; padding-bottom: 20px; }
+.contract_wrap .complete .list li{width:calc(100% - 20px); height: 66px; background-color: #ffffff; box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2); padding:15px 10px 15px 10px; margin-bottom:5px; border-radius: 3px; }
+.contract_wrap .complete .list li div{position:relative; float:left; height:100%;}
+.contract_wrap .complete .list li .icon{width: 66px; height:66px; overflow: hidden; background-color: #d9e7ff; border-radius: 35px;} 
+.contract_wrap .complete .list li .icon:after{position:absolute; top:13px; left:16.5px; content: url(image/mobile/icon_doc_complete.png); width:95px; height:116px; -webkit-transform: scale(0.35); -ms-transform:scale(0.35); -o-transform:scale(0.35); transform: scale(0.35); transform-origin:0 0;  -o-transform-origin:0 0; -webkit-transform-origin:0 0; -ms-transform-origin:0 0;}
+.contract_wrap .complete .list li .text{width: calc(100% - 133px); height:calc(100% - 11px); color:#666666; font-size: 17px; padding:11px 0 0 12px; display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: column; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+.contract_wrap .complete .list li .text span{width: 100%; float: left; line-height: 22px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.contract_wrap .complete .list li .arrow{width: 55px; height: 32px; background-color: #d9d9d9; border-radius: 20px; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center}
+.contract_wrap .complete .list li .arrow:after{content:"보기"; color:#ffffff; font-size: 15px; font-weight: bold;}
+.contract_wrap .complete .list li.non{color:#333333; font-size: 17px; font-weight: bold;}
+.contract_wrap .complete .list li.non{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+.contract_wrap .complete .list li:last-child{margin-bottom: 0px}
+.col_skyblue{color:#00a3ff !important;}
+
+#container.contractView{ height: calc(100% - 65px);}
+#container .top_select{display: inline-block; position:relative; width: calc(100% - 40px); height:48px; padding:27px 20px 25px 20px; background: linear-gradient(180deg, #5478d1 15%, #4741b1 85%); float:left;}
+#container .top_select .paging{width:95px; height:100%; color:#ffffff; font-size: 17px; float: left; letter-spacing: 1px;}
+#container .top_select .paging{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; }
+#container .top_select .btns_box{display: flex; display: -ms-flex; display: -webkit-flex; flex-direction:row; justify-content: space-between; -ms-justify-content:  space-between; -webkit-justify-content:  space-between;}
+#container .top_select .btns_box{width: calc(100% - 95px); float: left; height: 100%; }
+#container .top_select .btns_box .btn_type{width: calc(50% - 3px); height:100%; float:left; font-size: 18px; border-radius: 5px;}
+#container .top_select .btns_box .btn_type{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container .top_select .btns_box .btn_type:nth-child(1){background-color:#16196f; color:#ffffff;}
+#container .top_select .btns_box .btn_type:nth-child(2){background-color:#bccbf1; color:#16196f;}
+
+#container .contract_view:before{content:""; display:block; position: absolute; width: 100%; height: 60px; background: #4741b1;}
+#container .contract_view{display: inline-block; width: 100%; height:calc(100% - 100px); position: relative; float: left;  background: linear-gradient(180deg, #fafafa 25%, #99b9e4 75%);}
+#container .contract_view .btns{position: absolute; top: -12px; right: 24px; z-index: 2}
+#container .contract_view .btn_zoom{display: inline-block; background-color:#494949; width: 48px; height: 48px; border-radius: 35px; overflow: hidden}
+#container .contract_view .btn_zoom:after{position: relative; top: 12px; left: 11px; content:url(image/mobile/icon_zoom_purple.png); width: 72px; height:60px; display: inline-block;   -webkit-transform: scale(0.36); -ms-transform:scale(0.36); -o-transform:scale(0.36); transform: scale(0.36); transform-origin:0 0;  -o-transform-origin:0 0; -webkit-transform-origin:0 0; -ms-transform-origin:0 0;}
+
+#container .contract_view .swiper-container {height:100%; margin: 0 auto; position: relative; overflow: hidden; list-style: none;}
+#container .contract_view .swiper-wrapper { position: relative; width: 100%;height: 100%; display: -webkit-box;display: -webkit-flex; display: -ms-flexbox; display: flex;}
+#container .contract_view .swiper-slide {position: relative; width: calc(100% - 60px); height: 100%; background-color:#ffffff; border-radius:5px; overflow:hidden;  -webkit-flex-shrink: 0;  -ms-flex-negative: 0; flex-shrink: 0; margin: 0 30px;}
+#container .contract_view .swiper-slide.before{right: -56px; top: 15px; z-index: 0; opacity: 0.4; -webkit-transform: scale(0.95); -o-transform:scale(0.95); -ms-transform:scale(0.95); transform:scale(0.95);}
+#container .contract_view .swiper-slide.active{z-index: 1;  box-shadow: 0px 1px 5px 1px rgba(0,0,0,0.2);}
+#container .contract_view .swiper-slide.active + .swiper-slide{left: -56px; top: 15px; z-index: 0; opacity: 0.4; -webkit-transform: scale(0.95); -o-transform:scale(0.95); -ms-transform:scale(0.95); transform:scale(0.95); }
+
+#container .contract_view .swiper-slide img{position:relative; top:0; left:0; width: 100%; height: 100%; float: left;}
+#container .contract_view .swiper-button-next{position: absolute; width:18px; height:36px;  top:calc(50% - 25px); right:10px;}
+#container .contract_view .swiper-button-next:after{position:absolute; display: inline-block; width: 52px; height: 105px; top:0; left:0px;  content:url(image/mobile/btn_pageMove_purple.png); -webkit-transform: scale(0.34); -o-transform:scale(0.34); -ms-transform:scale(0.34); transform:scale(0.34); transform-origin:0 0; -ms-transform-origin:0 0; -o-transform-origin:0 0; -webkit-transform-origin:0 0;}
+#container .contract_view .swiper-button-next.disable{opacity:1 !important;}
+#container .contract_view .swiper-button-next.disable:after{content:url(image/mobile/btn_pageMove_disable.png); }
+#container .contract_view .swiper-button-prev{position: absolute; width:18px; height:36px; top:calc(50% - 25px); left:10px;}
+#container .contract_view .swiper-button-prev:after{position:absolute; display: inline-block;  width: 52px; height: 105px; top:36px; left:17px; content:url(image/mobile/btn_pageMove_purple.png);-webkit-transform:rotate(180deg) scale(0.34); -o-transform:rotate(180deg) scale(0.34); -ms-transform:rotate(180deg) scale(0.34); transform:rotate(180deg) scale(0.34); transform-origin:0 0; -ms-transform-origin:0 0; -o-transform-origin:0 0; -webkit-transform-origin:0 0;}
+#container .contract_view .swiper-button-prev.disable{opacity:1 !important; }
+#container .contract_view .swiper-button-prev.disable:after{content:url(image/mobile/btn_pageMove_disable.png);}
+
+#pay_layer_popup{position: absolute; top:0; left:0; width: calc(100% - 10px); height: 100%; z-index:2; background: #ffffff; padding:30px 5px 5px 5px;}
+#pay_layer_popup img{position:relative; top:0; left:0; width: 100%; height: calc(100% - 40px); float: left;}
+#pay_layer_popup .btn_pop_close{position:absolute; top:10px; right: 10px; width: 35px; height: 35px; z-index: 3; background-color:#dcdcdc; border-radius:20px; box-shadow: 0px 1px 5px 1px rgba(0,0,0,0.2);}
+#pay_layer_popup .btn_pop_close:after{display:inline-block; position:relative; content:url(image/mobile/icon_close_round.png); -webkit-transform: scale(0.34); -o-transform:scale(0.34); -ms-transform:scale(0.34); transform:scale(0.34); -webkit-transform: scale(0.34); -o-transform:scale(0.34); -ms-transform:scale(0.34); transform:scale(0.34);transform-origin:0 0; -ms-transform-origin:0 0; -o-transform-origin:0 0; -webkit-transform-origin:0 0; }
+
+#container .footer.overlap { position: absolute; width: 100%; bottom: 0px; z-index: 2; }
+#container .footer.overlap .btn_type{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container .footer.overlap .btn_type.btn_foot_close{background-color: rgba(0,0,0,0.7); }
+#container .footer.overlap .btn_foot_close{width: 100%; height: 75px; color: #ffffff; float: left; font-size: 19px; letter-spacing: 1px;}
+#container .footer.overlap .btn_foot_close:after{content:url(image/mobile/btn_leftmenu_close.png);position:absolute; top:22px; right:0px; width: 64px; height: 61px; display: inline-block; -webkit-transform: scale(0.5); -o-transform:scale(0.5); -ms-transform:scale(0.5); transform:scale(0.5); transform-origin:0 0; -ms-transform-origin:0 0; -o-transform-origin:0 0; -webkit-transform-origin:0 0;}
+
+
+
+
+
+
+
+
+
+
+
+

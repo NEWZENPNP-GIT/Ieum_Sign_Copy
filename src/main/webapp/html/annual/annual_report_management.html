@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/annual_manage.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+<style>
+	#annual_wrap .selnSearch #searchKey {
+		width: 100px;
+		padding: 0 20px 0 12px;
+		background-position-x: calc(100% - 6px);
+	}
+	#annual_wrap .field_area li.selnSearch fieldset {width: calc(100% - 107px);}
+</style>
+<script>
+	var dataList = [];
+	
+	$(document).ready(function(){
+		$('#searchValue').keypress(function(event){
+			var keycode = (event.keyCode ? event.keyCode : event.which);
+			if(keycode == '13'){
+				fn_annualList(1);
+			}
+			event.stopPropagation();
+		});		
+		fn_annualList(1);
+	});
+
+	function runScript(e) {
+		if (e.keyCode == 13) {
+			fn_annualList(1);
+			return false;
+		}
+	}
+
+
+	//***************					체크박스 전체 선택					***************//
+
+
+	function fn_checkAll() {
+		if ($("#checkall").prop("checked"))	{ $("input[name=chk]").prop("checked",true); }
+		else 								{ $("input[name=chk]").prop("checked",false); }
+	}
+	
+	function fn_saveCheck(userId) {
+		$('input:checkbox[name="chk"]').each(function() {
+			if(userId == this.value){ this.checked = true; }
+		});
+	}
+
+	function fn_annualList(page) {
+
+		var url = rootPath+"vacation/getAnnualVacationList.do";
+
+		var viewPage = 10;
+		if(viewPage==""||viewPage=="0") viewPage = 10;
+
+		if (page==0)	curPage=0;
+		else			curPage = page-1;
+		
+		if (curPage<0) {
+			curPage=0;
+			return;
+		}
+		if (curPage*viewPage>totPage) {
+			curPage-=1;
+			return;
+		}
+		
+		var searchYear = $("#searchYear").val();
+		var searchKey = $("#searchKey").val();
+		var searchValue = $("#searchValue").val();
+		var startPage = (curPage*viewPage);
+		var endPage = viewPage;
+		var sortName = "C.EMP_NO";
+		var sortOrder = "ASC"
+
+	    $.blockUI();
+
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				annualYear:searchYear,
+				searchKey:searchKey,
+				searchValue:searchValue,
+				startPage:startPage,
+				endPage:endPage,
+				sortName:sortName,
+				sortOrder:sortOrder
+			},
+			success:function(result) {
+				var htmlData = "";
+				
+				if (result.success==true) {
+
+					totPage = result.total;
+					var totalPage = Math.ceil(totPage/viewPage);
+					
+					$.each(result.data, function(i, row) {
+						htmlData += '<tr> ';
+						htmlData += ' <td class="chk_area"><input type="checkbox" id="chk" name="chk" value="'+row.userId+'"> <input type="hidden" id="annualYear'+row.userId+'" value="'+row.annualYear+'"></td> ';
+						htmlData += ' <td class="value">'+row.empName+'</td> ';
+						htmlData += ' <td class="value">'+row.empNo+'</td> ';
+						htmlData += ' <td class="value">'+row.deptName+'</td> ';
+						htmlData += ' <td class="value">'+convertDate(row.joinDate).format("yyyy-MM-dd")+'</td> ';
+						if(!isNull(row.leaveDate) && row.leaveDate!="0") {
+							htmlData += ' <td class="value">'+convertDate(row.leaveDate).format("yyyy-MM-dd")+'</td> ';
+						} else {
+							htmlData += ' <td class="value"></td>';
+						}
+						htmlData += ' <td class="value inputNview">'+'<input type="text" onchange="fn_saveCheck('+row.userId+');" id="totalDay'+row.userId+'" value="'+row.totalDay+'">'+'<a class="btn_type btn_review" onclick="fn_annualView('+i+')">보기</a></td> ';
+						htmlData += ' <td>'+row.useDay+'</td>'; //사용잀수
+						htmlData += ' <td>'+row.usedDay+'</td>'; //잔여일수
+						htmlData += '</tr> ';
+					});
+					
+					$("#dataList").html(htmlData);
+
+					if(page==1) {
+						dataList = result.data;
+
+						$('#page-selection').bootpag({
+							total: totalPage,
+							page: page,
+							maxVisible: 10,
+							leaps: true,
+						    firstLastUse: true,
+						    first: '',
+						    last: '',
+						    wrapClass: 'pagination',
+						    activeClass: 'active',
+						    disabledClass: 'disabled',
+						    nextClass: 'btn_next',
+						    prevClass: 'btn_prev',
+						    lastClass: 'end_page',
+						    firstClass: 'first_page'
+						}).on("page", function(event, num){
+							fn_annualList(num);
+						});
+					}
+				} else { htmlData += '<tr> <td colspan="10">요청하신 자료가 존재하지 않습니다.</td></tr>'; }
+	
+				$("#dataList").html(htmlData);
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+				}
+			}
+		});
+	}
+
+	function fn_annualNew() {
+
+		var searchYear = $("#searchYear").val();
+
+		if(!confirm("기준년도["+searchYear+"]에 연차일수를 생성하시겠습니까?\r\n해당년도에 존재하지 않는 임직원만 생성됩니다.")) return;
+		
+		var url = rootPath+"vacation/insAnnualVacation.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: { annualYear:searchYear },
+			success:function(result) {
+				if (result.success==true) {
+					alert(result.total+"건의 연차정보가 생성되었습니다.");
+					fn_annualList(1);
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+				}
+			},
+			error:function(request,status,error){
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+				}
+			}
+		});
+	}
+	
+	function fn_annualView(num) {
+
+		var row			= dataList[num];
+		var searchYear	= $("#searchYear").val();
+
+		// 기본 사용자정보 설정
+		$("#annualYear").html(searchYear+"년");
+		$("#userName").html(row.empName);
+		$("#empNo").html(row.empNo);
+		$("#deptName").html(row.deptName);
+		$("#totalDay").html(row.totalDay);
+		$("#deptName").html(row.deptName);
+
+		if(row.empNo=="") { $("#userInfo").hide(); }
+		else { $("#userInfo").show(); }
+
+		var url = rootPath+"vacation/getVacationTypeSumList.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				dateFrom:searchYear,
+				bizId:row.bizId,
+				userId:row.userId
+			},
+			success:function(result) {
+				if (result.success==true) {
+					var htmlData = "";
+					// 인사내역
+					$.each(result.data, function(i, row) {
+						htmlData += '<div class="data"><div class="tit">'+row.vacationTypeName+'</div><div class="value">'+row.vacationDay+'</div><div class="unit">일</div></div>';
+					});
+					$("#vacationTypeSumList").html(htmlData);
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+				}
+			},
+			error:function(request,status,error){
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+				}
+			}
+		});
+		
+	}
+
+	function fn_annualSave() {
+		var url = rootPath+"vacation/updAnnualVacation.do";
+		
+		var updData = "";
+		var count = 0;
+		
+		$('input:checkbox[name="chk"]').each(function() {
+			if(this.checked){
+				var userId = this.value;
+				var annualYear = $("#annualYear"+userId).val();
+				var totalDay = $("#totalDay"+userId).val();
+				updData += annualYear+"-"+userId+"-"+totalDay+"-0-0|";
+				count++;
+			}
+		});
+		
+		if(count==0) {
+			alert("적용하실 임직원을 선택하신 후 적용해주시기 바랍니다.");
+			return;
+		}
+		
+		if(!confirm("연차정보를 적용하시겠습니까?")) return;
+
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: { annualYear:updData },
+			success:function(result) {
+				if (result.success==true) {
+					alert("연차정보가 적용되었습니다.");
+					fn_annualList(1);
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+				}
+			},
+			error:function(request,status,error){
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+				}
+			}
+		});
+	}
+
+</script>
+</head>
+
+<body>
+	<div id="annual_wrap" class="">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumGothic">연차 관리 > 현황/관리></span><span class="loc_sub NanumGothic">연차 관리</span></div>
+			<div class="pagtit"><span class="NanumGothic">휴가 현황</span></div>
+			<div class="tit_dec NanumGothic"><span class="speaker"></span><span> 알림 ㅣ 미승인 연차신청서가 5건 존재합니다. </span></div>
+			
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumGothic">근로자별 휴가 사용 현황</span>
+					</div>
+					
+					<div class="row2">
+						<div class="box_wrap detail_View">
+							<ul class="NanumGothic">
+								<li class="userInfo">
+									<div class="pic"><img src="/css/image/annual/icon_pic.png"></div>
+									<div class="text">
+										<div><span class="userName" id="userName"></span><span class="year" id="annualYear"></span></div>
+										<div id="userInfo" style="display:none">(<span class="part" id="deptName"></span> /<span class="userNo" id="empNo"></span>)</div>
+									</div>
+								</li>
+								<li class="data bg_skyblue"><div class="tit">총 휴가일 </div><div class="value" id="totalDay">0</div><div class="unit">일</div></li>
+								<li class="coltable" id="vacationTypeSumList">
+								</li>
+								
+							</ul>
+						</div>
+						<div class="box_wrap list">
+							<ul class="NanumGothic field_area column" >
+								<li class="selBox year">
+									<select id="searchYear" tabindex="1" onchange="fn_annualList(1)">
+										<option value="2019" selected class="end">2019년 </option>
+										<option value="2018" class="">2018년 </option>
+										<option value="2017" class="">2017년 </option>
+									</select>
+								</li>
+								<li class="selnSearch">
+									<select id="searchKey" tabindex="2">
+										<option value="empName">성명</option>
+										<option value="eMail">이메일</option>
+										<option value="phoneNum">휴대폰번호</option>
+									</select>
+									<fieldset>
+										<input type="text" id="searchValue" class="word_input NanumGothic" placeholder="검색할 내용을 20자 이내로 적어주세요">
+										<a class="btn_search btn_type Material_icons " onclick="fn_annualList(1)">search</a>
+									</fieldset>
+								</li>
+								
+							</ul>
+							<div class="group_table">
+								<table class="NanumGothic hasChk">
+									<colgroup>
+										<col width="4%">
+										<col width="12%">
+										<col width="13%">
+										<col width="13%">
+										<col width="13%">
+										<col width="13%">
+										<col width="16%">
+										<col width="8%">
+										<col width="8%">
+									</colgroup>
+									<thead>
+									<tr>
+										<th class="chk_area"><input type="checkbox" id="checkall" onclick="fn_checkAll();"></th>
+										<th>성명</th>
+										<th>사번</th>
+										<th>부서명</th>
+										<th>입사일자</th>
+										<th>퇴사일자</th>
+										<th>총 연차</th>
+										<th>사용 일수</th>
+										<th>잔여 일수</th>
+									</tr>
+									</thead>
+									<tbody id="dataList">
+									</tbody>
+								</table>
+							</div>
+							<div id="page-selection" class="pagingnav_wrap_mid"></div>
+						</div>
+					
+					</div>
+				</div>
+				
+				<div class="NanumGothic btn_group ">
+					<a class="btn_type type1" onclick="fn_annualSave()">연차적용</a>
+					<a class="btn_type type2" onclick="fn_annualNew()">연차생성</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

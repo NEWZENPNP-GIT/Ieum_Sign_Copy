@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="febhouse">
+    <typeAlias alias="ye105VO" type="com.ezsign.feb.house.vo.YE105VO"/>
+    <resultMap id="ye105ListMap" class="ye105VO">
+        <result property="계약ID" column="계약ID"/>
+        <result property="사용자ID" column="사용자ID"/>
+        <result property="작업자ID" column="작업자ID"/>
+        <result property="일련번호" column="일련번호"/>
+
+        <result property="임대인성명_상호" column="임대인성명_상호"/>
+        <result property="개인식별번호" column="개인식별번호"/>
+        <result property="유형코드" column="유형코드"/>
+        <result property="계약면적" column="계약면적"/>
+        <result property="임대차_주소지_물건지" column="임대차_주소지_물건지"/>
+        <result property="임대차_계약개시일" column="임대차_계약개시일"/>
+        <result property="임대차_계약종료일" column="임대차_계약종료일"/>
+        <result property="연간_월세액" column="연간_월세액"/>
+        <result property="공제대상금액" column="공제대상금액"/>
+
+        <result property="최종저장여부" column="최종저장여부"/>
+        <result property="사용여부" column="사용여부"/>
+		<result property="추가제출서류번호" column="추가제출서류번호"/>
+        <result property="등록일시" column="등록일시"/>
+        <result property="수정일시" column="수정일시"/>
+    </resultMap>
+
+    <select id="ye105DAO.getYE105" parameterClass="ye105VO" resultClass="ye105VO">
+        SELECT 계약ID, 사용자ID, 작업자ID, 일련번호,
+          임대인성명_상호, 개인식별번호, 유형코드, 계약면적, 임대차_주소지_물건지, 임대차_계약개시일, 임대차_계약종료일, 연간_월세액, 공제대상금액, 추가제출서류번호,
+          등록일시, 수정일시
+        FROM tbl_ye105
+        WHERE 계약ID = #계약ID#
+	        AND 사용자ID = #사용자ID#
+	        AND 사용여부 = '1'
+	        <isNotNull property="추가제출서류번호">
+				<isNotEmpty property="추가제출서류번호">
+					AND 추가제출서류번호		 = #추가제출서류번호#
+				</isNotEmpty>
+			</isNotNull>
+    </select>
+
+    <insert id="ye105DAO.insYE105" parameterClass="ye105VO">
+        <selectKey resultClass="java.lang.String" keyProperty="일련번호">
+            SELECT IFNULL(MAX(일련번호 + 1), 1)
+            FROM tbl_ye105
+        </selectKey>
+        INSERT INTO tbl_ye105 (
+          계약ID, 사용자ID, 작업자ID, 일련번호,
+          임대인성명_상호, 개인식별번호, 유형코드, 계약면적, 임대차_주소지_물건지, 임대차_계약개시일, 임대차_계약종료일, 연간_월세액, 공제대상금액, 추가제출서류번호, 
+          최종저장여부, 사용여부, 등록일시, 수정일시
+        ) VALUES (
+          #계약ID#, #사용자ID#, #작업자ID#, #일련번호#,
+          #임대인성명_상호#, #개인식별번호#, #유형코드#, #계약면적#, #임대차_주소지_물건지#, #임대차_계약개시일#, #임대차_계약종료일#, #연간_월세액#, #공제대상금액#, #추가제출서류번호#,
+          IF(#사용자ID# = #작업자ID#, '1', '0'), '1', DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        )
+    </insert>
+
+    <update id="ye105DAO.updYE105Disable" parameterClass="ye105VO">
+        UPDATE tbl_ye105
+        SET
+          최종저장여부 = IF(#사용자ID# = #작업자ID#, '0', 최종저장여부),
+          사용여부 = '0',
+          수정일시 = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+          AND 일련번호 = #일련번호#
+          AND 사용여부 = '1'
+    </update>
+
+    <delete id="ye105DAO.allDelYE105" parameterClass="ye105VO">
+        DELETE
+        FROM tbl_ye105
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+    </delete>
+
+    <select id="ye105DAO.getYE105Map" parameterClass="ye105VO" resultClass="ye105VO">
+        SELECT 계약ID, 사용자ID, 작업자ID, 일련번호,
+          임대인성명_상호, 개인식별번호, 유형코드, 계약면적, 임대차_주소지_물건지, 임대차_계약개시일, 임대차_계약종료일, 연간_월세액, 공제대상금액, 추가제출서류번호,
+          최종저장여부, 사용여부, 등록일시, 수정일시
+        FROM tbl_ye105
+        WHERE 계약ID = #계약ID#
+	        AND 사용자ID = #사용자ID#
+	        AND (최종저장여부 = '1' OR 사용여부 = '1')
+	        <isNotNull property="추가제출서류번호">
+				<isNotEmpty property="추가제출서류번호">
+					AND 추가제출서류번호		 = #추가제출서류번호#
+				</isNotEmpty>
+			</isNotNull>
+        ORDER BY IF(작업자ID = 사용자ID, 0, 1)
+    </select>
+    
+    <update id="ye105DAO.updYE105" parameterClass="ye105VO">
+        UPDATE tbl_ye105
+        SET
+        <isNotNull property="임대인성명_상호">
+		    <isNotEmpty property="임대인성명_상호">
+			임대인성명_상호			 = #임대인성명_상호#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="개인식별번호">
+		    <isNotEmpty property="개인식별번호">
+			개인식별번호		 = #개인식별번호#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="유형코드">
+		    <isNotEmpty property="유형코드">
+			유형코드		 = #유형코드#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="계약면적">
+		    <isNotEmpty property="계약면적">
+			계약면적 	 	= #계약면적#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="임대차_주소지_물건지">
+		    <isNotEmpty property="임대차_주소지_물건지">
+			임대차_주소지_물건지	 = #임대차_주소지_물건지#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="임대차_계약개시일">
+		    <isNotEmpty property="임대차_계약개시일">
+			임대차_계약개시일 				= #임대차_계약개시일#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="임대차_계약종료일">
+		    <isNotEmpty property="임대차_계약종료일">
+			임대차_계약종료일 				= #임대차_계약종료일#,
+			</isNotEmpty>
+		</isNotNull>	  
+		<isNotNull property="연간_월세액">
+		    <isNotEmpty property="연간_월세액">
+			연간_월세액			 = #연간_월세액#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="공제대상금액">
+		    <isNotEmpty property="공제대상금액">
+			공제대상금액			 = #공제대상금액#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="추가제출서류번호">
+		    <isNotEmpty property="추가제출서류번호">
+			추가제출서류번호 				= #추가제출서류번호#,
+			</isNotEmpty>
+		</isNotNull>
+			 수정일시 			= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE 	계약ID 	= #계약ID#
+		AND 	사용자ID 	= #사용자ID#
+		AND 	일련번호 	= #일련번호#
+    </update>
+    
+    <delete id="ye105DAO.delYE105" parameterClass="ye105VO">
+        DELETE FROM tbl_ye105
+        WHERE 	계약ID 	= #계약ID#
+        AND 	사용자ID	= #사용자ID#
+		AND 	일련번호 	= #일련번호#
+    </delete>
+</sqlMap>

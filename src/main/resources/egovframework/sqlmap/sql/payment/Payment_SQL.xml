@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Payment">
+	<typeAlias alias="paymentVO" type="com.ezsign.payment.vo.PaymentVO"/>
+	<resultMap id="paymentListMap" class="paymentVO">
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="POid" column="POID"/>
+		<result property="point" column="POINT"/>
+		<result property="PAmt" column="PAMT"/>
+		<result property="insDate" column="INS_DATE"/>
+	</resultMap>
+	
+	<insert id="paymentDAO.insPayment" parameterClass="paymentVO">
+<!--		INSERT INTO tbl_pg_settlebank (-->
+<!--			BIZ_ID, USER_ID, POINT, PSTATECD, PTRNO, PTYPE, PMID, POID, PUNAME, PMNAME, PGOODS, -->
+<!--			PFNCD1, PFNCD2, PFNNM, PAMT, PAUTHDT, PAUTHNO, PRMESG1, PRMESG2, PNOTI, PHASH, INS_DATE-->
+<!--		) VALUES (-->
+<!--		   #bizId#, #userId#, #point#, #PStateCd#, #PTrno#, #PType#, #PMid#, #POid#, #PUname#, #PMName#, #PGoods#, -->
+<!--			#PFnCd1#, #PFnCd2#, #PFnNm#, #PAmt#, #PAuthDt#, #PAuthNo#, #PRmesg1#, #PRmesg2#, #PNoti#, #PHash#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')-->
+<!--		)-->
+
+		INSERT INTO tbl_pg_settlebank (
+		BIZ_ID, USER_ID, POINT, PSTATECD, PTRNO, PTYPE, PMID, POID, PMNAME,
+		PFNCD1, PFNCD2,  PAMT, PAUTHDT, PAUTHNO, PRMESG1, PRMESG2, PNOTI, PHASH, INS_DATE
+		) VALUES (
+		#bizId#, #userId#, #point#, #PStateCd#, #PTrno#, #PType#, #PMid#, #POid#, #PMName#,
+		#PFnCd1#, #PFnCd2#, #PAmt#, #PAuthDt#, #PAuthNo#, #PRmesg1#, #PRmesg2#, #PNoti#, #PHash#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<insert id="paymentDAO.insPaymentRequest" parameterClass="paymentVO">
+		INSERT INTO tbl_pg_request (
+			BIZ_ID, USER_ID, POID, POINT, PAMT, INS_DATE
+		) VALUES (
+		   #bizId#, #userId#, #POid#, #point#, #PAmt#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<select id="paymentDAO.getPaymentRequest" resultClass="paymentVO" resultMap="paymentListMap">		
+		SELECT  BIZ_ID, USER_ID, POID, POINT, PAMT, INS_DATE
+		FROM    tbl_pg_request
+		WHERE	POID = #POid#
+	</select>
+	
+</sqlMap>
+		

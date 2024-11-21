@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="attend">
+    <typeAlias alias="attendVO" type="com.ezsign.attend.vo.AttendVO"/>
+
+    <resultMap id="attendListMap" class="attendVO">
+        <result property="bizId" column="BIZ_ID"/>
+        <result property="userId" column="USER_ID"/>
+        <result property="workDate" column="WORK_DATE"/>
+        <result property="attendId" column="ATTEND_ID"/>
+
+        <result property="attendCode" column="ATTEND_CODE"/>
+        <result property="dateFrom" column="DATE_FROM"/>
+        <result property="dateTo" column="DATE_TO"/>
+        <result property="placeId" column="PLACE_ID"/>
+        <result property="signType" column="SIGN_TYPE"/>
+        <result property="closeType" column="CLOSE_TYPE"/>
+
+        <result property="empNo" column="EMP_NO"/>
+        <result property="empName" column="EMP_NAME"/>
+        <result property="deptName" column="DEPT_NAME"/>
+        <result property="placeName" column="PLACE_NAME"/>
+        <result property="placeAddr" column="PLACE_ADDR"/>
+        <result property="workMinute" column="WORK_MINUTE"/>
+
+        <result property="insDate" column="INS_DATE"/>
+        <result property="updDate" column="UPD_DATE"/>
+        <result property="bizName" column="BIZ_NAME"/>
+    </resultMap>
+
+    <resultMap id="attendSumListMap" class="attendVO">
+        <result property="empNo" column="EMP_NO"/>
+        <result property="empName" column="EMP_NAME"/>
+        <result property="positionName" column="POSITION_NAME"/>
+        <result property="workDate" column="WORK_DATE"/>
+        <result property="workMinute" column="WORK_MINUTE"/>
+    </resultMap>
+    
+    <resultMap id="attendMobileListMap" class="attendVO">
+        <result property="bizId" column="BIZ_ID"/>
+        <result property="userId" column="USER_ID"/>
+        <result property="workDate" column="WORK_DATE"/>
+        <result property="attendId" column="ATTEND_ID"/>
+
+        <result property="dateFrom" column="DATE_FROM"/>
+        <result property="dateTo" column="DATE_TO"/>
+        
+        <result property="empNo" column="EMP_NO"/>
+        <result property="empName" column="EMP_NAME"/>
+        <result property="workMinute" column="WORK_MINUTE"/>
+    </resultMap>
+	
+	<select id="attendDAO.getMobileAttendList" parameterClass="attendVO" resultMap="attendMobileListMap">
+		SELECT	A.BIZ_ID
+			,	A.USER_ID
+			,	B.WORK_DATE
+			,	B.ATTEND_ID
+			,	A.EMP_NO
+			,	A.EMP_NAME
+			,	B.DATE_FROM
+			,	B.DATE_TO
+			,	IFNULL(TIMESTAMPDIFF(MINUTE, STR_TO_DATE(B.DATE_FROM, '%Y%m%d%H%i%s'), STR_TO_DATE(B.DATE_TO, '%Y%m%d%H%i%s')), 0) WORK_MINUTE
+		FROM	tbl_emp		AS A
+				LEFT OUTER JOIN tbl_attend AS B
+					ON	A.BIZ_ID = B.BIZ_ID
+					AND A.USER_ID = B.USER_ID
+					AND B.ATTEND_CODE IN ('001', '002')		<!-- 출근/퇴근 -->
+					AND B.WORK_DATE = #workDate#
+		WHERE	A.BIZ_ID = #bizId#
+		AND   	A.EMP_TYPE = '1'
+    	AND   	A.USE_YN = 'Y'
+	</select>
+	
+	<select id="attendDAO.getMobileUserAttendList" parameterClass="attendVO" resultMap="attendMobileListMap">
+		SELECT  T.WORK_DATE
+		    ,   B.BIZ_ID
+					,	B.USER_ID
+					,	A.WORK_DATE
+					,	A.ATTEND_ID
+					,	B.EMP_NO
+					,	B.EMP_NAME
+					,	A.DATE_FROM
+					,	A.DATE_TO
+					,	IFNULL(TIMESTAMPDIFF(MINUTE, STR_TO_DATE(A.DATE_FROM, '%Y%m%d%H%i%s'), STR_TO_DATE(A.DATE_TO, '%Y%m%d%H%i%s')), 0) WORK_MINUTE
+		FROM    (
+		    SELECT      CONCAT(#workDate#,n) AS WORK_DATE                  
+		    FROM
+		    (
+		        SELECT '01' AS n                                         
+		        UNION SELECT '02'  UNION SELECT '03'  UNION SELECT '04'  UNION SELECT '05'
+		        UNION SELECT '06'  UNION SELECT '07'  UNION SELECT '08'  UNION SELECT '09'  UNION SELECT '10'
+		        UNION SELECT '11' UNION SELECT '12' UNION SELECT '13' UNION SELECT '14' UNION SELECT '15'
+		        UNION SELECT '16' UNION SELECT '17' UNION SELECT '18' UNION SELECT '19' UNION SELECT '20'
+		        UNION SELECT '21' UNION SELECT '22' UNION SELECT '23' UNION SELECT '24' UNION SELECT '25'
+		        UNION SELECT '26' UNION SELECT '27' UNION SELECT '28' UNION SELECT '29' UNION SELECT '30'
+		        UNION SELECT '31'
+		    ) AS a
+		    WHERE DAYOFMONTH(CONCAT(#workDate#,n)) IS NOT NULL
+		    AND   CONCAT(#workDate#,n) &lt;= DATE_FORMAT(NOW(), '%Y%m%d')
+		)   AS T
+		    LEFT OUTER JOIN tbl_attend  AS A
+		      INNER JOIN tbl_emp AS B 
+		        ON  A.BIZ_ID = B.BIZ_ID 
+		        AND A.USER_ID = B.USER_ID
+		      ON  T.WORK_DATE = A.WORK_DATE
+		      AND A.BIZ_ID = #bizId#
+       		  AND A.USER_ID = #userId#
+       	ORDER BY T.WORK_DATE DESC
+	</select>
+	
+	
+    <select id="attendDAO.getAttendList" parameterClass="attendVO" resultMap="attendListMap">
+        SELECT A.BIZ_ID, A.USER_ID, A.WORK_DATE, A.ATTEND_ID,
+          A.ATTEND_CODE, A.DATE_FROM, A.DATE_TO, A.PLACE_ID, A.SIGN_TYPE, A.CLOSE_TYPE,
+          B.EMP_NO, B.EMP_NAME, B.DEPT_NAME, C.PLACE_ADDR,
+          IF(D.EXTERNAL_YN = 'Y', IF(A.DISTANCE > D.EXTERNAL_CODE, '외부', C.PLACE_NAME), C.PLACE_NAME) PLACE_NAME,
+          IF(ATTEND_CODE = '002', 0, IFNULL(TIMESTAMPDIFF(MINUTE, STR_TO_DATE(A.DATE_FROM, '%Y%m%d%H%i%s'), STR_TO_DATE(A.DATE_TO, '%Y%m%d%H%i%s')), 0)) WORK_MINUTE,
+          A.INS_DATE, A.UPD_DATE, (SELECT E.BIZ_NAME FROM TBL_BIZ E WHERE A.BIZ_ID = E.BIZ_ID) BIZ_NAME
+        FROM tbl_emp B, tbl_attend A
+          LEFT OUTER JOIN tbl_attend_place C
+            ON A.BIZ_ID = C.BIZ_ID AND A.PLACE_ID = C.PLACE_ID
+          LEFT OUTER JOIN tbl_attend_prop D
+            ON A.BIZ_ID = D.BIZ_ID
+        WHERE A.BIZ_ID = B.BIZ_ID
+          AND A.USER_ID = B.USER_ID
+          <!-- AND     A.BIZ_ID        = #bizId# -->
+		  AND (FIND_IN_SET(A.BIZ_ID, (SELECT GROUP_CONCAT(G.REF_ID) FROM TBL_BIZ_GRP G WHERE G.BIZ_ID  = #bizId#)) OR A.BIZ_ID = #bizId#)
+        <isNotNull property="userId">
+            <isNotEmpty property="userId">
+                AND A.USER_ID = #userId#
+            </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="attendCode">
+            <isNotEmpty property="attendCode">
+                AND A.ATTEND_CODE = #attendCode#
+            </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="startDate">
+            <isNotEmpty property="startDate">
+                AND A.WORK_DATE BETWEEN #startDate# AND #endDate#
+            </isNotEmpty>
+        </isNotNull>
+         <isNotNull property="signType">
+            <isNotEmpty property="signType">
+                AND A.SIGN_TYPE = #signType#
+            </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="searchCompany">
+		    <isNotEmpty property="searchCompany">
+				AND     A.BIZ_ID	= #searchCompany#
+			</isNotEmpty>
+		</isNotNull>
+        <isNotNull property="searchValue">
+            <isNotEmpty property="searchValue">
+                <isEqual property="searchKey" compareValue="empNo">
+                    AND B.EMP_NO = #searchValue#
+                </isEqual>
+                <isEqual property="searchKey" compareValue="empName">
+                    AND B.EMP_NAME LIKE CONCAT('%', #searchValue#, '%')
+                </isEqual>
+                <isEqual property="searchKey" compareValue="deptName">
+                    AND B.DEPT_NAME LIKE CONCAT('%', #searchValue#, '%')
+                </isEqual>
+                <isEqual property="searchKey" compareValue="signType">
+                	<isEqual property="searchValue" compareValue="승인">
+                    AND A.SIGN_TYPE = '1'
+                    </isEqual>
+                    <isEqual property="searchValue" compareValue="미승인">
+                    AND A.SIGN_TYPE = '0'
+                    </isEqual>
+                </isEqual>
+            </isNotEmpty>
+        </isNotNull>
+        ORDER BY ATTEND_ID DESC
+        limit #endPage# offset #startPage#
+    </select>
+
+
+    <select id="attendDAO.getAttendListCount" parameterClass="attendVO" resultClass="java.lang.Integer">
+        SELECT COUNT(A.ATTEND_ID) AS CNT
+        FROM tbl_emp B, tbl_attend A
+          LEFT OUTER JOIN tbl_attend_place C
+            ON A.BIZ_ID = C.BIZ_ID AND A.PLACE_ID = C.PLACE_ID
+        WHERE A.BIZ_ID = B.BIZ_ID
+          AND A.USER_ID = B.USER_ID
+          <!-- AND     A.BIZ_ID        = #bizId# -->
+		  AND (FIND_IN_SET(A.BIZ_ID, (SELECT GROUP_CONCAT(G.REF_ID) FROM TBL_BIZ_GRP G WHERE G.BIZ_ID  = #bizId#)) OR A.BIZ_ID = #bizId#)
+        <isNotNull property="userId">
+            <isNotEmpty property="userId">
+                AND A.USER_ID = #userId#
+            </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="attendCode">
+            <isNotEmpty property="attendCode">
+                AND A.ATTEND_CODE = #attendCode#
+            </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="startDate">
+            <isNotEmpty property="startDate">
+                AND WORK_DATE BETWEEN #startDate# AND #endDate#
+            </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="searchCompany">
+		    <isNotEmpty property="searchCompany">
+				AND     A.BIZ_ID	= #searchCompany#
+			</isNotEmpty>
+		</isNotNull>
+        <isNotNull property="searchValue">
+            <isNotEmpty property="searchValue">
+                <isEqual property="searchKey" compareValue="empNo">
+                    AND B.EMP_NO = #searchValue#
+                </isEqual>
+                <isEqual property="searchKey" compareValue="empName">
+                    AND B.EMP_NAME LIKE CONCAT('%', #searchValue#, '%')
+                </isEqual>
+                <isEqual property="searchKey" compareValue="deptName">
+                    AND B.DEPT_NAME LIKE CONCAT('%', #searchValue#, '%')
+                </isEqual>
+                <isEqual property="searchKey" compareValue="signType">
+                	<isEqual property="searchValue" compareValue="승인">
+                    AND A.SIGN_TYPE = '1'
+                    </isEqual>
+                    <isEqual property="searchValue" compareValue="미승인">
+                    AND A.SIGN_TYPE = '0'
+                    </isEqual>
+                </isEqual>
+            </isNotEmpty>
+        </isNotNull>
+	</select>
+
+    <insert id="attendDAO.insAttend" parameterClass="attendVO">
+        <selectKey resultClass="java.lang.String" keyProperty="attendId">
+            SELECT  getTableKey('TBL_ATTEND');
+        </selectKey>
+        INSERT INTO tbl_attend (
+          BIZ_ID, USER_ID, WORK_DATE, ATTEND_ID,
+          ATTEND_CODE, DATE_FROM, DATE_TO, PLACE_ID, DISTANCE, SIGN_TYPE, CLOSE_TYPE,
+          INS_DATE, UPD_DATE
+        ) VALUES (
+          #bizId#, #userId#, #workDate#, #attendId#,
+          #attendCode#, 
+          	CASE WHEN (#dateFrom# = '' OR #dateFrom# IS NULL) THEN  DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s') ELSE #dateFrom# END ,
+          	CASE WHEN (#dateTo# = '' OR #dateTo# IS NULL) THEN  NULL ELSE #dateTo# END ,
+          #placeId#, #distance#, '0', '0',
+          DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        )
+    </insert>
+
+    <update id="attendDAO.offAttend" parameterClass="attendVO">
+        UPDATE tbl_attend
+        SET
+          DATE_TO = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'),
+          UPD_DATE = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        WHERE BIZ_ID = #bizId#
+          AND USER_ID = #userId#
+          AND ATTEND_ID = #attendId#
+    </update>
+    
+    <update id="attendDAO.updMobileAttend" parameterClass="attendVO">
+        UPDATE tbl_attend
+        SET
+          DATE_FROM = #dateFrom#,
+          DATE_TO = #dateTo#,
+          UPD_DATE = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        WHERE BIZ_ID = #bizId#
+          AND USER_ID = #userId#
+          AND ATTEND_ID = #attendId#
+    </update>
+
+    <update id="attendDAO.updAttend" parameterClass="attendVO">
+        UPDATE tbl_attend
+        SET
+        <isNotNull property="signType">
+            <isNotEmpty property="signType">
+                SIGN_TYPE = #signType#,
+            </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="closeType">
+            <isNotEmpty property="closeType">
+                CLOSE_TYPE = #closeType#,
+            </isNotEmpty>
+        </isNotNull>
+            UPD_DATE = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        WHERE BIZ_ID = #bizId#
+        <isNotNull property="workDate">
+            <isNotEmpty property="workDate">
+                AND WORK_DATE = #workDate#
+            </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="attendIds">
+            <isNotEmpty property="attendIds">
+                AND ATTEND_ID IN
+                <iterate open="(" close=")" conjunction="," property="attendIds">
+                    #attendIds[]#
+                </iterate>
+            </isNotEmpty>
+        </isNotNull>
+    </update>
+
+    <select id="attendDAO.getAttendSumList" parameterClass="attendVO" resultMap="attendSumListMap">
+        SELECT B.EMP_NO, B.EMP_NAME, B.POSITION_NAME, SUBSTR(A.WORK_DATE, 7, 2) WORK_DATE,
+          IFNULL(TIMESTAMPDIFF(MINUTE, STR_TO_DATE(A.DATE_FROM, '%Y%m%d%H%i%s'), STR_TO_DATE(A.DATE_TO, '%Y%m%d%H%i%s')), 0) WORK_MINUTE
+        FROM tbl_attend A, tbl_emp B
+        WHERE A.BIZ_ID = B.BIZ_ID
+          AND A.USER_ID = B.USER_ID
+          AND A.ATTEND_CODE = '001'
+          <!-- AND     A.BIZ_ID        = #bizId# -->
+          <isNotNull property="searchCompany">
+            <isNotEmpty property="searchCompany">
+		          AND A.BIZ_ID = #searchCompany#
+            </isNotEmpty>
+		  </isNotNull>
+		  <isNotNull property="bizId">
+            <isNotEmpty property="bizId">
+				  AND (FIND_IN_SET(A.BIZ_ID, (SELECT GROUP_CONCAT(C.REF_ID) FROM TBL_BIZ_GRP C WHERE C.BIZ_ID  = #bizId#)) OR A.BIZ_ID = #bizId#)
+            </isNotEmpty>
+		  </isNotNull>
+          AND A.WORK_DATE BETWEEN #startDate# AND #endDate#
+        ORDER BY B.EMP_NO, A.WORK_DATE
+    </select>
+</sqlMap>

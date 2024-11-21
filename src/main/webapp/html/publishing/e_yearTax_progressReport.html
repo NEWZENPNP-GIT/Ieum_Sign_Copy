@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>입력 현황</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+</head>
+<body>
+	<div id="yearTax_wrap" class="yearTax">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연말정산 > </span><span class="loc_sub NanumSquare_R">입력 현황</span></div>
+			<div class="pagtit NanumSquare_R"><span class="">입력 현황</span>
+				<ul class="top_items NanumSquare_R">
+					<li class="yearSelect"><span>귀속년도</span><select><option value="">2018</option></select><a class="btn_type btn_yearCheck">확인</a></li>
+				</ul>
+			</div>
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit skyblue">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">연말정산 진행 현황</span>
+						<div class="btns">
+							<a class="btn_type NanumSquare_R">문의 </a>
+						</div>
+					</div>
+					<div class="group_text NanumSquare_R">
+						<span class="name">홍길동</span>님의 <span class="col_skyblue underline"> 2019.01.20</span> 현재 <span class="col_skyblue">연말정산입력 진행중</span> 입니다.<br>
+						<span class="col_skyblue underline">추가서류는 2019.1.25 까지 제출 </span>가능합니다. 제출기한 이후에는 파일 첨부가 불가며, 관리자에게 문의하여 처리하시기 바랍니다.  
+					</div>
+					<div class="NanumBarunGothic progressBox"> 
+						<ul class="stateBar">
+							<!-- .box의 현재 진행상태는 완료는 clear / 현재 상태는 current 클래스를 추가한다. -->
+							<li class="box clear" >
+								<input type="radio" id="process_tab01" name="pargressTab">
+								<div class="process-step">
+									<label for="process_tab01"></label>
+									<span class="bar"><span class="line"></span><span class="no NanumSquare_R">1</span></span><span class="txt">연말정산 진행</span><span class="NanumRound lastData">1/25일까지 진행중</span>
+									<div class="process-arrow"></div>
+								</div>
+								<div class="process-item">
+									<div class="tabTitle">연말정산 진행</div>
+									<ul class="process_btns">
+										<li><a class="btn_type btn_income clear"><span class="icon"></span><span class="btn_name">소득명세 합계</span><span class="state">확인완료</span></a></li>
+										<li><a class="btn_type btn_family clear"><span class="icon"></span><span class="btn_name">부양가족 관리</span><span class="state">확인완료</span></a></li>
+										<li><a class="btn_type btn_pdfUpload clear"><span class="icon"></span><span class="btn_name">PDF업로드</span><span class="state">확인완료</span></a></li>
+										<li><a class="btn_type btn_map clear"><span class="icon"></span><span class="btn_name">연말정산 MAP</span><span class="state">확인완료</span></a></li>
+										<li><a class="btn_type btn_addSubmit clear"><span class="icon"></span><span class="btn_name">추가제출</span><span class="state">확인완료</span></a></li>
+										<li><a class="btn_type btn_summary clear"><span class="icon"></span><span class="btn_name">연말정산 요약</span><span class="state">확인완료</span></a></li>
+									</ul>
+								</div>
+							</li>
+							<li class="box current">								
+								<input type="radio" id="process_tab02" name="pargressTab" Checked>
+								<div class="process-step">
+									<label for="process_tab02"></label>
+									<span class="bar"><span class="line"></span><span class="no NanumSquare_R">2</span></span><span class="txt">근로자 확정</span><span class="NanumRound lastData">1/25일 완료</span>
+									<div class="process-arrow"></div>
+								</div>
+								<div class="process-item">
+									<div class="tabTitle">근로자 확정</div>
+									<ul class="process_btns">
+										<li><a class="btn_type btn_addSubmit clear"><span class="icon"></span><span class="btn_name">추가서류제출</span><span class="state">확인완료</span></a></li>
+										<li><a class="btn_type btn_summary current"><span class="icon"></span><span class="btn_name">연말정산 요약</span><span class="state">확인완료</span></a></li>
+										<li><a class="btn_type btn_result "><span class="icon"></span><span class="btn_name">연말정산 결과</span><span class="state">확인완료</span></a></li>
+									</ul>
+								</div>
+							</li>
+							<li class="box">
+								
+								<input type="radio" id="process_tab03" name="pargressTab">
+								<div class="process-step">
+									<label for="process_tab03"></label>
+									<span class="bar"><span class="line"></span><span class="no NanumSquare_R">3</span></span><span class="txt">관리자 확정</span><span class="NanumRound lastData">진행 완료</span>
+									<div class="process-arrow"></div>
+								</div>
+								<div class="process-item">
+									<div class="tabTitle">관리자 확정</div>
+									<ul class="process_btns">
+										<li><a class="btn_type btn_addSubmit"><span class="icon"></span><span class="btn_name">추가서류제출</span><span class="state">확인완료</span></a></li>
+										<li><a class="btn_type btn_summary"><span class="icon"></span><span class="btn_name">연말정산 요약</span><span class="state">확인완료</span></a></li>
+										<li><a class="btn_type btn_result"><span class="icon"></span><span class="btn_name">연말정산 결과</span><span class="state">확인완료</span></a></li>
+									</ul>
+								</div>
+							</li>
+							<li class="box">
+								
+								<input type="radio" id="process_tab04" name="pargressTab">
+									<div class="process-step">
+										<label for="process_tab04"></label><span class="bar"><span class="line"></span><span class="no NanumSquare_R">4</span></span><span class="txt">최종 확정</span><span class="NanumRound lastData">진행 예정</span>
+										<div class="process-arrow"></div>
+									</div>
+									<div class="process-item">
+										<div class="tabTitle">최종 확정</div>
+										<ul class="process_btns">
+											<li><a class="btn_type btn_result"><span class="icon"></span><span class="btn_name">연말정산 결과</span><span class="state">확인완료</span></a></li>
+										</ul>
+									</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="group_wrap">
+					<div class="group_tit skyblue">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">Q&A 현황</span>
+					</div>
+					<div class="group_table">
+						<table class="hasHead NanumSquare_R">
+							<colgroup>
+								<col width="4%">
+								<col width="10%">
+								<col width="10%">
+								<col width="66%">
+								<col width="10%">
+							</colgroup>
+							<thead>
+								<tr>
+									<th class="chk_area"><input type="checkbox"></th>
+									<th>문의일자</th>
+									<th>문의항목</th>
+									<th>제목</th>
+									<th>답변일자</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="chk_area"><input type="checkbox"> </td>
+									<td>2018.01.20</td>
+									<td>부양가족</td>
+									<td>서울특별시 영등포구 경인로 775 에이스하이테크시티 1동 1009호</td>
+									<td>2018.01.22</td>
+								</tr>
+								<tr>
+									<td class="chk_area"><input type="checkbox"> </td>
+									<td>2018.01.20</td>
+									<td>부양가족</td>
+									<td>서울특별시 영등포구 경인로 775 에이스하이테크시티 1동 1009호</td>
+									<td>미답변</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="group_btns foot NanumSquare_R">
+				<a class="btn_type type1">＜  이전</a>
+				<a class="btn_type type2"><span class="icon_save Material_icons"></span>저장</a>
+				<a class="btn_type type3">다음 ＞</a>
+				<a class="btn_type type4">Map ＞</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

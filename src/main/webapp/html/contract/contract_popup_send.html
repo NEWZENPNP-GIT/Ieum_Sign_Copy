@@ -1,0 +1,396 @@
+﻿
+    <!--****************************************************************************************************************
+    * 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+    * 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+    ********************************************************************************************************************
+    --------------------------------------------------------------------------------------------------------------------
+    * 회사       : 뉴젠피앤피
+    * 화면명     : 전자문서 전송 팝업창
+    * 화면설명   : 전자계약(양식변환) > 전자문서 목록 > 전자문서 전송 > 팝업창
+    * 작성자     :
+    * 생성일     :
+    --------------------------------------------------------------------------------------------------------------------
+    * 수정자     : 이정훈
+    * 수정일     : 2024.05.10
+    * 수정내용   :
+    ------------------------------------------------------------------------------------------------------------------->
+
+    <!DOCTYPE HTML>
+    <html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="user-scalable=yes, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+
+    <link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+    <link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/contract_write.css">
+
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+    <title>인적자원관리 전문IT기업 - 뉴젠P&amp;P</title>
+    <script>
+
+        var $toggleFormText = {
+            scan: function (o) {
+                o.find(".hint").each(function () {
+                    if (this.value == this.title) {
+                        $(this).addClass('hintText');
+                        this.value = this.title;
+                    }
+                    if (this.value == '') {
+                        $(this).addClass('hintText');
+                        this.value = this.title;
+                    }
+                });
+                o.find(".hint").focus(function () {
+                    if (this.value == this.title) {
+                        $(this).removeClass('hintText');
+                        this.value = '';
+                    }
+                });
+                o.find(".hint").blur(function () {
+                    if (this.value == '') {
+                        $(this).addClass('hintText');
+                        this.value = this.title;
+                    } else { $(this).removeClass('hintText'); }
+                });
+            },
+            toString: function () { return "toggleFormText"; }
+        };
+
+        var signCustomerType;
+        var webSocketKey;
+        var bizId;
+        var userId;
+
+        //***************					윈도우 로딩					***************//
+
+
+        $(document).ready(function () {
+
+            bizId		 = getCookie("contractBizId");
+            userId		 = getCookie("userId");
+            webSocketKey = bizId + userId;
+
+            window.resizeTo(575, 624);
+            $toggleFormText.scan($("body"));
+            var data  = decodeURIComponent(getParams().data);
+            var bizId = getParams().bizId;
+            if (data.length > 0) {
+                var key = data.split("|");
+                $("#contractCount").val(key.length - 1);
+                fn_getDefaultExpireDate(key[0], bizId);
+            }
+
+            $("#expireType").change(function () {
+                if ($("#expireType").is(":checked")) {
+                    $("#expireDate").val(getToday());
+                    $("#expireDate").attr("disabled", false);
+                } else {
+                    $("#expireDate").val("");
+                    $("#expireDate").attr("disabled", true);
+                }
+            });
+
+            $("#expireDate").blur(function() {
+
+                var now       = new Date();
+                var today     = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                var todayTest = new Date($("#expireDate").val());
+
+                if (today > todayTest) {
+                    alert("만료 일자는 오늘보다 빠를 수 없습니다.");
+                    $("#expireDate").val(getToday());
+                }
+            });
+            $("#inPassword").hide();
+        });
+
+
+        //***************					만료일자/ 사인유무 체크					***************//
+
+
+        function fn_getDefaultExpireDate(fileId, bizId) {
+
+            var url = rootPath + "contract/getContractPersonNewBizSign.do";
+
+            $.ajax({
+                url: url,
+                crossDomain: true,
+                dataType: "json",
+                type: "POST",
+                data: {
+                    contId: fileId,
+                    bizId: bizId
+                },
+                success: function (result) {
+                    console.log(result);
+                    $(".noticeCustomer").hide();
+                    if (result.success) {
+                        if (result.contractPersonNewVO != undefined) {
+                            var expireDay    = result.contractPersonNewVO.expireDay;
+                            signCustomerType = result.contractPersonNewVO.signCustomerType;
+                            if (isNotNull(expireDay)) {
+                                $("#expireDate").attr("disabled", false);
+                                $("#expireType").attr("checked", true);
+                                $("#expireDate").val(getNextDay(expireDay));
+                            }
+                            if (isNotNull(signCustomerType)) {
+                                if (signCustomerType == "1") {
+                                    $("#signCustomerType").hide();
+                                    $("#sendType_EMAIL").prop('checked', true);
+                                    $(".noticeEmp").hide();
+                                    $(".noticeCustomer").show();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+
+        //***************					계약서 전송					***************//
+
+
+        function fn_sendContract() {
+
+
+            var socket       = new WebSocket("wss://" + window.location.host + "/loading/" + webSocketKey);
+            socket.onopen 	 = function(event) { console.log("WebSocket connected."); };
+            socket.onmessage = function(event) { $("#loadingTxt").text(event.data); };
+
+            var url          = rootPath + "contract/sendContractMulti.do";
+            var message      = "전자문서를 전송하시겠습니까?";
+            var sendType     = $(':radio[name="sendType"]:checked').val();
+            var expireDate   = $('#expireDate').val();
+            var comment      = $('#comment').val().replace(/\n/g, '<br>');
+            var authType     = $(':radio[name="authType"]:checked').val();
+            var authCodeSel  = $(':radio[name="authCode"]:checked').val();
+            var authCode     = $("#authCode").val();
+
+            if (expireDate.length > 2) {
+                if (!checkDate(expireDate)) {
+                    alert("전자문서 유효기간 설정일자가 날짜형식에 맞지 않습니다.");
+                    return;
+                } else {
+                    message    = "유효기간[" + expireDate + "]으로 설정된 전자문서를 전송하시겠습니까?";
+                    expireDate = hyphenRemove(expireDate);
+                }
+            }
+
+            if (authType === "P" && authCodeSel === "M") {
+                if (authCode.length < 4 || authCode.length > 10) {
+                    alert("비밀번호는 4~10자리의 숫자로 설정할 수 있습니다.");
+                    return;
+                }
+            }
+
+            if (signCustomerType != 1) { authType = "M"; }
+
+            if (!confirm(message)) return;
+
+            var multiData = decodeURIComponent(getParams().data);
+
+            $.blockUI();
+
+            $.ajax({
+                url: url,
+                crossDomain: true,
+                dataType: "json",
+                type: "POST",
+                data: {
+                    sendType: sendType,
+                    authType: authType,
+                    authCodeSel: authCodeSel,
+                    authCode: authCode,
+                    expireDate: expireDate,
+                    comment: encodeURIComponent(comment),
+                    webSocketKey:webSocketKey,
+                    multiData: multiData
+                },
+                success: function (result) {
+                    if (result.success) {
+                        alert("전자문서를 전송하였습니다.");
+                        opener.fn_contractList(opener.curPage);
+                        opener.fn_getPoint();
+                        opener.fn_getPointList();
+                        window.close();
+                    } else { alert("전자문서 전송에 실패하였습니다.\r\n" + result.message); }
+                    $.unblockUI();
+                },
+                error: function (request, status, error) {
+                    $.unblockUI();
+                    if (request.status == "401") {
+                        alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+                        location.href = rootPath;
+                    } else { alert("입력하신 정보를 다시 확인해주시기 바랍니다..\r\n" + error); }
+                }
+            });
+        }
+
+
+        //***************					본인 인증수단에 따른 show/hide					***************//
+
+
+        function changeAuthType(checkedValue) {
+            if (checkedValue === "P") { $("#inPassword").show();}
+            else                      { $("#inPassword").hide(); }
+        }
+
+
+        //***************					비밀번호 체크값에 따른 show/hide					***************//
+
+
+        function changeAuthCode(checkedValue) {
+            if (checkedValue === "M") { $("#authCode").prop("disabled", false);}
+            else                      { $("#authCode").val(""); $("#authCode").prop("disabled", true); }
+        }
+
+
+        //***************					비밀번호 값이 숫자인지 체크					***************//
+
+
+        function onlyNumber(obj) { $(obj).keyup(function () { $(this).val($(this).val().replace(/[^0-9]/g, "")); }); }
+
+
+    </script>
+	<style>
+		#contract_popup {width: 100%;height: auto;}
+		#contract_popup .contents {height: auto;}
+	</style>
+    </head>
+
+    <body>
+    <div id="contract_popup" class="convert_regist">
+        <div class="container">
+            <div id="popup_tit">
+                <div class="tit_icon"></div>
+                <div class="tit_text col_skyblue NanumGothic">전자문서 전송</div>
+                <div id="popup_close" class="btn_type col_skyblue" onclick="window.close()"></div>
+            </div>
+            <div class="contents">
+                <div class="input_wrap">
+                    <!-- 일반 input 박스 -->
+                    <dl class="boxRow input_bx NanumGothic">
+                        <dt><label class="label_txt NanumGothic">전송방식</label></dt>
+                        <dd class="radio_box NanumGothic">
+                            <div id="signCustomerType" class="radSet">
+                                <input type="radio" id="sendType_KKO" name="sendType" value="KKO" checked>
+                                <label>카카오알림톡</label>
+                            </div>
+                            <div class="radSet">
+                                <input type="radio" id="sendType_EMAIL" name="sendType" value="EMAIL">
+                                <label>이메일</label>
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl class="boxRow input_bx NanumGothic noticeCustomer">
+                        <dt>
+                            <label class="label_txt NanumGothic">본인인증수단</label>
+                        </dt>
+                        <dd class="radio_box NanumGothic">
+                            <div class="radSet">
+                                <input type="radio" id="authType_CERT" name="authType" value="C" onchange="changeAuthType('C')">
+                                <label>공동인증서</label>
+                            </div>
+                            <div class="radSet">
+                                <input type="radio" id="authType_PASSWORD" name="authType" value="P" onchange="changeAuthType('P')">
+                                <label>비밀번호</label>
+                            </div>
+                            <div class="radSet">
+                                <input type="radio" id="authType_NONE" name="authType" value="N" checked onchange="changeAuthType('N')">
+                                <label>인증없음</label>
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl class="boxRow input_bx NanumGothic" id="inPassword">
+                        <dt>
+                            <label class="label_txt NanumGothic">비밀번호</label>
+                        </dt>
+                        <dd class="radio_box NanumGothic">
+                            <div class="radSet">
+                                <input type="radio" id="authCode_BUSI" name="authCode" value="A" checked onchange="changeAuthCode('A')">
+                                <label>수신자의 사업자번호</label>
+                            </div>
+                            <div class="radSet">
+                                <input type="radio" id="authCode_PASSWORD" name="authCode" value="M" onchange="changeAuthCode('M')">
+                                <label>직접입력</label>
+                                <input type="password" id="authCode" maxlength="10" class="input_txt" disabled="disabled" onkeydown="onlyNumber(this)" style="width: 100px"/>
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl class="boxRow input_bx NanumGothic">
+                        <dt><label class="label_txt NanumGothic">유효기간</label>
+                            <input type="checkbox" style="margin-left:5px;" id="expireType"/>
+                        </dt>
+                        <dd class="radio_box NanumGothic">
+                            <input type="date" max="9999-12-31" id="expireDate" class="input_txt" disabled/>
+                        </dd>
+                    </dl>
+                    <dl class="boxRow default_bx NanumGothic">
+                        <dt><label class="label_txt NanumGothic">전송건수</label></dt>
+                        <dd>
+                            <input type="text" id="contractCount" readonly class="input_txt"/>
+                        </dd>
+                    </dl>
+                    <dl class="boxRow default_bx NanumGothic">
+                        <dt><label class="label_txt NanumGothic">담당자 메모</label></dt>
+                        <dd>
+                            <textarea id="comment" class="input_txt" placeholder="최대50글자까지 입력가능합니다." maxlength="50" oninput='this.value=this.value.replace(/\"/g,"").replace(/\\/g,"");'></textarea>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="notice NanumGothic">※ 주의사항</div>
+                <div class="foot_box NanumGothic noticeEmp">
+                    <dl>
+                        <dt>ㆍ</dt>
+                        <dd>알림톡은 인사관리에 등록된 휴대폰번호으로 발송됩니다.</dd>
+                    </dl>
+                    <dl>
+                        <dt>ㆍ</dt>
+                        <dd>이메일은 인사관리에 등록된 이메일로 발송됩니다.</dd>
+                    </dl>
+                    <dl>
+                        <dt>ㆍ</dt>
+                        <dd>전자문서 유효기간이 만료되는 경우, 수신자는 작업을 더이상 진행하실 수 없습니다.</dd>
+                    </dl>
+                    <dl>
+                        <dt>ㆍ</dt>
+                        <dd>수신자가 문서를 수신하기까지 시간이 소요되므로 잠시만 기다려주시기 바랍니다.</dd>
+                    </dl>
+                    <dl>
+                        <dt>ㆍ</dt>
+                        <dd>담당자 메모를 입력하시면, 수신자가 전자문서 조회 시 확인가능합니다. (최대 50글자까지 입력 가능합니다)</dd>
+                    </dl>
+                </div>
+                <div class="foot_box NanumGothic noticeCustomer">
+                    <dl>
+                        <dt>ㆍ</dt>
+                        <dd>수신자관리 - 거래처목록 에 등록된 담당자이메일로 발송됩니다.</dd>
+                    </dl>
+                    <dl>
+                        <dt>ㆍ</dt>
+                        <dd>전자문서 유효기간이 만료되는 경우, 수신자는 계약을 진행할 수 없습니다.</dd>
+                    </dl>
+                    <dl>
+                        <dt>ㆍ</dt>
+                        <dd>수신자가 문서를 수신하기까지 시간이 소요되므로 잠시만 기다려주시기 바랍니다.</dd>
+                    </dl>
+                    <dl>
+                        <dt>ㆍ</dt>
+                        <dd>담당자메모를 입력하시면, 수신자가 전자문서 열람 시 확인할 수 있습니다. (최대 50글자까지 입력 가능합니다)</dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="btn_group">
+                <a class="btn_type type1 NanumGothic" href="javascript:fn_sendContract();">전송하기</a>
+                <a class="btn_type type3 NanumGothic" href="javascript:window.close();">취소하기</a>
+            </div>
+        </div>
+    </div>
+    </body>
+    </html>

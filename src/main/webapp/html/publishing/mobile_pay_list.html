@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+
+<link rel="stylesheet" type="text/css" href="/css/font.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/mobile_common.css">
+<link rel="stylesheet" type="text/css" href="/css/mobile_pay.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+</head>
+<body>
+	<header class="header pay">
+		<ul class="gnb">
+			<li class="prev"><a class="btn_type btn_prev" href="mobile_main.html" target="_self"></a></li>
+			<li class="head_text NanumBarunGothic">급여명세 관리</li>
+			<li class="menu"><a class="btn_type btn_menu"></a></li>
+		</ul>
+	</header>
+	<div id="container" class="NanumBarunGothic pay">
+		<section class="wrap">
+			<div class="top_select">
+				<div class="tit">조회기간</div>
+				<div class="select_box">
+					<select class="NanumSquare_R year">
+						<option value="">2018</option>
+						<option value="">2017</option>
+						<option value="">2016</option>
+					</select>
+				</div>
+			</div>
+			<div class="pay_menu">
+				<ul class="list">
+					<li class="btn_type new" onclick="payMonthView()"><div class="btn_title"><span class="year">2018년</span><span class="NanumSquare_R month">7월분</span></div><div class="tit">급여명세서</div><div class="date">7/25</div><div class="icon"></div></li>
+					<li class="btn_type"><div class="btn_title"><span class="year">2018년</span><span class="NanumSquare_R month">6월분</span></div><div class="tit">급여명세서</div><div class="date">6/25</div><div class="icon"></div></li>
+					<li class="btn_type"><div class="btn_title"><span class="year">2018년</span><span class="NanumSquare_R month">5월분</span></div><div class="tit">급여명세서</div><div class="date">5/25</div><div class="icon"></div></li>
+					<li class="btn_type"><div class="btn_title"><span class="year">2018년</span><span class="NanumSquare_R month">4월분</span></div><div class="tit">급여명세서</div><div class="date">4/25</div><div class="icon"></div></li>
+					<li class="btn_type"><div class="btn_title"><span class="year">2018년</span><span class="NanumSquare_R month">3월분</span></div><div class="tit">급여명세서</div><div class="date">3/25</div><div class="icon"></div></li>
+				</ul>
+			</div>
+		</section>
+	</div>
+	<!-- <aside id="aside" class=""></aside> -->
+	<aside id="aside" class="">
+		<div class="bg"></div>
+		<div class="wrap NanumBarunGothic" id="ani_wrap">
+			<ul class="left_menu">
+				<li class="top"><div class="btn_wrap"><a class="btn_type btn_home"></a></div>
+								<div class="tit">전체보기</div>
+								<div class="btn_wrap"><a class="btn_type btn_close"></a></div></li>
+				<li class="tit">서비스관리</li>
+				<li class="menu"><a class="btn_type btn_annual"><span class="icon"></span><span class="menu_name">연차관리</span></a></li>
+				<li class="menu"><a class="btn_type btn_pay"><span class="icon"></span><span class="menu_name">급여명세서관리</span></a></li>
+				<li class="menu"><a class="btn_type btn_commute"><span class="icon"></span><span class="menu_name">출퇴근 관리</span></a></li>
+				<li class="menu"><a class="btn_type btn_contract"><span class="icon"></span><span class="menu_name">전자 근로계약 관리</span></a></li>
+				<li class="menu"><a class="btn_type btn_yearTax"><span class="icon"></span><span class="menu_name">연말 정산 관리</span></a></li>
+				<li class="tit">인증관리</li>
+				<li class="menu"><a class="btn_type btn_certificateType"><span class="icon"></span><span class="menu_name">인증수단관리</span></a></li>
+				<li class="menu"><a class="btn_type btn_certificateCenter"><span class="icon"></span><span class="menu_name">공인인증센터</span></a></li>
+				<li class="menu"><a class="btn_type btn_accredit"><span class="icon"></span><span class="menu_name">본인인증하기</span></a></li>
+				<li class="tit">문의하기</li>
+				<li class="menu"><a class="btn_type btn_qnaboard"><span class="icon"></span><span class="menu_name">문의게시판</span></a></li>
+				<li class="menu"><a class="btn_type btn_questionboard"><span class="icon"></span><span class="menu_name">1:1문의사항</span></a></li>
+				<li class="tit">새소식</li>
+				<li class="bottom">
+					<div class="btn_wrap"><a class="btn_type btn_mypage"><span class="icon"></span><span class="menu_name">마이페이지</span></a></div>
+					<div class="btn_wrap"><a class="btn_type btn_logout"><span class="icon"></span><span class="sub_name">로그아웃</span></a></div>
+				</li>
+			</ul>
+		</div>
+	</aside>
+</body>
+<script type="text/javascript">
+//side바의 영역 이벤트
+var aniWrap=document.getElementById("ani_wrap");
+
+aniWrap.addEventListener("webkitAnimationEnd", viewerHide);
+aniWrap.addEventListener("animationend", viewerHide);
+function viewerHide(){
+	if($("#aside").hasClass("hide")){
+		$("#aside").removeClass("hide");
+	}
+} 
+
+//버튼 배열 토클버튼 기능
+$(".btn_toggle").click(function(){
+	if($(this).hasClass("column")){
+		$(".btn_toggle").addClass("row").removeClass("column");
+		$(".menu_list").addClass("column").removeClass("row");
+	}else{
+		$(".btn_toggle").addClass("column").removeClass("row");
+		$(".menu_list").addClass("row").removeClass("column");
+	}
+})
+
+//메뉴 보기 animation
+$(".btn_menu").click(function(){
+	if(!$("#aside").hasClass("show")){
+		$("#aside").removeClass("hide").addClass("show");	
+	} 
+	//console.log(" click ")
+	
+	/* $('#aside').bPopup({
+		position: [0, 0],
+		opacity: 0.6,
+		closeClass:"btn_close",
+		transitionClose  : true,
+		follow: [false, false], //x, y
+		speed:100,
+		contentContainer:'#aside',
+		loadUrl: 'mobile_layerPopup_aside.html', //Uses jQuery.load()
+		onClose: function() {
+			//$("#aside").removeClass("show");
+		    //$("#aside").empty();
+		    //$("#aside").bPopup().close();
+		    
+		},
+		onOpen: function() { $("#aside").addClass("show")},
+		loadCallback: function() {} 
+	});*/
+})
+$(".btn_close").click(function(){
+	$("#aside").removeClass("show").addClass("hide");
+})
+
+// 리스트 페이지 링크 
+function payMonthView(){
+	window.location.href="mobile_pay_view.html";
+}
+</script>
+</html>

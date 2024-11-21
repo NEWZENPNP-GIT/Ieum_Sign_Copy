@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>의료비  공제대상금액</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+</head>
+<body>
+	<div id="yearTax_wrap_popup" class="yearTax_popup sheet medi">
+		<div class="container">
+			<div id="popup_tit">
+				<div class="tit_icon icon_set"></div>
+				<div class="tit_text NanumSquare_R">의료비</div>
+				<div id="popup_close" class="btn_type col_skyblue" onclick="window.close();"></div>
+			</div>
+			<div class="contents">
+				<div class="part NanumSquare_R">
+					<div class="cellTit"><span class="icon"></span><span class="ttxt">의료비 공제액 산출 과정</span></div>
+					<div class="box_wrap">
+						<dl class="">
+							<dt class="">총급여</dt>
+							<dd class="data sort_right">120,000,000</dd>
+						</dl>
+						<dl class="">
+							<dt class="">최저사용금액 (총급여의 3%)</dt>
+							<dd class="data sort_right">3,600,000</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="part">
+					<table class="NanumSquare_R">
+						<colgroup>
+							<col width="24%">
+							<col width="17%">
+							<col width="17%">
+							<col width="17%">
+							<col width="8%">
+							<col width="17%">
+						</colgroup>
+						<thead>
+							<tr>
+								<th>구분</th>	<th>지출액</th><th >공제제외금액</th><th>공제대상금액</th><th colspan="2">공제율금액</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="subHead">① 난임시술비</td><td class="data sort_right">10,000,000</td><td class="data sort_right">0</td>
+								<td class="data sort_right">1,016,250</td><td class="subHead sort_center">20%</td><td class="data sort_right">3,000,000</td>
+							</tr>
+							<tr>
+								<td class="subHead">② 본인,경로자,장애인,건강보험특례</td><td class="data sort_right">10,000,000</td><td class="data sort_right">600,000</td>
+								<td class="data sort_right">10,000,000</td><td class="subHead sort_center" rowspan="2">15%</td><td class="data sort_right">2,000,000</td>
+							</tr>
+							<tr>
+								<td class="subHead">③ 일반</td><td class="data sort_right">10,000,000</td><td class="data sort_right">300,000</td>
+								<td class="data sort_right">0</td><td class="data sort_right">0</td>
+							</tr>
+							<tr>
+								<td class="subHead">의료비 합계 ( ①~③ )</td><td class="data sort_right">23,000,000</td><td class="data sort_right">3,600,000</td>
+								<td class="data sort_right">19,400,000</td><td class="subHead sort_center"></td><td class="data result sort_right ">3,410,000</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="part NanumSquare_R">
+					<div class="cellTit"><span class="icon"></span><span class="ttxt">의료비 사용금액 공제금액 산출식</span></div>
+				</div>
+				<div class="part">
+					<table class="NanumSquare_R">
+						<colgroup>
+							<col width="25%">
+							<col width="20%">
+							<col width="33%">
+							<col width="22%">
+						</colgroup>
+						<thead>
+							<tr>
+								<th>항목</th><th colspan="2">공제금액 한도 및 계산식</th><th>공제금액</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="subHead">① 난임시술비</td><td>한도없음</td><td rowspan="3">①＋②＋MIN[(③-총급여액×3%),700만원]</td><td>최저사용금액×20%</td>
+							</tr>
+							<tr>
+								<td class="subHead">② 본인,경로자,장애인,건강보험특례</td><td>한도없음</td><td>최저사용금액×15%</td>
+							</tr>
+							<tr>
+								<td class="subHead">③ 일반</td><td>연 700만원</td><td>최저사용금액×15%</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<ul class="explain_wrap NanumSquare_R">
+					<li class="col_red">※공제 제외 금액은 세법상 유리한 순서인 ③ → ② → ① 순으로 차감합니다.</li>
+					
+				</ul>
+				<div class="foot_btn NanumSquare_R">
+					<a class="btn_type">확인</a>
+				</div>
+			</div>
+		</div> <!--  container -->
+	</div>
+</body>
+</html>

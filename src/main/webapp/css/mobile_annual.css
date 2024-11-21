@@ -1,0 +1,376 @@
+@charset "utf-8";
+
+
+/** -------------------- media ----------------------------- **/
+@media all and (max-width: 320px){
+
+	#container .wrap .btn_annualList{width: 110px !important;}
+	#annual_lst_wrap .btn_annualList{width: 110px !important; font-size: 16px !important; height: 40px !important;}
+	
+	#container .wrap .btn_approval{font-size: 16px !important; height: 40px !important;}
+	#container .wrap .btn_annualList{font-size: 16px !important; height: 40px !important;}
+	#container.annual .wrap .userInfo div span:nth-child(2){font-size: 22px !important;}
+	#container.annual .wrap .box_data div.gr_box span:nth-child(2){font-size: 22px !important;}
+	
+	#container.annual_apply .search_box input{font-size: 16px !important;}
+	#container.annual_apply .userInfo .btns{width: 110px !important; padding-top: 4px;}
+	#container.annual_apply .userInfo .name{font-size: 18px !important; width: 24% !important; }
+	#container.annual_apply .top_info span:nth-child(2){font-size: 18px !important;}
+	#container.annual_apply ul.payment_list .ck_num{min-width: 20px !important;}
+	#container.annual_apply ul.payment_list .ck_num span{width: 20px !important; height: 20px !important; font-size: 14px !important;}
+	#container.annual_apply ul.payment_list .part{width: calc(27% - 5px) !important; padding-left:5px !important; }
+	#container.annual_apply ul.payment_list .com_no{width: calc(22% - 5px) !important; padding-left:5px !important;}
+	#container.annual_apply ul.payment_list .name{width: calc(18% - 5px) !important; padding-left:5px !important; }
+	#container.annual_apply ul.payment_list .rank{width: calc(23% - 5px) !important; padding-left:5px !important; }
+	#container.annual_apply .payment_head{font-size: 15px !important;}
+	#container.annual_apply ul.payment_list li{font-size: 15px !important;}
+	#annual_list{font-size: 14px !important;}
+	#annual_list table tbody tr td.date{font-size: 14px !important;}
+	
+	/* ***************** 연차 신청 step01  ***************** */
+	.apply_form input[type="text"]{font-size: 13px !important;}
+	.apply_form ul.form_wrap .res .day{font-size: 15px !important; width: 55px !important;}
+	.apply_form ul.form_wrap .res .notice{font-size: 14px !important;}
+	.apply_form ul.form_wrap .res span{font-size: 15px !important;}
+	.apply_form ul.form_wrap li{height: 40px !important; margin-bottom: 8px !important;}
+	.apply_form ul.form_wrap .label{height: 40px !important;}
+	.apply_form ul.form_wrap .setDate{height: 70px !important;}
+	.apply_form ul.form_wrap .label{font-size: 15px !important;}
+	.apply_form ul.form_wrap .default_box{font-size: 16px !important; height: 40px !important;}	
+	.apply_form ul.form_wrap .date_box{height: 40px !important;}
+	.apply_form select{font-size: 16px !important;}
+	
+	
+	.footer .btn_type{font-size: 17px !important;}
+	.footer .btn_submit:after{-webkit-transform: scale(0.30) !important; -o-transform: scale(0.30)  !important; -ms-transform: scale(0.30) !important; transform: scale(0.30)  !important;}
+	.footer .btn_close:before{top: calc(50% - 17px) !important; left: 15px; -webkit-transform: scale(0.30) !important; -o-transform: scale(0.30) !important; -ms-transform: scale(0.30) !important; transform: scale(0.30) !important;}
+	.footer .btn_add:after{top: calc(50% - 17px) !important; right: -60px !important; -webkit-transform: scale(0.30) !important; -o-transform: scale(0.30) !important; -ms-transform: scale(0.30) !important; transform: scale(0.30) !important;}
+	
+	#container.payment .payment_head{font-size: 14px !important;}
+	#container .payment_chart .payment_list{font-size: 14px !important;}
+	#container .payment_chart .payment_list li{font-size: 14px !important; width: calc(100% - 8px) !important; padding-left: 8px !important;}
+	#container .payment_chart .payment_list li .dragOb .act-bar{left: calc(100% - 170px) !important;}
+	#container .payment_chart .payment_list li .act-button{width: calc(100% - 8px) !important;}
+	#container.payment .payment_chart .payment_list li.active .checkBx{width: 210px !important;}
+}
+@media all and (min-width: 321px) and (max-width: 360px) {
+	#layer_popup.news_wrap .content ul.news_list .list .text .tit{font-size: 14px !important;}
+	#annual_list{font-size: 13px !important;}
+	#annual_list table tbody tr td.date{font-size: 13px !important;}
+	
+	.apply_form input[type="text"]{font-size: 15px !important;}
+	#container.annual_apply ul.payment_list li{font-size: 14px !important;}
+	#container.annual_apply ul.payment_list .name{width: calc(18% - 5px) !important; padding-left: 5px !important;}
+	
+	#container .payment_chart .payment_list{font-size: 14px !important;}
+	
+	.footer .btn_close:before{top: calc(50% - 17px) !important; right: -55px !important; -webkit-transform: scale(0.33) !important; -o-transform: scale(0.33) !important; -ms-transform: scale(0.33) !important; transform: scale(0.33) !important;}
+	.footer .btn_add:after{top: calc(50% - 17px) !important; -webkit-transform: scale(0.33) !important; -o-transform: scale(0.33) !important; -ms-transform: scale(0.33) !important; transform: scale(0.33) !important;}
+	
+}
+@media all and (min-width: 361px) and (max-width: 410px) {
+	#annual_list{font-size: 14px !important;}
+	#annual_list table tbody tr td.date{font-size: 13px !important;}
+	.apply_form input[type="text"]{font-size: 16px !important;}
+	#container.annual_apply ul.payment_list li{font-size: 15px !important;}
+	#container.annual_apply ul.payment_list .name{width: calc(18% - 5px) !important; padding-left: 5px !important;}
+	
+	#container .payment_chart .payment_list{font-size: 15px !important;}
+	#container.payment .payment_chart .payment_list li.active .checkBx{width: 180px !important;}
+}
+@media all and (min-width: 1024px){
+	.apply_form select{background-size: 4% !important; background-position: 98% 50% !important;}		
+}
+@media all and (max-height: 640px) {
+	#container.annual .wrap ul.column{margin-bottom: 7px !important;}
+	#container.annual .wrap .userInfo{margin-top: 15px !important;}
+	#container.annual .wrap .box_data{margin-top: 15px !important;} 
+	#container.annual .wrap .box_data div.gr_box{height: 45px !important; padding: 15px 10px 10px 10px !important;}
+	#container.annual .wrap .btns{margin-top: 18px !important;}
+	#container.annual .wrap .btns .btn_apply{height: 60px !important;}
+	#container.annual .wrap .btns .btn_apply .icon{width: 40px !important; height: 40px !important;}
+	#container.annual .wrap .btns .btn_apply .icon:after{top: 10px !important; left: 10px !important; -webkit-transform: scale(0.32) !important; -o-transform: scale(0.32) !important; transform: scale(0.32) !important;}
+	#annual_list{height:calc(100% - 49px); max-height: 470px !important;}
+
+	.apply_form.step02{height: auto !important;}
+}
+
+@media all and (min-height: 641px) and (max-height: 730px) {
+	#container.annual .wrap ul.column{margin-bottom: 12px !important;}
+	#container.annual .wrap .userInfo{margin-top: 15px !important;}
+	#container.annual .wrap .box_data{margin-top: 15px !important;} 
+	#container.annual .wrap .box_data div.gr_box{height: 50px !important;}
+	#container.annual .wrap .btns{margin-top: 20px !important;}
+	#container.annual .wrap .btns .btn_apply{height: 75px !important;}
+	#annual_list{max-height: 500px !important;}
+	.apply_form.step02{height: auto !important;}
+}
+
+#container{padding: 0 20px 17px 20px; width: calc(100% - 40px); min-height: calc(100% - 105px); background: linear-gradient(170deg, #01c0ed 15%, #0186ed 85%); }
+#container.annual{min-height: calc(100% - 82px); }
+#container.annual_apply .wrap{/* min-height: 100% */}
+#container.annual #layer_popup .bg{top:0px; height: 100%;}
+#container.annual .column li.sort_right{display: flex; display: -ms-flex; display: -webkit-flex; justify-content: flex-end; -ms-justify-content: flex-end; -webkit-justify-content: flex-end;}
+#container.annual .column li.sort_center{display: flex; display: -ms-flex; display: -webkit-flex; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container.annual .wrap ul.column{margin-top:13px; margin-bottom:25px; display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: column}
+#container .wrap .btn_type{overflow: hidden; display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center; border-radius: 5px; box-sizing: border-box;}
+#container .wrap .btn_approval{position:absolute; left:0; width: 115px; height: 44px; font-size: 18px; border: 1px solid #42cff2; color: #ffffff;}
+#container .wrap .btn_approval .icon{width: 23px; height: 23px; display: inline-block; overflow: hidden;  margin-left:8px;}
+#container .wrap .btn_approval .icon:after{display:inline-block; position:relative; content:url(image/mobile/icon_add_plus_sky.png); width: 72px; height: 72px;  -webkit-transform: scale(0.31); -o-transform:scale(0.31); transform: scale(0.31); transform-origin:0 0;  -o-transform-origin:0 0; -webkit-transform-origin:0 0;}
+#container .wrap .btn_annualList{width: 117px; height: 44px; font-size: 18px; border:1px solid #42cff2; color:#ffffff; }
+#container .wrap .btn_annualList .icon{width: 23px; height: 23px; display: inline-block; overflow: hidden;  margin-left:8px;}
+#container .wrap .btn_annualList .icon:after{display:inline-block; position:relative; content:url(image/mobile/icon_dropDown.png); width: 64px; height: 64px;  -webkit-transform: scale(0.35); -o-transform:scale(0.35); transform: scale(0.35); transform-origin:0 0;  -o-transform-origin:0 0; -webkit-transform-origin:0 0;}
+#container .wrap .btn_annualList.active .icon:after{left:23px; top:23px; -webkit-transform: rotate(180deg) scale(0.35); -o-transform: rotate(180deg) scale(0.35); -ms-transform: rotate(180deg) scale(0.35); transform: rotate(180deg) scale(0.35);}
+#container.annual .wrap .userPic{height: 75px; }
+#container.annual .wrap .userPic .pic{display:inline-block; width: 75px; height: 75px; border-radius: 40px; overflow: hidden;}
+#container.annual .wrap .userPic .pic img{width: 100%; height: 100%}
+#container.annual .wrap .userInfo{margin-top: 22px; color:#ffffff; text-align: center;}
+#container.annual .wrap .userInfo div{width: 50%; float: left;}
+#container.annual .wrap .userInfo div span{display: block;}
+#container.annual .wrap .userInfo div span:nth-child(1){font-size: 15px; margin-bottom: 8px;}
+#container.annual .wrap .userInfo div span:nth-child(2){font-size: 24px; letter-spacing: 0.5px; font-weight: bold; }
+#container.annual .wrap .box_data{margin-top: 35px} 
+#container.annual .wrap .box_data div.gr_box{position:relative; width: calc(50% - 25px); height: 55px; border-radius: 5px; padding:20px 10px 10px 10px;}
+#container.annual .wrap .box_data div.gr_box span{display: block;}
+#container.annual .wrap .box_data div.gr_box span.data{position:absolute; bottom: 10px; right:10px; float:right; }
+#container.annual .wrap .box_data div.gr_box:nth-child(1n) {float:left;}
+#container.annual .wrap .box_data div.gr_box:nth-child(2n) {float:right;}
+#container.annual .wrap .box_data div.gr_box:nth-child(1) {background: linear-gradient(45deg, #ffffff 50%, #e5f6ff 50%);}
+#container.annual .wrap .box_data div.gr_box:nth-child(2) {background: linear-gradient(45deg, #ffffff 50%, #d9e7ff 50%);}
+#container.annual .wrap .box_data div.gr_box:nth-child(3) {margin-top:10px; background: linear-gradient(45deg, #ffffff 50%, #ebfdff 50%);}
+#container.annual .wrap .box_data div.gr_box:nth-child(4) {margin-top:10px; background: linear-gradient(45deg, #ffffff 50%, #f8f1ff 50%);}
+#container.annual .wrap .box_data div.gr_box span:nth-child(1){font-size: 14px; font-weight: bold; color:#666666; letter-spacing: 0.5px;}
+#container.annual .wrap .box_data div.gr_box span:nth-child(2){font-size: 24px; font-weight: bold; color:#333333;}
+#container.annual .wrap .btns{margin-top: 28px;}
+#container.annual .wrap .btns .btn_apply{position:relative; width: 100%; height:82px; background-color: #004275; color:#ffffff; font-size: 19px;} 
+#container.annual .wrap .btns .btn_apply .icon{position:absolute; right:18px; width:45px; height:45px; display: inline-block; color:#5b86a6; background-color: #ffffff; border:1px solid #023c71; border-radius: 40px;}
+#container.annual .wrap .btns .btn_apply .icon:after{display:inline-block; position:relative; top:12px; left:12px; content:url(image/mobile/icon_plus.png); width: 61px; height: 61px;  -webkit-transform: scale(0.35); -o-transform:scale(0.35); transform: scale(0.35); transform-origin:0 0;  -o-transform-origin:0 0; -webkit-transform-origin:0 0;}
+
+
+/* ***************** 연차 내역 리스트  ***************** */
+#annual_lst_wrap{position:relative; width:calc(100% - 40px); height:calc(100% - 28px); padding:13px 20px 15px 20px; background-color: rgba(0,0,0,0.7) }
+#annual_lst_wrap .btn_type{display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;
+justify-content: center; -ms-justify-content: center; -webkit-justify-content: center; border-radius: 5px; box-sizing: border-box;}
+#annual_lst_wrap .btn_annualList{width: 117px; height: 44px; font-size: 18px; border:1px solid #2b6370; color:#ffffff; background-color: #004d5f;}
+#annual_lst_wrap .btn_annualList .icon{width: 23px; height: 23px; display: inline-block; overflow: hidden;  margin-left:8px;}
+#annual_lst_wrap .btn_annualList .icon:after{display:inline-block; position:relative; content:url(image/mobile/icon_dropDown.png); width: 64px; height: 64px; left:23px; top:23px; -webkit-transform: rotate(180deg) scale(0.35); -o-transform: rotate(180deg) scale(0.35); -ms-transform: rotate(180deg) scale(0.35); transform: rotate(180deg) scale(0.35); transform-origin:0 0;  -o-transform-origin:0 0; -webkit-transform-origin:0 0;}
+#annual_list{display: inline-block; width:100%; font-size: 15px; max-height: 563px; overflow-y:auto; border-bottom:2px solid #ffffff; margin-top: 5px;}
+#annual_list table{ }
+#annual_list table thead{position: absolute; table-layout: fixed; display: table; width: calc(100% - 40px);}
+#annual_list table thead th:nth-child(1){ width: 8%}
+#annual_list table thead th:nth-child(2){ width: 35%}
+#annual_list table thead th:nth-child(3){ width: 16%}
+#annual_list table thead th:nth-child(4){ width: 11%}
+#annual_list table thead th:nth-child(5){ width: 30%}
+
+#annual_list table tbody tr:first-child td{padding-top:40px; }
+#annual_list table thead th{background-color: #0186ed; color:#ffffff; height: 38px; font-size: 13px}
+#annual_list table tbody tr td{height: 34px; text-align:center}
+#annual_list table tbody tr td.no{ color:#0186ed; font-weight: bold;}
+#annual_list table tbody tr td.date{font-size: 14px; word-break: break-word;}
+#annual_list table tbody tr:nth-child(1n) {background-color: #ffffff; }
+#annual_list table tbody tr:nth-child(1n) td.no {background-color: #e1f2ff;}
+#annual_list table tbody tr:nth-child(2n) {background-color: #f4f4f4;}
+#annual_list table tbody tr:nth-child(2n) td.no {background-color: #d7e8f4;}
+
+/* ***************** 연차 정보  ************************ */
+
+#container.annual_apply{width:100%; min-height:calc(100% - 65px); background: transparent; padding:0px;}
+#container.annual_apply.paymentLine{background-color: #bbe3fa; height: calc(100%  - 65px)}
+#container.annual_apply .top_info{display:inline-block; position:relative; width:100%; height:160px; background: linear-gradient(170deg, #01c0ed 15%, #0186ed 85%); color:#ffffff; float:left}
+#container.annual_apply .top_info.paylist{width:calc(100% - 34px); height:143px; padding: 12px 17px 5px 17px; }
+#container.annual_apply .payment_head{position: relative; float:left; width: 100%; top:11px;}
+#container.annual_apply .payment_head{padding: 15px 0 6px 0; color:#00a3ff; font-size: 16px; font-weight: bold;  background-color: #ffffff; border-top-left-radius: 5px; border-top-right-radius: 5px;}
+#container.annual_apply .payment_head div{float:left; height: 33px;  border-bottom:1px solid #00a3ff;}
+#container.annual_apply .payment_head div{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center; }
+#container.annual_apply .payment_head .part{width: 35%}
+#container.annual_apply .payment_head .com_no{width: 22%}
+#container.annual_apply .payment_head .name{width: 18%}
+#container.annual_apply .payment_head .rank{width: 23%; }
+
+#container.annual_apply.paymentLine .wrap{height: 100%;}
+#container.annual_apply ul.payment_list{ position:relative; width:100%; display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: column;}
+#container.annual_apply ul.payment_list li{position:relative; width:100%; height:45px;  border-bottom:1px solid #ececec; background-color: #ffffff; font-size:16px; }
+#container.annual_apply ul.payment_list li input[type="checkbox"]{position: absolute; left: 0; top: 0; z-index: 1; opacity: 0; }
+#container.annual_apply ul.payment_list li div{position:relative; height:45px; display:inline-block; color:#666666; float: left; }
+#container.annual_apply ul.payment_list li div{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#container.annual_apply ul.payment_list li:not([class*="ck_no"]) .ck_num{opacity: 0}
+#container.annual_apply ul.payment_list .ck_num{width: calc(8% - 5px); min-width: 25px; padding-left:5px;}
+#container.annual_apply ul.payment_list .ck_num span{width: 25px; height: 25px; border-radius: 25px; background-color: #505050; color:#ffffff;}
+#container.annual_apply ul.payment_list .ck_num span{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container.annual_apply ul.payment_list .part{width: calc(27% - 8px); padding-left:8px; }
+#container.annual_apply ul.payment_list .com_no{width: calc(22% - 8px); padding-left:8px; word-break: break-all;}
+#container.annual_apply ul.payment_list .name{width: calc(18% - 8px); padding-left:8px; }
+#container.annual_apply ul.payment_list .rank{width: calc(23% - 8px); padding-left:8px; }
+#container.annual_apply ul.payment_list li.ck_no1{background-color:#e1efff;}
+#container.annual_apply ul.payment_list li.ck_no2{background-color:#c6e0ff;}
+#container.annual_apply ul.payment_list li.ck_no3{background-color:#a9d1ff;}
+
+#container.annual_apply .userInfo{width:calc(100% - 40px); padding: 13px 20px 20px 20px; float:left}
+#container.annual_apply .annualInfo{width: 100%; float:left}
+#container.annual_apply .userInfo .name{width:26%; float:left; }
+#container.annual_apply .userInfo .date{width:36%; float:left; }
+#container.annual_apply .userInfo .btns{width:38%; text-align: right; float:left; padding-top:3px;}
+#container.annual_apply .top_info span{display: block;}
+#container.annual_apply .top_info span.tit{font-size: 13px; margin: 5px 0 8px 0;}
+#container.annual_apply .top_info span:nth-child(2){font-size: 20px;}
+#container.annual_apply .annualInfo{display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: row; justify-content: space-between; -ms-justify-content: space-between; -webkit-justify-content: space-between;}
+#container.annual_apply .annualInfo div{width:25%; border-left:1px solid #a0d5f8; box-sizing: border-box;}
+#container.annual_apply .annualInfo div span{padding-left:20px;}
+#container.annual_apply .annualInfo div:first-child{border-left:none;}
+
+/* 결재선 리스트 */
+#container.annual_apply .search_box{position:relative; width:calc(100% - 10px); padding:5px; background-color:#ffffff; height: 47px; border-radius: 7px; float:left;}
+#container.annual_apply .search_box input{position:relative; width:calc(100% - 40px); height:100%; border:none; outline: none; font-size: 17px; color:#666666; padding:0; float:left; }
+#container.annual_apply .search_box input:focus{background-color: transparent;}
+#container.annual_apply .search_box .btn_search{position:relative; width: 40px; height:100%; display: inline-block; position: relative; float: left; overflow: hidden;}
+#container.annual_apply .search_box .btn_search:after{content:url(image/mobile/btn_search.png);position:relative; top:10px; left:10px; width: 76px; height: 76px; display: inline-block; -webkit-transform: scale(0.35); -o-transform:scale(0.35); -ms-transform:scale(0.35); transform:scale(0.35); transform-origin:0 0; -ms-transform-origin:0 0; -o-transform-origin:0 0; -webkit-transform-origin:0 0;}
+#container.annual_apply .search_result{position:relative; width:100%; height: 20px; float:left; text-align: right; color:#ffffff; font-size: 15px; margin-top:5px;} 
+#container.annual_apply .list_wrap{position: relative; width:calc(100% - 34px); height: calc(100% - 245px); overflow-y: auto; float:left; top:0px; margin:0 17px; padding-bottom: 10px; background-color: #ffffff; box-shadow: 0px 10px 17px 1px rgba(0,0,0,0.3);}
+#container .annual_apply.paymentLine{position:absolute; top:0; left:0; width:100%; /* background-color: #bbe3fa; */   height: 100%;}
+#container .annual_apply.paymentLine .wrap{height: 100%; background:rgba(0,0,0,0.6);}
+#container .annual_apply.paymentLine .top_info{background:transparent;  /* background: linear-gradient(170deg, rgba(0,192,137,0.3) 15%, rgba(1,134,237,0.3) 85%); */}
+#container .annual_apply.paymentLine .list_wrap{height: calc(100% - 230px);}
+#container.annual_apply .footer{position:relative; width: 100%; height:auto; float:left; }
+#container.annual_apply.paymentLine .footer{box-shadow:0px -15px 60px 5px rgba(0,0,0,0.4);}
+
+/* 결제 */
+#container.payment{padding:0px; width: 100%; background: transparent; height:calc(100% - 65px);} 
+#container.payment .wrap{height:100%;}
+#container.payment .top_search{display: inline-block; width: 100%; height:104px; background: linear-gradient(170deg, #01b4ed 15%, #018de0 85%); float:left;}
+#container.payment .top_search .tit{width:calc(100% - 20px); color:#ffffff; font-size: 16px; padding:13px 0 0 20px; float: left;}
+#container.payment .top_search .dateTerm{display:inline-block; padding:11px 20px 15px 20px; width: calc(100% - 40px); float: left;}
+#container.payment .top_search .dateTerm input{width:calc(50% - 14px); height:45px; padding-left:10px; box-sizing: border-box; border: 1px solid #929292; background-color: #f5f5f5; border-radius: 4px; font-size: 18px;/*  font-weight: bold; */ color: #7e7e7e; float:left; vertical-align: middle;}
+#container.payment .top_search .dateTerm input:focus{outline: none;}
+#container.payment .top_search .dateTerm input[type="date"]::-webkit-inner-spin-button {appearance: none; -moz-appearance: none; -webkit-appearance: none; -o-appearance: none;}
+#container.payment .top_search .dateTerm input[type="date"]:-webkit-calendar-picker-indicator{width:35px; height:45px; color: rgba(0, 0, 0, 0); opacity: 1; padding:0px; margin: 0px; margin-right:6px; appearance: none; -moz-appearance: none; -webkit-appearance: none; -o-appearance: none; background-size:100%; background-image: url('image/mobile/icon_date_calender.png'); background-repeat: no-repeat; background-position: 95% 50%}
+#container.payment .top_search .dateTerm input[type="date"]::-webkit-calendar-picker-indicator{width:35px; height:45px; color: rgba(0, 0, 0, 0); opacity: 1; padding:0px; margin: 0px; margin-right:6px; appearance: none; -moz-appearance: none; -webkit-appearance: none; -o-appearance: none; background-size:100%; background-image: url('image/mobile/icon_date_calender.png'); background-repeat: no-repeat; background-position: 95% 50%}
+#container.payment .top_search .dateTerm input[type="date"]:default::-webkit-calendar-picker-indicator{width:35px; height:45px; color: rgba(0, 0, 0, 0); opacity: 1; padding:0px; margin: 0px; margin-right:6px; appearance: none; -o-appearance: none; -webkit-appearance: none; background-size:100%; background-image: url('image/mobile/icon_date_calender.png'); background-repeat: no-repeat; background-position: 95% 50%}
+#container.payment .top_search .dateTerm span{width: 28px; text-align: center; float:left; padding: 10px 00 0 0; color:#ffffff; font-size: 27px; font-weight: normal; vertical-align: middle;}
+#container.payment .payment_chart{width:100%; height:calc(100% - 158px); float: left; overflow-y:auto; /* background-color: #ffffff; */}
+#container.payment .payment_head{display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: row; }
+#container.payment .payment_head{ width:calc(100% - 15px); padding-left:15px; color:#00a3ff; font-size:16px; padding-top: 23px; height: 30px; border-bottom: 1px solid #00a3ff;}
+#container.payment .payment_head div{padding-left:5px; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; }
+#container.payment .partBx{width:calc(22% - 18px);}
+#container.payment .nameBx{width:calc(20% - 18px);}
+#container.payment .typeBx{width:calc(20% - 18px);}
+#container.payment .reasonBx{width:calc(38% - 18px);}
+#container.payment .checkBx{position:relative; width:60px; padding-left:0px;}
+#container .payment_chart .payment_list{position:relative; display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: column; font-size: 16px;}
+#container .payment_chart .payment_list li{display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: row;}
+#container .payment_chart .payment_list li{position:relative; width:calc(100% - 12px); padding-left:12px; color:#666666; border-bottom: 1px solid #a7a7a7;}
+#container .payment_chart .payment_list li div.bx{position:relative; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; }
+#container .payment_chart .payment_list li div.bx{padding-left:5px; min-height:65px; }
+#container .payment_chart .payment_list li .reasonBx span{display: block;}
+#container .payment_chart .payment_list li .checkBx{height:100%; min-height: 65px; padding-left: 0px; }
+
+#container .payment_chart .payment_list li .act-button{position:absolute; width:calc(100% - 12px); height:100%; padding-left: 0px; overflow: hidden;}
+#container .payment_chart .payment_list li .dragOb{position: relative; width: calc(100% + 110px); height: 100%; float:left;}
+#container .payment_chart .payment_list li .dragOb .act-bar{position:relative; display: inline-block; height: 100%; float:left; left:calc(100% - 170px);}
+#container .payment_chart .payment_list li .dragOb .arrow{position:relative; width: 50px;  height:100%; float: left; }
+#container .payment_chart .payment_list li .dragOb .arrow:after{content:url(image/mobile/btn_skyArrow.png);position:relative; top:25px; left:0px; width: 82px; height: 42px; display: inline-block; -webkit-transform: scale(0.35); -o-transform:scale(0.35); -ms-transform:scale(0.35); transform:scale(0.35); transform-origin:0 0; -ms-transform-origin:0 0; -o-transform-origin:0 0; -webkit-transform-origin:0 0;}
+#container .payment_chart .payment_list li .dragOb .btns{position: relative;  display:inline-block; height: 100%; float:left}
+#container .payment_chart .payment_list li .dragOb .btns .btn_type{width:60px; height:100%; border-radius: 0px !important; color:#ffffff; font-size: 16px; float:left}
+#container .payment_chart .payment_list li .dragOb .btns .btn_type:nth-child(1){background: linear-gradient(90deg, #22bce2 5%, #44d8fd 25%,#44d8fd 70%); }
+#container .payment_chart .payment_list li .dragOb .btns .btn_type:nth-child(2){background-color: #6681da; }
+#container.payment .payment_chart .payment_list li.active .checkBx{width: 160px;}
+#container.payment .payment_chart .payment_list li.active .arrow{display: none;}
+#container.payment .payment_chart .payment_list li .checkBx.complete-return{ background-color: #6681da; color:#ffffff;}
+#container.payment .payment_chart .payment_list li .checkBx.complete-confirm{ background-color: #47daff; color:#ffffff; }
+#container.payment .payment_chart .payment_list li .checkBx[class*="complete"]{width: 60px !important; height:100%; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#container.payment .payment_chart .payment_list li .checkBx.complete-confirm:after{content:"승인"}
+#container.payment .payment_chart .payment_list li .checkBx.complete-return:after{content:"반려"}
+
+#container .footer.overlap{position: absolute; width: 100%; bottom: 0px;}
+#container .footer.overlap .btn_type.btn_approve{background-color: rgba(0,0,0,0.7)}
+#container .footer.overlap .btn_type.btn_approve:after{content:url(image/mobile/icon_outline_check.png);position:absolute; top:20px; left:260px; width: 97px; height: 69px; display: inline-block; -webkit-transform: scale(0.35); -o-transform:scale(0.35); -ms-transform:scale(0.35); transform:scale(0.35); transform-origin:0 0; -ms-transform-origin:0 0; -o-transform-origin:0 0; -webkit-transform-origin:0 0;}
+
+.footer .btn_next{width:100%; height: 75px; background-color: #00a3ff; color:#ffffff; font-size: 18px; letter-spacing: 1px; border-radius: 0 !important;}
+.footer .btn_next:after{display:inline-block; position:absolute; right:0px; top:6px;  content:url(image/mobile/btn_foot_arrow.png); width: 65px; height: 60px; -webkit-transform: rotate(180deg) scale(0.35); -o-transform: rotate(180deg) scale(0.35); -ms-transform: rotate(180deg) scale(0.35); transform: rotate(180deg) scale(0.35); }
+.footer.type2 .btn_type{width: 50%;}
+.footer .btn_type{position: relative; width: 100%; height: 75px; color:#ffffff; float:left;  font-size: 19px; letter-spacing: 1px; border-radius: 0 !important;}
+.footer .btn_type.btn_prev{background-color: #999999; }
+.footer .btn_type.btn_submit{background-color: #00a3ff; padding-right: 55px;}
+.footer .btn_type.btn_prev:before{display:inline-block; position:absolute; left:0px; top:6px;  content:url(image/mobile/btn_foot_arrow.png); width: 65px; height: 60px; -webkit-transform:scale(0.35); -o-transform:scale(0.35); -ms-transform:scale(0.35); transform:scale(0.35); }
+.footer .btn_submit:after{display:inline-block; position:absolute; right:-10px; content:url(image/mobile/icon_check_white.png); width: 104px; height:104px; -webkit-transform: scale(0.35); -o-transform:scale(0.35); -ms-transform:scale(0.35); transform:scale(0.35);}
+.footer .btn_close{background-color: #999999;}
+.footer .btn_close:before{display:inline-block; position:absolute; left:20px; top:18px;  content:url(image/mobile/icon_close_round.png); width: 106px; height: 105px; -webkit-transform:scale(0.35); -o-transform:scale(0.35); -ms-transform:scale(0.35); transform:scale(0.35); transform-origin:0 0;  -o-transform-origin:0 0; -webkit-transform-origin:0 0; -ms-transform-origin:0 0;}
+.footer .btn_add{background-color: #00a3ff;}
+.footer .btn_add:after{display:inline-block; position:absolute; right:-50px; top:18px; content:url(image/mobile/icon_add_plus.png); width: 110px; height:110px; -webkit-transform: scale(0.35); -o-transform:scale(0.34); -ms-transform:scale(0.34); transform:scale(0.34); transform-origin:0 0;  -o-transform-origin:0 0; -webkit-transform-origin:0 0; -ms-transform-origin:0 0;}
+
+/* ***************** 연차 신청 step01  ***************** */
+.apply_form{position:relative; display:inline-block;  width:100%; float: left; }
+.apply_form.step01{}
+.apply_form.step02{height: 436px;}
+.apply_form ul.form_wrap{display:inline-block; width: calc(100% - 40px); padding:15px 20px 10px 20px; float: left;}
+.apply_form ul.form_wrap li{ display: inline-block; width:100%; height: 46px; margin-bottom: 11px; float:left;}
+.apply_form ul.form_wrap .nav{height: 25px; display: flex; display: -ms-flex; display: -webkit-flex; justify-content: flex-end; -ms-justify-content: flex-end; -webkit-justify-content: flex-end;}
+.apply_form ul.form_wrap .nav div{display:inline-block; border-radius:25px; width: 25px; height: 25px; color:#ffffff;  background-color: #bbbbbb; font-size: 15px; float:left; margin-left: 5px;}
+.apply_form ul.form_wrap .nav div{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: cente}
+.apply_form ul.form_wrap .nav div.active{ background-color: #00a3ff; font-weight: bold; }
+.apply_form ul.form_wrap .label{width:85px; height: 46px; color:#666666; font-size: 17px; font-weight: bold; float:left}
+.apply_form ul.form_wrap .label{ display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+.apply_form ul.form_wrap .select_box{width: calc(100% - 85px); height: 100%; float:left;}
+.apply_form ul.form_wrap .default_box{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+.apply_form ul.form_wrap .default_box{width: calc(100% - 85px); height: 100%; float:left; color:#666666; font-size: 18px; font-weight: bold; box-sizing: border-box;}
+.apply_form ul.form_wrap .setDate{margin-bottom: 9px; height: 75px;}
+.apply_form ul.form_wrap .date_box{width: calc(100% - 85px); height: 46px; float:left; color:#666666; font-size: 17px; font-weight: bold; }
+.apply_form ul.form_wrap .date_box input{width: calc(50% - 7px); float:left; padding:0 0 0 5px;}
+.apply_form ul.form_wrap .date_box span{float:left; width:12px; height:calc(100% - 20px); margin-top:15px; padding:0 1px; text-align: center;}
+.apply_form ul.form_wrap .date_box fieldset{display:inline-block; width: calc(100% - 60px); height: 100%; margin:0px; padding:0px; color: #7e7e7e; box-sizing: border-box; font-weight: bold; font-size: 16px; letter-spacing: 0.5px; outline: none; background-color: #f5f5f5; border: 1px solid #dadada; border-radius: 5px; float:left;}
+.apply_form ul.form_wrap .input_box{width: calc(100% - 85px); height: 100%; float:left;}
+.apply_form ul.form_wrap .date_box .calenderPicker{width:45px; height:100%;}
+.apply_form ul.form_wrap .date_box .calenderPicker:after{width:106px; height:98px; content: url('image/mobile/icon_date_calender.png'); -webkit-transform: scale(0.34); -o-transform:scale(0.34); transform: scale(0.34); }
+.apply_form ul.form_wrap .date_box .default_box{width: 100%; }
+.apply_form ul.form_wrap .res{display:inline-block; width:calc(100% - 85px); height: 21px; float:left; padding-left:85px; padding-top:8px;}
+.apply_form ul.form_wrap .res.view{padding-top:0px;}
+.apply_form ul.form_wrap .res span{font-weight: bold; font-size: 17px; color: #666666;}
+.apply_form ul.form_wrap .res .day{display:inline-block; width: 65px}
+.apply_form ul.form_wrap .res .notice{width:calc(100% - 90px); height: 20px; color:#ff0000; font-weight: bold; font-size: 15px; margin-bottom: 5px;}
+.apply_form ul.form_wrap .payment{height: auto !important;}
+.apply_form ul.form_wrap .payment .column{width: calc(100% - 85px); }
+.apply_form ul.form_wrap .payment .btns{margin-bottom: 5px}
+.apply_form .multiBox{min-height: 46px; height: auto;}
+.apply_form .column {width:100%; display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: column;}
+.apply_form .btn_type.btn_add{width: 93px; height: 40px; background-color: #00a3ff; color:#ffffff; border-radius: 0px !important;}
+.apply_form .paycon_wrap{width:100%; }
+.apply_form .paycon_wrap ul.tit{width: 33px !important; display: inline-block; float:left;}
+.apply_form .paycon_wrap ul.tit li{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center; margin-bottom: 0px;}
+.apply_form .paycon_wrap ul.tit li{height:38px !important; margin-bottom: 0px !important; font-size:13px; background-color: #999999; color:#ffffff; border-bottom: 1px solid #ffffff; box-sizing: border-box;}
+.apply_form .paycon_wrap ul.tit li:last-child{border-bottom: none; height: 38px;}
+.apply_form .add_box{width: calc(100% - 33px); display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; flex-direction: row;}
+.apply_form .add_box ul li{height: 38px !important; margin-bottom: 0px !important; color:#666666; font-size: 16px; font-weight: bold; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+.apply_form .add_box ul {width: 100%; display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: column }
+.apply_form .add_box ul.no1 li:nth-child(1){background-color: #79cdfe}
+.apply_form .add_box ul.no1 li:nth-child(2){background-color: #9bdaff}
+.apply_form .add_box ul.no1 li:nth-child(3){background-color: #9bdaff}
+
+.apply_form .add_box ul.no2 li:nth-child(1){background-color: #9bdaff}
+.apply_form .add_box ul.no2 li:nth-child(2){background-color: #bee7ff}
+.apply_form .add_box ul.no2 li:nth-child(3){background-color: #bee7ff}
+
+.apply_form .add_box ul.no3 li:nth-child(1){background-color: #bee7ff}
+.apply_form .add_box ul.no3 li:nth-child(2){background-color: #e4f5ff}
+.apply_form .add_box ul.no3 li:nth-child(3){background-color: #e4f5ff}
+.apply_form .add_box .btn_payDel{min-width: 40px; width:calc(100% - 14px); height: 25px; background-color: #ffffff; color:#00a3ff; font-size: 13px; border: 1px solid #00a3ff; border-radius: 0px !important;}
+
+.apply_form select{width:100%; height: 100%; color:#666666; box-sizing:border-box; font-weight: bold; font-size:18px; letter-spacing:0.5px; outline: none; border: 1px solid #dadada; border-radius:5px; padding-left:5px; -webkit-appearance: none; -moz-appearance: none; -o-appearance: none; appearance: none;}
+.apply_form select{background-color:#f5f5f5; background-image: url('image/mobile/select_arrow.png'); background-size:10%;  background-repeat: no-repeat; background-position: 95% 50%}
+.apply_form select:focus{background-color:#ebf2f5; border:1px solid #00a9e9; background-image: url('image/mobile/select_focus_arrow.png'); }
+.apply_form select::-ms-expand { display: none; }
+
+.apply_form input[type="date"]{width:39%; height:100%; box-sizing: border-box; border: 1px solid #dadada; background-color: #f5f5f5; border-radius: 5px; font-size: 14px; font-weight: bold; color: #666666; float:left}
+.apply_form input[type="date"].fullSize{width: calc(100% - 50px)}
+.apply_form .date_box input[type="text"].fullSize{width: calc(100% - 50px); float:left}
+.apply_form input[type="date"]:focus{outline: none;}
+.apply_form input[type="date"]::-webkit-inner-spin-button {appearance: none; -moz-appearance: none; -webkit-appearance: none; -o-appearance: none;}
+.apply_form input[type="date"]::-webkit-calendar-picker-indicator{width:20px; height:45px; color: rgba(0, 0, 0, 0); opacity: 1; padding:0px; margin: 0px; appearance: none; -o-appearance: none; -webkit-appearance: none; background-size:100%; background-image: url('image/mobile/icon_date_calender.png'); background-repeat: no-repeat; background-position: 95% 50%}
+
+.apply_form fieldset input[type="text"]{width:calc(100% - 45px); border:none; background-color: transparent; float:left; }
+.apply_form fieldset input[type="text"]:focus{border:none;}
+.apply_form input[type="text"]{width:100%; height: 100%; color:#7e7e7e; box-sizing:border-box; font-weight: bold; font-size:16px; letter-spacing:0.5px; outline: none; background-color:#f5f5f5; border: 1px solid #dadada; border-radius:5px; padding-left:5px; }
+.apply_form input[type="text"]:focus{ border: 1px solid #00a9e9;}
+
+
+.col_skyblue{color:#00a3ff !important;}
+

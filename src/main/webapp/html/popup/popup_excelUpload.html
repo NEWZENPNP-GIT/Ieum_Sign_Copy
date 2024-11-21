@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<title>엑셀업로드</title>
+
+<script type='text/javascript' src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.alerts.js"></script>
+<script type="text/javascript" src="/js/moment.min.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+ 
+<script type="text/javascript" src="/js/popup/popup_excelUpload.js"></script>
+<script type="text/javascript" src="/js/ui.biz.core.js"></script>
+ 
+</head>
+<body>	
+	<input type="hidden" id="mapId" value=""/>
+	<div id="celUpload_wrap" class="">
+		<div class="pop_container">
+			<div id="popup_tit" class="">
+				<div class="tit_text NanumSquare_B">엑셀 업로드</div>
+				<div id="popup_close" class="btn_type btn_close" onClick="fncClose()"></div>
+			</div>
+			<div class="pop_contents">
+				<div class="top_btns">
+	
+	       			 <a class="btn_type btn_excel NanumSquare_R">
+	          			<span class="icon icon_excel"></span>엑셀업로드
+	          			<input type="file" value="엑셀업로드" class="upload-file" name="uploadfile" onChange="uploadExcel(this.event)">
+	        		</a>
+					<a class="btn_type btn_download NanumSquare_R" onClick="downExcel(event)"><span class="icon icon_excelDown"></span>서식 다운로드 </a>
+				</div>
+				<ul class="data_box">
+					<li class="grid_wrap">
+						<div class="grid_tit NanumSquare_R"><div class="icon"></div>입력 데이터</div>
+						<div class="grid_box">
+							<div class="data order" id="columnNameDiv">
+								<!-- 
+	              				<div class="group_table" >
+					                <ngx-datatable
+					                [limit]="limit"
+					                [scrollbarH]="true"
+					                [rows]="getLists.rows"
+					                [headerHeight]="35"
+					                [sortType]="'multi'"
+					                [columnMode]="'force'">
+					                  <ngx-datatable-column
+					                  *ngFor="let cols of getLists.cols; let i = index"
+					                  [sortable]="false"
+					                  [name]="cols.columnName"
+					                  [prop]="cols.columnName">
+					                    <ng-template let-column="column" ngx-datatable-header-template>
+					                      <button
+					                      class="sort_excel"
+					                      [class.isMapped]="cols.setMapped === true ? true : false"
+					                      [class.require]="cols.required === '1' ? true : false"
+					                      (click)="getUpIndex(i, cols.columnId)"
+					                      type="button">{{cols.displayName}}</button>
+					                    </ng-template>
+					                  </ngx-datatable-column>
+					                </ngx-datatable>					                
+					             </div>
+					              -->
+					         </div>
+						</div>
+						</li>
+					<li class="grid_wrap">
+						<div class="grid_tit NanumSquare_R"><div class="icon"></div>업로드 데이터</div>
+						<!--  버튼 영역을 삭제하려면 hasbot 클랙스 삭제 -->
+						<div class="grid_box hasbot">
+	            			<div class="tempNotice NanumRound"  id="isValidate_false">
+	                			<div class="tit NanumSquare_R">※ 주의</div>
+	                			<dl><dt>1.</dt><dd>업로드 하시는 엑셀시트에 2행을 제목으로 맞춰서 작업해주세요.</dd></dl>
+	                			<dl><dt>2.</dt><dd>엑셀파일의 첫번째 시트를 기준으로 데이터를 불러옵니다.</dd></dl>
+	                			<dl><dt>3.</dt><dd>작업중 엑셀파일을 다시 업로드하면 기존 작업하던 자료는 사라지니 유의하세요.</dd></dl>
+	              			</div>
+							<div class="data" id="excelDataDiv">
+								<!-- 	
+	              				<div class="group_table">								
+					                <ngx-datatable
+					                #excelTable
+					                class="material expandable"
+					                [scrollbarV]="true"
+					                [scrollbarH]="true"
+					                [rows]="setLists.rows"
+					                [headerHeight]="35"
+					                [sortType]="'multi'"
+					                [columnMode]="'force'">
+					                -->
+					                  <!-- 데이터 에러 영역 셀 -->
+					                  <!--
+					                  <ngx-datatable-row-detail [rowHeight]="30" #myDetailRow (toggle)="onDetailToggle($event)">
+					                    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+					                      <div class="warn_validate NanumSquare_R">
+					                        {{row.validateTxt}}
+					                      </div>
+					                    </ng-template>
+					                  </ngx-datatable-row-detail>
+					                  -->
+					                  <!--// 데이터 에러 영역 셀 -->
+					                  <!--
+					                  <ngx-datatable-column
+					                  *ngFor="let cols of setLists.cols; let i = index"
+					                  [sortable]="false"
+					                  [name]="cols.name"
+					                  [prop]="cols.name"
+														>
+					                    <ng-template let-column="column" ngx-datatable-header-template>
+					                      <button
+					                      class="sort_excel"
+					                      [class.isMapped]="cols.setMapped === true ? true : false"
+					                      (click)="setUpIndex(i, cols['setIndex'])"
+					                      type="button">{{cols.name}}</button>
+					                    </ng-template>
+					                    <ng-template let-value="value" let-row="row" let-expanded="expanded"
+					                    let-rowIndex="rowIndex" ngx-datatable-cell-template>
+					                      <div class="cellExcel">{{value}}</div>
+					                    </ng-template>
+					                  </ngx-datatable-column>
+					                </ngx-datatable>					                 
+	              				</div>
+	              				-->
+	            			</div>
+						</div>
+					</li>
+				</ul>
+	
+				<div class="check_box" id="isValidateBtn">
+	      			<a class="btn_type NanumSquare_R btn_reset" onClick="resetData()">선택 초기화 </a>
+	      			<a class="btn_type NanumSquare_R btn_autoselect" onClick="fncAutoMapping()">자동 선택 </a>
+	      			<select class="btn_type NanumSquare_R sel_user" id="mapList" onchange="setMapId()"></select>
+	      			<a class="btn_type NanumSquare_R btn_user" onClick="getExcelMappingData()">매크로 선택 </a>
+	      			<a class="btn_type NanumSquare_R btn_del" onClick="delExcelMapping()">매크로 삭제 </a>
+	      			<a class="btn_type NanumSquare_R btn_save" onClick="saveExcelMappingData()">매크로 저장 </a>
+	      			<!-- <a class="btn_type NanumSquare_R btn_check" onClick="validateData()">데이터 확인 </a> -->
+	    		</div>
+	
+				<div class="foot_btns">
+	        		<a class="btn_type NanumSquare_R type2" id="confirmExcelBtn" onClick="confirmExcel()">저장 </a>
+					<a class="btn_type NanumSquare_R type1" onClick="fncClose()">취소</a>
+				 </div>
+			</div>
+			
+			<!--  alert end -->
+		</div>
+	</div>
+	
+</body>
+</html>	

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<META http-equiv="Pragma" content="no-cache">
+<META http-equiv="Expires" content="-1">
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>연말정산 현황 : 기부금 조정 명세서 </title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+<link rel="stylesheet" type="text/css" href="/css/ScrollTable.css"  media="screen" />
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type='text/javascript' src="/js/excelexportjs.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/jquery.table2excel.js"></script>
+
+</head>
+<body>
+	<div id="yearTax_wrap" class="yearTax">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연말정산 > 연말정산 관리  > </span><span class="loc_sub NanumSquare_R">연말정산 현황물</span></div>
+			<div class="pagtit NanumSquare_R">
+				<span class="">기부금 조정 명세서</span>
+			</div>
+			
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">기부금 조정 명세서</span>
+					</div>
+				
+					<div class="grid_field full">
+						<ul class="gridRow2">
+							<li class="search_wrap">
+								<div class="group_row row4">
+									<dl class="NanumSquare_R rat3n-7">
+										<dt><label class="label_txt NanumSquare_R">사업장 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R" id="사업장ID">
+												<option value="" >전체</option>
+											</select>
+										</dd>
+									</dl>
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">부서 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R" id="부서ID">
+												<option value="" >전체</option>
+											</select>
+										</dd>
+									</dl>
+									<dl class="NanumSquare_R rat4n-6">
+										<dt><label class="label_txt NanumSquare_R">근무상태 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R" id="근무상태">
+												<!-- 
+												<option value="" >전체</option>
+												<option value="" >계속근로</option>
+												<option value="" >중도퇴사</option> 
+												-->
+											</select>
+										</dd>
+									</dl>
+								</div>
+								<div class="group_row row4">
+									<dl class="NanumSquare_R rat3n-7">
+										<dt><label class="label_txt NanumSquare_R">성명 : </label></dt>
+										<dd class="input_box"><input class="" type="text" id="성명"></dd>
+									</dl>
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">사번 : </label></dt>
+										<dd class="input_box"><input class="" type="text" id="사번"></dd>
+									</dl>
+									<dl class="NanumSquare_R rat4n-6">
+										<dt><label class="label_txt NanumSquare_R">직책(직급) : </label></dt>
+										<dd class="input_box"><input class="" type="text" id="직책"></dd>
+									</dl>
+									<div class="btns"><a class="btn_type btn_grid_search NanumSquare_R" id="search"><span class="icon Material_icons">search</span> 검색</a></div>
+								</div>
+							</li>
+							<li class="NanumSquare_R btns sort_right sort_bottom">
+								<div class="sortWrap ">
+									<a class="btn_type excelDown" id="excelDown">다운로드</a>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<!--  셀 넓이 조정 class w70/w90/w100/w120/w150/w180-/w200/w220/w250/w260/w280/w300 -->
+					<div class="fix-table-container NanumSquare_R">
+						<div class="ContenedorTabla h600" >
+							<table id="pruebatabla" class="fht-table">
+								<thead>
+									<tr>
+										<th rowspan="2">법인명</th><th rowspan="2">사업장 (단위사업장)</th><th rowspan="2">부서</th><th rowspan="2">사원코드</th><th rowspan="2">사원명</th><th rowspan="2">주민등록번호</th>
+										<th colspan="7">기부금구분</th><th colspan="2">해당년도에 공제받지 못한 금액</th><th rowspan="2">실공제금액</th>
+									</tr>
+									<tr>
+										<th>코드</th>
+										<th>유형</th>
+										<th>기부년도</th>
+										<th>기부금액</th>
+										<th>전년까지 공제된 금액</th>
+										<th>공제대상금액</th>
+										<th>해당년도공제금액</th>
+										<th>소멸금액</th>
+										<th>이월금액</th>
+									</tr> 
+								</thead>
+								<tbody id="tbody">									
+								</tbody>
+							</table>
+						</div> <!-- ContenedorTabla  -->
+					</div><!-- fix-table-container -->
+				</div>
+			</div><!--  content -->
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="/js/jquery.CongelarFilaColumna.js"></script> <!--  table plugin -->
+<script type="text/javascript">
+	var fixedLeftColumn=5;
+	var contractId;
+	
+	$(document).ready(function(){
+
+		contractId = getCookie('yearContractId');
+		//Set_table();
+		
+		$("#사업장ID").on("change", function(e){
+			getDept();
+		});
+		
+		$("#search").on("click", function(e){
+			e.preventDefault();
+
+			//기존 조회 데이터 삭제
+			if( $("#pruebatabla").find("tbody").children().length != 0 ){
+				$(".fht-table").find("tbody").empty();
+			}
+			
+			getList();
+		});
+		
+		/*
+		$("#excelDown").on("click", function(e){
+			e.preventDefault();
+			ExportToExcel("pruebatabla");
+		});
+		*/
+		
+		$("#excelDown").on("click", function(e){
+			$("#pruebatabla").table2excel({
+				exclude: ".noExl",
+				name: "export_date",
+				filename: "export_date",
+				fileext: ".xls",
+				exclude_img: true,
+				exclude_links: true,
+				exclude_inputs: true
+			});
+			e.preventDefault();
+		});
+		
+		init();
+		getWorkState();
+	});
+	
+	$(window).resize(function(){
+		Set_table();
+	});
+	
+	function init() {
+		if ((contractId.length <=  0) || (contractId === undefined) || (contractId === 'undefined')) {
+			alert( '사용불가 메뉴 입니다. 기본설정값을 확인 해주세요' );
+			location.href = "/";
+			return;
+	    }
+		
+		getCodeList()
+	}
+
+	function getList(){
+		var url = rootPath + 'febreport/getYE408List.do';
+	    var params = {
+			"계약ID": contractId,
+			"사업장ID": $("#사업장ID").val(),
+			"부서ID": $("#부서ID").val(),
+			"성명": $("#성명").val(),
+			"사번": $("#사번").val(),
+			"직책": $("#직책").val(),
+			"근무상태": $("#근무상태").val()
+		};
+
+		$.blockUI();
+	    
+	    request = $.ajax({
+			url: url,
+	        type: "get",
+	        cache: false,
+	        dataType:"json",
+	        data: params
+	    });
+		
+	    request.done(function(res){
+
+			if(res.success){
+				$("#tbody tr").remove();
+				$("#pruebatabla > thead").find(".sum-cell").remove();
+				
+				var tbodyHtml = "";
+				var tHeadHtml = "";
+				if(!$.isEmptyObject(res.list)){
+				
+					var list = res.list;
+					var sum = res.sum;
+
+					$.each(list, function(i, data){
+
+						tbodyHtml += "<tr>";
+						
+						tbodyHtml += "<td>" + data.bizName + "</td>";
+						tbodyHtml += "<td>" + data.사업장명 + "</td>";
+						tbodyHtml += "<td>" + data.부서명 + "</td>";
+						tbodyHtml += "<td>" + data.사번 + "</td>";
+						tbodyHtml += "<td>" + data.성명 + "</td>";
+						tbodyHtml += "<td>" + data.개인식별번호 + "</td>";
+						tbodyHtml += "<td>" + data.기부금종류코드 + "</td>";
+						tbodyHtml += "<td>" + data.기부금종류코드명 + "</td>";
+						tbodyHtml += "<td>" + data.기부년도 + "</td>";
+						
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.기부금액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.전년도까지공제금액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.공제대상기부금) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.해당연도공제금액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.소멸금액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.이월금액) + "</td>";
+						tbodyHtml += "<td class='sort_right'>" + AddComma(data.공제액) + "</td>";
+
+						tbodyHtml += "</tr>"
+					});
+					
+					tHeadHtml += "<tr class='sum-cell'>";
+					
+					tHeadHtml += "<th colspan='"+fixedLeftColumn+"'>합 계</th>";
+					tHeadHtml += "<th colspan='4'></th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.기부금액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.전년도까지공제금액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.공제대상기부금) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.해당연도공제금액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.소멸금액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.이월금액) + "</th>";
+					tHeadHtml += "<th class='sort_right'>" + AddComma(sum.공제액) + "</th>";
+					
+					tbodyHtml += "</tr>";
+				}
+				
+	        
+	        	$("#tbody").html(tbodyHtml);
+	        	$("#pruebatabla > thead").append(tHeadHtml);
+	        		        	
+				Set_table();
+				
+				$.unblockUI();
+			}
+		});
+	    
+	    request.fail(function (request, textStatus, error) {
+	    	$.unblockUI();
+	    	
+			if (request.status=="401") {
+				alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+				location.href=rootPath;
+			} else {
+				alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+		        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	};
+	
+	function getCodeList(){
+		
+		var url = rootPath + 'febreport/getCodeList.do';
+	    var params = {
+			"계약ID": contractId
+		};
+		
+	    request = $.ajax({
+			url: url,
+	        type: "get",
+	        cache: false,
+	        dataType:"json",
+	        data: params
+	    });
+	    
+	    request.done(function(res){
+	    	if(res.success){
+		    	var ys030 = res.ys030;
+				$.each(ys030, function(i, data){
+					$("#사업장ID").append($("<option>", {
+						value: data.사업장ID,
+						text: data.사업장명
+					}));
+				});
+
+	        	//getList();
+	    	}
+		});
+	    
+	    request.fail(function (request, textStatus, error) {
+			if (request.status=="401") {
+				alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+				location.href=rootPath;
+			} else {
+				alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+		        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	function getDept(){
+		var 사업장ID = $("#사업장ID").val();
+
+		$("#부서ID option").remove();
+		$("#부서ID").append($("<option>", {
+			value: "",
+			text: "전체"
+		}));
+		
+	    if(사업장ID === ""){
+	    	return;
+	    }
+		
+		var url = rootPath + 'febsystem/getYS031List.do';
+	    var params = {
+			"계약ID": contractId,
+			"사업장ID": 사업장ID,
+			startPage: 0,
+		    endPage: 100
+		};
+
+	    request = $.ajax({
+			url: url,
+	        type: "get",
+	        cache: false,
+	        dataType:"json",
+	        data: params
+	    });
+	    
+	    request.done(function(res){
+	    	if(res.success){
+	    		var 부서 = res.data;
+				$.each(부서, function(i, data){
+					$("#부서ID").append($("<option>", {
+						value: data.부서ID,
+						text: data.부서명
+					}));
+				});
+	    	}
+		});
+	    
+	    request.fail(function (request, textStatus, error) {
+			if (request.status=="401") {
+				alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+				location.href=rootPath;
+			} else {
+				alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+		        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	function Set_table(){
+		//$("#pruebatabla").CongelarFilaColumna({Columnas:fixedLeftColumn,coloreacelda:true});
+	}
+	
+	// 근무상태코드 조회
+	function getWorkState() {
+		console.log("근무상태");
+		var url = rootPath+"code/getCodeList.do";
+		var grpCommCode = "420";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				grpCommCode:grpCommCode
+			},
+			success:function(result)
+			{
+				if(result.success){
+		    		var workStatus = result.data;
+					$.each(workStatus, function(i, data){
+						$("#근무상태").append($("<option>", {
+							value: data.commCode,
+							text: data.commName
+						}));
+					});
+		    	}
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+</script>
+</html>

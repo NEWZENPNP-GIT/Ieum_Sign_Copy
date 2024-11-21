@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/board_notice.css">
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.bootpag_candy.js"></script>
+</head>
+<body>
+	
+<!-- *********************************************  게시판  *********************************************  -->
+<div id="boardFAQ_wrap" class="">
+	<div class="container">
+		<div class="location"><span class="loc_main NanumSquare_R">게시판 > </span><span class="loc_sub NanumSquare_R">자주 묻는 질문(FAQ)</span></div>
+		<div class="pagtit"><span class="NanumSquare_R">자주 묻는 질문(FAQ)</span></div>
+	</div>
+	<div class="faq_con">
+		<div class="search_wrap">
+			<div class="searchBox">
+				<fieldset>
+					<input type="text" class="word_input NanumSquare_R">
+					<a class="btn_search btn_type Material_icons">search</a>
+				</fieldset>
+			</div>
+			<div class="dec"><span class="NanumBarunGothic">※ 궁금한 사항을 입력해 주세요. 다른 분들이 자주 질문했던 내용을 통해 더욱 빠른 답변을 찾아 보실 수 있습니다.</span></div>
+		</div>
+		<ul class="tab_menu">
+			<li><a class="btn_type active">인사관리</a></li>
+			<li><a class="btn_type">전자계약</a></li>
+			<li><a class="btn_type">연차관리</a></li>
+			<li><a class="btn_type">급여명세</a></li>
+			<li><a class="btn_type">캔디모바일</a></li>
+			<li><a class="btn_type">포인트 결제</a></li>
+		</ul>
+		
+		<!--  !notice ==> 권한에 따라 처리 class="faq_list" / class="faq_list admin_mode" -->
+		<div class="faq_list admin_mode">
+			<ul class="result">
+				<li>
+					<input id="item-tit-1" type="checkbox" class="hidden" />
+					<div class="item-top">
+						<div class="tabName NanumSquare_R">Q</div>
+						<label class="question NanumBarunGothic" for="item-tit-1">전자근로 계약은 비용이 얼마인가요?</label><span class="hot"></span>
+						<label class="btn_type Material_icons icon" for="item-tit-1"></label>
+					</div>
+					<div class="item-con">
+						<div class="answer NanumBarunGothic">
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+						</div>
+						<div class="admin_btns">
+							<a class="btn_type btn_del NanumSquare_R">삭제</a>
+							<a class="btn_type btn_edit NanumSquare_R">수정</a>
+						</div>
+					</div>
+				</li>
+				<li>
+					<input id="item-tit-2" type="checkbox" class="hidden" />
+					<div class="item-top">
+						<div class="tabName NanumSquare_R">Q</div>
+						<label class="question NanumBarunGothic" for="item-tit-2">전자근로 계약은 비용이 얼마인가요?</label><span class="hot"></span>
+						<label class="btn_type Material_icons icon" for="item-tit-2"></label>
+					</div>
+					<div class="item-con">
+						<div class="answer NanumBarunGothic">
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+						</div>
+						<div class="admin_btns">
+							<a class="btn_type btn_del NanumSquare_R">삭제</a>
+							<a class="btn_type btn_edit NanumSquare_R">수정</a>
+						</div>
+					</div>
+				</li>
+				<li>
+					<input id="item-tit-3" type="checkbox" class="hidden" />
+					<div class="item-top">
+						<div class="tabName NanumSquare_R">Q</div>
+						<label class="question NanumBarunGothic" for="item-tit-3">전자근로 계약은 비용이 얼마인가요?</label><span class="hot"></span>
+						<label class="btn_type Material_icons icon" for="item-tit-3"></label>
+					</div>
+					<div class="item-con">
+						<div class="answer NanumBarunGothic">
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+						</div>
+						<div class="admin_btns">
+							<a class="btn_type btn_del NanumSquare_R">삭제</a>
+							<a class="btn_type btn_edit NanumSquare_R">수정</a>
+						</div>
+					</div>
+				</li>
+				<li>
+					<input id="item-tit-4" type="checkbox" class="hidden" />
+					<div class="item-top">
+						<div class="tabName NanumSquare_R">Q</div>
+						<label class="question NanumBarunGothic" for="item-tit-4">전자근로 계약은 비용이 얼마인가요?</label><span class="hot"></span>
+						<label class="btn_type Material_icons icon" for="item-tit-4"></label>
+					</div>
+					<div class="item-con">
+						<div class="answer NanumBarunGothic">
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+						</div>
+						<div class="admin_btns">
+							<a class="btn_type btn_del NanumSquare_R">삭제</a>
+							<a class="btn_type btn_edit NanumSquare_R">수정</a>
+						</div>
+					</div>
+				</li>
+				<li>
+					<input id="item-tit-4" type="checkbox" class="hidden" />
+					<div class="item-top">
+						<div class="tabName NanumSquare_R">Q</div>
+						<label class="question NanumBarunGothic" for="item-tit-4">전자근로 계약은 비용이 얼마인가요?</label><span class="hot"></span>
+						<label class="btn_type Material_icons icon" for="item-tit-4"></label>
+					</div>
+					<div class="item-con">
+						<div class="answer NanumBarunGothic">
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+							답변 블라 블라 블라 블라 답변 블라 블라 블라 블라답변 블라 블라 블라 블라답변 블라 블라 블라 블라 <br>
+						</div>
+						<div class="admin_btns">
+							<a class="btn_type btn_del NanumSquare_R">삭제</a>
+							<a class="btn_type btn_edit NanumSquare_R">수정</a>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<div class="list_footbtn NanumSquare_R">
+				<a class="btn_type">추가하기</a>
+			</div>
+			<div class="pagingnav_wrap">
+				<ul id="pagingNav">
+					<li><a class="first_page arr left"></a><a class="btn_prev arr right"></a></li>
+					<li class="paging_numbers"><a id="p1" class="btn_type">1</a><a id="p2" class="btn_type">2</a><a id="p2" class="btn_type">3</a>
+					<a id="p2" class="btn_type">4</a><a id="p2" class="btn_type">5</a></li>
+					<li><a class="btn_next arr left "></a><a class="end_page arr right"></a></li>
+				</ul>
+			</div>
+		</div> <!--  faq_list -->
+	</div>
+</div>
+
+</body>
+
+<!-- SmartEditor -->
+<script type="text/javascript">
+$('#page-selection').bootpag({
+    total: 10,
+    page: 1,
+    maxVisible: 5,
+    leaps: true,
+    firstLastUse: true,
+    first: '',
+    last: '',
+    wrapClass: 'pagination',
+    activeClass: 'active',
+    disabledClass: 'disabled',
+    nextClass: 'btn_next',
+    prevClass: 'btn_prev',
+    lastClass: 'end_page',
+    firstClass: 'first_page'
+}).on("page", function(event, num){
+    
+}); 
+</script>
+
+</html>

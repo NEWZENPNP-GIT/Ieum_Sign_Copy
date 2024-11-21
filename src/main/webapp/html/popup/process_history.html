@@ -1,0 +1,157 @@
+
+    <!--****************************************************************************************************************
+    * 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+    * 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+    ********************************************************************************************************************
+    --------------------------------------------------------------------------------------------------------------------
+    * 회사       : 뉴젠피앤피
+    * 화면명     : 진행사항 이력 팝업창
+    * 화면설명   : 전자계약목록 > 진행상태 > 진행사항 이력 팝업창
+    * 작성자     :
+    * 생성일     :
+    --------------------------------------------------------------------------------------------------------------------
+    * 수정자     : 이정훈
+    * 수정일     : 2024.02.21
+    * 수정내용   :
+    ------------------------------------------------------------------------------------------------------------------->
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+
+    <link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+    <link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+    <link rel="stylesheet" type="text/css" href="/css/process_history.css">
+
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+    <script type='text/javascript' src="/js/common.js"></script>
+    <script type='text/javascript' src="/js/ui.biz.core.js"></script>
+
+    <script>
+
+        //***************					윈도우 로딩					***************//
+
+
+        $(document).ready(function(){
+            fn_logInfo();
+            fn_getApprLine();
+        });
+
+
+        //***************					로그 조회					***************//
+
+
+        function fn_logInfo() {
+
+            var contId = getURLParameters("contId");
+            var url    = rootPath+"contract/getContractLogList.do";
+
+            $.ajax({
+                url:url,
+                crossDomain : true,
+                dataType:"json",
+                type:"GET",
+                data: { contId:contId },
+                success:function(result) {
+
+                    var htmlData = "";
+
+                    if (result.success==true) {
+
+                        $.each(result.data, function(i, row) {
+                            htmlData += '<tr><td>'+row.logName+'</td> <td>'+row.logMessage+'</td> <td>'+convertDateTime(row.insDate).format("yyyy-MM-dd HH:mm:ss")+'</td></tr>';
+                        });
+                    }
+
+                    if(htmlData=="") { htmlData = '<tr><td colspan="3">전송한 자료가 존재하지 않습니다.</td></tr>'; }
+
+                    $("#sendList").html(htmlData);
+                },
+                error:function(request,status,error){
+                    if (request.status=="401") {
+                        alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+                        location.href=rootPath;
+                    } else {
+                        alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+                    }
+                }
+            });
+        }
+
+        function fn_getApprLine() {
+
+            var contId = getURLParameters("contId");
+            var url    = rootPath+"approval/getApprLine.do";
+
+            $.ajax({
+                url:url,
+                crossDomain : true,
+                dataType:"json",
+                type:"GET",
+                data: { refId:contId },
+                success:function(result) {
+
+                    var htmlData = "승인단계 : ";
+
+                    if (result.success==true) {
+                        $.each(result.data, function(i, row) {
+                            htmlData += row.apprName;
+                            if (i != result.data.length-1) { htmlData += ">"; }
+                        });
+                        $("#apprLine").text(htmlData);
+                    }
+                },
+                error:function(request,status,error){
+                    if (request.status=="401") {
+                        alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+                        location.href=rootPath;
+                    } else {
+                        alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+                    }
+                }
+            });
+        }
+
+    </script>
+    </head>
+
+    <body>
+        <div id="proHistory_wrap" class="">
+            <ul id="popup_bg">
+                <li class="popup_frame popup_name">
+                    <div class="icon note"></div><div class="text NanumGothic">진행사항 이력</div>
+                    <div id="apprLine" class="NanumGothic" style="float: right; font-size: 13px; font-weight: bold; color: #666666; height: 23px; line-height: 23px;"></div>
+                </li>
+                <li class="popup_frame popup_res">
+                <div class="seh_res NanumGothic">
+                    <table>
+                        <colgroup>
+                            <col width="24%">
+                            <col width="60%">
+                            <col width="20%">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>진행상태</th>
+                                <th>진행내용</th>
+                                <th>처리일시</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sendList">
+                        </tbody>
+                    </table>
+                </div>
+                </li>
+                <li class="popup_btnGroup">
+                    <a class="btn_type check" onclick="javascript:window.close();">확인</a>
+                </li>
+            </ul>
+        </div>
+    </body>
+    </html>

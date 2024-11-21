@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="febsystem">
+	<typeAlias alias="ys031VO" type="com.ezsign.feb.system.vo.YS031VO" />
+	<resultMap id="ys031ListMap" class="ys031VO">
+		<result property="계약ID" column="계약ID"/>
+		<result property="부서ID" column="부서ID"/>
+		<result property="사업장ID" column="사업장ID"/>
+		<result property="사업장명" column="사업장명"/>
+		<result property="부서명" column="부서명"/>
+		<result property="dbMode" column="DBMODE"/>
+		<result property="등록일시" column="등록일시"/>
+		<result property="수정일시" column="수정일시"/>
+	</resultMap>
+	
+	<resultMap id="ys031Map" class="ys031VO">
+		<result property="계약ID" column="계약ID"/>
+		<result property="부서ID" column="부서ID"/>
+		<result property="사업장ID" column="사업장ID"/>
+		<result property="부서명" column="부서명"/>
+		<result property="등록일시" column="등록일시"/>
+		<result property="수정일시" column="수정일시"/>
+	</resultMap>
+	
+	<select id="ys031DAO.getYS031" parameterClass="ys031VO" resultMap="ys031Map">
+		SELECT 
+		  tab.*
+		FROM
+		(
+			SELECT 계약ID, 부서ID, 사업장ID, 부서명, 등록일시, 수정일시  
+			FROM tbl_ys031
+	        WHERE 계약ID	 = #계약ID#
+	        <isNotEmpty property="사업장ID">
+	        	AND 사업장ID	 = #사업장ID#
+	        </isNotEmpty>
+	        <isNotEmpty property="부서명">
+				AND 부서명 	 = #부서명#
+			</isNotEmpty>
+		)tab
+		LIMIT 1 OFFSET 0	
+	</select>
+	
+	<select id="ys031DAO.getYS031List" parameterClass="ys031VO" resultMap="ys031ListMap">
+		SELECT A.계약ID, A.부서ID, A.사업장ID, B.사업장명, A.부서명, A.등록일시, A.수정일시 , '0' DBMODE 
+		FROM tbl_ys031 A, tbl_ys030 B
+        WHERE A.계약ID	 = B.계약ID
+        AND A.사업장ID	 = B.사업장ID
+        AND A.계약ID	   	 = #계약ID#
+        <isNotNull property="사업장ID">
+		    <isNotEmpty property="사업장ID">
+			AND A.사업장ID 	= #사업장ID#
+			</isNotEmpty>
+		</isNotNull>
+        <isNotNull property="부서명">
+		    <isNotEmpty property="부서명">
+			AND A.부서명 LIKE CONCAT ('%', #부서명#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sortName">
+		    <isNotEmpty property="sortName">
+		ORDER BY $sortName$ $sortOrder$
+			</isNotEmpty>
+		</isNotNull>
+		limit #endPage# offset #startPage#
+	</select>
+	
+	<select id="ys031DAO.getYS031ListCount" parameterClass="ys031VO" resultClass="java.lang.Integer">
+		SELECT COUNT(A.부서ID) CNT  
+		FROM tbl_ys031 A, tbl_ys030 B
+        WHERE A.계약ID	 = B.계약ID
+        AND A.사업장ID	 = B.사업장ID
+        AND A.계약ID	   	 = #계약ID#
+        <isNotNull property="사업장ID">
+		    <isNotEmpty property="사업장ID">
+			AND A.사업장ID 	= #사업장ID#
+			</isNotEmpty>
+		</isNotNull>
+        <isNotNull property="부서명">
+		    <isNotEmpty property="부서명">
+			AND A.부서명 LIKE CONCAT ('%', #부서명#, '%')
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<insert id="ys031DAO.insYS031" parameterClass="ys031VO">
+		<selectKey resultClass="java.lang.String" keyProperty="부서ID">
+			SELECT getTableKey('TBL_YS031')
+		</selectKey>
+		INSERT INTO tbl_ys031 (
+			계약ID, 부서ID, 사업장ID, 부서명, 등록일시, 수정일시 
+		) VALUES (
+		   #계약ID#, #부서ID#, #사업장ID#, #부서명#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<update id="ys031DAO.updYS031" parameterClass="ys031VO">
+		UPDATE tbl_ys031
+		SET	
+		<isNotNull property="사업장ID">
+		    <isNotEmpty property="사업장ID">
+			사업장ID			= #사업장ID#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="부서명">
+		    <isNotEmpty property="부서명">
+			부서명			= #부서명#,
+			</isNotEmpty>
+		</isNotNull>
+			수정일시			= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	계약ID    = #계약ID#
+		AND		부서ID	 = #부서ID#
+	</update>
+	
+	<delete id="ys031DAO.delYS031" parameterClass="ys031VO">
+		DELETE FROM tbl_ys031
+		WHERE	계약ID    = #계약ID#
+		AND		부서ID	 = #부서ID#
+	</delete>
+</sqlMap>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ContentWord">
+	<typeAlias alias="contentWordVO" type="com.ezsign.content.vo.ContentWordVO"/>
+	<resultMap id="contentWordListMap" class="contentWordVO">
+		<result property="keyId" column="KEY_ID"/>
+		<result property="workType" column="WORK_TYPE"/>
+		<result property="fileId" column="FILE_ID"/>
+		<result property="systemType" column="SYSTEM_TYPE"/>
+		<result property="keyName" column="KEY_NAME"/>
+		<result property="keyWord" column="KEY_WORD"/>
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="insDate" column="INS_DATE"/>
+	</resultMap>
+	
+	<insert id="contentWordDAO.insContentWord" parameterClass="contentWordVO">
+		INSERT INTO tbl_content_word (
+			KEY_ID, WORK_TYPE, FILE_ID, SYSTEM_TYPE, KEY_NAME, KEY_WORD, BIZ_ID, USER_ID, INS_DATE
+		) VALUES (
+		   #keyId#, #workType#, #fileId#, #systemType#, #keyName#, #keyWord#, #bizId#, #userId#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<select id="contentWordDAO.getContentWordList" parameterClass="contentWordVO" resultMap="contentWordListMap">
+		SELECT  A.KEY_ID, A.WORK_TYPE, A.FILE_ID, A.SYSTEM_TYPE, A.KEY_NAME, A.KEY_WORD, A.BIZ_ID, A.USER_ID, A.INS_DATE
+		FROM    tbl_content_word A
+		WHERE	A.KEY_WORD = #keyWord#
+	</select>
+	
+	<select id="contentWordDAO.getContentWord" parameterClass="contentWordVO" resultMap="contentWordListMap">
+		SELECT  A.KEY_ID, A.WORK_TYPE, A.FILE_ID, A.SYSTEM_TYPE, A.KEY_NAME, A.KEY_WORD, A.BIZ_ID, A.USER_ID, A.INS_DATE
+		FROM    tbl_content_word A
+		WHERE	A.BIZ_ID   = #bizId#
+		<isNotNull property="fileId">
+		    <isNotEmpty property="fileId">
+		AND		A.FILE_ID = #fileId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="systemType">
+		    <isNotEmpty property="systemType">
+		AND		A.SYSTEM_TYPE = #systemType#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<delete id="contentWordDAO.delContentWord" parameterClass="contentWordVO">
+		DELETE FROM  tbl_content_word	
+		WHERE   FILE_ID		= #fileId#
+		AND		BIZ_ID        = #bizId#
+		<isNotNull property="systemType">
+		    <isNotEmpty property="systemType">
+		AND		SYSTEM_TYPE = #systemType#
+			</isNotEmpty>
+		</isNotNull>		
+	</delete>
+	
+</sqlMap>
+		

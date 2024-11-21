@@ -1,0 +1,533 @@
+
+	<!--****************************************************************************************************************
+	* 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+	* 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+	********************************************************************************************************************
+	--------------------------------------------------------------------------------------------------------------------
+	* 회사       : 뉴젠피앤피
+	* 화면명     : 임금명세서관리 페이지
+	* 화면설명   : 임금명세관리 > 임금명세서관리
+	* 작성자     :
+	* 생성일     :
+	--------------------------------------------------------------------------------------------------------------------
+	* 수정자     : 이정훈
+	* 수정일     : 2023.12.11
+	* 수정내용   :
+	------------------------------------------------------------------------------------------------------------------->
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/personnel_management.css">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type='text/javascript' src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+	<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+	<script>
+
+		//***************					윈도우 로딩					***************//
+
+
+		$(document).ready(function() {
+			$('#searchValue').keypress(function(event){
+				var keycode = (event.keyCode ? event.keyCode : event.which);
+
+				if (keycode === '13') fn_paystubList(1);
+
+				event.stopPropagation();
+			});
+
+			appendYear($("#searchYear"));
+
+			var date  = new Date();
+			var month = String(date.getMonth()+1);
+			$("#searchMonth").val(lpad(month, 2, 0));
+
+			fn_paystubPayDate();
+
+			getBizGrpCombo();		// 기업조회
+
+			$("#searchYear").change(function()  { $("#searchPayDate").val(""); });
+			$("#searchMonth").change(function() { $("#searchPayDate").val(""); });
+		});
+
+
+		//***************					동적으로 날짜 년도 append					***************//
+
+
+		function appendYear($select){
+
+			var date = new Date();
+			var year = date.getFullYear();
+			var idx  = 0;
+			for (var i=year-10; i<=year; i++) {
+				$select.prepend("<option value='"+i+"'>"+i+"년"+"</option>");
+				idx++;
+			}
+			$select.find("option:eq(0)").prop("selected", true); // 현재년도 선택
+		}
+
+
+		//***************					체크박스 전체 선택					***************//
+
+
+		function fn_checkAll() {
+			if ($("#checkall").prop("checked"))	$("input[name=chk]").prop("checked",true);
+			else 								$("input[name=chk]").prop("checked",false);
+		}
+
+		function fn_paystubPayDate() {
+			var url			  = rootPath+"paystub/getPayStubPayDate.do";
+			var bizId		  = getCookie("bizId");
+			var searchCompany = $("#searchCompany").val();
+			var payMonth	  = $("#searchYear").val() + $("#searchMonth").val();
+
+			$.blockUI();
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"GET",
+				data: {
+					bizId:bizId,
+					searchCompany:searchCompany,
+					payMonth:payMonth
+				},
+				success:function(result) {
+					if (result.success === true) $("#searchPayDate").val(result.data.payDate.substring(0,4)+"-"+result.data.payDate.substring(4,6)+"-"+result.data.payDate.substring(6,8));
+					fn_paystubList(1);
+				},
+				error:function(request,status,error){
+					$.unblockUI();
+					if (request.status === "401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						location.href = rootPath;
+					} else { alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error); }
+				}
+			});
+		}
+
+
+		//***************					급여명세서 목록					***************//
+
+
+		function fn_paystubList(page) {
+
+			var url		 = rootPath+"paystub/getPayStubList.do";
+			var viewPage = $("#viewPage").val();
+
+			if(viewPage === "" || viewPage === "0") viewPage = 10;
+
+			if (page === 0) curPage = 0;
+			else 		 	curPage = page-1;
+
+			if (curPage<0) 				  { curPage=0;  return; }
+			if (curPage*viewPage>totPage) { curPage-=1; return; }
+
+			var searchYear	  = $("#searchYear").val();
+			var payMonth	  = $("#searchYear").val() + $("#searchMonth").val();
+			var searchKey	  = $("#searchKey").val();
+			var searchValue	  = $("#searchValue").val();
+			var startPage	  = (curPage*viewPage);
+			var endPage		  = viewPage;
+			var sortName	  = $("#sortName").val();
+			var sortOrder	  = $("#sortOrder").val();
+			var bizId		  = getCookie("bizId");
+			var searchCompany = $("#searchCompany").val();
+			var searchPayDate = $("#searchPayDate").val();
+			searchPayDate	  = searchPayDate.replace(/-/gi,"");
+
+			$.blockUI();
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"GET",
+				data: {
+					searchYear:searchYear,
+					payMonth:payMonth,
+					searchKey:searchKey,
+					searchValue:searchValue,
+					startPage:startPage,
+					endPage:endPage,
+					sortName:sortName,
+					sortOrder:sortOrder,
+					bizId:bizId,
+					searchCompany:searchCompany,
+					searchPayDate:searchPayDate
+				},
+				success:function(result) {
+					var htmlData = "";
+					if (result.success === true) {
+						totPage 	  = result.total;
+						var totalPage = Math.ceil(totPage/viewPage);
+
+						// 인사내역
+						$.each(result.data, function(i, row) {
+							var num = (curPage * viewPage) + i + 1;
+							htmlData += '<tr> ';
+							htmlData += ' <td><input type="checkbox" id="chk" name="chk" value="'+row.userId+'-'+row.payMonth+'-'+row.payType+'-'+row.payDate+'-'+row.insDate+'-'+row.fileId+'-'+row.seqId+'">';
+							htmlData += '     <input type="hidden" id="paystub'+row.userId+'" value="'+row.userId+'-'+row.payMonth+'-'+row.payType+'-'+row.payDate+'-'+row.insDate+'-'+row.fileId+'-'+row.seqId+'"> ';
+							htmlData += ' </td>';
+							htmlData += ' <td>'+row.bizName+'</td> ';
+							htmlData += ' <td>'+row.empName+'</td> ';
+							htmlData += ' <td>'+row.empNo+'</td> ';
+							htmlData += ' <td>'+row.payMonth+'</td> ';
+
+							if (!isNull(row.payDate) && row.payDate!=="0") htmlData += ' <td>'+convertDate(row.payDate).format("yyyy-MM-dd")+'</td> ';
+							else 										   htmlData += ' <td>'+row.payDate+'</td>';
+
+							htmlData += ' <td>'+AddComma(row.totAllowAmt)+'</td> ';
+							htmlData += ' <td>'+AddComma(row.totDeduAmt)+'</td> ';
+							htmlData += ' <td>'+AddComma(row.totAllowAmt-row.totDeduAmt)+'</td> ';
+
+							if (!isNull(row.insDate) && row.insDate!=="0") htmlData += ' <td>'+convertDateTime(row.insDate).format("yyyy-MM-dd HH:mm:ss")+'</td> ';
+							else 										   htmlData += ' <td>'+row.insDate+'</td>';
+
+							var transType = "미처리";
+
+							if (row.transType === "C") transType="등록완료";
+							if (row.transType === "Y") transType="전송완료";
+
+							htmlData += ' <td>'+transType+'</td> ';
+							htmlData += ' <td><a class="btn_type btn_view" onclick="fn_payStubView(\''+row.fileId+'\')"></a></td> ';
+							htmlData += '</tr> ';
+						});
+
+						if (page === 1) {
+							$('#page-selection').empty();
+							$('#page-selection').removeData("twbs-pagination");
+							$('#page-selection').unbind("page");
+							$('#page-selection').bootpag({
+								total: totalPage,
+								page: page,
+								maxVisible: 10,
+								leaps: true,
+								firstLastUse: true,
+								first: '',
+								last: '',
+								wrapClass: 'pagination',
+								activeClass: 'active',
+								disabledClass: 'disabled',
+								nextClass: 'btn_next',
+								prevClass: 'btn_prev',
+								lastClass: 'end_page',
+								firstClass: 'first_page'
+							}).on("page", function(event, num){ fn_paystubList(num); });
+						}
+					} else {
+						htmlData += '<tr> <td colspan="12">요청하신 자료가 존재하지 않습니다.</td></tr>';
+						$("#requestCount").text(result.requestCount);
+						$('#page-selection').empty();
+						$('#page-selection').removeData("twbs-pagination");
+						$('#page-selection').unbind("page");
+					}
+					$("#dataList").html(htmlData);
+					$.unblockUI();
+				},
+				error:function(request,status,error) {
+					$.unblockUI();
+					if (request.status === "401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						location.href = rootPath;
+					} else { alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error); }
+				}
+			});
+		}
+
+
+		//***************					임금명세서 업로드 팝업창					***************//
+
+
+		function fn_paystubUpload() {
+			var bizId = $("#searchCompany").val();
+
+			if (isNull(bizId)) { alert("기업을 선택해주세요."); return false; }
+			openWin(rootPath+"/html/paystub/pay_popup_batchregist.html?bizId="+bizId, "PaystubUpload", 480, 420);
+		}
+
+
+		//***************					삭제					***************//
+
+
+		function fn_paystubDel() {
+			var url		= rootPath+"paystub/delPayStub.do";
+			var updData = "";
+			var count	= 0;
+			var bizId	= $("#searchCompany").val();
+
+			$('input:checkbox[name="chk"]:checked').each(function() { updData += this.value+"|"; count++; });
+
+			if (count === 0) { alert("삭제처리하실 정보를 선택하신 후 적용해주시기 바랍니다."); return; }
+
+			if (isNull(bizId)) { alert("기업을 선택해주세요."); return false; }
+
+			if (!confirm("임금정보를 삭제하시겠습니까?")) return;
+
+			$.blockUI();
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				data: {
+					fileId:updData,
+					bizId:bizId
+				},
+				success:function(result) {
+					if (result.success === true) {
+						alert("임금정보가 삭제되었습니다.");
+						fn_paystubList(curPage+1);
+					} else { alert("입력하신 정보를 다시 확인해주시기 바랍니다."); }
+					$.unblockUI();
+				},
+				error:function(request,status,error){
+					$.unblockUI();
+					if (request.status === "401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						location.href=rootPath;
+					} else { alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error); }
+				}
+			});
+		}
+
+
+		//***************					급여명세서 보기					***************//
+
+
+		function fn_payStubView(fileId) { window.open(rootPath+"module/pdfjs/web/viewer.html?payStubId="+fileId, "FormManager", "width=900, height=700, scrollbars=no"); }
+
+
+		//***************					기업 조회					***************//
+
+
+		function getBizGrpCombo() {
+
+			var url = rootPath+"biz/getBizGrpCombo.do";
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				async: false,
+				type:"GET",
+				data: { },
+				success:function(result) {
+					if(result.success){
+						var workStatus = result.data;
+						$.each(workStatus, function(i, data){
+							$("#searchCompany").append($("<option>", {
+								value: data.id,
+								text: data.name
+							}));
+						});
+						$("#searchCompany").append($("<option>", {
+							value: '',
+							text: '전체'
+						}));
+					}
+				},
+				error:function(request,status,error){ alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); }
+			});
+		}
+
+
+		//***************					전송하기					***************//
+
+
+		function fn_paystubSend() {
+
+			var url	  = rootPath+"paystub/sendPaystubPDF.do";
+			var seqId = "";
+			var count = 0;
+			var bizId = $("#searchCompany").val();
+			$('input:checkbox[name="chk"]:checked').each(function() {
+				var seqArr = $(this).val().split("-");
+
+				if (seqId === "") seqId += seqArr[6];
+				else 			  seqId += ", "+seqArr[6];
+
+				count++;
+			});
+
+			if (count === 0) { alert("전송처리하실 정보를 선택하신 후 적용해주시기 바랍니다."); return; }
+
+			if (isNull(bizId)) { alert("기업을 선택해주세요."); return false; }
+
+			if (!confirm("임금명세서를 전송하시겠습니까?")) return;
+
+			var formData = new FormData();
+			formData.append("seqId", seqId);
+			formData.append("bizId", bizId);
+
+			$.blockUI();
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				data:formData,
+				contentType:false,
+				processData:false,
+				cache:false,
+				success:function(result) {
+					if (result.success) {
+						alert(result.total + "건의 임금명세서를 전송하였습니다.");
+						fn_paystubList(curPage+1);
+					} else { alert(result.msg); }
+					$.unblockUI();
+				},
+				error:function(request,status,error){
+					$.unblockUI();
+					if (request.status === "401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						location.href=rootPath;
+					} else { alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error); }
+				}
+			});
+		}
+
+	</script>
+	</head>
+
+	<body>
+	<div id="personList_wrap" class="">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumGothic">임금명세서관리 > </span><span class="loc_sub NanumGothic">임금명세서관리</span></div>
+			<div class="field_area">
+				<div class="selBox NanumGothic">
+					<select id="searchCompany" onchange="fn_paystubList(1)"></select>
+				</div>
+				<div class="selBox NanumGothic">
+					<div class="label">귀속년월</div>
+					<select id="searchYear"></select>
+					<select id="searchMonth">
+						<option value = "01">1월</option>
+						<option value = "02">2월</option>
+						<option value = "03">3월</option>
+						<option value = "04">4월</option>
+						<option value = "05">5월</option>
+						<option value = "06">6월</option>
+						<option value = "07">7월</option>
+						<option value = "08">8월</option>
+						<option value = "09">9월</option>
+						<option value = "10">10월</option>
+						<option value = "11">11월</option>
+						<option value = "12">12월</option>
+					</select>
+					<input type="date" onkeyup="date_mask(this);" min="1900-01-01" max="2999-01-01" id="searchPayDate" class="NanumGothic" style="float: none;">
+				</div>
+				<div class="selBox NanumGothic">
+					<select id="searchKey">
+						<option value="empName" class="lt">성명</option>
+						<option value="eMail" class="lt">이메일</option>
+						<option value="phoneNum" class="lt">휴대폰번호</option>
+						<option value="loginId" class="lt">로그인ID</option>
+						<option value="deptName" class="lt">부서명</option>
+						<option value="payMonth" class="lt">귀속년월</option>
+					</select>
+				</div>
+				<div class="inputBox">
+					<fieldset>
+						<input type="text" id="searchValue" class="word_input NanumGothic">
+						<a class="btn_search btn_type Material_icons" onclick="fn_paystubList(1)">search</a>
+					</fieldset>
+				</div>
+				<div class="selBox NanumGothic">
+					<select id="sortName" onchange="fn_paystubList(1)">
+						<option value="A.INS_DATE" selected>정렬항목</option>
+						<option value="B.EMP_NAME">성명</option>
+						<option value="B.EMP_NO">사번</option>
+						<option value="B.DEPT_NAME">부서명</option>
+						<option value="B.USER_DATE">생년월일</option>
+						<option value="B.E_MAIL">이메일</option>
+						<option value="B.PHONE_NUM">휴대폰번호</option>
+						<option value="A.INS_DATE">전송일자</option>
+					</select>
+				</div>
+				<div class="selBox NanumGothic">
+					<select id="sortOrder" onchange="fn_paystubList(1)">
+						<option value="DESC" selected>정렬기준</option>
+						<option value="DESC">내림차순</option>
+						<option value="ASC">올림차순</option>
+					</select>
+				</div>
+				<div class="selBox NanumGothic">
+					<select id="viewPage" onchange="fn_paystubList(1)">
+						<option value="10" selected>조회건수</option>
+						<option value="10">10건</option>
+						<option value="20">20건</option>
+						<option value="30">30건</option>
+						<option value="50">50건</option>
+						<option value="100">100건</option>
+						<option value="250">250건</option>
+					</select>
+				</div>
+			</div>
+			<div class="table_contents">
+				<div class="list">
+					<table class="NanumGothic">
+						<colgroup>
+							<col width="6%">
+							<col width="10%">
+							<col width="6%">
+							<col width="6%">
+							<col width="10%">
+							<col width="10%">
+							<col width="10%">
+							<col width="10%">
+							<col width="10%" >
+							<col width="10%" >
+							<col width="6%" >
+							<col width="6%" >
+						</colgroup>
+						<thead>
+							<tr>
+								<th class="chk_area"><input type="checkbox" id="checkall" onclick="fn_checkAll();" ></th>
+								<th>기업명</th>
+								<th>성명</th>
+								<th>사번</th>
+								<th>귀속년월</th>
+								<th>지급일자</th>
+								<th>수당총액</th>
+								<th>공제총액</th>
+								<th>차인지급액</th>
+								<th>전송일자</th>
+								<th>처리상태</th>
+								<th>보기</th>
+							</tr>
+						</thead>
+						<tbody id="dataList">
+							<tr class="databox">
+								<td class=""></td>
+								<td colspan="11">
+									정보가 존재하지 않습니다.
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div id="page-selection" class="pagingnav_wrap"></div>
+			</div>
+			<div class="btn_footGroup NanumGothic">
+				<a class="btn_type type1" onclick="fn_paystubUpload()">임금명세업로드</a>
+				<a class="btn_type type3" onclick="fn_paystubSend()">전송하기</a>
+				<a class="btn_type type2" onclick="fn_paystubDel()" >삭제 </a>
+			</div>
+		</div>
+	</div>
+	</body>
+	</html>

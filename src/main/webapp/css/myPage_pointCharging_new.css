@@ -1,0 +1,309 @@
+@charset "utf-8";
+
+/* ******************************** reset ******************************** */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'NanumGothic',sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: auto;
+    font-size: 100%;
+    font-weight: 400;
+}
+ul, ol, li {list-style: none;}
+a {
+    text-decoration: none;
+    -webkit-tap-highlight-color:transparent;
+}
+input {
+    border: 0;
+    border-radius: 0;
+    outline: none;
+    font-family: inherit;
+    background: none;
+}
+table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.none {display: none;}
+.hidden {visibility: hidden}
+
+/* ******************************** point Charging ******************************** */
+#pointCharging_wrap {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 32px;
+    width: 100%;
+    max-width: 825px;
+    padding: 24px;
+    margin: 0 auto;
+}
+#pointCharging_wrap .point_box {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: start;
+    column-gap: 30px;
+}
+.point_view .item {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    align-content: center;
+    row-gap: 16px;
+    position: relative;
+    width: 310px;
+    height: 245px;
+    margin-bottom: 24px;
+    border-radius: 8px;
+    background-color: #0ea7e1;
+}
+.point_view .item::after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    width: 300px;
+    height: 234px;
+    border: 1px solid #85d6f5;
+    border-radius: 8px;
+}
+.point_view .item > h3 {
+    font-size: 16px;
+    color: #fff;
+}
+.point_view .item > p {
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+}
+.point_view .item > p > strong {
+    display: inline-block;
+    padding: 0 8px 0 46px;
+    font-size: 40px;
+    font-weight: inherit;
+    color: #f6ff00;
+    background: url(image/point/icon_point.png) no-repeat left center;
+    background-size: 34px;
+}
+.point_view .txt {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 8px;
+}
+.point_view .txt > li {
+    font-size: 14px;
+    font-weight: bold;
+}
+.point_view .txt > li > span {
+    display: inline-block;
+    font-size: inherit;
+    font-weight: normal;
+}
+.point_price .item {
+    padding: 16px 20px;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    margin-bottom: 16px;
+}
+.point_price .item caption {
+    padding-left: 22px;
+    margin-bottom: 12px;
+    font-size: 16px;
+    text-align: left;
+    color: #00a9e9;
+    background: url(image/point/icon_point_chargprice.png) no-repeat left center;
+    background-size: 18px;
+}
+.point_price .item thead th {
+    background-color: #f6f6f6;
+    border-top: 1px solid #5c9dda;
+    border-bottom: 1px solid #e1e1e1;
+    height: 34px;
+    font-size: 13px;
+    font-weight: bold;
+}
+.point_price .item tbody td {
+    height: 44px;
+    border-bottom: 1px solid #ebf2f5;
+    font-size: 14px;
+}
+.point_price .item tbody td:nth-of-type(3) {text-align: right;}
+.point_price .item tbody td > strong {
+    display: inline-block;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+.point_price .item tbody td input[type='radio'] {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    background: url(image/point/btn_radio_default.png) no-repeat center;
+    cursor: pointer;
+}
+.point_price .item tbody td input[type='radio']:checked {background-image: url(image/point/btn_radio_checked.png);}
+.point_price .item tbody td input[type='number'] {
+    display: inline-block;
+    width: 122px;
+    height: 28px;
+    padding: 0 10px;
+    margin-left: 4px;
+    border: 1px solid #dcdcdc;
+}
+.point_price .paymentChoice {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    column-gap: 8px;
+    margin-bottom: 16px;
+}
+.point_price .paymentChoice > select {
+    width: 278px;
+    height: 44px;
+    padding: 0 8px;
+    border: 1px solid #00a9e9;
+    outline: none;
+    font-size: 14px;
+}
+.point_price .paymentChoice > a {
+    display: block;
+    font-size: 16px;
+    line-height: 44px;
+    text-align: center;
+    color: #fff;
+    background-color: #00a9e9;
+}
+.point_price .txt {display: none;}
+.point_price .txt > ol {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 8px;
+    padding-left: 16px;
+    list-style: decimal;
+}
+.point_price .txt > ol > li {
+    font-size: 15px;
+    line-height: 1.55;
+    list-style: decimal;
+}
+.point_price .txt > ol > li > strong {font-weight: bold;}
+.point_price .txt > ol > li > select {
+    width: 140px;
+    height: 30px;
+    padding: 0 8px;
+    margin-left: 8px;
+    border: 1px solid #00a9e9;
+    outline: none;
+    font-size: 13px;
+}
+.taxBill_table {
+    display: none;
+    grid-column: span 2;
+}
+.taxBill_table caption {
+    margin-bottom: 12px;
+    font-weight: bold;
+    text-align: left;
+}
+.taxBill_table tbody th {
+    font-size: 15px;
+    font-weight: bold;
+    text-align: left;
+}
+.taxBill_table tbody td {padding: 4px 0;}
+.taxBill_table tbody td input[type='text'] {
+    display: block;
+    width: 98%;
+    height: 30px;
+    padding: 0 12px;
+    border: 1px solid #dcdcdc;
+    font-size: 14px;
+}
+.taxBill_table tbody td.blue {
+    font-size: 14px;
+    color: #00a9e9;
+}
+.taxBill_table .dipositY {display: none;}
+.txtBill_box {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 12px;
+    grid-column: span 2;
+    padding: 24px 24px 24px 36px;
+    border: 1px solid #d3d3d3;
+    border-radius: 4px;
+    list-style: decimal;
+    background-color: #fafafa;
+}
+.txtBill_box > li {
+    font-size: 14px;
+    line-height: 1.55;
+    list-style: decimal;
+}
+.txtBill_box > li > span {
+    display: inline-block;
+    padding: 4px 0;
+    color: #00a9e9;
+}
+
+#pointCharging_wrap .bizReg > td {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    column-gap: 5px;
+}
+#pointCharging_wrap .bizReg > td > input[type='file'] {display: none;}
+#pointCharging_wrap .bizReg > td > a {
+    display: block;
+    width: 72px;
+    border: 1px solid #5f5f5f;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 28px;
+    text-align: center;
+    color: #3d3d3d;
+    background-color: #aaaaaa;
+}
+#pointCharging_wrap .bizReg > td > a:hover {
+    border-color: #00a9e9;
+    font-weight: normal;
+    color: #00a9e9;
+    background-color: #e0f6ff;
+}
+#pointCharging_wrap .bizReg > td .down_file .file_icon {
+    display: inline-block;
+    margin-top: 2px;
+    vertical-align: middle;
+}
+#pointCharging_wrap .bizReg > td .down_file .icon_excel {
+    background: url(image/personnel/btn_exceldown.png) no-repeat;
+    width: 30px;
+    height: 25px;
+    margin-right: 5px;
+}
+#pointCharging_wrap .bizReg > td .default_box {
+    width: 100%;
+    height: 30px;
+    padding: 0 6px;
+    border: 1px solid #dcdcdc;
+    text-overflow: ellipsis;
+    color:#666666;
+    white-space: nowrap;
+    overflow: hidden;
+}
+#pointCharging_wrap .bizReg > td .down_file .file_name {
+    color: #0000ff;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 30px;
+    text-decoration: underline;
+}

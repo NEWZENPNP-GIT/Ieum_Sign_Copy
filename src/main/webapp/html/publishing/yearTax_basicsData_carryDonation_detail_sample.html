@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>이월기부금 상세</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+</head>
+<body>
+	<div id="yearTax_wrap" class="yearTax">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연말정산 > 기초자료설정 > </span><span class="loc_sub NanumSquare_R">이월기부금  상세</span></div>
+			<div class="pagtit NanumSquare_R">
+				<span>이월기부금  상세</span>
+				<ul class="top_items NanumSquare_R">
+					<li><a class="btn_type"><span class="icon_save Material_icons"></span>저장</a></li>
+				</ul>
+			</div>
+
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">이월기부금  상세</span>
+					</div>
+				
+					<div class="grid_field full">
+						<ul class="gridRow2">
+							<li class="search_wrap">
+								<div class="group_row row4">
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">성명 : </label></dt>
+										<dd class="default_box"><div>김연말</div></dd>
+									</dl>
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">사번 : </label></dt>
+										<dd class="default_box"><div>201701010001</div></dd>
+									</dl>
+								</div>
+							</li>
+							<li class="NanumSquare_R btns sort_right sort_bottom">
+								<div class="sortWrap ">
+									<a class="btn_type type1">라인 추가<span class="icon add"></span></a><a class="btn_type type2">선택삭제</a>
+								</div>
+							</li>
+						</ul>
+					</div> <!--  grid_field -->
+					
+					<div class="group_table">
+						<table class="hasHead NanumSquare_R">
+							<colgroup>
+								<col width="4%">
+								<col width="7%">
+								<col width="29%">
+								<col width="20%">
+								<col width="20%">
+								<col width="20%">
+							</colgroup>
+							<thead>
+								<tr>
+									<th class="chk_area"><input type="checkbox"> </th>
+									<th>기부년도</th>
+									<th>기부금종류</th>
+									<th>기부금액</th>
+									<th>전년도까지공제금액</th>
+									<th>공제대상금액</th>
+								</tr>
+									
+							</thead>
+							<tbody>
+								<tr>
+									<td class="chk_area"><input type="checkbox"> </td>
+									<td class="value"><input type="text" class="input_txt" value="2017"></td>
+									<td class="value">
+										<input type="text" class="input_txt" value="2017">
+										
+										<!--  처음엔 숨겨져야 하므로 hidden클래스 추가 해야함. 화면 확인을 위해 hidden 클래스 삭제하였음. -->
+										<div class="dropdown-label">
+											<ul class="">
+												<li><span class="code">1231</span><span class="item">법정 기부금</span></li>
+												<li><span class="code">56781</span><span class="item">법정 기부금</span></li>
+												<li><span class="code">98987</span><span class="item">법정 기부금</span></li>
+												<li><span class="code">b1231</span><span class="item">법정 기부금</span></li>
+												<li><span class="code">1231</span><span class="item">법정 기부금</span></li>
+												<li><span class="code">1231</span><span class="item">법정 기부금</span></li>
+											</ul>
+										</div>
+										<!--  추가 부분 끝 -->
+										
+									</td>
+									<td class="value"><input type="text" class="input_txt sort_right" value="1000000"></td>
+									<td class="value"><input type="text" class="input_txt sort_right" value="1000000"></td>
+									<td class="value import"><input type="text" class="input_txt sort_right" value="1000000"></td>
+								</tr>
+								<tr>
+									<td class="chk_area"><input type="checkbox"> </td>
+									<td class="value"><input type="text" class="input_txt" value="2017"></td>
+									<td class="value">
+										<select class="NanumSquare_R">
+											<option value="" >법정기부금 (10)</option>
+											<option value="" >종교단체 외 (40)</option>
+										</select>
+									</td>
+									<td class="value"><input type="text" class="input_txt sort_right" value="1000000"></td>
+									<td class="value"><input type="text" class="input_txt sort_right" value="1000000"></td>
+									<td class="value import"><input type="text" class="input_txt sort_right" value="1000000"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div><!--  group_table -->
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

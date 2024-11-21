@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Biz">
+	<typeAlias alias="SalesChannelVO" type="com.ezsign.biz.vo.SalesChannelVO"/>
+	<resultMap id="salesChannelListMap" class="SalesChannelVO">
+		<result property="channelId" column="CHANNEL_ID"/>
+		<result property="salesChannel" column="SALES_CHANNEL"/>
+		<result property="channelDetail" column="CHANNEL_DETAIL"/>
+		<result property="personUserName" column="PERSON_USER_NAME"/>
+		<result property="personUserTelNum" column="PERSON_USER_TEL_NUM"/>
+		<result property="personEMail" column="PERSON_E_MAIL"/>
+		<result property="channelCount" column="CHANNEL_COUNT"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="updDate" column="UPD_DATE"/>
+	</resultMap>
+	
+	<select id="salesChannelDAO.getSalesChannelList" parameterClass="SalesChannelVO" resultMap="salesChannelListMap">
+		SELECT	A.CHANNEL_ID
+			,	A.SALES_CHANNEL
+			,	A.CHANNEL_DETAIL
+			,	A.PERSON_USER_NAME
+			,	A.PERSON_USER_TEL_NUM
+			,	A.PERSON_E_MAIL
+			,	IFNULL(B.CHANNEL_COUNT,0) AS CHANNEL_COUNT
+			,	A.INS_DATE
+			, 	A.UPD_DATE
+		FROM	tbl_sales_channel AS A
+				LEFT OUTER JOIN (SELECT CHANNEL_ID, COUNT(CHANNEL_ID) AS CHANNEL_COUNT FROM tbl_biz WHERE CHANNEL_ID IS NOT NULL GROUP BY CHANNEL_ID ) AS B
+					ON A.CHANNEL_ID = B.CHANNEL_ID
+		WHERE	1 = 1
+		<isNotNull property="searchType">
+	    	<isNotEmpty property="searchType">
+		    	<isNotNull property="searchText">
+		    		<isNotEmpty property="searchText">
+		    			<isEqual prepend="AND" property="searchType"  compareValue="all">
+							( A.SALES_CHANNEL LIKE CONCAT('%', #searchText#, '%')  OR 
+								A.CHANNEL_DETAIL LIKE CONCAT('%', #searchText#, '%') OR 
+									A.PERSON_USER_NAME LIKE CONCAT('%', #searchText#, '%')
+							)
+						</isEqual>
+						<isEqual prepend="AND" property="searchType"  compareValue="saleschannel">
+							A.SALES_CHANNEL LIKE CONCAT('%', #searchText#, '%')
+						</isEqual>
+						<isEqual prepend="AND" property="searchType"  compareValue="channeldetail">
+							A.CHANNEL_DETAIL LIKE CONCAT('%', #searchText#, '%')
+						</isEqual>
+						<isEqual prepend="AND" property="searchType"  compareValue="personName">
+							A.PERSON_USER_NAME LIKE CONCAT('%', #searchText#, '%')
+						</isEqual>
+					</isNotEmpty>
+				</isNotNull>
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<select id="salesChannelDAO.getBizSalesChannelListCount" parameterClass="SalesChannelVO" resultClass="java.lang.Integer">
+		SELECT  COUNT(A.CHANNEL_ID) AS CNT
+		FROM    tbl_Biz A
+		WHERE   1 = 1
+		<isNotNull property="channelId">
+			<isNotEmpty property="channelId">
+				AND A.CHANNEL_ID  = #channelId#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<insert id="salesChannelDAO.insSalesChannel" parameterClass="SalesChannelVO">
+		<selectKey resultClass="java.lang.String" keyProperty="channelId">
+			SELECT  CONCAT(date_format(NOW(), "%Y"),RIGHT(CONCAT('00000',IFNULL(MAX(RIGHT(CHANNEL_ID,4)),0) + 1),5))
+			FROM    tbl_sales_channel
+		</selectKey>
+		INSERT INTO tbl_sales_channel (
+			CHANNEL_ID, SALES_CHANNEL, CHANNEL_DETAIL, PERSON_USER_NAME, PERSON_USER_TEL_NUM, PERSON_E_MAIL, INS_DATE, UPD_DATE
+		) VALUES (
+		   #channelId#, #salesChannel#, #channelDetail#, #personUserName#, #personUserTelNum#, #personEMail#,
+		   DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<update id="salesChannelDAO.updSalesChannel" parameterClass="SalesChannelVO">
+		UPDATE tbl_sales_channel
+		SET	
+		<isNotNull property="salesChannel">
+		    <isNotEmpty property="salesChannel">
+			SALES_CHANNEL		= #salesChannel#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="channelDetail">
+		    <isNotEmpty property="channelDetail">
+			CHANNEL_DETAIL		= #channelDetail#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="personUserName">
+		    <isNotEmpty property="personUserName">
+			PERSON_USER_NAME		= #personUserName#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="personUserTelNum">
+		    <isNotEmpty property="personUserTelNum">
+			PERSON_USER_TEL_NUM		= #personUserTelNum#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="personEMail">
+		    <isNotEmpty property="personEMail">
+			PERSON_E_MAIL		= #personEMail#,
+			</isNotEmpty>
+		</isNotNull>
+			UPD_DATE		= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	CHANNEL_ID		= #channelId#
+	</update>
+	
+	<delete id="salesChannelDAO.delSalesChannel" parameterClass="SalesChannelVO">
+		DELETE  FROM tbl_sales_channel
+		WHERE	CHANNEL_ID		= #channelId#
+	</delete>
+</sqlMap>

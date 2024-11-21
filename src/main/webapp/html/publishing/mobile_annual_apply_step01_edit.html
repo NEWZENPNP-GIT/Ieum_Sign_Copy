@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<title> 연차관리</title>
+<link rel="stylesheet" type="text/css" href="/css/font.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/mobile_common.css">
+<link rel="stylesheet" type="text/css" href="/css/mobile_annual.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/jquery.bpopup.js"></script> <!-- layer popup library -->
+</head>
+<body>
+	<header class="header">
+		<ul class="gnb">
+			<li class="prev"><a class="btn_type btn_prev" href="mobile_annual.html" target="_self"></a></li>
+			<li class="head_text NanumBarunGothic">연차정보</li>
+			<li class="menu"><a class="btn_type btn_menu"></a></li>
+		</ul>
+	</header>
+	<div id="container" class="annual_apply">
+		<section class="wrap">
+			<div class="NanumBarunGothic top_info">
+				<div class="userInfo">
+					<div class="name"><span class="tit">이름</span><span class="userName">홍길동</span></div>
+					<div class="date"><span class="tit">입사일</span><span class="joinDate">2018.05.01</span></div>
+					<div class="btns"><a class="btn_type btn_annualList">연차내역<span class="icon"></span></a></div>
+				</div>
+				<div class="annualInfo">
+					<div><span class="tit">사용일</span><span class="useDay">10</span></div>
+					<div><span class="tit">귀속년</span><span class="useYear">2018</span></div>
+					<div><span class="tit">총연차</span><span class="total">12</span></div>
+					<div><span class="tit">잔여일</span><span class="userName">2</span></div>
+				</div>
+			</div>
+			<div class="apply_form step01">
+				<ul class="form_wrap">
+					<li class="NanumBarunGothic nav">
+						<div class="active">1</div>
+						<div>2</div>
+					</li>
+					<li class="inputInfo">
+						<div class="NanumSquare_R label">연차선택</div>
+						<div class="select_box">
+							<select class="NanumSquare_R">
+								<option value="" >반연차</option>
+								<option value="" >연차</option>
+								<option value="" >경조휴가</option>
+							</select></div>
+					</li>
+					<li class="setDate">
+						<div class="NanumSquare_R label">날짜선택</div>
+						<div class="NanumSquare_R date_box">
+							<input type="text" class="NanumSquare_R"><span> ~ </span><input type="text" class="NanumSquare_R">
+						</div>
+						<div class="NanumSquare_R res">
+							<span class="day">/총<span class="duration">2</span>일</span>
+							<!-- notice 숨기기 class: hidden 추가 -->
+							<span class="notice">* 잔여일이 부족합니다.</span></div>
+					</li>
+					<li class="payment">
+						<div class="NanumSquare_R label">결제선</div>
+						<div class="NanumBarunGothic column">
+							<div class="btns"><a class="btn_type btn_add" onclick="popup('show')">등록 +</a></div>
+							<div class="paycon_wrap">
+								<ul class="NanumBarunGothic tit">
+									<li>순번</li><li>이름</li><li>제외</li>
+								</ul>
+								<div class="add_box">
+									<ul class="line no1">
+										<li>1</li>
+										<li>김캔디</li>
+										<li><a class="btn_type btn_payDel">삭제</a></li>
+									</ul>
+									<ul class="line no2">
+										<li>2</li>
+										<li>홍길동</li>
+										<li><a class="btn_type btn_payDel">삭제</a></li>
+									</ul>
+									<ul class="line no3">
+										<li>3</li>
+										<li>김박사</li>
+										<li><a class="btn_type btn_payDel">삭제</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="NanumSquare_R label">비상 연락처</div><div class=" NanumSquare_R input_box"><input type="text" class="NanumSquare_R"></div>
+					</li>
+					<li>
+						<div class="NanumSquare_R label">사유</div><div class=" NanumSquare_R input_box"><input type="text" class="NanumSquare_R"></div>
+					</li>
+				</ul>
+			</div>
+			<div class="NanumBarunGothic footer"><a class="btn_type btn_next" href="mobile_annual_apply_step02.html">다음</a></div>
+		</section>
+		<div id="bpopupLayer"></div>
+		
+		<!--  결제라인 팝업 삽입 -->
+		<div class="NanumBarunGothic annual_apply paymentLine">
+			<section class="wrap">
+			
+				<div class=" top_info paylist">
+					<div class="search_box">
+						<input type="text" placeholder="이름 검색" class="NanumBarunGothic"><a class="btn_type btn_search"></a>
+					</div>
+					<div class="search_result">검색 결과가 없습니다.</div>
+					<div class="payment_head"><div class="part">부서</div><div class="com_no">사번</div><div class="name">이름</div><div class="rank">직급</div></div>
+				</div>
+				<div class="list_wrap">
+					<ul class="payment_list">
+						<li><input type="checkbox"><div class="ck_num"></div><div class="part">임원</div><div class="com_no">1234569</div><div class="name">홍길동</div><div class="rank">수석연구원</div></li>
+						<li class="ck_no1"><input type="checkbox"><div class="ck_num"><span>1</span></div><div class="part">임원</div><div class="com_no">12346789</div><div class="name">홍길동</div><div class="rank">차장</div></li>
+						<li><input type="checkbox"><div class="ck_num"></div><div class="part">마케팅본부</div><div class="com_no">12346789</div><div class="name">홍길동형</div><div class="rank">책임영구원</div></li>
+						<li class="ck_no2"><input type="checkbox"><div class="ck_num"><span>2</span></div><div class="part">경영지원본부</div><div class="com_no">12346789</div><div class="name">호동이형</div><div class="rank">부장</div></li>
+						<li class="ck_no3"><input type="checkbox"><div class="ck_num"><span>3</span></div><div class="part">임원</div><div class="com_no">12345679</div><div class="name">홍길동</div><div class="rank">이사</div></li>
+						<li><input type="checkbox"><div class="ck_num"></div><div class="part">마케팅본부</div><div class="com_no">12345789</div><div class="name">김연말</div><div class="rank">책임영구원</div></li>
+						<li><input type="checkbox"><div class="ck_num"></div><div class="part">마케팅본부</div><div class="com_no">123489</div><div class="name">박박사</div><div class="rank">수석연구연</div></li>
+						<li><input type="checkbox"><div class="ck_num"></div><div class="part">마케팅본부</div><div class="com_no">1234689</div><div class="name">김캔디</div><div class="rank">본부장</div></li>
+						<li><input type="checkbox"><div class="ck_num"></div><div class="part">마케팅본부</div><div class="com_no">1289</div><div class="name">네글자야</div><div class="rank">부장</div></li>
+						<li><input type="checkbox"><div class="ck_num"></div><div class="part">마케팅본부</div><div class="com_no">1289</div><div class="name">네글자야</div><div class="rank">부장</div></li>
+					</ul>
+				</div>
+				<div class="NanumBarunGothic footer type2">
+					<a class="btn_type btn_close" onclick="popup('hide')">닫기</a>
+					<a class="btn_type btn_add">추가</a></div>
+			</section>
+			<div id="bpopupLayer"></div>
+		</div> <!--  결제라인 팝업 end -->
+	</div>
+	
+</body>
+<script type="text/javascript">
+//연차내역
+$(".btn_annualList").click(function(){
+	$('#bpopupLayer').bPopup({
+		position: [0, 0],
+		opacity: 0.6,
+		closeClass:"btn_close",
+		transitionClose  : false,
+		follow: [false, false], //x, y
+		modal:false,
+		speed:100,
+		contentContainer:'#bpopupLayer',
+		loadUrl: 'mobile_annual_list.html', //Uses jQuery.load()
+		onClose: function() {
+			$('#bpopupLayer').removeClass("show");
+			$('#bpopupLayer').removeAttr("style");
+		    
+		},
+		onOpen: function() {
+			$('#bpopupLayer').addClass("show");
+			//$(".btn_annualList").addClass("active");
+		},
+		loadCallback: function() {} 
+	});
+})
+
+function popup(str){
+	if(str=="hide"){
+		$(".annual_apply.paymentLine").addClass("hidden");
+	}else{
+		$(".annual_apply.paymentLine").removeClass("hidden");
+	}
+}
+</script>
+</html>

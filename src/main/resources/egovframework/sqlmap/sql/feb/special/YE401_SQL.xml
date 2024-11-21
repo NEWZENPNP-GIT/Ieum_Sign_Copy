@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="febspecial">
+    <typeAlias alias="ye401VO" type="com.ezsign.feb.special.vo.YE401VO"/>
+
+    <select id="ye401DAO.getYE401" parameterClass="ye401VO" resultClass="ye401VO">
+        SELECT 계약ID, 사용자ID, 작업자ID, 일련번호, 부양가족ID,
+          자료구분코드, fn_code_name('416', 자료구분코드) 자료구분코드명, 보험구분코드, 납입금액, 차감금액, 추가제출서류번호, 
+          등록일시, 수정일시
+        FROM tbl_ye401
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+          AND 사용여부 = '1'
+        <isNotNull property="추가제출서류번호">
+			<isNotEmpty property="추가제출서류번호">
+				AND 추가제출서류번호		 = #추가제출서류번호#
+			</isNotEmpty>
+		</isNotNull>
+        ORDER BY 자료구분코드, IF(사용자ID = 부양가족ID, 0, 1), 보험구분코드
+    </select>
+
+    <insert id="ye401DAO.insYE401" parameterClass="ye401VO">
+        <selectKey resultClass="java.lang.String" keyProperty="일련번호">
+            SELECT IFNULL(MAX(일련번호 + 1), 1)
+            FROM tbl_ye401
+        </selectKey>
+        INSERT INTO tbl_ye401 (
+          계약ID, 사용자ID, 작업자ID, 일련번호, 부양가족ID,
+          자료구분코드, 보험구분코드, 납입금액, 차감금액, 최종저장여부, 사용여부, 추가제출서류번호,
+          등록일시, 수정일시
+        ) VALUES (
+          #계약ID#, #사용자ID#, #작업자ID#, #일련번호#, #부양가족ID#,
+          #자료구분코드#, #보험구분코드#, #납입금액#, #차감금액#,
+          IF(#사용자ID# = #작업자ID#, '1', '0'), '1', #추가제출서류번호#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        )
+    </insert>
+
+    <update id="ye401DAO.updYE401Disable" parameterClass="ye401VO">
+        UPDATE tbl_ye401
+        SET
+          	최종저장여부 = IF(#사용자ID# = #작업자ID#, '0', 최종저장여부),
+          	사용여부 = '0',
+          	수정일시 = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+          AND 일련번호 = #일련번호#
+          <!-- AND 사용여부 = '1'  -->
+    </update>
+
+    <delete id="ye401DAO.allDelYE401" parameterClass="ye401VO">
+        DELETE
+        FROM tbl_ye401
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+       <isNotEmpty property="자료구분코드">
+         AND 자료구분코드 = #자료구분코드#
+        </isNotEmpty>   
+    </delete>
+
+    <select id="ye401DAO.getYE401Map" parameterClass="ye401VO" resultClass="ye401VO">
+        SELECT 계약ID, 사용자ID, 작업자ID, 일련번호, 부양가족ID,
+          	      자료구분코드, 보험구분코드, 납입금액, 차감금액, 추가제출서류번호,
+          	      최종저장여부, 사용여부, 등록일시, 수정일시
+        FROM tbl_ye401
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+          AND (최종저장여부 = '1' OR 사용여부 = '1')
+        <isNotNull property="추가제출서류번호">
+			<isNotEmpty property="추가제출서류번호">
+				AND 추가제출서류번호		 = #추가제출서류번호#
+			</isNotEmpty>
+		</isNotNull>
+        ORDER BY 자료구분코드, 보험구분코드, IF(작업자ID = 사용자ID, 0, 1)
+    </select>
+    
+    <!-- 
+    <update id="ye401DAO.updYE401" parameterClass="ye401VO">
+        UPDATE tbl_ye401
+        SET
+        <isNotNull property="자료구분코드">
+		    <isNotEmpty property="자료구분코드">
+			자료구분코드			 = #자료구분코드#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="보험구분코드">
+		    <isNotEmpty property="보험구분코드">
+			보험구분코드		 = #보험구분코드#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="납입금액">
+		    <isNotEmpty property="납입금액">
+			납입금액		 = #납입금액#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="차감금액">
+		    <isNotEmpty property="차감금액">
+			차감금액 	 	= #차감금액#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="추가제출서류번호">
+		    <isNotEmpty property="추가제출서류번호">
+			추가제출서류번호 				= #추가제출서류번호#,
+			</isNotEmpty>
+		</isNotNull>
+			 수정일시 			= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE 	계약ID 		= #계약ID#
+		AND 	사용자ID 		= #사용자ID#
+		AND 	일련번호 		= #일련번호#
+		AND		부양가족ID		= #부양가족ID#
+    </update>
+     -->
+    
+    <update id="ye401DAO.updYE401" parameterClass="ye401VO">
+        UPDATE tbl_ye401
+        SET
+        <isNotNull property="자료구분코드">
+		    <isNotEmpty property="자료구분코드">
+			자료구분코드			 = #자료구분코드#,
+			</isNotEmpty>
+		</isNotNull>
+        <isNotNull property="부양가족ID">
+		    <isNotEmpty property="부양가족ID">
+			부양가족ID			 = #부양가족ID#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="보험구분코드">
+		    <isNotEmpty property="보험구분코드">
+			보험구분코드		 = #보험구분코드#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="납입금액">
+		    <isNotEmpty property="납입금액">
+			납입금액		 = #납입금액#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="차감금액">
+		    <isNotEmpty property="차감금액">
+			차감금액 	 	= #차감금액#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="추가제출서류번호">
+		    <isNotEmpty property="추가제출서류번호">
+			추가제출서류번호 				= #추가제출서류번호#,
+			</isNotEmpty>
+		</isNotNull>
+			 수정일시 			= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE 	계약ID 		= #계약ID#
+		AND 	사용자ID 		= #사용자ID#
+		AND 	일련번호 		= #일련번호#
+    </update>    
+    
+    <delete id="ye401DAO.delYE401" parameterClass="ye401VO">
+        DELETE FROM tbl_ye401
+        WHERE 	계약ID 	= #계약ID#
+        AND 	사용자ID	= #사용자ID#
+		AND 	일련번호 	= #일련번호#
+    </delete>
+</sqlMap>

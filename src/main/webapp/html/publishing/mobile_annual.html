@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<title> 연차관리</title>
+<link rel="stylesheet" type="text/css" href="/css/font.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/mobile_common.css">
+<link rel="stylesheet" type="text/css" href="/css/mobile_annual.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/jquery.bpopup.js"></script> <!-- layer popup library -->
+</head>
+<body>
+	<header class="header">
+		<ul class="gnb">
+			<li class="prev"><a class="btn_type btn_prev" href="mobile_main.html" target="_self"></a></li>
+			<li class="head_text NanumBarunGothic">연차관리</li>
+			<li class="menu"><a class="btn_type btn_menu"></a></li>
+		</ul>
+	</header>
+	<div id="container" class="annual">
+		<section class="wrap">
+			<ul class="NanumSquare_R column">
+				<li class="sort_right NanumBarunGothic">
+					<!--  결재내영 숨김 처리 : hidden 클래스 추가 -->
+					<a class="btn_type btn_approval">결재내역<span class="icon"></span></a>
+					<a class="btn_type btn_annualList">연차내역<span class="icon"></span></a></li>
+				<li class="sort_center userPic"><div class="pic"><img src="/css/image/mobile/user_pic.png"></div></li>
+				<li class="userInfo NanumSquare_R">
+					<div><span class="NanumBarunGothic">이름</span><span class="userName">홍길동</span></div>
+					<div><span class="NanumBarunGothic">입사일</span><span class="joinDate">2018.05.01</span></div>
+				</li>
+				<li class="box_data">
+					<div class="gr_box"><span>사용일</span><span class="data">10일</span></div>
+					<div class="gr_box"><span>귀속년</span><span class="data">2018년</span></div>
+					<div class="gr_box"><span>총연차</span><span class="data">12일</span></div>
+					<div class="gr_box"><span>잔여일</span><span class="data">2일</span></div>
+				</li>
+				<li class="btns"><a class="NanumBarunGothic btn_type btn_apply">연차 신청<span class="icon icon_plus"></span></a></li>
+			</ul>
+			<div class="news NanumBarunGothic">
+				<div class="news_notice" onclick="pageLink()">
+					<div class="icon"></div>
+					<div class="text">
+						<span class="tit">김준경사원의 연차가 결재대기중입니다.</span>
+						<span class="date">2018.07.25 10:10</span>
+					</div>
+				</div>
+				<div class="news_count"><span class="count">2</span></div>
+				<a class="btn_type btn_news"><span class="icon bell"></span></a>
+			</div>
+			
+		</section>
+		<div id="bpopupLayer"></div>
+		<div id="layer_popup" class="news_wrap hidden">
+			<div class="bg"></div>
+			<div class="content">
+				<div class="new_tit NanumBarunGothic">새 소식</div>
+				<ul class="news_list NanumSquare_R">
+					<li class="list new"><div class="icon"></div>
+						<div class="text"><span class="tit">7월 급여명세서가 도착했습니다.</span><span class="date">2018.07.25  10:10</span></div>
+					</li>
+					<li class="list new"><div class="icon"></div>
+						<div class="text"><span class="tit">7월 급여명세서가 도착했습니다.</span><span class="date">2018.07.25  10:10</span></div>
+					</li>
+					<li class="list new"><div class="icon"></div>
+						<div class="text"><span class="tit">7월 급여명세서가 도착했습니다.</span><span class="date">2018.07.25  10:10</span></div>
+					</li>
+					<li class="list new"><div class="icon"></div>
+						<div class="text"><span class="tit">7월 급여명세서가 도착했습니다.</span><span class="date">2018.07.25  10:10</span></div>
+					</li>
+					<li class="list new"><div class="icon"></div>
+						<div class="text"><span class="tit">7월 급여명세서가 도착했습니다.</span><span class="date">2018.07.25  10:10</span></div>
+					</li>
+					<li class="list new"><div class="icon"></div>
+						<div class="text"><span class="tit">7월 급여명세서가 도착했습니다.</span><span class="date">2018.07.25  10:10</span></div>
+					</li>
+					<li class="list read"><div class="icon"></div>
+						<div class="text"><span class="tit">7월 급여명세서가 도착했습니다.</span><span class="date">2018.07.25  10:10</span></div>
+					</li>
+					<li class="list read"><div class="icon"></div>
+						<div class="text"><span class="tit">7월 급여명세서가 도착했습니다.</span><span class="date">2018.07.25  10:10</span></div>
+					</li>
+					<li class="list read"><div class="icon"></div>
+						<div class="text"><span class="tit">7월 급여명세서가 도착했습니다.</span><span class="date">2018.07.25  10:10</span></div>
+					</li>
+					<li class="list read"><div class="icon"></div>
+						<div class="text"><span class="tit">7월 급여명세서가 도착했습니다.</span><span class="date">2018.07.25  10:10</span></div>
+					</li>
+
+				</ul>
+				<div class="btn_wrap"><a class="btn_type close"></a></div>
+			</div>
+		</div>
+	</div>
+	<aside id="aside" class="">
+		<div class="bg"></div>
+		<div class="wrap NanumBarunGothic" id="ani_wrap">
+			<ul class="left_menu">
+				<li class="top"><div class="btn_wrap"><a class="btn_type btn_home"></a></div>
+								<div class="tit">전체보기</div>
+								<div class="btn_wrap"><a class="btn_type btn_close"></a></div></li>
+				<li class="tit">서비스관리</li>
+				<li class="menu"><a class="btn_type btn_annual"><span class="icon"></span><span class="menu_name">연차관리</span></a></li>
+				<li class="menu"><a class="btn_type btn_pay"><span class="icon"></span><span class="menu_name">급여명세서관리</span></a></li>
+				<li class="menu"><a class="btn_type btn_commute"><span class="icon"></span><span class="menu_name">출퇴근 관리</span></a></li>
+				<li class="menu"><a class="btn_type btn_contract"><span class="icon"></span><span class="menu_name">전자 근로계약 관리</span></a></li>
+				<li class="menu"><a class="btn_type btn_yearTax"><span class="icon"></span><span class="menu_name">연말 정산 관리</span></a></li>
+				<li class="tit">인증관리</li>
+				<li class="menu"><a class="btn_type btn_certificateType"><span class="icon"></span><span class="menu_name">인증수단관리</span></a></li>
+				<li class="menu"><a class="btn_type btn_certificateCenter"><span class="icon"></span><span class="menu_name">공인인증센터</span></a></li>
+				<li class="menu"><a class="btn_type btn_accredit"><span class="icon"></span><span class="menu_name">본인인증하기</span></a></li>
+				<li class="tit">문의하기</li>
+				<li class="menu"><a class="btn_type btn_qnaboard"><span class="icon"></span><span class="menu_name">문의게시판</span></a></li>
+				<li class="menu"><a class="btn_type btn_questionboard"><span class="icon"></span><span class="menu_name">1:1문의사항</span></a></li>
+				<li class="tit">새소식</li>
+				<li class="bottom">
+					<div class="btn_wrap"><a class="btn_type btn_mypage"><span class="icon"></span><span class="menu_name">마이페이지</span></a></div>
+					<div class="btn_wrap"><a class="btn_type btn_logout"><span class="icon"></span><span class="sub_name">로그아웃</span></a></div>
+				</li>
+			</ul>
+		</div>
+	</aside>
+</body>
+<script type="text/javascript">
+
+//side바의 영역 이벤트
+var aniWrap=document.getElementById("ani_wrap");
+
+aniWrap.addEventListener("webkitAnimationEnd", viewerHide);
+aniWrap.addEventListener("animationend", viewerHide);
+function viewerHide(){
+	if($("#aside").hasClass("hide")){
+		$("#aside").removeClass("hide");
+	}
+}
+
+//메뉴 보기 animation
+$(".btn_menu").click(function(){
+	if(!$("#aside").hasClass("show")){
+		$("#aside").removeClass("hide").addClass("show");	
+	}
+})
+$(".btn_close").click(function(){
+	$("#aside").removeClass("show").addClass("hide");
+})
+
+//새소식 보기
+$(".btn_news").click(function(){
+	$("#layer_popup").removeClass("hidden");
+})
+$(".btn_wrap > .close").click(function(){
+	$("#layer_popup").addClass("hidden");
+})
+
+$(".btn_apply").click(function(){
+	window.location.href="mobile_annual_apply_step01.html";
+})
+
+//연차내역
+$(".btn_annualList").click(function(){
+	$('#bpopupLayer').bPopup({
+		position: [0, 0],
+		opacity: 0.6,
+		closeClass:"btn_close",
+		transitionClose  : false,
+		follow: [false, false], //x, y
+		modal:false,
+		speed:100,
+		contentContainer:'#bpopupLayer',
+		loadUrl: 'mobile_annual_list.html', //Uses jQuery.load()
+		onClose: function() {
+			$('#bpopupLayer').removeClass("show");
+			$('#bpopupLayer').removeAttr("style");
+		    
+		},
+		onOpen: function() {
+			$('#bpopupLayer').addClass("show");
+			//$(".btn_annualList").addClass("active");
+		},
+		loadCallback: function() {} 
+	});
+})
+
+function pageLink(){
+	window.location.href="mobile_annual_paymentList.html";
+}
+</script>
+</html>

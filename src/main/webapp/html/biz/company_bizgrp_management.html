@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/company_manage.css">
+
+<script type='text/javascript' src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+
+<script>
+	var chkUserId = false;
+	var userGrpList = [];
+	
+	$(document).ready(function(){
+
+	    $('[data-index="1"]').focus();
+		
+		$('#inputForm').on('keydown', 'input', function (event) {
+		    if (event.which == 13) {
+		        event.preventDefault();
+		        var $this = $(event.target);
+		        var index = parseFloat($this.attr('data-index'));
+		        $('[data-index="' + (index + 1).toString() + '"]').focus();
+		        $('[data-index="' + (index + 1).toString() + '"]').select();
+		    }
+		});
+		
+		$('#searchValue').keypress(function(event){
+			var keycode = (event.keyCode ? event.keyCode : event.which);
+			if(keycode == '13'){
+				fn_bizGrpList();	
+			}
+			event.stopPropagation();
+		});
+		
+		fn_bizGrpList();		
+	});
+	
+	function fn_bizView(id) {
+		var url = rootPath+"biz/getBizGrp.do";
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				bizId:id
+			},
+			success:function(result)
+			{
+				if (result.success==true) {
+					
+					$("#bizList > li ").removeClass("active");
+					// 기업내역
+					$.each(result.data, function(i, row) {
+						if(row.id == id) {
+
+							bizId = row.id;
+							$("#bizId").val(bizId);
+							$("#bizList").find("li[id='"+bizId+"']").addClass("active");
+							$("#companyName").val(row.name);
+							$("#businessNo").val(row.no);
+							$("#ownerName").val(row.ownerName);
+							$("#addr1").val(row.addr1);
+							$("#companyTelNum").val(row.num);
+							$("#companyFaxNum").val(row.companyFaxNum);
+							$("#point").val(row.curPoint);
+							
+							$("#userId").val(row.userId);
+							$("#empName").val(row.empName);
+							$("#email").val(row.email);
+							$("#phoneNum").val(row.phoneNum);
+							$("#loginId").val(row.loginId);
+							$("#prevLoginId").val(row.loginId);
+							
+							var num = i + 1;
+							
+						}
+					});
+					
+				}
+				
+			    $('[data-index="1"]').focus();
+			    $('[data-index="1"]').select();
+			    
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+		
+	}
+	
+	function fn_bizGrpList() {
+		var url = rootPath+"biz/getBizGrpSubAdminList.do";
+		
+		var searchKey = "bizName";
+		var searchValue = $("#searchValue").val();
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				bizId:getCookie("bizId"),
+				searchKey:searchKey,
+				searchValue:searchValue,
+				startPage:0,
+				endPage:99999
+			},
+			success:function(result)
+			{
+				var htmlData = "";
+				
+				if (result.success==true) {
+					// 기업내역
+					$.each(result.data, function(i, row) {
+						
+						var num = i + 1;
+						htmlData += '<li id="'+row.id+'" onClick="fn_bizView('+row.id+')"><span>'+row.name+'</span></li> ';
+					});
+					
+				}
+				$("#bizList").html(htmlData);
+				
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+	
+	function fn_newBizGrp() {
+		chkUserId = false;
+		
+		$("#bizId").val("");
+		$("#companyName").val("");
+		$("#businessNo").val("");
+		$("#ownerName").val("");
+		$("#addr1").val("");
+		$("#companyTelNum").val("");
+		$("#companyFaxNum").val("");
+		$("#curPoint").val("0");
+		
+		userGrpList = [];
+
+		$("#userId").val("");
+		$("#empName").val("");
+		$("#email").val("");
+		$("#phoneNum").val("");
+		$("#loginId").val("");
+		
+		$("#userPwd").val("");
+		
+	}
+	
+	function fn_saveBizGrp() {
+		var bizId = $("#bizId").val();
+		var url = rootPath+"biz/updBizGrpSubAdmin.do";
+				
+		var bizName = $("#companyName").val();
+		var businessNo = $("#businessNo").val();
+		var ownerName = $("#ownerName").val();
+		var addr1 = $("#addr1").val();
+		var companyTelNum = $("#companyTelNum").val();
+		var companyFaxNum = $("#companyFaxNum").val();
+
+		var userId = $("#userId").val();
+		var empName = $("#empName").val();
+		var email = $("#email").val();
+		var phoneNum = $("#phoneNum").val();
+		var loginId = $("#loginId").val();
+		var prevLoginId = $("#prevLoginId").val();
+		var userPwd = $("#userPwd").val();
+
+		if(bizName.length==0) {
+			alert("회사명을 입력해주시기 바랍니다.");
+			return;
+		}
+		if(ownerName.length==0) {
+			alert("대표자 성명을 입력해주시기 바랍니다.");
+			return;
+		}
+		if(empName.length==0) {
+			alert("담당자 성명을 입력해주시기 바랍니다.");
+			return;
+		}
+		if(email.length==0) {
+			alert("담당자 이메일을 입력해주시기 바랍니다.");
+			return;
+		}
+		if(phoneNum.length==0) {
+			alert("담당자 연락처를 입력해주시기 바랍니다.");
+			return;
+		}
+		if(userPwd.length==0) {
+			alert("담당자 로그인 비밀번호를 입력해주시기 바랍니다.");
+			return;
+		}
+		if(!check_busino(businessNo)) {
+			alert("사업자등록번호가 맞지 않습니다.");
+			return;
+		}
+		
+		if(loginId == "") {
+			alert("로그인아이디를 설정해주시기 바랍니다.");
+			return;
+		}
+		
+		// 아이디 변경 시 체크
+		if(loginId != prevLoginId) {
+			if(!chkUserId) {
+				alert("아이디를 변경하시는 경우 아이디확인을 필히 진행해주시기 바랍니다.");
+				return;
+			}
+		}
+		$.blockUI();
+	    
+	    var params = {
+				bizId:bizId,
+				bizName:bizName,
+				businessNo:businessNo,
+				ownerName:ownerName,
+				addr1:addr1,
+				companyTelNum:companyTelNum,
+				companyFaxNum:companyFaxNum,
+				userId:userId,
+				empName:empName,
+				email:email,
+				phoneNum:phoneNum,
+				loginId:prevLoginId,
+				changeUserId:loginId,
+				userPwd:userPwd,
+				grpType:'B',
+				userGrpList:userGrpList
+			};
+
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data:JSON.stringify(params),
+			contentType : "application/json; charset=UTF-8",
+			success:function(result)
+			{
+				$.unblockUI();
+				if(result.success) {
+					alert("저장되었습니다.");
+					fn_bizGrpList();	
+				} else {
+					alert(result.message);
+				}
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					window.close();
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});	
+	}
+	
+	function fn_delBizGrp() {
+		
+		var bizId = $("#bizId").val();
+		
+		if(isNull(bizId)) {
+			alert("기업을 먼저 선택해주시기 바랍니다.");
+			return;
+		}
+		
+		if(!confirm("해당 기업을 그룹에서 제외하시겠습니까?\r\n제외된 기업은 정보를 조회하실 수 없습니다.")) return;
+
+		var url = rootPath+"biz/delBizGrp.do";
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				refId:bizId
+			},
+			success:function(result)
+			{
+				$.unblockUI();
+				if(result.success) {
+					alert("해당 그룹을 제외하였습니다.");
+					fn_bizGrpList();
+				}
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+	
+	function fn_setBizId() {
+		
+		var bizId = $("#bizId").val();
+		
+		if(isNull(bizId)) {
+			alert("기업을 먼저 선택해주시기 바랍니다.");
+			return;
+		}
+		
+		if(!confirm("선택된 기업으로 변경하시겠습니까?\r\n변경된 기업으로 모든 정보가 조회됩니다.")) return;
+		
+		var url = rootPath+"setBizId.do";
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				bizId:bizId
+			},
+			success:function(result)
+			{
+				if(result.success) {
+					/*setCookie("bizName", result.bizName);
+					setCookie("bizId", result.bizId);
+					setCookie("yearContractId", result.yearContractId);	// 연말정산 계약ID
+					setCookie("febYear", result.febYear); // 연말정산 당해년도
+					*/
+					var today = new Date();
+					setCookie("bizName", result.bizName,new Date(today.getTime() + (1 * 24 * 60 * 60 * 1000)), '/');
+					setCookie("bizId", result.bizId,new Date(today.getTime() + (1 * 24 * 60 * 60 * 1000)),'/');
+					setCookie("yearContractId", result.yearContractId,new Date(today.getTime() + (1 * 24 * 60 * 60 * 1000)),'/');	// 연말정산 계약ID
+					setCookie("febYear", result.febYear,new Date(today.getTime() + (1 * 24 * 60 * 60 * 1000)),'/');
+					setCookie("useContractMenu", result.useContractMenu,new Date(today.getTime() + (1 * 24 * 60 * 60 * 1000)),'/');
+					
+					var lastName = "";
+					if (getCookie("loginType") > "5") lastName = textLengthOverCut(getCookie("bizName"), 10, "...");
+					else 							  lastName = textLengthOverCut(getCookie("loginName"), 10, "...");
+
+					$("#lastName").html(lastName + " 님");
+					$("#lastDate").html(AddComma(result.curPoint) + " 점");
+					setCookie("curPoint", result.curPoint,new Date(today.getTime() + (1 * 24 * 60 * 60 * 1000)),'/');
+					alert("해당 기업이 설정되었습니다.")
+				}
+
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+	
+	function fn_pointAdd() {
+
+		var bizId = $("#bizId").val();
+		
+		if(isNull(bizId)) {
+			alert("기업을 먼저 선택해주시기 바랍니다.");
+			return;
+		}
+		
+		window.open(rootPath+"goPointCharge.do?bizId="+bizId, "PointAdd", "width=882, height=610, scrollbars=no");
+	}
+	
+	// 아이디 중복확인
+	function fn_checkUserId() {
+		var url = rootPath+"user/getUserList.do";
+		
+		var loginId = $("#loginId").val();
+		
+		if (loginId.length==0) {
+			alert("아이디를 입력해주시기 바랍니다.");
+			return;
+		}
+		if(!checkEmail(loginId)) {
+			alert("아이디는 이메일 형식으로 입력해주시기 바랍니다.");
+			return;
+		}
+		chkUserId = false;
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				userId:loginId
+			},
+			success:function(result)
+			{
+				if (result.success==true) {
+					
+					if(result.total==0) {
+						chkUserId = true;
+						alert("사용가능하신 아이디입니다.");
+					} else {
+						alert("입력하신 아이디는 사용중인 아이디입니다.\r\n다시 입력해주시기 바랍니다.");
+					}
+				} else {
+					alert("입력하신 아이디는 사용중인 아이디입니다.\r\n다시 입력해주시기 바랍니다.");
+				}
+			},
+			error:function(request,status,error){
+				alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+		        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+		
+	}
+	
+	function fn_addSubUser() {
+		openWin (rootPath+"html/biz/company_popup_addManager.html","기업중간관리자","430","490");
+		
+	}
+</script>
+</head>
+<body>
+<input type="hidden" id="bizId" value="">
+<input type="hidden" id="userId" value="">
+<input type="hidden" id="prevLoginId" value="">
+
+	<!-- *********************************************  html 시작 부분  body안에 붙여 넣으시면 됩니다.  *********************************************  -->
+	<div id="comManage_wrap" class="">
+		<div class="container">
+			<div class="location"><span class="loc_sub NanumGothic">기업 관리</span></div>
+			<div class="con">
+				<div class="company_list">
+					<div class="searchBox">
+						<fieldset>
+							<input type="text" id="searchValue" class="word_input NanumGothic">
+							<div class="btn_search btn_type Material_icons" onclick="fn_bizGrpList()">search</div>
+						</fieldset>
+					</div>
+					<ul class="list" id="bizList">
+					</ul>
+					<!-- 
+					<div id="page-selection" class="pagingnav_wrap"></div>
+					-->
+				</div>
+				<div class="company_info" id="inputForm">
+				<ul class="report">
+					<li class="company_input NanumGothic">
+						<div class="bx_wrap tit">
+							<span class="icon"></span>
+							<span class="txt NanumGothic">기업정보</span>
+						</div>
+						<div class="bx_wrap">
+							<dl class="input_bx">
+								<dt><label class="NanumGothic">회사명</label></dt>
+								<dd><input type="text" id="companyName" data-index="1" class="input_txt"></dd>
+							</dl>
+							<dl class="input_bx">
+								<dt><label class="NanumGothic">사업자 등록번호</label></dt>
+								<dd><input type="text" id="businessNo" data-index="2" class="input_txt"></dd>
+							</dl>
+							<dl class="input_bx">
+								<dt><label class="NanumGothic">대표자 성명</label></dt>
+								<dd><input type="text" id="ownerName" data-index="3" class="input_txt"></dd>
+							</dl>
+							<!-- 
+							<dl class="input_bx">
+								<dt><label class="NanumGothic">사용자권한</label></dt>
+								<dd><input type="text" id="userTypeName" class="input_txt"></dd>
+							</dl>
+							 -->
+							<dl class="input_bx full">
+								<dt><label class="NanumGothic">사업장소재지</label></dt>
+								<dd><input type="text" id="addr1" data-index="4" class="input_txt"></dd>
+							</dl>
+							<!-- 
+							<dl class="input_bx">
+								<dt><label class="NanumGothic">법인번호</label></dt>
+								<dd><input type="text" class="input_txt"></dd>
+							</dl>
+							 -->
+							<dl class="input_bx">
+								<dt><label class="NanumGothic">대표번호</label></dt>
+								<dd><input type="text" id="companyTelNum" data-index="5" class="input_txt"></dd>
+							</dl>
+							<dl class="input_bx">
+								<dt><label class="NanumGothic">팩스번호</label></dt>
+								<dd><input type="text" id="companyFaxNum" data-index="6" class="input_txt"></dd>
+							</dl>
+							<!-- 
+							<dl class="input_bx">
+								<dt><label class="NanumGothic">로그인아이디</label></dt>
+								<dd><input type="text" id="loginId" class="input_txt"></dd>
+							</dl>
+							 -->
+						</div>
+						<div class="bx_wrap tit">
+								<span class="icon"></span>
+								<span class="txt NanumGothic">담당자 정보</span>
+						</div>
+						<div class="bx_wrap">
+							<dl class="input_bx">
+								<dt><label class="NanumGothic">이름</label></dt>
+								<dd><input type="text" id="empName" data-index="7" class="input_txt"></dd>
+							</dl>
+							<dl class="input_bx">
+								<dt><label class="NanumGothic">이메일 주소</label></dt>
+								<dd><input type="email" id="email" data-index="8" class="input_txt"></dd>
+							</dl>
+							<dl class="input_bx">
+								<dt><label class="NanumGothic">연락처</label></dt>
+								<dd><input type="text" id="phoneNum" data-index="9" class="input_txt"></dd>
+							</dl>
+							<dl class="input_bx">
+								<dt><label class="NanumGothic">로그인아이디</label></dt>
+								<dd class="multiBox"><input type="text" id="loginId" data-index="10" class="input_txt">
+									<div class="NanumGothic btn_type btn_idCheck" onClick="fn_checkUserId()">아이디 확인</div> 
+								</dd>
+							</dl>
+							<dl class="input_bx">
+								<dt><label class="NanumGothic">비밀번호</label></dt>
+								<dd class="multiBox"><input type="password" id="userPwd" data-index="11" class="input_txt">
+							</dl>
+						</div>
+						<div class="bx_wrap tit">
+							<span class="icon"></span>
+							<span class="txt NanumGothic">포인트 정보</span>
+						</div>
+						<div class="bx_wrap">
+							<dl class="input_bx">
+								<dt><label class="NanumGothic">잔여포인트</label></dt>
+								<dd><input type="text" id="point" class="input_txt" readonly></dd>
+							</dl>
+							<div class="btns"><div class="btn_type Material_icons btn_point" onClick="fn_pointAdd()">포인트 충전</div></div>
+						</div>
+						
+					</li>
+					<!-- 
+					<li class="service_list">
+						<div class="tit"><span class="icon"></span><span class="txt NanumGothic">서비스 이용현황</span></div>
+						<ul class="row left NanumGothic">
+							<li><div><span class="label">전자계약서</span></div><div><input type="radio" name="row1">사용</div><div><input type="radio" name="row1">미사용</div></li>
+							<li><div><span class="label">급여관리</span></div><div><input type="radio" name="row2">사용</div><div><input type="radio" name="row2">미사용</div></li>
+							<li><div><span class="label">연차관리</span></div><div><input type="radio" name="row3">사용</div><div><input type="radio" name="row3">미사용</div></li>
+						</ul>
+						<ul class="row right NanumGothic">
+							<li><div><span class="label">문서보관 서비스</span></div><div><input type="radio" name="row4">사용</div><div><input type="radio" name="row4">미사용</div></li>
+							<li><div><span class="label">서비스 추가 +</span></div><div><input type="radio" name="row5">사용</div><div><input type="radio" name="row5">미사용</div></li>
+							<li><div><span class="label">서비스 추가 +</span></div><div><input type="radio" name="row6">사용</div><div><input type="radio" name="row6">미사용</div></li>
+						</ul>
+					</li>
+					 -->
+					<li class="btn_group">
+					<div><div class="btn_type Material_icons" onClick="fn_setBizId()">기업선택</div></div>
+					<div><div class="btn_type Material_icons" onClick="fn_saveBizGrp()">정보저장</div></div>
+					</li>
+				</ul>
+				
+				</div>
+			</div>
+		</div>
+	</div><!-- comManage_wrap_wrap -->
+</body>
+
+<script type="text/javascript">
+$('#page-selection').bootpag({
+    total: 10,
+    page: 1,
+    maxVisible: 5,
+    leaps: true,
+    firstLastUse: true,
+    first: '',
+    last: '',
+    wrapClass: 'pagination',
+    activeClass: 'active',
+    disabledClass: 'disabled',
+    nextClass: 'btn_next',
+    prevClass: 'btn_prev',
+    lastClass: 'end_page',
+    firstClass: 'first_page'
+}).on("page", function(event, num){
+    
+}); 
+</script>
+</html>

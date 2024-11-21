@@ -1,0 +1,1972 @@
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+	<div id="yearTax_wrap" class="yearTax easy">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연말정산 >  </span><span class="loc_sub NanumSquare_R">부양가족</span></div>
+			
+			<div class="process_wrap mask">
+				<div class="stepBar"> 
+					<div class="box clear">
+						<div class="process-step NanumSquare_R">
+							<div class="bar"><span class="line"></span><span class="no">1</span></div>
+							<div class="process-panel">
+									<span class="icon"></span>
+									<span class="name NanumRound">소득확인</span>	
+							</div>
+							<div class="process-arrow"></div>
+						</div>
+					</div>
+					<div class="box current">
+						<div class="process-step NanumSquare_R">
+							<div class="bar"><span class="line"></span><span class="no">2</span></div>
+							<div class="process-panel">
+								<span class="icon"></span>
+								<span class="name NanumRound">부양가족</span>
+							</div>
+							<div class="process-arrow"></div>
+						</div>
+					</div>
+					<div class="box">
+						<div class="process-step NanumSquare_R">
+							<div class="bar"><span class="line"></span><span class="no">3</span></div>
+							<div class="process-panel">
+								<span class="icon"></span>
+								<span class="name NanumRound">지출내역 확인</span>
+							</div>
+							<div class="process-arrow"></div>
+						</div>
+					</div>
+					<div class="box">
+						<div class="process-step NanumSquare_R">
+							<div class="bar"><span class="line"></span><span class="no">4</span></div>
+							<div class="process-panel">
+								<span class="icon"></span>
+								<span class="name NanumRound">추가서류 제출</span>
+							</div>
+							<div class="process-arrow"></div>
+						</div>
+					</div>
+					<div class="box">
+						<div class="process-step NanumSquare_R">
+							<div class="bar"><span class="line"></span><span class="no">5</span></div>
+							<div class="process-panel">
+								<span class="icon"></span>
+								<span class="name NanumRound">연말정산 요약</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div> <!--  process_wrap -->
+			<div class="que_content">
+				<div class="text NanumRound">
+					<span>2. 아래 부양가족 현황 변동이 있습니까?</span>
+				</div>				
+				<div id="que_btns" class="NanumRound">
+					<a class="btn_type type1">예</a>
+					<a class="btn_type type2">아니오</a>
+				</div>
+			</div>
+			<!-- 
+			<div class="pagtit">
+				<span class="NanumSquare_R">부양 가족</span>
+				<ul class="top_items NanumSquare_R">
+					<li><a class="btn_type icon_file">첨부 파일 <span class="icon icon_file"></span></a></li>
+				</ul>
+			</div>
+			 -->
+			<div class="grid_field full">
+				<!-- <span class="NanumSquare_R">부양 가족</span> -->
+				<ul class="">
+					<li class="btns NanumRound field_sort_right">
+						<a class="btn_type btn_addSubmit hidden">추가 서류 제출</a>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="contents">
+			
+				<div class="group_wrap">
+					<div class="group_tit skyblue">
+						<div class="icon"></div>
+						<div class="text NanumSquare_R">부양가족(인적)공제 명세</div>
+						<div class="btns">
+							<a class="btn_type NanumSquare_R" onClick="javascript:callQnaPop('W413')">문의 </a>
+						</div>
+					</div>
+				
+					<div class="grid_field full">
+						<ul class="">
+							<li class="btns NanumSquare_R field_sort_right hidden">
+								<a class="btn_type type1" id="addFamily">부양가족추가<span class="icon add"></span></a>
+								<a class="btn_type type2" id="delFamily">선택삭제</a>
+							</li>
+						</ul>
+					</div>
+					<div class="group_table">
+						<table id="family" class="hasHead NanumSquare_R">
+							<colgroup>
+								<col width="4%">
+								<col width="7%">
+								<col width="8%">
+								<col width="10%">
+								<col width="15%">
+								<col width="7%">
+								<col width="7%">
+								<col width="7%">
+								<col width="7%">
+								<col width="7%">
+								<col width="7%">
+								<col width="7%">
+								<col width="7%">
+							</colgroup>
+							<thead>
+								<tr>
+									<th class="chk_area"><input type="checkbox" id="chkAll"> </th>
+									<th>연말관계</th>
+									<th>내외국인</th>
+									<th>성명</th>
+									<th>주민등록번호</th>
+									<th>나이</th>
+									<th>기본공제</th>
+									<th>부녀자</th>
+									<th>한부모</th>
+									<th>경로우대</th>
+									<th>장애인</th>
+									<th>자녀</th>
+									<th>출산입양</th>
+								</tr>
+									
+							</thead>
+							<tbody>
+
+							</tbody>
+						</table>
+					</div> <!--  group_table -->
+				</div>
+			</div> <!--  contents -->
+			
+			<div class="group_btns foot NanumSquare_R">
+				<a class="btn_type type1">＜  이전</a>
+				<a class="btn_type type2" id="save"><span class="icon_save Material_icons"></span>저장</a>
+				<a class="btn_type type3">다음 ＞</a>
+			</div>
+		</div> <!--  container -->
+		
+		<div class="layerPop_wrap">
+			<div class="popup_bg small">
+			
+				<div class="popup_tit">
+					<div class="popup_close"><a class="btn_type btn_close"></a></div>
+				</div>
+				<ul class="popup_content">
+					<li class="icon"></li>
+					<li class="text NanumRound">
+						<span>부양가족에 변동내역이 있으시면 </span>
+						<span>주민등록표등본 또는  가족관계증명서를</span>
+						<span> 첨부하시기 바랍니다.</span>
+					</li>
+				</ul>
+				<div id="foot_btns" class="floating NanumRound">
+					<a class="btn_type type1">확인</a>
+				</div>
+			</div>
+		</div>
+	</div>
+<script type="text/javascript" src="/js/jquery.inputmask.bundle.min.js"></script>
+<script type="text/javascript">
+
+	var isChanged;
+	var differ;
+	var arrayDiffers = {};
+	
+	// 계약 ID
+	var contractId;
+	// 2018 분기
+	// 계약 년도
+	var febYear;
+	// 사용자 ID
+	var userID;
+	// 사용자 성명
+	var userName;
+	// 사용자 사번
+	var userNO;
+	
+	var cdLDetail;
+	var ye001SubList;
+	var fdDList;
+	var adminComment;
+	// 총급여
+	var totalwage;
+	// 근로소득 급여
+	var earnedIncome;
+	// 계약년도
+	var contractYear;
+	
+	// 전체 선택, 삭제
+	var isAllchkShow;
+	
+	var isdisabled1;
+	var isdisabled2;
+	var isdisabled3;
+	var isdisabled4;
+	var isdisabled5;
+	var isdisabled6;
+	var isdisabled7;
+	var isAddColumn;
+	
+	// select
+	var selectOptionPersonallyselectOptionPersonally = [{
+        label: '본인',
+        value: '0'
+    }];
+	var selectOptionFamily = [{
+        label: '본인의 직계존속',
+        value: '1'
+      },
+      {
+        label: '배우자의 직계존속',
+        value: '2'
+      },
+      {
+        label: '배우자',
+        value: '3'
+      },
+      {
+        label: '직계비속(자녀+입양자)',
+        value: '4'
+      },
+      {
+        label: '직계비속(4.제외)',
+        value: '5'
+      },
+      {
+        label: '형제자매',
+        value: '6'
+      },
+      {
+        label: '수급자(1~6제회)',
+        value: '7'
+      },
+      {
+        label: '위탁아동(만18세 미만)',
+        value: '8'
+    }];
+	var selectOptionNation = [{
+        label: '내국인',
+        value: '1'
+        },
+        {
+          label: '외국인',
+          value: '2'
+    }];
+	var selectOptionYN = [{
+        label: 'Y',
+        value: '1'
+        },
+        {
+          label: 'N',
+          value: '2'
+    }];
+	var selectOptionDisabled = [{
+        label: '「장애인복지법」에 따른 장애인',
+        value: '1'
+        },
+        {
+          label: '「국가유공자 등 예우 및 지원에 관한 법률」에 따른 자',
+          value: '2'
+        },
+        {
+          label: '그 밖에 항시 치료를 요하는 중증환자',
+          value: '3'
+        },
+        {
+          label: 'N',
+          value: '4'
+    }];
+	var selectOptionChildbirth = [{
+        label: '첫째',
+        value: '1'
+        },
+        {
+          label: '둘째',
+          value: '2'
+        },
+        {
+          label: '셋째이상',
+          value: '3'
+        },
+        {
+          label: 'N',
+          value: '4'
+    }];
+	
+	// 근로자 데이터 입력 및 수정 여부 체크
+	var workerEditCheckCode;
+	var workerEditCheck = false;
+	var workerEditCheck01;
+	var workerEditCheck02;
+	
+	// 나이계산
+	var 나이_직계존속;  // 귀속년도 2018년 기준 19581231
+	var 나이_직계비속;  // 귀속년도 2018년 기준 19980101
+	var 나이_경로우대;  // 귀속년도 2018년 기준 19481231
+	var 나이_위탁아동;  // 귀속년도 2018년 기준 20000101
+
+	$(document).ready(function() {
+
+		// 이전화면
+		$(".group_btns.foot.NanumSquare_R .btn_type.type1").on("click", function(){
+			
+			var url = rootPath + "html/easyFeb/e_easyYearTax_step01_02.html?d=" + (new Date()).getTime();
+			
+			if(isChanged){
+				if(confirm('해당 페이지를 벗어나면 작성중인 내용은 저장되지 않습니다.')){
+					$("#contents_wrap").empty();
+				    $(window).off("resize");
+				    $.ajax({
+				        url : url, 
+				        success : function(result) {
+				            $("#contents_wrap").html(result);
+				        }
+				    });				
+				}
+			}else{
+				$("#contents_wrap").empty();
+			    $(window).off("resize");
+			    $.ajax({
+			        url : url, 
+			        success : function(result) {
+			            $("#contents_wrap").html(result);
+			        }
+			    });
+			}
+		});
+
+		// 다음화면
+		$(".group_btns.foot.NanumSquare_R .btn_type.type3").on("click", function(){
+
+			var url = rootPath + "html/easyFeb/e_easyYearTax_step03_default.html?d=" + (new Date()).getTime();
+			
+			if(isChanged){
+				if(confirm('해당 페이지를 벗어나면 작성중인 내용은 저장되지 않습니다.')){
+					$("#contents_wrap").empty();
+				    $(window).off("resize");
+				    $.ajax({
+				        url : url, 
+				        success : function(result) {
+				            $("#contents_wrap").html(result);
+				        }
+				    });				
+				}
+			}else{
+				$("#contents_wrap").empty();
+			    $(window).off("resize");
+			    $.ajax({
+			        url : url, 
+			        success : function(result) {
+			            $("#contents_wrap").html(result);
+			        }
+			    });
+			}
+		});
+
+		$(".btn_close").click(function(e){
+			//$(this).parent().parent().parent().parent().addClass("hidden");
+			$(this).closest(".layerPop_wrap").addClass("hidden")
+		});
+
+		$("#foot_btns > .btn_type.type1").on("click", function(e){
+			$(this).closest(".layerPop_wrap").addClass("hidden");
+		});
+		
+		$(".group_btns.foot.NanumSquare_R").addClass("hidden");
+		$("a.btn_type.btn_addSubmit").addClass("hidden");
+		
+		$("#que_btns .type1").on("click", function(e){
+			e.preventDefault();
+			$(".que_content").addClass("hidden");
+			$(".group_btns.foot.NanumSquare_R").removeClass("hidden");
+			$("div > ul > li > a.btn_addSubmit").removeClass("hidden");
+			$("div > ul > .btns.NanumSquare_R.field_sort_right").removeClass("hidden");
+			//$("#addFamily").removeClass("hidden");
+			//$("#delFamily").removeClass("hidden");
+		});
+
+		$("#que_btns .type2").on("click", function(e){
+			e.preventDefault();
+			var url = rootPath + "html/easyFeb/e_easyYearTax_step03_default.html?d=" + (new Date()).getTime();
+			
+			$("#contents_wrap").empty();
+		    $(window).off("resize");
+		    $.ajax({
+		        url : url, 
+		        success : function(result) {
+		            $("#contents_wrap").html(result);
+		        }
+		    });
+		});
+		
+		$("#family tbody").bind("change", function(e){
+
+			var trIdx = $(e.target).closest('tr').index();
+			var tdIdx = $(e.target).closest('td').index();
+			var elType = event.target.type;
+
+			if(tdIdx == 1){
+				cdLDetail[trIdx].가족관계 = $(e.target).val();
+			}else if(tdIdx == 2){
+				cdLDetail[trIdx].내외국인 = $(e.target).val();
+			}else if(tdIdx == 3){
+				cdLDetail[trIdx].성명 = $(e.target).val();
+			}else if(tdIdx == 4){
+				cdLDetail[trIdx].개인식별번호 = $(e.target).val();
+			}else if(tdIdx == 6){
+				cdLDetail[trIdx].기본공제 = $(e.target).val();
+			}else if(tdIdx == 7){
+				cdLDetail[trIdx].부녀자 = $(e.target).val();
+			}else if(tdIdx == 8){
+				cdLDetail[trIdx].한부모 = $(e.target).val();
+			}else if(tdIdx == 9){
+				cdLDetail[trIdx].경로우대 = $(e.target).val();
+			}else if(tdIdx == 10){
+				cdLDetail[trIdx].장애인 = $(e.target).val();
+			}else if(tdIdx == 11){
+				cdLDetail[trIdx].자녀 = $(e.target).val();
+			}else if(tdIdx == 12){
+				cdLDetail[trIdx].출산입양 = $(e.target).val();
+			}
+			changedbMode(trIdx, tdIdx)
+		});
+
+		$("#addFamily").addClass("hidden");
+		$("#delFamily").addClass("hidden");
+		
+		$("#addFamily").on("click", function(e){
+			e.preventDefault();
+			isChanged = true;
+			addFamily();
+		});
+
+		$("#delFamily").on("click", function(e){
+			e.preventDefault();
+			isChanged = true;
+			delFamily();
+		});
+		
+		$("#save").on("click", function(e){
+			saveList();
+		})
+		/*
+		$("a.btn_type.icon_file").on("click", function(e){
+			var url = rootPath + '/html/easyFeb/feb_popup_addDoc.html?cd=F100&d=' + (new Date()).getTime();
+			window.open(url, '추가제출서류 수정', 'width=1000, height=700, location=no, menubar=no, status=no, scrollbars=no, toolbar=no');
+		});
+		*/
+		$("a.btn_type.btn_addSubmit").on("click", function(e){
+			var url = rootPath + '/html/easyFeb/feb_popup_addDoc.html?cd=F100&d=' + (new Date()).getTime();
+			window.open(url, '추가제출서류 수정', 'width=1000, height=700, location=no, menubar=no, status=no, scrollbars=no, toolbar=no');
+		});
+		
+		$("#chkAll").on("click", function(e){
+			if($('#chkAll').is(':checked')){
+				$("#family tbody :checkbox").each(function(){
+					if($(this).attr("disabled") != 'disabled'){
+				        $(this).prop('checked',true);
+					}
+				});
+			}else{
+				$("#family tbody :checkbox").each(function(){
+			        $(this).prop('checked',false);
+				});
+			}
+		})
+
+		ngOnInit();
+	});
+	
+	function changedbMode(val, div){
+		console.log("changedbMode");
+				if (div === 1 || div === 4) {
+					var val2 = cdLDetail[val]['개인식별번호'];
+					var junochk = calcJunoYear(val);
+
+					if ( val2 !== '') {
+				        if (changeCaldbMode(val)) {
+
+				          cdLDetail[val]['기본공제'] = calbasicdeduction(val);
+
+				          $("#family tbody tr:eq(" + val + ") td:eq(6) select").val(cdLDetail[val]['기본공제']).prop("selected", true);
+				          changedbMode(val, 6);
+
+				        }
+				        chkisSenior(val, div);
+				        chkisjunior(val, div);
+					}
+				} else if (div === 6 ) {      // 기본공제
+					var val1 = cdLDetail[val]['가족관계'];
+				    var junochk = calcJunoYear(val);
+
+				      if ( cdLDetail[val]['기본공제'] === '1') {
+				        var chkData = calbasicdeduction(val);
+				        if ( chkData === '2' ) {
+				          if ( confirm('해당 부양가족은 기본공제 대상 나이조건을 충족하지 않습니다\n해당 부양가족이 장애인 공제 대상입니까?') ) {
+				            cdLDetail[val]['기본공제'] = '1';
+				            cdLDetail[val]['isdisabled5'] = true;
+				            
+				            $("#family tbody tr:eq(" + val + ") td:eq(6) select").val(cdLDetail[val]['기본공제']).prop("selected", true);
+				            //$("#family tbody tr:eq(" + val + ") td:eq(10) select").attr("disabled", true);
+				          } else {
+				            //setTimeout(() => {
+				              cdLDetail[val]['기본공제'] = '2';
+				              $("#family tbody tr:eq(" + val + ") td:eq(6) select").val(cdLDetail[val]['기본공제']).prop("selected", true);
+				              $("#family tbody tr:eq(" + val + ") td:eq(10) select").attr("disabled", false);
+				            //}, 0);
+				          }
+				        } else {  // 나이제한에 안결렸을 경우
+				          if (cdLDetail[val]['가족관계'] === '4') {
+				            cdLDetail[val]['자녀'] = '1';
+				            $("#family tbody tr:eq(" + val + ") td:eq(11) select").val(cdLDetail[val]['자녀']).prop("selected", true);
+				          }
+
+				        }
+				      }
+				} else if (div === 7 ) {      // 부녀자
+					if ( cdLDetail[val]['부녀자'] === '1' ) {
+				        if ( cdLDetail[val]['한부모'] === '1' ) {
+				          alert('부녀자 공제 항목과 한부모 공제 항목은 중복 공제 불가합니다. ');
+				          //setTimeout(() => {
+				            cdLDetail[val]['부녀자'] = '2';
+				            $("#family tbody tr:eq(" + val + ") td:eq(7) select").val(cdLDetail[val]['부녀자']).prop("selected", true);
+				          //}, 0);
+				        }
+				      }
+				} else if (div === 8 ) {      // 한부모
+				      if ( cdLDetail[val]['한부모'] === '2' ) {
+				          // cdLDetail[val]['isdisabled2'] = true;
+				          cntVal1 = 0;
+				          cntVal2 = 0;
+				          for (index = 0; index < cdLDetail.length; index++) {
+				            if ( cdLDetail[index]['가족관계'] === '3' ) {
+				              cntVal1++;
+				            }if ( cdLDetail[index]['가족관계'] === '4' || cdLDetail[index]['가족관계'] === '5'  ) {
+				              cntVal2++;
+				            }
+				          } // end for
+
+				          if ( cntVal1 === 0 && cntVal2 > 0 ) {
+				            cdLDetail[val]['한부모'] = '1';
+				            $("#family tbody tr:eq(" + val + ") td:eq(8) select").val(cdLDetail[val]['한부모']).prop("selected", true);
+				          } else {
+				            //setTimeout(() => {
+				              cdLDetail[val]['한부모'] = '2';
+				              $("#family tbody tr:eq(" + val + ") td:eq(8) select").val(cdLDetail[val]['한부모']).prop("selected", true);
+				            //}, 0);
+				          }
+				        }
+				}
+		console.log("val: ", val);
+		console.log("cdLDetail.length: ", cdLDetail.length);
+			    if (cdLDetail[val]['dbMode'] === 'C') {
+			    } else if (cdLDetail[val]['dbMode'] === 'D') {
+			    } else {
+			      cdLDetail[val]['dbMode'] = 'U';
+			    }
+			    
+			    defaultset();
+			}
+			
+
+			function chkisSenior(val, div) {
+
+			    // 출생년도 계산을 위해
+			    var val1 = cdLDetail[val]['가족관계'];
+			    var val2 = cdLDetail[val]['개인식별번호'];
+			    var junochk = calcJunoYear(val);
+			    
+			    // 경로 우대 체크
+			    if ( Number( junochk ) <= Number(나이_경로우대) ) {
+			      //setTimeout(() => {
+			        if ( div === 1 ) {
+			          cdLDetail[val]['경로우대'] = '1';
+			          $("#family tbody tr:eq(" + val + ") td:eq(9) select").val(cdLDetail[val]['경로우대']).prop("selected", true);
+			        } else if ( div === 4) {
+			          cdLDetail[val]['경로우대'] = '1';
+			          $("#family tbody tr:eq(" + val + ") td:eq(9) select").val(cdLDetail[val]['경로우대']).prop("selected", true);
+			        }
+			      //}, 0);
+			    } else {
+			      //setTimeout(() => {
+			        if ( div === 2 ) {
+			          cdLDetail[val]['경로우대'] = '2';
+			          $("#family tbody tr:eq(" + val + ") td:eq(9) select").val(cdLDetail[val]['경로우대']).prop("selected", true);
+			        } else if ( div === 4) {
+			          cdLDetail[val]['경로우대'] = '2';
+			          $("#family tbody tr:eq(" + val + ") td:eq(9) select").val(cdLDetail[val]['경로우대']).prop("selected", true);
+			        }
+			      //}, 0);
+			    }
+			}
+
+			function chkisjunior(val, div) {
+
+			    // 출생년도 계산을 위해
+			    var val1 = cdLDetail[val]['가족관계'];
+			    var val2 = cdLDetail[val]['개인식별번호'];
+			    var junoCode = val2.substr(6, 1);
+			    var junochk = calcJunoYear(val);
+			    
+			    // 경로 우대 체크
+			    if ( Number( junochk ) >= 20180101 ) {
+			      if (junoCode === '3' || junoCode === '4' || junoCode === '7' || junoCode === '8' ) {
+			        //setTimeout(() => {
+			          if ( div === 1 ) {
+							cdLDetail[val]['출산입양'] = '1';
+			            	$("#family tbody tr:eq(" + val + ") td:eq(12) select").val(cdLDetail[val]['출산입양']).prop("selected", true);
+			          } else if ( div === 4) {
+			            	cdLDetail[val]['출산입양'] = '1';
+			            	$("#family tbody tr:eq(" + val + ") td:eq(12) select").val(cdLDetail[val]['출산입양']).prop("selected", true);
+			          }
+			        //}, 0);
+			      }
+			    }
+			}
+			
+
+			function calbasicdeduction(val) {
+
+			    // 출생년도 계산을 위해
+			    var val1 = cdLDetail[val]['가족관계'];
+			    var val2 = cdLDetail[val]['개인식별번호'];
+			    var junochk = calcJunoYear(val);
+
+			    var resultData = '';
+
+			    // 0.본인 1.소득자의 직계존속 2.배우자의 직계존속 3.배우자 4.직계비속(자녀·입양자) 5.직계비속(코드4 제외) 6.형제자매 7.수급자(코드1~6 제외) 8.위탁아동
+			    if ( val1 === '1' || val1 === '2') {        // 1.소득자의 직계존속 이거나 2.배우자의 직계존속
+			      // 1958.12.31 이전 출생자는 자동 적용
+			      if ( Number( junochk ) <= Number(나이_직계존속) ) {
+			        resultData = '1';
+			      } else {
+			        resultData = '2';
+			      }
+			    } else if ( val1 === '4' || val1 === '5') {  // 4.직계비속(자녀·입양자) 5.직계비속(코드4 제외)
+			      // 1998.1.1 이후 출생자는 자동 적용
+			      if ( Number( junochk ) >= Number(나이_직계비속) ) {
+			        resultData = '1';
+			      } else {
+			        resultData = '2';
+			      }
+			    } else if ( val1 === '6') {                  // 6.형제자매
+			      // 1958.12.31 이전 출생자 및 1998.1.1 이후 출생자는 자동 세팅
+			      if ( Number( junochk ) <= Number(나이_직계존속) || Number( junochk ) >= Number(나이_직계비속) ) {
+			        resultData = '1';
+			      } else {
+			        resultData = '2';
+			      }
+			    } else if ( val1 === '7') {                 // 7.수급자(코드1~6 제외) 자동 적용
+			      resultData = '1';
+			    } else if ( val1 === '8') {                 // 8.위탁아동
+			      // 2000.1.1 이후 출생자는 자동 세팅
+			      if ( Number( junochk ) >= Number(나이_위탁아동) ) {
+			        resultData = '1';
+			      } else {
+			        resultData = '2';
+			      }
+			    }  else if ( val1 === '3') {                  // 3. 배우자는 로직없음
+			      resultData = '1';
+			    } else {                                    // 그외
+			      resultData = '2';
+			    }
+
+			    return resultData;
+			}
+
+			// changedbMod
+			function changeCaldbMode(val) {
+
+				var juno = cdLDetail[val]['개인식별번호'];
+			    var junoYear = juno.substr(0, 2);
+			    var junoCode = juno.substr(6, 1);
+			    var age =  0;
+			    var nowDate = contractYear;
+
+			    if (junoCode === '1' || junoCode === '2' || junoCode === '5' || junoCode === '6' ) {
+			      age = 1900 + Number( junoYear );
+			    } else {
+			      age = 2000 + Number( junoYear );
+			    }
+
+			    chkJuno = false;
+			    chkJuno = allCheck( juno.substr(0, 6) + juno.substr(6, 7) );
+
+
+			    if ( chkJuno === true ) {
+			      cdLDetail[val]['나이'] =  Number(nowDate) -  Number(age);
+			      $("#family tbody tr:eq(" + val + ") td:eq(5)").text(cdLDetail[val]['나이']);
+			      
+			      if (cdLDetail[val]['dbMode'] === 'C') {
+			      } else if (cdLDetail[val]['dbMode'] === 'D') {
+			      } else {
+			        cdLDetail[val]['dbMode'] = 'U';
+			      }
+			      return true;
+			    } else {
+			      alert('잘못된 주민등록번호 입니다.');
+			      cdLDetail[val]['개인식별번호'] = '';
+			      $("#family tbody tr:eq(" + val + ") td:eq(4) input").val("");
+			      $("#family tbody tr:eq(" + val + ") td:eq(5) input").val("");
+
+			      return false;
+			    }
+			}
+
+			function calcJunoYear(val) {
+			    // 출생년도 계산을 위해
+			    var val1 = cdLDetail[val]['가족관계'];
+			    var val2 = cdLDetail[val]['개인식별번호'];
+			    age =  0;
+			    var junomonth = val2.substr(2, 4);
+			    var junoYear = val2.substr(0, 2);
+			    var junoCode = val2.substr(6, 1);
+			    junochk = '';
+
+			    if (junoCode === '1' || junoCode === '2' || junoCode === '5' || junoCode === '6' ) {
+			      age = 1900 + Number( junoYear );
+			    } else {
+			      age = 2000 + Number( junoYear );
+			    }
+
+
+			    if (junoCode === '1' || junoCode === '2' || junoCode === '5' || junoCode === '6' ) {
+			      age = 1900 + Number( junoYear );
+			    } else {
+			      age = 2000 + Number( junoYear );
+			    }
+
+			    // 최종 출생년도 계산
+			    junochk = age + junomonth;
+
+			    return junochk;
+
+			  }
+
+			function setStoreData(trIdx, tdIdx){
+
+				if(tdIdx === 0){		//연말관계
+					cdLDetail[trIdx]['가족관계'] = $("#family tbody tr:eq(" + trIdx + ") td:eq(" + (tdIdx + 1) + ") select").val();
+				}else if(tdIdx === 1){	//내외국인
+					cdLDetail[trIdx]['내외국인'] = $("#family tbody tr:eq(" + trIdx + ") td:eq(" + (tdIdx + 1) + ") select").val();
+				}else if(tdIdx === 2){	//성명
+					cdLDetail[trIdx]['성명'] = $("#family tbody tr:eq(" + trIdx + ") td:eq(" + (tdIdx + 1) + ") input").val();
+				}else if(tdIdx === 3){	//주민등록번호
+					cdLDetail[trIdx]['개인식별번호'] = $("#family tbody tr:eq(" + trIdx + ") td:eq(" + (tdIdx + 1) + ") input").val();
+				}else if(tdIdx === 4){	//나이
+					//cdLDetail[trIdx]['나이'] = $("#family tbody tr:eq(" + trIdx + ") td:eq(" + (tdIdx + 1) + ") select").val();
+				}else if(tdIdx === 5){	//기본공제
+					cdLDetail[trIdx]['기본공제'] = $("#family tbody tr:eq(" + trIdx + ") td:eq(" + (tdIdx + 1) + ") select").val();
+				}else if(tdIdx === 6){	//부녀자
+					cdLDetail[trIdx]['부녀자'] = $("#family tbody tr:eq(" + trIdx + ") td:eq(" + (tdIdx + 1) + ") select").val();
+				}else if(tdIdx === 7){	//한부모
+					cdLDetail[trIdx]['한부모'] = $("#family tbody tr:eq(" + trIdx + ") td:eq(" + (tdIdx + 1) + ") select").val();
+				}else if(tdIdx === 8){	//경로우대
+					cdLDetail[trIdx]['경로우대'] = $("#family tbody tr:eq(" + trIdx + ") td:eq(" + (tdIdx + 1) + ") select").val();
+				}else if(tdIdx === 9){	//장애인
+					cdLDetail[trIdx]['장애인'] = $("#family tbody tr:eq(" + trIdx + ") td:eq(" + (tdIdx + 1) + ") select").val();
+				}else if(tdIdx === 10){	//자녀
+					cdLDetail[trIdx]['자녀'] = $("#family tbody tr:eq(" + trIdx + ") td:eq(" + (tdIdx + 1) + ") select").val();
+				}else if(tdIdx === 11){	//출산입양
+					cdLDetail[trIdx]['출산입양'] = $("#family tbody tr:eq(" + trIdx + ") td:eq(" + (tdIdx + 1) + ") select").val();
+				}
+			}
+
+			function saveList(){
+
+				var isTrue = true;
+				var isChild = 0;
+				
+				// 데이터 검증
+				for (index = 0; index < cdLDetail.length; index++) {
+					
+					cdLDetail[index]['empName'] = userName;
+					cdLDetail[index]['empNo'] = userNO;
+					cdLDetail[index]['계약ID'] = contractId;
+					cdLDetail[index]['사용자ID'] = userID;
+				
+					// 연말관계
+					if ($.trim(cdLDetail[index]['가족관계']) === '') {
+						alert('연말관계를 선택해주세요.');
+				        return false;
+					}
+					
+					// 내외국인
+					if ($.trim(cdLDetail[index]['내외국인']) === '') {
+						alert('내외국인를 선택해주세요.');
+						return false;
+					}
+					
+					// 성명
+					if ($.trim(cdLDetail[index]['empName']) === '') {
+						alert('성명을 입력해주세요.');
+				        return false;
+					}
+					
+					// 주민등록번호
+					if ($.trim(cdLDetail[index]['개인식별번호']) === '') {
+						alert('주민등록번호를 입력해주세요.');
+						return false;
+					}
+				
+					// 기본공제
+					if ($.trim(cdLDetail[index]['기본공제']) === '') {
+						alert('기본공제를 선택해주세요.');
+						return false;
+					}
+					
+					// 부녀자
+					if ($.trim(cdLDetail[index]['부녀자']) === '') {
+						alert('부녀자를 선택해주세요.');
+						return false;
+					}
+					
+					// 한부모
+					if ($.trim(cdLDetail[index]['한부모']) === '') {
+						alert('한부모를 선택해주세요.');
+						return false;
+					}
+					
+					// 경로우대
+					if ($.trim(cdLDetail[index]['경로우대']) === '') {
+						alert('경로우대를 선택해주세요.');
+						return false;
+					}
+					
+					// 장애인
+					if ($.trim(cdLDetail[index]['장애인']) === '') {
+						alert('장애인를 선택해주세요.');
+						return false;
+					}
+					
+					// 자녀
+					if ($.trim(cdLDetail[index]['자녀']) === '') {
+						alert('자녀를 선택해주세요.');
+						return false;
+					}
+					
+					// 출산입양
+					if ($.trim(cdLDetail[index]['출산입양']) === '') {
+						alert('출산입양을 선택해주세요.');
+						return false;
+					}
+
+					// 한부모 자료 검증
+					if (cdLDetail[index]['한부모'] === '1') {
+						// const junochk = calcJunoYear(index);
+						if (cdLDetail[index]['부녀자'] === '1') {
+							// alert('부녀자 공제 항목과 한부모 공제 항목은 중복 공제 불가합니다.');
+							isTrue =  false;
+						}
+						for (i = 0; i < cdLDetail.length; i++) {
+							// 배우자가 있는 경우 한부모 선택 불가
+							if (cdLDetail[i]['가족관계'] === '3') {
+								// alert('배우자가 있는 경우 한부모 공제 불가합니다.');
+								isTrue =  false;
+							}
+							// 3.배우자가 없더라도 연말관계 4.직계비속(자녀·입양자) 5.직계비속(코드4 제외)를 등록하지 않은 경우
+							if (cdLDetail[i]['가족관계'] === '4' || cdLDetail[i]['가족관계'] === '5') {
+								isChild++;
+							}
+						}
+						if ( isChild === 0 ) {
+							alert('근로자가 한부모공제를 적용하였습니다.\n한부모공제는 배우자가 없는 근로자가 직계비속(연말관계 4, 5)를 부양하는 경우 공제 받는 항목이므로 직계비속(연말관계 4, 5)를\n등록하시기 바랍니다.');
+							isTrue =  false;
+						}
+					}
+				}
+				
+				if ( isTrue === true ) {
+		      		fdDList = {
+		        		관리자정정사유 : { },
+		        		부양가족 : []
+		      		};
+		      		
+		      		fdDList['부양가족'] = cdLDetail;
+
+		      		adminCommentList = {
+						'dbMode': 'C' ,
+						'계약ID' : contractId,
+						'사용자ID': userID,
+						'정정사유': adminComment
+					};
+		      		
+		      		fdDList['관리자정정사유'] = adminCommentList;
+
+		      		var url = rootPath + 'febworker/saveYE001.do';
+		    		request = $.ajax({
+		    			url: url,
+		    	        type: "post",
+		    	        cache: false,
+		    	        dataType:"json",
+		    	        data: JSON.stringify(fdDList),
+		    			beforeSend: function( xhr ) {
+							xhr.setRequestHeader("Accept", "application/json");
+							xhr.setRequestHeader("Content-Type", "application/json");
+		    			}
+		    	    });
+		    		
+		    		request.done(function(res){
+		    			if ( res['success'] === true ) {
+							alert("저장이 완료되었습니다.");
+							isChanged = false;
+		    			}
+		    			
+		    			getemployeeDinfo();
+		    		});
+		    		
+		    		request.fail(function (request, textStatus, error) {
+		    			if (request.status=="401") {
+		    				alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+		    				location.href=rootPath;
+		    			} else {
+		    				alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+		    		        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		    			}
+		    		});
+		    		
+		      	};
+			}
+
+			function ngOnInit(){
+
+				contractId = getCookie('yearContractId');
+				
+			    // 2018 분기
+			    febYear = getCookie('febYear');
+			    // 나이계산을 위한 세팅
+				나이_직계존속 = Number(Number(febYear) - 60) * 10000 + 1231;
+				나이_직계비속 = Number(Number(febYear) - 20) * 10000 + 101;
+				나이_경로우대 = Number(Number(febYear) - 70) * 10000 + 1231;
+				나이_위탁아동 = Number(Number(febYear) - 18) * 10000 + 101;
+			    
+			    // 계약아이디가 없으면 메인으로 튕겨내기
+			    if ((contractId.length <=  0) || (contractId === undefined) || (contractId === 'undefined')) {
+			      	alert( '사용불가 메뉴 입니다. 기본설정값을 확인 해주세요' );
+			      	location.href = "/";
+			    } else {
+			      	userID = getCookie('userId');
+			      	isAllchkShow = false;
+			      	getUserEditCheck();
+			    }
+			}
+
+			// 근로자 데이터 입력 및 수정 여부 체크
+			function getUserEditCheck(){
+
+				getEmpStatus();
+			}
+
+			function getEmpStatus(){
+
+				var url = rootPath + 'febworker/getYE000ChkEdit.do';
+				var params = {
+					'계약ID': contractId,
+					'사용자ID': userID
+				};
+
+				request = $.ajax({
+					url: url,
+			        type: "get",
+			        cache: false,
+			        dataType:"json",
+			        data: params
+			    });
+				
+				request.done(function(res){
+					if ( res['success'] === true ) {
+						workerEditCheck01 = res['data'];
+						if (Number(workerEditCheck01) === 0) {
+							workerEditCheck01 = false;
+						} else {
+							workerEditCheck01 = true;
+						}
+					}
+					
+					getemployeeDinfo();
+				});
+				
+				request.fail(function (request, textStatus, error) {
+					if (request.status=="401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						location.href=rootPath;
+					} else {
+						alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+				        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					}
+				});
+			}	
+
+			function getemployeeDinfo() {
+				  
+				var url = rootPath + 'febworker/getYE000.do';
+				var params = {
+			      '계약ID': contractId,
+			      '사용자ID': userID
+			   	};
+
+				request = $.ajax({
+					url: url,
+			        type: "get",
+			        cache: false,
+			        dataType:"json",
+			        data: params
+			    });
+				
+				request.done(function(res){
+					if ( res['data']['거주구분'] !== '1') {
+				        isAddColumn = false;
+					} else {
+				        isAddColumn = true;
+				    }
+				    contractYear = res['계약년도'];
+
+				    workerEditCheck =  workerEditCheck01;
+
+					if(workerEditCheck){
+						$("#save").removeClass("hidden");
+						$("#addFamily").removeClass("hidden");
+						$("#delFamily").removeClass("hidden");
+					}else{
+						$("#save").addClass("hidden");
+						$("#addFamily").addClass("hidden");
+						$("#delFamily").addClass("hidden");
+					}
+				    
+					getList();
+				});
+				
+				request.fail(function (request, textStatus, error) {
+					if (request.status=="401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						location.href=rootPath;
+					} else {
+						alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+				        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					}
+				});
+			}
+
+			function getList(){
+
+				var url = rootPath + 'febworker/getYE001.do';
+			    var params = {
+					계약ID: contractId,
+					사용자ID: userID,
+					startPage: 0,
+					endPage: 10
+				};
+
+				request = $.ajax({
+					url: url,
+			        type: "get",
+			        cache: false,
+			        dataType:"json",
+			        data: params
+			    });
+				
+				request.done(function(res){
+
+					if(res.success){
+						if($.isEmptyObject(res['data'])){
+							
+						}else{
+							for (index = 0; index < res['data'].length; index++) {
+								res['data'][index]['chk'] = false;
+						        res['data'][index]['dbMode'] = 'R';
+						        if ( res['data'][index]['가족관계'] === '0') {
+						        	res['data'][index]['isdisabled1'] = false;
+						            res['data'][index]['isdisabled2'] = false;
+						            res['data'][index]['isdisabled3'] = true;
+						            res['data'][index]['isdisabled4'] = true;
+						            res['data'][index]['isdisabled5'] = true;
+						            res['data'][index]['isdisabled6'] = false;
+						            res['data'][index]['isdisabled7'] = false
+						        }else{
+						        	res['data'][index]['isdisabled1'] = true;
+						            res['data'][index]['isdisabled2'] = false;
+						            res['data'][index]['isdisabled3'] = false;
+						            res['data'][index]['isdisabled4'] = false;
+						            res['data'][index]['isdisabled5'] = true;
+						            res['data'][index]['isdisabled6'] = false;
+						            res['data'][index]['isdisabled7'] = false;
+						        }
+							}
+							cdLDetail = res['data'];
+							userName = res['data'][0]['empName'];
+							userNO = res['data'][0]['empNo'];
+							adminComment = res['관리자정정사유'];
+							// 총급여
+							totalwage = res['ye040']['총급여'];
+							
+							earnedIncome = res['ye040']['근로소득금액'];
+							
+							defaultset();
+							
+							isChanged = false;
+							//setTimeout(function(){
+							//	isChanged = false;
+							//}, 0)
+
+							setTable();
+						}
+					}
+				});
+				
+				request.fail(function (request, textStatus, error) {
+					if (request.status=="401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						location.href=rootPath;
+					} else {
+						alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+				        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					}
+				});
+			}
+
+			function setTable(){
+		console.log("cdLDetail.length: ", cdLDetail.length);
+				$("#family tbody").find("tr").remove();
+				$.each(cdLDetail, function(i, row) {
+					//if(row['dbMode'] !== 'D'){
+
+						if($("#family tbody tr").length === 0){
+
+							$("#family tbody")
+							.append($('<tr/>')
+								//체크박스
+								.append($('<td/>')
+									.append($('<input>', {type: 'checkbox', name: "chkDel", value: i}))
+									.addClass("chk_area"))
+								//연말관계
+								.append($('<td/>')
+									.append($('<select/>').addClass('NanumSquare_R'))
+									.addClass("value"))
+								//내외국인
+								.append($('<td/>')
+									.append($('<select/>').addClass('NanumSquare_R'))
+									.addClass("value"))
+								//성명
+								.append($('<td/>')
+									.append($('<input/>', {type: 'text'}).addClass('input_txt'))
+									.addClass("value"))
+								//주민등록번호
+								.append($('<td/>')
+									.append($('<input/>', {type: 'text'}).addClass('input_txt'))
+									.addClass("value"))
+								//나이
+								.append($('<td/>').addClass("value"))
+								//기본공제
+								.append($('<td/>')
+									.append($('<select/>').addClass('NanumSquare_R'))
+									.addClass("value"))
+								//부녀자
+								.append($('<td/>')
+									.append($('<select/>').addClass('NanumSquare_R'))
+									.addClass("value"))
+								//한부모
+								.append($('<td/>')
+									.append($('<select/>').addClass('NanumSquare_R'))
+									.addClass("value"))
+								//경로우대
+								.append($('<td/>')
+									.append($('<select/>').addClass('NanumSquare_R'))
+									.addClass("value"))
+								//장애인
+								.append($('<td/>')
+									.append($('<select/>').addClass('NanumSquare_R'))
+									.addClass("value"))
+								//자녀
+								.append($('<td/>')
+									.append($('<select/>').addClass('NanumSquare_R'))
+									.addClass("value"))
+								//출산입양
+								.append($('<td/>')
+									.append($('<select/>').addClass('NanumSquare_R'))
+									.addClass("value"))
+							)
+
+							$newitem = $("#family tbody tr:first");
+							
+							if(row['가족관계'] === '0'){
+								$newitem.find("td:eq(1) select").append($('<option/>', {
+									value: "",
+							        text : "" 
+								}));
+								$.each(selectOptionPersonallyselectOptionPersonally, function(index, data) {
+									$newitem.find("td:eq(1) select").append($('<option/>', {
+										value: data.value,
+								        text : data.label 
+									}));
+								});
+							}else{
+								$newitem.find("td:eq(1) select").append($('<option/>', {
+									value: "",
+							        text : "" 
+								}));
+								$.each(selectOptionFamily, function(index, data) {
+									$newitem.find("td:eq(1) select").append($('<option/>', {
+										value: data.value,
+								        text : data.label 
+									}));
+								});
+							}
+
+							$.each(selectOptionNation, function(index, data) {
+								$newitem.find("td:eq(2) select").append($('<option/>', {
+									value: data.value,
+							        text : data.label 
+								}));
+							});
+							
+							$.each(selectOptionYN, function(index, data) {
+								$newitem.find("td:eq(6) select").append($('<option/>', {
+									value: data.value,
+							        text : data.label 
+								}));
+							});
+							
+							$.each(selectOptionYN, function(index, data) {
+								$newitem.find("td:eq(7) select").append($('<option/>', {
+									value: data.value,
+							        text : data.label 
+								}));
+							});
+							
+							$.each(selectOptionYN, function(index, data) {
+								$newitem.find("td:eq(8) select").append($('<option/>', {
+									value: data.value,
+							        text : data.label 
+								}));
+							});
+							
+							$.each(selectOptionYN, function(index, data) {
+								$newitem.find("td:eq(9) select").append($('<option/>', {
+									value: data.value,
+							        text : data.label 
+								}));
+							});
+							
+							$.each(selectOptionDisabled, function(index, data) {
+								$newitem.find("td:eq(10) select").append($('<option/>', {
+									value: data.value,
+							        text : data.label 
+								}));
+							});
+							
+							$.each(selectOptionYN, function(index, data) {
+								$newitem.find("td:eq(11) select").append($('<option/>', {
+									value: data.value,
+							        text : data.label 
+								}));
+							});
+							
+							$.each(selectOptionChildbirth, function(index, data) {
+								$newitem.find("td:eq(12) select").append($('<option/>', {
+									value: data.value,
+							        text : data.label 
+								}));
+							});
+
+							$newitem.find("td:eq(3) input[type=checkbox]").val(i);
+							$newitem.find("td:eq(1) select").val(row['가족관계']).prop("selected", true);
+							$newitem.find("td:eq(2) select").val(row['내외국인']).prop("selected", true);
+							$newitem.find("td:eq(3) input[type=text]").val(row['성명']);
+							$newitem.find("td:eq(4) input[type=text]").val(row['개인식별번호']);
+							$newitem.find("td:eq(5)").text(row['나이']);
+							$newitem.find("td:eq(6) select").val(row['기본공제']).prop("selected", true);
+							$newitem.find("td:eq(7) select").val(row['부녀자']).prop("selected", true);
+							$newitem.find("td:eq(8) select").val(row['한부모']).prop("selected", true);
+							$newitem.find("td:eq(9) select").val(row['경로우대']).prop("selected", true);
+							$newitem.find("td:eq(10) select").val(row['장애인']).prop("selected", true);
+							$newitem.find("td:eq(11) select").val(row['자녀']).prop("selected", true);
+							$newitem.find("td:eq(12) select").val(row['출산입양']).prop("selected", true);
+							
+							if(row['가족관계'] === '0'){
+								$newitem.find("td:eq(0) input[type=checkbox]").attr("disabled", true);
+								$newitem.find("td:eq(1) select").prop("disabled", 'disabled');
+								$newitem.find("td:eq(2) select").prop("disabled", 'disabled');
+								$newitem.find("td:eq(3) input[type=text]").attr("disabled", true);
+								$newitem.find("td:eq(4) input[type=text]").attr("disabled", true);
+								//$newitem.find("td:eq(6) select").prop("disabled", 'disabled');
+							}
+
+							//근로자 데이터 입력, 수정 불가능
+							if( workerEditCheck == false){
+								$newitem.find("td:eq(0) input[type=checkbox]").attr("disabled", true);	//체크박스
+								$newitem.find("td:eq(1) select").prop("disabled", 'disabled');			//연말관계
+								$newitem.find("td:eq(2) select").prop("disabled", 'disabled');			//내국인
+								$newitem.find("td:eq(3) input[type=text]").attr("disabled", true);		//성명
+								$newitem.find("td:eq(4) input[type=text]").attr("disabled", true);		//주민등록번호
+								$newitem.find("td:eq(6) select").prop("disabled", 'disabled');			//기본공제
+								$newitem.find("td:eq(7) select").prop("disabled", 'disabled');			//부녀자
+								$newitem.find("td:eq(8) select").prop("disabled", 'disabled');			//한부모
+								$newitem.find("td:eq(9) select").prop("disabled", 'disabled');			//경로우대
+								$newitem.find("td:eq(10) select").prop("disabled", 'disabled');			//장애인
+								$newitem.find("td:eq(11) select").prop("disabled", 'disabled');			//자녀
+								$newitem.find("td:eq(12) select").prop("disabled", 'disabled');			//출산입양
+							}else{
+								if(row['isdisabled1'] === false){
+									//$newitem.find("td:eq(6) select").prop("disabled", 'disabled');
+								}
+								if(row['isdisabled2'] === false){
+									//$newitem.find("td:eq(7) select").prop("disabled", 'disabled');
+								}
+								if(row['isdisabled3'] === false){
+									//$newitem.find("td:eq(8) select").prop("disabled", 'disabled');
+								}
+								if(row['isdisabled4'] === false){
+									//$newitem.find("td:eq(9) select").prop("disabled", 'disabled');
+								}
+								if(row['isdisabled5'] === false){
+									//$newitem.find("td:eq(10) select").prop("disabled", 'disabled');
+								}
+								if(row['isdisabled6'] === false){
+									//$newitem.find("td:eq(11) select").prop("disabled", 'disabled');
+								}
+								if(row['isdisabled7'] === false){
+									//$newitem.find("td:eq(12) select").prop("disabled", 'disabled');
+								}
+							}
+
+							if(row['dbMode'] === 'D'){
+								$newitem.addClass("hidden");
+							}
+							
+						}else{
+							var $newitem = $("#family tbody tr:first").clone();
+						    $newitem.removeClass();
+
+						    //복사해온 값 제거
+						    $newitem.find("td:eq(1) select").val("").prop("selected", true);
+						    $newitem.find("td:eq(2) select").val("").prop("selected", true);
+						    $newitem.find("td:eq(3) input[type=text]").val("");
+						    $newitem.find("td:eq(4) input[type=text]").val("");
+						    $newitem.find("td:eq(5)").text("");
+						    $newitem.find("td:eq(6) select").val("").prop("selected", true);
+						    $newitem.find("td:eq(7) select").val("").prop("selected", true);
+						    $newitem.find("td:eq(8) select").val("").prop("selected", true);
+						    $newitem.find("td:eq(9) select").val("").prop("selected", true);
+						    $newitem.find("td:eq(10) select").val("").prop("selected", true);
+						    $newitem.find("td:eq(11) select").val("").prop("selected", true);
+						    $newitem.find("td:eq(12) select").val("").prop("selected", true);
+						    
+						    $newitem.find("td:eq(1) select option").remove();
+						    if(row['가족관계'] === '0'){
+						    	$newitem.find("td:eq(1) select").append($('<option/>', {
+									value: "",
+							        text : "" 
+								}));
+								$.each(selectOptionPersonallyselectOptionPersonally, function(index, data) {
+									$newitem.find("td:eq(1) select").append($('<option/>', {
+										value: data.value,
+								        text : data.label 
+									}));
+								});
+							}else{
+								$newitem.find("td:eq(1) select").append($('<option/>', {
+									value: "",
+							        text : "" 
+								}));
+								$.each(selectOptionFamily, function(index, data) {
+									$newitem.find("td:eq(1) select").append($('<option/>', {
+										value: data.value,
+								        text : data.label 
+									}));
+								});
+							}
+
+						    $newitem.find("td:eq(0) input[type=checkbox]").val(i);
+						    $newitem.find("td:eq(1) select").val(row['가족관계']).prop("selected", true);
+						    $newitem.find("td:eq(2) select").val(row['내외국인']).prop("selected", true);
+						    $newitem.find("td:eq(3) input[type=text]").val(row['성명']);
+						    $newitem.find("td:eq(4) input[type=text]").val(row['개인식별번호']);
+						    $newitem.find("td:eq(5)").text(row['나이']);
+						    $newitem.find("td:eq(6) select").val(row['기본공제']).prop("selected", true);
+						    $newitem.find("td:eq(7) select").val(row['부녀자']).prop("selected", true);
+						    $newitem.find("td:eq(8) select").val(row['한부모']).prop("selected", true);
+						    $newitem.find("td:eq(9) select").val(row['경로우대']).prop("selected", true);
+						    $newitem.find("td:eq(10) select").val(row['장애인']).prop("selected", true);
+						    $newitem.find("td:eq(11) select").val(row['자녀']).prop("selected", true);
+						    $newitem.find("td:eq(12) select").val(row['출산입양']).prop("selected", true);
+
+							//근로자 데이터 입력, 수정 불가능
+						    if( workerEditCheck == false){
+						    	$newitem.find("td:eq(0) input[type=checkbox]").attr("disabled", true);	//체크박스
+						    	$newitem.find("td:eq(1) select").prop("disabled", 'disabled');			//연말관계
+						    	$newitem.find("td:eq(2) select").prop("disabled", 'disabled');			//내국인
+						    	$newitem.find("td:eq(3) input[type=text]").attr("disabled", true).prop('maxLength', 30);		//성명
+						    	$newitem.find("td:eq(4) input[type=text]").attr("disabled", true).prop('maxLength', 13);		//주민등록번호
+						    	$newitem.find("td:eq(6) select").prop("disabled", 'disabled');			//기본공제
+						    	$newitem.find("td:eq(7) select").prop("disabled", 'disabled');			//부녀자
+						    	$newitem.find("td:eq(8) select").prop("disabled", 'disabled');			//한부모
+						    	$newitem.find("td:eq(9) select").prop("disabled", 'disabled');			//경로우대
+						    	$newitem.find("td:eq(10) select").prop("disabled", 'disabled');			//장애인
+						    	$newitem.find("td:eq(11) select").prop("disabled", 'disabled');			//자녀
+						    	$newitem.find("td:eq(12) select").prop("disabled", 'disabled');			//출산입양
+							}else{
+								
+								if(row['가족관계'] === '0'){
+									$newitem.find("td:eq(0) input[type=checkbox]").attr("disabled", true);
+									$newitem.find("td:eq(1) select").prop("disabled", 'disabled');
+									$newitem.find("td:eq(2) select").prop("disabled", 'disabled');
+									$newitem.find("td:eq(3) input[type=text]").attr("disabled", true).prop('maxLength', 30);
+									$newitem.find("td:eq(4) input[type=text]").attr("disabled", true).prop('maxLength', 13);
+									//$newitem.find("td:eq(6) select").prop("disabled", 'disabled');
+								}else{
+									$newitem.find("td:eq(0) input[type=checkbox]").attr("disabled", false);
+									$newitem.find("td:eq(1) select").removeAttr("disabled");
+									$newitem.find("td:eq(2) select").removeAttr("disabled");
+									$newitem.find("td:eq(3) input[type=text]").attr("disabled", false).prop('maxLength', 30);
+									$newitem.find("td:eq(4) input[type=text]").attr("disabled", false).prop('maxLength', 13);
+									$newitem.find("td:eq(6) select").removeAttr("disabled");
+								}
+								
+								if(row['isdisabled1'] === false){
+									//$newitem.find("td:eq(6) select").prop("disabled", 'disabled');
+								}else{
+									//$newitem.find("td:eq(6) select").removeAttr("disabled");
+								}
+								
+								if(row['isdisabled2'] === false){
+									//$newitem.find("td:eq(7) select").prop("disabled", 'disabled');
+								}else{
+									//$newitem.find("td:eq(7) select").removeAttr("disabled");
+								}
+								
+								if(row['isdisabled3'] === false){
+									//$newitem.find("td:eq(8) select").prop("disabled", 'disabled');
+								}else{
+									//$newitem.find("td:eq(8) select").removeAttr("disabled");
+								}
+								
+								if(row['isdisabled4'] === false){
+									//$newitem.find("td:eq(9) select").prop("disabled", 'disabled');
+								}else{
+									//$newitem.find("td:eq(9) select").removeAttr("disabled");
+								}
+								
+								if(row['isdisabled5'] === false){
+									//$newitem.find("td:eq(10) select").prop("disabled", 'disabled');
+								}else{
+									//$newitem.find("td:eq(10) select").removeAttr("disabled");
+								}
+								
+								if(row['isdisabled6'] === false){
+									//$newitem.find("td:eq(11) select").prop("disabled", 'disabled');
+								}else{
+									//$newitem.find("td:eq(11) select").removeAttr("disabled");
+								}
+								
+								if(row['isdisabled7'] === false){
+									//$newitem.find("td:eq(12) select").prop("disabled", 'disabled');
+								}else{
+									//$newitem.find("td:eq(12) select").removeAttr("disabled");
+								}
+								
+							}
+
+						    if(row['dbMode'] === 'D'){
+								$newitem.addClass("hidden");
+							}
+							
+						    $("#family tbody").append($newitem);
+						}
+					//}
+				})
+			}
+			
+			function defaultset(){
+				for (index = 0; index < cdLDetail.length; index++) {
+					if ( cdLDetail[index]['가족관계'] === '0' ) {
+						junoCode = cdLDetail[index]['개인식별번호'].substr(6, 1);
+						if (junoCode === '2' || junoCode === '4') {
+							// 3000만원 이하만 부녀자 선택이 가능함
+							if ( earnedIncome < 30000000 ) {
+								if (cdLDetail[index]['한부모'] === '2') {
+									cdLDetail[index]['isdisabled2'] = true;
+									//$("#family tbody tr:eq(" + index + ") td:eq(8) select").attr("disabled", false);
+								} else {
+									cdLDetail[index]['isdisabled2'] = false;
+									//$("#family tbody tr:eq(" + index + ") td:eq(8) select").attr("disabled", true);
+								}
+							} else {
+								cdLDetail[index]['isdisabled2'] = false;
+								//$("#family tbody tr:eq(" + index + ") td:eq(8) select").attr("disabled", true);
+							}
+						} else {
+							cdLDetail[index]['isdisabled2'] = false;
+							//$("#family tbody tr:eq(" + index + ") td:eq(8) select").attr("disabled", true);
+						}
+						if (cdLDetail[index]['부녀자'] === '2') {
+							cdLDetail[index]['isdisabled3'] = true;
+							//$("#family tbody tr:eq(" + index + ") td:eq(7) select").attr("disabled", false);
+						} else {
+							cdLDetail[index]['isdisabled3'] = false;
+							//$("#family tbody tr:eq(" + index + ") td:eq(7) select").attr("disabled", true);
+						}
+					}
+
+					if (cdLDetail[index]['기본공제'] === '2') {
+						// 장애인 - 기본공제 항목이 1.Y인 경우만 활성화
+						cdLDetail[index]['isdisabled5'] = false;
+						//$("#family tbody tr:eq(" + index + ") td:eq(10) select").attr("disabled", true);
+					}else{
+						//$("#family tbody tr:eq(" + index + ") td:eq(10) select").attr("disabled", false);
+					}
+					if (cdLDetail[index]['기본공제'] === '1') {
+						// 장애인 - 기본공제 항목이 1.Y인 경우만 활성화
+						cdLDetail[index]['isdisabled5'] = true;
+						//$("#family tbody tr:eq(" + index + ") td:eq(10) select").attr("disabled", false);
+						// 자녀 - 연말관계 4, 8이고 기본공제 항목이 1.Y인 경우만 활성화
+						if (cdLDetail[index]['가족관계'] === '4' || cdLDetail[index]['가족관계'] === '8') {
+							cdLDetail[index]['isdisabled7'] = true;
+							//$("#family tbody tr:eq(" + index + ") td:eq(12) select").attr("disabled", false);
+						}
+						// 연말관계 4이고 기본공제 항목이 1.Y인 경우만 활성화
+						if (cdLDetail[index]['가족관계'] === '4') {
+							cdLDetail[index]['isdisabled6'] = true;
+							//$("#family tbody tr:eq(" + index + ") td:eq(11) select").attr("disabled", false);
+						}else{
+							//$("#family tbody tr:eq(" + index + ") td:eq(11) select").attr("disabled", true);
+						}
+					}
+				}
+			}
+
+			function addFamily() {	   
+
+				if (isAddColumn === false) {
+					alert('비거주 근로자인 경우는 본인 외 부양가족 공제를 받을 수 없습니다.');
+					return false;
+				}
+				
+			    var DetailNew = {
+					'계약ID':  contractId,
+					'사용자ID': userID ,
+					'code': '',
+					'empName': userName,
+					'empNo': userNO,
+					'positionName': '',
+					'ye001SubList': [],
+					'가족관계': '',
+					'내외국인': '1',
+					'성명': '',
+					'개인식별번호': '',
+					'나이': '',
+					'기본공제': '2',
+					'부녀자': '2',
+					'한부모': '2',
+					'경로우대': '2',
+					'장애인': '4',
+					'자녀': '2',
+					'출산입양': '4',
+					'사업장ID': '',
+					'isdisabled1': true,
+					'isdisabled2': false,
+					'isdisabled3': false,
+					'isdisabled4': false,
+					'isdisabled5': true,
+					'isdisabled6': false,
+					'isdisabled7': false,
+					'dbMode': 'C',
+					'chk': false
+				};
+
+				cdLDetail.push( DetailNew );
+
+				if($("#family tbody tr").length === 0){
+
+					$("#family tbody")
+					.append($('<tr/>')
+						//체크박스
+						.append($('<td/>')
+							.append($('<input>', {type: 'checkbox', name: "chkDel", value: cdLDetail.length -1}))
+							.addClass("chk_area"))
+						//연말관계
+						.append($('<td/>')
+							.append($('<select/>').addClass('NanumSquare_R'))
+							.addClass("value"))
+						//내외국인
+						.append($('<td/>')
+							.append($('<select/>').addClass('NanumSquare_R'))
+							.addClass("value"))
+						//성명
+						.append($('<td/>')
+							.append($('<input/>', {type: 'text'}).addClass('input_txt'))
+							.addClass("value"))
+						//주민등록번호
+						.append($('<td/>')
+							.append($('<input/>', {type: 'text'}).addClass('input_txt'))
+							.addClass("value"))
+						//나이
+						.append($('<td/>').addClass("value"))
+						//기본공제
+						.append($('<td/>')
+							.append($('<select/>').addClass('NanumSquare_R'))
+							.addClass("value"))
+						//부녀자
+						.append($('<td/>')
+							.append($('<select/>').addClass('NanumSquare_R'))
+							.addClass("value"))
+						//한부모
+						.append($('<td/>')
+							.append($('<select/>').addClass('NanumSquare_R'))
+							.addClass("value"))
+						//경로우대
+						.append($('<td/>')
+							.append($('<select/>').addClass('NanumSquare_R'))
+							.addClass("value"))
+						//장애인
+						.append($('<td/>')
+							.append($('<select/>').addClass('NanumSquare_R'))
+							.addClass("value"))
+						//자녀
+						.append($('<td/>')
+							.append($('<select/>').addClass('NanumSquare_R'))
+							.addClass("value"))
+						//출산입양
+						.append($('<td/>')
+							.append($('<select/>').addClass('NanumSquare_R'))
+							.addClass("value"))
+					)
+
+					$newitem = $("#family tbody tr:first");
+
+					if(row['가족관계'] === '0'){
+						$newitem.find("td:eq(1) select").append($('<option/>', {
+							value: "",
+					        text : "" 
+						}));
+						$.each(selectOptionPersonallyselectOptionPersonally, function(index, data) {
+							$newitem.find("td:eq(1) select").append($('<option/>', {
+								value: data.value,
+						        text : data.label 
+							}));
+						});
+					}else{
+						$newitem.find("td:eq(1) select").append($('<option/>', {
+							value: "",
+					        text : "" 
+						}));
+						$.each(selectOptionFamily, function(index, data) {
+							$newitem.find("td:eq(1) select").append($('<option/>', {
+								value: data.value,
+						        text : data.label 
+							}));
+						});
+					}
+
+					$.each(selectOptionNation, function(index, data) {
+						$newitem.find("td:eq(2) select").append($('<option/>', {
+							value: data.value,
+					        text : data.label 
+						}));
+					});
+					
+					$.each(selectOptionYN, function(index, data) {
+						$newitem.find("td:eq(6) select").append($('<option/>', {
+							value: data.value,
+					        text : data.label 
+						}));
+					});
+					
+					$.each(selectOptionYN, function(index, data) {
+						$newitem.find("td:eq(7) select").append($('<option/>', {
+							value: data.value,
+					        text : data.label 
+						}));
+					});
+					
+					$.each(selectOptionYN, function(index, data) {
+						$newitem.find("td:eq(8) select").append($('<option/>', {
+							value: data.value,
+					        text : data.label 
+						}));
+					});
+					
+					$.each(selectOptionYN, function(index, data) {
+						$newitem.find("td:eq(9) select").append($('<option/>', {
+							value: data.value,
+					        text : data.label 
+						}));
+					});
+					
+					$.each(selectOptionDisabled, function(index, data) {
+						$newitem.find("td:eq(10) select").append($('<option/>', {
+							value: data.value,
+					        text : data.label 
+						}));
+					});
+					
+					$.each(selectOptionYN, function(index, data) {
+						$newitem.find("td:eq(11) select").append($('<option/>', {
+							value: data.value,
+					        text : data.label 
+						}));
+					});
+					
+					$.each(selectOptionChildbirth, function(index, data) {
+						$newitem.find("td:eq(12) select").append($('<option/>', {
+							value: data.value,
+					        text : data.label 
+						}));
+					});
+
+					//근로자 데이터 입력, 수정 불가능
+					if( workerEditCheck == false){
+						$newitem.find("td:eq(0) input[type=checkbox]").attr("disabled", true);	//체크박스
+						$newitem.find("td:eq(1) select").prop("disabled", 'disabled');			//연말관계
+						$newitem.find("td:eq(2) select").prop("disabled", 'disabled');			//내국인
+						$newitem.find("td:eq(3) input[type=text]").attr("disabled", true);		//성명
+						$newitem.find("td:eq(4) input[type=text]").attr("disabled", true);		//주민등록번호
+						$newitem.find("td:eq(6) select").prop("disabled", 'disabled');			//기본공제
+						$newitem.find("td:eq(7) select").prop("disabled", 'disabled');			//부녀자
+						$newitem.find("td:eq(8) select").prop("disabled", 'disabled');			//한부모
+						$newitem.find("td:eq(9) select").prop("disabled", 'disabled');			//경로우대
+						$newitem.find("td:eq(10) select").prop("disabled", 'disabled');			//장애인
+						$newitem.find("td:eq(11) select").prop("disabled", 'disabled');			//자녀
+						$newitem.find("td:eq(12) select").prop("disabled", 'disabled');			//출산입양
+					}
+
+				}else{
+					var $newitem = $("#family tbody tr:first").clone();
+				    $newitem.removeClass();
+
+				    $newitem.find("td:eq(1) select option").remove();
+					
+					// 선택하세요 option 추가
+					$newitem.find("td:eq(1) select").append($('<option/>', {
+						value: '',
+				        text : '선택하세요.' 
+					}));
+					$.each(selectOptionFamily, function(index, data) {
+						$newitem.find("td:eq(1) select").append($('<option/>', {
+							value: data.value,
+					        text : data.label 
+						}));
+					});
+				    
+				    //기본값 세팅
+				    $newitem.find("td:eq(0) input[type=checkbox]").val(cdLDetail.length -1);
+				    $newitem.find("td:eq(1) select").val("").prop("selected", true);
+				    $newitem.find("td:eq(2) select").val("1").prop("selected", true);
+				    $newitem.find("td:eq(3) input[type=text]").val("");
+				    $newitem.find("td:eq(4) input[type=text]").val("");
+				    $newitem.find("td:eq(5)").text("");
+				    $newitem.find("td:eq(6) select").val("2").prop("selected", true);
+				    $newitem.find("td:eq(7) select").val("2").prop("selected", true);
+				    $newitem.find("td:eq(8) select").val("2").prop("selected", true);
+				    $newitem.find("td:eq(9) select").val("2").prop("selected", true);
+				    $newitem.find("td:eq(10) select").val("4").prop("selected", true);
+				    $newitem.find("td:eq(11) select").val("2").prop("selected", true);
+				    $newitem.find("td:eq(12) select").val("4").prop("selected", true);
+
+					//근로자 데이터 입력, 수정 불가능
+				    if( workerEditCheck == false){
+				    	$newitem.find("td:eq(0) input[type=checkbox]").attr("disabled", true);	//체크박스
+				    	$newitem.find("td:eq(1) select").prop("disabled", 'disabled');			//연말관계
+				    	$newitem.find("td:eq(2) select").prop("disabled", 'disabled');			//내국인
+				    	$newitem.find("td:eq(3) input[type=text]").attr("disabled", true);		//성명
+				    	$newitem.find("td:eq(4) input[type=text]").attr("disabled", true);		//주민등록번호
+				    	$newitem.find("td:eq(6) select").prop("disabled", 'disabled');			//기본공제
+				    	$newitem.find("td:eq(7) select").prop("disabled", 'disabled');			//부녀자
+				    	$newitem.find("td:eq(8) select").prop("disabled", 'disabled');			//한부모
+				    	$newitem.find("td:eq(9) select").prop("disabled", 'disabled');			//경로우대
+				    	$newitem.find("td:eq(10) select").prop("disabled", 'disabled');			//장애인
+				    	$newitem.find("td:eq(11) select").prop("disabled", 'disabled');			//자녀
+				    	$newitem.find("td:eq(12) select").prop("disabled", 'disabled');			//출산입양
+					}else{
+				    	$newitem.find("td:eq(0) input[type=checkbox]").attr("disabled", false);	//체크박스
+				    	$newitem.find("td:eq(1) select").removeAttr("disabled");				//연말관계
+				    	$newitem.find("td:eq(2) select").removeAttr("disabled");				//내국인
+				    	$newitem.find("td:eq(3) input[type=text]").attr("disabled", false).prop('maxLength', 30);		//성명
+				    	$newitem.find("td:eq(4) input[type=text]").attr("disabled", false).prop('maxLength', 13);		//주민등록번호
+				    	//$newitem.find("td:eq(6) select").removeAttr("disabled");				//기본공제
+				    	//$newitem.find("td:eq(7) select").prop("disabled", 'disabled');				//부녀자
+				    	//$newitem.find("td:eq(8) select").prop("disabled", 'disabled');				//한부모
+				    	//$newitem.find("td:eq(9) select").prop("disabled", 'disabled');				//경로우대
+				    	//$newitem.find("td:eq(10) select").removeAttr("disabled");				//장애인
+				    	//$newitem.find("td:eq(11) select").prop("disabled", 'disabled');				//자녀
+				    	//$newitem.find("td:eq(12) select").prop("disabled", 'disabled');				//출산입양
+					}
+
+				    $("#family tbody").append($newitem);
+				}
+			};
+			
+			function delFamily() {
+		console.log("1. cdLDetail.length: ", cdLDetail.length);
+				if($("#family tbody input[name=chkDel]:checkbox:checked").get().length < 1){
+					alert("삭제할 데이터를 선택해 주세요");
+					return false;
+				}
+
+				if (confirm('선택한 데이터를 삭제하시겠습니까?')) {
+					var delindex = [];
+					$( $("#family tbody input[name=chkDel]:checkbox:checked").get().reverse() ).each(function() {
+						var $me = $(this)
+						var selIndex = Number($me.val());
+
+						cdLDetail[selIndex]['chk'] = true;
+						if(cdLDetail[selIndex]['dbMode'] === 'R' || cdLDetail[selIndex]['dbMode'] === 'U' ){
+							cdLDetail[selIndex]['dbMode'] = 'D';
+							$me.parent().parent().addClass("hidden");
+						}else if(cdLDetail[selIndex]['dbMode'] === 'C'){
+							delindex.push(selIndex);
+
+							$me.parent().parent().remove();
+						}
+
+						//$me.parent().parent().remove();
+					})
+					
+					if (delindex.length > 0) {
+						for(i = 0; i < delindex.length; i++){
+							//cdLDetail.splice(delindex[i - 1], 1);
+
+							cdLDetail.splice(delindex[i], 1);
+						}
+					}
+					cdLDetail[0]['dbMode'] = 'U';
+					setTable();
+				}
+			};
+			
+		   function allCheck(rrn){
+		       if (rrnCheck(rrn) || fgnCheck(rrn) || bznCheck(rrn) || bzSanCheck(rrn)) {
+		           return true;
+		       }
+
+		       return false;
+		   }
+
+		   function rrnCheck(rrn){
+
+		       var sum = 0;
+
+		       if (rrn.length != 13) {
+		           return false;
+		       } else if (rrn.substr(6, 1) != 1 && rrn.substr(6, 1) != 2 && rrn.substr(6, 1) != 3 && rrn.substr(6, 1) != 4) {
+		           return false;
+		       }
+
+		       for (var i = 0; i < 12; i++) {
+		           sum += Number(rrn.substr(i, 1)) * ((i % 8) + 2);
+		       }
+
+		       if (((11 - (sum % 11)) % 10) == Number(rrn.substr(12, 1))) {
+		           return true;
+		       }
+
+		       return false;
+
+		   }
+			
+		   function fgnCheck(fgnno){
+			      var sum = 0;
+			      if (fgnno.length != 13) {
+			          return false;
+			      } else if (fgnno.substr(6, 1) != 5 && fgnno.substr(6, 1) != 6 && fgnno.substr(6, 1) != 7 && fgnno.substr(6, 1) != 8) {
+			          return false;
+			      }
+			      if (Number(fgnno.substr(7, 2)) % 2 != 0) {
+			          return false;
+			      }
+			      for (var i = 0; i < 12; i++) {
+			          sum += Number(fgnno.substr(i, 1)) * ((i % 8) + 2);
+			      }
+			      if ((((11 - (sum % 11)) % 10 + 2) % 10) == Number(fgnno.substr(12, 1))) {
+			          return true;
+			      }
+			      return false;
+
+			}
+
+			function bzSanCheck(n) {
+			        re = /-/g;
+			        bizID = n.replace(re,'');
+			        checkID = new Array(1, 3, 7, 1, 3, 7, 1, 3, 5, 1);
+			        var tmpBizID, i, chkSum=0, c2, remander;
+
+			        for (i=0; i<=7; i++){
+			        chkSum += checkID[i] * bizID.charAt(i);
+			        }
+
+			        c2 = "0" + (checkID[8] * bizID.charAt(8));
+			        c2 = c2.substring(c2.length - 2, c2.length);
+
+			        chkSum += Math.floor(c2.charAt(0)) + Math.floor(c2.charAt(1));
+
+			        remander = (10 - (chkSum % 10)) % 10 ;
+
+			        if (Math.floor(bizID.charAt(9)) == remander){
+			        return true; // OK!
+			        }
+			        return false;
+			}
+
+		    function bznCheck(bubinNum){
+
+		        var as_Biz_no = String(bubinNum);
+		        var I_TEMP_SUM = 0;
+		        var I_CHK_DIGIT = 0;
+
+		        if (bubinNum.length != 13) {
+		            return false;
+		        }
+
+		        for(index01 = 1; index01 < 13; index01++) {
+		            i = index01 % 2;
+		            j = 0;
+
+		            if (i == 1) {
+		                j = 1;
+
+		            } else if (i == 0) {
+		                j = 2;
+
+		            }
+
+		            I_TEMP_SUM = I_TEMP_SUM + parseInt(as_Biz_no.substring(index01 - 1, index01), 10) * j;
+		        }
+
+		        I_CHK_DIGIT = I_TEMP_SUM % 10;
+
+		        if (I_CHK_DIGIT != 0) {
+		            I_CHK_DIGIT = 10 - I_CHK_DIGIT;
+		        }
+
+		        if (as_Biz_no.substring(12, 13) != String(I_CHK_DIGIT)) {
+		            return false;
+
+		        } else {
+		            return true;
+
+		        }
+
+		    }
+		    
+			function attachFile() {
+				window.open(rootPath + 'html/feb/e_yearTax_popup_attachmentFile.html?userId=' + userID + '&deductCode=1', '부양가족', 'width=540, height=460, location=no, menubar=no, status=no, scrollbars=no, toolbar=no');
+			}
+			
+			function callQnaPop(typeQna) {
+				openWin (rootPath + 'html/bbs/board_question_popup.html?windowCode=' + typeQna, '문의하기', '905', '730');
+			}
+			  
+			  // open window
+			function openWin (url, name, width, height) {
+				if (typeof width === 'undefined' || width === 0) { width = screen.width - 20; }
+			    if (typeof height === 'undefined' || height === 0) { height = screen.height - 100; }
+			    window.open(url, name, 'width=' + width + ', height=' + height + ', location=no, menubar=no, status=no, scrollbars=no, toolbar=no');
+			}
+
+		</script>

@@ -1,0 +1,1494 @@
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+	<div id="yearTax_wrap" class="yearTax easy">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연말정산 >  </span><span class="loc_sub NanumSquare_R">소득확인</span></div>
+			
+			<div class="process_wrap mask">
+				<div class="stepBar"> 
+					<div class="box current">
+						<div class="process-step NanumSquare_R">
+							<div class="bar"><span class="line"></span><span class="no">1</span></div>
+							<div class="process-panel">
+									<span class="icon"></span>
+									<span class="name NanumRound">소득확인</span>	
+							</div>
+							<div class="process-arrow"></div>
+						</div>
+					</div>
+					<div class="box">
+						<div class="process-step NanumSquare_R">
+							<div class="bar"><span class="line"></span><span class="no">2</span></div>
+							<div class="process-panel">
+								<span class="icon"></span>
+								<span class="name NanumRound">부양가족</span>
+							</div>
+							<div class="process-arrow"></div>
+						</div>
+					</div>
+					<div class="box">
+						<div class="process-step NanumSquare_R">
+							<div class="bar"><span class="line"></span><span class="no">3</span></div>
+							<div class="process-panel">
+								<span class="icon"></span>
+								<span class="name NanumRound">지출내역 확인</span>
+							</div>
+							<div class="process-arrow"></div>
+						</div>
+					</div>
+					<div class="box">
+						<div class="process-step NanumSquare_R">
+							<div class="bar"><span class="line"></span><span class="no">4</span></div>
+							<div class="process-panel">
+								<span class="icon"></span>
+								<span class="name NanumRound">추가서류 제출</span>
+							</div>
+							<div class="process-arrow"></div>
+						</div>
+					</div>
+					<div class="box">
+						<div class="process-step NanumSquare_R">
+							<div class="bar"><span class="line"></span><span class="no">5</span></div>
+							<div class="process-panel">
+								<span class="icon"></span>
+								<span class="name NanumRound">연말정산 요약</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div> <!--  process_wrap -->
+				
+			<div class="pagtit">
+				<span class="NanumSquare_R">소득명세</span>
+				<ul class="top_items NanumSquare_R">
+					<li><a class="btn_type btn_reCount">재 집계 <span class="icon icon_reCount"></span></a></li>
+				</ul>
+			</div>
+			
+			<div class="contents">
+				<div class="notice_wrap bg_skyblue ">
+					<div class="notice_tit NanumGothic h_45">
+						<span class="txt col_black font_20 userName" id="empName"> </span><span class="txt col_black font_20" id="year">님의 2018년</span><span class="txt col_skyblue font_20 boxunderline">귀속 소득명세합계</span><span  class="txt col_black font_20"> 입니다.</span>
+						<div class="btns">
+							<a class="btn_type NanumSquare_R" onClick="javascript:callQnaPop('W412')">문의 </a>
+						</div>
+					</div>
+					<div class="notice_con NanumSquare_R sort_center">
+						<div class="summery">
+							<div class="align box" id="year2">2018년 귀속 소득 명세 합계</div>
+							<div class="align data" id="종전근무지">종전근무지 2건</div>
+						</div>
+					</div>
+				</div>
+				<div class="explain_wrap"><span class="NanumSquare_R col_darkblue">※ 하기 금액은 기초등록의 소득 정보로 작성된 내역이므로 기초등록을 수정하는 경우 변경될 수 있습니다.</span></div>
+					
+				
+				<!--  nonbot : borer-bottom 삭제 -->
+				<div class="group_column NanumSquare_R">
+					<ul class="fix_column">
+						<li class="thead text_center">구분</li>
+						<li class="tbody tit">근무처명</li>
+						<li class="tbody tit">사업자등록번호</li>
+						<li class="tbody tit">근무기간</li>
+						<li class="tbody nonbot tit">감면기간</li>
+						<li class="tbody borTnb sum">총급여</li>
+						
+						<li class="tbody tit 급여">급여</li>
+						<li class="tbody tit 상여">상여</li>
+						<li class="tbody tit 인정상여">인정상여</li>
+						<li class="tbody tit 주식매수선택권행사이익">주식매수선택권행사이익</li>
+						<li class="tbody tit 우리사주조합인출금">우리사주조합인출금</li>
+						<li class="tbody tit 임원퇴직소득금액한도초과액">임원퇴직소득금액한도초과액</li>
+						<li class="tbody tit 직무발명보상금">직무발명보상금</li>
+
+						<li class="tbody nonbot tit">비과세 한도초과액</li>
+						<li class="tbody borTnb sum">비과세 합계</li>
+						<li class="tbody tit m01">국외근로(월 100만원)</li>
+						<li class="tbody tit m02">국외근로(월 300만원)</li>
+						<li class="tbody tit m03">국외근로(전액)</li>
+						<li class="tbody tit o01">야간근로수당</li>
+						<li class="tbody tit q01">출산보육수당</li>
+						<li class="tbody tit h08">특별법 연구보조비</li>
+						<li class="tbody tit h09">연구기관 등 연구보조비</li>
+						<li class="tbody tit h10">기업부설연구소 연구보조비</li>
+						<li class="tbody tit g01">비과세학자금</li>
+						<li class="tbody tit h11">취재수당</li>
+						<li class="tbody tit h12">벽지수당</li>
+						<li class="tbody tit h13">재해관련급여</li>
+						<li class="tbody tit h01">무보수위원수당</li>
+						<li class="tbody tit k01">외국주둔군인등</li>
+						<li class="tbody tit s01">주식매수선택권</li>
+						<li class="tbody tit y02">우리사주조합인출금50%</li>
+						<li class="tbody tit y03">우리사주조합인출금70%</li>
+						<li class="tbody tit y04">우리사주조합인출금100%</li>
+						<li class="tbody tit h05">경호･승선수당</li>
+						<li class="tbody tit i01">외국정부등근무자</li>
+						<li class="tbody tit r10">근로장학금</li>
+						<li class="tbody tit h14">보육교사 근무환경개선비</li>
+						<li class="tbody tit h15">사립유치원수석교사･교사의 인건비</li>
+						<li class="tbody tit h16">정부･공공기관지방이전기관 종사자 이주수당</li>
+
+						<li class="tbody tit h17">종교활동비</li>
+						<li class="tbody tit u01">벤처기업 주식매수선택권(년 2,000만원)</li>
+
+						<li class="tbody tit r11">직무발명보상금</li>
+						<li class="tbody tit h06">유아･초중등 연구보조비</li>
+						<li class="tbody tit h07">고등교육법 연구보조비</li>
+						<li class="tbody tit y22">전공의 수련 보조 수당</li>
+						<li class="tbody borTnb sum">감면소득 합계</li>
+						<li class="tbody tit t01">외국인기술자</li>
+						<li class="tbody tit t10">중소기업취업청년 소득세 감면100%</li>
+						<li class="tbody tit t11">중소기업취업청년 소득세 감면50%</li>
+						<li class="tbody tit t12">중소기업취업청년 소득세 감면70%</li>
+
+						<li class="tbody tit t13" >중소기업취업청년 소득세 감면90%</li>
+
+						<li class="tbody tit t20" >조세조약상 교직자감면</li>
+						<li class="tbody borTnb sum">공제합계</li>
+						<li class="tbody tit">건강보험료</li>
+						<li class="tbody tit">장기요양보험료</li>
+						<li class="tbody tit">고용보험</li>
+						<li class="tbody nonbot tit">국민연금 보험료</li>
+						<li class="tbody cell_divide borTnb">
+							<div class="block col_merger3 sum"> 기납부 세액</div>
+							<div class="block">
+								<div class="cell-child tit">소득세</div>
+								<div class="cell-child tit">지방소득세</div>
+								<div class="cell-child tit">농어촌특별세</div>
+							</div>
+						</li>
+					</ul>
+					
+					<ul class="fix_column sort_right col_skyblue sum_data">
+						<li class="thead text_center">합계</li>
+						<li class="tbody"></li>
+						<li class="tbody"></li>
+						<li class="tbody"></li>
+						<li class="tbody nonbot"></li>
+						<li id="총급여" class="tbody borTnb sum "></li>
+						
+						<li id="급여" class="tbody 급여"></li>
+						<li id="상여" class="tbody 상여"></li>
+						<li id="인정상여" class="tbody 인정상여"></li>
+						<li id="주식매수선택권행사이익" class="tbody 주식매수선택권행사이익"></li>
+						<li id="우리사주조합인출금" class="tbody 우리사주조합인출금"></li>
+						<li id="임원퇴직소득금액한도초과액" class="tbody 임원퇴직소득금액한도초과액"></li>
+
+						<li id="직무발명보상금" class="tbody tit 직무발명보상금"></li>
+
+						<li id="비과세한도초과액" class="tbody nonbot"></li>
+						<li id="비과세합계" class="tbody borTnb sum "></li>
+						
+						<li id="m01" class="tbody tit m01"></li>
+						<li id="m02" class="tbody tit m02"></li>
+						<li id="m03" class="tbody tit m03"></li>
+						<li id="o01" class="tbody tit o01"></li>
+						<li id="q01" class="tbody tit q01"></li>
+						<li id="h08" class="tbody tit h08"></li>
+						<li id="h09" class="tbody tit h09"></li>
+						<li id="h10" class="tbody tit h10"></li>
+						<li id="g01" class="tbody tit g01"></li>
+						<li id="h11" class="tbody tit h11"></li>
+						<li id="h12" class="tbody tit h12"></li>
+						<li id="h13" class="tbody tit h13"></li>
+						<li id="h01" class="tbody tit h01"></li>
+
+						<li id="k01" class="tbody tit k01"></li>
+						<li id="s01" class="tbody tit s01"></li>
+						<li id="y02" class="tbody tit y02"></li>
+						<li id="y03" class="tbody tit y03"></li>
+						<li id="y04" class="tbody tit y04"></li>
+						<li id="h05" class="tbody tit h05"></li>
+						<li id="i01" class="tbody tit i01"></li>
+						<li id="r10" class="tbody tit r10"></li>
+						<li id="h14" class="tbody tit h14"></li>
+						<li id="h15" class="tbody tit h15"></li>
+						<li id="h16" class="tbody tit h16"></li>
+
+						<li id="h17" class="tbody tit h17"></li>
+						<li id="u01" class="tbody tit u01"></li>
+
+						<li id="r11" class="tbody tit r11"></li>
+						<li id="h06" class="tbody tit h06"></li>
+						<li id="h07" class="tbody tit h07"></li>
+						<li id="y22" class="tbody tit y22"></li>
+						
+						<li id="감면소득합계" class="tbody borTnb sum"></li>
+
+						<li id="t01" class="tbody tit t01"></li>
+						<li id="t10" class="tbody tit t10"></li>
+						<li id="t11" class="tbody tit t11"></li>
+						<li id="t12" class="tbody tit t12"></li>
+
+						<li id="t13" class="tbody t13"></li>
+
+						<li id="t20" class="tbody tit t20"></li>
+						
+						<li id="공제합계" class="tbody borTnb sum"></li>
+
+						<li id="건강보험료" class="tbody"></li>
+						<li id="장기요양보험료" class="tbody"></li>
+						<li id="고용보험료" class="tbody"></li>
+						<li id="국민연금보험료" class="tbody borb"></li>
+						<li id="소득세" class="tbody "></li>
+						<li id="지방소득세" class="tbody "></li>
+						<li id="농어촌특별세" class="tbody borb "></li>
+					</ul>
+					
+					<div class="column_viewer">
+						<div class="column_data">
+						</div> <!--  column_view -->
+					</div>
+				</div> <!-- group_column -->
+				
+				<div class="group_btns foot NanumSquare_R">
+					<a class="btn_type type1">＜  이전</a>
+					<!-- <a class="btn_type type2"><span class="icon_save Material_icons"></span>적용</a> -->
+					<a class="btn_type type3">다음 ＞</a>
+				</div>
+			</div> <!-- content -->
+		</div> <!--  container -->
+		<div class="layerPop_wrap">
+			<div class="popup_bg small">
+			
+				<div class="popup_tit">
+					<div class="popup_close"><a class="btn_type btn_close"></a></div>
+				</div>
+				<ul class="popup_content">
+					<li class="icon"></li>
+					<li class="text NanumRound">
+						<span>종전근무지 정보 반영을 위해서</span>
+						<span>재집계를 수행하세요.</span> 
+					</li>
+				</ul>
+				<div id="foot_btns" class="floating NanumRound">
+					<a class="btn_type type1">확인</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+<script type="text/javascript">
+
+	var 총급여 = "";
+	var 비과세합계 = "";
+	var 감면소득합계 = "";
+	var 공제합계 = "";
+	var 소득세 = "";
+	var 지방소득세 = "";
+	var 농어촌특별세 = "";
+
+	var empName;
+	var year;
+	var 계약ID;
+	var 사용자ID;
+	
+	var sumdata = {
+		'g01': '',
+		'h01': '',
+		'h05': '',
+		'h06': '',
+		'h07': '',
+		'h08': '',
+		'h09': '',
+		'h10': '',
+		'h11': '',
+		'h12': '',
+		'h13': '',
+		'h14': '',
+		'h15': '',
+		'h16': '',
+		'i01': '',
+		'k01': '',
+		'm01': '',
+		'm02': '',
+		'm03': '',
+		'o01': '',
+		'q01': '',
+		'r10': '',
+		'r11': '',
+		's01': '',
+		't01': '',
+		't10': '',
+		't11': '',
+		't12': '',
+		't20': '',
+		'y02': '',
+		'y03': '',
+		'y04': '',
+		'y22': '',
+		'감면소득합계': '', //
+		'감면시작일': '',
+		'감면종료일': '',
+		'건강보험료': '',
+		'고용보험료': '',
+		'공무원연금': '',
+		'공제합계': '', //
+		'국민연금보험료': '',
+		'군인연금': '',
+		'근로소득금액': '',
+		'급여': '',
+		'농어촌특별세': '', //
+		'별정우체국연금': '',
+		'비과세합계': '', //
+		'비과세한도초과액': '',
+		'사립학교교직원연금': '',
+		'상여': '',
+		'소득세': '', //
+		'우리사주조합인출금': '',
+		'인정상여': '',
+		'임원퇴직소득금액한도초과액': '',
+		'장기요양보험료': '',
+		'주식매수선택권행사이익': '',
+		'지방소득세': '', //
+		'총급여': '',
+		// 2018 분기
+		'직무발명보상금': '', //  - 046
+		't13': '', // 2018신규 중소기업90% -047
+		'h17': '', // 2018신규 종교활동비 -048
+		'u01': '' // 2018신규 벤처기업 주식매수선택권 -049
+	};
+	
+	var sumdataCalc = {
+		'g01': '',
+		'h01': '',
+		'h05': '',
+		'h06': '',
+		'h07': '',
+		'h08': '',
+		'h09': '',
+		'h10': '',
+		'h11': '',
+		'h12': '',
+		'h13': '',
+		'h14': '',
+		'h15': '',
+		'h16': '',
+		'i01': '',
+		'k01': '',
+		'm01': '',
+		'm02': '',
+		'm03': '',
+		'o01': '',
+		'q01': '',
+		'r10': '',
+		'r11': '',
+		's01': '',
+		't01': '',
+		't10': '',
+		't11': '',
+		't12': '',
+		't20': '',
+		'y02': '',
+		'y03': '',
+		'y04': '',
+		'y22': '',
+		'감면소득합계': '',
+		'건강보험료': '',
+		'고용보험료': '',
+		'공무원연금': '',
+		'공제합계': '', //
+		'국민연금보험료': '',
+		'군인연금': '',
+		'근로소득금액': '', //
+		'급여': '',
+		'농어촌특별세': '', //
+		'별정우체국연금': '',
+		'비과세합계': '', //
+		'비과세한도초과액': '',
+		'사립학교교직원연금': '',
+		'상여': '',
+		'소득세': '', //
+		'우리사주조합인출금': '',
+		'인정상여': '',
+		'임원퇴직소득금액한도초과액': '',
+		'장기요양보험료': '',
+		'주식매수선택권행사이익': '',
+		'지방소득세': '', //
+		'총급여': '',
+		// 2018 분기
+		'직무발명보상금': '', //  - 046
+		't13': '', // 2018신규 중소기업90% -047
+		'h17': '', // 2018신규 종교활동비 -048
+		'u01': '' // 2018신규 벤처기업 주식매수선택권 -049
+	};
+	
+	var payItem = {
+		'bizId': '',
+		'code': '',
+		'dbMode': '',
+		'febYear': '',
+		'g01': '0',
+		'h01': '0',
+		'h05': '0',
+		'h06': '1',
+		'h07': '0',
+		'h08': '0',
+		'h09': '0',
+		'h10': '0',
+		'h11': '0',
+		'h12': '1',
+		'h13': '1',
+		'h14': '0',
+		'h15': '1',
+		'h16': '1',
+		'i01': '0',
+		'k01': '0',
+		'm01': '1',
+		'm02': '1',
+		'm03': '1',
+		'o01': '1',
+		'q01': '1',
+		'r10': '0',
+		'r11': '1',
+		's01': '0',
+		't01': '0',
+		't10': '1',
+		't11': '1',
+		't12': '1',
+		't20': '1',
+		'y02': '0',
+		'y03': '0',
+		'y04': '0',
+		'y22': '0',
+		'건강보험료': '1',
+		'고용보험료': '1',
+		'국민연금보험료': '1',
+		'급여': '0',
+		'상여': '0',
+		'소득세': '1',
+		'우리사주조합인출금': '1',
+		'인정상여': '1',
+		'임원퇴직소득금액한도초과액': '0',
+		'장기요양보험료': '1',
+		'주식매수선택권행사이익': '1',
+		'지방소득세': '0',
+		// 2018 분기
+		'직무발명보상금': '', //  - 046
+		't13': '', // 2018신규 중소기업90% -047
+		'h17': '', // 2018신규 종교활동비 -048
+		'u01': '' // 2018신규 벤처기업 주식매수선택권 -049
+	};
+
+	var totalNum;
+	var year;
+	var 계약ID;
+	var 사용자ID;
+	// 2018 분기
+	// 계약 년도
+	var febYear;
+
+	$(document).ready(function(){
+		
+		$(".btn_close").on("click", function(e){
+			$(this).closest(".layerPop_wrap").addClass("hidden");
+			init();
+		});
+
+		// 이전화면
+		$(".group_btns.foot.NanumSquare_R .btn_type.type1").on("click", function(){
+			
+			var url = rootPath + "html/easyFeb/e_easyYearTax_step01_01.html?d=" + (new Date()).getTime();
+			
+			$("#contents_wrap").empty();
+		    $(window).off("resize");
+		    $.ajax({
+		        url : url, 
+		        success : function(result) {
+		            $("#contents_wrap").html(result);
+		        }
+		    });
+		});
+
+		$("#foot_btns a.type1").on("click", function(e){
+			e.preventDefault();
+			$(this).closest(".layerPop_wrap").addClass("hidden");
+	        init();
+		});
+		
+		// 다음화면
+		$(".group_btns.foot.NanumSquare_R .btn_type.type3").on("click", function(){
+
+			var url = rootPath + "html/easyFeb/e_easyYearTax_step02_01.html?d=" + (new Date()).getTime();
+			
+			$("#contents_wrap").empty();
+		    $(window).off("resize");
+		    $.ajax({
+		        url : url, 
+		        success : function(result) {
+		            $("#contents_wrap").html(result);
+		        }
+		    });
+		});
+
+		$("a.btn_reCount").on("click", function(e){
+			doInsert();
+		});
+		
+		empName = getCookie('loginName');
+		//year = 
+		//id="year">님의 2018년
+		
+		//getWorkplaceCheck();
+		ngOnInit();
+	});
+	
+	function ngOnInit(){
+		계약ID = getCookie('yearContractId');
+		febYear = getCookie('febYear');
+	    if ($.isEmptyObject(계약ID)) {
+			alert( '사용불가 메뉴 입니다. 기본설정값을 확인 해주세요' );
+	        location.href = "/";
+		} else {
+			//사용자ID = getCookie('userId');
+	        //init();
+		}	
+	}
+	
+	function getWorkplaceCheck(){
+		
+		계약ID = getCookie('yearContractId');
+		사용자ID = getCookie('userId');
+		
+		var url = rootPath + 'easyFeb/getWorkplaceCheck.do';
+		var params = {
+			'계약ID': 계약ID,
+			'사용자ID': 사용자ID
+		}
+		
+		request = $.ajax({
+			url: url,
+	        type: "get",
+	        cache: false,
+	        dataType:"json",
+	        data: params
+	    });
+		
+		request.done(function(res){
+			if(res.success){
+				if(res.data > 0){
+					// 이전화면
+					$(".group_btns.foot.NanumSquare_R .btn_type.type1").on("click", function(){
+						
+						var url = rootPath + "html/easyFeb/e_easyYearTax_step01_01.html?d=" + (new Date()).getTime();
+						
+						$("#contents_wrap").empty();
+					    $(window).off("resize");
+					    $.ajax({
+					        url : url, 
+					        success : function(result) {
+					            $("#contents_wrap").html(result);
+					        }
+					    });
+					});
+				}else{
+					// 이전화면
+					$(".group_btns.foot.NanumSquare_R .btn_type.type1").on("click", function(){
+						
+						var url = rootPath + "app.html#/e_easyYearTax_index?d=" + (new Date()).getTime();
+						
+						location.href = url;
+					});
+				}
+			}
+		})
+		
+		request.fail(function (request, textStatus, error) {
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		});
+	}
+	
+	function init(){
+		
+		sumdataCalc = {
+				'g01': '',
+				'h01': '',
+				'h05': '',
+				'h06': '',
+				'h07': '',
+				'h08': '',
+				'h09': '',
+				'h10': '',
+				'h11': '',
+				'h12': '',
+				'h13': '',
+				'h14': '',
+				'h15': '',
+				'h16': '',
+				'i01': '',
+				'k01': '',
+				'm01': '',
+				'm02': '',
+				'm03': '',
+				'o01': '',
+				'q01': '',
+				'r10': '',
+				'r11': '',
+				's01': '',
+				't01': '',
+				't10': '',
+				't11': '',
+				't12': '',
+				't20': '',
+				'y02': '',
+				'y03': '',
+				'y04': '',
+				'y22': '',
+				'감면소득합계': '',
+				'건강보험료': '',
+				'고용보험료': '',
+				'공무원연금': '',
+				'공제합계': '', //
+				'국민연금보험료': '',
+				'군인연금': '',
+				'근로소득금액': '', //
+				'급여': '',
+				'농어촌특별세': '', //
+				'별정우체국연금': '',
+				'비과세합계': '', //
+				'비과세한도초과액': '',
+				'사립학교교직원연금': '',
+				'상여': '',
+				'소득세': '', //
+				'우리사주조합인출금': '',
+				'인정상여': '',
+				'임원퇴직소득금액한도초과액': '',
+				'장기요양보험료': '',
+				'주식매수선택권행사이익': '',
+				'지방소득세': '', //
+				'총급여': '',
+				// 2018 분기
+				'직무발명보상금': '', //  - 046
+				't13': '', // 2018신규 중소기업90% -047
+				'h17': '', // 2018신규 종교활동비 -048
+				'u01': '' // 2018신규 벤처기업 주식매수선택권 -049
+		};
+		
+		var url = rootPath + 'febworker/getYE040.do';
+		var params = {
+			'계약ID': 계약ID,
+			'사용자ID': 사용자ID
+		}
+		
+		request = $.ajax({
+			url: url,
+	        type: "get",
+	        cache: false,
+	        dataType:"json",
+	        data: params
+	    });
+		
+		request.done(function(res){
+			if(res.success){
+				setData(res);
+				doInsert();
+			}
+		})
+		
+		request.fail(function (request, textStatus, error) {
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		});
+	}
+	
+	function doInsert() {
+		
+		if(empName){
+			var params = {
+				'계약ID': 계약ID,
+				'사용자ID': 사용자ID,
+				'총급여': sumdataCalc['총급여'],
+				'비과세합계': sumdataCalc['비과세합계'],
+				'감면소득합계': sumdataCalc['감면소득합계'],
+				'공제합계': sumdataCalc['공제합계'],
+				'소득세': sumdataCalc['소득세'],
+				'지방소득세': sumdataCalc['지방소득세'],
+				'농어촌특별세': sumdataCalc['농어촌특별세']
+			}
+
+			var url = rootPath + 'febworker/insYE040.do';
+    		request = $.ajax({
+    			url: url,
+    	        type: "post",
+    	        cache: false,
+    	        dataType:"json",
+    	        data: params
+    	    });
+    		
+    		request.done(function(res){
+    			if ( res['success'] === true ) {
+    				alert('재집계가 완료되었습니다.');
+    				getList();
+    			}
+    		});
+			
+    		request.fail(function (request, textStatus, error) {
+    			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+    		});
+    		
+		}else{
+			alert( '선택된 근로자가 없습니다.' );
+		}
+	}
+	
+	function getList(){
+		
+		sumdata = {
+			'g01': '',
+			'h01': '',
+			'h05': '',
+			'h06': '',
+			'h07': '',
+			'h08': '',
+			'h09': '',
+			'h10': '',
+			'h11': '',
+			'h12': '',
+			'h13': '',
+			'h14': '',
+			'h15': '',
+			'h16': '',
+			'i01': '',
+			'k01': '',
+			'm01': '',
+			'm02': '',
+			'm03': '',
+			'o01': '',
+			'q01': '',
+			'r10': '',
+			'r11': '',
+			's01': '',
+			't01': '',
+			't10': '',
+			't11': '',
+			't12': '',
+			't20': '',
+			'y02': '',
+			'y03': '',
+			'y04': '',
+			'y22': '',
+			'감면소득합계': '', //
+			'감면시작일': '',
+			'감면종료일': '',
+			'건강보험료': '',
+			'고용보험료': '',
+			'공무원연금': '',
+			'공제합계': '', //
+			'국민연금보험료': '',
+			'군인연금': '',
+			'근로소득금액': '',
+			'급여': '',
+			'농어촌특별세': '', //
+			'별정우체국연금': '',
+			'비과세합계': '', //
+			'비과세한도초과액': '',
+			'사립학교교직원연금': '',
+			'상여': '',
+			'소득세': '', //
+			'우리사주조합인출금': '',
+			'인정상여': '',
+			'임원퇴직소득금액한도초과액': '',
+			'장기요양보험료': '',
+			'주식매수선택권행사이익': '',
+			'지방소득세': '', //
+			'총급여': '',
+			// 2018 분기
+			'직무발명보상금': '', //  - 046
+			't13': '', // 2018신규 중소기업90% -047
+			'h17': '', // 2018신규 종교활동비 -048
+			'u01': '' // 2018신규 벤처기업 주식매수선택권 -049
+		};
+		
+	    sumdataCalc = {
+			'g01': '',
+			'h01': '',
+			'h05': '',
+			'h06': '',
+			'h07': '',
+			'h08': '',
+			'h09': '',
+			'h10': '',
+			'h11': '',
+			'h12': '',
+			'h13': '',
+			'h14': '',
+			'h15': '',
+			'h16': '',
+			'i01': '',
+			'k01': '',
+			'm01': '',
+			'm02': '',
+			'm03': '',
+			'o01': '',
+			'q01': '',
+			'r10': '',
+			'r11': '',
+			's01': '',
+			't01': '',
+			't10': '',
+			't11': '',
+			't12': '',
+			't20': '',
+			'y02': '',
+			'y03': '',
+			'y04': '',
+			'y22': '',
+			'감면소득합계': '',
+			'건강보험료': '',
+			'고용보험료': '',
+			'공무원연금': '',
+			'공제합계': '', //
+			'국민연금보험료': '',
+			'군인연금': '',
+			'근로소득금액': '', //
+			'급여': '',
+			'농어촌특별세': '', //
+			'별정우체국연금': '',
+			'비과세합계': '', //
+			'비과세한도초과액': '',
+			'사립학교교직원연금': '',
+			'상여': '',
+			'소득세': '', //
+			'우리사주조합인출금': '',
+			'인정상여': '',
+			'임원퇴직소득금액한도초과액': '',
+			'장기요양보험료': '',
+			'주식매수선택권행사이익': '',
+			'지방소득세': '', //
+			'총급여': '',
+			// 2018 분기
+			'직무발명보상금': '', //  - 046
+			't13': '', // 2018신규 중소기업90% -047
+			'h17': '', // 2018신규 종교활동비 -048
+			'u01': '' // 2018신규 벤처기업 주식매수선택권 -049
+		};
+
+	    var url = rootPath + 'febworker/getYE040.do';
+		var params = {
+			'계약ID': 계약ID,
+			'사용자ID': 사용자ID
+		}
+		
+		request = $.ajax({
+			url: url,
+	        type: "get",
+	        cache: false,
+	        dataType:"json",
+	        data: params
+	    });
+		
+		request.done(function(res){
+
+			if(res.success){
+				setData(res)
+			}
+		})
+		
+		request.fail(function (request, textStatus, error) {
+			if (request.status=="401") {
+				alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+				location.href=rootPath;
+			} else {
+				alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+		        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+	
+	function setData(res){
+		
+        year = res['계약년도'];
+        totalIncome = res['data'];
+        totalNum = res['total'];
+        if (totalNum !== 0) {
+        	sumdata = res['sumData'];
+        }
+        
+        payItem = res['ys050'];
+        if($.isEmptyObject(res['sumData']['성명'])){
+        	empName = res['sumData']['성명'];
+        }
+        
+		$("#empName").text(empName);
+        $("#year").text("님의 " + year + "년");
+        $("#year2").text(year + "년 귀속 소득 명세 합계");
+        $("#종전근무지").text("종전근무지 " + (totalNum - 1) + "건");
+        
+        $("div.column_data").find("ul").remove();
+        
+        
+        for ( i = 0; i < totalNum; i++) {
+        	
+        	try{
+        		totalIncome[i]['근무시작일'] = convertDate(totalIncome[i]['근무시작일']).format('yyyyMMdd');
+        	}catch(e){
+        		totalIncome[i]['근무시작일'] = 'Invalid date';
+        	}
+        	try{
+        		totalIncome[i]['근무종료일'] = convertDate(totalIncome[i]['근무종료일']).format('yyyyMMdd');
+        	}catch(e){
+        		totalIncome[i]['근무종료일'] = 'Invalid date';
+        	}
+        	try{
+        		totalIncome[i]['감면시작일'] = convertDate(totalIncome[i]['감면시작일']).format('yyyyMMdd');
+        	}catch(e){
+        		totalIncome[i]['감면시작일'] = 'Invalid date';
+        	}
+        	try{
+        		totalIncome[i]['감면종료일'] = convertDate(totalIncome[i]['감면종료일']).format('yyyyMMdd');
+        	}catch(e){
+        		totalIncome[i]['감면종료일'] = 'Invalid date';
+        	}
+
+        	if (totalIncome[i]['근무시작일'] === 'Invalid date' || totalIncome[i]['근무종료일'] === 'Invalid date') {
+				if (!(i === 0 && totalIncome[i]['근무시작일'] !== 'Invalid date')) {
+					alert('근무기간이 입력되지 않았습니다. 근로자정보 페이지로 돌아갑니다.');
+					location.href = "/app.html#/yearTax_basicsData_employee";
+					//router.navigate(['/yearTax_basicsData_employee'], { queryParams: { }});
+					return;
+                }
+			}
+
+			if ( i === 0 && totalIncome[i]['근무종료일'] === 'Invalid date' ) {
+				totalIncome[i]['근무종료일'] = convertDate(res['계약년도'] + '1231').format('yyyyMMdd');
+			}
+			if (totalIncome[i]['감면시작일'] === 'Invalid date') {
+				totalIncome[i]['감면시작일'] = '';
+			}
+			if (totalIncome[i]['감면종료일'] === 'Invalid date') {
+				totalIncome[i]['감면종료일'] = '';
+			}
+			if(totalIncome[i]['근무시작일'] != ''){
+				totalIncome[i]['근무시작일'] = convertDate(totalIncome[i]['근무시작일']).format("yyyyMMdd");
+			}
+
+			if(totalIncome[i]['근무종료일'] != ''){
+				totalIncome[i]['근무종료일'] = convertDate(totalIncome[i]['근무종료일']).format("yyyyMMdd");
+			}
+			if($.trim(totalIncome[i]['감면시작일']) != ""){
+				totalIncome[i]['감면시작일'] = convertDate(totalIncome[i]['감면시작일']).format("yyyyMMdd");
+			}
+			if($.trim(totalIncome[i]['감면종료일']) != ""){
+				totalIncome[i]['감면종료일'] = convertDate(totalIncome[i]['감면종료일']).format("yyyyMMdd");
+			}
+
+			if(totalIncome[i]['근무시작일'] != ""){
+				var startDate = convertDate(totalIncome[i]['근무시작일']).format('yyyy');
+				if (Number(startDate) < Number(res['계약년도']) ) {
+					totalIncome[i]['근무시작일'] = convertDate(res['계약년도'] + '0101').format('yyyyMMdd');
+				}
+			}
+
+			if(totalIncome[i]['감면시작일'] != ""){
+				startDate = convertDate(totalIncome[i]['감면시작일']).format('yyyy');
+				if (Number(startDate) < Number(res['계약년도']) ) {
+					totalIncome[i]['감면시작일'] = convertDate(res['계약년도'] + '0101').format('yyyyMMdd');
+				}
+			}
+
+			if(totalIncome[i]['근무종료일'] != ""){
+				var endtDate = convertDate(totalIncome[i]['근무종료일']).format('yyyy');
+				if (Number(endtDate) > Number(res['계약년도']) ) {
+					totalIncome[i]['근무종료일'] = convertDate(res['계약년도'] + '1231').format('yyyyMMdd');
+				}
+			}
+
+			if(totalIncome[i]['감면종료일'] != ""){
+				endtDate = convertDate(totalIncome[i]['감면종료일']).format('yyyy');
+				if (Number(endtDate) > Number(res['계약년도']) ) {
+					totalIncome[i]['감면종료일'] = convertDate(res['계약년도'] + '1231').format('yyyyMMdd');
+				}
+			}
+
+			// 총 근무 개월 수 계산
+			var 근무시작월 = convertDate(totalIncome[i]['근무시작일']).format('MM');
+			var 근무종료월 = convertDate(totalIncome[i]['근무종료일']).format('MM');
+			var 근무개월 = Number(근무종료월) - Number(근무시작월) + 1;
+			
+			// 항목별 총계 계산
+			for (key in totalIncome[i]) {
+	            if ( key === '총급여' || key === '비과세급여' || key === '비과세한도초과액' || key === '감면소득합계' || key === '공제합계' ) {
+					continue;
+	            }
+	            sumdataCalc[key] = String(Number(sumdataCalc[key]) + Number(totalIncome[i][key]));
+			}
+			
+			// 비과세한도초과액 계산
+			var 비과세한도초과액 = 0;
+			if ( Number(totalIncome[i]['m01']) > 1000000 * 근무개월) {
+				비과세한도초과액 = 비과세한도초과액 + (Number(totalIncome[i]['m01']) - (1000000 * 근무개월));
+			}
+			if (Number(totalIncome[i]['m02']) > 3000000 * 근무개월) {
+				비과세한도초과액 = 비과세한도초과액 + (Number(totalIncome[i]['m02']) - (3000000 * 근무개월));
+			}
+			if (Number(totalIncome[i]['o01']) > 2400000 ) {
+				비과세한도초과액 = 비과세한도초과액 + (Number(totalIncome[i]['o01']) - 2400000);
+			}
+			if (Number(totalIncome[i]['q01']) > 100000 * 근무개월) {
+				비과세한도초과액 = 비과세한도초과액 + (Number(totalIncome[i]['q01']) - (100000 * 근무개월));
+			}
+			if (Number(totalIncome[i]['h08']) > 200000 * 근무개월) {
+				비과세한도초과액 = 비과세한도초과액 + (Number(totalIncome[i]['h08']) - (200000 * 근무개월));
+			}
+			if (Number(totalIncome[i]['h09']) > 200000 * 근무개월) {
+				비과세한도초과액 = 비과세한도초과액 + (Number(totalIncome[i]['h09']) - (200000 * 근무개월));
+			}
+			if (Number(totalIncome[i]['h10']) > 200000 * 근무개월) {
+				비과세한도초과액 = 비과세한도초과액 + (Number(totalIncome[i]['h10']) - (200000 * 근무개월));
+			}
+			if (Number(totalIncome[i]['h11']) > 200000 * 근무개월) {
+				비과세한도초과액 = 비과세한도초과액 + (Number(totalIncome[i]['h11']) - (200000 * 근무개월));
+			}
+			if (Number(totalIncome[i]['h12']) > 200000 * 근무개월) {
+				비과세한도초과액 = 비과세한도초과액 + (Number(totalIncome[i]['h12']) - (200000 * 근무개월));
+			}
+			if (Number(totalIncome[i]['주식매수선택권']) > 30000000) {
+				비과세한도초과액 = 비과세한도초과액 + (Number(totalIncome[i]['주식매수선택권']) - (30000000));
+			}
+			비과세한도초과액 = 비과세한도초과액 + (Number(totalIncome[i]['y02']) / 2);
+			비과세한도초과액 = 비과세한도초과액 + (Number(totalIncome[i]['y03']) / 4);
+			if (Number(totalIncome[i]['h16']) > 200000 * 근무개월) {
+				비과세한도초과액 = 비과세한도초과액 + (Number(totalIncome[i]['h16']) - (200000 * 근무개월));
+			}
+			if (Number(totalIncome[i]['r11']) > 3000000) {
+				비과세한도초과액 = 비과세한도초과액 + (Number(totalIncome[i]['r11']) - 3000000);
+			}
+			if (Number(totalIncome[i]['h06']) > 200000 * 근무개월) {
+				비과세한도초과액 = 비과세한도초과액 + (Number(totalIncome[i]['h06']) - (200000 * 근무개월));
+			}
+			if (Number(totalIncome[i]['h07']) > 200000 * 근무개월) {
+				비과세한도초과액 = 비과세한도초과액 + (Number(totalIncome[i]['h07']) - (200000 * 근무개월));
+			}
+			
+			// 2018 분기
+			if ( febYear === '2018') {
+				if (Number(totalIncome[i]['u01']) > 20000000) {
+					비과세한도초과액 = 비과세한도초과액 + (Number(totalIncome[i]['u01']) - (20000000));
+				}
+			}
+
+			totalIncome[i]['비과세한도초과액'] = String(Math.round(비과세한도초과액));
+
+			sumdataCalc['비과세한도초과액'] = String(
+				Number(sumdataCalc['비과세한도초과액']) + Number(totalIncome[i]['비과세한도초과액'])
+			);
+			
+			// 총급여 계산
+			totalIncome[i]['총급여'] = String(
+				Number(totalIncome[i]['총급여']) +
+	            Number(totalIncome[i]['급여']) +
+	            Number(totalIncome[i]['상여']) +
+	            Number(totalIncome[i]['인정상여']) +
+	            Number(totalIncome[i]['주식매수선택권행사이익']) +
+	            Number(totalIncome[i]['우리사주조합인출금']) +
+	            Number(totalIncome[i]['임원퇴직소득금액한도초과액']) +
+	            Number(totalIncome[i]['비과세한도초과액'])
+			);
+			// 2018 분기
+			if ( febYear === '2018') {
+				totalIncome[i]['총급여'] = String(
+					Number(totalIncome[i]['총급여']) +
+					Number(totalIncome[i]['직무발명보상금'])
+	            );
+			}
+			
+			sumdataCalc['총급여'] = String(
+				Number(sumdataCalc['총급여']) +
+				Number(totalIncome[i]['총급여'])
+			);
+
+			// 비과세합계 계산
+			totalIncome[i]['비과세합계'] = String(
+				Number(totalIncome[i]['m01']) +
+				Number(totalIncome[i]['m02']) +
+				Number(totalIncome[i]['m03']) +
+				Number(totalIncome[i]['o01']) +
+				Number(totalIncome[i]['q01']) +
+				Number(totalIncome[i]['h08']) +
+				Number(totalIncome[i]['h09']) +
+				Number(totalIncome[i]['h10']) +
+				Number(totalIncome[i]['g01']) +
+				Number(totalIncome[i]['h11']) +
+				Number(totalIncome[i]['h12']) +
+				Number(totalIncome[i]['h13']) +
+				Number(totalIncome[i]['h01']) +
+				Number(totalIncome[i]['k01']) +
+				Number(totalIncome[i]['s01']) +
+				Number(totalIncome[i]['y02']) +
+				Number(totalIncome[i]['y03']) +
+				Number(totalIncome[i]['y04']) +
+				Number(totalIncome[i]['h05']) +
+				Number(totalIncome[i]['i01']) +
+				Number(totalIncome[i]['r10']) +
+				Number(totalIncome[i]['h14']) +
+				Number(totalIncome[i]['h15']) +
+				Number(totalIncome[i]['h16']) +
+				Number(totalIncome[i]['r11']) +
+				Number(totalIncome[i]['h06']) +
+				Number(totalIncome[i]['h07']) +
+				Number(totalIncome[i]['y22']) -
+				Number(totalIncome[i]['비과세한도초과액'])
+			);
+			
+			// 2018 분기
+			if ( febYear === '2018') {
+				totalIncome[i]['비과세합계'] = String(
+	                    Number(totalIncome[i]['비과세합계']) +
+	                    Number(totalIncome[i]['h17']) +
+	                    Number(totalIncome[i]['u01'])
+				);
+			}
+			
+			
+			
+			sumdataCalc['비과세합계'] = String(
+	                  Number(sumdataCalc['비과세합계']) +
+	                  Number(totalIncome[i]['비과세합계'])
+			);
+
+			// 감면소득합계 계산
+			totalIncome[i]['감면소득합계'] = String(
+	                  Number(totalIncome[i]['t01']) +
+	                  Number(totalIncome[i]['t10']) +
+	                  Number(totalIncome[i]['t11']) +
+	                  Number(totalIncome[i]['t12']) +
+	                  Number(totalIncome[i]['t20'])
+			);
+
+			// 2018 분기
+			if ( febYear === '2018') {
+				totalIncome[i]['감면소득합계'] = String(
+	                    Number(totalIncome[i]['감면소득합계']) +
+	                    Number(totalIncome[i]['t13'])
+				);
+			}
+
+			sumdataCalc['감면소득합계'] = String(
+	                  Number(sumdataCalc['감면소득합계']) +
+	                  Number(totalIncome[i]['감면소득합계'])
+			);
+
+			// 공제합계 계산
+			totalIncome[i]['공제합계'] = String(
+	                  Number(totalIncome[i]['건강보험료']) +
+	                  Number(totalIncome[i]['장기요양보험료']) +
+	                  Number(totalIncome[i]['고용보험료']) +
+	                  Number(totalIncome[i]['국민연금보험료'])
+			);
+
+			sumdataCalc['공제합계'] = String(
+	                  Number(sumdataCalc['공제합계']) +
+	                  Number(totalIncome[i]['공제합계'])
+			);
+        }
+
+        for ( i = 0; i < totalNum; i++) {
+
+        	if(i === 0){
+        		근무처명타이틀 = "주(현)근무지";
+        	}else{
+        		근무처명타이틀 = "종(전)근무지" + i
+        	}
+
+			var 근무시작일 = totalIncome[i]['근무시작일'];
+			var 근무종료일 = totalIncome[i]['근무종료일'];
+			var 감면시작일 = totalIncome[i]['감면시작일'];
+			var 감면종료일 = totalIncome[i]['감면종료일'];
+        	
+			if(근무시작일 != ""){
+				근무시작일 = convertDate(근무시작일).format('yyyy-MM-dd');
+			}
+			
+			if(근무종료일 != ""){
+				근무종료일 = convertDate(근무종료일).format('yyyy-MM-dd'); 
+			}
+			
+			if(감면시작일 != ""){
+				감면시작일 = convertDate(감면시작일).format('yyyy-MM-dd'); 
+			}
+			
+			if(감면종료일 != ""){
+				감면종료일 = convertDate(감면종료일).format('yyyy-MM-dd'); 
+			}
+			
+        	$("div.column_data")
+        		.append($('<ul/>')
+            			.append($('<li/>').text(근무처명타이틀).addClass("thead").addClass("text_center"))		//근무처명 타이틀
+            			.append($('<li/>').text(totalIncome[i]['회사명']).addClass("tbody").addClass("text_center"))			//근무처명
+            			.append($('<li/>').text(totalIncome[i]['사업자등록번호']).addClass("tbody").addClass("text_center"))		//사업자등록번호
+            			.append($('<li/>').text(근무시작일 + " ~ " + 근무종료일).addClass("tbody").addClass("text_center"))		//근무기간
+            			.append($('<li/>').text(감면시작일 + " ~ " + 감면종료일).addClass("tbody").addClass("text_center").addClass("nonbot"))		//감면기간
+            			.append($('<li/>').text(AddComma(totalIncome[i]['총급여'])).addClass("tbody").addClass("col_black").addClass("borTnb"))		//총급여
+            			
+            			.append($('<li/>').text(AddComma(totalIncome[i]['급여'])).addClass("tbody").addClass("급여"))		//급여
+            			.append($('<li/>').text(AddComma(totalIncome[i]['상여'])).addClass("tbody").addClass("상여"))		//상여
+            			.append($('<li/>').text(AddComma(totalIncome[i]['인정상여'])).addClass("tbody").addClass("인정상여"))		//인정상여
+            			.append($('<li/>').text(AddComma(totalIncome[i]['주식매수선택권행사이익'])).addClass("tbody").addClass("주식매수선택권행사이익"))		//주식매수선택권행사이익
+            			.append($('<li/>').text(AddComma(totalIncome[i]['우리사주조합인출금'])).addClass("tbody").addClass("우리사주조합인출금"))		//우리사주조합인출금
+            			.append($('<li/>').text(AddComma(totalIncome[i]['임원퇴직소득금액한도초과액'])).addClass("tbody").addClass("임원퇴직소득금액한도초과액"))		//임원퇴직소득금액한도초과액
+            			.append($('<li/>').text(AddComma(totalIncome[i]['직무발명보상금'])).addClass("tbody").addClass("직무발명보상금"))		//직무발명보상금
+
+            			.append($('<li/>').text(AddComma(totalIncome[i]['비과세한도초과액'])).addClass("tbody").addClass("nonbot"))		//비과세 한도초과액
+            			.append($('<li/>').text(AddComma(totalIncome[i]['비과세합계'])).addClass("tbody").addClass("col_black").addClass("borTnb"))		//비과세 합계
+            			
+            			.append($('<li/>').text(AddComma(totalIncome[i]['m01'])).addClass("tbody").addClass("m01"))		//m01
+            			.append($('<li/>').text(AddComma(totalIncome[i]['m02'])).addClass("tbody").addClass("m02"))		//m02
+            			.append($('<li/>').text(AddComma(totalIncome[i]['m03'])).addClass("tbody").addClass("m03"))		//m03
+            			.append($('<li/>').text(AddComma(totalIncome[i]['o01'])).addClass("tbody").addClass("o01"))		//o01
+            			.append($('<li/>').text(AddComma(totalIncome[i]['q01'])).addClass("tbody").addClass("q01"))		//q01
+            			.append($('<li/>').text(AddComma(totalIncome[i]['h08'])).addClass("tbody").addClass("h08"))		//h08
+            			.append($('<li/>').text(AddComma(totalIncome[i]['h09'])).addClass("tbody").addClass("h09"))		//h09
+            			.append($('<li/>').text(AddComma(totalIncome[i]['h10'])).addClass("tbody").addClass("h10"))		//h10
+            			.append($('<li/>').text(AddComma(totalIncome[i]['g01'])).addClass("tbody").addClass("g01"))		//g01
+            			.append($('<li/>').text(AddComma(totalIncome[i]['h11'])).addClass("tbody").addClass("h11"))		//h11
+            			
+            			.append($('<li/>').text(AddComma(totalIncome[i]['h12'])).addClass("tbody").addClass("h12"))		//h12
+            			.append($('<li/>').text(AddComma(totalIncome[i]['h13'])).addClass("tbody").addClass("h13"))		//h13
+            			.append($('<li/>').text(AddComma(totalIncome[i]['h01'])).addClass("tbody").addClass("h01"))		//h01
+            			.append($('<li/>').text(AddComma(totalIncome[i]['k01'])).addClass("tbody").addClass("k01"))		//k01
+            			.append($('<li/>').text(AddComma(totalIncome[i]['s01'])).addClass("tbody").addClass("s01"))		//s01
+            			.append($('<li/>').text(AddComma(totalIncome[i]['y02'])).addClass("tbody").addClass("y02"))		//y02
+            			.append($('<li/>').text(AddComma(totalIncome[i]['y03'])).addClass("tbody").addClass("y03"))		//y03
+            			.append($('<li/>').text(AddComma(totalIncome[i]['y04'])).addClass("tbody").addClass("y04"))		//y04
+            			.append($('<li/>').text(AddComma(totalIncome[i]['h05'])).addClass("tbody").addClass("h05"))		//h05
+            			.append($('<li/>').text(AddComma(totalIncome[i]['i01'])).addClass("tbody").addClass("i01"))		//i01
+            			.append($('<li/>').text(AddComma(totalIncome[i]['r10'])).addClass("tbody").addClass("r10"))		//r10
+            			.append($('<li/>').text(AddComma(totalIncome[i]['h14'])).addClass("tbody").addClass("h14"))		//h14
+            			.append($('<li/>').text(AddComma(totalIncome[i]['h15'])).addClass("tbody").addClass("h15"))		//h15
+            			.append($('<li/>').text(AddComma(totalIncome[i]['h16'])).addClass("tbody").addClass("h16"))		//h16
+            			
+            			.append($('<li/>').text(AddComma(totalIncome[i]['h17'])).addClass("tbody").addClass("h17"))		//h17
+            			.append($('<li/>').text(AddComma(totalIncome[i]['u01'])).addClass("tbody").addClass("u01"))		//u01
+            			.append($('<li/>').text(AddComma(totalIncome[i]['r11'])).addClass("tbody").addClass("r11"))		//r11
+            			.append($('<li/>').text(AddComma(totalIncome[i]['h06'])).addClass("tbody").addClass("h06"))		//h06
+            			.append($('<li/>').text(AddComma(totalIncome[i]['h07'])).addClass("tbody").addClass("h07"))		//h07
+            			.append($('<li/>').text(AddComma(totalIncome[i]['y22'])).addClass("tbody").addClass("y22"))		//y22
+
+            			.append($('<li/>').text(AddComma(totalIncome[i]['감면소득합계'])).addClass("tbody"))		//감면소득합계
+
+            			.append($('<li/>').text(AddComma(totalIncome[i]['t01'])).addClass("tbody").addClass("t01"))		//t01
+            			.append($('<li/>').text(AddComma(totalIncome[i]['t10'])).addClass("tbody").addClass("t10"))		//t10
+            			.append($('<li/>').text(AddComma(totalIncome[i]['t11'])).addClass("tbody").addClass("t11"))		//t11
+            			.append($('<li/>').text(AddComma(totalIncome[i]['t12'])).addClass("tbody").addClass("t12"))		//t12
+            			.append($('<li/>').text(AddComma(totalIncome[i]['t13'])).addClass("tbody").addClass("t13"))		//t13
+            			.append($('<li/>').text(AddComma(totalIncome[i]['t20'])).addClass("tbody").addClass("t20"))		//t20
+
+            			.append($('<li/>').text(AddComma(totalIncome[i]['공제합계'])).addClass("tbody").addClass("borTnb"))		//공제합계
+            			
+            			.append($('<li/>').text(AddComma(totalIncome[i]['건강보험료'])).addClass("tbody"))		//건강보험료
+            			.append($('<li/>').text(AddComma(totalIncome[i]['장기요양보험료'])).addClass("tbody"))		//기요양보험료
+            			.append($('<li/>').text(AddComma(totalIncome[i]['고용보험료'])).addClass("tbody"))		//고용보험
+            			.append($('<li/>').text(AddComma(totalIncome[i]['국민연금보험료'])).addClass("tbody").addClass("borb"))		//국민연금 보험료
+            			
+            			.append($('<li/>').text(AddComma(totalIncome[i]['소득세'])).addClass("tbody"))		//소득세
+            			.append($('<li/>').text(AddComma(totalIncome[i]['지방소득세'])).addClass("tbody"))		//지방소득세
+            			.append($('<li/>').text(AddComma(totalIncome[i]['농어촌특별세'])).addClass("tbody").addClass("borb"))		//농어촌특별세
+
+            			.addClass("column").addClass("sort_right").addClass("data"));
+        }
+        
+    	payItem['급여'] === '1' ? $(".급여").show() : $(".급여").hide();
+    	
+    	payItem['상여'] === '1' ? $(".상여").show() : $(".상여").hide();
+    			
+    	payItem['인정상여'] === '1' ? $(".인정상여").show() : $(".인정상여").hide();
+    			
+    	payItem['주식매수선택권행사이익'] === '1' ? $(".주식매수선택권행사이익").show() : $(".주식매수선택권행사이익").hide();
+    	
+    	payItem['우리사주조합인출금'] === '1' ? $(".우리사주조합인출금").show() : $(".우리사주조합인출금").hide();
+    	
+    	payItem['임원퇴직소득금액한도초과액'] === '1' ? $(".임원퇴직소득금액한도초과액").show() : $(".임원퇴직소득금액한도초과액").hide();
+    			
+    	if(febYear === '2018'){
+    		payItem['직무발명보상금'] === '1' ? $(".직무발명보상금").show() : $(".직무발명보상금").hide();
+    	}else{
+    		$(".직무발명보상금").hide();
+    	}
+
+		payItem['m01'] === '1' || sumdataCalc['m01'] !== '0' ? $(".m01").show() : $(".m01").hide();
+		payItem['m02'] === '1' || sumdataCalc['m02'] !== '0' ? $(".m02").show() : $(".m02").hide();
+		payItem['m03'] === '1' || sumdataCalc['m03'] !== '0' ? $(".m03").show() : $(".m03").hide();
+		payItem['o01'] === '1' || sumdataCalc['o01'] !== '0' ? $(".o01").show() : $(".o01").hide();
+		payItem['q01'] === '1' || sumdataCalc['q01'] !== '0' ? $(".q01").show() : $(".q01").hide();
+		payItem['h08'] === '1' || sumdataCalc['h08'] !== '0' ? $(".h08").show() : $(".h08").hide();
+		payItem['h09'] === '1' || sumdataCalc['h09'] !== '0' ? $(".h09").show() : $(".h09").hide();
+		payItem['h10'] === '1' || sumdataCalc['h10'] !== '0' ? $(".h10").show() : $(".h10").hide();
+		payItem['g01'] === '1' || sumdataCalc['g01'] !== '0' ? $(".g01").show() : $(".g01").hide();
+		payItem['h11'] === '1' || sumdataCalc['h11'] !== '0' ? $(".h11").show() : $(".h11").hide();
+		payItem['h12'] === '1' || sumdataCalc['h12'] !== '0' ? $(".h12").show() : $(".h12").hide();
+		payItem['h13'] === '1' || sumdataCalc['h13'] !== '0' ? $(".h13").show() : $(".h13").hide();
+		payItem['h01'] === '1' || sumdataCalc['h01'] !== '0' ? $(".h01").show() : $(".h01").hide();
+		payItem['k01'] === '1' || sumdataCalc['k01'] !== '0' ? $(".k01").show() : $(".k01").hide();
+		payItem['s01'] === '1' || sumdataCalc['s01'] !== '0' ? $(".s01").show() : $(".s01").hide();
+		payItem['y02'] === '1' || sumdataCalc['y02'] !== '0' ? $(".y02").show() : $(".y02").hide();
+		payItem['y03'] === '1' || sumdataCalc['y03'] !== '0' ? $(".y03").show() : $(".y03").hide();
+		payItem['y04'] === '1' || sumdataCalc['y04'] !== '0' ? $(".y04").show() : $(".y04").hide();
+		payItem['h05'] === '1' || sumdataCalc['h05'] !== '0' ? $(".h05").show() : $(".h05").hide();
+		payItem['i01'] === '1' || sumdataCalc['i01'] !== '0' ? $(".i01").show() : $(".i01").hide();
+		payItem['r10'] === '1' || sumdataCalc['r10'] !== '0' ? $(".r10").show() : $(".r10").hide();
+		payItem['h14'] === '1' || sumdataCalc['h14'] !== '0' ? $(".h14").show() : $(".h14").hide();
+		payItem['h15'] === '1' || sumdataCalc['h15'] !== '0' ? $(".h15").show() : $(".h15").hide();
+		payItem['h16'] === '1' || sumdataCalc['h16'] !== '0' ? $(".h16").show() : $(".h16").hide();
+    	if(febYear === '2018'){
+			payItem['h17'] === '1' || sumdataCalc['h17'] !== '0' ? $(".h17").show() : $(".h17").hide();
+			payItem['u01'] === '1' || sumdataCalc['u01'] !== '0' ? $(".u01").show() : $(".u01").hide();
+    	}else{
+    		$(".h17").hide();
+    		$(".u01").hide();
+    	}
+		payItem['r11'] === '1' || sumdataCalc['r11'] !== '0' ? $(".r11").show() : $(".r11").hide();
+		payItem['h06'] === '1' || sumdataCalc['h06'] !== '0' ? $(".h06").show() : $(".h06").hide();
+		payItem['h07'] === '1' || sumdataCalc['h07'] !== '0' ? $(".h07").show() : $(".h07").hide();
+		payItem['y22'] === '1' || sumdataCalc['y22'] !== '0' ? $(".y22").show() : $(".y22").hide();
+
+		payItem['t01'] === '1' || sumdataCalc['t01'] !== '0' ? $(".t01").show() : $(".t01").hide();
+		payItem['t10'] === '1' || sumdataCalc['t10'] !== '0' ? $(".t10").show() : $(".t10").hide();
+		payItem['t11'] === '1' || sumdataCalc['t11'] !== '0' ? $(".t11").show() : $(".t11").hide();
+		payItem['t12'] === '1' || sumdataCalc['t12'] !== '0' ? $(".t12").show() : $(".t12").hide();
+		if(febYear === '2018'){
+			payItem['t13'] === '1' || sumdataCalc['t13'] !== '0' ? $(".t13").show() : $(".t13").hide();
+		}else{
+			$(".t13").hide();
+		}
+		payItem['t20'] === '1' || sumdataCalc['t20'] !== '0' ? $(".t20").show() : $(".t20").hide();
+		
+		if(sumdataCalc['총급여'] === sumdata['총급여']){
+			$("#총급여").text(AddComma(sumdata['총급여']));
+			$("#비과세합계").removeClass("sumWrong");
+			$("#비과세합계").addClass("sum");
+		}else{
+			$("#총급여").text(AddComma(sumdata['총급여']));
+			$("#비과세합계").removeClass("sum");
+			$("#비과세합계").addClass("sumWrong");
+		}
+		$("#급여").text(AddComma(sumdataCalc['급여']));
+		$("#상여").text(AddComma(sumdataCalc['상여']));
+		$("#인정상여").text(AddComma(sumdataCalc['인정상여']));
+		$("#주식매수선택권행사이익").text(AddComma(sumdataCalc['주식매수선택권행사이익']));
+		$("#우리사주조합인출금").text(AddComma(sumdataCalc['우리사주조합인출금']));
+		$("#임원퇴직소득금액한도초과액").text(AddComma(sumdataCalc['임원퇴직소득금액한도초과액']));
+		$("#직무발명보상금").text(AddComma(sumdataCalc['직무발명보상금']));
+		$("#비과세한도초과액").text(AddComma(sumdataCalc['비과세한도초과액']));
+		if(sumdataCalc['비과세합계'] === sumdata['비과세합계']){
+			$("#비과세합계").text(AddComma(sumdata['비과세합계']));
+			$("#비과세합계").removeClass("sumWrong");
+			$("#비과세합계").addClass("sum");
+		}else{
+			$("#비과세합계").text(AddComma(sumdata['비과세합계']));
+			$("#비과세합계").removeClass("sum");
+			$("#비과세합계").addClass("sumWrong");
+		}
+		$("#m01").text(AddComma(sumdataCalc.m01));
+		$("#m02").text(AddComma(sumdataCalc.m02));
+		$("#m03").text(AddComma(sumdataCalc.m03));
+		$("#o01").text(AddComma(sumdataCalc.o01));
+		$("#q01").text(AddComma(sumdataCalc.q01));
+		$("#h08").text(AddComma(sumdataCalc.h08));
+		$("#h09").text(AddComma(sumdataCalc.h09));
+		$("#h10").text(AddComma(sumdataCalc.h10));
+		$("#g01").text(AddComma(sumdataCalc.g01));
+		$("#h11").text(AddComma(sumdataCalc.h11));
+		$("#h12").text(AddComma(sumdataCalc.h12));
+		$("#h13").text(AddComma(sumdataCalc.h13));
+		$("#h01").text(AddComma(sumdataCalc.h01));
+		$("#k01").text(AddComma(sumdataCalc.k01));
+		$("#s01").text(AddComma(sumdataCalc.s01));
+		$("#y02").text(AddComma(sumdataCalc.y02));
+		$("#y03").text(AddComma(sumdataCalc.y03));
+		$("#y04").text(AddComma(sumdataCalc.y04));
+		$("#h05").text(AddComma(sumdataCalc.h05));
+		$("#i01").text(AddComma(sumdataCalc.i01));
+		$("#r10").text(AddComma(sumdataCalc.r10));
+		$("#h14").text(AddComma(sumdataCalc.h14));
+		$("#h15").text(AddComma(sumdataCalc.h15));
+		$("#h16").text(AddComma(sumdataCalc.h16));
+		$("#h17").text(AddComma(sumdataCalc.h17));
+		$("#u01").text(AddComma(sumdataCalc.u01));
+		$("#r11").text(AddComma(sumdataCalc.r11));
+		$("#h06").text(AddComma(sumdataCalc.h06));
+		$("#h07").text(AddComma(sumdataCalc.h07));
+		$("#y22").text(AddComma(sumdataCalc.y22));
+		if(sumdataCalc['감면소득합계'] === sumdata['감면소득합계']){
+			$("#감면소득합계").text(AddComma(sumdata['감면소득합계']));
+			$("#비과세합계").removeClass("sumWrong");
+			$("#비과세합계").addClass("sum");
+		}else{
+			$("#감면소득합계").text(AddComma(sumdata['감면소득합계']));
+			$("#비과세합계").removeClass("sum");
+			$("#비과세합계").addClass("sumWrong");
+		}
+		$("#t01").text(AddComma(sumdataCalc.t01));
+		$("#t10").text(AddComma(sumdataCalc.t10));
+		$("#t11").text(AddComma(sumdataCalc.t11));
+		$("#t12").text(AddComma(sumdataCalc.t12));
+		$("#t13").text(AddComma(sumdataCalc.t13));
+		$("#t20").text(AddComma(sumdataCalc.t20));
+		if(sumdataCalc['공제합계'] === sumdata['공제합계']){
+			$("#공제합계").text(AddComma(sumdata['공제합계']));
+			$("#비과세합계").removeClass("sumWrong");
+			$("#비과세합계").addClass("sum");
+		}else{
+			$("#공제합계").text(AddComma(sumdata['공제합계']));
+			$("#비과세합계").removeClass("sum");
+			$("#비과세합계").addClass("sumWrong");
+		}
+		$("#건강보험료").text(AddComma(sumdataCalc['건강보험료']));
+		$("#장기요양보험료").text(AddComma(sumdataCalc['장기요양보험료']));
+		$("#고용보험료").text(AddComma(sumdataCalc['고용보험료']));
+		$("#국민연금보험료").text(AddComma(sumdataCalc['국민연금보험료']));
+		if(sumdataCalc['소득세'] === sumdata['소득세']){
+			$("#소득세").text(AddComma(sumdata['소득세']));
+			$("#비과세합계").removeClass("sumWrong");
+			$("#비과세합계").addClass("sum");
+		}else{
+			$("#소득세").text(AddComma(sumdata['소득세']));
+			$("#비과세합계").removeClass("sum");
+			$("#비과세합계").addClass("sumWrong");
+		}
+		if(sumdataCalc['지방소득세'] === sumdata['지방소득세']){
+			$("#지방소득세").text(AddComma(sumdata['지방소득세']));
+			$("#비과세합계").removeClass("sumWrong");
+			$("#비과세합계").addClass("sum");
+		}else{
+			$("#지방소득세").text(AddComma(sumdata['지방소득세']));
+			$("#비과세합계").removeClass("sum");
+			$("#비과세합계").addClass("sumWrong");
+		}
+		if(sumdataCalc['농어촌특별세'] !== sumdata['농어촌특별세']){
+			$("#농어촌특별세").text(AddComma(sumdata['농어촌특별세']));
+			$("#비과세합계").removeClass("sumWrong");
+			$("#비과세합계").addClass("sum");
+		}else{
+			$("#농어촌특별세").text(AddComma(sumdata['농어촌특별세']));
+			$("#비과세합계").removeClass("sum");
+			$("#비과세합계").addClass("sumWrong");
+		}		
+	}
+	
+	function callQnaPop(typeQna) {
+		openWin (rootPath + 'html/bbs/board_question_popup.html?windowCode=' + typeQna, '문의하기', '905', '730');
+	}
+	  
+	  // open window
+	function openWin (url, name, width, height) {
+		if (typeof width === 'undefined' || width === 0) { width = screen.width - 20; }
+	    if (typeof height === 'undefined' || height === 0) { height = screen.height - 100; }
+	    window.open(url, name, 'width=' + width + ', height=' + height + ', location=no, menubar=no, status=no, scrollbars=no, toolbar=no');
+	}	  
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

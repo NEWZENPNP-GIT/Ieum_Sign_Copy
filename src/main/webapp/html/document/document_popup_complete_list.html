@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>기업 배정 내역</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/company_manage.css">
+<link rel="stylesheet" type="text/css" href="/css/electronic_layout.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+
+<script type='text/javascript' src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+<style>
+	body{font-family:'NanumGothic',sans-serif;}
+	tbody{color:#666666;}
+	td{font-size:14px;height:34px;}
+</style>
+<script>
+
+	var viewPage = 10;
+	var curPage  = 0;
+
+	$(document).ready(function(){
+
+		fn_searchList(1);	
+		
+		$('#docuName').keypress(function(event) {
+			var keycode = (event.keyCode ? event.keyCode : event.which);
+			if (keycode == '13') { fn_searchList(1); }
+			event.stopPropagation();
+		});
+	});
+	
+	function fn_searchList(page) {
+
+		var url = rootPath+"document/getDocumentMasterList.do";
+
+		if (page==0)	curPage = 0;
+		else			curPage = page-1;
+		
+		if (curPage<0) {
+			curPage=0;
+			return;
+		}
+
+		if (curPage*viewPage>totPage) {
+			curPage-=1;
+			return;
+		}
+		var startPage = (curPage*viewPage);
+		
+		var bizId= getCookie("bizId");
+		var userId= getCookie("loginId");
+		var startPage = (curPage*viewPage);
+		var endPage = viewPage;
+		var sortName = "A.INS_DATE";
+		var sortOrder = "DESC";
+		var docuName = $("#docuName").val();
+
+		console.log("fn_searchList");
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				OPEN_KEY:getCookie("OPEN_KEY"),
+				bizId:bizId,
+				userId:userId,
+				startPage:startPage,
+				endPage:endPage,
+				docuName:docuName,
+				sortName:sortName,
+				sortOrder:sortOrder
+			},
+			success:function(result) {
+
+				var htmlData = "";
+
+				$("#dataList").html(htmlData);
+				
+				// 인사내역
+				$.each(result.data, function(i, row) {
+					htmlData += ' <tr onclick="fn_selCompleteList(\''+row.docuId+'\', \''+row.docuName+'\')" style="cursor:pointer;">';
+					htmlData += '<td class="leftxt"><u>'+row.docuName+'</u></td> ';
+					htmlData += ' <td>'+convertDateTime(row.insDate).format("yyyy-MM-dd HH:mm")+'</td> ';
+					htmlData += '</tr> ';
+				});
+				
+				$("#dataList").html(htmlData);
+
+				totPage = result.total;
+
+				var totalPage = Math.ceil(totPage/viewPage);
+
+				if(page==1) {
+					
+					$('#page-selection').bootpag({
+						total: totalPage,
+						page: page,
+						maxVisible: 10,
+						firstLastUse: true,
+						leaps: true,
+						first: '',
+						last: '',
+						wrapClass: 'pagination',
+						activeClass: 'active',
+						disabledClass: 'disabled',
+						nextClass: 'btn_next',
+						prevClass: 'btn_prev',
+						lastClass: 'end_page',
+						firstClass: 'first_page'
+					}).on("page", function(event, num){ fn_searchList(num); });
+				}
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				goInvalidPage(request, error);
+			}
+		});
+	}
+	
+	function fn_selCompleteList(docuId, docuName){
+		opener.fn_selCompleteList(docuId, docuName);
+		window.close();
+	}
+
+</script>
+</head>
+<body>
+	<input type="hidden" id="bizId" value="">
+	<div id="electronic_layout">
+		<div class="popupstylediv">
+			<div class="pop_title">
+				<h3>이전계약 리스트</h3>
+				<a class="col_skyblue" onclick="winClose()"></a>
+			</div>
+			<div class="popupTable02 prevlist">
+				<div class="filesearch">
+					<input type="text" id="docuName" name="" class="inpstyle01"> <a class="btn" onclick="fn_searchList(1)">검색</a>
+				</div>
+				<table>
+					<colgroup>
+						<col width="65%">
+						<col width="35%">
+					</colgroup>
+						<tr>
+							<th>계약서명</th>
+							<th>작성일</th>
+						</tr>
+					<tbody id="dataList">
+					</tbody>
+				</table>
+			</div>
+			<div id="page-selection" class="pagingnav_wrap"></div>
+		</div>
+	</div>
+</body>
+</html>

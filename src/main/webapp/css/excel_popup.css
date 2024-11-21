@@ -1,0 +1,115 @@
+@charset "utf-8";
+/*>>>>>>  default <<<<<*/
+body,p,span,a,input,ul,li,article,dl,img{margin: 0px; padding:0px; -webkit-margin:0px;-webkit-padding:0px;}
+ul{list-style-type: none}
+html{min-height:100%; min-width:100%; position:relative;}
+body{min-height:100%; }
+.btn_type{cursor: pointer;}
+.none{display: none;}
+.hidden{visibility: hidden; display: none !important;}
+
+/** =================== alert ==================== **/
+#cecel_popup_wrap{position: absolute; top:0; left:0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); min-width: 550px; float:left; z-index: 11;}
+#cecel_popup_wrap .pop_container{position:relative; width: calc(100% - 340px); min-width:500px; height: calc(100% - 135px); min-height:500px; margin:50px 150px 50px 150px; padding:20px 20px 15px 20px; background-color: #ffffff;}
+#cecel_popup_wrap .pop_container #popup_tit{position: relative; width: 100%; height: 33px; margin-bottom: 5px; border-bottom: 1px solid #00a9e9; float:left;}
+#cecel_popup_wrap .pop_container #popup_tit .tit_text{position:relative;  width: calc(100% - 25px); height: 33px; font-size: 20px; color: #00acff; display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#cecel_popup_wrap .pop_container #popup_tit .btn_close{position: relative; top: 5px; right: 0px; float: right; width: 20px; height: 20px; background: url(image/popup_btn_closeSkyblue.png) no-repeat;}
+#cecel_popup_wrap .pop_contents {float: left; width: 100%; height:calc(100% - 39px); display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: column; -ms-flex-direction: column;}
+#cecel_popup_wrap .pop_contents .top_btns{margin-bottom:10px; height:32px; display: flex; display: -ms-flex; display: -webkit-flex; justify-content: flex-end; -ms-justify-content:  flex-end; -webkit-justify-content:  flex-end;}
+#cecel_popup_wrap .pop_contents .btn_type{height: 32px; box-sizing: border-box; border-radius: 5px; font-size: 12px; font-weight: bold; display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center; margin-right: 15px;}
+#cecel_popup_wrap .pop_contents .btn_type:last-child{margin-right: 0px}
+#cecel_popup_wrap .pop_contents .btn_excel{width: 95px; color: #00a9e9; background-color: #ffffff; border: 1px solid #00a9e9; margin-right: 8px;}
+#cecel_popup_wrap .pop_contents .btn_download{width: 115px; color: #187b4a; background-color: #e5f5ed; border: 1px solid #6bc297;}
+#cecel_popup_wrap .pop_contents .icon_excel{background: url(image/yearTax/icon_disk.png) no-repeat 50% 50%; width: 14px;  height: 17px;  display: inline-block;  margin-right: 3px;}
+#cecel_popup_wrap .pop_contents .icon_excelDown{background: url(image/annual/btn_exceldown.png) no-repeat 50% 50%; width: 30px;  height: 25px;  display: inline-block;  margin-right: 3px;}
+
+#cecel_popup_wrap .pop_contents .data_box{position:relative; width: 100%; height: calc(100% - 126px); display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: column; -ms-flex-direction: column;}
+#cecel_popup_wrap .pop_contents .grid_wrap{position:relative; height: calc(50% - 10px); margin-bottom:10px; }
+#cecel_popup_wrap .pop_contents .grid_tit{position:relative; width:calc(100% - 5px); font-size: 15px; font-weight: bold; color: #00a9e9; height: 35px; padding-left: 5px; float:left; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#cecel_popup_wrap .pop_contents .grid_tit .icon{display: inline-block; position: relative; margin-right: 5px; height: 16px; float: left;}
+#cecel_popup_wrap .pop_contents .grid_tit .icon:after{content: url(image/yearTax/icon_pagetit.png); width: 16px; height: 16px; display: inline-block;}
+#cecel_popup_wrap .pop_contents .grid_box{width:100%; height:calc(100% - 35px); background-color: #ffffff; border: 1px solid #dcdcdc; float:left; box-sizing: border-box; overflow: auto;}
+#cecel_popup_wrap .pop_contents .grid_box.hasbot .data{height: calc(100% - 40px);}
+#cecel_popup_wrap .pop_contents .grid_box.hasbot .check_box{position:relative; width:100%; height: 32px; margin: 4px 0; float:left; text-align: center;}
+#cecel_popup_wrap .pop_contents .check_box {position: relative; width: 100%; text-align: center; margin-bottom: 10px;} 
+#cecel_popup_wrap .pop_contents .check_box .btn_check{ width: 120px; height: 40px; box-sizing: border-box; font-size: 15px; font-weight: bold; color: #00a9e9; background-color: #d6eff8;  border: 1px solid #00a0e9; border-radius: 0px;}
+#cecel_popup_wrap .pop_contents .grid_box .data{position:relative; display:block; width: 100%; height: 100%; float:left; z-index: 1; }
+#cecel_popup_wrap .pop_contents .grid_box .tempNotice{position:relative; width:100%; color:#ff0000; font-weight: bold; font-size: 17px; padding: 10px 10px 0 15px; box-sizing: border-box; z-index: 0}
+#cecel_popup_wrap .pop_contents .grid_box .tempNotice .tit{margin-bottom: 10px; color:#ff0000; font-size: 16px; }
+#cecel_popup_wrap .pop_contents .grid_box .tempNotice dl{width:100%; margin-left: 3px; margin-bottom: 3px; color:#ff0000; display: inline-block;}
+#cecel_popup_wrap .pop_contents .grid_box .tempNotice dt{width: 20px; float:left;}
+#cecel_popup_wrap .pop_contents .grid_box .tempNotice dd{display: inline-block; width: calc(100% - 20px); float:left; margin: 0px; word-break:keep-all;}
+#cecel_popup_wrap .pop_contents .grid_box .tempNotice.hidden + .data{display: block;}
+#cecel_popup_wrap .pop_contents .foot_btns{width: 100%; display: flex; display: -ms-flex; display: -webkit-flex; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#cecel_popup_wrap .pop_contents .foot_btns .btn_type{height: 34px; width: 100px; font-size: 13px; font-weight: bold;}
+#cecel_popup_wrap .pop_contents .foot_btns .btn_type.type1{background-color: #fff2f2; color: #ff0000; border: 1px solid #fe7d7d;}
+#cecel_popup_wrap .pop_contents .foot_btns .btn_type.type2{background-color: #0d94d6; color: #ffffff; border: 1px solid #0d94d6}
+#cecel_popup_wrap .btn_type.disable{background-color: #8c8c8c !important;; color: #ffffff !important;; border: 1px solid #8c8c8c !important;}
+
+#celUpload_wrap{position: relative; top:0; left:0; width: 100%; height: 100%; min-width: 550px; float:left; }
+#celUpload_wrap .pop_container{position:relative; width:100% ; min-width:500px; height: 100%; min-height:500px;  padding:20px 20px 15px 20px; background-color: #ffffff; float:left; box-sizing: border-box;}
+#celUpload_wrap .pop_container #popup_tit{position: relative; width: 100%; height: 33px; margin-bottom: 5px; border-bottom: 1px solid #00a9e9; float:left;}
+#celUpload_wrap .pop_container #popup_tit .tit_text{position:relative;  width: calc(100% - 25px); height: 33px; font-size: 20px; color: #00acff; display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#celUpload_wrap .pop_container #popup_tit .btn_close{position: relative; top: 5px; right: 0px; float: right; width: 20px; height: 20px; background: url(image/popup_btn_closeSkyblue.png) no-repeat;}
+#celUpload_wrap .pop_contents {float: left; width: 100%; height:calc(100% - 39px); display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: column; -ms-flex-direction: column;}
+#celUpload_wrap .pop_contents .top_btns{margin-bottom:10px; height:32px; display: flex; display: -ms-flex; display: -webkit-flex; justify-content: flex-end; -ms-justify-content:  flex-end; -webkit-justify-content:  flex-end;}
+#celUpload_wrap .pop_contents .btn_type{height: 32px; box-sizing: border-box; border-radius: 5px; font-size: 12px; font-weight: bold; display: inline-flex; display: -ms-inline-flex; display: -webkit-inline-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center; margin-right: 15px;}
+#celUpload_wrap .pop_contents .btn_type:last-child{margin-right: 0px}
+#celUpload_wrap .pop_contents .btn_excel{width: 95px; color: #00a9e9; background-color: #ffffff; border: 1px solid #00a9e9; margin-right: 8px;}
+#celUpload_wrap .pop_contents .btn_download{width: 115px; color: #187b4a; background-color: #e5f5ed; border: 1px solid #6bc297;}
+#celUpload_wrap .pop_contents .icon_excel{background: url(image/yearTax/icon_disk.png) no-repeat 50% 50%; width: 14px;  height: 17px;  display: inline-block;  margin-right: 3px;}
+#celUpload_wrap .pop_contents .icon_excelDown{background: url(image/annual/btn_exceldown.png) no-repeat 50% 50%; width: 30px;  height: 25px;  display: inline-block;  margin-right: 3px;}
+
+#celUpload_wrap .pop_contents .data_box{position:relative; width: 100%; height: calc(100% - 126px); display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: column; -ms-flex-direction: column;}
+#celUpload_wrap .pop_contents .grid_wrap{position:relative; height: calc(50% - 10px); margin-bottom:10px; }
+#celUpload_wrap .pop_contents .grid_tit{position:relative; width:calc(100% - 5px); font-size: 15px; font-weight: bold; color: #00a9e9; height: 35px; padding-left: 5px; float:left; display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center;}
+#celUpload_wrap .pop_contents .grid_tit .icon{display: inline-block; position: relative; margin-right: 5px; height: 16px; float: left;}
+#celUpload_wrap .pop_contents .grid_tit .icon:after{content: url(image/yearTax/icon_pagetit.png); width: 16px; height: 16px; display: inline-block;}
+#celUpload_wrap .pop_contents .grid_box{width:100%; height:calc(100% - 35px); min-height:175px; background-color: #ffffff; border: 1px solid #dcdcdc; float:left; box-sizing: border-box; overflow: auto;}
+#celUpload_wrap .pop_contents .grid_box.hasbot .data{height: calc(100% - 40px);}
+#celUpload_wrap .pop_contents .grid_box.hasbot .check_box{position:relative; width:100%; height: 32px; margin: 4px 0; float:left; text-align: center;}
+#celUpload_wrap .pop_contents .check_box {position: relative; width: 100%; margin-bottom: 10px;}
+#celUpload_wrap .pop_contents .check_box .btn_reset{ width: 100px; height: 30px; box-sizing: border-box; font-size: 12px; font-weight: bold; color: #86b5c6; background-color: #e5eff3;  border: 1px solid #86b5c6; border-radius: 0px; float:right; } 
+#celUpload_wrap .pop_contents .check_box .btn_autoselect{ width: 100px; height: 30px; box-sizing: border-box; font-size: 12px; font-weight: bold; color: #979700; background-color: #fffaae;  border: 1px solid #979700; border-radius: 0px; float:left; }
+#celUpload_wrap .pop_contents .check_box .btn_user{ width: 100px; height: 30px; box-sizing: border-box; font-size: 12px; font-weight: bold; color: #009ad5; background-color: #d6eff8;  border: 1px solid #00a0e9; border-radius: 0px; float:left; }
+#celUpload_wrap .pop_contents .check_box .sel_user{ width: 200px; height: 30px; box-sizing: border-box; font-size: 12px; font-weight: bold; color: #00a9e9; border: 1px solid #00a0e9; border-radius: 0px; float:left; }
+#celUpload_wrap .pop_contents .check_box .btn_del{ width: 100px; height: 30px; box-sizing: border-box; font-size: 12px; font-weight: bold; color: #ff3e3e; background-color: #d6eff8;  border: 1px solid #00a0e9; border-radius: 0px; float:left; }
+#celUpload_wrap .pop_contents .check_box .btn_save{ width: 100px; height: 30px; box-sizing: border-box; font-size: 12px; font-weight: bold; color: #0080ff; background-color: #d6eff8;  border: 1px solid #00a0e9; border-radius: 0px; float:left; }
+#celUpload_wrap .pop_contents .grid_box .data{position:relative; display:block; width: 100%; min-height: 175px; float:left;}
+
+#celUpload_wrap .pop_contents table{table-layout: fixed; width: 100%; border-collapse: collapse; background-color: #ffffff;}
+#celUpload_wrap .pop_contents .grid_box .data table tr th {width: 160px; height: 32px; text-align: center; cursor:pointer; border-right: 1px solid #dedfe0; border-bottom: 1px solid #dedfe0; background-color: #e5eff3; font-size: 13px; color: #333333; word-break: keep-all; word-wrap: break-word; box-sizing: border-box;}
+#celUpload_wrap .pop_contents .grid_box .data table tr th.no{width: 60px}
+#celUpload_wrap .pop_contents .grid_box .data.order table tr th {background-color: #e5eff3;}
+#celUpload_wrap .pop_contents .grid_box .data table tr th.point{color:#ff0000}
+#celUpload_wrap .pop_contents .grid_box .data table tr th.active{border: 1px solid #00a0e9; background: #fffaae; box-shadow: inset 1px 0 0 #00a0e9; -webkit-box-shadow:inset 1px 0 0 #00a0e9; -moz-box-shadow:inset 1px 0 0 #00a0e9;}
+#celUpload_wrap .pop_contents .grid_box .data table td{height:28px; text-align: center; border-right: 1px solid #dedfe0; border-bottom: 1px solid #dedfe0; color:#666666; font-size: 13px; font-weight:bold; word-break: keep-all; word-wrap: break-word; box-sizing: border-box;}
+#celUpload_wrap .pop_contents .grid_box .data table th:last-child,
+#celUpload_wrap .pop_contents .grid_box .data table td:last-child{border-right: none;}
+
+
+#celUpload_wrap .pop_contents .grid_box .tempNotice{position:relative; width:100%; height:175px; background:#ffffff; color:#ff0000; font-weight: bold; font-size: 17px; padding: 10px 10px 0 15px; box-sizing: border-box; z-index: 0}
+#celUpload_wrap .pop_contents .grid_box .tempNotice .tit{margin-bottom: 10px; color:#ff0000; font-size: 16px; }
+#celUpload_wrap .pop_contents .grid_box .tempNotice dl{width:100%; margin-left: 3px; margin-bottom: 3px; color:#ff0000; display: inline-block;}
+#celUpload_wrap .pop_contents .grid_box .tempNotice dt{width: 20px; float:left;}
+#celUpload_wrap .pop_contents .grid_box .tempNotice dd{display: inline-block; width: calc(100% - 20px); float:left; margin: 0px; word-break:keep-all;}
+#celUpload_wrap .pop_contents .grid_box .tempNotice.hidden + .data{display: block;}
+#celUpload_wrap .pop_contents .foot_btns{width: 100%; display: flex; display: -ms-flex; display: -webkit-flex; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#celUpload_wrap .pop_contents .foot_btns .btn_type{height: 34px; width: 100px; font-size: 13px; font-weight: bold;}
+#celUpload_wrap .pop_contents .foot_btns .btn_type.type1{background-color: #fff2f2; color: #ff0000; border: 1px solid #fe7d7d;}
+#celUpload_wrap .pop_contents .foot_btns .btn_type.type2{background-color: #0d94d6; color: #ffffff; border: 1px solid #0d94d6}
+#celUpload_wrap .btn_type.disable{background-color: #8c8c8c !important;; color: #ffffff !important;; border: 1px solid #8c8c8c !important;}
+
+
+#alert_popup{display: inline-block; position: absolute; top:0; left:0; width:100%; height:100%; box-sizing: border-box; background: rgba(0, 0, 0, 0.3);}
+#alert_popup .alert_container{position: absolute; width: 442px; height: 255px; top:calc(50% - 127px); left:calc(50% - 221px); display: inline-block;  background-color:#ffffff; padding: 15px 20px 20px 20px; box-sizing: border-box;}
+#alert_popup #alert_tit{position: relative; width: 100%; height: 30px; z-index: 4; margin-bottom: 5px;}
+#alert_popup #alert_tit #alert_close{position: relative; top: 5px; right: 0px; float: right; width: 20px; height: 20px; background: url(image/popup_btn_close.png) no-repeat;}
+#alert_popup .alert_contents{ display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: column; width: 100%; height: calc(100% - 35px); float: left;}
+#alert_popup #alert_icon{ background: url(image/alert_icon_warning.png) no-repeat 50% 50%; background-size: contain; width: 100%; height: 53px; display: inline-block; vertical-align: middle;}
+#alert_popup #alert_text {position: relative; font-size: 18px; color: #333333; line-height: 27px; text-align: center; display: flex; display: -ms-flex; display: -webkit-flex; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center; margin-top: 10px}
+#alert_popup .alert_btns{ position: relative; width: 100%; float: left; display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: row; margin-top: 8px;}    
+#alert_popup .alert_btns .btn_type{width: 50%; height: 38px; margin-right: 7px; font-size: 14px;  border-radius: 8px;}
+#alert_popup .alert_btns .btn_type{display: flex; display: -ms-flex; display: -webkit-flex; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#alert_popup .alert_btns .btn_type.type6 { background-color: #7c9dbc; color: #ffffff; border: 1px solid #7c9dbc !important;}
+#alert_popup .alert_btns .btn_type.type5 {background-color: #1088d4;color: #ffffff;border: 1px solid #1088d4 !important;}

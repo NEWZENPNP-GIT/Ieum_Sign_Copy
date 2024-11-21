@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="easyFeb">
+
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap" />
+
+    <select id="easyFeb.getYE402" parameterClass="map" resultClass="java.util.HashMap">
+		SELECT 
+		       IFNULL(C.계약ID, '') as 계약ID
+		     , IFNULL(C.사용자ID, '') as 사용자ID
+		     , IFNULL(A.작업자ID, '') as 작업자ID
+		     , IFNULL(A.일련번호, '') as 일련번호
+		     , IFNULL(A.부양가족ID, '') as 부양가족ID
+		     , IFNULL(A.자료구분코드, '') as 자료구분코드
+		     , fn_code_name('432', A.자료구분코드) 자료구분코드명
+		     , IFNULL(A.의료비증빙코드, '') as 의료비증빙코드
+		     , IFNULL(A.공제종류코드, '') as 공제종류코드
+		     , IFNULL(A.지급처_사업자등록번호, '') as 지급처_사업자등록번호
+		     , IFNULL(A.상호, '') as 상호
+		     , IFNULL(A.건수, '') as 건수
+		     , IFNULL(A.의료비유형, '') as 의료비유형
+		     , IFNULL(A.지출액, '') as 지출액
+		     , IFNULL(A.차감금액, '') as 차감금액
+		     , IFNULL(B.성명, '') as 성명
+		     , IFNULL(B.개인식별번호, '') as 개인식별번호
+		     , IFNULL(C.일련번호, '') as  추가제출서류번호
+		     , IFNULL(A.등록일시, '') as 등록일시
+		     , IFNULL(A.수정일시, '') as 수정일시
+		     , IFNULL(C.공제구분코드, '') as 공제구분코드
+		     , IFNULL(C.공제구분상세코드, '') as 공제구분상세코드
+		     , IFNULL(C.남기실내용, '') as 남기실내용
+		     , IFNULL(C.메모, '') as 메모
+		     , IFNULL(C.파일ID, '') as 파일ID
+		     , IFNULL(C.처리여부, '') as 처리여부
+		     , IFNULL(D.FILE_TYPE, '') as FILE_TYPE
+		     , IFNULL(D.ORG_FILE_NAME, '') as ORG_FILE_NAME
+		     , 'R' as dbMode
+		FROM 
+		     tbl_ye402 A
+		     LEFT OUTER JOIN tbl_ye001 B ON A.계약ID = B.계약ID AND A.사용자ID = B.사용자ID AND A.부양가족ID = B.부양가족ID
+		     RIGHT OUTER JOIN tbl_ye020 C  ON A.계약ID = C.계약ID AND A.사용자ID = C.사용자ID AND A.추가제출서류번호 = C.일련번호
+		     INNER JOIN tbl_content D ON C.파일ID	 = D.FILE_ID 
+		 WHERE 
+		      C.계약ID = #계약ID#
+		  AND C.사용자ID = #사용자ID#
+		  AND C.공제구분코드 = #공제구분코드#
+		  AND (A.최종저장여부 = '1' OR A.사용여부 = '1' OR A.사용여부 IS NULL)
+		ORDER BY C.등록일시
+    </select>
+
+    <select id="easyFeb.getYE401" parameterClass="map" resultClass="java.util.HashMap">
+		SELECT 
+		       IFNULL(C.계약ID, '') as 계약ID
+		     , IFNULL(C.사용자ID, '') as 사용자ID
+		     , IFNULL(A.작업자ID, '') as 작업자ID
+		     , IFNULL(A.일련번호, '') as 일련번호
+		     , IFNULL(A.부양가족ID, '') as 부양가족ID
+		     , IFNULL(A.자료구분코드, '') as 자료구분코드
+		     , IFNULL(A.보험구분코드, '') as 보험구분코드
+		     , IFNULL(A.납입금액, '') as 납입금액
+		     , IFNULL(A.차감금액, '') as 차감금액
+		     , IFNULL(C.일련번호, '')     as 추가제출서류번호
+		     , IFNULL(A.최종저장여부, '') as 최종저장여부
+		     , IFNULL(A.사용여부, '') as 사용여부
+		     , IFNULL(A.등록일시, '') as 등록일시
+		     , IFNULL(A.수정일시, '') as 수정일시
+		     , IFNULL(B.성명, '') as 성명
+		     , IFNULL(B.개인식별번호, '') as 개인식별번호
+		     , IFNULL(C.공제구분코드, '') as 공제구분코드
+		     , IFNULL(C.공제구분상세코드, '') as 공제구분상세코드
+		     , IFNULL(C.남기실내용, '') as 남기실내용
+		     , IFNULL(C.메모, '') as 메모
+		     , IFNULL(C.파일ID, '') as 파일ID
+		     , IFNULL(C.처리여부, '') as 처리여부
+		     , IFNULL(D.FILE_TYPE, '') as FILE_TYPE
+		     , IFNULL(D.ORG_FILE_NAME, '') as ORG_FILE_NAME
+		     , 'R' as dbMode
+		FROM 
+		     tbl_ye401 A
+		     LEFT OUTER JOIN tbl_ye001 B ON A.계약ID = B.계약ID AND A.사용자ID = B.사용자ID AND A.부양가족ID = B.부양가족ID
+		     RIGHT OUTER JOIN tbl_ye020 C  ON A.계약ID = C.계약ID AND A.사용자ID = C.사용자ID AND A.추가제출서류번호 = C.일련번호
+		     INNER JOIN tbl_content D ON C.파일ID	 = D.FILE_ID 
+		 WHERE 
+		      C.계약ID = #계약ID#
+		  AND C.사용자ID = #사용자ID#
+		  AND C.공제구분코드 = #공제구분코드#
+		  AND (A.최종저장여부 = '1' OR A.사용여부 = '1' OR A.사용여부 IS NULL)
+		ORDER BY C.등록일시
+    </select>
+
+    <select id="easyFeb.getYE403" parameterClass="map" resultClass="java.util.HashMap">
+		SELECT
+			   IFNULL(C.계약ID, '') as 계약ID
+			 , IFNULL(C.사용자ID, '') as 사용자ID
+			 , IFNULL(A.작업자ID, '') as 작업자ID
+			 , IFNULL(A.일련번호, '') as 일련번호
+			 , IFNULL(A.부양가족ID, '') as 부양가족ID
+			 , IFNULL(A.자료구분코드, '') as 자료구분코드
+			 , IFNULL(A.공제종류코드, '') as 공제종류코드
+			 , IFNULL(A.공납금, '') as 공납금
+			 , IFNULL(A.공납금_차감금액, '') as 공납금_차감금액
+			 , IFNULL(A.교복구입비, '') as 교복구입비
+			 , IFNULL(A.교복구입비_차감금액, '') as 교복구입비_차감금액
+			 , IFNULL(A.체험학습비, '') as 체험학습비
+			 , IFNULL(A.체험학습비_차감금액, '') as 체험학습비_차감금액
+			 , IFNULL(C.일련번호, '') as 추가제출서류번호
+			 , IFNULL(A.최종저장여부, '') as 최종저장여부
+			 , IFNULL(A.사용여부, '') as 사용여부
+			 , IFNULL(A.등록일시, '') as 등록일시
+			 , IFNULL(A.수정일시, '') as 수정일시
+		     , IFNULL(B.성명, '') as 성명
+		     , IFNULL(B.개인식별번호, '') as 개인식별번호
+		     , IFNULL(C.공제구분코드, '') as 공제구분코드
+		     , IFNULL(C.공제구분상세코드, '') as 공제구분상세코드
+		     , IFNULL(C.남기실내용, '') as 남기실내용
+		     , IFNULL(C.메모, '') as 메모
+		     , IFNULL(C.파일ID, '') as 파일ID
+		     , IFNULL(C.처리여부, '') as 처리여부
+		     , IFNULL(D.FILE_TYPE, '') as FILE_TYPE
+		     , IFNULL(D.ORG_FILE_NAME, '') as ORG_FILE_NAME
+		     , 'R' as dbMode
+		FROM 
+		     tbl_ye403 A
+		     LEFT OUTER JOIN tbl_ye001 B ON A.계약ID = B.계약ID AND A.사용자ID = B.사용자ID AND A.부양가족ID = B.부양가족ID
+		     RIGHT OUTER JOIN tbl_ye020 C  ON A.계약ID = C.계약ID AND A.사용자ID = C.사용자ID AND A.추가제출서류번호 = C.일련번호
+		     INNER JOIN tbl_content D ON C.파일ID	 = D.FILE_ID 
+		 WHERE 
+		      C.계약ID = #계약ID#
+		  AND C.사용자ID = #사용자ID#
+		  AND C.공제구분코드 = #공제구분코드#
+		  AND (A.최종저장여부 = '1' OR A.사용여부 = '1' OR A.사용여부 IS NULL)
+		ORDER BY C.등록일시
+    </select>
+
+    <select id="easyFeb.getYE108" parameterClass="map" resultClass="java.util.HashMap">
+		SELECT 
+  		       IFNULL(C.계약ID, '') as 계약ID
+		     , IFNULL(C.사용자ID, '') as 사용자ID
+		     , IFNULL(A.작업자ID, '') as 작업자ID
+		     , IFNULL(A.일련번호, '') as 일련번호
+		     , IFNULL(A.부양가족ID, '') as 부양가족ID
+		     , IFNULL(A.자료구분코드, '') as 자료구분코드
+		     , IFNULL(A.기간구분코드, '') as 기간구분코드
+		     , IFNULL(A.신용카드, '') as 신용카드
+		     , IFNULL(A.현금영수증, '') as 현금영수증
+		     , IFNULL(A.직불_선불카드, '') as 직불_선불카드
+		     , IFNULL(A.도서공연, '') as 도서공연
+		     , IFNULL(A.전통시장, '') as 전통시장
+		     , IFNULL(A.대중교통, '') as 대중교통
+		     , IFNULL(C.일련번호 , '') as 추가제출서류번호
+		     , IFNULL(A.최종저장여부, '') as 최종저장여부
+		     , IFNULL(A.사용여부, '') as 사용여부
+		     , IFNULL(A.등록일시, '') as 등록일시
+		     , IFNULL(A.수정일시, '') as 수정일시
+		     , IFNULL(B.성명, '') as 성명
+		     , IFNULL(B.개인식별번호, '') as 개인식별번호
+		     , IFNULL(C.공제구분코드, '') as 공제구분코드
+		     , IFNULL(C.공제구분상세코드, '') as 공제구분상세코드
+		     , IFNULL(C.남기실내용, '') as 남기실내용
+		     , IFNULL(C.메모, '') as 메모
+		     , IFNULL(C.파일ID, '') as 파일ID
+		     , IFNULL(C.처리여부, '') as 처리여부
+		     , IFNULL(D.FILE_TYPE, '') as FILE_TYPE
+		     , IFNULL(D.ORG_FILE_NAME, '') as ORG_FILE_NAME
+		     , 'R' as dbMode
+		FROM 
+		     tbl_ye108 A
+		     LEFT OUTER JOIN tbl_ye001 B ON A.계약ID = B.계약ID AND A.사용자ID = B.사용자ID AND A.부양가족ID = B.부양가족ID
+		     RIGHT OUTER JOIN tbl_ye020 C  ON A.계약ID = C.계약ID AND A.사용자ID = C.사용자ID AND A.추가제출서류번호 = C.일련번호
+		     INNER JOIN tbl_content D ON C.파일ID	 = D.FILE_ID 
+		 WHERE 
+		      C.계약ID = #계약ID#
+		  AND C.사용자ID = #사용자ID#
+		  AND C.공제구분코드 = #공제구분코드#
+		  AND (A.최종저장여부 = '1' OR A.사용여부 = '1' OR A.사용여부 IS NULL)
+		ORDER BY C.등록일시
+    </select>
+
+    <select id="easyFeb.getYE404" parameterClass="map" resultClass="java.util.HashMap">
+		SELECT 
+		       IFNULL(A.계약ID, '') as 계약ID
+		     , IFNULL(A.사용자ID, '') as 사용자ID
+		     , IFNULL(A.작업자ID, '') as 작업자ID 
+		     , IFNULL(A.일련번호, '') as 일련번호
+		     , IFNULL(A.부양가족ID, '') as 부양가족ID
+		     , IFNULL(A.자료구분코드, '') as 자료구분코드
+		     , IFNULL(A.기부코드, '') as 기부코드
+		     , IFNULL(A.기부내용, '') as 기부내용
+		     , IFNULL(A.기부처_사업자등록번호, '') as 기부처_사업자등록번호
+		     , IFNULL(A.상호, '') as 상호
+		     , IFNULL(A.기부명세_건수, '') as 기부명세_건수
+		     , IFNULL(A.기부명세_공제금액, '') as 기부명세_공제금액
+		     , IFNULL(A.기부명세_공제대상기부금, '') as 기부명세_공제대상기부금
+		     , IFNULL(A.기부명세_기부장려금, '') as 기부명세_기부장려금
+		     , IFNULL(A.기부명세_기타, '') as 기부명세_기타
+		     , IFNULL(A.최종저장여부, '') as 최종저장여부
+		     , IFNULL(A.사용여부, '') as 사용여부
+		     , IFNULL(C.일련번호, '') as 추가제출서류번호
+		     , IFNULL(A.등록일시, '') as 등록일시
+		     , IFNULL(A.수정일시, '') as   수정일시
+		     , IFNULL(B.성명, '') as 성명
+		     , IFNULL(B.개인식별번호, '') as 개인식별번호
+		     , IFNULL(C.공제구분코드, '') as 공제구분코드
+		     , IFNULL(C.공제구분상세코드, '') as 공제구분상세코드
+		     , IFNULL(C.남기실내용, '') as 남기실내용
+		     , IFNULL(C.메모, '') as 메모
+		     , IFNULL(C.파일ID, '') as 파일ID
+		     , IFNULL(C.처리여부, '') as 처리여부
+		     , IFNULL(D.FILE_TYPE, '') as FILE_TYPE
+		     , IFNULL(D.ORG_FILE_NAME, '') as ORG_FILE_NAME
+		     , 'R' as dbMode
+		FROM 
+		     tbl_ye404 A
+		     LEFT OUTER JOIN tbl_ye001 B ON A.계약ID = B.계약ID AND A.사용자ID = B.사용자ID AND A.부양가족ID = B.부양가족ID
+		     RIGHT OUTER JOIN tbl_ye020 C  ON A.계약ID = C.계약ID AND A.사용자ID = C.사용자ID AND A.추가제출서류번호 = C.일련번호
+		     INNER JOIN tbl_content D ON C.파일ID	 = D.FILE_ID 
+		 WHERE 
+		      C.계약ID = #계약ID#
+		  AND C.사용자ID = #사용자ID#
+		  AND C.공제구분코드 = #공제구분코드#
+		  AND (A.최종저장여부 = '1' OR A.사용여부 = '1' OR A.사용여부 IS NULL)
+		ORDER BY C.등록일시
+    </select>
+
+    <select id="easyFeb.getYE105" parameterClass="map" resultClass="java.util.HashMap">
+		SELECT 
+		       IFNULL(C.계약ID, '') as 계약ID
+		     , IFNULL(C.사용자ID, '') as 사용자ID
+		     , IFNULL(A.작업자ID, '') as 작업자ID
+		     , IFNULL(A.일련번호, '') as 일련번호
+		     , IFNULL(A.임대인성명_상호, '') as 임대인성명_상호
+		     , IFNULL(A.개인식별번호, '') as 개인식별번호
+		     , IFNULL(A.유형코드, '') as 유형코드
+		     , IFNULL(A.계약면적, '') as 계약면적
+		     , IFNULL(A.임대차_주소지_물건지, '') as 임대차_주소지_물건지
+		     , IFNULL(A.임대차_계약개시일, '') as 임대차_계약개시일
+		     , IFNULL(A.임대차_계약종료일, '') as 임대차_계약종료일
+		     , IFNULL(A.연간_월세액, '') as 연간_월세액
+		     , IFNULL(A.공제대상금액, '') as 공제대상금액
+		     , IFNULL(A.최종저장여부, '') as 최종저장여부
+		     , IFNULL(A.사용여부, '') as 사용여부
+		     , IFNULL(C.일련번호, '') as 추가제출서류번호
+		     , IFNULL(A.등록일시, '') as 등록일시
+		     , IFNULL(A.수정일시, '') as 수정일시
+		     , IFNULL(C.공제구분코드, '') as 공제구분코드
+		     , IFNULL(C.공제구분상세코드, '') as 공제구분상세코드
+		     , IFNULL(C.남기실내용, '') as 남기실내용
+		     , IFNULL(C.메모, '') as 메모
+		     , IFNULL(C.파일ID, '') as 파일ID
+		     , IFNULL(C.처리여부, '') as 처리여부
+		     , IFNULL(D.FILE_TYPE, '') as FILE_TYPE
+		     , IFNULL(D.ORG_FILE_NAME, '') as ORG_FILE_NAME
+		     , 'R' as dbMode
+		FROM 
+		     tbl_ye105 A
+		     RIGHT OUTER JOIN tbl_ye020 C  ON A.계약ID = C.계약ID AND A.사용자ID = C.사용자ID AND A.추가제출서류번호 = C.일련번호
+		     INNER JOIN tbl_content D ON C.파일ID	 = D.FILE_ID 
+		 WHERE 
+		      C.계약ID = #계약ID#
+		  AND C.사용자ID = #사용자ID#
+		  AND C.공제구분코드 = #공제구분코드#
+		  AND (A.최종저장여부 = '1' OR A.사용여부 = '1' OR A.사용여부 IS NULL)
+		ORDER BY C.등록일시
+    </select>
+
+    <select id="easyFeb.getFileCount" parameterClass="map" resultClass="java.util.HashMap">
+		SELECT 
+			  SUM(CASE WHEN 공제구분코드 = 'F100' THEN CNT END)  부양가족건수
+            , SUM(CASE WHEN 공제구분코드 = 'F200' THEN CNT END)  보험료건수
+            , SUM(CASE WHEN 공제구분코드 = 'F600' THEN CNT END)  의료비건수
+            , SUM(CASE WHEN 공제구분코드 = 'F800' THEN CNT END)  교육비건수
+            , SUM(CASE WHEN 공제구분코드 = 'F500' THEN CNT END)  신용카드건수
+            , SUM(CASE WHEN 공제구분코드 = 'F700' THEN CNT END)  기부금건수
+            , SUM(CASE WHEN 공제구분코드 = 'F400' THEN CNT END)  월세액건수
+            , SUM(CASE WHEN 공제구분코드 = 'F900' THEN CNT END)  종전근무지건수
+            , SUM(CASE WHEN 공제구분코드 = 'F300' THEN CNT END)  주택자금건수
+            , SUM(CASE WHEN 공제구분코드 = 'F000' THEN CNT END)  기타영수증건수
+    	FROM (
+			/* 의료비공제 */
+			SELECT 
+			       COUNT(*) CNT
+			     , 'F600' as 공제구분코드
+			FROM 
+			     tbl_ye402 A
+			     LEFT OUTER JOIN tbl_ye001 B ON A.계약ID = B.계약ID AND A.사용자ID = B.사용자ID AND A.부양가족ID = B.부양가족ID
+			     RIGHT OUTER JOIN tbl_ye020 C  ON A.계약ID = C.계약ID AND A.사용자ID = C.사용자ID AND A.추가제출서류번호 = C.일련번호
+			     INNER JOIN tbl_content D ON C.파일ID	 = D.FILE_ID 
+			 WHERE 
+			      C.계약ID = #계약ID#
+			  AND C.사용자ID = #사용자ID#
+			  AND C.공제구분코드 = 'F600'
+			  AND (A.최종저장여부 = '1' OR A.사용여부 = '1' OR A.사용여부 IS NULL)
+			UNION ALL
+			/* 보험료  */
+			SELECT 
+			       COUNT(*)
+			     , 'F200' as 공제구분코드
+			FROM 
+			     tbl_ye401 A
+			     LEFT OUTER JOIN tbl_ye001 B ON A.계약ID = B.계약ID AND A.사용자ID = B.사용자ID AND A.부양가족ID = B.부양가족ID
+			     RIGHT OUTER JOIN tbl_ye020 C  ON A.계약ID = C.계약ID AND A.사용자ID = C.사용자ID AND A.추가제출서류번호 = C.일련번호
+			     INNER JOIN tbl_content D ON C.파일ID	 = D.FILE_ID 
+			 WHERE 
+			      C.계약ID = #계약ID#
+			  AND C.사용자ID = #사용자ID#
+			  AND C.공제구분코드 = 'F200'
+			  AND (A.최종저장여부 = '1' OR A.사용여부 = '1' OR A.사용여부 IS NULL)
+			UNION ALL
+			/* 교육비공제 */
+			SELECT
+				   COUNT(*)
+			     , 'F800' as 공제구분코드
+			FROM 
+			     tbl_ye403 A
+			     LEFT OUTER JOIN tbl_ye001 B ON A.계약ID = B.계약ID AND A.사용자ID = B.사용자ID AND A.부양가족ID = B.부양가족ID
+			     RIGHT OUTER JOIN tbl_ye020 C  ON A.계약ID = C.계약ID AND A.사용자ID = C.사용자ID AND A.추가제출서류번호 = C.일련번호
+			     INNER JOIN tbl_content D ON C.파일ID	 = D.FILE_ID 
+			 WHERE 
+			      C.계약ID = #계약ID#
+			  AND C.사용자ID = #사용자ID#
+			  AND C.공제구분코드 = 'F800'
+			  AND (A.최종저장여부 = '1' OR A.사용여부 = '1' OR A.사용여부 IS NULL)
+			UNION ALL
+			/* 신용카드공제   */
+			SELECT 
+	  		       COUNT(*)
+			     , 'F500' as 공제구분코드
+			FROM 
+			     tbl_ye108 A
+			     LEFT OUTER JOIN tbl_ye001 B ON A.계약ID = B.계약ID AND A.사용자ID = B.사용자ID AND A.부양가족ID = B.부양가족ID
+			     RIGHT OUTER JOIN tbl_ye020 C  ON A.계약ID = C.계약ID AND A.사용자ID = C.사용자ID AND A.추가제출서류번호 = C.일련번호
+			     INNER JOIN tbl_content D ON C.파일ID	 = D.FILE_ID 
+			 WHERE 
+			      C.계약ID = #계약ID#
+			  AND C.사용자ID = #사용자ID#
+			  AND C.공제구분코드 = 'F500'
+			  AND (A.최종저장여부 = '1' OR A.사용여부 = '1' OR A.사용여부 IS NULL)
+			UNION ALL
+			/* 기부금공제   */
+			SELECT 
+			       COUNT(*)
+			     , 'F700' as 공제구분코드
+			FROM 
+			     tbl_ye404 A
+			     LEFT OUTER JOIN tbl_ye001 B ON A.계약ID = B.계약ID AND A.사용자ID = B.사용자ID AND A.부양가족ID = B.부양가족ID
+			     RIGHT OUTER JOIN tbl_ye020 C  ON A.계약ID = C.계약ID AND A.사용자ID = C.사용자ID AND A.추가제출서류번호 = C.일련번호
+			     INNER JOIN tbl_content D ON C.파일ID	 = D.FILE_ID 
+			 WHERE 
+			      A.계약ID = #계약ID#
+			  AND A.사용자ID = #사용자ID#
+			  AND C.공제구분코드 = 'F700'
+			  AND (A.최종저장여부 = '1' OR A.사용여부 = '1' OR A.사용여부 IS NULL)
+			UNION ALL
+			/* 월세액공제  */
+			SELECT 
+			       COUNT(*)
+			     , 'F400' as 공제구분코드
+			FROM 
+			     tbl_ye105 A
+			     RIGHT OUTER JOIN tbl_ye020 C  ON A.계약ID = C.계약ID AND A.사용자ID = C.사용자ID AND A.추가제출서류번호 = C.일련번호
+			     INNER JOIN tbl_content D ON C.파일ID	 = D.FILE_ID 
+			 WHERE 
+			      C.계약ID = #계약ID#
+			  AND C.사용자ID = #사용자ID#
+			  AND C.공제구분코드 = 'F400'
+			  AND (A.최종저장여부 = '1' OR A.사용여부 = '1' OR A.사용여부 IS NULL)
+			UNION ALL
+			/* 부양가족공제 */
+			SELECT 
+			       COUNT(*) CNT
+			     , 'F100' as 공제구분코드
+			FROM 
+			     tbl_ye020 C
+			     INNER JOIN tbl_content D ON C.파일ID	 = D.FILE_ID 
+			 WHERE 
+			      C.계약ID = #계약ID#
+			  AND C.사용자ID = #사용자ID#
+			  AND C.공제구분코드 = 'F100'
+			UNION ALL
+			/* 종전근무지건수 */
+			SELECT 
+			       COUNT(*) CNT
+			     , 'F900' as 공제구분코드
+			FROM 
+			     tbl_ye020 C
+			     INNER JOIN tbl_content D ON C.파일ID	 = D.FILE_ID 
+			 WHERE 
+			      C.계약ID = #계약ID#
+			  AND C.사용자ID = #사용자ID#
+			  AND C.공제구분코드 = 'F900'
+			UNION ALL
+			/* 주택자금건수 */
+			SELECT 
+			       COUNT(*) CNT
+			     , 'F300' as 공제구분코드
+			FROM 
+			     tbl_ye020 C
+			     INNER JOIN tbl_content D ON C.파일ID	 = D.FILE_ID 
+			 WHERE 
+			      C.계약ID = #계약ID#
+			  AND C.사용자ID = #사용자ID#
+			  AND C.공제구분코드 = 'F300'
+			UNION ALL
+			/* 기타영수증건수 */
+			SELECT 
+			       COUNT(*) CNT
+			     , 'F000' as 공제구분코드
+			FROM 
+			     tbl_ye020 C
+			     INNER JOIN tbl_content D ON C.파일ID	 = D.FILE_ID 
+			 WHERE 
+			      C.계약ID = #계약ID#
+			  AND C.사용자ID = #사용자ID#
+			  AND C.공제구분코드 = 'F000'
+		) t
+    </select>
+
+</sqlMap>

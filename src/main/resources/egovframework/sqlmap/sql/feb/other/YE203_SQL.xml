@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="febother">
+    <typeAlias alias="ye203VO" type="com.ezsign.feb.other.vo.YE203VO"/>
+    <resultMap id="ye203ListMap" class="ye203VO">
+        <result property="계약ID" column="계약ID"/>
+        <result property="사용자ID" column="사용자ID"/>
+        <result property="작업자ID" column="작업자ID"/>
+        <result property="일련번호" column="일련번호"/>
+
+        <result property="구분코드" column="구분코드"/>
+        <result property="구분명" column="구분명"/>
+        <result property="납입금액" column="납입금액"/>
+
+        <result property="최종저장여부" column="최종저장여부"/>
+        <result property="사용여부" column="사용여부"/>
+
+        <result property="등록일시" column="등록일시"/>
+        <result property="수정일시" column="수정일시"/>
+    </resultMap>
+
+    <select id="ye203DAO.getYE203" parameterClass="ye203VO" resultClass="ye203VO">
+        SELECT	계약ID, 사용자ID, 작업자ID, 일련번호,
+    			구분코드, fn_code_name('427', 구분코드),
+          		납입금액,
+          		등록일시, 수정일시
+        FROM tbl_ye203
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+          AND 사용여부 = '1'
+          AND ( 구분코드 is null OR 구분코드 = '1')
+    </select>
+    
+    
+    <select id="ye203DAO.getYE203_1" parameterClass="ye203VO" resultClass="ye203VO">
+        SELECT	계약ID, 사용자ID, 작업자ID, 일련번호,
+    			구분코드, fn_code_name('427', 구분코드),
+          		납입금액,
+          		등록일시, 수정일시
+        FROM tbl_ye203
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+          AND 사용여부 = '1'
+          AND 구분코드 = '2'
+    </select>
+
+    <insert id="ye203DAO.insYE203" parameterClass="ye203VO">
+        <selectKey resultClass="java.lang.String" keyProperty="일련번호">
+            SELECT IFNULL(MAX(일련번호 + 1), 1)
+            FROM tbl_ye203
+        </selectKey>
+        INSERT INTO tbl_ye203 (
+          계약ID, 사용자ID, 작업자ID, 일련번호,
+          구분코드,납입금액,
+          최종저장여부, 사용여부, 등록일시, 수정일시
+        ) VALUES (
+          #계약ID#, #사용자ID#, #작업자ID#, #일련번호#,
+          #구분코드#,#납입금액#,
+          IF(#사용자ID# = #작업자ID#, '1', '0'), '1', DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        )
+    </insert>
+
+    <!-- 일련번호 없이 단건으로 처리 -->
+    <update id="ye203DAO.updYE203Disable" parameterClass="ye203VO">
+        UPDATE tbl_ye203
+        SET
+          최종저장여부 = IF(#사용자ID# = #작업자ID#, '0', 최종저장여부),
+          사용여부 = '0',
+          수정일시 = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+          AND 일련번호 = #일련번호#
+          AND 구분코드 = #구분코드#
+          AND 사용여부 = '1'
+    </update>
+
+    <delete id="ye203DAO.allDelYE203" parameterClass="ye203VO">
+        DELETE
+        FROM tbl_ye203
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+    </delete>
+
+    <select id="ye203DAO.getYE203Map" parameterClass="ye203VO" resultClass="ye203VO">
+        SELECT 계약ID, 사용자ID, 작업자ID, 일련번호,
+          납입금액,
+          최종저장여부, 사용여부, 등록일시, 수정일시
+        FROM tbl_ye203
+        WHERE 계약ID = #계약ID#
+          AND 사용자ID = #사용자ID#
+          AND (최종저장여부 = '1' OR 사용여부 = '1')
+        ORDER BY IF(작업자ID = 사용자ID, 0, 1)
+    </select>
+</sqlMap>

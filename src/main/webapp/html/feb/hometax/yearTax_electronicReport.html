@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>전자 신고</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+
+<script>
+	$(document).ready(function() {
+		계약ID = getCookie("yearContractId");
+		
+		// 사업장조회
+		fn_getYS030List();
+		
+		// 전자신고 사업장 조회
+		fn_getYE800List(1);
+		
+	    $("#chkAll").click(function(){
+	        var chk = $(this).is(":checked");
+	        if(chk) $("#dataList input").prop('checked', true);
+	        else  $("#dataList input").prop('checked', false);
+	    });
+	
+	})
+	
+	function fn_getYS030List() {
+		var url = rootPath + '/febsystem/getYS030List.do';
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				계약ID:계약ID,
+				startPage:0,
+				endPage:100
+			},
+			success:function(result) {
+				if (result.success) {
+					
+					// 사업장 추가
+					$.each(result.data, function(i, row) {
+		                var option = $("<option value='"+row.사업장ID+"'>"+row.사업장명+"</option>");
+		                $('#사업장ID').append(option);
+					});
+					
+				}
+			},
+			error:function(request,status,error){
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+	
+	function fn_getYE800List(page) {
+
+		var url = rootPath+"febhometax/getYE800List.do";
+		
+		var viewPage = $("#viewPage").val();
+		if(viewPage==""||viewPage=="0") viewPage = 10;
+	
+		if (page==0)
+			curPage=0;
+		else 
+			curPage = page-1;
+		
+		if (curPage<0) {
+			curPage=0;
+			return;
+		}
+		if (curPage*viewPage>totPage) {
+			curPage-=1;
+			return;
+		}
+		
+		var 사업장ID = $("#사업장ID").val();
+		var searchKey = $("#searchKey").val();
+		var searchValue = $("#searchValue").val();
+		var startPage = (curPage*viewPage);
+		var endPage = viewPage;
+		var sortName = $("#sortName").val();
+		var sortOrder = $("#sortOrder").val();
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				계약ID:계약ID,
+				사업장ID:사업장ID,
+				searchKey:searchKey,
+				searchValue:searchValue,
+				startPage:startPage,
+				endPage:endPage,
+				sortName:sortName,
+				sortOrder:sortOrder
+			},
+			success:function(result)
+			{
+				var htmlData = "";
+				if (result.success==true) {
+					totPage = result.total;
+					var totalPage = Math.ceil(totPage/viewPage);
+					
+					// 전자신고 사업장내역
+					$.each(result.data, function(i, row) {
+						
+						htmlData += '<tr class=""> ';
+						htmlData += '	<td class="chk_area"><input type="checkbox" id="chk" name="chk" value="'+row.계약ID+"|"+row.사업장ID+"|"+row.bizId+"|"+row.전자신고ID+'"> </td> ';
+						htmlData += '	<td class="value">'+row.사업장명+'</td> ';
+						htmlData += '	<td class="value">'+isSetNull(row.사업자등록번호, '')+'</td> ';
+						htmlData += '	<td class="value">'+isSetNull(row.종사업자일련번호, '')+'</td> ';
+
+						htmlData += '	<td class="value">';
+						if(row.단위과세자여부==1) htmlData += '여'; else htmlData += '부';
+						htmlData += '</td> ';
+						
+						if(row.근로자인원수 != row.신고대상수){
+							htmlData += '	<td class="value">'+AddComma(row.근로자인원수)+'</td> ';
+							htmlData += '	<td class="value"><font color="red">'+AddComma(row.신고대상수)+'</font></td> ';
+						}else{
+							htmlData += '	<td class="value">'+AddComma(row.근로자인원수)+'</td> ';
+							htmlData += '	<td class="value">'+AddComma(row.신고대상수)+'</td> ';
+							
+						}
+						htmlData += '	<td class="value sort_right">'+AddComma(row.총급여)+'</td> ';
+						htmlData += '	<td class="value sort_right">'+AddComma(row.결정세액)+'</td> ';
+						
+						htmlData += '	<td class="value">';
+						if(row.제작여부==1) htmlData += '제작'; else htmlData += '미제작';
+						htmlData += '</td> ';
+						
+						var regDate = "";
+						if(row.등록일시 != null && row.등록일시 != ""){
+							regDate = convertDateTime(row.등록일시).format("yyyy-MM-dd HH:mm:ss");
+						}
+						
+						
+						htmlData += '	<td class="value">'+regDate+'</td> ';
+						htmlData += '</tr> ';
+					});
+					
+					if(page==1) {
+						
+						$('#page-selection').bootpag({
+							total: totalPage,       // total pages
+							page: page,         	// default page
+							maxVisible: 10, 	   	// visible pagination
+							leaps: true,	      	// next/prev leaps through maxVisible
+						    firstLastUse: true,
+						    first: '',
+						    last: '',
+						    wrapClass: 'pagination',
+						    activeClass: 'active',
+						    disabledClass: 'disabled',
+						    nextClass: 'btn_next',
+						    prevClass: 'btn_prev',
+						    lastClass: 'end_page',
+						    firstClass: 'first_page'
+						}).on("page", function(event, num){
+							fn_getYE800List(num);
+						}); 
+					}
+				} else {
+					htmlData += '<tr> <td colspan="14">요청하신 자료가 존재하지 않습니다.</td></tr>';
+					
+				}
+				$("#dataList").html(htmlData);
+
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+	
+	<!-- 전자매체 문서 생성 -->
+	function save800() {
+		// 전자신고 파일 제작		
+		var url = rootPath + '/febhometax/saveYE800.do';
+
+		/*var 사업장ID = $("#사업장ID").val();
+		var 제출대상구분 = $("#제출대상구분").val();
+		var 제출년 = $("#제출년").val();*/
+		
+		var 제출월 = $("#제출월").val();
+		var 제출일 = $("#제출일").val();
+
+		
+		if(제출월 < 1 || 제출월 > 12){
+			alert("제출월이 잘못되었습니다.");
+			$("#제출월").focus();
+			return;
+		}				
+		if(제출일 < 1 || 제출일 > 31){
+			alert("제출일이 잘못되었습니다.");
+			$("#제출일").focus();
+			return;
+		}
+		
+		if(제출월.length < 2){
+			if(제출월 < 10){
+				제출월 = '0'+제출월;	
+	        }
+		}
+		
+		if(제출일.length < 2){
+	        if(제출일 < 10){
+	        	제출일 = '0'+제출일;	
+	        }
+		}
+		
+		if($("#chk:checked").length == 0){
+			alert("선택된 정보가 없습니다.");
+			return;
+		}
+		
+		$("#제출년월일").val($("#제출년").val()+''+제출월+''+제출일);
+ 
+        var params = $("#frm").serialize();
+
+		$.blockUI();
+        
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: params,
+			success:function(result) {
+				$.unblockUI();
+				
+				if(!result.success){
+					alert(result.message);	
+				}else{
+					/*
+					if(isNull(result.message)){
+						alert("처리되었습니다.");						
+					}else{
+						alert(result.message);	
+					}*/
+					
+					fn_getYE800List();
+					$("#chkAll").prop('checked', false);
+					
+					if(confirm("처리되었습니다.\n다운로드 하시겠습니까?")){						
+						//전자문서 파일다운로드 
+						passwdPopup(result);	
+					}
+																				
+				}
+				
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else if (request.status=="403") {
+					alert("Http 세션이 만료되었습니다."+error);				
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+	
+	var passwdPopup = function(result)
+	{					
+		$("#ye800FileName").val(result.ye800FileName);
+		$("#ye800FilePath").val(result.ye800FilePath);
+		$("#ye801FileName").val(result.ye801FileName);
+		$("#ye801FilePath").val(result.ye801FilePath);
+		
+		$("#file_password").val("");
+        $(".window").show();
+	};
+	
+	//파일다운로드 처리
+	var fnc_filedownload = function(encYn)
+	{
+		
+		if(encYn == 'Y' && isNull($.trim($("#file_password").val()))){
+			alert("파일 비밀번호를 입력해주십시오.");
+			$("#file_password").val('');
+			$("#file_password").focus();
+			
+			return;
+		}
+		
+		$(".window").hide();
+		$("#전자문서비밀번호").val($.trim($("#file_password").val()));
+		
+		var form = document.frm;
+		form.setAttribute("action", "/febhometax/fileDownYE800.do");
+		form.target = "blankFrame";
+		form.submit();
+		
+		/*var url = "/febhometax/fileDownYE800.do?fileName="+encodeURI(fileName)+"&filePath="+encodeURI(filePath);
+		var link = document.createElement('a');
+		document.body.appendChild(link);
+		link.href = url;
+		link.click();*/
+	}
+	
+</script>
+
+</head>
+<body>
+<iframe name="blankFrame" id="blankFrame" border="0" width="0" height="0"></iframe>
+<form name="frm" id="frm" method="post">
+<input type="hidden" name="제출년월일" id="제출년월일" value="" />
+<input type="hidden" name="ye800FileName" id="ye800FileName" value="" />
+<input type="hidden" name="ye800FilePath" id="ye800FilePath" value="" />
+<input type="hidden" name="ye801FileName" id="ye801FileName" value="" />
+<input type="hidden" name="ye801FilePath" id="ye801FilePath" value="" />
+<input type="hidden" name="전자문서비밀번호" id="전자문서비밀번호" value="" />
+
+	<div id="yearTax_wrap" class="yearTax">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연말정산 > </span><span class="loc_sub NanumSquare_R">전자 신고</span></div>
+			<div class="pagtit NanumSquare_R">
+				<span class="">전자 신고</span>
+			</div>
+			
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">전자 신고</span>
+					</div>
+					<div class="grid_field full">
+						<ul class="gridRow2">
+							<li class="search_wrap">
+								<div class="group_row row3">
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">사업장 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R" id="사업장ID" name="사업장ID">
+												<option value="" >전체</option>
+											</select>
+										</dd>
+									</dl>
+								</div>
+							</li>
+							<li class="btns sort_right">
+								<a class="NanumSquare_R btn_type btn_grid_search" onclick="fn_getYE800List()"><span class="icon Material_icons">search</span> 검색</a>
+							</li>
+						</ul>
+					</div>
+					<div class="grid_paging">
+						<div class="select_box">
+							<dl>
+								<dt><label class="label_txt NanumSquare_R">Rows</label></dt>
+								<dd class="select_box">
+									<select class="NanumSquare_R" id="viewPage">
+										<option value="10" >10</option>
+										<option value="20" >20</option>
+										<option value="30" >30</option>
+										<option value="50" >50</option>
+									</select>
+								</dd>
+							</dl>
+						</div>
+						<div id="page-selection" class="pagingnav_wrap_mid"></div>
+					</div>
+					<div class="group_table">
+						<table class="hasHead NanumSquare_R">
+							<colgroup>
+								<col width="4%">
+								<col width="">
+								<col width="11%">
+								<col width="11%">
+								<col width="7%">
+								<col width="7%">
+								<col width="7%">
+								<col width="12%">
+								<col width="12%">
+								<col width="8%">
+								<col width="12%">
+							</colgroup>
+							<thead>
+								<tr>
+									<th class="chk_area"><input type="checkbox" id="chkAll" name="chkAll"></th>
+									<th>사업장</th>
+									<th>사업자등록번호</th>
+									<th>종사업자 일련번호</th>
+									<th>단위과세</th>
+									<th>대상인원</th>
+									<th>신고인원</th>
+									<th>총급여</th>
+									<th>결정세액</th>
+									<th>제작여부</th>
+									<th>제작일자</th>
+								</tr>
+							</thead>
+							<tbody id="dataList">
+								<tr class="">
+									<td class="chk_area"></td>
+									<td class="value"></td>
+									<td class="value"></td>
+									<td class="value"></td>
+									<td class="value"></td>
+									<td class="value"></td>
+									<td class="value"></td>
+									<td class="value sort_right"></td>
+									<td class="value sort_right"></td>
+									<td class="value"></td>
+									<td class="value"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="group_row full">
+						<ul class="gridRow-pub field_sort_right">
+							<li class="w600">
+								<div class="group_row row2">
+									<dl class="NanumSquare_R rat4-6">
+										<dt><label class="label_txt NanumSquare_R">제출대상구분 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R" id=제출대상구분코드 name="제출대상구분코드">
+												<option value="1" >1.연간(1.1 ~ 12.31)지급분</option>
+												<option value="2" >2.폐업으로 인한 수시 제출분</option>
+												<option value="3" >3.수시 분할 제출분</option>
+											</select>
+										</dd>
+									</dl>
+									
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">제출년월일 : </label></dt>
+										<dd class="multi_box date_input">
+											<div class="year"><input id="제출년" name="제출년" type="number" value="">년</div>
+											<div class="month"><input id="제출월" name="제출월" type="number" value="">월</div>
+											<div class="day"><input id="제출일" name="제출일" type="number" value="">일</div>
+										</dd>
+									</dl>
+								</div>
+							</li>
+							<li class="btns">
+								<a class="NanumSquare_R btn_type btn_making" href="javascript:save800();">제작</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div><!--  content -->
+		</div>
+	</div>
+</form>	
+
+
+<div class="window">
+	<div id="layer_popupWrap" class="ckPassword">
+		<div class="container">
+			<div id="popup_tit" class="nonborder">
+				<div id="popup_close" class="btn_type col_skyblue"></div>
+			</div>			
+			<div class="contents">
+				<ul class="pwCheck_wrap NanumSquare_R">
+					<li class="icon"></li>
+					<li class="tit">파일 비밀번호 입력</li>
+					<li class="txt">파일 암호화를 위해 비밀번호를 입력하세요.</li>
+					<li class="input"><input type="password" id="file_password" name="file_password" maxlength="14" value="" class="NanumRound"></li>
+					<li class="btns">
+						<a class="btn_type type1 NanumSquare_R" onclick="fnc_filedownload('Y');">확인</a>
+						<a class="btn_type type2 NanumSquare_R" onclick="fnc_pup_close();">닫기</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+		
+<!-- 파일 암호화 레이아웃 팝업 -->
+<style> 
+	.window{
+    	display: none;      
+ 	}
+</style>
+
+<script type="text/javascript"> 
+
+    $(document).ready(function(){
+        /*$("#popup_open").click(function(e){
+            e.preventDefault();
+            $("#file_password").val("");
+            $(".window").show();
+        });*/
+ 
+        //닫기 버튼을 눌렀을 때
+        $(".window #popup_close").click(function (e) {  
+            //링크 기본동작은 작동하지 않도록 한다.
+            e.preventDefault();
+            $("#file_password").val("");
+            $(".window").hide();       
+            
+            //fnc_filedownload('N');
+        });       
+        
+        var date = new Date();
+        
+        var year = date.getFullYear();
+        var month = date.getMonth()+1;
+        var day = date.getDate();
+        
+        $("#제출년").val(year);
+        
+        if(month < 10){
+        	$("#제출월").val('0'+month);	
+        }else{
+        	$("#제출월").val(month);
+        }
+        if(day < 10){
+        	$("#제출일").val('0'+day);	
+        }else{
+        	$("#제출일").val(day);
+        }        
+        
+    });
+ 
+    function fnc_pup_close(){
+    	$("#file_password").val("");
+    	$(".window").hide();  
+    	
+    	fnc_filedownload('N');
+    }
+
+</script>    
+
+</body>
+</html>

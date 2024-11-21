@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>게시판</title>
+
+<link rel="stylesheet" type="text/css" href="/css/jquery.alerts.css">
+
+<script type="text/javascript" src="/js/jquery.alerts.js"></script>
+<script type='text/javascript' src="/js/ezsign/dept/group_management_employee.js"></script>
+
+</head>
+<body>			
+	
+	<div id="groupManage_wrap" class="">
+	  <div class="container">
+	    <div class="location"><span class="loc_sub NanumGothic">부문 관리</span></div>
+	
+	    <div class="contents">
+	      <div class="group_wrap">
+	        <div class="group_tit">
+	          <div class="icon"></div>
+	          <span class="text NanumGothic">부문 관리</span>
+	          <!-- <ul class="top_items NanumGothic">
+	            <li><a class="btn_type" (click)="saveDeptList()"><span class="icon_save NanumGothic"></span>저장</a></li>
+	          </ul> -->
+	        </div>
+	        <div class="grid_field">
+	          <ul class="between">
+	            <li class="label_before">
+	              <label class="NanumGothic label_sort_right">부문명 : </label>
+	              <fieldset class="">
+	                <input class="" type="text" id="model_search_deptName">
+	                <a class="btn_type btn_search Material_icons" onClick="getSearch()">search</a>
+	              </fieldset>
+	            </li>
+	          </ul>
+	        </div>
+	
+	        <div class="group_table" style="margin-top: 30px;">
+	          <table class="NanumGothic">
+	            <colgroup>
+	              <col width="4%">
+	              <col width="12%">
+	              <col width="20%">
+	              <col width="12%">
+	              <col width="20%">
+	              <col width="12%">
+	              <col width="20%">
+	            </colgroup>
+	            <tbody id="modelListTbody">	              
+	
+	            </tbody>
+	          </table>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+</body>
+</html>
+

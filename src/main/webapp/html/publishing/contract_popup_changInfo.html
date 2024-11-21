@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/contract_write.css">
+
+
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+
+</head>
+<body>
+
+	<div id="contract_popup" class="changInfo">
+		<div class="container">
+			<div id="popup_tit">
+				<div class="tit_icon"></div>
+				<div class="tit_text col_skyblue NanumSquare_R">자사 양식 정보 변경</div>
+				<a id="popup_close" class="btn_type btn_close" onclick="window.close()"></a> 
+			</div>
+			<ul class="contents NanumSquare_R">
+				<li>
+					<div class="label_tit">문서종류 명칭 변경</div>
+					<input type="text" > 
+				</li>
+				<li>
+					<div class="label_tit">서명 참여자(복수선택가능)</div>
+					<div class="chBox"><input type="checkbox" id="ck1_1" name="sigin"><label for="ck1_1">회사</label></div>
+					<div class="chBox"><input type="checkbox" id="ck1_2" name="sigin"><label for="ck1_2">근로자</label></div>
+				</li>
+				<li>
+					<div class="label_tit"><span class="dot">*</span>노무첨삭지원(필수선택)</div>
+					<div class="chBox"><input type="radio" id="ck2_1" name="editing"><label for="ck2_1">필요</label></div>
+					<div class="chBox"><input type="radio" id="ck2_2" name="editing"><label for="ck2_2">불필요</label></div>
+				</li>
+				<li class="dec">※ 노무첨삭지원은 유료 서비스입니다. </li>
+				<li class="btn_group NanumRound">
+					<a class="btn_type type1">확인</a>
+					<a class="btn_type type4">취소하기</a>
+				</li>
+			</ul>
+		</div>	
+	</div>
+    <!-- *********************************************  html 끝  부분  body안에 붙여 넣으시면 됩니다.  *********************************************  -->
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <!--  개발 URL :  -->
+    <!-- <script src="https://scert.mobile-ok.com/resources/js/index.js"></script>  -->
+    <!--  운영 URL : -->
+    <script src="https://cert.mobile-ok.com/resources/js/index.js"></script>
+
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+
+    <script>
+        var id = getQueryParam('id');
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelector("#mok_popup").addEventListener("click", function () {
+
+            })
+        })
+
+        function result(result) {
+            try {
+                result = JSON.parse(result);
+                document.querySelector("#result").value = JSON.stringify(result, null, 4);
+
+                if (result.resultMsg === "성공") {
+                    alert('본인인증이 완료되었습니다.');
+                    if (window.opener) {
+                        window.opener.parent.location.href = rootPath + "contract/contractPersonEtcView.do?id=" + encodeURIComponent(id);
+                        window.close(); // 팝업 창 닫기
+                    } else {
+                        parent.location.href = rootPath + "contract/contractPersonEtcView.do?id=" + encodeURIComponent(id);
+                    }
+                } else {
+                    alert('본인인증이 실패하였습니다.');
+                }
+            } catch (error) {
+                document.querySelector("#result").value = result;
+            }
+        }
+
+        function getQueryParam(name) {
+            var urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+    </script>
+    <style>
+        .container {width: 500px;border: 1px black solid;display: flex;flex-direction: column;padding: 5px;}
+        .content {border: 1px black solid;display: flex;flex-direction: column;padding: 5px;}
+        .item {border: 1px black solid;display: flex;flex-direction: column;padding: 5px;}
+        label {margin-bottom: 5px;font-weight: 800;}
+        input {box-sizing: border-box;}
+        button {font-size: 20px;font-weight: 800;padding: 3px;box-sizing: border-box;}
+    </style>
+    <title>휴대폰본인확인_표준창</title>
+</head>
+<body>
+<div class="container">
+    <div class="content">
+        <div class="item">
+            <textarea id="result" rows="20"></textarea>
+        </div>
+    </div>
+    <div class="content">
+        <button id="mok_popup">본인확인 시작(팝업)</button>
+    </div>
+</div>
+</body>
+</html>

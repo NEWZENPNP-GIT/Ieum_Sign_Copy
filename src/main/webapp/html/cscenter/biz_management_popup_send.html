@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/myPage.css">
+<link rel="stylesheet" type="text/css" href="/css/biz_management.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script>
+var chkId = false;
+
+function fn_checkBusinessNo() {
+	chkId = false;
+	
+	var url = rootPath+"biz/getBizList.do";
+	
+	var businessNo = $("#businessNo").val();
+	
+	if (businessNo.length==0) {
+		alert("신청하실 사업자번호를 입력해주시기 바랍니다.");
+		return;
+	}
+
+	if (businessNo.length < 10) {
+		alert("사업자번호가 맞지 않습니다.");
+		return;
+	}
+	
+	if (!check_busino(businessNo)) {
+		alert("사업자번호가 맞지 않습니다.");
+		return;
+	}
+
+	$.blockUI();
+    
+	$.ajax({
+		url:url,
+	    crossDomain : true,
+		dataType:"json",
+		type:"GET",
+		data: {
+			businessNo:businessNo,
+			startPage:0,
+			endPage:1
+		},
+		success:function(result)
+		{
+			if(result.total==0) {
+				chkId = true;
+				alert("사용가능하신 사업장입니다.");
+			} else {
+				alert("입력하신 사업자번호는 사용중인 사업장입니다.\r\n다시 입력해주시기 바랍니다.");
+			}
+		},
+		error:function(request,status,error){
+			alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+	        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
+	});
+	$.unblockUI();
+	
+}
+
+$(document).ready(function() {
+	
+	$("#businessNo").change(function(){
+		chkId = false;
+	});
+	
+	$("#close").click(function(){
+		self.close();
+	});
+	
+	getFunnel();
+	
+	fn_funnelYear();
+	
+	$("#funnelYear").hide();
+	
+	$('#funnel').change(function () {
+    	
+    	if($(this).val() == "200"){
+    		$("#funnelYear").show();
+    		$("#funnel").css("width", "calc(50% - 2.5px)");
+    		$("#funnelYear").css("width", "calc(50% - 2.5px)");
+    		$("#funnelYear").val("2022");
+    	}else{
+    		$("#funnelYear").hide();
+    		$("#funnel").css("width", "100%");
+    		$("#funnelYear").val("");
+    	}
+    });
+	
+});
+
+function fn_save(){
+	
+	var url = rootPath+"cs/requestBiz.do";
+	
+	var bizName= $("#bizName").val();
+	var businessNo= $("#businessNo").val();
+	var email = $("#email").val();
+	var phoneNum = $("#phoneNum").val();
+	var funnel = $("#funnel").val();
+	var funnelYear = $("#funnelYear").val();
+    
+	if(bizName.length <= 0) {
+		alert("회사명을 입력 해주세요.");
+		return false;
+	}
+	
+	if(chkId == false) {
+		alert("사업자번호 중복확인을 해주세요.");
+		return false;
+	}
+	
+	if(email.length <= 0) {
+		alert("이메일을 입력 해주세요.");
+		return false;
+	}else{
+		if(!checkEmail(email)) {
+			alert("이메일 형식이 맞지 않습니다.");
+			return false;
+		}		
+	}	
+	if(phoneNum.length <= 0) {
+		alert("담당자연락처를 입력 해주세요.");
+		return false;
+	}else {
+		if(!checkPhoneNumNoHypen(phoneNum)) {
+			alert("휴대폰번호 형식이 맞지 않습니다.\r\n다시 입력해주시기 바랍니다.");
+			$("#phoneNum").focus();
+			return false;
+		}
+	}
+
+	$.blockUI();
+	
+	$.ajax({
+		url:url,
+	    crossDomain : true,
+		dataType:"json",
+		type:"POST",
+		data: {
+			bizName:bizName,
+			businessNo:businessNo,
+			email:email,
+			phoneNum:phoneNum,
+			funnel:funnel,
+			funnelYear:funnelYear
+		},
+		success:function(result)
+		{
+			$.unblockUI();
+			if (result.success==true) { 
+				alert("전송되었습니다.");
+				opener.fn_searchList(1);
+				window.close();
+			}
+		},
+		error:function(request,status,error){
+			$.unblockUI();
+			alert(error);
+		}
+	});
+}
+
+//기업구분코드 조회
+function getFunnel() {
+	var url = rootPath+"code/getCodeList.do";
+	var grpCommCode = "010";
+	
+	$.ajax({
+		url:url,
+	    crossDomain : true,
+		dataType:"json",
+		type:"GET",
+		data: {
+			grpCommCode:grpCommCode
+		},
+		success:function(result)
+		{
+			if(result.success){
+	    		var workStatus = result.data;
+				$.each(workStatus, function(i, data){
+					if(data.refCode == "1"){
+						$("#funnel").append($("<option>", {
+							value: data.commCode,
+							text: data.commName
+						}));
+					}
+				});
+	    	}
+		},
+		error:function(request,status,error){
+	        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
+	});
+}
+
+//비대면 계약구분 데이터 가져오기
+function fn_funnelYear() {
+
+    var url = rootPath + "code/getCodeList.do";
+
+    $.ajax({
+        url: url,
+        crossDomain: true,
+        dataType: "json",
+        type: "GET",
+        data: {
+            grpCommCode: '913'
+        },
+        success: function (result) {
+            var htmlData = "";
+            var option = "";
+
+            if (result.success == true) {
+
+                // 대분류
+                $.each(result.data, function (i, row) {
+                	option = "<option value='" + row.commCode + "'>" + row.commName + "</option>";
+                    $('#funnelYear').append(option);
+                });
+            }
+
+        },
+        error: function (request, status, error) {
+            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+        }
+    });
+}
+</script>
+</head>
+<body>
+
+	<div id="" class="contract_electronic_popup" style="width: 100%;">
+		<div class="pop_title">
+ 			<h3>신청 요청하기</h3> 
+			<a class="col_skyblue" id="close"></a>
+		</div>
+
+		<div class="tbstyle01">
+			<table class="NanumSquare_R">
+				<tr>
+					<th>회사명</th>
+					<td>
+						<input type="text" id="bizName" class="inpstyle01">
+					</td>
+				</tr>
+				<tr>
+					<th>사업자번호</th>
+					<td>						
+						<div class="filesearch">
+							<input type="text" id="businessNo" class="inpstyle01">
+							<a class="btn" onclick="fn_checkBusinessNo()">중복체크</a>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>이메일</th>
+					<td>
+						<input type="text" id="email" class="inpstyle01" placeholder="service@newzenpnp.com">
+					</td>
+				</tr>
+				<tr>
+					<th>연락처</th>
+					<td>
+						<input type="text" id="phoneNum" class="inpstyle01" placeholder="01012345678">
+					</td>
+				</tr>
+				<tr>
+					<th>기업구분</th>
+					<td>
+						<select id="funnel">
+						</select>
+						<select id="funnelYear">
+						</select>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="red_box">
+			<p>주의! 기업 구분에 따라 가입 메일이 다르게 전송 됩니다.</p>
+		</div>
+
+		<div class="btn_group">
+			<div class="NanumRound btn_type type1" onclick="fn_save()">등록하기</div>
+			<div class="NanumRound btn_type type3" onclick="window.close()">취소하기</div>
+		</div>
+	</div>
+</body>
+</html>

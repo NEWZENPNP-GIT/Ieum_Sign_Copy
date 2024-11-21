@@ -1,0 +1,162 @@
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/contract_write.css">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<!-- bootPag -->
+
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+	<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+			fn_contractRemove();
+			setCookie("delContId","")
+		})
+
+		function fn_contractRemove(){
+			var url = rootPath+"contract/delContractAll.do";
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				data : {
+					list:getCookie("delContId")
+				},
+				success:function(result)
+				{
+					//$.unblockUI();
+					console.log(result);
+					if(result.success) {
+						$(".count").text(result.total);
+						$("#doc_dounts").text(result.total);
+
+						// pdf계약서 작성건수
+						$("#docCount").text(result.total);
+
+						if(result.total == 0){ //삭제완료된 문서가 0건일 경우
+							alert("전자문서 삭제 중 오류가 발생하였습니다.");
+
+							/* 로딩페이지에서 오류페이지로 이동 임시 처리 */
+							$("#loadingBox").addClass("hidden");
+							$("#failed").removeClass("hidden");
+							$("#btnShowList").removeClass("hidden");
+
+							$("#tltComplete").addClass("hidden");
+							$("#tltFailed").removeClass("hidden");
+						} else { //삭제 성공
+							/* 로딩페이지에서 오류페이지로 이동 임시 처리 */
+							alert(result.total+"건의 전자문서가 삭제 되었습니다.\r\n복원 및 확인이 불가능합니다.")
+							$("#loadingBox").addClass("hidden");
+							$("#complete").removeClass("hidden");
+							$("#btnShowList").removeClass("hidden");
+
+							$("#tltFailed").addClass("hidden");
+							$("#tltComplete").removeClass("hidden");
+						}
+
+					} else { //오류/Exception발생
+						alert("전자문서 삭제 중 오류가 발생하였습니다.");
+
+						$("#loadingBox").addClass("hidden");
+						$("#failed").removeClass("hidden");
+						$("#btnShowList").removeClass("hidden");
+
+						$("#tltFailed").addClass("hidden");
+						$("#tltComplete").removeClass("hidden");
+					}
+				},
+				error:function(request,status,error){
+					if (request.status=="401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						location.href=rootPath;
+					} else {
+						alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+
+						$("#loadingBox").addClass("hidden");
+						$("#failed").removeClass("hidden");
+						$("#btnShowList").removeClass("hidden");
+
+						$("#tltComplete").addClass("hidden");
+						$("#tltFailed").removeClass("hidden");
+					}
+				}
+			});
+		}
+
+		function fn_goContractCompleteList() {
+			$("#contents_wrap").empty();
+			$(window).off("resize");
+			$.ajax({
+				url : "/html/contract/contract_list_complete.html" ,
+				success : function(result) {
+					$("#contents_wrap").html(result);
+				}
+			});
+		}
+
+	</script>
+	</head>
+
+	<body>
+	<div id="contract_wrap" class="">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumGothic">전자문서 > 전자계약(양식변환) > </span><span class="loc_sub NanumGothic">완료계약 문서함</span></div>
+			<div class="pagtit"><span class="NanumGothic">3. 삭제</span><!-- <div class="top_btns NanumGothic"><a class="btn_type">파일등록 <span class="icon add"></span></a></div> --></div>
+			<div class="tit_dec NanumGothic" id="tltComplete"><span class="speaker"></span>총<span class="count">0</span>건의 전자문서가 삭제되었습니다.</div>
+			<div class="tit_dec NanumGothic hidden" id="tltFailed"><span class="speaker"></span>전자문서가 삭제 실패하였습니다.</div>
+			<div class="nav_snb">
+				<ul class="nav_tabGroup tab3">
+					<li class="clear">
+						<div class="hor_line"></div>
+						<div class="num"><span>1</span></div>
+						<div class="btn_tab"><span class="tabBox NanumGothic">삭제 동의</span></div>
+					</li>
+					<li class="clear">
+						<div class="hor_line"></div>
+						<div class="num"><span>2</span></div>
+						<div class="btn_tab"><span class="tabBox NanumGothic">목록 확인 및 다운로드</span></div>
+					</li>
+					<li class="active">
+						<div class="hor_line"></div>
+						<div class="num"><span>3</span></div>
+						<div class="btn_tab"><span class="tabBox NanumGothic">삭제</span></div>
+					</li>
+				</ul>
+			</div>
+			<div class="tab_contents">
+				<!-- 계약서 생성 중  -->
+				<div id="loadingBox">
+					<div class="loader"><div id="loader"></div></div>
+					<div class="creatTxt NanumGothic"><span>전자문서 삭제 진행중 입니다.</span></div>
+					<div class="waitTxt NanumGothic"><span>잠시만 기다려 주세요.</span></div>
+				</div>
+
+				<!-- 계약서 생성 및 미리보기 완료  숨기기 클래스 :  hidden -->
+				<div id="complete" class="delComp hidden">
+					<div class="iconArea"><span class="icon_check"></span><span class="NanumGothic"></span></div>
+					<div class="completeTxt NanumGothic font_30 col_skyblue"><span class="doc_count" id="doc_dounts">0</span>건의 전자문서가 삭제 되었습니다.</div>
+				</div>
+
+				<div id="failed" class="delComp hidden">
+					<div class="iconArea"><span class="icon_check"></span><span class="NanumGothic"></span></div>
+					<div class="completeTxt NanumGothic font_30 col_skyblue">전자문서 삭제에 실패하였습니다.</div>
+				</div>
+			</div>
+		</div>
+		<div class="btn_footGroup NanumGothic sort-R">
+			<a class="btn_type btn_docAdmin" onclick="fn_goContractCompleteList();">완료계약 문서함 ＞ </a>
+		</div>
+	</div>
+	</body>
+	</html>

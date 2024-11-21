@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="meta">
+	<typeAlias alias="metaFileVO" type="com.ezsign.meta.vo.MetaFileVO" />
+	<resultMap id="metaFileList" class="metaFileVO">
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="metaId" column="META_ID"/>
+		<result property="filePath" column="FILE_PATH"/>
+		<result property="fileName" column="FILE_NAME"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="updDate" column="UPD_DATE"/>
+	</resultMap>
+	
+	<typeAlias alias="metaDataVO" type="com.ezsign.meta.vo.MetaDataVO" />
+	<resultMap id="metaDataList" class="metaDataVO">
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="metaId" column="META_ID"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="dataId" column="DATA_ID"/>
+		<result property="dataValue" column="DATA_VALUE"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="updDate" column="UPD_DATE"/>
+	</resultMap>
+	
+	<insert id="metaDAO.insMetaFile" parameterClass="metaFileVO" >
+		<selectKey resultClass="java.lang.String" keyProperty="metaId">
+			SELECT  getTableKey('TBL_META_FILE')
+		</selectKey>
+		INSERT INTO tbl_meta_file (
+			BIZ_ID, META_ID, FILE_PATH, FILE_NAME, INS_DATE, UPD_DATE
+		) VALUES (
+		   #bizId#, #metaId#, #filePath#, #fileName#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<insert id="metaDAO.insMetaData" parameterClass="metaDataVO">
+		INSERT INTO tbl_meta_data (
+			BIZ_ID, META_ID, EMP_NO, DATA_ID, DATA_VALUE, INS_DATE, UPD_DATE
+		) VALUES (
+		   #bizId#, #metaId#, #empNo#, #dataId#, #dataValue#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<insert id="metaDAO.insMetaDataList" parameterClass="java.util.List">
+		<!-- INSERT INTO tbl_meta_data (
+			BIZ_ID, META_ID, EMP_NO, DATA_ID, DATA_VALUE, INS_DATE, UPD_DATE
+		) SELECT * FROM(
+		<iterate open="" close="" conjunction="UNION ALL">
+		    SELECT 
+		    	#[].bizId#, #[].metaId#, #[].empNo#, #[].dataId#, #[].dataValue# AS DATA, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s') INS_DATE, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s') UPD_DATE
+		</iterate>
+		) AS A
+		ON DUPLICATE KEY UPDATE
+		DATA_VALUE = A.DATA, 
+		UPD_DATE = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s') -->
+		INSERT INTO tbl_meta_data (
+			BIZ_ID, META_ID, EMP_NO, DATA_ID, DATA_VALUE, INS_DATE, UPD_DATE
+		) VALUES 
+		<iterate open="" close="" conjunction=",">
+		    (#[].bizId#, #[].metaId#, #[].empNo#, #[].dataId#, #[].dataValue#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'))
+		</iterate>
+	</insert>
+	
+</sqlMap>

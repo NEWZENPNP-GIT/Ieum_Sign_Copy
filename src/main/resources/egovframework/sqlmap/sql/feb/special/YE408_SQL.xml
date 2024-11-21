@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="febspecial">
+	<typeAlias alias="ye408VO" type="com.ezsign.feb.special.vo.YE408VO" />
+	<resultMap id="ye408ListMap" class="ye408VO">
+		<result property="계약ID" column="계약ID"/>
+		<result property="사용자ID" column="사용자ID"/>
+		<result property="작업자ID" column="작업자ID"/>
+		<result property="일련번호" column="일련번호"/>
+
+		<result property="사업장ID" column="사업장ID"/>
+		<result property="사업장명" column="사업장명"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="empName" column="EMP_NAME"/>
+
+		<result property="기부금종류코드" column="기부금종류코드"/>
+		<result property="기부금종류" column="기부금종류"/>
+		<result property="기부년도" column="기부년도"/>
+		<result property="기부금액" column="기부금액"/>
+		<result property="전년도까지공제금액" column="전년도까지공제금액"/>
+		<result property="공제대상기부금" column="공제대상기부금"/>
+		<result property="공제대상계산기부금" column="공제대상계산기부금"/>
+		<result property="해당연도공제금액" column="해당연도공제금액"/>
+		<result property="이월금액" column="이월금액"/>
+		<result property="소멸금액" column="소멸금액"/>
+		<result property="finishYn" column="finishYn"/>
+
+		<result property="등록일시" column="등록일시"/>
+		<result property="수정일시" column="수정일시"/>
+	</resultMap>
+
+	<resultMap id="ye408CountMap" class="ye408VO">
+		<result property="totalCnt1" column="TOTAL_CNT1"/>
+		<result property="totalCnt2" column="TOTAL_CNT2"/>
+		<result property="totalAmt1" column="TOTAL_AMT1"/>
+		<result property="totalAmt2" column="TOTAL_AMT2"/>
+		<result property="totalAmt3" column="TOTAL_AMT3"/>
+	</resultMap>
+
+	<resultMap id="ye408SaveMap" class="ye408VO">
+		<result property="계약ID" column="계약ID"/>
+		<result property="사용자ID" column="사용자ID"/>
+		<result property="작업자ID" column="작업자ID"/>
+
+		<result property="기부금종류코드" column="기부금종류코드"/>
+		<result property="기부년도" column="기부년도"/>
+		<result property="기부금액" column="기부금액"/>
+		<result property="전년도까지공제금액" column="전년도까지공제금액"/>
+		<result property="공제대상기부금" column="공제대상기부금"/>
+		<result property="공제대상계산기부금" column="공제대상계산기부금"/>
+		<result property="해당연도공제금액" column="해당연도공제금액"/>
+		<result property="이월금액" column="이월금액"/>
+		<result property="소멸금액" column="소멸금액"/>
+
+		<result property="등록일시" column="등록일시"/>
+		<result property="수정일시" column="수정일시"/>
+	</resultMap>
+				
+				
+	<select id="ye408DAO.getYE408List" parameterClass="ye408VO" resultMap="ye408ListMap">
+		SELECT A.계약ID, A.사용자ID, A.작업자ID, A.일련번호, C.사업장ID, D.사업장명, B.EMP_NO, B.EMP_NAME,
+				A.기부금종류코드, fn_code_name('406', A.기부금종류코드) 기부금종류, A.기부년도,
+				A.기부금액, A.전년도까지공제금액, A.공제대상기부금, A.공제대상계산기부금, A.해당연도공제금액, A.이월금액, A.소멸금액,
+				A.등록일시, A.수정일시
+				, if ( ( select count(*) from tbl_ye700 where 계약ID = #계약ID# 
+					<isNotNull property="사용자ID">
+						<isNotEmpty property="사용자ID">
+							AND 사용자ID	 = #사용자ID#
+						</isNotEmpty>
+					</isNotNull>
+					) &gt; 0 , true, false ) as finishYn
+		FROM tbl_ye408 A, tbl_emp B, tbl_ye000 C, tbl_ys030 D, tbl_ys000 E
+		WHERE B.BIZ_ID	 = E.BIZ_ID
+		AND E.계약ID		 = C.계약ID
+		AND A.계약ID		 = C.계약ID
+		AND A.사용자ID	 = B.USER_ID
+		AND B.USER_ID	 = C.사용자ID
+		AND C.사업장ID	 = D.사업장ID
+		AND C.계약ID		 = D.계약ID
+		AND A.계약ID		 = #계약ID#
+		AND A.사용여부		 = '1'
+		<isNotNull property="근무상태">
+			<isNotEmpty property="근무상태">
+				<isEqual property="근무상태"  compareValue="1">
+					AND   (B.LEAVE_DATE IS NULL OR B.LEAVE_DATE = '')
+				</isEqual>
+				<isEqual property="근무상태"  compareValue="2">
+					AND   (B.LEAVE_DATE IS NOT NULL AND B.LEAVE_DATE != '')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사업장ID">
+			<isNotEmpty property="사업장ID">
+			AND C.사업장ID	 = #사업장ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="부서ID">
+			<isNotEmpty property="부서ID">
+			AND C.부서ID		 = #부서ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empName">
+			<isNotEmpty property="empName">
+			AND B.EMP_NAME LIKE CONCAT('%', #empName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empNo">
+			<isNotEmpty property="empNo">
+			AND B.EMP_NO LIKE CONCAT('%', #empNo#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="positionName">
+			<isNotEmpty property="positionName">
+			AND B.POSITION_NAME LIKE CONCAT('%', #positionName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사용자ID">
+			<isNotEmpty property="사용자ID">
+			AND A.사용자ID	 = #사용자ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="작업자ID">
+			<isNotEmpty property="작업자ID">
+			AND A.작업자ID	 = #작업자ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="febYear">
+			<isNotEmpty property="febYear">
+			AND A.기부년도	 	!= #febYear#
+			AND A.기부금종류코드 NOT IN ('10', '42')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sortName">
+			<isNotEmpty property="sortName">
+		ORDER BY $sortName$ $sortOrder$
+			</isNotEmpty>
+		</isNotNull>
+		limit #endPage# offset #startPage#
+	</select>
+
+	<select id="ye408DAO.getYE408ListCount" parameterClass="ye408VO" resultMap="ye408CountMap">
+		SELECT COUNT(A.일련번호) TOTAL_CNT1, COUNT(DISTINCT A.사용자ID) TOTAL_CNT2, SUM(A.기부금액) TOTAL_AMT1, SUM(A.전년도까지공제금액) TOTAL_AMT2, SUM(A.공제대상기부금) TOTAL_AMT3
+		FROM tbl_ye408 A, tbl_emp B, tbl_ye000 C, tbl_ys030 D, tbl_ys000 E
+		WHERE B.BIZ_ID	 = E.BIZ_ID
+		AND E.계약ID		 = C.계약ID
+		AND A.계약ID		 = C.계약ID
+		AND A.사용자ID	 = B.USER_ID
+		AND B.USER_ID	 = C.사용자ID
+		AND C.사업장ID	 = D.사업장ID
+		AND C.계약ID		 = D.계약ID
+		AND A.계약ID		 = #계약ID#
+		AND A.사용여부		 = '1'
+		<isNotNull property="근무상태">
+			<isNotEmpty property="근무상태">
+				<isEqual property="근무상태"  compareValue="1">
+					AND   (B.LEAVE_DATE IS NULL OR B.LEAVE_DATE = '')
+				</isEqual>
+				<isEqual property="근무상태"  compareValue="2">
+					AND   (B.LEAVE_DATE IS NOT NULL AND B.LEAVE_DATE != '')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사업장ID">
+			<isNotEmpty property="사업장ID">
+			AND C.사업장ID	 = #사업장ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="부서ID">
+			<isNotEmpty property="부서ID">
+			AND C.부서ID		 = #부서ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empName">
+			<isNotEmpty property="empName">
+			AND B.EMP_NAME LIKE CONCAT('%', #empName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empNo">
+			<isNotEmpty property="empNo">
+			AND B.EMP_NO LIKE CONCAT('%', #empNo#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="positionName">
+			<isNotEmpty property="positionName">
+			AND B.POSITION_NAME LIKE CONCAT('%', #positionName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사용자ID">
+			<isNotEmpty property="사용자ID">
+			AND A.사용자ID	 = #사용자ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="작업자ID">
+			<isNotEmpty property="작업자ID">
+			AND A.작업자ID	 = #작업자ID#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+
+	<!-- 이월 기부금 중복 체크용 -->
+	<select id="ye408DAO.getYE408Count" parameterClass="ye408VO" resultClass="java.lang.Integer">
+		SELECT COUNT(*) AS CNT
+		FROM tbl_ye408
+		WHERE 계약ID = #계약ID#
+		  AND 사용자ID = #사용자ID#
+		  AND 기부금종류코드 = #기부금종류코드#
+		  AND 기부년도 = #기부년도#
+		  AND 사용여부 = '1'
+	</select>
+	
+	
+
+	<!-- 이월 기부금 중복 체크용 -->
+	<select id="ye408DAO.getinsYE408" parameterClass="ye408VO" resultMap="ye408SaveMap">
+		SELECT	계약ID, 사용자ID, #작업자ID# AS 작업자ID,
+				기부금종류코드, 기부년도
+				, sum(기부금액) as 기부금액
+				, sum(전년도까지공제금액) as 전년도까지공제금액
+				, sum(공제대상기부금) as 공제대상기부금
+				, sum(공제대상기부금) as 공제대상계산기부금
+				, 0 as  해당연도공제금액
+				, 0 as 이월금액
+				, 0 as 소멸금액,
+				'1' AS 최종저장여부
+				, '1' AS 사용여부,
+				DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s') AS 등록일시, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s') AS 수정일시
+		  FROM	(
+					SELECT
+						계약ID, 사용자ID,
+						기부코드 AS 기부금종류코드, #기부년도#  AS 기부년도, 기부명세_공제대상기부금 AS 기부금액, 0 AS 전년도까지공제금액, 기부명세_공제대상기부금 AS 공제대상기부금
+					  FROM	tbl_ye404
+					 WHERE	계약ID =  #계약ID# 
+					   AND 사용자ID = #사용자ID# 
+					   AND 사용여부 = '1'
+					UNION ALL
+					SELECT
+						계약ID, 사용자ID,
+						기부금종류코드, 기부년도, 기부금액 AS 기부금액, 전년도까지공제금액, 공제대상기부금 AS 공제대상기부금
+					  FROM	tbl_ye405
+					 WHERE	계약ID =  #계약ID# 
+					   AND	사용자ID = #사용자ID# 
+					   AND	사용여부 = '1'
+					) a		  	  
+		 GROUP BY	계약ID, 사용자ID,	기부금종류코드, 기부년도  	
+	</select>
+
+	<insert id="ye408DAO.insYE408Data" parameterClass="ye408VO">
+		<selectKey resultClass="java.lang.String" keyProperty="일련번호">
+			SELECT  getTableKey('TBL_YE408')
+		</selectKey>
+		INSERT INTO tbl_ye408 (
+			계약ID, 사용자ID, 작업자ID, 일련번호,
+			기부금종류코드, 기부년도, 기부금액, 전년도까지공제금액, 공제대상기부금, 공제대상계산기부금, 해당연도공제금액, 이월금액, 소멸금액,
+			최종저장여부, 사용여부, 등록일시, 수정일시
+		) VALUES (
+			#계약ID#, #사용자ID#, #작업자ID#, #일련번호#,
+			#기부금종류코드#, #기부년도#, #기부금액#, #전년도까지공제금액#, #공제대상기부금#, #공제대상계산기부금#, #해당연도공제금액#, #이월금액#, #소멸금액#,
+			'1', '1', DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<insert id="ye408DAO.insYE408" parameterClass="ye408VO">
+		INSERT INTO tbl_ye408 (
+			계약ID, 사용자ID, 작업자ID, 일련번호,
+			기부금종류코드, 기부년도, 기부금액, 전년도까지공제금액, 공제대상기부금, 공제대상계산기부금, 해당연도공제금액, 이월금액, 소멸금액,
+			최종저장여부, 사용여부, 등록일시, 수정일시
+		)
+		SELECT	계약ID, 사용자ID, #작업자ID# AS 작업자ID, getTableKey('TBL_YE408') as 일련번호,
+				기부금종류코드, 기부년도
+				, sum(기부금액) as 기부금액
+				, sum(전년도까지공제금액) as 전년도까지공제금액
+				, sum(공제대상기부금) as 공제대상기부금
+				, sum(공제대상기부금) as 공제대상계산기부금
+				, 0 as  해당연도공제금액
+				, 0 as 이월금액
+				, 0 as 소멸금액,
+				'1' AS 최종저장여부
+				, '1' AS 사용여부,
+				DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s') AS 등록일시, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s') AS 수정일시
+		  FROM	(
+					SELECT
+						계약ID, 사용자ID,
+						기부코드 AS 기부금종류코드, #기부년도#  AS 기부년도, 기부명세_공제대상기부금 AS 기부금액, 0 AS 전년도까지공제금액, 기부명세_공제대상기부금 AS 공제대상기부금
+					  FROM	tbl_ye404
+					 WHERE	계약ID =  #계약ID# 
+					   AND 사용자ID = #사용자ID# 
+					   AND 사용여부 = '1'
+					UNION ALL
+					SELECT
+						계약ID, 사용자ID,
+						기부금종류코드, 기부년도, 기부금액 AS 기부금액, 전년도까지공제금액, 공제대상기부금 AS 공제대상기부금
+					  FROM	tbl_ye405
+					 WHERE	계약ID =  #계약ID# 
+					   AND	사용자ID = #사용자ID# 
+					   AND	사용여부 = '1'
+					) a		  	  
+		 GROUP BY	계약ID, 사용자ID,	기부금종류코드, 기부년도  	
+	</insert>
+
+	<update id="ye408DAO.updYE408" parameterClass="ye408VO">
+		UPDATE tbl_ye408
+		SET
+		<isNotNull property="기부금종류코드">
+			<isNotEmpty property="기부금종류코드">
+				기부금종류코드			= #기부금종류코드#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="기부년도">
+			<isNotEmpty property="기부년도">
+				기부년도				= #기부년도#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="기부금액">
+			<isNotEmpty property="기부금액">
+				기부금액				= #기부금액#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="전년도까지공제금액">
+			<isNotEmpty property="전년도까지공제금액">
+				전년도까지공제금액		= #전년도까지공제금액#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="공제대상기부금">
+			<isNotEmpty property="공제대상기부금">
+				공제대상기부금			= #공제대상기부금#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="공제대상계산기부금">
+			<isNotEmpty property="공제대상계산기부금">
+				공제대상계산기부금			= #공제대상계산기부금#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="해당연도공제금액">
+			<isNotEmpty property="해당연도공제금액">
+				해당연도공제금액			= #해당연도공제금액#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="이월금액">
+			<isNotEmpty property="이월금액">
+			이월금액				= #이월금액#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="소멸금액">
+			<isNotEmpty property="소멸금액">
+			소멸금액				= #소멸금액#,
+			</isNotEmpty>
+		</isNotNull>
+			수정일시			= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	계약ID	 = #계약ID#
+		AND		사용자ID	 = #사용자ID#
+		AND		작업자ID	 = #작업자ID#
+		AND		일련번호	 = #일련번호#
+	</update>
+
+	<!--<delete id="ye408DAO.delYE408" parameterClass="ye408VO">-->
+		<!--DELETE FROM tbl_ye408-->
+		<!--WHERE	계약ID	 = #계약ID#-->
+		<!--AND		사용자ID	 = #사용자ID#-->
+		<!--AND		작업자ID	 = #작업자ID#-->
+		<!--<isNotNull property="일련번호">-->
+			<!--<isNotEmpty property="일련번호">-->
+			<!--AND 일련번호			= #일련번호#-->
+			<!--</isNotEmpty>-->
+		<!--</isNotNull>-->
+	<!--</delete>-->
+
+	<update id="ye408DAO.updYE408Disable" parameterClass="ye408VO">
+		UPDATE tbl_ye408
+		SET
+		  최종저장여부 = IF(#사용자ID# = #작업자ID#, '0', 최종저장여부),
+		  사용여부 = '0',
+		  수정일시 = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE 계약ID = #계약ID#
+		  AND 사용자ID = #사용자ID#
+		  AND 사용여부 = '1'
+		<isNotNull property="일련번호">
+			<isNotEmpty property="일련번호">
+				AND 일련번호 = #일련번호#
+			</isNotEmpty>
+		</isNotNull>
+		<!-- 이월된 기부금 조정명세 disable -->
+		<isNotNull property="기부년도">
+			<isNotEmpty property="기부년도">
+				AND 기부년도 = #기부년도#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="기부금종류코드">
+			<isNotEmpty property="기부금종류코드">
+				AND 기부금종류코드 = #기부금종류코드#
+			</isNotEmpty>
+		</isNotNull>
+	</update>
+
+	<!-- 당해년도 기부금 조정명세 삭제 -->
+	<delete id="ye408DAO.allDelYE408" parameterClass="ye408VO">
+		DELETE
+		FROM tbl_ye408
+		WHERE 계약ID = #계약ID#
+		  AND 사용자ID = #사용자ID#
+	</delete>
+
+	<!-- 당해년도 기부금 조정명세 추가 -->
+	<insert id="ye408DAO.insYE408Sum" parameterClass="ye408VO">
+		INSERT INTO tbl_ye408 (
+		  계약ID, 사용자ID, 작업자ID, 일련번호,
+		  기부금종류코드, 기부년도, 기부금액, 전년도까지공제금액, 공제대상기부금, 해당연도공제금액, 이월금액, 소멸금액,
+		  최종저장여부, 사용여부, 등록일시, 수정일시
+		)
+		SELECT
+		  계약ID, 사용자ID, #작업자ID# AS 작업자ID, getTableKey('TBL_YE408') AS 일련번호,
+		  기부코드 AS 기부금종류코드, #기부년도# AS 기부년도, SUM(기부명세_공제대상기부금) AS 기부금액, 0 AS 전년도까지공제금액, SUM(기부명세_공제대상기부금) AS 공제대상기부금, 0 AS 해당연도공제금액, 0 AS 이월금액, 0 AS 소멸금액,
+		  '1' AS 최종저장여부, '1' AS 사용여부, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s') AS 등록일시, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s') AS 수정일시
+		FROM tbl_ye404
+		WHERE 계약ID = #계약ID#
+		  AND 사용자ID = #사용자ID#
+		  AND 사용여부 = '1'
+		GROUP BY 계약ID, 사용자ID, 기부코드
+	</insert>
+
+	<select id="ye408DAO.getYE408Map" parameterClass="ye408VO" resultClass="ye408VO">
+		SELECT 계약ID, 사용자ID, 작업자ID, 기부년도, 공제대상기부금, 최종저장여부, 사용여부
+		FROM tbl_ye408
+		WHERE 계약ID = #계약ID#
+		  AND 사용자ID = #사용자ID#
+		  AND (최종저장여부 = '1' OR 사용여부 = '1')
+		ORDER BY IF(작업자ID = 사용자ID, 0, 1)
+	</select>
+</sqlMap>

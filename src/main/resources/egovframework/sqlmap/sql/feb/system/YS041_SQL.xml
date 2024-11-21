@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="febsystem">
+	<typeAlias alias="ys041VO" type="com.ezsign.feb.system.vo.YS041VO" />
+	<resultMap id="ys041ListMap" class="ys041VO">
+		<result property="계약ID" column="계약ID"/>
+		<result property="사용자ID" column="사용자ID"/>
+		<result property="사업장ID" column="사업장ID"/>
+		<result property="부서ID" column="부서ID"/>
+		<result property="사업장명" column="사업장명"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="loginId" column="LOGIN_ID"/>
+		<result property="eMail" column="E_MAIL"/>
+		<result property="회사전화1" column="회사전화1"/>
+		<result property="phoneNum" column="PHONE_NUM"/>
+		<result property="등록일시" column="등록일시"/>
+		<result property="수정일시" column="수정일시"/>
+	</resultMap>
+	
+	<resultMap id="ys041Map" class="ys041VO">
+		<result property="계약ID" column="계약ID"/>
+		<result property="사용자ID" column="사용자ID"/>
+		<result property="사업장ID" column="사업장ID"/>
+		<result property="사업장명" column="사업장명"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="loginId" column="LOGIN_ID"/>
+		<result property="회사전화1" column="회사전화1"/>
+		<result property="phoneNum" column="PHONE_NUM"/>
+		<result property="등록일시" column="등록일시"/>
+		<result property="수정일시" column="수정일시"/>
+	</resultMap>
+	
+	<resultMap id="ys041DeptListMap" class="ys041VO">
+		<result property="계약ID" column="계약ID"/>
+		<result property="사용자ID" column="사용자ID"/>
+		<result property="사업장ID" column="사업장ID"/>
+		<result property="부서ID" column="부서ID"/>
+		<result property="부서명" column="부서명"/>
+		<result property="등록일시" column="등록일시"/>
+		<result property="수정일시" column="수정일시"/>
+	</resultMap>
+	
+	<select id="ys041DAO.getYS041List" parameterClass="ys041VO" resultMap="ys041ListMap">
+		SELECT B.계약ID, B.사용자ID, D.사업장ID, C.부서ID, D.사업장명, A.EMP_NAME, A.LOGIN_ID, A.E_MAIL, D.회사전화1, A.PHONE_NUM, B.등록일시, B. 수정일시
+		FROM tbl_emp A, tbl_ys041 B, tbl_ys031 C, tbl_ys030 D
+	    WHERE A.USER_ID 	 = B.사용자ID
+	    AND B.계약ID 		 	 = C.계약ID
+	    AND B.부서ID 		 	 = C.부서ID
+		AND C.계약ID			 = D.계약ID
+	    AND C.사업장ID		 = D.사업장ID
+	    AND A.BIZ_ID 	 	 = #bizId#
+	    AND B.계약ID 		 	 = #계약ID#
+	    <isNotNull property="부서ID">
+		    <isNotEmpty property="부서ID">
+			AND   B.부서ID 	= #부서ID#
+			</isNotEmpty>
+		</isNotNull>
+	    <isNotNull property="empName">
+		    <isNotEmpty property="empName">
+			AND   A.EMP_NAME LIKE CONCAT('%', #empName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="eMail">
+		    <isNotEmpty property="eMail">
+			AND   A.E_MAIL LIKE CONCAT('%', #eMail#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sortName">
+		    <isNotEmpty property="sortName">
+			ORDER BY $sortName$ $sortOrder$
+			</isNotEmpty>
+		</isNotNull>
+		GROUP BY D.사업장ID, A.USER_ID
+		limit #endPage# offset #startPage#
+	</select>
+	
+	<select id="ys041DAO.getYS041ListCount" parameterClass="ys041VO" resultClass="java.lang.Integer">
+		SELECT COUNT(B.계약ID) CNT
+		FROM tbl_emp A, tbl_ys041 B, tbl_ys031 C, tbl_ys030 D
+	    WHERE A.USER_ID 	 = B.사용자ID
+	    AND B.계약ID 		 	 = C.계약ID
+	    AND B.부서ID 		 	 = C.부서ID
+		AND C.계약ID			 = D.계약ID
+	    AND C.사업장ID		 = D.사업장ID
+	    AND A.BIZ_ID 	 	 = #bizId#
+	    AND B.계약ID 		 	 = #계약ID#
+	    <isNotNull property="부서ID">
+		    <isNotEmpty property="부서ID">
+			AND   B.부서ID 	= #부서ID#
+			</isNotEmpty>
+		</isNotNull>
+	    <isNotNull property="empName">
+		    <isNotEmpty property="empName">
+			AND   A.EMP_NAME LIKE CONCAT('%', #empName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="eMail">
+		    <isNotEmpty property="eMail">
+			AND   A.E_MAIL LIKE CONCAT('%', #eMail#, '%')
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<select id="ys041DAO.getYS041" parameterClass="ys041VO" resultMap="ys041Map">
+		SELECT C.계약ID, B.사용자ID, D.사업장ID, D.사업장명, A.EMP_NAME, A.LOGIN_ID, A.E_MAIL, D.회사전화1, A.PHONE_NUM, D.등록일시, D.수정일시
+		FROM tbl_emp A, tbl_ys041 B, tbl_ys000 C, tbl_ys030 D
+	    WHERE A.BIZ_ID	 = C.BIZ_ID
+	    AND C.계약ID 		 = D.계약ID
+	    AND A.USER_ID 	 = B.사용자ID
+	    AND A.BIZ_ID 	 = #bizId#
+	    AND C.계약ID 		 = #계약ID#
+	    AND B.사용자ID 	 = #사용자ID#
+	    AND D.사업장ID 	 = #사업장ID#
+	    GROUP BY B.사용자ID
+	</select>
+	
+	<select id="ys041DAO.getYS041DeptList" parameterClass="ys041VO" resultMap="ys041DeptListMap">
+		SELECT A.계약ID, A.사용자ID, A.부서ID, B.사업장ID, B.부서명, A.등록일시, A.수정일시 
+		FROM tbl_ys041 A, tbl_ys031 B
+		WHERE A.계약ID 	= B.계약ID
+	    AND A.부서ID 		= B.부서ID
+	    AND B.사업장ID 	= #사업장ID# 
+	    AND A.계약ID 		= #계약ID#
+	    AND A.사용자ID 	= #사용자ID#
+	</select>	    	    
+	
+	<insert id="ys041DAO.insYS041" parameterClass="ys041VO">
+		INSERT INTO tbl_ys041 (
+			계약ID, 사용자ID, 부서ID, 등록일시, 수정일시
+		) VALUES (
+			#계약ID#, #사용자ID#, #부서ID#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<delete id="ys041DAO.delYS041" parameterClass="ys041VO">
+		DELETE FROM tbl_ys041
+		WHERE	계약ID    = #계약ID#
+		AND		사용자ID	 = #사용자ID#
+		<isNotNull property="부서ID">
+		    <isNotEmpty property="부서ID">
+			AND		부서ID	 = #부서ID#
+			</isNotEmpty>
+		</isNotNull>
+	</delete>
+	
+</sqlMap>

@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="febspecial">
+	<typeAlias alias="ye404VO" type="com.ezsign.feb.special.vo.YE404VO" />
+	<resultMap id="ye404ListMap" class="ye404VO">
+		<result property="계약ID" column="계약ID"/>
+		<result property="사용자ID" column="사용자ID"/>
+		<result property="작업자ID" column="작업자ID"/>
+		<result property="일련번호" column="일련번호"/>
+		<result property="사업장ID" column="사업장ID"/>
+		<result property="사업장명" column="사업장명"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="부양가족ID" column="부양가족ID"/>
+		<result property="가족관계" column="가족관계"/>
+		<result property="자료구분코드" column="자료구분코드"/>
+		<result property="자료구분코드명" column="자료구분코드명"/>
+		<result property="기부코드" column="기부코드"/>
+		<result property="기부금종류" column="기부금종류"/>
+		<result property="기부내용" column="기부내용"/>
+		<result property="기부처_사업자등록번호" column="기부처_사업자등록번호"/>
+		<result property="상호" column="상호"/>
+		<result property="기부명세_건수" column="기부명세_건수"/>
+		<result property="기부명세_공제금액" column="기부명세_공제금액"/>
+		<result property="기부명세_공제대상기부금" column="기부명세_공제대상기부금"/>
+		<result property="기부명세_기부장려금" column="기부명세_기부장려금"/>
+		<result property="기부명세_기타" column="기부명세_기타"/>
+
+		<result property="성명" column="성명"/>
+		<result property="개인식별번호" column="개인식별번호"/>
+		<result property="추가제출서류번호" column="추가제출서류번호"/>
+		<result property="등록일시" column="등록일시"/>
+		<result property="수정일시" column="수정일시"/>
+	</resultMap>
+
+	<resultMap id="ye404CountMap" class="ye404VO">
+		<result property="totalCnt1" column="TOTAL_CNT1"/>
+		<result property="totalCnt2" column="TOTAL_CNT2"/>
+		<result property="totalAmt1" column="TOTAL_AMT1"/>
+		<result property="totalAmt2" column="TOTAL_AMT2"/>
+	</resultMap>
+
+	<select id="ye404DAO.getYE404List" parameterClass="ye404VO" resultMap="ye404ListMap">
+		SELECT A.계약ID, A.사용자ID, A.작업자ID, A.일련번호, C.사업장ID, D.사업장명, B.EMP_NO, B.EMP_NAME,
+				A.부양가족ID, F.가족관계, A.자료구분코드, fn_code_name('416', A.자료구분코드) 자료구분코드명, A.기부코드, fn_code_name('406', A.기부코드) 기부금종류, A.기부내용,
+				A.기부처_사업자등록번호, A.상호, A.기부명세_건수, A.기부명세_공제금액, A.기부명세_공제대상기부금, A.기부명세_기부장려금, A.기부명세_기타,
+				F.성명, F.개인식별번호, A.추가제출서류번호,
+				A.등록일시, A.수정일시
+		FROM tbl_ye404 A, tbl_emp B, tbl_ye000 C, tbl_ys030 D, tbl_ys000 E, tbl_ye001 F
+		WHERE B.BIZ_ID	 = E.BIZ_ID
+		AND E.계약ID		 = C.계약ID
+		AND A.계약ID		 = C.계약ID
+		AND A.사용자ID	 = B.USER_ID
+		AND B.USER_ID	 = C.사용자ID
+		AND C.사업장ID	 = D.사업장ID
+		AND C.계약ID		 = D.계약ID
+		AND A.계약ID		 = F.계약ID
+		AND A.사용자ID	 = F.사용자ID
+		AND A.부양가족ID	 = F.부양가족ID
+		AND A.계약ID		 = #계약ID#
+		AND A.사용여부		 = '1'
+		<isNotNull property="근무상태">
+			<isNotEmpty property="근무상태">
+				<isEqual property="근무상태"  compareValue="1">
+					AND   (B.LEAVE_DATE IS NULL OR B.LEAVE_DATE = '')
+				</isEqual>
+				<isEqual property="근무상태"  compareValue="2">
+					AND   (B.LEAVE_DATE IS NOT NULL AND B.LEAVE_DATE != '')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사업장ID">
+			<isNotEmpty property="사업장ID">
+			AND C.사업장ID	 = #사업장ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="부서ID">
+			<isNotEmpty property="부서ID">
+			AND C.부서ID		 = #부서ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empName">
+			<isNotEmpty property="empName">
+			AND B.EMP_NAME LIKE CONCAT('%', #empName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empNo">
+			<isNotEmpty property="empNo">
+			AND B.EMP_NO LIKE CONCAT('%', #empNo#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="positionName">
+			<isNotEmpty property="positionName">
+			AND B.POSITION_NAME LIKE CONCAT('%', #positionName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사용자ID">
+			<isNotEmpty property="사용자ID">
+			AND A.사용자ID	 = #사용자ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="작업자ID">
+			<isNotEmpty property="작업자ID">
+			AND A.작업자ID	 = #작업자ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="추가제출서류번호">
+			<isNotEmpty property="추가제출서류번호">
+				AND A.추가제출서류번호		 = #추가제출서류번호#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="자료구분코드">
+			<isNotEmpty property="자료구분코드">
+				AND A.자료구분코드		 = #자료구분코드#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sortName">
+			<isNotEmpty property="sortName">
+		ORDER BY $sortName$ $sortOrder$
+			</isNotEmpty>
+		</isNotNull>
+		limit #endPage# offset #startPage#
+	</select>
+
+	<select id="ye404DAO.getYE404ListCount" parameterClass="ye404VO" resultMap="ye404CountMap">
+		SELECT COUNT(A.일련번호) TOTAL_CNT1, COUNT(DISTINCT A.사용자ID) TOTAL_CNT2, SUM(A.기부명세_건수) TOTAL_AMT1, SUM(A.기부명세_공제금액) TOTAL_AMT2
+		FROM tbl_ye404 A, tbl_emp B, tbl_ye000 C, tbl_ys030 D, tbl_ys000 E, tbl_ye001 F
+		WHERE B.BIZ_ID	 = E.BIZ_ID
+		AND E.계약ID		 = C.계약ID
+		AND A.계약ID		 = C.계약ID
+		AND A.사용자ID	 = B.USER_ID
+		AND B.USER_ID	 = C.사용자ID
+		AND C.사업장ID	 = D.사업장ID
+		AND C.계약ID		 = D.계약ID
+		AND A.계약ID		 = F.계약ID
+		AND A.사용자ID	 = F.사용자ID
+		AND A.부양가족ID	 = F.부양가족ID
+		AND A.계약ID		 = #계약ID#
+		AND A.사용여부		 = '1'
+		<isNotNull property="근무상태">
+			<isNotEmpty property="근무상태">
+				<isEqual property="근무상태"  compareValue="1">
+					AND   (B.LEAVE_DATE IS NULL OR B.LEAVE_DATE = '')
+				</isEqual>
+				<isEqual property="근무상태"  compareValue="2">
+					AND   (B.LEAVE_DATE IS NOT NULL AND B.LEAVE_DATE != '')
+				</isEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사업장ID">
+			<isNotEmpty property="사업장ID">
+			AND C.사업장ID	 = #사업장ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="부서ID">
+			<isNotEmpty property="부서ID">
+			AND C.부서ID		 = #부서ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empName">
+			<isNotEmpty property="empName">
+			AND B.EMP_NAME LIKE CONCAT('%', #empName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="empNo">
+			<isNotEmpty property="empNo">
+			AND B.EMP_NO LIKE CONCAT('%', #empNo#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="positionName">
+			<isNotEmpty property="positionName">
+			AND B.POSITION_NAME LIKE CONCAT('%', #positionName#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사용자ID">
+			<isNotEmpty property="사용자ID">
+			AND A.사용자ID	 = #사용자ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="작업자ID">
+			<isNotEmpty property="작업자ID">
+			AND A.작업자ID	 = #작업자ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="자료구분코드">
+			<isNotEmpty property="자료구분코드">
+				AND A.자료구분코드		 = #자료구분코드#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<insert id="ye404DAO.insYE404" parameterClass="ye404VO">
+		<selectKey resultClass="java.lang.String" keyProperty="일련번호">
+			SELECT  getTableKey('TBL_YE404')
+		</selectKey>
+		INSERT INTO tbl_ye404 (
+			계약ID, 사용자ID, 작업자ID, 일련번호, 부양가족ID,
+			자료구분코드, 기부코드, 기부내용, 기부처_사업자등록번호, 상호, 기부명세_건수, 기부명세_공제금액, 기부명세_공제대상기부금, 기부명세_기부장려금, 기부명세_기타, 추가제출서류번호,
+			최종저장여부, 사용여부, 등록일시, 수정일시
+		) VALUES (
+			#계약ID#, #사용자ID#, #작업자ID#, #일련번호#, #부양가족ID#,
+			#자료구분코드#, #기부코드#, #기부내용#, #기부처_사업자등록번호#, #상호#, #기부명세_건수#, #기부명세_공제금액#, #기부명세_공제대상기부금#, #기부명세_기부장려금#, #기부명세_기타#, #추가제출서류번호#,
+			IF(#사용자ID# = #작업자ID#, '1', '0'), '1', DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+
+	<update id="ye404DAO.updYE404Disable" parameterClass="ye404VO">
+		UPDATE tbl_ye404
+		SET
+		  최종저장여부 = IF(#사용자ID# = #작업자ID#, '0', 최종저장여부),
+		  사용여부 = '0',
+		  수정일시 = DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE 계약ID = #계약ID#
+		  AND 사용자ID = #사용자ID#
+		  AND 일련번호 = #일련번호#
+		  AND 사용여부 = '1'
+	</update>
+
+	<delete id="ye404DAO.allDelYE404" parameterClass="ye404VO">
+		DELETE
+		FROM tbl_ye404
+		WHERE 계약ID = #계약ID#
+		  AND 사용자ID = #사용자ID#
+		  AND 자료구분코드 != '2'
+		<isNotEmpty property="자료구분코드">
+         AND 자료구분코드 = #자료구분코드#
+        </isNotEmpty>  
+	</delete>
+
+	<select id="ye404DAO.getYE404Map" parameterClass="ye404VO" resultClass="ye404VO">
+		SELECT 계약ID, 사용자ID, 작업자ID, 자료구분코드, 기부코드, 기부명세_공제대상기부금, 최종저장여부, 사용여부, 추가제출서류번호
+		FROM tbl_ye404
+		WHERE 계약ID = #계약ID#
+			AND 사용자ID = #사용자ID#
+			AND (최종저장여부 = '1' OR 사용여부 = '1')
+		    <isNotNull property="추가제출서류번호">
+				<isNotEmpty property="추가제출서류번호">
+					AND 추가제출서류번호		 = #추가제출서류번호#
+				</isNotEmpty>
+			</isNotNull>
+		ORDER BY IF(작업자ID = 사용자ID, 0, 1)
+	</select>
+	
+	<update id="ye404DAO.updYE404" parameterClass="ye404VO">
+		UPDATE tbl_ye404
+		SET
+		<isNotNull property="부양가족ID">
+			<isNotEmpty property="부양가족ID">
+			부양가족ID				= #부양가족ID#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="기부코드">
+			<isNotEmpty property="기부코드">
+			기부코드				= #기부코드#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="기부내용">
+			<isNotEmpty property="기부내용">
+			기부내용				= #기부내용#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="기부처_사업자등록번호">
+			<isNotEmpty property="기부처_사업자등록번호">
+			기부처_사업자등록번호		= #기부처_사업자등록번호#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="상호">
+			<isNotEmpty property="상호">
+			상호					= #상호#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="기부명세_건수">
+			<isNotEmpty property="기부명세_건수">
+			기부명세_건수			= #기부명세_건수#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="기부명세_공제금액">
+			<isNotEmpty property="기부명세_공제금액">
+			기부명세_공제금액		= #기부명세_공제금액#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="기부명세_공제대상기부금">
+			<isNotEmpty property="기부명세_공제대상기부금">
+			기부명세_공제대상기부금	= #기부명세_공제대상기부금#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="기부명세_기부장려금">
+			<isNotEmpty property="기부명세_기부장려금">
+			기부명세_기부장려금		= #기부명세_기부장려금#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="기부명세_기타">
+			<isNotEmpty property="기부명세_기타">
+			기부명세_기타			= #기부명세_기타#,
+			</isNotEmpty>
+		</isNotNull>
+			수정일시			= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	계약ID	 = #계약ID#
+		AND		사용자ID	 = #사용자ID#
+		AND		일련번호	 = #일련번호#
+	</update>
+
+	<delete id="ye404DAO.delYE404" parameterClass="ye404VO">
+		DELETE FROM tbl_ye404
+		WHERE	계약ID	 = #계약ID#
+		AND		사용자ID	 = #사용자ID#
+		AND 	일련번호	 = #일련번호#
+	</delete>
+</sqlMap>

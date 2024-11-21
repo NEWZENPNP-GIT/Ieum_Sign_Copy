@@ -1,0 +1,287 @@
+
+	<!--****************************************************************************************************************
+	* 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+	* 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+	********************************************************************************************************************
+	--------------------------------------------------------------------------------------------------------------------
+	* 회사       : 뉴젠피앤피
+	* 화면명     : 전자문서 일괄다운로드 팝업창
+	* 화면설명   :  전자계약(양식변환) > 완료계약 문서함 > 일괄 다운로드
+	* 작성자     :
+	* 생성일     :
+	--------------------------------------------------------------------------------------------------------------------
+	* 수정자     : 이정훈
+	* 수정일     : 2024.01.19
+	* 수정내용   :
+	------------------------------------------------------------------------------------------------------------------->
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache"/>
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/contract_write.css">
+
+	<style>
+		#contract_popup .contents .input_wrap dd.column2 input {width: -webkit-calc(100% - 12px); height: 32px;}
+		#contract_popup .contents .input_wrap .default_bx dd.column2 .btn_search {display: block; width: 40px; height: 32px; border: 1px solid #dcdcdc; line-height: 32px; text-align: center; background-color: #FFF; cursor: pointer;}
+		#contract_popup .contents .input_wrap .default_bx dd.column2 .btn_search:hover {background-color:#e0f6ff;}
+		#contract_popup .contents .input_wrap .default_bx dd#completeCount {font-size: 13px; color: #333333; font-weight: bold; line-height: 32px;}
+	</style>
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+	<title>인적자원관리 전문IT기업 - 뉴젠P&P</title>
+	<script>
+
+		//***************					윈도우 로딩					***************//
+
+		$(document).ready(function() {
+
+			$("#contractDateFrom").val(opener.document.getElementById("contractDateFrom").value);
+			$("#contractDateTo").val(opener.document.getElementById("contractDateTo").value);
+			$("#contractEmail").val(opener.document.getElementById("contractEmail").value);
+			$("#contractPhone").val(opener.document.getElementById("contractPhone").value);
+			$("#bizName").val(opener.document.getElementById("contractBizName").value);
+
+			console.log('contract_popup_download.html');
+			fn_contractList();
+		});
+
+
+		//***************					검색된 건수 표기					***************//
+
+
+		function fn_contractList() {
+
+			var url = rootPath+"contract/getContractList.do";
+			if (getCookie("loginType") === "5") url = rootPath+"contract/getContractUserGrpList.do";
+
+			var contractDateFrom = $("#contractDateFrom").val();
+			var contractDateTo	 = $("#contractDateTo").val();
+			var statusCode		 = "Y";
+			var bizId			 = getCookie("bizId");
+
+			$.blockUI();
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"GET",
+				data: {
+					contractDateFrom:contractDateFrom,
+					contractDateTo:contractDateTo,
+					statusCode:statusCode,
+					transType:'Y',
+					startPage:0,
+					endPage:10000,
+					bizId:bizId
+				},
+				success:function(result) {
+					var completeCountValue = result.completeCount;
+					console.log("문서건수:" + result.completeCount + " 건");
+					var displayText = (completeCountValue === 0) ? '0 건' : completeCountValue + ' 건';
+					$("#completeCount").text(displayText);
+					$.unblockUI();
+
+					if (completeCountValue < 250) {
+						$("#mailDiv").hide();
+						$("#phoneDiv").hide();
+						$("#smsService1").hide();
+						$("#smsService2").hide();
+					} else {
+						$("#mailDiv").show();
+						$("#phoneDiv").show();
+						$("#smsService1").show();
+						$("#smsService2").show();
+					}
+				}
+			});
+		}
+
+
+		//***************					내려받기					***************//
+
+
+		function fn_contractListDown() {
+
+			if (!confirm("다운로드를 진행하시겠습니까?")) return;
+
+			var url = rootPath+"contract/getContractListCount.do";
+			if (getCookie("loginType") === "5") url = rootPath+"contract/getContractListGrpCount.do";
+
+			var contractDateFrom = $("#contractDateFrom").val();
+			var contractDateTo	 = $("#contractDateTo").val();
+			var contractEmail	 = $("#contractEmail").val();
+			var contractPhone	 = $("#contractPhone").val();
+			var bizName			 = $("#bizName").val();
+			var smsYN 			 = document.querySelector('input[name="smsCheck"]:checked').value;
+			var loginUserId 	 = getCookie("userId");
+			var bizId 			 = getCookie("bizId");
+
+			$.blockUI();
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				data: {
+					contractDateFrom:contractDateFrom,
+					contractDateTo:contractDateTo,
+					statusCode:'Y',
+					transType:'Y',
+					startPage:0,
+					endPage:10000,
+					bizName:bizName,
+					contractPhone:contractPhone,
+					bizId:bizId,
+					userId: getCookie("userId"),
+					searchCompany:getURLParameters("bizId")
+				},
+				success:function(result) {
+					if (result.success === true) {
+
+						// 250건 미만 - 파일 바로 내려받기
+						if(result.total >= 1 && result.total < 250) {
+							var url = rootPath+"contract/downloadContractZip.do?contractDateFrom=" + contractDateFrom + "&contractDateTo=" + contractDateTo + "&bizName=" + bizName + "&bizId=" + bizId + "&loginUserId=" + loginUserId + "&downloadYn=Y";
+							if (getCookie("loginType") === "5") url = rootPath+"contract/downloadContractZip.do?contractDateFrom=" + contractDateFrom + "&contractDateTo=" + contractDateTo + "&bizName=" + bizName + "&bizId=" + bizId + "&userId=" + loginUserId +"&loginUserId=" + loginUserId + "&downloadYn=Y&loginType=true";
+							downloadDataUrlFromJavascript(url);
+							$.unblockUI();
+							window.close();
+						// 250건 이상 - 이메일로 파일첨부하여 전송
+						} else if (result.total >= 250) {
+
+							var pattern	 = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/;
+							var pattern2 = /^01(?:0|1|[6-9])\d{7,8}$/;
+
+							if (pattern.test(contractEmail) === false) {
+								alert("이메일 형식이 올바르지 않습니다.");
+								return;
+							} else if (smsYN === "Y" &&  pattern2.test(contractPhone) === false) {
+								alert("휴대폰번호 형식이 올바르지 않습니다.")
+								return;
+							}
+							$.unblockUI();
+							alert("메일 발송은 1시간 정도 소요됩니다.");
+							window.opener.fn_contractDownloadToEmail(contractDateFrom,contractDateTo,contractEmail,bizName,bizId,loginUserId,contractPhone,smsYN);
+							window.close();
+						} else { alert("데이터가 존재하지 않습니다."); }
+					} else { alert("데이터 조회 중 오류가 발생하였습니다."); }
+				},
+				error:function(request,status,error) {
+					$.unblockUI();
+					if (request.status === "401") { alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다."); location.href = rootPath; }
+					else 						  { alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error); }
+				}
+			});
+		}
+
+
+		//***************					SMS 체크 유무에 따른 이벤트					***************//
+
+
+		document.addEventListener('DOMContentLoaded', function() {
+			function updateVisibility() {
+				var isChecked   = document.querySelector('input[name="smsCheck"]:checked').value;
+				var targetLabel = document.getElementById('phoneDiv');
+
+				if (isChecked === 'N') targetLabel.style.display = 'none';
+				else 				   targetLabel.style.display = 'block';
+
+			}
+			var radios = document.querySelectorAll('input[name="smsCheck"]');
+			radios.forEach(function(radio) { radio.addEventListener('change', updateVisibility); });
+
+			updateVisibility();
+		});
+
+	</script>
+	</head>
+
+	<body>
+	<div id="contract_popup" class="edit">
+		<div class="container">
+			<div id="popup_tit">
+				<div class="tit_icon"></div>
+				<div class="tit_text col_skyblue NanumGothic">전자문서 일괄다운로드</div>
+			</div>
+			<div class="contents">
+				<div class="input_wrap">
+					<dl class="boxRow default_bx NanumGothic">
+						<input type="hidden" name="bizName" id="bizName" value="">
+						<dt><label class="label_txt NanumGothic">생성일자</label></dt>
+						<dd class="column2" style="display: grid; grid-template-columns: 1fr 1fr auto; align-items: center; column-gap: 4px;">
+							<input type="text"  min="1900-01-01" max="2999-01-01" id="contractDateFrom" class="input_txt" />
+							<input type="text"  min="1900-01-01" max="2999-01-01" id="contractDateTo" class="input_txt" />
+							<a class="btn_search Material_icons" onclick="fn_contractList()">search</a>
+						</dd>
+					</dl>
+
+					<dl class="boxRow default_bx NanumGothic">
+						<dt><label class="label_txt NanumGothic">문서건수</label></dt>
+						<dd id="completeCount" name="completeCount"></dd>
+					</dl>
+
+					<dl class="boxRow default_bx NanumGothic" id="mailDiv">
+						<dt><label class="label_txt NanumGothic">담당자 이메일</label></dt>
+						<dd>
+							<input type="text" id="contractEmail" class="input_txt" value="" style="width: 200px; height: 30px;">
+						</dd>
+					</dl>
+
+					<dl class="boxRow default_bx NanumGothic" id ="smsService1">
+						<dt style="width: 500px;"><label class="label_txt NanumGothic" >메일 전송 후 카카오톡 알림 서비스를 신청하시겠습니까?</label></dt>
+					</dl>
+
+					<dl class="boxRow default_bx NanumGothic" id="smsService2">
+						<dt style="width: 500px;">
+							<input type="radio" name="smsCheck" value="Y" id="smsY" style="margin-left: 50px;" checked>
+							<label class="label_txt NanumGothic">예</label>
+							<input type="radio" name="smsCheck" value="N" id="smsN" style="margin-left: 100px;">
+							<label class="label_txt NanumGothic">아니요</label>
+						</dt>
+					</dl>
+
+					<dl class="boxRow default_bx NanumGothic" id="phoneDiv">
+						<dt><label class="label_txt NanumGothic">휴대폰번호</label></dt>
+						<dd>
+							<input type="text" id="contractPhone" class="input_txt" value="" style="width: 200px; height: 30px;">
+						</dd>
+					</dl>
+				</div>
+
+				<div class="foot_box NanumGothic">
+					<dl class="col_red">
+						<dt>ㆍ</dt>
+						<dd>전자문서 용량에 따라 소요시간이 길어질 수 있습니다.<br>잠시만 기다려 주시기 바랍니다.</dd>
+					</dl>
+					<dl>
+						<dt>ㆍ</dt>
+						<dd>진행상태가 "완료"된 경우에만 일괄 다운로드가 가능합니다.</dd>
+					</dl>
+					<dl>
+						<dt>ㆍ</dt>
+						<dd>전자문서가 250건 미만일 경우 일괄 다운로드가 되고,<br><span class="col_blue">전자문서가 250건 이상일 경우 담당자 이메일로 파일이 전송됩니다.</span></dd>
+					</dl>
+					<dl>
+						<dt>ㆍ</dt>
+						<dd>이메일 내 다운로드 링크는 30일 후 삭제됩니다.</dd>
+					</dl>
+				</div>
+			</div>
+			<div class="btn_group">
+				<a href="javascript:fn_contractListDown();" class="btn_type type1 NanumGothic">내려받기</a>
+				<a href="javascript:window.close();" class="btn_type type3 NanumGothic">취소</a>
+			</div>
+		</div>
+	</div>
+	</body>
+	</html>

@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/process_history.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+<script type='text/javascript' src="/js/jquery-ui.js"></script>
+
+<script>
+	var jsonData;
+	var apprLineType = "";
+	
+	$(document).ready(function(){
+		//resize
+		window.resizeTo(880, 574);
+
+		//fn_logInfo();
+		
+		fn_empList();
+		fn_empInfo();
+		
+		$("#closeBtn").click(function(){
+			$("#proHistory_wrap").attr("class", "hidden");
+		});
+		
+		$('#searchValue').keypress(function(event){
+			var keycode = (event.keyCode ? event.keyCode : event.which);
+			if(keycode == '13'){
+				fn_empList();
+			}
+			event.stopPropagation();
+		});
+		//
+		
+	});
+	
+	function fn_empList() {
+
+		var url = rootPath+"emp/getEmpList.do";
+		
+		var searchKey = $("#searchKey").val();
+		var searchValue = $("#searchValue").val();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				bizId:"middle",
+				searchAppr:getCookie("bizId"),
+				searchKey:searchKey,
+				searchValue:searchValue,
+				empType:'6',
+				startPage:0,
+				endPage:99999
+			},
+			success:function(result)
+			{
+				var htmlData = "";
+				
+				if (result.success==true) {
+					// 기업중간관리자
+					$.each(result.data, function(i, row) {
+						htmlData += '<tr> <td class=""><input type="checkbox" name="chk1" value="'+row.bizId+'_'+row.userId+'"></td>';
+						htmlData += '     <td>'+row.bizName+'</td>';
+						htmlData += '     <td>'+row.empName+'</td>';
+						htmlData += '     <td>'+row.empNo+'</td>';
+						htmlData += '	  <td>'+row.EMail+'</td>';
+						htmlData += '</tr>';
+					});
+				}
+				$("#empList").html(htmlData);
+			},
+			error:function(request,status,error){
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});		
+	}
+	
+	function fn_empInfo() {
+		var url = rootPath+"emp/getEmp.do";
+		
+		var userId = getCookie("userId");
+		
+		var bizId = getCookie("bizId");
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				userId:userId,
+				bizId:bizId,
+				startPage:0,
+				endPage:10
+			},
+			success:function(result)
+			{
+				var htmlData = "";
+				
+				if (result.success==true) {				
+					// 인사정보
+					htmlData += '<tr> <td><input type="checkbox" name="chk2" value="'+result.data.bizId+'_'+result.data.userId+'"></td>';
+					htmlData += '     <td class="chk2Row">1</td>';
+					htmlData += '     <td>'+result.data.bizName+'</td>';
+					htmlData += '     <td>'+result.data.empName+'</td>';
+					htmlData += '     <td>1</td>';
+					htmlData += '</tr>';
+					
+					$("#apprList").append(htmlData);
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+				}
+			},
+			error:function(request,status,error){
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					window.close();
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+	
+	function fn_saveApprovalLine(){
+		$("#proHistory_wrap").attr("class", "");
+		apprLineType = "save";
+		
+		var htmlData = "";
+		htmlData += '<tr class="input_bx"> <td colspan="2">1</td>';
+		htmlData += '     <td><input type="text" id="apprLine1" class="input_txt"></td>';
+		htmlData += '</tr>';
+		
+		$("#apprLine").html(htmlData);
+		
+		var htmlData = $('#apprList').children().clone();
+		
+		$("#apprLineList").html(htmlData);
+		
+		$('#apprLineList').children().each(function (){
+			$(this).children().eq(0).remove();
+		});
+	}
+	
+	function fn_getApprovalLine(){
+		$("#proHistory_wrap").attr("class", "");
+		apprLineType = "get";
+		
+		var url = rootPath+"approval/getApprLineMaster.do";
+		var userId = getCookie("userId");
+		var bizId = getCookie("bizId");
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				userId:userId,
+				bizId:bizId
+			},
+			success:function(result)
+			{
+				var htmlData = "";
+				
+				if (result.success==true) {		
+					$.each(result.data, function(i, row) {
+						htmlData += '<tr class="input_bx">';
+						htmlData += '<td style="border-right:0px;"><input type="radio" name="radio1" value="'+row.apprLineId+'" onchange="fn_getApprovalLineDetail('+row.apprLineId+');"></td>';
+						htmlData += '<td>'+i+'</td>';
+						htmlData += '     <td>'+row.apprLineName+'</td>';
+						htmlData += '</tr>';
+					});
+					$("#apprLine").html(htmlData);
+					$("input[name=radio1]").eq(0).prop("checked", true);
+					fn_getApprovalLineDetail($("input[name=radio1]").eq(0).val());
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+				}
+			},
+			error:function(request,status,error){
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					window.close();
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+	
+	function fn_getApprovalLineDetail(apprLineId){
+		
+		var url = rootPath+"approval/getApprLineDetail.do";
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: { apprLineId:apprLineId },
+			success:function(result)  {
+
+				var htmlData = "";
+				if (result.success==true) {
+					$.each(result.data, function(i, row) {
+						htmlData += '<tr>';
+						htmlData += '     <td><input type="hidden" name="chk3" value="'+row.apprBizId+'_'+row.apprUserId+'">'+(Number(i)+1)+'</td>';
+						htmlData += '     <td>'+row.apprBizName+'</td>';
+						htmlData += '     <td>'+row.apprEmpName+'</td>';
+						htmlData += '     <td>'+row.apprSeq+'</td>';
+						htmlData += '</tr>';
+					});
+					$("#apprLineList").html(htmlData);
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+				}
+			},
+			error:function(request,status,error){
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					window.close();
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+				}
+			}
+		});
+	}
+	
+	function fn_checkAll1() {
+	    //클릭되었으면
+	    if($("#checkall1").prop("checked")){
+	        //input태그의 name이 chk인 태그들을 찾아서 checked옵션을 true로 정의
+	        $("input[name=chk1]").prop("checked",true);
+	        //클릭이 안되있으면
+	    }else{
+	        //input태그의 name이 chk인 태그들을 찾아서 checked옵션을 false로 정의
+	        $("input[name=chk1]").prop("checked",false);
+	    }
+	}
+	
+	function fn_checkAll2() {
+	    //클릭되었으면
+	    if($("#checkall2").prop("checked")){
+	        //input태그의 name이 chk인 태그들을 찾아서 checked옵션을 true로 정의
+	        $("input[name=chk2]").prop("checked",true);
+	        //클릭이 안되있으면
+	    }else{
+	        //input태그의 name이 chk인 태그들을 찾아서 checked옵션을 false로 정의
+	        $("input[name=chk2]").prop("checked",false);
+	    }
+	}
+	
+	function fn_addLine(){
+		var check = false;
+
+		$("input:checkbox[name=chk1]:checked").each(function (){
+			var key = this.value;
+			$("input:checkbox[name=chk2]").each(function (){
+				if(key == this.value){
+					check = true;
+					return;
+				}
+			});
+
+			if(check){ return; }
+			
+			var data = key.split("_");
+			var bizId = data[0];
+			var userId = data[1];
+			var url = rootPath+"emp/getEmp.do";
+			
+			$.ajax({
+				url:url,
+			    crossDomain : true,
+				dataType:"json",
+				async: false,
+				type:"GET",
+				data: {
+					userId:userId,
+					bizId:bizId,
+					startPage:0,
+					endPage:10
+				},
+				success:function(result)  {
+					var htmlData = "";
+					
+					if (result.success==true) {				
+						// 인사정보
+						var trLeng = Number($("#apprList tr").length);
+						htmlData += '<tr> <td><input type="checkbox" name="chk2" value="'+result.data.bizId+'_'+result.data.userId+'"></td>';
+						htmlData += '     <td class="chk2Row">'+(trLeng+1)+'</td>';
+						htmlData += '     <td>'+result.data.bizName+'</td>';
+						htmlData += '     <td>'+result.data.empName+'</td>';
+						htmlData += '     <td>'+(trLeng+1)+'</td>';
+						htmlData += '</tr>';
+						
+						$("#apprList").append(htmlData);
+						$("input[name=chk1]").prop("checked",false);
+						
+						$("#apprListTable").sortable({
+							items: $("#apprList tr:not(:first-of-type)"),
+							update: function (event, ui){
+								$("#apprList").children().each(function(index){
+									$(this).find('td').eq(1).html(index +1);
+									$(this).find('td').eq(4).html(index +1);
+								});
+							}
+						});
+					} else {
+						alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+					}
+				},
+				error:function(request,status,error){
+					if (request.status=="401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						window.close();
+					} else {
+						alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+					}
+				}
+			});
+		});
+	}
+	
+	function fn_delLine(){
+		$("input:checkbox[name=chk2]:checked").each(function (){
+			if(!$(this).parent().parent().index() == 0){
+				$(this).parent().parent().remove();
+			}
+		});
+		var row = 1;
+		$(".chk2Row").each(function (){
+			$(this).text(row);
+			$(this).parent().children().last().text(row);
+			row++;
+		});
+	}
+	
+	function fn_appr_line(){
+		if(apprLineType == "save"){
+			
+			if(!confirm("선택하신 승인라인을 저장하시겠습니까?")) return;
+			
+			var apprList = new Array();
+		    $("input:checkbox[name=chk2]").each(function (){
+		    	var key = this.value;
+				var data = key.split("_");
+				var bizId = data[0];
+				var userId = data[1];
+			    param = new Object();
+			    param.apprLineName = $("#apprLine1").val();
+			    param.apprBizId = bizId;
+			    param.apprUserId = userId;
+			    apprList.push(param);
+			});
+			var url = rootPath+"approval/saveApprLine.do";
+			
+			console.log(JSON.stringify(apprList));
+			
+			$.ajax({
+				url:url,
+			    crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				contentType: "application/json; charset=UTF-8",
+				data:JSON.stringify(apprList),
+				success:function(result) {
+					if (result.success==true) {
+						alert("저장되었습니다.");
+						$("#proHistory_wrap").attr("class", "hidden");
+					}
+				},
+				error:function(request,status,error){
+					if (request.status=="401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						location.href=rootPath;
+					} else {
+						alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+					}
+				}
+			});
+			
+		}else if(apprLineType == "get"){
+			$("#apprList").html("");
+			$("input[name=chk3]").each(function (){
+				var key = this.value;
+				var data = key.split("_");
+				var bizId = data[0];
+				var userId = data[1];
+				var url = rootPath+"emp/getEmp.do";
+				$.ajax({
+					url:url,
+				    crossDomain : true,
+					dataType:"json",
+					async: false,
+					type:"GET",
+					data: {
+						userId:userId,
+						bizId:bizId,
+						startPage:0,
+						endPage:10
+					},
+					success:function(result) {
+						
+						var htmlData = "";
+						
+						if (result.success==true) {				
+							// 인사정보
+							var trLeng = Number($("#apprList tr").length);
+							htmlData += '<tr> <td><input type="checkbox" name="chk2" value="'+result.data.bizId+'_'+result.data.userId+'"></td>';
+							htmlData += '     <td class="chk2Row">'+(trLeng+1)+'</td>';
+							htmlData += '     <td>'+result.data.bizName+'</td>';
+							htmlData += '     <td>'+result.data.empName+'</td>';
+							htmlData += '     <td>'+(trLeng+1)+'</td>';
+							htmlData += '</tr>';
+							$("#apprList").append(htmlData);
+						} else {
+							alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+						}
+					},
+					error:function(request,status,error){
+						if (request.status=="401") {
+							alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+							window.close();
+						} else {
+							alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+						}
+					}
+				});
+			});
+			$("#proHistory_wrap").attr("class", "hidden");
+		}
+	}
+	
+	function fn_save(){
+		var apprList = new Array();
+	    $("input:checkbox[name=chk2]").each(function (){
+	    	var key = this.value;
+			var data = key.split("_");
+			var bizId = data[0];
+			var userId = data[1];
+		    param = new Object();
+		    param.apprLineName = $("#apprLine1").val();
+		    param.apprBizId = bizId;
+		    param.apprUserId = userId;
+		    param.contId = getURLParameters("contId");
+		    apprList.push(param);
+		});
+		
+		if(apprList.length == 1){
+			alert("결재선은 본인 외 최소 1명 지정되어야 합니다.")
+			return;
+		}
+		
+		var url = rootPath+"approval/saveAppr.do";
+			
+		if(!confirm("결재를 요청하시겠습니까?")) return;
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			contentType: "application/json; charset=UTF-8",
+			data:JSON.stringify(apprList),
+			success:function(result) {
+				if (result.success==true) {
+					alert("저장되었습니다.");
+					$("#proHistory_wrap").attr("class", "hidden");
+					opener.fn_saveApprCallback();
+					window.close();
+				}
+			},
+			error:function(request,status,error){
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+				}
+			}
+		});
+	}
+	
+</script>
+
+</head>
+<body>
+    <input type="hidden" id="searchKey" value="empName">
+    <!-- *********************************************   html 시작 부분  body안에 붙여 넣으시면 됩니다.  *********************************************  -->
+    <div id="contract_popup" class="edit">
+		<div class="container">
+			<div id="popup_tit" style="z-index: 0;">
+				<div class="tit_icon"></div>
+				<div class="tit_text col_skyblue NanumGothic">승인요청</div>
+				<div id="popup_close" class="btn_type col_skyblue" onclick="window.close()"></div>
+			</div>
+			<div class="field_area" style="width: 100%; margin: 10px 0px 0px 0px;">
+				<div class="selBox NanumGothic">
+					<div class="label">관리자 검색</div>
+					<fieldset style="float: left;">
+						<input type="text" id="searchValue" class="word_input NanumGothic">
+						<a class="btn_search btn_type Material_icons" onclick="fn_empList()">search</a>
+					</fieldset>
+					<div class="label" style="margin-left: 260px;">승인라인</div>
+				</div>
+			</div>
+			
+			<div class="table_contents" style="margin-bottom: 0;">
+				<div class="list" style="height: auto;">
+					<div style="display: inline-grid; width: 45%; height: 300px; border: 1px solid #e1e1e1; border-top: 0px; border-bottom: 0; overflow-y: auto;">
+						<table class="NanumGothic" style="width: 100%;">
+							<colgroup>
+								<col width="8%">
+								<col width="16%">
+								<col width="16%">
+								<col width="30%">
+								<col width="30%">
+							</colgroup>
+							<thead>
+								<tr>
+									<th class="chk_area"><input type="checkbox" id="checkall1" onclick="fn_checkAll1();"></th>
+									<th>기업명</th>
+									<th>성명</th>
+									<th>사용자권한</th>
+									<th>이메일</th>
+								</tr>
+							</thead>
+							<tbody id="empList">
+								<tr> 
+									<td colspan="5">요청하신 자료가 존재하지 않습니다.</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="btn_group" style="display: inline-block; float: none; width: auto; margin: 0; top: 125px;">
+						<div>
+							<a href = "javascript:fn_addLine();" class="btn_type type1 NanumGothic" style="width: 30px; height: 20px;">&gt;&gt;</a>
+						</div>
+						<div>
+							<a href = "javascript:fn_delLine();" class="btn_type type1 NanumGothic" style="width: 30px; height: 20px;">&lt;&lt;</a>
+						</div>
+					</div>
+					<div style="display: inline-table; width: 46%; height: 300px; border: 1px solid #e1e1e1; border-top: 0px; border-bottom: 0;">
+						<table id="apprListTable" class="NanumGothic" style="width: 100%;">
+							<colgroup>
+								<col width="5%">
+								<col width="15%">		
+								<col width="30%">
+								<col width="30%">
+								<col width="20%">
+							</colgroup>
+							<thead>
+								<tr>
+									<th class="chk_area"><input type="checkbox" id="checkall2" onclick="fn_checkAll2();"></th>
+									<th>순서</th>
+									<th>기업명</th>
+									<th>승인자</th>
+									<th>승인순서</th>
+								</tr>
+							</thead>
+							<tbody id="apprList">
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		
+			<div class="btn_group">
+				<a href = "javascript:fn_saveApprovalLine();" class="btn_type type1 NanumGothic">승인라인 저장</a>
+				<a href = "javascript:fn_getApprovalLine();" class="btn_type type1 NanumGothic">승인라인 불러오기</a>
+				<a href = "javascript:fn_save();" class="btn_type type1 NanumGothic">확인</a>
+			</div>
+		</div>
+	</div>
+	<!--  POPUP class(숨기기:hidden) -->
+    <div id="proHistory_wrap" class="hidden">
+        <ul id="popup_bg">
+            <li class="popup_frame popup_name">
+                <div class="icon note"></div><div class="text NanumGothic">승인라인</div>
+                <div id="closeBtn" class="btn_type popup_close Material_icons"></div>
+            </li>
+            <li class="popup_frame popup_res">
+            <div class="seh_res2 NanumGothic">
+                <table>
+                    <colgroup>
+                    	<col width="10%">
+                        <col width="10%">
+                        <col width="80%">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th colspan="2">No</th>
+                            <th>승인라인명</th> 
+                        </tr>
+                    </thead>
+                    <tbody id="apprLine">
+                    </tbody>
+                </table>
+            </div>
+			<div class="seh_res2 NanumGothic">
+                <table>
+                    <colgroup>
+                        <col width="20%">		
+						<col width="30%">
+						<col width="30%">
+						<col width="20%">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>순서</th>
+							<th>기업명</th>
+							<th>승인자</th>
+							<th>승인순서</th>
+                        </tr>
+                    </thead>
+                    <tbody id="apprLineList">
+                    </tbody>
+                </table>
+            </div>
+            </li>
+            <li class="popup_btnGroup">
+                <a class="btn_type check" onclick="javascript:fn_appr_line();">확인</a>
+            </li>
+        </ul>
+    </div><!-- proHistory_wrap -->
+    <!-- *********************************************  html 끝  부분  body안에 붙여 넣으시면 됩니다.  *********************************************  -->
+</body>
+</html>

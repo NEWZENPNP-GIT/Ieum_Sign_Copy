@@ -1,0 +1,306 @@
+<!--****************************************************************************************************************
+* 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+* 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+********************************************************************************************************************
+--------------------------------------------------------------------------------------------------------------------
+* 회사       : 뉴젠피앤피
+* 화면명     : 주소록수정 팝업 (인사)
+* 화면설명   : 주소록관리(인사) > 수정
+* 작성자     : 이정훈
+* 생성일     : 2023.11.17
+--------------------------------------------------------------------------------------------------------------------
+* 수정자     :
+* 수정일     :
+* 수정내용   :
+------------------------------------------------------------------------------------------------------------------->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>주소록 수정(인사)</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+
+    <link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+    <link rel="stylesheet" type="text/css" href="/css/myPage.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+    <link rel="stylesheet" type="text/css" href="/css/contract_electronic.css">
+
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+    <script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/ui.biz.core.js"></script>
+    <script>
+
+
+        //***************					주소록(인사) 수정하기					***************//
+
+
+        function fn_save() {
+
+            var url = rootPath + "contact/updContact.do";
+            var bizId = getURLParameters("bizId");
+            var contId = getURLParameters("contId");
+            var grpId = $("#grpId").val();
+            var contName = $("#contName").val();
+            var phoneNumber = $("#phoneNumber").val();
+            var mailAddr = $("#mailAddr").val();
+            var birthDate = $("#birthDate").val();
+            var corpName = $("#corpName").val();
+            var corpDept = $("#corpDept").val();
+            var corpPos = $("#corpPos").val();
+            var corpTel = $("#corpTel").val();
+            var corpFax = $("#corpFax").val();
+            var corpAddr = $("#corpAddr").val();
+            var corpUrl = "";
+
+            if (contName.length <= 0) {
+                alert("이름을 입력해주세요.");
+                return false;
+            } else if (contName.indexOf("_") > -1) {
+                alert("이름에는 특수문자 [ _ ]를 사용하실 수 없습니다.");
+                return false;
+            }
+
+            if (phoneNumber.length <= 0) {
+                alert("휴대폰번호을 입력해주세요.");
+                return false;
+            }
+
+            $.ajax({
+                url: url,
+                crossDomain: true,
+                dataType: "json",
+                type: "POST",
+                data: {
+                    OPEN_KEY: getCookie("OPEN_KEY"),
+                    bizId: bizId,
+                    contId: contId,
+                    grpId: grpId,
+                    contName: contName,
+                    phoneNumber: phoneNumber,
+                    mailAddr: mailAddr,
+                    corpName: corpName,
+                    corpDept: corpDept,
+                    corpPos: corpPos,
+                    corpTel: corpTel,
+                    corpFax: corpFax,
+                    corpAddr: corpAddr,
+                    corpUrl: corpUrl
+                },
+                success: function (result) {
+                    if (result.success == true) {
+                        alert("수정되었습니다.");
+                        window.close();
+                        opener.fn_contactList(1);
+                    }
+                },
+                error: function (request, status, error) {
+                    $.unblockUI();
+                    goInvalidPage(request, error);
+                }
+            });
+        }
+
+
+        //***************					그룹 리스트 조회					***************//
+
+
+        function fn_getGrpList() {
+
+            var bizId = getURLParameters("bizId");
+            var url = rootPath + "contact/getContactGrpList.do";
+
+            $.ajax({
+                url: url,
+                crossDomain: true,
+                dataType: "json",
+                type: "POST",
+                data: {
+                    OPEN_KEY: getCookie("OPEN_KEY"),
+                    bizId: bizId
+                },
+                success: function (result) {
+                    if (result.success == true) {
+                        var htmlData = "";
+                        $.each(result.data, function (i, row) {
+                            htmlData += "<option value='" + row.grpId + "'>" + row.grpName + "</option>";
+                        });
+                        $("#grpId").html(htmlData);
+                    }
+                    fn_contactList();
+                },
+                error: function (request, status, error) {
+                    $.unblockUI();
+                    goInvalidPage(request, error);
+                }
+            });
+        }
+
+
+        //***************					인사 리스트 조회					***************//
+
+
+        function fn_contactList(page) {
+
+            var url = rootPath + "contact/getContactList.do";
+            var bizId = getURLParameters("bizId");
+            var contId = getURLParameters("contId");
+
+            $.ajax({
+                url: url,
+                crossDomain: true,
+                dataType: "json",
+                type: "POST",
+                data: {
+                    OPEN_KEY: getCookie("OPEN_KEY"),
+                    bizId: bizId,
+                    contId: contId,
+                    startPage: "0",
+                    endPage: "1"
+                },
+                success: function (result) {
+                    if (result.success == true) {
+                        // 인사내역
+                        $.each(result.data, function (i, row) {
+                            $("#grpId").val(row.grpId);
+                            $("#contName").val(row.contName);
+                            $("#phoneNumber").val(row.phoneNumber);
+                            $("#mailAddr").val(row.mailAddr);
+                            $("#birthDate").val(row.birthDate);
+                            $("#corpName").val(row.corpName);
+                            $("#corpDept").val(row.corpDept);
+                            $("#corpPos").val(row.corpPos);
+                            $("#corpTel").val(row.corpTel);
+                            $("#corpFax").val(row.corpFax);
+                            $("#corpAddr").val(row.corpAddr);
+                            $("#loginId").val(row.loginId);
+
+                            if (isNotNull(row.loginId)) {
+                                $("#loginReset").html(' <span style="cursor:pointer;" class="glyphicon glyphicon-plus" onclick="fn_(\'' + row.contId + '\')"></span>');
+                            }
+                        });
+                    }
+                    $.unblockUI();
+                },
+                error: function (request, status, error) {
+                    $.unblockUI();
+                    goInvalidPage(request, error);
+                }
+            });
+        }
+
+
+        //***************					그룹명 수정					***************//
+
+
+        function fn_updGrp() {
+            var grpId = $("#grpId").val();
+            if (isNull(grpId)) return false;
+            openWin(rootPath + "html/contact/contact_grp_popup_edit.html?grpId=" + grpId, "그룹수정", 500, 200);
+        }
+
+
+        //***************					윈도우 로딩					***************//
+
+
+        $(document).ready(function () {
+            fn_getGrpList();
+        });
+    </script>
+	<style>
+		td{width:25%;font-size:14px;font-weight:bold;;color:#333;text-align:left}
+	</style>
+</head>
+<body>
+<div id="" class="contract_electronic_popup">
+    <div class="pop_title">
+        <h3>주소록 수정(인사)</h3>
+        <a class="col_skyblue" onclick="window.close()"></a>
+    </div>
+    <div class="tbstyle01">
+        <table class="NanumSquare_R">
+            <tr>
+                <th>그룹</th>
+                <td>
+                    <div class="select_box">
+                        <select class="NanumSquare_R" id="grpId">
+                            <option value="">그룹명</option>
+                        </select>
+                        <button onclick="fn_updGrp()" class="select_updateBtn">수정</button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>이름</th>
+                <td>
+                    <input type="text" name="" id="contName" class="inpstyle01">
+                </td>
+            </tr>
+            <tr>
+                <th>핸드폰번호</th>
+                <td>
+                    <input type="text" name="" id="phoneNumber" class="inpstyle01">
+                </td>
+            </tr>
+            <tr>
+                <th>이메일</th>
+                <td>
+                    <input type="text" name="" id="mailAddr" class="inpstyle01">
+                </td>
+            </tr>
+            <tr>
+                <th>회사명</th>
+                <td>
+                    <input type="text" name="" id="corpName" class="inpstyle01">
+                </td>
+            </tr>
+            <tr>
+                <th>부서</th>
+                <td>
+                    <input type="text" name="" id="corpDept" class="inpstyle01">
+                </td>
+            </tr>
+            <tr>
+                <th>직위</th>
+                <td>
+                    <input type="text" name="" id="corpPos" class="inpstyle01">
+                </td>
+            </tr>
+            <tr>
+                <th>전화번호</th>
+                <td>
+                    <input type="text" name="" id="corpTel" class="inpstyle01">
+                </td>
+            </tr>
+            <tr>
+                <th>FAX</th>
+                <td>
+                    <input type="text" name="" id="corpFax" class="inpstyle01">
+                </td>
+            </tr>
+            <tr>
+                <th>주소</th>
+                <td>
+                    <input type="text" name="" id="corpAddr" class="inpstyle01">
+                </td>
+            </tr>
+            <tr>
+                <th>계정</th>
+                <td>
+                    <input type="text" name="" id="loginId" class="inpstyle01" disabled>
+                    <span id="loginReset"></span>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="btn_group">
+        <div class="NanumRound btn_type type1" onclick="fn_save()">수정하기</div>
+        <div class="NanumRound btn_type type3" onclick="window.close()">취소하기</div>
+    </div>
+</div>
+</body>
+</html>

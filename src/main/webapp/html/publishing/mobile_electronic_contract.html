@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+
+<link rel="stylesheet" type="text/css" href="/css/font.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/mobile_common.css">
+<link rel="stylesheet" type="text/css" href="/css/mobile_electronic_contract.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+</head>
+<body>
+	<header class="header contract">
+		<ul class="gnb">
+			<li class="prev"><a class="btn_type btn_prev" href="mobile_main.html" target="_self"></a></li>
+			<li class="head_text NanumBarunGothic">전자근로계약</li>
+			<li class="menu"><a class="btn_type btn_menu"></a></li>
+		</ul>
+	</header>
+	<div id="container" class="NanumBarunGothic contract">
+		<section class="wrap">
+			<div class="contract_wrap">
+				<div class="ongoing">
+					<div class="tit">진행중인 계약서</div>
+					<ul class="list">
+						<li class="btn_type" onclick="link()">
+							<div class="userName">(주) 뉴젠피앤피 홍길동님의</div>
+							<div class="docName">2018_근로계약서</div>
+							<div class="icon"></div>
+						</li>
+						<!-- 정정요청 정정표시아이콘표시 : editint 클래스 추가 -->
+						<li class="btn_type editing" onclick="link()">
+							<div class="userName">(주) 뉴젠피앤피 홍길동님의</div>
+							<div class="docName">2018_근로계약서</div>
+							<div class="icon"></div>
+						</li>
+						<li class="non">진행중인 계약서가 없습니다.</li>
+						<li class="lastDate">
+							<div><span class="dot">●</span><span class="tit">받은날짜</span><span class="date">2018.10.08</span></div>
+							<div><span class="dot">●</span><span class="tit">최근이용</span><span class="date">2018.10.08</span></div>
+							<div><a class="btn_type">계약 자세히 보기</a></div>
+						</li>
+					</ul>
+				</div>
+				<div class="complete">
+					<div class="NanumSquare_R tit">완료된 계약서</div>
+					<ul class="list">
+						<li class="btn_type">
+							<div class="icon"></div>
+							<div class="text">
+								<span class="userName">(주) 뉴젠피앤피 홍길동님의</span>
+								<span class="docName">2018_근로계약서</span></div>
+							<div class="arrow"></div>
+						</li>
+						<li class="btn_type">
+							<div class="icon"></div>
+							<div class="text">
+								<span class="userName">(주) 뉴젠피앤피 홍길동님의</span>
+								<span class="docName">2018_근로계약서</span></div>
+							<div class="arrow"></div>
+						</li>
+						<li class="non">
+							완료된 계약서가 없습니다.
+						</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+		
+	</div>
+	
+</body>
+<script type="text/javascript">
+function link(){
+	window.location.href="mobile_electronic_check.html";
+}
+</script>
+</html>

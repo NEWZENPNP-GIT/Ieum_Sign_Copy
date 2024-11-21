@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/contract_write.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<title>인적자원관리 전문IT기업 - 뉴젠P&amp;P</title>
+
+<script type="text/javascript">
+	var $toggleFormText = {
+		scan : function(o){
+			o.find(".hint").each(function(){
+				if(this.value == this.title){
+					$(this).addClass('hintText');
+					this.value = this.title;
+				}
+				if(this.value == ''){
+					$(this).addClass('hintText');
+					this.value = this.title;
+				}
+			});
+			o.find(".hint").focus(function(){
+				if(this.value == this.title){
+					$(this).removeClass('hintText');
+					this.value = '';
+				}
+			});
+			o.find(".hint").blur(function(){
+				if(this.value == ''){
+					$(this).addClass('hintText');
+					this.value = this.title;
+				} else { 
+					$(this).removeClass('hintText');
+				}
+			});
+		},
+		toString : function(){
+			return "toggleFormText";
+		}
+	};
+
+	$(document).ready(function(){
+		//resize
+		window.resizeTo(515, 564);
+
+		$toggleFormText.scan($("body"));
+		
+		var userId = getParams().userId;
+		var contractDate = getParams().contractDate;
+		var empName = getParams().empName;
+		var phoneNum = getParams().phoneNum;
+		var bizId = getParams().bizId;
+		
+		$("#userId").val(userId);
+		$("#empName").val(decodeURIComponent(empName));
+		$("#phoneNum").val(phoneNum);
+		$("#bizId").val(bizId);
+		if(contractDate.length>0) {
+			$("#contractDate").val(convertDate(contractDate).format("yyyy-MM-dd"));
+		}
+		fn_contractNewList();
+		$("#scanPoint").text("5");
+	});
+
+	//스캔파일 등록 포인트 차감
+	function getFormPoint(){
+		var url = rootPath+"biz/getBizList.do";
+		var bizId = $("#bizId").val();
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				bizId:bizId
+			},
+			success:function(result)
+			{
+				if (result.success==true) {
+					if(result.total == 1){
+						if(isNull(result.data[0].scanPoint)){
+							$("#scanPoint").text("0");
+						} else {
+							$("#scanPoint").text(result.data[0].scanPoint);
+						}
+					}
+				}
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+
+
+	//***************					전자계약 양식 리스트					***************//
+
+
+	function fn_contractNewList() {
+
+		var url = rootPath+"contract/getContractNewList.do";
+		var bizId = $("#bizId").val();
+		var searchCompany = $("#bizId").val();
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				transType:'C',
+				viewYn:'Y',
+				bizId:bizId,
+				searchCompany:searchCompany
+			},
+			success:function(result) {
+				if(result.success) {
+					// 인사내역
+					$.each(result.data, function(i, row) {
+						if(i==0) selected = "selected";
+						var fileName = cutStr(row.fileName, 42);
+						var option = $("<option value='"+row.contractId+"' "+selected+">"+fileName+"</option>");
+					    $('#contractFileId').append(option);
+					    $("#bizName").val(row.bizName)
+					});
+				}
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					window.close();
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+				}
+			}
+		});
+	}
+
+	function fn_uploadContractFile() {
+		if(!confirm("파일등록을 진행하시겠습니까?\r\n전자문서(PDF) 파일은 5MB내에서 등록이 가능합니다.")) return;
+		
+		var url = rootPath+"contract/uploadContractFile.do";
+		
+		var userId = $("#userId").val();
+		var contractDate = $("#contractDate").val();
+		var contractFileId = $("#contractFileId").val();
+		var bizId = $("#bizId").val();
+		
+		if(userId.length==0) {
+			alert("사용자를 먼저 선택해주시기 바랍니다.");
+			return;
+		}
+
+		if(contractDate.length==0) {
+			alert("기준일자를 입력해주시기 바랍니다.");
+			return;
+		}
+
+		if(contractFileId.length==0) {
+			alert("문서종류를 입력해주시기 바랍니다.");
+			return;
+		}
+		if(contractDate.length > 0) {
+			contractDate = contractDate.replace(/-/gi, "");
+		} 
+		
+		// 데이터설정
+		var formData = new FormData();
+	    formData.append("userId",userId);
+	    formData.append("contractDate",contractDate);
+	    formData.append("contractFileId",contractFileId);
+	    formData.append("bizId",bizId);
+		var file = document.getElementsByName("pdfFile");
+		for(var i=0;i<file.length;i++) {
+			if (file[i].files[0] != undefined) {
+				if(!checkFileExt(file[i].files[0].name, "pdf")) {
+					alert("파일확장자는 pdf파일만 가능합니다.");
+					return;
+				}
+				if(checkSpecial(file[i].files[0].name)) {
+					alert("파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.");
+					return;
+				}
+			    formData.append("addFile"+i,file[i].files[0]);
+			}
+		}
+
+		$.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data:formData,
+			contentType:false,
+			processData:false,
+			cache:false,
+			success:function(result)
+			{
+				$.unblockUI();
+				console.log(result);
+				alert(result.message);
+				opener.fn_contractList(1);
+				opener.fn_getPoint();
+				opener.fn_getPointList();
+				window.close();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					window.close();
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});	
+	}
+
+
+
+	function fn_popupEmp() {
+		var url = rootPath + "html/popup/popup_emp.html?bizId="+getParams().bizId;
+		openWin(url, "popup_emp", 610, 470);
+	}
+
+	function fn_setEmpNo(data) {
+		$("#userId").val(data.userId);
+		$("#empName").val(data.empName);
+		$("#phoneNum").val(data.phoneNum);
+		
+	}
+</script>
+
+</head>
+<body>
+	
+<!-- *********************************************  계약 관리  *********************************************  -->
+<input type="hidden" id="bizId" value="">
+<div id="contract_popup" class="edit" style="width: 100%; height: auto;">
+	<div class="container">
+		<div id="popup_tit">
+			<div class="tit_icon"></div>
+			<div class="tit_text col_skyblue NanumGothic">스캔파일등록</div>
+			<div id="popup_close" class="btn_type col_skyblue" onclick="window.close()"></div>
+		</div>
+		<div class="contents" style="height: auto;">
+			<div class="input_wrap">
+				<dl class="boxRow input_bx NanumGothic">
+					<dt><label class="label_txt NanumGothic">기업명</label></dt>
+					<dd><input type="text" id="bizName" readonly class="input_txt"></dd>
+				</dl>
+				<dl class="boxRow input_bx NanumGothic">
+					<dt><label class="label_txt NanumGothic">수신자</label></dt>
+					<!-- <dd><input type="hidden" id="userId"><input type="text" id="empName" readonly class="input_txt"></dd> -->
+					<dd class="search_box NanumGothic"><fieldset><input type="hidden" id="userId"><input type="text" id="empName" readonly><a class="btn_type btn_search Material_icons" onclick="fn_popupEmp()">search</a></fieldset></dd>
+				</dl>
+				<dl class="boxRow input_bx NanumGothic">
+					<dt><label class="label_txt NanumGothic">휴대폰번호</label></dt>
+					<dd><input type="text" id="phoneNum" readonly class="input_txt"></dd>
+				</dl>
+				<dl class="boxRow input_bx NanumGothic">
+					<dt><label class="label_txt NanumGothic">생성일자</label></dt>
+					<dd><input type="text" id="contractDate" class="input_txt NanumGothic"></dd>
+				</dl>
+				<dl class="boxRow input_bx NanumGothic">
+					<dt><label class="label_txt NanumGothic">양식명</label></dt>
+					<dd><select id="contractFileId" class="lt"></select></dd>
+				</dl>
+				<dl class="boxRow default_bx NanumGothic">
+					<dt><label class="label_txt NanumGothic">파일선택</label></dt>
+					<dd>
+						<input type="file" id="pdfFile" name="pdfFile" class="input_txt">
+					</dd>
+				</dl>
+			</div>
+			<div class="foot_box NanumGothic">
+				<dl class="col_red">
+					<dt>ㆍ</dt>
+					<dd>업로드 한 문서는 완료된 문서로 처리가 되며, 3년간 보관됩니다.</dd>
+				</dl>
+				<dl>
+					<dt>ㆍ</dt>
+					<dd>파일은 최대 5MB까지 등록 가능하며, 등록시 <span id="scanPoint"></span>포인트가 차감됩니다.</dd>
+				</dl>
+			</div>
+		</div>
+		<div class="btn_group">
+			<a href="javascript:fn_uploadContractFile();" class="btn_type type1 NanumGothic">등록하기</a>
+			<a href="javascript:window.close();" class="btn_type type3 NanumGothic">취소</a>
+		</div>
+	</div>
+</div>
+</body>
+
+</html>

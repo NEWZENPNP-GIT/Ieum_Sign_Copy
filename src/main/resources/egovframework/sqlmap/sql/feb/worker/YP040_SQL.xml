@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="febworker">
+
+	<typeAlias alias="yp040VO" type="com.ezsign.feb.worker.vo.YP040VO" />
+	
+	<resultMap id="yp040Map" class="yp040VO">
+		<result property="성명" column="성명"/>
+		<result property="계약ID" column="계약ID"/>
+		<result property="사용자ID" column="사용자ID"/>
+		<result property="근무시기" column="근무시기"/>
+		<result property="작업자ID" column="작업자ID"/>
+		<result property="총급여" column="총급여"/>
+		<result property="비과세합계" column="비과세합계"/>
+		<result property="감면소득합계" column="감면소득합계"/>
+		<result property="공제합계" column="공제합계"/>
+		<result property="소득세" column="소득세"/>
+		<result property="지방소득세" column="지방소득세"/>
+		<result property="농어촌특별세" column="농어촌특별세"/>
+		<result property="근로소득금액" column="근로소득금액"/>
+		<result property="등록일시" column="등록일시"/>
+		<result property="수정일시" column="수정일시"/>
+	</resultMap>
+	
+	<resultMap id="yp040ListMap" class="yp040VO">
+		<result property="계약ID" column="계약ID"/>
+		<result property="사용자ID" column="사용자ID"/>
+		<result property="근무시기" column="근무시기"/>
+		<result property="원천명세ID" column="원천명세ID"/>
+		<result property="일련번호" column="일련번호"/>
+		<result property="근무지구분" column="근무지구분"/>
+		<result property="회사명" column="회사명"/>
+		<result property="사업자등록번호" column="사업자등록번호"/>
+		<result property="근무시작일" column="근무시작일"/>
+		<result property="근무종료일" column="근무종료일"/>
+		<result property="감면시작일" column="감면시작일"/>
+		<result property="감면종료일" column="감면종료일"/>
+		<result property="급여" column="급여"/>
+		<result property="상여" column="상여"/>
+		<result property="인정상여" column="인정상여"/>
+		<result property="주식매수선택권행사이익" column="주식매수선택권행사이익"/>
+		<result property="우리사주조합인출금" column="우리사주조합인출금"/>
+		<result property="임원퇴직소득금액한도초과액" column="임원퇴직소득금액한도초과액"/>
+		<result property="소득세" column="소득세"/>
+		<result property="지방소득세" column="지방소득세"/>
+		<result property="농어촌특별세" column="농어촌특별세"/>
+		<result property="건강보험료" column="건강보험료"/>
+		<result property="장기요양보험료" column="장기요양보험료"/>
+		<result property="국민연금보험료" column="국민연금보험료"/>
+		<result property="고용보험료" column="고용보험료"/>
+		<result property="공무원연금" column="공무원연금"/>
+		<result property="군인연금" column="군인연금"/>
+		<result property="사립학교교직원연금" column="사립학교교직원연금"/>
+		<result property="별정우체국연금" column="별정우체국연금"/>
+		<result property="M01" column="M01"/>
+		<result property="M02" column="M02"/>
+		<result property="M03" column="M03"/>
+		<result property="O01" column="O01"/>
+		<result property="Q01" column="Q01"/>
+		<result property="H08" column="H08"/>
+		<result property="H09" column="H09"/>
+		<result property="H10" column="H10"/>
+		<result property="G01" column="G01"/>
+		<result property="H11" column="H11"/>
+		<result property="H12" column="H12"/>
+		<result property="H13" column="H13"/>
+		<result property="H01" column="H01"/>
+		<result property="K01" column="K01"/>
+		<result property="S01" column="S01"/>
+		<result property="T01" column="T01"/>
+		<result property="Y02" column="Y02"/>
+		<result property="Y03" column="Y03"/>
+		<result property="Y04" column="Y04"/>
+		<result property="H05" column="H05"/>
+		<result property="I01" column="I01"/>
+		<result property="R10" column="R10"/>
+		<result property="H14" column="H14"/>
+		<result property="H15" column="H15"/>
+		<result property="T10" column="T10"/>
+		<result property="T11" column="T11"/>
+		<result property="T12" column="T12"/>
+		<result property="T20" column="T20"/>
+		<result property="H16" column="H16"/>
+		<result property="R11" column="R11"/>
+		<result property="H06" column="H06"/>
+		<result property="H07" column="H07"/>
+		<result property="Y22" column="Y22"/>
+		<result property="직무발명보상금" column="직무발명보상금"/>
+		<result property="T13" column="T13"/>
+		<result property="H17" column="H17"/>
+		<result property="U01" column="U01"/>
+		<result property="외국인단일세율적용" column="외국인단일세율적용"/>
+		<result property="비과세한도초과액" column="비과세한도초과액"/>
+		<result property="등록일시" column="등록일시"/>
+		<result property="수정일시" column="수정일시"/>
+	</resultMap>
+
+	<!-- 간이지급명세서_소득명세합계 조회 -->
+	<select id="yp040DAO.getYP040" parameterClass="yp040VO" resultMap="yp040Map">
+		SELECT B.성명, B.계약ID, B.사용자ID, A.근무시기, A.작업자ID, IFNULL(A.총급여,0) AS 총급여, A.비과세합계, A.감면소득합계, A.공제합계, A.소득세, A.지방소득세, A.농어촌특별세, A.근로소득금액, A.등록일시, A.수정일시
+		FROM tbl_ye001 B 
+		  LEFT OUTER JOIN tbl_yp040 A
+		    ON B.계약ID = A.계약ID AND B.사용자ID = A.사용자ID AND B.가족관계 = '0'
+		WHERE B.계약ID = #계약ID#
+		  AND B.사용자ID = #사용자ID#
+		  AND A.근무시기 = #근무시기#
+		LIMIT 0, 1
+	</select>
+
+	<select id="yp040DAO.getYP040List" parameterClass="yp040VO" resultMap="yp040ListMap">
+		SELECT B.계약ID, B.사용자ID,B.근무시기, B.일련번호, B.근무지구분, CASE B.근무지구분 WHEN '1' THEN fn_사업장명(A.계약ID, A.사업장ID) ELSE B.회사명 END 회사명, B.사업자등록번호, B.근무시작일, B.근무종료일, B.감면시작일, B.감면종료일, C.급여, C.상여, C.인정상여, C.주식매수선택권행사이익, 
+		  		C.우리사주조합인출금, C.임원퇴직소득금액한도초과액, C.소득세, C.지방소득세, C.농어촌특별세, C.건강보험료, C.장기요양보험료, C.국민연금보험료, C.고용보험료, C.공무원연금, C.군인연금, C.사립학교교직원연금, C.직무발명보상금,
+		  		C.별정우체국연금, C.M01, C.M02, C.M03, C.O01, C.Q01, C.H08, C.H09, C.H10, C.G01, C.H11, C.H12, C.H13, C.H01, C.K01, C.S01, C.T01, C.Y02, C.Y03, C.Y04, C.H05, C.I01, 
+		  		C.R10, C.H14, C.H15, C.T10, C.T11, C.T12, C.T20, C.H16, C.R11, C.H06, C.H07, C.Y22, C.T13, C.H17, C.U01, C.등록일시, C.수정일시, CASE WHEN IFNULL(A.외국인단일세율적용, '2') = '' THEN '2' ELSE IFNULL(A.외국인단일세율적용, '2') END 외국인단일세율적용,
+		  		C.원천명세ID, C.비과세한도초과액
+		FROM tbl_yp000 A, tbl_yp002 B, tbl_yp003 C
+		WHERE A.계약ID = B.계약ID
+		AND A.사용자ID = B.사용자ID
+    	AND A.근무시기 = B.근무시기
+		AND B.계약ID = C.계약ID
+		AND B.사용자ID = C.사용자ID
+		AND B.원천명세ID = C.원천명세ID
+    	AND B.근무시기 	= C.근무시기    
+	    AND A.계약ID = #계약ID#
+	    AND A.사용자ID = #사용자ID#
+      	AND A.근무시기 	= #근무시기#
+		ORDER BY B.근무지구분 ASC, B.근무시작일 ASC
+	</select>
+	
+	<insert id="yp040DAO.insYP040" parameterClass="yp040VO">
+		INSERT INTO TBL_YP040 (
+			계약ID, 사용자ID, 근무시기, 작업자ID, 
+			<isNotEmpty property="총급여">
+			총급여, 
+			</isNotEmpty>
+			<isNotEmpty property="비과세합계">
+			비과세합계, 
+			</isNotEmpty>
+			<isNotEmpty property="감면소득합계">
+			감면소득합계, 
+			</isNotEmpty>
+			<isNotEmpty property="공제합계">
+			공제합계, 
+			</isNotEmpty>
+			<isNotEmpty property="소득세">
+			소득세, 
+			</isNotEmpty>
+			<isNotEmpty property="지방소득세">
+			지방소득세, 
+			</isNotEmpty>
+			<isNotEmpty property="농어촌특별세">
+			농어촌특별세, 
+			</isNotEmpty>
+			<isNotEmpty property="총급여">
+			근로소득금액, 
+			</isNotEmpty>
+			등록일시, 수정일시
+		) VALUES (
+		   #계약ID#, #사용자ID#, #근무시기#, #작업자ID#, 
+		   <isNotEmpty property="총급여">
+		   #총급여#, 
+		   </isNotEmpty>
+		   <isNotEmpty property="비과세합계">
+		   #비과세합계#, 
+		   </isNotEmpty>
+		   <isNotEmpty property="감면소득합계">
+		   #감면소득합계#, 
+		   </isNotEmpty>
+		   <isNotEmpty property="공제합계">
+		   #공제합계#, 
+		   </isNotEmpty>
+		   <isNotEmpty property="소득세">
+		   #소득세#, 
+		   </isNotEmpty>
+		   <isNotEmpty property="지방소득세">
+		   #지방소득세#, 
+		   </isNotEmpty>
+		   <isNotEmpty property="농어촌특별세">
+		   #농어촌특별세#, 
+		   </isNotEmpty>
+		   <isNotEmpty property="총급여">
+		   (#총급여# - fn_근로소득금액(#총급여#)),
+		   </isNotEmpty>
+		   DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<delete id="yp040DAO.delYP040" parameterClass="yp040VO">
+		DELETE FROM TBL_YP040
+		WHERE	계약ID   = #계약ID#
+		AND		사용자ID	= #사용자ID#
+		AND 	근무시기 	= #근무시기#
+	</delete>
+
+
+</sqlMap>

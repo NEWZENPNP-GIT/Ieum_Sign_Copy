@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache" />
+    <title>영업채널관리</title>
+    <link rel="stylesheet" type="text/css" href="/css/jquery.alerts.css">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+    <script type="text/javascript" src="/js/jquery.alerts.js"></script>
+    <script type="text/javascript" src="/js/ezsign/session_storage.js"></script>
+    <script type="text/javascript" src="/js/jquery.bootpag.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+</head>
+<body>
+    <div id="groupManage_wrap" class="">
+        <div class="container">
+            <div class="location"><span class="loc_sub NanumGothic">영업채널 관리</span></div>
+
+            <div class="contents">
+                <div class="group_wrap">
+                    <div class="group_tit">
+                        <div class="icon"></div>
+                        <span class="text NanumGothic">영업채널 관리</span>
+                        <ul class="top_items NanumGothic">
+                            <li><a class="btn_type" onClick="saveChannelList()"><span class="icon_save NanumGothic"></span>저장</a></li>
+                        </ul>
+                    </div>
+                    <div class="grid_field">
+                        <ul class="between">
+                            <li class="label_before">
+                                <!-- label class="NanumGothic label_sort_right">그룹명 : </label-->
+                                <div class="select_box NanumGothic">
+                                    <select id="searchType">
+                                        <option value="all">전체</option>
+                                        <option value="saleschannel">영업채널</option>
+                                        <option value="channeldetail">채널상세</option>
+                                        <option value="personName">담당자</option>
+                                    </select>
+                                    <fieldset class="">
+                                        <input class="" type="text" id="searchText">
+                                        <a class="btn_type btn_search Material_icons" onClick="getSearch()">search</a>
+                                    </fieldset>
+                                </div>
+                            </li>
+                            <li class="NanumGothic btns">
+                                <a class="btn_type type1" onClick="addChannelList()">채널추가<span class="icon add"></span></a>
+                                <a class="btn_type type2" onClick="delChannelList()">선택삭제</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="group_table" style="margin-top: 30px;">
+                        <table class="NanumGothic">
+                            <colgroup>
+                                <col width="5%">
+                                <col width="9%">
+                                <col width="10%">
+                                <col width="9%">
+                                <col width="10%">
+                                <col width="9%">
+                                <col width="10%">
+                                <col width="9%">
+                                <col width="10%">
+                                <col width="9%">
+                                <col width="10%">
+                            </colgroup>
+                            <tbody id="modelListTbody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var msgSave = '자료를 저장하시겠습니까?';
+
+        var msgConfirm = '저장되지 않은 데이터가 있습니다. 저장하시겠습니까? ';
+
+        //CSS 파일 로드
+        var loadCssFile = function () {
+            var yearTaxCommonCss = document.createElement("link");
+            yearTaxCommonCss.href = rootPath + "css/yearTax_common.css";
+            yearTaxCommonCss.type = "text/css";
+            yearTaxCommonCss.rel = "stylesheet";
+            yearTaxCommonCss.media = "screen,print";
+            document.getElementsByTagName("head")[0].appendChild(yearTaxCommonCss);
+
+            var companyManageCss = document.createElement("link");
+            companyManageCss.href = rootPath + "css/company_manage.css";
+            companyManageCss.type = "text/css";
+            companyManageCss.rel = "stylesheet";
+            companyManageCss.media = "screen,print";
+            document.getElementsByTagName("head")[0].appendChild(companyManageCss);
+        }
+
+        $(document).ready(function () {
+
+            //CSS 파일 로드
+            loadCssFile();
+
+            getSalesChannelList();
+
+            /* 검색어 엔터이벤트 */
+            $("#model_search_deptName").keyup(function (e) {
+                if (e.keyCode == 13) {
+                    getSearch();
+                }
+            });
+        });
+
+        //수정되면 R -> U
+        function chkEditMode(obj) {
+            var emObj = findObj(obj, "editMode");
+
+            if ($(emObj) && $(emObj).val() == "R") {
+                $(emObj).val("U");
+            }
+        }
+
+        function findObj(obj, findName) {
+            return $(obj).parent().parent().find('input[name=' + findName + ']');
+        }
+
+        function getSalesChannelList() {
+
+            var formData = new FormData();
+            formData.append('searchType', $("#searchType").val());
+            formData.append('searchText', $("#searchText").val());
+
+            //blockUi 호출
+            fncOnBlockUI();
+
+            var url = rootPath + 'saleschannel/getSalesChannelList.do';
+
+            $.ajax({
+                url: url,
+                crossDomain: true,
+                dataType: "json",
+                type: "POST",
+                async: false,
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function (res) {
+
+                    if (res.success) {
+                        var dataList = res['data'];
+
+                        //초기화
+                        var modelListHtml = "";
+                        $("#modelListTbody").html(modelListHtml);
+
+                        if (dataList != null && dataList.length > 0) {
+                            for (var idx = 0; idx < dataList.length; idx++) {
+                                var row = dataList[idx];
+
+                                modelListHtml += "<tr>";
+                                modelListHtml += "<td class='chk_area'><input type='checkbox' name='channelId' value='" + row.channelId + "' />";
+                                modelListHtml += "<input type='hidden' name='editMode' value='R' /><input type='hidden' name='channelCount' value='" + row.channelCount + "' /></td>";
+                                modelListHtml += "<td class='tit'>영업채널</td>";
+                                modelListHtml += "<td class='value'>";
+                                modelListHtml += "<input type='text' class='input_txt kor' value='" + row.salesChannel + "' onChange='chkEditMode(this)' name='salesChannel' >";
+                                modelListHtml += "</td>";
+                                modelListHtml += "<td class='tit'>채널상세</td>";
+                                modelListHtml += "<td class='value'>";
+                                modelListHtml += "<input type='text' class='input_txt kor' value='" + row.channelDetail + "' onChange='chkEditMode(this)' name='channelDetail' >";
+                                modelListHtml += "</td>";
+                                modelListHtml += "<td class='tit'>담당자</td>";
+                                modelListHtml += "<td class='value'>";
+                                modelListHtml += "<input type='text' class='input_txt kor' value='" + row.personUserName + "' onChange='chkEditMode(this)' name='personUserName' >";
+                                modelListHtml += "</td>";
+                                modelListHtml += "<td class='tit'>연락처</td>";
+                                modelListHtml += "<td class='value'>";
+                                modelListHtml += "<input type='text' class='input_txt kor' value='" + row.personUserTelNum + "' onChange='chkEditMode(this)' name='personUserTelNum' >";
+                                modelListHtml += "</td>";
+                                modelListHtml += "<td class='tit'>이메일</td>";
+                                modelListHtml += "<td class='value'>";
+                                modelListHtml += "<input type='text' class='input_txt kor' value='" + row.personEMail + "' onChange='chkEditMode(this)' name='personEMail' >";
+                                modelListHtml += "</td>";
+                                modelListHtml += "</tr>";
+                            }
+
+                            $("#modelListTbody").html(modelListHtml);
+
+                        } else {
+                            $("#modelListTbody").html("<tr><td colspan='11'>조회 결과가 없습니다.</td></tr>");
+                        }
+
+                        $.unblockUI();
+                    } else {
+                        $.unblockUI();
+                        jAlert('오류가 발생 했습니다. 브라우저를 새로고침 후 다시 시도해 주세요.', '');
+                    }
+                },
+                error: function (request, status, error) {
+                    $.unblockUI();
+                    if (request.status == "401") {
+                        clearSession();
+                        jAlert('사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.', 'System Message', goHome);
+                    } else {
+                        jAlert("입력하신 정보를 다시 확인해주시기 바랍니다." + error, 'Error Message');
+                    }
+                }
+            });
+
+        }
+
+
+        //그룹추가
+        function addChannelList() {
+
+            //조회결과가 없습니다 제외
+            $('#modelListTbody tr td:contains("조회 결과가 없습니다.")').parent().remove();
+
+            var modelListHtml = "";
+            modelListHtml += "<tr>";
+            modelListHtml += "<td class='chk_area'><input type='checkbox' name='channelId' value='' />";
+            modelListHtml += "<input type='hidden' name='editMode' value='I' /><input type='hidden' name='channelCount' value='0' /></td>";
+            modelListHtml += "<td class='tit'>영업채널</td>";
+            modelListHtml += "<td class='value'>";
+            modelListHtml += "<input type='text' class='input_txt kor' value='' onChange='chkEditMode(this)' name='salesChannel' >";
+            modelListHtml += "</td>";
+            modelListHtml += "<td class='tit'>채널상세</td>";
+            modelListHtml += "<td class='value'>";
+            modelListHtml += "<input type='text' class='input_txt kor' value='' onChange='chkEditMode(this)' name='channelDetail' >";
+            modelListHtml += "</td>";
+            modelListHtml += "<td class='tit'>담당자</td>";
+            modelListHtml += "<td class='value'>";
+            modelListHtml += "<input type='text' class='input_txt kor' value='' onChange='chkEditMode(this)' name='personUserName' >";
+            modelListHtml += "</td>";
+            modelListHtml += "<td class='tit'>연락처</td>";
+            modelListHtml += "<td class='value'>";
+            modelListHtml += "<input type='text' class='input_txt kor' value='' onChange='chkEditMode(this)' name='personUserTelNum' >";
+            modelListHtml += "</td>";
+            modelListHtml += "<td class='tit'>이메일</td>";
+            modelListHtml += "<td class='value'>";
+            modelListHtml += "<input type='text' class='input_txt kor' value='' onChange='chkEditMode(this)' name='personEMail' >";
+            modelListHtml += "</td>";
+            modelListHtml += "</tr>";
+
+            $("#modelListTbody").append(modelListHtml);
+        }
+
+        //선택삭제
+        function delChannelList() {
+            var delChannels = [];
+            var chkCnt = 0;
+            var selectdIndex = 1;
+            var msgDelete = '선택한 자료를 삭제하시겠습니까?';
+            var isNotDeleteChannel = "";
+
+            $("input[name='channelId']:checked").each(function () {
+                chkCnt++;
+
+                //수정 혹은 삭제건만 삭제
+                if (findObj(this, "editMode").val() == "U" || findObj(this, "editMode").val() == "R") {
+                    //삭제 대상 데이터 생성
+                    var channel = {
+                        dbMode: "D",
+                        channelId: $(this).val()
+                    };
+                    delChannels.push(channel);
+                }
+
+                //기업 관리에 쓰인 영업 채널 찾기
+                if (findObj(this, "channelCount").val() > 0) {
+                    isNotDeleteChannel = isNotDeleteChannel + "   " + (selectdIndex++) + "." + findObj(this, "salesChannel").val() + "\r\n ";
+                }
+            });
+
+            if (chkCnt == 0) {
+                jAlert('선택된 정보가 없습니다.', '');
+                return;
+            }
+
+            if (chkCnt == 1) {
+                var objCount = findObj($("input[name='channelId']:checked"), "channelCount").val();
+
+                if (objCount > 0) {
+                    jAlert('기업관리에서 사용중인 채널로 삭제가 불가능합니다.\r\n기업관리에서 삭제 후 다시 작업하시기 바랍니다.', '');
+                    return;
+                }
+            } else {
+                if (isNotDeleteChannel.length > 0) {
+                    msgDelete = "기업관리에서 사용중인 채널이 포함되어 있습니다.\r\n해당 영업채널을 제외하고, 선택한 자료를 삭제하시겠습니까?";
+                    msgDelete += "\r\n\r\n사용중인 영업채널은 다음과 같습니다.";
+                    msgDelete += "\r\n기업관리에서 삭제 후 다시 작업 하시기 바랍니다.";
+                    msgDelete += "\r\n\r\n※사용중인 영업채널";
+                    msgDelete += "\r\n" + isNotDeleteChannel;
+                }
+            }
+
+            jConfirm(msgDelete, '', function (cfrm) {
+                if (cfrm) {
+
+                    var url = rootPath + 'saleschannel/saveSalesChannel.do';
+
+                    //blockUi 호출
+                    fncOnBlockUI();
+
+                    $.ajax({
+                        url: url,
+                        crossDomain: true,
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=UTF-8",
+                        data: JSON.stringify(delChannels),
+                        //processData: false,
+                        //contentType: false,
+                        //data: formData,
+                        success: function (res) {
+
+                            if (res.success) {
+                                jAlert('삭제되었습니다.', '');
+                                getSalesChannelList();
+
+                                $.unblockUI();
+                            } else {
+                                $.unblockUI();
+                                jAlert('오류가 발생 했습니다. 브라우저를 새로고침 후 다시 시도해 주세요.', '');
+                            }
+
+                        },
+                        error: function (request, status, error) {
+                            $.unblockUI();
+
+                            if (request.status == "401") {
+                                clearSession();
+                                jAlert('사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.', 'System Message', goHome);
+                            } else {
+                                jAlert("입력하신 정보를 다시 확인해주시기 바랍니다." + error, 'Error Message');
+                            }
+                        }
+                    });
+
+                }
+            });
+
+        }
+
+        //저장
+        function saveChannelList() {
+            var isValid = true;
+
+            //값 찾기
+            var insUpdObjectDataLength = $("input[name=editMode][value=I],input[name=editMode][value=U]");
+
+            if ($(insUpdObjectDataLength).length == 0) {
+                jAlert("저장 할 항목이 없습니다.");
+                return;
+            }
+
+            $(insUpdObjectDataLength).each(function (index, item) {
+                //영업채널과, 담당자, 연락처 필수 확인
+                if (findObj(item, "personUserTelNum").val() == "") {
+                    jAlert("영업 담당자 연락처가 비어 있습니다.", '데이터 확인', function () { findObj(item, "personUserTelNum").focus(); });
+                    isValid = false;
+                }
+
+                if (findObj(item, "personUserName").val() == "") {
+                    jAlert("영업 담당자명이 비어 있습니다.", '데이터 확인', function () { findObj(item, "personUserName").focus(); });
+                    isValid = false;
+                }
+
+                if (findObj(item, "salesChannel").val() == "") {
+                    jAlert("영업 채널명이 비어 있습니다.", '데이터 확인', function () { findObj(item, "salesChannel").focus(); });
+                    isValid = false;
+                }
+            });
+
+            if (!isValid) {
+                return;
+            }
+            
+            //데이터 생성
+            var saveChannelData = [];
+            
+            $(insUpdObjectDataLength).each(function (index, item) {
+                //저장 데이터 생성
+                var salesChannel = {
+                		channelId: $(findObj(item,"channelId")).val(),
+                		salesChannel: $(findObj(item,"salesChannel")).val(),
+                		channelDetail: $(findObj(item,"channelDetail")).val(),
+                		personUserName: $(findObj(item,"personUserName")).val(),
+                		personUserTelNum: $(findObj(item,"personUserTelNum")).val(),
+                		personEMail: $(findObj(item,"personEMail")).val(),
+                		dbMode: $(item).val()
+                };
+                
+                saveChannelData.push(salesChannel);
+            });
+            
+            jConfirm(msgSave, '', function (cfrm) {
+                if (cfrm) {
+
+                    var url = rootPath + 'saleschannel/saveSalesChannel.do';
+
+                    //blockUi 호출
+                    fncOnBlockUI();
+
+                    $.ajax({
+                        url: url,
+                        crossDomain: true,
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=UTF-8",
+                        data: JSON.stringify(saveChannelData),
+                        success: function (res) {
+
+                            if (res.success) {
+                                jAlert('저장이 완료되었습니다.', '');
+                                getSalesChannelList();
+                                $.unblockUI();
+                            } else {
+                                $.unblockUI();
+                                jAlert('오류가 발생 했습니다. 브라우저를 새로고침 후 다시 시도해 주세요.', '');
+                            }
+
+                        },
+                        error: function (request, status, error) {
+                            $.unblockUI();
+
+                            if (request.status == "401") {
+                                clearSession();
+                                jAlert('사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.', 'System Message', goHome);
+                            } else {
+                                jAlert("입력하신 정보를 다시 확인해주시기 바랍니다." + error, 'Error Message');
+                            }
+                        }
+                    });
+
+                }
+            });
+        }
+
+        //검색
+        function getSearch() {
+            getSalesChannelList();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/board_notice.css">
+<link rel="stylesheet" type="text/css" href="/css/contract_write.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<!-- bootPag -->
+
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script>
+	var bbsId = "190930155612016";
+
+	$(document).ready(function(){
+		
+		$('#searchValue').keypress(function(event){
+			var keycode = (event.keyCode ? event.keyCode : event.which);
+			if(keycode == '13'){
+				fn_workSOSList(1);
+			}
+			event.stopPropagation();
+		});
+		
+		fn_workSOSList(1);
+	});
+	
+	//노무 SOS리스트 조회
+	function fn_workSOSList(page){
+		var url = rootPath+"bbs/getBbsContentsList.do";
+		
+		var viewPage = 10;
+	
+		if (page==0)
+			curPage=0;
+		else 
+			curPage = page-1;
+		
+		if (curPage<0) {
+			curPage=0;
+			return;
+		}
+		if (curPage*viewPage>totPage) {
+			curPage-=1;
+			return;
+		}
+
+		var contractDateFrom = $("#contractDateFrom").val();
+		var contractDateTo = $("#contractDateTo").val();
+		var statusCode = "Y";
+		var searchKey = $("#searchKey").val();
+		var searchValue = $("#searchValue").val();
+		var startPage = (curPage*viewPage);
+		var endPage = viewPage;
+		var sortName = $("#sortName").val();
+		var sortOrder = $("#sortOrder").val();
+
+		if(contractDateFrom.length == 0) {
+			alert("시작날짜를 입력해주시기 바랍니다.\r\n예) 20170101");
+			return;
+		}
+		if(contractDateTo.length == 0) {
+			alert("종료날짜를 입력해주시기 바랍니다.\r\n예) 20171231");
+			return;
+		}
+
+		if(contractDateFrom.length > 0) { contractDateFrom = contractDateFrom.replace(/-/gi, ""); }
+
+		if(contractDateTo.length > 0) { contractDateTo = contractDateTo.replace(/-/gi, ""); }
+		
+		if(!checkDateNoHypen(contractDateFrom)) {
+			alert("검색조건 시작날짜가 형식에 맞지 않습니다.");
+			return;
+		}
+
+		if(!checkDateNoHypen(contractDateTo)) {
+			alert("검색조건 종료날짜가 형식에 맞지 않습니다.");
+			return;
+		}
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				searchDateFrom:contractDateFrom,
+				searchDateTo:contractDateTo,
+				searchKey:searchKey,
+				searchValue:searchValue,
+				startPage:startPage,
+				endPage:endPage,
+				bbsId:bbsId
+			},
+			success:function(result)
+			{
+				var htmlData = "";
+				if (result.success==true && result.total > 0) {
+					dataList = result.data;
+					totPage = result.total;
+					
+					var totalPage = Math.ceil(totPage/viewPage);
+					
+					$.each(result.data, function(i, row) {
+						var num = (curPage * viewPage) + i + 1;
+						htmlData += '<tr>';
+						htmlData += '<td>'+num+'</td>';
+						htmlData += '<td style="cursor:pointer" onclick=fn_workSOSDetail('+row.bbsId+','+row.bbsNo+')>'+row.subject+'</td>';
+						htmlData += '<td>'+row.empName+'</td>';
+						htmlData += '<td>'+row.statusName+'</td>';
+						htmlData += '<td>'+convertDateTime(row.insDate).format("yyyy-MM-dd HH:mm:ss")+'</td>';
+						htmlData += '</tr>';
+					});
+					
+					if(page==1) {
+						$('#page-selection').empty();
+						$('#page-selection').removeData("twbs-pagination");
+						$('#page-selection').unbind("page");
+						$('#page-selection').bootpag({
+							total: totalPage,       // total pages
+							page: page,         	// default page
+							maxVisible: 10, 	   	// visible pagination
+							leaps: true,	      	// next/prev leaps through maxVisible
+						    firstLastUse: true,
+						    first: '',
+						    last: '',
+						    wrapClass: 'pagination',
+						    activeClass: 'active',
+						    disabledClass: 'disabled',
+						    nextClass: 'btn_next',
+						    prevClass: 'btn_prev',
+						    lastClass: 'end_page',
+						    firstClass: 'first_page'
+						}).on("page", function(event, num){
+							fn_workSOSList(num);
+						}); 
+					}
+				} else {
+					htmlData += '<tr> <td colspan="14">요청하신 자료가 존재하지 않습니다.</td></tr>';
+					$('#page-selection').empty();
+					$('#page-selection').removeData("twbs-pagination");
+					$('#page-selection').unbind("page");
+				}
+				$("#dataList").html(htmlData);
+				/* $.unblockUI(); */
+			},
+			error:function(request,status,error){
+				/* $.unblockUI() */;
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+	
+	//노무 SOS 글쓰기 페이지로 이동
+	function fn_insWorkSOS(){
+		$.ajax({
+	        url : "/html/worksos/workSOS_biz_board_write.html" ,
+	        success : function(result) {
+	            $("#contents_wrap").html(result);
+	        }
+	    });	 
+	}
+	
+	//노무SOS 글 조회
+	function fn_workSOSDetail(bbsId, bbsNo){
+		setCookie("bbsId", bbsId);
+		setCookie("bbsNo", bbsNo);
+		$.ajax({
+	        url : "/html/worksos/workSOS_biz_board_view.html",
+	        success : function(result) {
+	            $("#contents_wrap").html(result);
+	        }
+	    });	 
+	}
+</script>
+</head>
+<body>
+	
+<!-- *********************************************  계약 관리  *********************************************  -->
+<div id="contractList_wrap" class="workSOS_wrap">
+	<div class="container">
+		<div class="location"><span class="loc_main NanumGothic">노무SOS > </span><span class="loc_sub NanumGothic">노무SOS</span></div>
+		<div class="notice_skyblue NanumGothic">
+			<span>1. 본 서비스는 간단한 노무 상담에 한정되며 무에서 유를 창조하는 <span class="col_red">컨설팅범위의 서비스는 별도 비용이 청구됩니다.</span></span>
+			<span>2. 노무사 전문 상담이 필요하시면 유선문의 바랍니다. (사안에 따라 비용이 청구됩니다.)</span>
+			<span>3. 당사는 등록된 양식에 대한 법적인 책임이 없음을 알려드립니다.</span>
+		</div>
+		<div class="field_area">
+			<div class="inputBox NanumGothic">
+				<input type="date" onkeyup="date_mask(this);" min="1900-01-01" max="2999-01-01" id="contractDateFrom" class="NanumGothic">
+			</div>
+			<div class="inputBox NanumGothic">
+				<input type="date" onkeyup="date_mask(this);" min="1900-01-01" max="2999-01-01" id="contractDateTo" class="NanumGothic">
+			</div>
+			<div class="selBox NanumGothic">
+				<select  id="searchKey">
+					<option value="subject" class="lt">제목</option>
+					<option value="contents" class="lt">내용</option>
+					<option value="empName" class="lt">작성자</option>
+				</select>
+			</div>
+			<div class="inputBox">
+				<fieldset>
+					<input type="text" id="searchValue" class="word_input NanumGothic">
+					<a class="btn_search btn_type" onclick="fn_workSOSList(1);"></a>
+				</fieldset>
+			</div>
+			
+		</div>
+		<div class="table_contents">
+			<div class="list">
+				<table class="NanumGothic">
+					<colgroup>
+						<col width="70px">
+						<col width="35%">
+						<col width="20%">
+						<col width="20%">
+						<col width="25%">
+						
+					</colgroup>
+					<thead>
+						<tr>
+							<th>번호</th>
+							<th>제목</th>
+							<th>작성자</th> 
+							<th>진행상태</th>
+							<th>작성 일시</th>
+						</tr>
+					</thead>
+					<tbody id="dataList">
+					</tbody>
+				</table>
+			</div>
+			<div id="page-selection" class="pagingnav_wrap"></div>
+			
+		</div>
+		<div class="btn_footGroup NanumGothic">
+			<a class="btn_type type1" onclick="fn_insWorkSOS();">글쓰기</a>
+			
+		</div>
+	</div>
+</div>
+</body>
+
+<!--  bootpog Setting -->
+<script type="text/javascript">
+$('#page-selection').bootpag({
+    total: 10,
+    page: 1,
+    maxVisible: 5,
+    leaps: true,
+    firstLastUse: true,
+    first: '',
+    last: '',
+    wrapClass: 'pagination',
+    activeClass: 'active',
+    disabledClass: 'disabled',
+    nextClass: 'btn_next',
+    prevClass: 'btn_prev',
+    lastClass: 'end_page',
+    firstClass: 'first_page'
+}).on("page", function(event, num){}); 
+
+/* TODO next 버튼 이동 임시 처리 */
+/* $(".btn_footGroup > .btn_next").click(function(){
+	if(!$(this).hasClass("disable")){
+	    $("#contents_wrap").empty();
+	    $(window).off("resize");
+	    $.ajax({
+	        url : "contract_write_step02.html",
+	        success : function(result) {
+	            $("#contents_wrap").html(result);
+	        }
+	    });
+	}
+}); */
+
+var lastDate = new Date();
+var afterDate = new Date();
+lastDate.setMonth(lastDate.getMonth() - 1);
+afterDate.setMonth(afterDate.getMonth() + 1);
+
+// 계약일자 조회조건
+document.getElementById("contractDateFrom").value = lastDate.format('yyyy-MM-dd');	// 한달전
+document.getElementById("contractDateTo").value = afterDate.format('yyyy-MM-dd');		// 한달후
+</script>
+
+</html>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Point">
+	<typeAlias alias="pointVO" type="com.ezsign.point.vo.PointVO"/>
+	<typeAlias alias="distPointVO" type="com.ezsign.point.vo.DistPointVO"/>
+	<resultMap id="pointListMap" class="pointVO">
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="serviceId" column="SERVICE_ID"/>
+		<result property="curPoint" column="CUR_POINT"/>
+		<result property="bizName" column="BIZ_NAME"/>
+		<result property="taxBillBizName" column="TAX_BILL_BIZ_NAME"/>
+		<result property="taxBillName" column="TAX_BILL_NAME"/>
+		<result property="taxBillTel" column="TAX_BILL_TEL"/>
+		<result property="taxBillEmail" column="TAX_BILL_EMAIL"/>
+	</resultMap>
+	
+	<typeAlias alias="pointLogVO" type="com.ezsign.point.vo.PointLogVO"/>
+	<resultMap id="pointLogListMap" class="pointLogVO">
+		<result property="pointId" column="POINT_ID"/>
+		<result property="pointType" column="POINT_TYPE"/>
+		<result property="pointTypeName" column="POINT_TYPE_NAME"/>
+		<result property="pointPrice" column="POINT_PRICE"/>
+		<result property="pointResult" column="POINT_RESULT"/>
+		<result property="paymentAmt" column="PAYMENT_AMT"/>
+		<result property="etcDesc" column="ETC_DESC"/>
+		<result property="insDate" column="INS_DATE"/>
+	</resultMap>
+	
+	<insert id="pointDAO.insPoint" parameterClass="pointVO">
+		INSERT INTO tbl_point (
+			BIZ_ID, USER_ID, SERVICE_ID, CUR_POINT, INS_DATE, UPD_DATE
+		) VALUES (
+		   #bizId#, #userId#, #serviceId#, #curPoint#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<delete id="pointDAO.delPoint" parameterClass="pointVO">
+		DELETE FROM tbl_point
+		WHERE	BIZ_ID	 = #bizId#
+	</delete>
+	
+	<update id="pointDAO.updPoint" parameterClass="pointVO">
+		UPDATE tbl_point
+		SET		CUR_POINT		= #curPoint#,
+				UPD_DATE		= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	BIZ_ID	 = #bizId#
+	</update>
+	
+	<update id="pointDAO.balancePoint" parameterClass="pointVO">
+		UPDATE tbl_point
+		SET		CUR_POINT		= CUR_POINT - #curPoint#,
+				UPD_DATE		= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	BIZ_ID	 = #bizId#
+	</update>
+	
+	<select id="pointDAO.getPoint" parameterClass="pointVO" resultMap="pointListMap">
+		SELECT  A.BIZ_ID, A.USER_ID, A.SERVICE_ID, A.CUR_POINT,
+				B.BIZ_NAME, IFNULL(B.TAX_BILL_BIZ_NAME, '') TAX_BILL_BIZ_NAME, IFNULL(B.TAX_BILL_NAME, '') TAX_BILL_NAME, IFNULL(B.TAX_BILL_TEL, '') TAX_BILL_TEL, IFNULL(B.TAX_BILL_EMAIL, '') TAX_BILL_EMAIL
+		FROM    tbl_point A
+		       ,tbl_biz B
+		WHERE   A.BIZ_ID = B.BIZ_ID
+		AND 	A.BIZ_ID  = #bizId#
+	</select>
+	
+	<insert id="pointDAO.insPointLog" parameterClass="pointLogVO">
+		INSERT INTO tbl_point_log (
+			BIZ_ID
+		   ,USER_ID
+		   ,SERVICE_ID
+		   ,POINT_TYPE
+		   ,POINT_PRICE
+		   ,POINT_RESULT
+		   ,PAYMENT_AMT
+		   ,ETC_DESC
+		   ,INS_DATE
+		   ,UPD_DATE
+		) VALUES (
+		    #bizId#
+		   ,#userId#
+		   ,#serviceId#
+		   ,#pointType#
+		   ,#pointPrice#
+		   ,#pointResult#
+		   ,#paymentAmt#
+		   ,#etcDesc#
+		   ,DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		   ,DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<select id="pointDAO.getPointLogList" parameterClass="pointLogVO" resultMap="pointLogListMap">
+		SELECT  A.POINT_ID, A.BIZ_ID, B.BIZ_NAME, A.POINT_TYPE, C.COMM_NAME POINT_TYPE_NAME, A.POINT_PRICE, A.POINT_RESULT, A.PAYMENT_AMT, A.ETC_DESC, A.INS_DATE
+		FROM    tbl_point_log A, tbl_biz B, tbl_code C
+		WHERE   A.BIZ_ID = B.BIZ_ID
+		AND     A.POINT_TYPE = C.COMM_CODE
+		AND     C.GRP_COMM_CODE = '501'
+		AND		A.BIZ_ID  = #bizId#
+		AND		LEFT(A.INS_DATE, 8) BETWEEN #searchDateFrom# AND #searchDateTo#
+		<isNotNull property="pointType">
+		    <isNotEmpty property="pointType">
+			AND	A.POINT_TYPE = #pointType#
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY A.INS_DATE DESC
+		limit #endPage# offset #startPage#
+	</select>
+	
+	<select id="pointDAO.getPointLogListCount" parameterClass="pointLogVO" resultClass="java.lang.Integer">
+		SELECT  COUNT(A.POINT_ID)
+		FROM    tbl_point_log A, tbl_biz B, tbl_code C
+		WHERE   A.BIZ_ID = B.BIZ_ID
+		AND     A.POINT_TYPE = C.COMM_CODE
+		AND     C.GRP_COMM_CODE = '501'
+		AND		A.BIZ_ID  = #bizId#
+		AND		LEFT(A.INS_DATE, 8) BETWEEN #searchDateFrom# AND #searchDateTo#
+		<isNotNull property="pointType">
+		    <isNotEmpty property="pointType">
+			AND	A.POINT_TYPE = #pointType#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<update id="pointDAO.updPointDist" parameterClass="distPointVO">
+		UPDATE tbl_point
+		SET		UPD_DATE		= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		<isNotNull property="deduPoint">
+		    <isNotEmpty property="deduPoint">
+		    	<isNotEqual property="deduPoint" compareValue="0">
+					,CUR_POINT		= CUR_POINT - #deduPoint#
+				</isNotEqual>
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="chargePoint">
+		    <isNotEmpty property="chargePoint">
+		    	<isNotEqual property="chargePoint" compareValue="0">
+					,CUR_POINT		= CUR_POINT + #chargePoint#
+				</isNotEqual>
+			</isNotEmpty>
+		</isNotNull>
+		WHERE	BIZ_ID	 = #bizId#
+	</update>
+	
+</sqlMap>
+		

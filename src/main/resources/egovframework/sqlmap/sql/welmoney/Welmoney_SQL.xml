@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="welmoney">
+
+
+	<insert id="welmoneyDAO.insWelmoneyLoginLog" parameterClass="java.util.HashMap">
+		INSERT INTO tbl_welmoney_login_log (
+			LOGIN_ID, IP_ADDR, INS_DATE
+		) VALUES (
+		   #loginId#, #ipAddr#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+</sqlMap>

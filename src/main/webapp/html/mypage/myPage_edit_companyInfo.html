@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>마이페이지</title>
+
+<link rel="stylesheet" type="text/css" href="/css/ngx-datatable.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/jquery.alerts.css">
+<link rel="stylesheet" type="text/css" href="/css/myPage.css">
+
+<script type='text/javascript' src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.alerts.js"></script>
+
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/ezsign/mypage/myPage_edit_companyInfo.js"></script>
+</head>
+<body>		
+	
+	<div id="myPage_wrap" class="memberInfo">
+		<div class="container">
+			<div class="location">
+				<span class="loc_main NanumGothic">게시판 > </span><span
+					class="loc_sub NanumGothic">마이페이지</span>
+			</div>
+			<div class="pagtit">
+				<span class="NanumGothic">마이페이지_기업정보 수정</span>
+	    </div>
+	    <form #bizUpdate="ngForm" (ngSubmit)="updMyPageBiz()">
+	      <div class="contents">
+	        <div class="group_wrap">
+	          <div class="group_tit">
+	            <div class="icon"></div>
+	            <span class="text NanumGothic">기업정보 </span>
+	          </div>
+	
+	          <div class="box_wrap" id="bizInfoDiv">
+	            
+	          </div>
+	          <!--  box_wrap -->
+	        </div>
+	        <!--  group_wrap -->
+	
+	        <div class="group_wrap">
+	          <div class="group_tit">
+	            <div class="icon"></div>
+	            <span class="text NanumGothic">담당자 정보 </span>
+	          </div>
+	
+	          <div class="box_wrap">
+	            <div class="group_row row1">
+	              <dl class="NanumGothic rat1n-9">
+	                <dt>
+	                  <label class="label_txt NanumGothic">이름</label>
+	                </dt>
+	                <dd class="input_box">
+	                  <input class="" type="text"  name="empName" value="" id="compInfo_empName">
+	                </dd>
+	              </dl>
+	            </div>
+	            <div class="group_row row1">
+	              <dl class="NanumGothic rat1n-9">
+	                <dt>
+	                  <label class="label_txt NanumGothic">휴대폰번호</label>
+	                </dt>
+	                <dd class="input_box">
+	                  <input class="" type="text" name="phoneNum" value="" id="compInfo_phoneNum" onChange="changePhoneNumber('compInfo_phoneNum')">
+	                </dd>
+	              </dl>
+	            </div>
+	            <div class="group_row row1">
+	              <dl class="NanumGothic rat1n-9">
+	                <dt>
+	                  <label class="label_txt NanumGothic">이메일</label>
+	                </dt>
+	                <dd class="input_box">
+	                  <input class="" type="text" name="EMail" value="" id="compInfo_EMail">
+	                </dd>
+	              </dl>
+	            </div>
+	          </div>
+	          <!--  box_wrap -->
+	        </div>
+	        <!--  group_wrap -->
+	        <div class="NanumGothic btn_footGroup sort_center marginTop">
+	          <a class="btn_type type4" onClick="cancelMyBiz()">취소</a>
+	          <a class="btn_type type1" onClick="updMyPageBiz()">저장</a>
+	        </div>
+	      </div>
+	    </form>
+			<!--  contents -->
+		</div>
+	</div>
+
+</body>
+</html>
+	

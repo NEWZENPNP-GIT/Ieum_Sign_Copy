@@ -1,0 +1,606 @@
+
+	<!--****************************************************************************************************************
+	* 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+	* 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+	********************************************************************************************************************
+	--------------------------------------------------------------------------------------------------------------------
+	* 회사       : 뉴젠피앤피
+	* 화면명     : 전자계약 상세내역 페이지
+	* 화면설명   : 전자계약 발송함 > 전자계약 상세내역
+	* 작성자     :
+	* 생성일     :
+	--------------------------------------------------------------------------------------------------------------------
+	* 수정자     : 이정훈
+	* 수정일     : 2023.10.31
+	* 수정내용   :
+	------------------------------------------------------------------------------------------------------------------->
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/myPage.css">
+	<link rel="stylesheet" type="text/css" href="/css/contract_electronic.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/ui.biz.core.js"></script>
+	<style>
+		#contract_electronic_Wrap .electronic_tableviewdiv td {text-align:left !important;}
+		#contract_electronic_Wrap #btn_action {display: flex; justify-content: center; align-items: center; column-gap: 8px;}
+		.ul_list02 > li {min-width: 194px;}
+		.ul_list02 > li input[type="radio"] {display: inline-block; margin-right: 2px; vertical-align: middle;}
+		.ul_list02 > li input[type="password"] {width: 80px;}
+	</style>
+
+	<script type="text/javascript">
+
+		//***************					윈도우 로딩					***************//
+
+
+		var contactTypeP = 0;	// 인사
+		var contactTypeC = 0;	// 거래처
+
+		$(document).ready(function(){
+
+			console.log('document_detail_view.html');
+
+			$('#searchValue').keypress(function(event){
+				var keycode = (event.keyCode ? event.keyCode : event.which);
+				if(keycode == '13'){ fn_docuList(); }
+				event.stopPropagation();
+			});
+
+			fn_docuList();	// 전자계약 상세내역 리스트
+
+			if(getCookie("systemType") == "2"){ $("#serviceCenter").removeClass("hidden") }
+		});
+
+
+		//***************					전자계약 상세내역 리스트					***************//
+
+
+		function fn_docuList() {
+
+			var url = rootPath+"document/getDocument.do";
+			var docuId = getCookie("docuId");
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				data: {
+					OPEN_KEY:getCookie("OPEN_KEY"),
+					docuId:docuId,
+					startPage:"0",
+					endPage:"1"
+				},
+				success:function(result) {
+					for(var i =0; i<result.detail.length; i++) {
+
+						var DetailRecvType		= result.detail[i].recvType;
+						var DetailContactType	= result.detail[i].contactType;
+
+						if(DetailRecvType == 'R') {
+							if(DetailContactType=='P') 		{ contactTypeP++; }
+							else if(DetailContactType=='C') { contactTypeC++; }
+						}
+					}
+
+					if(!result.success) return false;
+
+					$("#btn_action").html('');
+					$("#btn_action").append('<a onclick="fn_back()" class="electronic_btn03 NanumRound">목록</a>');
+					if(result.master.docuStatus=="6") {
+						$("#btn_action").append('<a onclick="fn_requestSign()" class="electronic_btn04 NanumRound">서명요청</a>');
+					}
+
+					$("#userName").val(result.master.userName);
+					$("#writeUserName").text(result.master.userName);
+					$("#writeDate").text(convertDateTime(result.master.insDate).format("yyyy년MM월dd일 HH시mm분"));
+					$("#bizId").val(result.master.bizId);
+					$("#bizName").val(result.master.bizName);
+
+					var rList = "";
+					$.each(result.detail, function(i, row) {
+						if(row.recvType=="R") {
+							rList += '<li>';
+							rList += '<input type="text" value="';
+							if(row.recvStatus =="4") {
+								rList += ' 검토완료       ';
+							} else if(row.recvStatus=="9") {
+								rList += ' 서명완료       ';
+							} else if(row.recvStatus=="3" || row.recvStatus=="8") {
+								rList += ' 반려       ';
+							} else {
+								rList += '        ';
+							}
+							rList += ''+rpad(row.recvUserName, 20, " ")+' | '+row.recvPhone+' | '+row.recvEmail+'" disabled class="inpstyle02 NanumSquare_R" style="width:75%">';
+							rList += ' </li>';
+						}
+					});
+					$("#rList").html(rList);
+
+					CheckAllContactType(); // 인사, 거래처 에 따른 인증구분, 발송수단 분기처리
+
+					var tList = "";
+					$.each(result.detail, function(i, row) {
+						if(row.recvType=="T") {
+							tList += '<li><input type="text" value="'+rpad(row.recvUserName, 20, " ")+'  '+row.recvPhone+'  '+row.recvEmail+'" disabled class="inpstyle02 NanumSquare_R" style="width:75%"> </li>';
+						}
+					});
+					$("#tList").html(tList);
+
+					//계약문서명
+					$("#docuName").text(result.master.docuName);
+
+					//계약문서
+					$("[name=orgFileName]").val(result.master.orgFileName);
+
+					//이전계약
+					$("[name=prevDocuName]").val(result.master.prevDocuName);
+
+					//다음계약
+					$("[name=nextDocuName]").val(result.master.nextDocuName);
+
+					$("#attachFiles1").html("");
+					$("#attachFiles2").html("");
+
+					//첨부파일
+					$.each(result.file, function(i, row) {
+
+						var htmlData1 = "";		// 발신자 첨부파일
+						var htmlData2 = "";		// 수신자 첨부파일
+
+						if( row.fileUserName == "" && row.fileUserId.includes("@") ) {
+							htmlData1 ='<div id="delAttachFile_'+row.fileId+'" style="margin:1px;height:25px;">';
+							htmlData1 +='<a onclick="fn_fileDownload(\''+row.fileId+'\');">';
+							htmlData1 +='<i class="fa fa-download" style="font-size:14px;"></i>';
+							htmlData1 +='</a>';
+							htmlData1 +='<span class="inpstyle02 NanumSquare_R" style="width:50%" onclick="fn_fileDownload(\''+row.fileId+'\');" readonly>' + '[' + result.master.bizName + '] '+row.fileName+'</span> ';
+							htmlData1 +='</div>';
+						} else {
+							if(row.recvSign == "N"){
+								htmlData2 ='<div id="delAttachFile_'+row.fileId+'" style="margin:1px;height:25px;">';
+								htmlData2 +='<a onclick="fn_fileDownload(\''+row.fileId+'\');">';
+								htmlData2 +='<i class="fa fa-download" style="font-size:14px;"></i>';
+								htmlData2 +='</a>';
+								htmlData2 +='<span class="inpstyle02 NanumSquare_R" style="width:50%" onclick="fn_fileDownload(\''+row.fileId+'\');" readonly>' + '[' +row.fileUserName  + '] '+row.fileName+'</span> ';
+								htmlData2 +='</div>';
+							}
+						}
+						$("#attachFiles1").append(htmlData1);
+						$("#attachFiles2").append(htmlData2);
+					});
+
+					//인증구분
+					$("[name=authType][value="+result.master.authType+"]").attr("checked", true);
+					if(result.master.authType == "P"){
+						$("#changeAuthCode").show();
+					} else {
+						$("#changeAuthCode").hide();
+						$("[name=authCode]").attr("disabled", true);
+					}
+					$("[name=authType][value="+result.master.authType+"]").attr("disabled", false);
+
+					//서명구분
+					$("[name=signType][value="+result.master.signType+"]").attr("checked", true);
+					$("[name=signType][value="+result.master.signType+"]").attr("disabled", false);
+
+					//발송수단
+					$("[name=sendType][value="+result.master.sendType+"]").attr("checked", true);
+					$("[name=sendType][value="+result.master.sendType+"]").attr("disabled", false);
+
+					//발송순서
+					$("[name=sendOrd][value="+result.master.sendOrd+"]").attr("checked", true);
+					$("[name=sendOrd][value="+result.master.sendOrd+"]").attr("disabled", false);
+
+					//검토여부
+					$("[name=reviewType][value="+result.master.reviewType+"]").attr("checked", true);
+					$("[name=reviewType][value="+result.master.reviewType+"]").attr("disabled", false);
+
+					//타임스탬프 발급여부
+					$("[name=tsaType][value="+result.master.tsaType+"]").attr("checked", true);
+					$("[name=tsaType][value="+result.master.tsaType+"]").attr("disabled", false);
+
+					if(result.master.expireType == "Y"){
+						$("#expireType").prop("checked", true);
+						$("#expireDate").val(formatYYYYMMDD(convertDateTime(result.master.expireDate)));
+					}
+					$("[name=reqComment]").val(result.master.reqComment);
+
+					var orgDownload  = "";
+					var prevDownload = "";
+					var nextDownload = "";
+					if(!isNull(result.master.orgFileId)) {
+						$("#orgFileId").show();
+						orgDownload = '<a onclick="fn_fileDownload(\''+result.master.orgFileId+'\');">';
+						orgDownload += '<i class="fa fa-download fa-2x" ></i>';
+						orgDownload += '</a>';
+						$("#orgDownload").html(orgDownload);
+					} else {
+						$("#orgFileId").hide();
+					}
+
+					if(!isNull(result.master.prevDocuId)) {
+						$("#prevFileId").show();
+						prevDownload = '<a onclick="fn_goDocuId(\''+result.master.prevDocuId+'\');">';
+						prevDownload += '<i class="fa fa-link fa-2x" ></i>';
+						prevDownload += '</a>';
+						$("#prevDocuId").html(prevDownload);
+					} else {
+						$("#prevFileId").hide();
+					}
+
+					if(!isNull(result.master.nextDocuId)) {
+						$("#nextFileId").show();
+						nextDownload = '<a onclick="fn_goDocuId(\''+result.master.nextDocuId+'\');">';
+						nextDownload += '<i class="fa fa-link fa-2x" ></i>';
+						nextDownload += '</a>';
+						$("#nextDocuId").html(nextDownload);
+					} else {
+						$("#nextFileId").hide();
+					}
+					var htmlData = "";
+					$.each(result.log, function(i, row) {
+						htmlData+="<tr>";
+						htmlData+="<td>"+row.workUserName+"</td>";
+						htmlData+="<td>"+row.logTypeName+"</td>";
+						htmlData+="<td>"+row.logMessage+"</td>";
+						htmlData+="<td>"+convertDateTime(row.insDate).format("yyyy-MM-dd HH:mm:ss")+"</td>";
+						htmlData+="</tr>";
+					});
+					$("#logList").html(htmlData);
+				},
+				error:function(request,status,error){
+					$.unblockUI();
+					goInvalidPage(request, error);
+				}
+			});
+		}
+
+		function fn_goDocuId(docuId) {
+
+			setCookie("docuId", docuId);
+
+			$("#contents_wrap").empty();
+			$(window).off("resize");
+
+			var url = "/html/document/document_detail_view.html";
+
+			$.ajax({
+				url : url,
+				success : function(result) {
+					$("#contents_wrap").html(result);
+				},
+				error: function(request,status, error) {
+					alert("다시 확인해주시기 바랍니다."+error);
+				}
+			});
+		}
+
+
+		//***************					검토완료 후 수신자에게 서명요청					***************//
+
+		function fn_requestSign() {
+
+			if(!confirm("서명요청 메일을 보내시겠습니까?")) return;
+
+			var docuId   = getCookie("docuId");
+			var formData = new FormData();
+			var url = rootPath + "document/requestSign.do";
+
+			formData.append("docuId", docuId);
+			formData.append("bizId", $("#bizId").val());
+			formData.append("recvMessage", "");
+
+			var attachFileList = document.getElementsByName("attachFile");
+
+			for(var i=0;i<attachFileList.length;i++) {
+				if (attachFileList[i].files[0] != undefined) {
+					if(checkSpecial(attachFileList[i].files[0].name)) {
+						alert("파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.");
+						return;
+					}
+					formData.append("ATTACH_FILE["+i+"]",attachFileList[i].files[0]);
+				}
+			}
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				async:false,
+				type:"POST",
+				processData: false,
+				contentType: false,
+				data:formData,
+				success: function (result) {
+					if (result.success == true) {
+						fn_docuList();
+						alert("서명요청이 완료되었습니다.");
+					} else {
+						if (!isNull(result.message)) {
+							alert(result.message);
+							return false;
+						}
+					}
+				},
+				error: function (request, status, error) {
+					$.unblockUI();
+					alert("전자문서 정보 전송 중 장애가 발생하였습니다. 잠시 후 다시 진행해주시기 바랍니다.");
+				}
+			});
+		}
+
+
+		//***************					인증구분, 발송수단 분기처리					***************//
+
+		function CheckAllContactType() {
+
+			if(contactTypeP > 0 && contactTypeC == 0){
+
+				$("#AuthTypeAllContactTypeP").show();
+				$("#AuthTypeAllContactTypeC").hide();
+				$("#AuthTypeAllContactType").hide();
+
+				$("#SignTypeAllContactTypeP").show();
+				$("#SignTypeAllContactTypeC").hide();
+				$("#SignTypeAllContactType").hide();
+			} else if(contactTypeP == 0 && contactTypeC > 0){
+				$("#AuthTypeAllContactTypeP").hide();
+				$("#AuthTypeAllContactTypeC").show();
+				$("#AuthTypeAllContactType").hide();
+
+				$("#SignTypeAllContactTypeP").hide();
+				$("#SignTypeAllContactTypeC").show();
+				$("#SignTypeAllContactType").hide();
+			} else if(contactTypeP > 0 && contactTypeC > 0){
+				$("#AuthTypeAllContactTypeP").hide();
+				$("#AuthTypeAllContactTypeC").hide();
+				$("#AuthTypeAllContactType").show();
+
+				$("#SignTypeAllContactTypeP").hide();
+				$("#SignTypeAllContactTypeC").hide();
+				$("#SignTypeAllContactType").show();
+			}
+		}
+
+		//***************					목록으로 돌아가기					***************//
+
+		function fn_back() { fn_loadHtml("/html/document/document_send_list.html"); }
+
+		//***************					비밀번호 인증 - 비밀번호 변경					***************//
+
+
+		function fn_changeAuthCode(){
+
+			var docuId	 = getCookie("docuId");
+			var url 	 = rootPath + 'document/saveAuthCode.do';
+			var authCode = $("[name=authCode]").val();
+
+			if($(':radio[name="authType"]:checked').val() != "P") {
+				alert("비밀번호 인증인 경우만 변경하실 수 있습니다.");
+				return;
+			}
+
+			if(!confirm("비밀번호를 변경하시겠습니까?")) return false;
+
+			if(isNull(authCode)){
+				alert("비밀번호를 입력해주세요.");
+				return false;
+			}
+
+			$.ajax({
+				url:url,
+				async:false,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				data:{
+					OPEN_KEY:getCookie("OPEN_KEY"),
+					docuId:docuId,
+					authCode:authCode
+				},
+				success:function(res) {
+					alert("변경되었습니다.");
+				},
+				error:function(request,status,error){
+					goInvalidPage(request, error);
+				}
+			});
+		}
+
+	</script>
+	</head>
+
+	<body>
+	<input type="hidden" id="bizId" name="bizId">
+	<input type="hidden" id="bizName" name="bizName">
+	<div id="contract_electronic_Wrap">
+	<div class="container">
+		<div class="location">
+			<span class="loc_main NanumSquare_R">전자계약 > </span><span class="loc_sub NanumSquare_R"> 전자계약</span>
+			<span onclick="openHelpWindow('detailview')" class="btn btn-default" style="color:#07a6ff;float:right;"><i class="fa fa-question"></i> 도움말</span>
+			<span id="serviceCenter" class="hidden" style="float:right; color:red;padding-top:5px;">고객센터 02-3270-6285&nbsp;&nbsp;</span>
+		</div>
+		<div class="pagtit">
+			<span class="NanumRound">
+				전자계약 상세내역
+				<a class="btn btn-default "  onclick="fn_docuList();"><i class="fa fa-undo"></i> 재조회</a>
+			</span>
+			<span class="NanumRound" style="float:right;font-size:11px;margin-left:10pt" id="writeDate"></span>
+			<span class="NanumRound" style="float:right;font-size:14px;margin-left:10pt" id="writeUserName"></span>
+		</div>
+	</div>
+	<div class="electronic_list_div">
+		<div class="electronic_tableviewdiv">
+			<table class="NanumSquare_R">
+				<colgroup>
+					<col width="15%">
+					<col width="85%">
+				</colgroup>
+				<tr>
+					<th>수신자</th>
+					<td><ul class="ul_list01" id="rList"></ul></td>
+				</tr>
+				<tr>
+					<th>참조자</th>
+					<td id="tList"></td>
+				</tr>
+				<tr>
+					<th>계약명</th>
+					<td id="docuName"></td>
+				</tr>
+				<tr id="orgFileId">
+					<th>계약문서</th>
+					<td>
+						<input type="text" name="orgFileName" value="" class="inpstyle01 NanumSquare_R" style="width: 75%" disabled>
+						<span id="orgDownload"></span>
+					</td>
+				</tr>
+				<tr id="prevFileId">
+					<th>이전계약</th>
+					<td>
+						<input type="text" name="prevDocuName" value="" class="inpstyle01 NanumSquare_R" style="width: 75%" disabled>
+						<span id="prevDocuId"></span>
+					</td>
+				</tr>
+				<tr id="nextFileId">
+					<th>다음계약</th>
+					<td>
+						<input type="text" name="nextDocuName" value="" class="inpstyle01 NanumSquare_R" style="width: 75%" disabled>
+						<span id="nextDocuId"></span>
+					</td>
+				</tr>
+				<tr>
+					<th>발신자 첨부파일</th>
+					<td><div id="attachFiles1"></div></td>
+				</tr>
+				<tr>
+					<th>수신자 첨부파일</th>
+					<td><div id="attachFiles2"></div></td>
+				</tr>
+				<tr>
+					<th>인증구분</th>
+					<td>
+						<ul class="ul_list02 NanumSquare_R">
+							<!-- 1.수신자가 모두 인사(contactType=P)일 경우 -->
+							<li id="AuthTypeAllContactTypeP"><label><input type="radio" name="authType" value="M" disabled> <span>휴대폰 본인인증</span></label></li>
+							<!-- 2.수신자가 모두 거래처(contactType=C)일 경우 -->
+							<li id="AuthTypeAllContactTypeC"><label><input type="radio" name="authType" value="C" disabled> <span>공인인증서</span></label></li>
+							<!-- 3.수신자가 인사+거래처 섞여있을 경우 -->
+							<li id="AuthTypeAllContactType"><label><input type="radio" name="authType" value="MC" disabled> <span>휴대폰 본인인증 또는 공인인증서</span></label></li>
+							<li>
+								<label><input type="radio" name="authType" value="P" disabled> <span style="margin-right: 4px;">비밀번호 인증</span></label>
+								<input type="password" name="authCode" value="" class="inpstyle01" style="height: 12px;font-family:auto">
+								<a id="changeAuthCode" onclick="fn_changeAuthCode();"><i class="fa fa-save fa-2x" style="vertical-align:sub; margin-left:5pt"></i></a>
+							</li>
+							<li><label><input type="radio" name="authType" value="N" disabled> <span>인증없음</span></label></li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<th>발송수단</th>
+					<td>
+						<ul class="ul_list02 NanumSquare_R">
+							<li><label><input type="radio" name="sendType" value="E" disabled>  <span>이메일</span></label></li>
+							<li><label><input type="radio" name="sendType" value="K" disabled> <span>카카오톡(공인인증서 미지원)</span></label></li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<th>서명구분</th>
+					<td >
+						<ul class="ul_list02 NanumSquare_R">
+							<!-- 1.수신자가 모두 인사(contactType=P)일 경우 -->
+							<li id="SignTypeAllContactTypeP"><label><input type="radio" name="signType" value="T" disabled> <span>수기서명</span></label></li>
+							<!-- 2.수신자가 모두 거래처(contactType=C)일 경우 -->
+							<li id="SignTypeAllContactTypeC"><label><input type="radio" name="signType" value="C" disabled> <span>직인</span></label></li>
+							<!-- 3.수신자가 인사+거래처 섞여있을 경우 -->
+							<li id="SignTypeAllContactType"><label><input type="radio" name="signType" value="TC" disabled> <span>수기서명 또는 직인</span></label></li>
+							<li><label><input type="radio" name="signType" value="N" disabled> <span>서명없음</span></label></li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<th>발송순서</th>
+					<td>
+						<ul class="ul_list02 NanumSquare_R">
+							<li><label><input type="radio" name="sendOrd" value="A" disabled> <span>동시발송</span></label></li>
+							<li><label><input type="radio" name="sendOrd" value="S" disabled> <span>순차발송(참조자는 수신자 완료 후 발송)</span></label></li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<th>검토여부</th>
+					<td>
+						<ul class="ul_list02 NanumSquare_R">
+							<li><label><input type="radio" name="reviewType" value="S" disabled> <span>검토 후 서명요청</span></label></li>
+							<li><label><input type="radio" name="reviewType" value="Y" disabled> <span>검토</span></label></li>
+							<li><label><input type="radio" name="reviewType" value="N" disabled> <span>미검토</span></label></li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<th>위변조 방지 여부</th>
+					<td>
+						<ul class="ul_list02 NanumSquare_R">
+							<li><label><input type="radio" name="tsaType" value="Y" disabled> <span>발급</span></label></li>
+							<li><label><input type="radio" name="tsaType" value="N" disabled> <span>미발급</span></label></li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<th>유효기간</th>
+					<td>
+						<ul class="ul_list02 NanumSquare_R">
+							<li>
+								<label><input type="checkbox" id="expireType"  disabled></label>
+								<input type="date" max="9999-12-31" id="expireDate" class="inpstyle01" style="height: 12px;"  disabled>
+							</li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<th>작성자 메모</th>
+					<td><input type="text" name="reqComment" value="" class="inpstyle01 NanumSquare_R" style="width: 50%"></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div class="container">
+		<div class="pagtit"><span class="NanumRound">진행상태</span></div>
+	</div>
+	<div class="electronic_list_div">
+		<div class="electronic_tablediv" style="height: auto; min-height: auto; overflow:auto;">
+			<table class="NanumSquare_R">
+				<colgroup>
+					<col width="10%">
+				</colgroup>
+				<thead>
+				<tr>
+					<th scope="col">사용자</th>
+					<th scope="col">진행구분</th>
+					<th scope="col">내용</th>
+					<th scope="col">작업일시</th>
+				</tr>
+				</thead>
+				<tbody id="logList">
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="btnareadiv footdiv" id="btn_action"></div>
+</div>
+</body>
+</html>

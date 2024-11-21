@@ -1,0 +1,110 @@
+    <!DOCTYPE html>
+    <html lang="ko">
+
+    <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="https://ssl.daumcdn.net/dmaps/map_js_init/postcode.v2.js"></script>
+    <title>주소 찾기</title>
+</head>
+
+<body style="padding:0; margin:0; background-color:#EFEEEE">
+<div id="wrap" style="width:100%;"></div>
+<input type="hidden" id="placeId">
+
+<script>
+    var element_wrap = document.getElementById('wrap');
+    var themeObj = {
+        bgColor: "#EFEEEE", //바탕 배경색
+        searchBgColor: "#FFFFFF", //검색창 배경색
+        contentBgColor: "#FFFFFF", //본문 배경색(검색결과,결과없음,첫화면,검색서제스트)
+        pageBgColor: "#FAFAFA", //페이지 배경색
+        textColor: "#000000", //기본 글자색
+        queryTextColor: "#000000", //검색창 글자색
+        postcodeTextColor: "#E31E26", //우편번호 글자색
+        emphTextColor: "#0061A5", //강조 글자색
+        outlineColor: "#C7CDD9" //테두리
+    };
+
+    function execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function (data) {
+                $.ajax({
+                    url: 'https://dapi.kakao.com/v2/local/search/address.json?query=' + encodeURIComponent(data.jibunAddress),
+                    headers: {'Authorization': 'KakaoAK a695be03af20d3492ec1828f173cce9d'},
+                    type: 'GET',
+                    success: function (json) {
+                    	var zonecode;
+                        var addr;
+						var saddr;
+						
+                        if (data.userSelectedType === 'R') {
+                        	zonecode = data.zonecode;
+                            addr = data.zonecode + ' ' + data.roadAddress;
+							saddr = data.roadAddress;
+                            if (data.buildingName) {
+                                addr = addr + ' (' + data.buildingName + ')';
+                                saddr = saddr + ' (' + data.buildingName + ')';
+                            }
+                        } else {
+                        	zonecode = data.zonecode;
+                            addr = data.zonecode + ' ' + data.jibunAddress;
+                            saddr = data.jibunAddress;
+                        }
+
+                        var lat = 0.0;
+                        var lng = 0.0;
+                        if (json.meta.total_count > 0) {
+                            lat = json.documents[0].address.y;
+                            lng = json.documents[0].address.x;
+                        } else {
+                            console.log('execDaumPostcode', json);
+                        }
+
+                        var result = {};
+                        result.zonecode = zonecode;
+                        result.addr = addr;
+                        result.lat = lat;
+                        result.lng = lng;
+                        result.saddr = saddr;
+                        if (isNull($('#placeId').val())) {
+                            opener.setSearchAddr(result);
+                            window.close();
+                        } else {
+                            result.placeId = $('#placeId').val();
+                            window.close();
+                            opener.saveSearchAddr(result);
+                        }
+
+                    },
+                    error: function (error) {
+                        console.log('execDaumPostcode', error);
+                    }
+                });
+            },
+            onresize: function (size) {
+                element_wrap.style.height = size.height + 'px';
+            },
+            autoMapping: false,
+            theme: themeObj,
+            width: '100%',
+            height: '100%'
+        }).embed(element_wrap, {
+            autoClose: false
+        });
+    }
+
+    $(document).ready(function () {
+        $('#placeId').val(getURLParameters('placeId'));
+        setTimeout(execDaumPostcode, 100);
+    });
+</script>
+</body>
+
+</html>

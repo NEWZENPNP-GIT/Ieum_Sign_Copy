@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="febsystem">
+	<typeAlias alias="ys000VO" type="com.ezsign.feb.system.vo.YS000VO" />
+	<resultMap id="ys000ListMap" class="ys000VO">
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="bizName" column="BIZ_NAME"/>
+		<result property="febYear" column="FEB_YEAR"/>
+		<result property="계약ID" column="계약ID"/>
+		<result property="등록일시" column="등록일시"/>
+		<result property="수정일시" column="수정일시"/>
+	</resultMap>
+	
+	<select id="ys000DAO.getYS000List" parameterClass="ys000VO" resultMap="ys000ListMap">
+		SELECT A.BIZ_ID, B.BIZ_NAME, A.FEB_YEAR, A.계약ID, A.등록일시, A.수정일시 
+		FROM tbl_ys000 A, tbl_biz B
+		WHERE	A.BIZ_ID = B.BIZ_ID
+		<isNotNull property="계약ID">
+		    <isNotEmpty property="계약ID">
+			AND		A.계약ID 		= #계약ID#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="bizId">
+		    <isNotEmpty property="bizId">
+			AND	A.BIZ_ID		= #bizId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="febYear">
+		    <isNotEmpty property="febYear">
+			AND		A.FEB_YEAR	= #febYear#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="businessNo">
+		    <isNotEmpty property="businessNo">
+			AND	B.BUSINESS_NO	= #businessNo#
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY A.FEB_YEAR DESC
+	</select>
+		
+	<insert id="ys000DAO.insYS000" parameterClass="ys000VO">
+		INSERT INTO tbl_ys000 (
+			BIZ_ID, FEB_YEAR, 계약ID,
+		       등록일시, 수정일시 
+		) VALUES (
+			#bizId#, #febYear#, #계약ID#,
+		   DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+</sqlMap>

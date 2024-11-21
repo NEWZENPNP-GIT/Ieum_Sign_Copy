@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+<script>
+	$(document).ready(function() {
+		계약ID = getParams().yearContractId;
+		사용자ID = getParams().userId;
+		공제구분코드 = getParams().deductCode;
+		공제구분상세코드 = getParams().deductCodeDetail;
+		
+		$("#attachPdf").change(function() {
+			
+			fn_pdfUpload();
+		});
+	});
+	
+	// PDF 업로드 첨부 
+	function fn_addPdf() {
+		$("#attachPdf").val('');
+		$("#attachPdf").click();
+	}
+	
+	// PDF 파일 업로드
+	function fn_pdfUpload() {
+		var fileCount = 0;
+		var url = rootPath + "febworker/insYE020Pdf.do";
+		
+		var formData = new FormData();
+		formData.append("계약ID", 계약ID);
+		formData.append("사용자ID", 사용자ID);
+		formData.append("공제구분코드", 공제구분코드);
+		formData.append("공제구분상세코드", 공제구분상세코드);
+		formData.append("남기실내용", "국세청PDF 간소화");
+		formData.append("처리여부", "2");
+		
+		var file = document.getElementsByName("attachPdf");
+		for(var i=0;i<file.length;i++) {
+			if (file[i].files[0] != undefined) {
+				if(!checkFileExt(file[i].files[0].name, "pdf")) {
+					alert("파일확장자는 pdf파일만 가능합니다.");
+					return;
+				}
+				if(checkSpecial(file[i].files[0].name)) {
+					alert("파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.");
+					return;
+				}
+			    formData.append("addFile"+i,file[i].files[0]);
+			    fileCount++;
+			}
+		}
+		
+		if(fileCount==0) {
+			alert("파일을 선택하여 주시기 바랍니다.");
+			return;
+		}
+
+		$.blockUI();
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data:formData,
+			contentType:false,
+			processData:false,
+			cache:false,
+			success:function(result)
+			{
+				console.log(result);
+				
+				if(result.success) {
+					alert(result.message);
+					window.close();
+				} else {
+					alert("국세청PDF 업로드 등록이 실패하였습니다.");
+				}
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+</script>
+</head>
+<body>
+
+<div id="yearTax_wrap_popup" class="yearTax_popup addSubmit homeTaxPdf">
+	<div class="container">
+		<div id="popup_tit">
+			<div class="tit_icon icon_file"></div>
+			<div class="tit_text NanumGothic">국세청 PDF 제출</div>
+			<div id="popup_close" class="btn_type col_skyblue" onclick="window.close()"></div>
+		</div>
+		<div class="contents">
+			<div class="box_wrap">
+				
+				
+				<ul class="txt_wrap">
+					<li class="NanumGothic">안녕하세요.</li>
+					<li class="NanumGothic">뉴젠피앤피 연말정산 운영팀입니다.</li>
+					<li class="cont NanumGothic">
+						근로자 입력기간이 종료되고 <br> 
+						관리자의 서류 확인 기간이 시작됩니다.<br>
+						정확한 지급 조서 작성을 위하여 입력하신 내용과<br> 
+						국세청 PDF를 꼼꼼히 비교 검토할 예정입니다.<br>
+						아래의 [파일 첨부]를 눌러 국세청에서 <br>
+						다운로드 받으신 PDF를 첨부 바랍니다.<br>
+					</li>
+				</ul>
+				<div class="attach_btns NanumGothic">
+					<input type="file" id="attachPdf" name="attachPdf" style="display:none;" />
+					<a class="btn_type btn_addpdf" href="javascript:fn_addPdf()"> 간소화 PDF 첨부 </a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div><!-- popup_wrap -->
+
+
+</body>
+
+</html>

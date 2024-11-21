@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<title> 연차관리</title>
+<link rel="stylesheet" type="text/css" href="/css/font.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/mobile_common.css">
+<link rel="stylesheet" type="text/css" href="/css/mobile_annual.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/jquery.bpopup.js"></script> <!-- layer popup library -->
+<script type='text/javascript' src="/js/jquery-ui.min.js"></script>
+<script type='text/javascript' src="/js/jquery.ui.touch-punch.min.js"></script>
+</head>
+<body>
+	<header class="header">
+		<ul class="gnb">
+			<li class="prev"><a class="btn_type btn_prev" href="mobile_annual_apply_step01.html" target="_self"></a></li>
+			<li class="head_text NanumBarunGothic">연차신청</li>
+			<li class="menu"><a class="btn_type btn_menu"></a></li>
+		</ul>
+	</header>
+	<div id="container" class="NanumBarunGothic payment">
+		<section class="wrap">
+		
+			<div class="top_search">
+				<div class="tit">조회기간</div>
+				<div class="dateTerm">
+					<input type="text" class="NanumBarunGothic"> <span>~</span> <input type="text" class="NanumBarunGothic">
+				</div>
+			</div>
+			<div class="payment_head"><div class="partBx">부서</div><div class="nameBx">이름</div><div class="typeBx">종류</div><div class="reasonBx">기간/사유</div><div class="checkBx">확인</div></div>
+			<div class="payment_chart">
+				<ul class="payment_list">
+					<li>
+						<div class="bx partBx">웹서비스</div><div class="bx nameBx">홍길동</div><div class="bx typeBx">연차</div>
+						<div class="bx reasonBx">
+							<div class="sortBox"><span class="term">01.02~01.03</span><span class="reason">개인사유</span></div>
+						</div>
+						<div class="checkBx"></div>
+						<div class="act-button">
+							<div class="dragOb">
+							<div class="act-bar">
+								<div class="arrow"></div><div class="btns"><a class="btn_type btn_confirm">승인</a><a class="btn_type btn_return">반려</a></div></div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="bx partBx">웹서비스</div><div class="bx nameBx">홍길동</div><div class="bx typeBx">연차</div>
+						<div class="bx reasonBx">
+							<div class="sortBox"><span class="term">01.02~01.03</span><span class="reason">개인사유</span></div>
+						</div>
+						<div class="checkBx"></div>
+						<div class="act-button">
+							<div class="dragOb">
+							<div class="act-bar">
+								<div class="arrow"></div><div class="btns"><a class="btn_type btn_confirm">승인</a><a class="btn_type btn_return">반려</a></div></div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="bx partBx">미래전략연구소</div><div class="bx nameBx">홍길동</div><div class="bx typeBx">연차</div>
+						<div class="bx reasonBx">
+							<div class="sortBox"><span class="term">01.02~01.03</span><span class="reason">개인사유</span></div>
+						</div>
+						<div class="checkBx complete-return"></div>
+					</li>
+					<li>
+						<div class="bx partBx">미래전략연구소</div><div class="bx nameBx">홍길동</div><div class="bx typeBx">연차</div>
+						<div class="bx reasonBx">
+							<div class="sortBox"><span class="term">01.02~01.03</span><span class="reason">개인사유</span></div>
+						</div>
+						<div class="checkBx complete-confirm"></div>
+					</li>
+					<li>
+						<div class="bx partBx">경영지원본부</div><div class="bx nameBx">홍길동</div><div class="bx typeBx">연차</div>
+						<div class="bx reasonBx">
+							<div class="sortBox"><span class="term">01.02~01.03</span><span class="reason">개인사유</span></div>
+						</div>
+						<div class="checkBx"></div>
+						<div id="dragOb" class="sortBox"><div class="arrow"></div><div class="bg"></div></div>
+					</li>
+					<li>
+						<div class="bx partBx">경영지원본부</div><div class="bx nameBx">홍길동</div><div class="bx typeBx">연차</div>
+						<div class="bx reasonBx">
+							<div class="sortBox"><span class="term">01.02~01.03</span><span class="reason">개인사유</span></div>
+						</div>
+						<div class="checkBx"></div>
+						<div id="dragOb" class="sortBox"><div class="arrow"></div><div class="bg"></div></div>
+					</li>
+					
+				</ul>
+			</div> 
+			<div class="NanumBarunGothic footer overlap">
+				<a class="btn_type btn_approve">전체 승인</a></div> 
+		</section>
+		<div id="bpopupLayer"></div>
+		
+	</div>
+	
+</body>
+<script type="text/javascript">
+
+/* ###### 확인 버튼 슬라이드 이벤트 ######  */
+var myVar=null;
+var timer=2500;
+var boxPos=$(".payment_list > li").css("padding-left").replace(/[^-\d\.]/g, '');
+var userStart;
+var userEnd;
+
+$(".btn_confirm").on("click",function(evt){
+	clickEvent(evt);
+})
+ $(".btn_return").on("click",function(evt){
+	clickEvent(evt);
+})
+
+$(".dragOb").draggable({
+	axis: "x",
+	refreshPositions: true,
+	start:function(event,ui){
+		userEventListener("hide");
+		userStart=event.pageX;
+	},
+	drag:function(event,ui){
+		if(!$(this).parent().parent().hasClass("active")){
+			if(ui.position.left < 0 && -110 > ui.position.left ){
+				ui.position.left= -110;
+			}else if(ui.position.left > 0 ){
+				ui.position.left=0;
+				return;
+			} 
+		}else{
+			if(userStart > event.pageX){
+				//active 상태에서 좌측이동 막기 
+				ui.position.left= -60;
+			}else{
+				$(this).parent().parent().removeClass("active");
+				if(ui.position.left > 50){
+					ui.position.left= 50;
+				}
+			}
+		}
+	},
+	stop:function(event,ui){
+		var _drag=ui.position.left;
+		if(event.pageX < userStart){
+			
+			$(this).css("left","-60px");
+			$(this).parent().parent().addClass("active");
+			
+			
+		}else{
+			$(this).css("left","0px");
+		}
+		
+		myVar=setTimeout(function(){ 
+			userEventListener("show");
+		}, timer);
+	}
+});
+
+function clickEvent(evt){
+	userEventListener("hide");
+	var _pObj=$(evt.currentTarget).parent();
+	var state=""
+	var sText=""
+	if($(evt.currentTarget).hasClass("btn_confirm")){
+		state="confirm";
+		sText="승인";
+	}else{
+		state="return";
+		sText="반려";
+	}
+	
+	//_pObj.parent().parent().parent().parent().addClass("enable")
+	_pObj.parent().parent().parent().parent().find(".checkBx").attr("class","checkBx complete-"+state);
+	_pObj.parent().parent().parent().remove();
+	//_pObj.parent().parent().parent().attr("class","checkBx complete-"+state);
+	console.log(state+":"+sText)
+	//_pObj.parent().attr("class","checkBx complete-"+state);
+	//_pObj.empty().text(sText);	
+	
+	myVar=setTimeout(function(){ 
+		userEventListener("show");
+		console.log(" timer ")
+	}, timer);
+}
+/* ###### 전체 승인 버튼 show/hide 이벤트 ######  */
+function userEventListener(_state){
+	if(_state=="hide"){
+		if(myVar != null){ clearTimeout(myVar); }
+		
+		$(".footer.overlap").animate({bottom:-75},100,function(){
+			$(".footer.overlap").addClass("hidden");
+		});
+		
+	}else{
+		if($(".overlap").hasClass("hidden")){
+			$(".overlap").removeClass("hidden");
+		}
+		
+		$(".overlap").animate({bottom:0},100,function(){
+			if($(".overlap").hasClass("hidden")){
+				$(".overlap").removeClass("hidden");
+			}
+		});
+	}
+}
+</script>
+</html>

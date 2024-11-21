@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>그룹 검색</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/company_manage.css">
+
+</head>
+<body>
+	<div id="groupManage_popup" class="_popup">
+		<div class="container">
+			<div id="popup_tit">
+				<div class="tit_icon"><span class="Material_icons">search</span></div>
+				<div class="tit_text col_skyblue NanumSquare_B">그룹 검색</div>
+				<div id="popup_close" class="btn_type col_skyblue" onclick="window.close();"></div>
+			</div>
+			<div class="contents">
+				<div class="grid_field">
+					<div class="select_box">
+						<select class="NanumSquare_R">
+							<option value="" >전체</option>
+						</select>
+					</div>
+					<div class="input_box">
+						<fieldset>
+							<input class="" type="text" placeholder="검색"><a class="btn_type btn_search Material_icons">search</a>
+						</fieldset>
+					</div>
+				</div>
+				<div class="result_text NanumSquare_B">
+					<div class="search_part">'<span class="word">뉴젠</span>' 검색결과</div>
+					<div class="result_part col_red">'검색결과가 없습니다.'</div>
+				</div>
+				<div class="group_table">
+					<table class="NanumSquare_R">
+						<colgroup>
+							<col width="6%">
+							<col width="47%">
+							<col width="47%">
+						</colgroup>
+						<thead>
+							<tr>
+								<th class="chk_area"></th>
+								<th>순번</th>
+								<th>그룹명</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="chk_area"><input type="checkbox"></td>
+								<td>001</td>
+								<td>경영지원본부</td>
+							</tr>
+							<tr>
+								<td class="chk_area"><input type="checkbox"></td>
+								<td>002</td>
+								<td>인사관리본부</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			
+				<div class="btns sort-right">
+					<div><a class="type2 btn_type NanumSquare_R">확인</a></div>
+					<div><a class="type4 btn_type NanumSquare_R">취소</a></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

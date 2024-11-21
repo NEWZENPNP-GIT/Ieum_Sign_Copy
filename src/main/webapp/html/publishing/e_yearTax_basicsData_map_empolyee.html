@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>연말 정산 MAP</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+</head>
+<body>
+	<div id="yearTax_wrap" class="yearTax hasEmplist">
+		<input id="btn_left" id="btn_left" type="checkbox" class="hidden">
+		<label class="btn_type btn_emplist" for="btn_left"></label>
+		<div id="employ-list-wrap">
+			<div class="fieldBox">
+				<div class="select_box">
+					<select class="NanumSquare_R">
+						<option value="" >사업장</option>
+					</select>
+				</div>
+				<fieldset>
+					<input type="text" class="word_input NanumSquare_R"><a class="btn_search btn_type Material_icons">search</a>
+				</fieldset>
+			</div>
+			<div class="employ-list NanumSquare_R">
+				<ul>
+					<li class="thead"><div class="no">사번</div><div class="name">이름</div><div class="state code-0">확정</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-0">미입력</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-1">진행중</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-2">근로자 확정</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-3">관리자 확정</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state code-4">최종 확정</div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state"></div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state"></div></li>
+					<li class="tbody"><div class="no">123456789</div><div class="name">이름이다</div><div class="state"></div></li>
+				</ul>
+			</div>
+		</div>
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연말정산 > 연말정산입력  > </span><span class="loc_sub NanumSquare_R">연말 정산 MAP</span></div>
+			<div class="pagtit">
+				<span class="NanumSquare_R">연말 정산 MAP</span>
+				<!-- <ul class="top_items NanumSquare_R"></ul> -->
+			</div>
+			
+			<div class="contents">
+				<div class="group_row row1">
+					<div class="summaryBox wid10n"><dl class="NanumSquare_R rat4-6"><dt>사용자</dt><dd class="default_box"><div class="nonborder userName">홍길동</div></dd></dl></div>
+					<div class="summaryBox wid20"><dl class="NanumSquare_R rat3-7"><dt>총급여</dt><dd  class="default_box col_skyblue"><div class="nonborder sort_right">34,254,000</div></dd></dl></div>
+					<div class="summaryBox wid20n"><dl class="NanumSquare_R rat4-6"><dt>근로소득금액</dt><dd  class="default_box col_blue"><div class="nonborder sort_right">34,254,000</div></dd></dl></div>
+				</div>
+				<div class="notice_wrap bg_skyblue nonborder">
+					<div class="notice_con pad_thin10 nonLine NanumSquare_R bg_skyblue">
+						<ul class="month nonTop">
+							<li><span>1월</span></li><li><span>2월</span></li><li class="active"><span>3월</span></li><li class="active"><span>4월</span></li><li><span>5월</span></li><li><span>6월</span></li>
+							<li><span>7월</span></li><li><span>8월</span></li><li><span>9월</span></li><li><span>10월</span></li><li><span>11월</span></li><li><span>12월</span></li>
+						</ul>
+					</div>
+				</div>
+				
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<div class="text NanumSquare_R">공제항목별 지출명세 <span class="dec col_red NanumSquare_R">※ 관리자(최종) 금액이 최종 연말정산 계산하기에 반영됩니다. </span></div>
+						<div class="btns">
+							<a class="btn_type NanumSquare_R">문의 </a>
+						</div>
+					</div>
+				</div>
+				<!--  group_column : 데이터를 가로 추가할수 있는 테이블형 -->
+				<!--  group-cell : +&-기능을 사용하는 데이터를 가로 추가할수 있는 테이블형 -->
+				<div class="group-cell NanumSquare_R">
+					<div class="fix_viewer">
+						<ul class="fix_column cell-div">
+							<li class="thead text_center col_merger2">공제항목명</li>
+							<li class="cell_headbox">소득공제 명세</li>
+							<li class="tbody itemgroup">
+								<input id="group-1" type="checkbox" class="dep-1 hidden">
+								<div class="item-gnb">
+									<label for="group-1" class="btn_type Material_icons icon" ></label>
+									<label for="group-1" class="label tit">연금 보험료공제 </label>
+								</div>
+								<ul class="item-list">
+									<li class="nav">국민연금보험료<a class="btn_type btn_edit">수정</a></li>
+									<li class="nav">국민연금 외 공적 연금 보험료<a class="btn_type btn_edit">수정</a></li>
+								</ul>
+							</li>
+							<li class="tbody itemgroup">
+								<input id="group-2" type="checkbox" class="dep-1 hidden">
+								<div class="item-gnb">
+									<label for="group-2"class="btn_type Material_icons icon"></label>
+									<label for="group-2"class="label tit">특별소득공제 </label>
+								</div>
+								<ul class="item-list">
+									<li class="nav">국민건강보험료<a class="btn_type btn_edit">수정</a></li>
+									<li class="nav">장기요양보험료</li>
+									<li class="nav">고용보험료</li>
+									<li class="sub-nav">
+										<input id="sub-group-3" type="checkbox" class="dep-2 hidden">
+										<div class="sub-item-gnb">
+											<a class="btn_type btn_edit">수정</a>
+											<label for="sub-group-3" class="btn_type Material_icons icon"></label>
+											<label for="sub-group-3"class="label sub-tit" >주택임차차입금원리금상환액</label>
+										</div>
+										<ul class="sub-item-list">
+											<li>대출기관</li>
+											<li>거주자</li>
+										</ul>
+									</li>
+									<li class="nav">장기주택저당차입금이자상환액<a class="btn_type btn_edit">수정</a></li>
+								</ul>
+							</li>
+							
+							<li class="tbody"><div class="item-gnb">개인연금저축 <a class="btn_type btn_edit">수정</a></div></li>
+							<li class="tbody"><div class="item-gnb">주택마련저축<a class="btn_type btn_edit">수정</a></div></li>
+							<li class="tbody"><div class="item-gnb">신용카드 <a class="btn_type btn_edit">수정</a></div></li>
+							<li class="tbody"><div class="item-gnb">장기집합투자증권저축 <a class="btn_type btn_edit">수정</a></div></li>
+							<li class="tbody itemgroup">
+								<input id="group-4" type="checkbox" class="dep-1 hidden">
+								<div class="item-gnb">
+									<label for="group-4" class="btn_type Material_icons icon"></label>
+									<label for="group-4"class="label tit" >그밖의소득공제</label>
+								</div>
+								<ul class="item-list">
+									<li class="nav">소기업·소상공인공제부금<a class="btn_type btn_edit">수정</a></li>
+									<li class="nav">투자조합출자등<a class="btn_type btn_edit">수정</a></li>
+									<li class="nav">우리사주조합출연금<a class="btn_type btn_edit">수정</a></li>
+									<li class="nav">고용유지중소기업근로자<a class="btn_type btn_edit">수정</a></li>
+								</ul>
+							</li>
+						</ul>
+						<ul class="fix_column cell-div child-2">
+							<li class="cell_headbox">세액감면ㆍ공제명세</li>
+							<li class="tbody itemgroup">
+								<input id="group-5" type="checkbox" class="dep-1 hidden">
+								<div class="item-gnb">
+									<label for="group-5" class="btn_type Material_icons icon"></label>
+									<label for="group-5"class="label tit" >연금계좌</label>
+								</div>
+								<ul class="item-list">
+									<li class="nav">과학기술인공제<a class="btn_type btn_edit">수정</a></li>
+									<li class="nav">퇴직연금<a class="btn_type btn_edit">수정</a></li>
+									<li class="nav">연금저축<a class="btn_type btn_edit">수정</a></li>
+								</ul>
+							</li>
+							<li class="tbody itemgroup">
+								<input id="group-6" type="checkbox" class="dep-1 hidden">
+								<div class="item-gnb">
+									<label for="group-6" class="btn_type Material_icons icon"></label>
+									<label for="group-6"class="label tit" >특별세액공제</label>
+								</div>
+								<ul class="item-list">
+									<li class="sub-nav">
+										<input id="sub-group-7" type="checkbox" class="dep-2 hidden">
+										<div class="sub-item-gnb">
+											<a class="btn_type btn_edit">수정</a>
+											<label for="sub-group-7" class="btn_type Material_icons icon"></label>
+											<label for="sub-group-7"class="label sub-tit" >보험료</label>
+										</div>
+										<ul class="sub-item-list">
+											<li>보장성</li>
+											<li>장애인전용보장성</li>
+										</ul>
+									</li>
+									<li class="sub-nav">
+										<input id="sub-group-8" type="checkbox" class="dep-2 hidden">
+										<div class="sub-item-gnb">
+											<a class="btn_type btn_edit">수정</a>
+											<label for="sub-group-8" class="btn_type Material_icons icon"></label>
+											<label for="sub-group-8"class="label sub-tit" >의료비_안경구입비</label>
+										</div>
+										<ul class="sub-item-list">
+											<li>본인·65세이상자·장애인</li>
+											<li>난임시술비</li>
+											<li>그밖의공제대상자</li>
+										</ul>
+									</li>
+									<li class="sub-nav">
+										<input id="sub-group-9" type="checkbox" class="dep-2 hidden">
+										<div class="sub-item-gnb">
+											<a class="btn_type btn_edit">수정</a>
+											<label for="sub-group-9" class="btn_type Material_icons icon"></label>
+											<label for="sub-group-9"class="label sub-tit" >교육비_교복구입비/체험학습비</label>
+										</div>
+										<ul class="sub-item-list">
+											<li>본인</li>
+											<li>취학전아동</li>
+											<li>초·중·고등학교</li>
+											<li>대학생(대학원 불포함)</li>
+											<li>장애인</li>
+										</ul>
+									</li>
+									<li class="sub-nav">
+										<input id="sub-group-10" type="checkbox" class="dep-2 hidden">
+										<div class="sub-item-gnb">
+											<a class="btn_type btn_edit">수정</a>
+											<label for="sub-group-10" class="btn_type Material_icons icon"></label>
+											<label for="sub-group-10"class="label sub-tit" >기부금</label>
+										</div>
+										<ul class="sub-item-list">
+											<li>정치자금기부금</li>
+											<li>법정기부금</li>
+											<li>우리사주기부금</li>
+											<li>종교단체외지정기부금</li>
+											<li>종교단체지정기부금</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="tbody"><div class="item-gnb">월세액<a class="btn_type btn_edit">수정</a></div></li>
+							<li class="tbody"><div class="item-gnb">주택차입금<a class="btn_type btn_edit">수정</a></div></li>
+							<li class="tbody"><div class="item-gnb">세액감면<a class="btn_type btn_edit">수정</a></div></li>
+							<li class="tbody"><div class="item-gnb">외국납부세액<a class="btn_type btn_edit">수정</a></div></li>
+						</ul>
+					</div>	
+					<div class="column_viewer">
+						<div class="column_data employee">
+							<div class="merge-cell">근로자</div>
+							<div class="merge-cell">
+								<ul class="data-list">
+									<li class="thead text_center">① 국세청자료</li>
+									<li class="tbody itemgroup group-1">
+										<div class="item-gnb data">2,000,000</div>
+										<ul class="item-list-data">
+											<li class="data">0</li>
+											<li class="data">0</li>
+										</ul>
+									</li>
+									<li class="tbody itemgroup group-2">
+										<div class="item-gnb data">110,000</div>
+										<ul class="item-list-data">
+											<li class="data">1</li>
+											<li class="data">2</li>
+											<li class="data">3</li>
+											<li class="sub-nav-data sub-group-3">
+												<div class="sub-item-gnb data">2,000,000</div>
+												<ul class="sub-item-list-data">
+													<li class="data">7,000,000</li>
+													<li class="data">8</li>
+												</ul>
+											</li>
+											<li class="data">9,000,000</li>
+										</ul>
+									</li>
+									<li class="tbody"><div class="item-gnb data">100,000,000</div></li>
+									<li class="tbody"><div class="item-gnb data">5,000,000</div></li>
+									<li class="tbody"><div class="item-gnb data">5,000,000</div></li>
+									<li class="tbody"><div class="item-gnb data">6,000,000</div></li>
+									<li class="tbody itemgroup last-child group-4">
+										<div class="item-gnb data">110,000,000</div>
+										<ul class="item-list-data">
+											<li class="data">1</li>
+											<li class="data">2</li>
+											<li class="data">3</li>
+											<li class="data last-child">4</li>
+										</ul>
+									</li>
+									<li class="tbody itemgroup group-5">
+										<div class="item-gnb data">2,000,000</div>
+										<ul class="item-list-data">
+											<li class="data">5,000,000</li>
+											<li class="data">5,000,000</li>
+											<li class="data">5,000,000</li>
+										</ul>
+									</li>
+									<li class="tbody itemgroup group-6">
+										<div class="item-gnb data">5,000,000</div>
+										<ul class="item-list-data ">
+											<li class="sub-nav-data sub-group-7">
+												<div class="sub-item-gnb data">9,000,000</div>
+												<ul class="sub-item-list-data">
+													<li class="data">5,000,000</li>
+													<li class="data">1,000,000</li>
+												</ul>
+											</li>
+											<li class="sub-nav-data sub-group-8">
+												<input id="" type="checkbox" class="dep-2 hidden">
+												<div class="sub-item-gnb data">150,000</div>
+												<ul class="sub-item-list-data ">
+													<li class="data">6,000,000</li>
+													<li class="data">2,000,000</li>
+													<li class="data">2,000,000</li>
+												</ul>
+											</li>
+											<li class="sub-nav-data sub-group-9">
+												<div class="sub-item-gnb data">50,000,000</div>
+												<ul class="sub-item-list-data">
+													<li class="data">400,000</li>
+													<li class="data">10,000</li>
+													<li class="data">1,000</li>
+													<li class="data">2,000</li>
+													<li class="data">4,000</li>
+												</ul>
+											</li>
+											<li class="sub-nav-data sub-group-10">
+												<div class="sub-item-gnb data">110,000,000</div>
+												<ul class="sub-item-list-data">
+													<li class="data">70,000</li>
+													<li class="data">600,000</li>
+													<li class="data">70,000</li>
+													<li class="data">20,000</li>
+													<li class="data">40,000</li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+									<li class="tbody"><div class="item-gnb data">100,000</div></li>
+									<li class="tbody"><div class="item-gnb data">60,000</div></li>
+									<li class="tbody"><div class="item-gnb data">550,000</div></li>
+									<li class="tbody"><div class="item-gnb data">90,000</div></li>
+								</ul>
+								
+								<ul class="data-list">
+									<li class="thead text_center">② 기타자료</li>
+									<li class="tbody itemgroup group-1">
+										<div class="item-gnb data">2,000,000</div>
+										<ul class="item-list-data">
+											<li class="data">2,000,000</li>
+											<li class="data">2,000,000</li>
+										</ul>
+									</li>
+									<li class="tbody itemgroup group-2">
+										<div class="item-gnb data">110,000</div>
+										<ul class="item-list-data">
+											<li class="data">1</li>
+											<li class="data">2</li>
+											<li class="data">3</li>
+											<li class="sub-nav-data sub-group-3">
+												<div class="sub-item-gnb data">2,000,000</div>
+												<ul class="sub-item-list-data">
+													<li class="data">7,000,000</li>
+													<li class="data">8</li>
+												</ul>
+											</li>
+											<li class="data">9,000,000</li>
+										</ul>
+									</li>
+									<li class="tbody"><div class="item-gnb data">100,000,000</div></li>
+									<li class="tbody"><div class="item-gnb data">400,000</div></li>
+									<li class="tbody"><div class="item-gnb data">500,000</div></li>
+									<li class="tbody"><div class="item-gnb data">6,000,000</div></li>
+									<li class="tbody itemgroup last-child group-4">
+										<div class="item-gnb data">110,000,000</div>
+										<ul class="item-list-data">
+											<li class="data">5</li>
+											<li class="data">6</li>
+											<li class="data">7</li>
+											<li class="data last-child">8</li>
+										</ul>
+									</li>
+									<li class="tbody itemgroup group-5">
+										<div class="item-gnb data">2,000,000</div>
+										<ul class="item-list-data">
+											<li class="data">20,000</li>
+											<li class="data">20,000</li>
+											<li class="data">20,000</li>
+										</ul>
+									</li>
+									<li class="tbody itemgroup group-6">
+										<div class="item-gnb data">200,000</div>
+										<ul class="item-list-data ">
+											<li class="sub-nav-data sub-group-7">
+												<div class="sub-item-gnb data">9,000,000</div>
+												<ul class="sub-item-list-data ">
+													<li class="data">f</li>
+													<li class="data">f</li>
+												</ul>
+											</li>
+											<li class="sub-nav-data sub-group-8">
+												<input id="" type="checkbox" class="dep-2 hidden">
+												<div class="sub-item-gnb data">150,000</div>
+												<ul class="sub-item-list-data">
+													<li class="data">6,000,000</li>
+													<li class="data">2,000,000</li>
+													<li class="data">2,000,000</li>
+												</ul>
+											</li>
+											<li class="sub-nav-data sub-group-9">
+												<div class="sub-item-gnb data">50,000,000</div>
+												<ul class="sub-item-list-data">
+													<li class="data">6,000,000</li>
+													<li class="data">9,000,000</li>
+													<li class="data">6,000,000</li>
+													<li class="data">2,000,000</li>
+													<li class="data">6,000,000</li>
+												</ul>
+											</li>
+											<li class="sub-nav-data sub-group-10">
+												<div class="sub-item-gnb data">110,000,000</div>
+												<ul class="sub-item-list-data">
+													<li class="data">100,000,000</li>
+													<li class="data">66,000,000</li>
+													<li class="data">9,000,000</li>
+													<li class="data">50,000,000</li>
+													<li class="data">7,000,000</li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+									<li class="tbody"><div class="item-gnb data">2,000,000</div></li>
+									<li class="tbody"><div class="item-gnb data">2,000,000</div></li>
+									<li class="tbody"><div class="item-gnb data">2,000,000</div></li>
+									<li class="tbody"><div class="item-gnb data">2,000,000</div></li>
+								</ul>
+								<ul class="data-list sum_data">
+									<li class="thead text_center">합계 (①+②)</li>
+									<li class="tbody itemgroup group-1">
+										<div class="item-gnb data">2,000,000</div>
+										<ul class="item-list-data">
+											<li class="data">2,000,000</li>
+											<li class="data">2,000,000</li>
+										</ul>
+									</li>
+									<li class="tbody itemgroup group-2">
+										<div class="item-gnb data">110,000</div>
+										<ul class="item-list-data">
+											<li class="data">101,000</li>
+											<li class="data">200,000</li>
+											<li class="data">300,000</li>
+											<li class="sub-nav-data sub-group-3">
+												<div class="sub-item-gnb data">2,000,000</div>
+												<ul class="sub-item-list-data">
+													<li class="data">7,000,000</li>
+													<li class="data">2,000,000</li>
+												</ul>
+											</li>
+											<li class="data">9,000,000</li>
+										</ul>
+									</li>
+									<li class="tbody"><div class="item-gnb data">100,000,000</div></li>
+									<li class="tbody"><div class="item-gnb data">2,000,000</div></li>
+									<li class="tbody"><div class="item-gnb data">2,000,000</div></li>
+									<li class="tbody"><div class="item-gnb data">6,000,000</div></li>
+									<li class="tbody itemgroup last-child group-4">
+										<div class="item-gnb data">110,000,000</div>
+										<ul class="item-list-data">
+											<li class="data">2,000,000</li>
+											<li class="data">6,000,000</li>
+											<li class="data">6,000</li>
+											<li class="data last-child">3,000,000</li>
+										</ul>
+									</li>
+									<li class="tbody itemgroup group-5">
+										<div class="item-gnb data">2,000,000</div>
+										<ul class="item-list-data">
+											<li class="data">6,000,000</li>
+											<li class="data">60,000</li>
+											<li class="data">70,000</li>
+										</ul>
+									</li>
+									<li class="tbody itemgroup group-6">
+										<div class="item-gnb data">70,000</div>
+										<ul class="item-list-data " >
+											<li class="sub-nav-data sub-group-7">
+												<div class="sub-item-gnb data">9,000,000</div>
+												<ul class="sub-item-list-data ">
+													<li class="data">s</li>
+													<li class="data">s</li>
+												</ul>
+											</li>
+											<li class="sub-nav-data sub-group-8">
+												<input id="" type="checkbox" class="dep-2 hidden">
+												<div class="sub-item-gnb data">150,000</div>
+												<ul class="sub-item-list-data">
+													<li class="data">6,000,000</li>
+													<li class="data">2,000,000</li>
+													<li class="data">2,000,000</li>
+												</ul>
+											</li>
+											<li class="sub-nav-data sub-group-9">
+												<div class="sub-item-gnb data">50,000,000</div>
+												<ul class="sub-item-list-data">
+													<li class="data">6,000,000</li>
+													<li class="data">9,000,000</li>
+													<li class="data">6,000,000</li>
+													<li class="data">2,000,000</li>
+													<li class="data">6,000,000</li>
+												</ul>
+											</li>
+											<li class="sub-nav-data sub-group-10">
+												<div class="sub-item-gnb data">110,000,000</div>
+												<ul class="sub-item-list-data">
+													<li class="data">100,000,000</li>
+													<li class="data">66,000,000</li>
+													<li class="data">9,000,000</li>
+													<li class="data">50,000,000</li>
+													<li class="data">7,000,000</li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+									<li class="tbody"><div class="item-gnb data">500,000</div></li>
+									<li class="tbody"><div class="item-gnb data">200,000</div></li>
+									<li class="tbody"><div class="item-gnb data">2,000,000</div></li>
+									<li class="tbody"><div class="item-gnb data">600,000</div></li>
+								</ul>
+							</div>
+						</div> <!--  column_view -->
+					</div>
+				</div> <!-- group_column -->
+			</div> <!--  contents -->
+			
+			<div class="group_btns foot NanumSquare_R">
+				<a class="btn_type type1">＜  이전</a>
+				<a class="btn_type type2"><span class="icon_save Material_icons"></span>적용</a>
+				<a class="btn_type type3">계산하기 ＞</a>
+				<!-- <a class="btn_type type4">Map ＞</a> -->
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+/*  *************** 근로자 리스트 스크롤 위치에 따라 이동   ***************  */ 
+$(document).ready(function(){
+	var _scrollTop=$("#main_wrap").scrollTop();
+	var _posY=($("#main_wrap").height()/2 + 40)+_scrollTop-57;
+
+	if($("#yearTax_wrap").height() < $("#main_wrap").height()){
+		$("#employ-list-wrap").css("height",$("#main_contents").height()-10)
+	}
+	$(".btn_emplist").css("top",_posY);
+
+})
+
+$("#main_wrap").scroll(function(){
+	var _scrollTop=$("#main_wrap").scrollTop();
+	var _posY=($("#main_wrap").height()/2 + 40)+_scrollTop-57;
+	$(".btn_emplist").css("top",_posY);
+})
+
+// **** 펼치기 event
+$( "input[type=checkbox]" ).on( "click", function(){
+	var _target=$(this).attr("id");
+	if($(this).is(":checked")){
+		$('[class~="'+_target+'"]').addClass("show");
+		
+	}else{
+		$('[class~="'+_target+'"]').removeClass("show");
+	}
+});
+
+</script>
+</html>

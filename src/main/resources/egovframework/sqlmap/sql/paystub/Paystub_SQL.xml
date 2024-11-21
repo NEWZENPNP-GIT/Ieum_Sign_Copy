@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Paystub">
+	<typeAlias alias="paystubVO" type="com.ezsign.paystub.vo.PaystubVO"/>
+	<resultMap id="paystubListMap" class="paystubVO">
+		<result property="serviceId" column="SERVICE_ID"/>
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="bizName" column="BIZ_NAME"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="phoneNum" column="PHONE_NUM"/>
+		<result property="payMonth" column="PAY_MONTH"/>
+		<result property="payType" column="PAY_TYPE"/>
+		<result property="payTypeName" column="PAY_TYPE_NAME"/>
+		<result property="payDate" column="PAY_DATE"/>
+		<result property="payFormType" column="PAY_FORM_TYPE"/>		
+		<result property="fileId" column="FILE_ID"/>
+		<result property="transType" column="TRANS_TYPE"/>
+		<result property="confirmType" column="CONFIRM_TYPE"/>
+		<result property="insDate" column="INS_DATE"/>
+		<result property="totAllowAmt" column="TOT_ALLOW_AMT"/>
+		<result property="totDeduAmt" column="TOT_DEDU_AMT"/>
+		<result property="transDate" column="TRANS_DATE"/>
+		<result property="seqId" column="SEQ_ID"/>
+	</resultMap>
+	
+	<typeAlias alias="paystubDataVO" type="com.ezsign.paystub.vo.PaystubDataVO" />
+	<resultMap id ="paystubDataListMap" class="paystubDataVO">
+		<result property="serviceId" column="SERVICE_ID"/>
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="bizName" column="BIZ_NAME"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="payMonth" column="PAY_MONTH"/>
+		<result property="payType" column="PAY_TYPE"/>
+		<result property="payDate" column="PAY_DATE"/>
+		<result property="payTaxType" column="PAY_TAX_TYPE"/>
+		<result property="payTaxCode" column="PAY_TAX_CODE"/>
+		<result property="payTaxName" column="PAY_TAX_NAME"/>
+		<result property="payTaxAmt" column="PAY_TAX_AMT"/>
+		<result property="payTaxCalcEvidence" column="PAY_TAX_CALCEVIDENCE"/>
+		<result property="insDate" column="INS_DATE"/>
+	</resultMap>
+		
+	<typeAlias alias="paystubLogVO" type="com.ezsign.paystub.vo.PaystubLogVO" />
+	<resultMap id="paystubLogListMap" class="paystubLogVO">
+		<result property="serviceId" column="SERVICE_ID"/>
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="paystubMonth" column="PAYSTUB_MONTH"/>
+		<result property="logType" column="LOG_TYPE"/>
+		<result property="logMessage" column="LOG_MESSAGE"/>
+		<result property="insDate" column="INS_DATE"/>
+	</resultMap>
+	
+	<typeAlias alias="paystubMainVO" type="com.ezsign.paystub.vo.PaystubMainVO" />
+	<resultMap id="paystubMainListMap" class="paystubMainVO">
+		<result property="minPayMonth" column="MIN_PAY_MONTH"/>
+		<result property="maxPayMonth" column="MAX_PAY_MONTH"/>
+		<result property="payDate" column="PAY_DATE"/>
+	</resultMap>
+	
+	<select id="paystubDAO.getPaystubList" parameterClass="paystubVO" resultMap="paystubListMap">
+		SELECT 	A.SERVICE_ID,
+				A.BIZ_ID,
+				C.BIZ_NAME,
+				A.USER_ID,
+				B.EMP_NO,
+				B.EMP_NAME,
+				B.PHONE_NUM,
+				A.PAY_MONTH,
+				A.PAY_TYPE,
+				D.COMM_NAME PAY_TYPE_NAME,
+				A.PAY_DATE,
+				A.PAY_FORM_TYPE,
+				A.FILE_ID,
+				A.TRANS_TYPE,
+				A.CONFIRM_TYPE,
+				A.INS_DATE,
+				IFNULL((SELECT 	SUM(CASE X.PAY_TAX_TYPE WHEN '1' THEN replace(X.PAY_TAX_AMT, ',', '')  ELSE 0 END)
+						FROM 	TBL_PAYSTUB_DATA X
+						WHERE 	X.BIZ_ID    = A.BIZ_ID
+						  AND 	X.USER_ID   = A.USER_ID
+						  AND 	X.PAY_MONTH = A.PAY_MONTH
+						  AND 	X.PAY_TYPE  = A.PAY_TYPE
+						  AND 	X.PAY_DATE  = A.PAY_DATE
+						  AND 	X.INS_DATE  = A.INS_DATE ), 0) TOT_ALLOW_AMT,
+		        IFNULL((SELECT 	SUM(CASE X.PAY_TAX_TYPE WHEN '2' THEN replace(X.PAY_TAX_AMT, ',', '')  ELSE 0 END)
+						FROM 	TBL_PAYSTUB_DATA X
+						WHERE 	X.BIZ_ID = A.BIZ_ID
+						  AND 	X.USER_ID = A.USER_ID
+						  AND 	X.PAY_MONTH = A.PAY_MONTH
+						  AND 	X.PAY_TYPE = A.PAY_TYPE
+						  AND 	X.PAY_DATE = A.PAY_DATE
+						  AND 	X.INS_DATE = A.INS_DATE ), 0) TOT_DEDU_AMT,
+		        A.TRANS_DATE,
+				A.SEQ_ID
+		FROM    TBL_PAYSTUB A,
+				TBL_EMP B,
+				TBL_BIZ C,
+				TBL_CODE D
+		WHERE   A.BIZ_ID  		= B.BIZ_ID
+		  AND 	A.USER_ID 		= B.USER_ID
+		  AND 	A.BIZ_ID  		= C.BIZ_ID
+		  AND	A.PAY_TYPE 		= D.COMM_CODE
+		  AND	D.GRP_COMM_CODE = '201'
+		  AND	B.USE_YN   		= 'Y'
+		  AND	(FIND_IN_SET(A.BIZ_ID, (SELECT 	GROUP_CONCAT(E.REF_ID)
+										FROM 	TBL_BIZ_GRP E
+										WHERE 	E.BIZ_ID = #bizId#)) OR A.BIZ_ID = #bizId#)
+		<isNotNull property="searchCompany">
+		    <isNotEmpty property="searchCompany">
+				AND     A.BIZ_ID	= #searchCompany#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchKey">
+		    <isNotEmpty property="searchKey">
+		    	<isEqual property="searchKey" compareValue="empName">
+					AND		B.EMP_NAME LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="eMail">
+					AND		B.E_MAIL	= #searchValue#
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="phoneNum">
+					AND		B.PHONE_NUM = #searchValue#
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="transDate">
+		    		AND		A.TRANS_DATE LIKE CONCAT(#searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="payMonth">
+		    		AND		A.PAY_MONTH LIKE CONCAT(#searchValue#, '%')
+		    	</isEqual>
+				AND		B.EMP_TYPE NOT IN ('8', '9')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchYear">
+		    <isNotEmpty property="searchYear">
+			AND     A.PAY_MONTH LIKE CONCAT(#searchYear#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="payMonth">
+		    <isNotEmpty property="payMonth">
+			AND     A.PAY_MONTH = #payMonth#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="userId">
+		    <isNotEmpty property="userId">
+			AND	A.USER_ID = #userId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="transType">
+		    <isNotEmpty property="transType">
+			AND	A.TRANS_TYPE = #transType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="seqId">
+		    <isNotEmpty property="seqId">
+			AND	A.SEQ_ID IN ($seqId$)
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="fileId">
+		    <isNotEmpty property="fileId">
+			AND	A.FILE_ID = #fileId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchPayDate">
+		    <isNotEmpty property="searchPayDate">
+			AND	A.PAY_DATE = #searchPayDate#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sortName">
+		    <isNotEmpty property="sortName">
+		ORDER BY $sortName$ $sortOrder$, B.EMP_NO ASC
+			</isNotEmpty>
+		</isNotNull>
+		limit #endPage# offset #startPage#
+	</select>
+	
+	<select id="paystubDAO.getPaystubListCount" parameterClass="paystubVO" resultClass="java.lang.Integer">
+		SELECT  COUNT( A.SERVICE_ID) AS CNT
+		FROM    TBL_PAYSTUB A, TBL_EMP B, TBL_BIZ C, TBL_CODE D
+		WHERE   A.BIZ_ID  		= B.BIZ_ID
+		  AND 	A.USER_ID 		= B.USER_ID
+		  AND 	A.BIZ_ID  		= C.BIZ_ID
+		  AND	A.PAY_TYPE 		= D.COMM_CODE
+		  AND	D.GRP_COMM_CODE = '201'
+		  AND	B.USE_YN   		= 'Y'
+		  AND	B.USE_YN   		= 'Y'
+		  AND	(FIND_IN_SET(A.BIZ_ID, (SELECT 	GROUP_CONCAT(E.REF_ID)
+										FROM 	TBL_BIZ_GRP E
+										WHERE 	E.BIZ_ID = #bizId#)) OR A.BIZ_ID = #bizId#)
+		<isNotNull property="searchCompany">
+		    <isNotEmpty property="searchCompany">
+				AND     A.BIZ_ID	= #searchCompany#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchKey">
+		    <isNotEmpty property="searchKey">
+		    	<isEqual property="searchKey" compareValue="empName">
+					AND		B.EMP_NAME LIKE CONCAT('%', #searchValue#, '%')
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="eMail">
+					AND		B.E_MAIL	= #searchValue#
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="phoneNum">
+					AND		B.PHONE_NUM = #searchValue#
+		    	</isEqual>
+		    	<isEqual property="searchKey" compareValue="transDate">
+		    		AND		A.TRANS_DATE LIKE CONCAT(#searchValue#, '%')
+		    	</isEqual>
+				AND		B.EMP_TYPE NOT IN ('8', '9')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchYear">
+		    <isNotEmpty property="searchYear">
+			AND     A.PAY_MONTH LIKE CONCAT(#searchYear#, '%')
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="payMonth">
+		    <isNotEmpty property="payMonth">
+			AND     A.PAY_MONTH =  #payMonth#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="payDate">
+		    <isNotEmpty property="payDate">
+			AND     A.PAY_DATE =  #payDate#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="userId">
+		    <isNotEmpty property="userId">
+			AND	A.USER_ID = #userId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchPayDate">
+		    <isNotEmpty property="searchPayDate">
+			AND	A.PAY_DATE = #searchPayDate#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<select id="paystubDAO.getPayStubPayDate" parameterClass="paystubVO" resultClass="paystubVO">
+		SELECT  MAX(A.PAY_DATE) payDate
+		FROM    TBL_PAYSTUB A
+		<!-- AND		A.BIZ_ID   = #bizId# -->
+		WHERE 	1=1
+		  AND 	(FIND_IN_SET(A.BIZ_ID, (SELECT 	GROUP_CONCAT(E.REF_ID)
+										FROM 	TBL_BIZ_GRP E
+										WHERE 	E.BIZ_ID = #bizId#)) OR A.BIZ_ID = #bizId#)
+		<isNotNull property="searchCompany">
+		    <isNotEmpty property="searchCompany">
+		  AND 	A.BIZ_ID	= #searchCompany#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="payMonth">
+		    <isNotEmpty property="payMonth">
+		  AND 	A.PAY_MONTH = #payMonth#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<update id="paystubDAO.updPaystub" parameterClass="paystubVO">
+		UPDATE 	TBL_PAYSTUB
+		SET	
+		<isNotNull property="fileId">
+		    <isNotEmpty property="fileId">
+			FILE_ID		   = #fileId#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="transType">
+		    <isNotEmpty property="transType">
+			TRANS_TYPE     = #transType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="transDate">
+		    <isNotEmpty property="transDate">
+			TRANS_DATE	   = #transDate#
+			</isNotEmpty>
+		</isNotNull>
+		WHERE	1=1
+		  AND 	BIZ_ID     = #bizId#
+		  AND   USER_ID    = #userId#
+		  AND   PAY_MONTH  = #payMonth#
+		  AND   PAY_TYPE   = #payType#
+		  AND   PAY_DATE   = #payDate#
+		  AND   INS_DATE   = #insDate#
+	</update>
+	
+	<delete id="paystubDAO.delPaystub" parameterClass="paystubVO">
+		DELETE FROM TBL_PAYSTUB
+		WHERE   BIZ_ID     = #bizId#
+		  AND   USER_ID    = #userId#
+		  AND   PAY_MONTH  = #payMonth#
+		  AND   PAY_TYPE   = #payType#
+		  AND   PAY_DATE   = #payDate#
+		  AND   INS_DATE   = #insDate#
+	</delete>
+	
+	<delete id="paystubDAO.delPaystubData" parameterClass="paystubVO">
+		DELETE 	FROM TBL_PAYSTUB_DATA
+		WHERE   BIZ_ID     = #bizId#
+		  AND   USER_ID    = #userId#
+		  AND   PAY_MONTH  = #payMonth#
+		  AND   PAY_TYPE   = #payType#
+		  AND   PAY_DATE   = #payDate#
+		  AND   INS_DATE   = #insDate#
+	</delete>
+	
+	<insert id="paystubDAO.insPaystub" parameterClass="paystubVO">
+		<selectKey resultClass="java.lang.String" keyProperty="seqId">
+            SELECT  getTableKey('TBL_PAYSTUB');
+        </selectKey>
+		INSERT INTO TBL_PAYSTUB (
+			SERVICE_ID,
+			BIZ_ID,
+			USER_ID,
+			PAY_MONTH,
+			PAY_TYPE,
+			PAY_DATE,
+			PAY_FORM_TYPE,
+			INS_DATE,
+			SEQ_ID,
+			FILE_ID,
+			TRANS_TYPE,
+			CONFIRM_TYPE,
+			UPD_DATE
+		) VALUES (
+			#serviceId#,
+			#bizId#,
+			#userId#,
+			#payMonth#,
+			#payType#,
+			#payDate#,
+			#payFormType#,
+			CASE WHEN (#insDate# = '' OR #insDate# IS NULL) THEN  DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s') ELSE #insDate# END,
+			#seqId#,
+			#fileId#,
+			#transType#,
+			'N',
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<insert id="paystubDAO.insPaystubData" parameterClass="paystubDataVO">
+		INSERT INTO TBL_PAYSTUB_DATA (
+			SERVICE_ID,
+			BIZ_ID,
+			USER_ID,
+			PAY_MONTH,
+			PAY_TYPE,
+			PAY_DATE,
+			PAY_TAX_TYPE,
+			PAY_TAX_CODE,
+			PAY_TAX_NAME,
+			PAY_TAX_AMT,
+			PAY_TAX_CALCEVIDENCE,
+			INS_DATE
+		) VALUES (
+			#serviceId#,
+			#bizId#,
+			#userId#,
+			#payMonth#,
+			#payType#,
+			#payDate#,
+			#payTaxType#,
+			#payTaxCode#,
+			#payTaxName#,
+			#payTaxAmt#,
+			#payTaxCalcEvidence#,
+			CASE WHEN (#insDate# = '' OR #insDate# IS NULL) THEN  DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s') ELSE #insDate# END
+		);
+	</insert>
+	
+	<insert id="paystubDAO.insPaystubLog" parameterClass="paystubLogVO">
+		INSERT INTO TBL_PAYSTUB_LOG (
+			SERVICE_ID,
+			BIZ_ID,
+			USER_ID,
+			PAYSTUB_MONTH,
+			LOG_TYPE,
+			LOG_MESSAGE,
+			INS_DATE,
+			INS_EMP_NO,
+			UPD_DATE,
+			UPD_EMP_NO
+		) VALUES (
+			#serviceId#,
+			#bizId#,
+			#userId#,
+			#paystubMonth#,
+			#logType#,
+			#logMessage#,
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'),
+			'SYSTEM',
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'),
+			'SYSTEM'
+		);
+	</insert>
+	
+	<select id="paystubDAO.getPaystubDataList" parameterClass="paystubDataVO" resultMap="paystubDataListMap">
+		SELECT 	A.SERVICE_ID,
+				A.BIZ_ID,
+				C.BIZ_NAME,
+				A.USER_ID,
+				A.PAY_MONTH,
+				A.PAY_TYPE,
+				A.PAY_DATE,
+				A.PAY_TAX_TYPE,
+				A.PAY_TAX_CODE,
+				A.PAY_TAX_NAME,
+				A.PAY_TAX_AMT,
+				A.PAY_TAX_CALCEVIDENCE,
+				A.INS_DATE
+		FROM  	TBL_PAYSTUB_DATA A,
+				TBL_EMP B,
+				TBL_BIZ C
+		WHERE 	A.BIZ_ID  = C.BIZ_ID
+		  AND   A.USER_ID = B.USER_ID
+		  AND	A.BIZ_ID  = #bizId#
+		<isNotNull property="payMonth">
+		    <isNotEmpty property="payMonth">
+		  AND 	A.PAY_MONTH = #payMonth#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="payDate">
+		    <isNotEmpty property="payDate">
+		  AND 	A.PAY_DATE = #payDate#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="userId">
+		    <isNotEmpty property="userId">
+		  AND 	B.USER_ID = #userId#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="payTaxType">
+		    <isNotEmpty property="payTaxType">
+		  AND 	A.PAY_TAX_TYPE = #payTaxType#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="insDate">
+		    <isNotEmpty property="insDate">
+		  AND 	A.INS_DATE = #insDate#
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<select id="paystubDAO.getPaystubFileUserDate" parameterClass="paystubVO" resultClass="java.lang.String">
+		SELECT  B.USER_DATE
+		FROM    TBL_PAYSTUB A,
+				TBL_EMP B
+		WHERE   A.USER_ID = B.USER_ID
+		  AND   A.FILE_ID = #fileId#
+	</select>
+	
+	<select id="paystubDAO.getPaystubFileUserId" parameterClass="paystubVO" resultClass="java.lang.String">
+		SELECT  B.USER_ID
+		FROM    TBL_PAYSTUB A,
+				TBL_EMP B
+		WHERE   A.USER_ID = B.USER_ID
+		  AND   A.FILE_ID = #fileId#
+	</select>
+
+	<select id="paystubDAO.getPaystubMain" parameterClass="paystubVO" resultMap="paystubMainListMap">
+		SELECT  MIN(PAY_MONTH) MIN_PAY_MONTH,
+		        MAX(PAY_MONTH) MAX_PAY_MONTH,
+		        MAX(PAY_DATE)  PAY_DATE
+		FROM    TBL_PAYSTUB A
+		WHERE   A.BIZ_ID  	 = #bizId#
+		  AND   A.USER_ID 	 = #userId#
+		  AND   A.TRANS_TYPE = 'Y'
+	</select>
+	
+	<select id="paystubDAO.getPaystubMobileList" parameterClass="paystubVO" resultMap="paystubMainListMap">
+		SELECT  (SELECT MIN(X.PAY_MONTH)
+				 FROM 	TBL_PAYSTUB X
+				 WHERE 	X.BIZ_ID = A.BIZ_ID
+				   AND 	X.USER_ID = A.USER_ID) MIN_PAY_MONTH,
+		        (SELECT MAX(X.PAY_MONTH)
+				 FROM 	TBL_PAYSTUB X
+				 WHERE 	X.BIZ_ID = A.BIZ_ID
+				   AND 	X.USER_ID = A.USER_ID) MAX_PAY_MONTH,
+		        A.PAY_DATE
+		FROM    TBL_PAYSTUB A
+		WHERE   A.BIZ_ID  	 = #bizId#
+		  AND   A.USER_ID 	 = #userId#
+		  AND   A.TRANS_TYPE = 'Y'
+	</select>
+	
+	<select id="paystubDAO.getPaystubFileId" parameterClass="paystubVO" resultClass="java.lang.String">
+		SELECT  A.FILE_ID
+		FROM    TBL_PAYSTUB A
+		WHERE   A.BIZ_ID   = #bizId#
+		  AND   A.USER_ID  = #userId#
+		  AND   A.INS_DATE = #insDate#
+	</select>
+
+	<update id="paystubDAO.updPaystubStatus" parameterClass="paystubVO">
+		UPDATE TBL_PAYSTUB
+		SET
+		<isNotNull property="transType">
+			<isNotEmpty property="transType">
+				TRANS_TYPE = #transType#
+			</isNotEmpty>
+		</isNotNull>
+		WHERE	1=1
+		  AND 	BIZ_ID     = #bizId#
+		  AND   USER_ID    = #userId#
+		  AND   PAY_MONTH  = #payMonth#
+		  AND   PAY_TYPE   = #payType#
+		  AND   PAY_DATE   = #payDate#
+		  AND   INS_DATE   = #insDate#
+		  AND   FILE_ID	   = #fileId#
+		  AND   TRANS_TYPE = 'C'
+	</update>
+
+</sqlMap>
+		

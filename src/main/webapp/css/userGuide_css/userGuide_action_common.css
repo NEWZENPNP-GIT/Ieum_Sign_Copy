@@ -1,0 +1,256 @@
+@charset "utf-8";
+
+/* default */
+body,p,span,a,input,ul,li,article,dl,img{margin: 0px; padding:0px; -webkit-margin:0px;-webkit-padding:0px;}
+ul{list-style-type: none}
+
+/** -------------------- media ----------------------------- **/
+@media all and (max-width: 768px) {
+	
+}
+@media all and (min-width: 768px) and (max-width: 959px) {
+	
+}
+
+@media all and (min-width: 960px) {
+	
+}
+
+#motion_wrap{position: relative; display:inline-block; margin: 0px; padding: 0px; top:0px; left: 0px; width:100%; height: 100%;}
+#motion_wrap .bg{position: relative; display:inline-block; width:100%; height:100%; }
+#arrow {position: absolute; top:50%; left:50%; background-repeat: no-repeat; width: 76px; height: 76px; overflow: hidden;}
+#arrow:after{display:inline-block; -webkit-transform: scale(0.15); -o-transform:scale(0.15); -ms-transform:scale(0.15); transform:scale(0.15); transform-origin:0 0;  -o-transform-origin:0 0; -webkit-transform-origin:0 0; -ms-transform-origin:0 0;}
+#arrow:after{width:512px; height:512px; content: url('../image/guide_motion/cursor.png'); z-index: 10}
+#arrow.pointer:after{width:512px; height:512px; content: url('../image/guide_motion/pointer.png'); }
+#guide_pop {position: absolute; top:140px; left:150px;}
+#guide_pop .tit{position:relative; width: 100px; height: 35px; left:10px; font-size: 17px; font-weight: bold; background-color: #def5ff; color: #00acff; border-radius: 8px;  box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.1); z-index: 1; }
+#guide_pop .tit{display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: column; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: center; -ms-justify-content: center; -webkit-justify-content: center;}
+#guide_pop .box{display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: column; align-items: center; -ms-align-items: center; -webkit-align-items: center; justify-content: flex-start; -ms-justify-content: flex-start; -webkit-justify-content: flex-start;}
+#guide_pop .box{position:relative; top:-15px;/*  width: 510px; */ min-width:150px; max-width:650px; min-height: 35px; padding:25px 15px 15px 15px; border-radius:8px; border:2px solid #00acff; box-shadow: 0px 1px 5px 1px rgba(0,0,0,0.3); font-size: 16px; font-weight: bold; background-color:#ffffff; color:#666666; z-index: 0;}
+#guide_pop .box span{display: block; width:100%; line-height: 24px;}
+.subtit{color:#333333; font-weight: bold; letter-spacing: 0.5px;}
+
+.contents #layerPop{position: absolute; left:0px; top: 0px; width: 100%; height: 100%;}
+.contents #layerPop .row1 img{width: auto; height: 100%; position: relative; top: 0; left:28%}
+.contents #layerPop .row1.full img{width: 100%; left:0}
+.contents #layerPop .row1.threeDiv img{left: 20%}
+.contents #layerPop .row2 img{width: 100%; height: 100%; position: relative; top: 0; left:0}
+.contents #layerPop .next{position: absolute; left: calc(50% - 47px); top:calc(50% - 52px)}
+
+.contents.fullScreen #layerPop{position: absolute; left:0px; top: 0px; width: 100%; height: 100%;}
+.contents.fullScreen #layerPop .row1 img{width: auto; height: 100%; position: relative; top: 0; left:28%}
+.contents.fullScreen #layerPop .row1.full img{width: 100%; left:0}
+.contents.fullScreen #layerPop .row1.threeDiv img{width: 90%; left:7%}
+.contents.fullScreen #layerPop .row2 img{width: 100%; height: 100%; position: relative; top: 0; left:0}
+.contents.fullScreen #layerPop .next{position: absolute; left: calc(50% - 47px); top:calc(50% - 52px)}
+
+/* #layerPop .next.effect{-webkit-animation: Move 1s 3  ease-out normal ;
+    -moz-animation: Move 1s  3 ease-out normal ;
+    -ms-animation: Move 1s 3 ease-out normal ;
+    -o-animation: Move 1s  3 ease-out normal ;} */
+#layerPop .next:after{display:inline-block; position: relative; left: 0; top: 0; content: url('../image/guide_motion/icon_arrow.png'); width: 90px; height: 90px;}
+#layerPop .next.hor:after{ -webkit-transform: rotateY(180deg); -o-transform:rotateY(180deg); -ms-transform:rotateY(180deg); transform:rotateY(180deg);}
+#heartbeat{position: absolute;}
+.effect{border:4px solid #ff0000 !important; box-sizing:border-box;
+-webkit-animation: Bling 1s 3  ease-out normal ;
+    -moz-animation: Bling 1s  3 ease-out normal ;
+    -ms-animation: Bling 1s 3 ease-out normal ;
+    -o-animation: Bling 1s  3 ease-out normal ;}
+
+@keyframes Bling { from { opacity:1 } to {opacity:0 } }
+@-webkit-keyframes Bling { from {  opacity:1 } to {opacity:0} }
+@-moz-keyframes Bling { from {  opacity:1 } to {opacity:0;} }
+@-o-keyframes Bling { from {  opacity:1 } to {opacity:0;} }
+/* 
+
+@keyframes Move { from { opacity:1 } to {opacity:0 } }
+@-webkit-keyframes Move { from {  opacity:1 } to {opacity:0} }
+@-moz-keyframes Move { from {  opacity:1 } to {opacity:0;} }
+@-o-keyframes Move { from {  opacity:1 } to {opacity:0;} }
+
+ */
+.contents #bg_wrap #bg{position:absolute; top:0px; left:0px; width:100%; height:100%; /* background-attachment: fixed; */ background-repeat:no-repeat; background-size: 705px 435px; border: 0px}
+.contents.fullScreen #bg_wrap #bg{background-size: 1000px 700px;}
+
+.contents #layerPop li{position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;}
+.contents #layerPop li.row2{width: calc(100% - 40px); height: calc(100% - 40px); margin: 20px;}
+.contents #layerPop li.row2{display: flex; display: -ms-flex; display: -webkit-flex; flex-direction: row;}
+.contents #layerPop li.row2 div{width: 100%; margin-right: 10px; border:1px solid #fcfcfc;  box-shadow: 0px 2px 5px 1px rgba(0,0,0,0.4);}
+.contents #layerPop li.row2 div:last-child{margin-right: 0px;}
+.contents #layerPop li.row1 {width: calc(100% - 40px); height: calc(100% - 40px); margin: 20px;}
+.contents #layerPop li.row1 div{position:relative; width: 100%; height: 100%;}
+
+/** ============================= personnel ============================= **/
+.personnel #bg.screen_01{background-image: url('../image/guide_motion/ug_personnel_step01.jpg');}
+.personnel #bg.screen_02{background-image: url('../image/guide_motion/ug_personnel_step02.jpg');}
+.personnel #bg.screen_03{background-image: url('../image/guide_motion/ug_personnel_step03.jpg');}
+
+.contents .personnel .clickArea{position: absolute; width: 100%; height: 100%; left:0px; top:0px}
+.contents .personnel .clickArea div{position: absolute; /* border:1px solid red */}
+.contents .personnel .clickArea .dot_01{left: 63px; top: 44px; width: 33px; height: 20px;}
+.contents .personnel .clickArea .dot_02{left: 5px; top: 176px; width: 50px; height: 17px;}
+.contents .personnel .clickArea .dot_03{left: 645px; top: 340px; width: 50px; height: 17px;}
+.contents .personnel .clickArea .dot_04_1{left: 99px; top: 153px; width: 110px; height: 24px;}
+.contents .personnel .clickArea .dot_04_2{left: 22px; top: 383px; width: 160px; height: 29px; }
+.contents .personnel .clickArea .dot_04_3{left: 453px; top: 147px; width: 90px; height: 24px; }
+.contents .personnel .clickArea .dot_05{left: 61px; top: 162px; width: 603px; height: 30px;}
+.contents .personnel .clickArea .dot_05_1{left: 20px; top: 19px; width: 27px; height: 25px;}
+.contents .personnel .clickArea .dot_06_1{left: 416px; top: 129px; width: 73px; height: 26px;}
+.contents .personnel .clickArea .dot_06_2{left: 139px; top: 111px;  width: 136px; height: 24px;}
+.contents .personnel .clickArea .dot_06_3{left: 529px; top: 384px; width: 80px; height: 24px;}
+.contents .personnel .clickArea .dot_06_4{left: 280px; top: 129px; width: 140px; height: 24px;}
+.contents .personnel .clickArea .dot_06_5{left: 334px; top: 372px; width: 73px; height: 24px;}
+.contents .personnel .clickArea .dot_07_1{left: 225px; top: 105px; width: 47px; height: 24px; }
+.contents .personnel .clickArea .dot_07_2{left: 610px; top: 105px; width: 47px; height: 24px; }
+.contents .personnel .clickArea .dot_08{left: 70px; top: 119px; width: 623px; height: 66px;}
+.contents .personnel .clickArea .dot_09{left: 592px; top: 349px; width: 50px; height: 17px;}
+.contents .personnel .clickArea .dot_10_1{left: 431px; top: 100px; width: 221px; height: 174px;}
+.contents .personnel .clickArea .dot_10_2{ left: 483px; top: 367px; width: 84px; height: 31px;}
+.contents .personnel .clickArea .dot_11{ left: 83px; top: 145px; width: 614px; height: 22px}
+
+.contents.fullScreen .personnel .clickArea .dot_01{left: 87px; top: 72px; width: 50px; height: 28px;}
+.contents.fullScreen .personnel .clickArea .dot_02{left: 5px; top: 285px; width: 89px; height: 24px;}
+.contents.fullScreen .personnel .clickArea .dot_03{left: 915px; top: 548px; width: 74px; height: 28px;}
+.contents.fullScreen .personnel .clickArea .dot_04_1{left: 131px; top: 243px; width: 160px; height: 36px;}
+.contents.fullScreen .personnel .clickArea .dot_04_2{left: 29px; top: 633px; width: 200px; height: 39px;}
+.contents.fullScreen .personnel .clickArea .dot_04_3{left: 655px; top: 235px; width: 120px; height: 34px;}
+.contents.fullScreen .personnel .clickArea .dot_05{left: 72px; top: 256px; width: 873px; height: 54px;}
+.contents.fullScreen .personnel .clickArea .dot_05_1{left: 20px; top: 19px; width: 37px; height: 25px;}
+.contents.fullScreen .personnel .clickArea .dot_06_1{left: 646px; top: 204px; width: 113px; height: 38px;}
+.contents.fullScreen .personnel .clickArea .dot_06_2{left: 193px; top: 173px; width: 166px; height: 38px;}
+.contents.fullScreen .personnel .clickArea .dot_06_3{left: 769px; top: 634px;  width: 90px; height: 34px;}
+.contents.fullScreen .personnel .clickArea .dot_06_4{left: 417px; top: 205px; width: 231px; height: 37px}
+.contents.fullScreen .personnel .clickArea .dot_06_5{left: 497px; top: 606px; width: 133px; height: 44px;}
+.contents.fullScreen .personnel .clickArea .dot_07_1{left: 316px; top: 165px; width: 72px; height: 34px; }
+.contents.fullScreen .personnel .clickArea .dot_07_2{left: 870px; top: 165px; width: 72px; height: 34px;}
+.contents.fullScreen .personnel .clickArea .dot_08{left: 100px; top: 219px; width: 886px; height: 86px;}
+.contents.fullScreen .personnel .clickArea .dot_09{left: 839px; top: 561px; width: 74px; height: 28px}
+.contents.fullScreen .personnel .clickArea .dot_10_1{left: 605px; top: 158px; width: 330px; height: 286px;}
+.contents.fullScreen .personnel .clickArea .dot_10_2{left: 691px; top: 605px; width: 116px; height: 45px;}
+.contents.fullScreen .personnel .clickArea .dot_11{left: 115px; top: 234px; width: 874px; height: 40px;}
+
+
+/** ============================= contract ============================= **/
+
+.contract #bg.screen_01{background-image: url('../image/guide_motion/ug_contract_step01.jpg');}
+.contract #bg.screen_02{background-image: url('../image/guide_motion/ug_contract_step02.jpg');}
+.contract #bg.screen_03{background-image: url('../image/guide_motion/ug_contract_step03.jpg');}
+.contract #bg.screen_04{background-image: url('../image/guide_motion/ug_contract_step04.jpg');}
+.contract #bg.screen_05{background-image: url('../image/guide_motion/ug_contract_step05.jpg');}
+.contract #bg.screen_06{background-image: url('../image/guide_motion/ug_contract_step06.jpg');}
+.contract #bg.screen_07{background-image: url('../image/guide_motion/ug_contract_step07.jpg');}
+.contract #bg.screen_08{background-image: url('../image/guide_motion/ug_contract_step08.jpg');}
+.contract #bg.screen_09{background-image: url('../image/guide_motion/ug_contract_step09.jpg');}
+.contract #bg.screen_10{background-image: url('../image/guide_motion/ug_contract_step10.jpg');}
+.contract #bg.screen_11{background-image: url('../image/guide_motion/ug_contract_step11.jpg');}
+.contract #bg.screen_12{background-image: url('../image/guide_motion/ug_contract_step12.jpg');}
+.contract #bg.screen_13{background-image: url('../image/guide_motion/ug_contract_step13.jpg');} /* step19 계약서 목록 */
+.contract #bg.screen_14{background-image: url('../image/guide_motion/ug_contract_step14.jpg');}
+.contract #bg.screen_15{background-image: url('../image/guide_motion/ug_contract_step15.jpg');}
+.contract #bg.screen_16{background-image: url('../image/guide_motion/ug_contract_step16.jpg');}
+
+.contents .contract .clickArea{position: absolute; width: 100%; height: 100%; left:0px; top:0px}
+.contents .contract .clickArea div{position: absolute; /* border:1px solid red */}
+.contents .contract .clickArea .dot_01{left: 3px; top: 194px; width: 70px; height: 22px;}
+.contents .contract .clickArea .dot_02{left: 575px; top: 292px; width: 66px; height: 22px;}
+.contents .contract .clickArea .dot_03_1{left: 105px; top: 104px; width: 72px; height: 22px;} /* step03 */
+.contents .contract .clickArea .dot_03_2{left: 460px; top: 183px; width: 118px; height: 25px;}
+.contents .contract .clickArea .dot_03_3_1{left: 344px; top: 101px; width: 141px; height: 28px;}
+.contents .contract .clickArea .dot_03_3_2{left: 324px; top: 353px; width: 78px; height: 28px;}
+.contents .contract .clickArea .dot_03_4{left: 225px; top: 125px; width: 50px; height: 22px;}
+.contents .contract .clickArea .dot_03_5{left: 609px; top: 101px; width: 50px; height: 22px;}
+.contents .contract .clickArea .dot_04_1{left: 81px; top: 105px; width: 614px; height: 22px;} /* step04 */
+.contents .contract .clickArea .dot_04_2{left: 441px; top: 105px; width: 157px; height: 22px;} /* step05 */
+.contents .contract .clickArea .dot_05{left: 3px; top: 217px; width: 70px; height: 22px;} /* 계약서작성 step01 */
+.contents .contract .clickArea .dot_06_1{left: 79px; top: 189px; width: 622px; height: 30px;}
+.contents .contract .clickArea .dot_06_2{left: 529px; top: 189px; width: 93px; height: 30px;} /* step02 */
+.contents .contract .clickArea .dot_07_1{left: 113px; top: 137px; width: 190px; height: 26px;}
+.contents .contract .clickArea .dot_07_2{left: 143px; top: 163px; width: 200px; height: 26px;}
+.contents .contract .clickArea .dot_07_3{left: 53px; top: 163px; width: 620px; height: 86px;} /* step03 */
+.contents .contract .clickArea .dot_07_4{left: 20px; top: 20px; width: 27px; height: 25px;} /* step04 */
+.contents .contract .clickArea .dot_08{left: 86px; top: 192px; width: 27px; height: 25px;} /* step05 */
+.contents .contract .clickArea .dot_09{left: 627px; top: 378px; width: 73px; height: 25px;}
+.contents .contract .clickArea .dot_10{left: 377px; top: 149px; width: 213px; height: 185px;} /* step06 */
+.contents .contract .clickArea .dot_11_1{left: 157px; top: 126px; width: 233px; height: 25px;} /* step07 */
+.contents .contract .clickArea .dot_11_2{left: 506px; top: 386px; width: 78px; height: 20px;}
+.contents .contract .clickArea .dot_12_1{left: 416px; top: 75px; width: 39px; height: 20px;}
+.contents .contract .clickArea .dot_12_2{left: 85px; top: 195px; width: 612px; height: 89px;} /* step08 */
+.contents .contract .clickArea .dot_12_3{left: 627px; top: 375px; width: 72px; height: 29px;}
+.contents .contract .clickArea .dot_13{left: 81px; top: 180px; width: 416px; height: 150px;} /* step09 */
+.contents .contract .clickArea .dot_14{left: 426px; top: 376px; width: 72px; height: 29px;} /* step10 */
+.contents .contract .clickArea .dot_15{left: 182px; top: 149px; width: 213px; height: 185px;} /* step12 */
+.contents .contract .clickArea .dot_16{left: 454px; top: 131px; width: 23px; height: 19px;} /* step13 */
+.contents .contract .clickArea .dot_17_1{left: 174px; top: 329px; width: 23px; height: 26px;} /* step14 */
+.contents .contract .clickArea .dot_17_2{left: 413px; top: 366px; width: 82px; height: 27px;}
+.contents .contract .clickArea .dot_18_1{left: 277px; top: 91px; width: 190px; height: 259px;} /* step15 */
+.contents .contract .clickArea .dot_18_2{left: 319px; top: 344px; width: 79px; height: 27px;}
+.contents .contract .clickArea .dot_19_1{left: 79px; top: 185px; width: 619px; height: 27px;}
+.contents .contract .clickArea .dot_19_2{left: 627px; top: 369px; width: 71px; height: 27px;}
+.contents .contract .clickArea .dot_20_1{left: 79px;  top: 173px; width: 419px; height: 149px;} /* step17 */
+.contents .contract .clickArea .dot_20_2{left: 426px; top: 370px; width: 71px; height: 27px;}
+.contents .contract .clickArea .dot_21{left: 3px; top: 241px; width: 70px; height: 22px;}
+.contents .contract .clickArea .dot_22_1{left: 80px; top: 133px; width: 20px; height: 86px;}
+.contents .contract .clickArea .dot_22_2{left: 380px; top: 382px; width: 64px; height: 22px;}
+.contents .contract .clickArea .dot_23_1{left: 210px; top: 192px; width: 327px; height: 68px;}/* step22 */
+.contents .contract .clickArea .dot_23_2{left: 310px; top: 374px; width: 134px; height: 38px;}
+.contents .contract .clickArea .dot_24{left: 340px;top: 130px; width: 57px; height: 91px;}
+.contents .contract .clickArea .dot_25_1{left: 80px; top: 133px; width: 20px; height: 86px;}
+.contents .contract .clickArea .dot_25_2{left: 443px; top: 382px; width: 64px; height: 22px;}
+.contents .contract .clickArea .dot_26_1{left: 281px; top: 109px; width: 213px; height: 49px;}
+.contents .contract .clickArea .dot_26_2{left: 330px; top: 369px; width: 83px; height: 29px;}
+.contents .contract .clickArea .dot_27_1{left: 550px; top: 129px; width: 73px; height: 99px;}
+.contents .contract .clickArea .dot_27_2{left: 550px; top: 129px; width: 73px; height: 160px;}
+.contents .contract .clickArea .dot_28_1{left: 602px; top: 129px; width: 63px; height: 99px;}
+.contents .contract .clickArea .dot_28_2{left: 602px; top: 129px; width: 63px; height: 160px;}
+
+.contents.fullScreen .contract .clickArea .dot_01{left: 3px; top: 317px; width: 105px; height: 29px;}
+.contents.fullScreen .contract .clickArea .dot_02{left: 817px; top: 471px; width: 93px; height: 35px;}
+.contents.fullScreen .contract .clickArea .dot_03_1{left: 145px; top: 161px; width: 100px; height: 37px;} /* step03 */
+.contents.fullScreen .contract .clickArea .dot_03_2{left: 650px; top: 293px; width: 198px; height: 45px;}
+.contents.fullScreen .contract .clickArea .dot_03_3_1{left: 524px; top: 158px; width: 221px; height: 41px;}
+.contents.fullScreen .contract .clickArea .dot_03_3_2{left: 487px; top: 578px; width: 127px; height: 45px;}
+.contents.fullScreen .contract .clickArea .dot_03_4{left: 316px; top: 195px; width: 76px; height: 41px;}
+.contents.fullScreen .contract .clickArea .dot_03_5{left: 872px; top: 154px; width: 70px; height: 42px;}
+.contents.fullScreen .contract .clickArea .dot_04_1{left: 111px; top: 167px; width: 882px; height: 42px;} /* step04 */
+.contents.fullScreen .contract .clickArea .dot_04_2{left: 625px; top: 168px; width: 221px; height: 41px;} /* step05 */
+.contents.fullScreen .contract .clickArea .dot_05{left: 3px; top: 351px; width: 104px; height: 32px;} /* 계약서작성 step01 */
+.contents.fullScreen .contract .clickArea .dot_06_1{left: 119px; top: 309px; width: 872px; height: 44px;}
+.contents.fullScreen .contract .clickArea .dot_06_2{left: 755px; top: 308px; width: 123px; height: 44px;} /* step02 */
+.contents.fullScreen .contract .clickArea .dot_07_1{left: 133px; top: 219px; width: 220px; height: 37px;}
+.contents.fullScreen .contract .clickArea .dot_07_2{left: 203px; top: 263px; width: 280px; height: 36px;}
+.contents.fullScreen .contract .clickArea .dot_07_3{left: 63px; top: 233px; width: 910px; height: 166px;} /* step03 */
+.contents.fullScreen .contract .clickArea .dot_07_4{left: 20px; top: 20px; width: 34px; height: 25px;} /* step04 */
+.contents.fullScreen .contract .clickArea .dot_08{left: 124px; top: 318px; width: 39px; height: 25px;} /* step05 */
+.contents.fullScreen .contract .clickArea .dot_09{left: 891px;top: 610px; width: 98px; height: 38px;}
+.contents.fullScreen .contract .clickArea .dot_10{left: 549px; top: 249px; width: 273px; height: 270px;} /* step06 */
+.contents.fullScreen .contract .clickArea .dot_11_1{ left: 227px; top: 196px; width: 323px; height: 44px;} /* step07 */
+.contents.fullScreen .contract .clickArea .dot_11_2{left: 722px; top: 632px; width: 114px; height: 36px;}
+.contents.fullScreen .contract .clickArea .dot_12_1{left: 592px; top: 123px; width: 49px; height: 27px;}
+.contents.fullScreen .contract .clickArea .dot_12_2{left: 112px; top: 305px; width: 879px; height: 147px;} /* step08 */
+.contents.fullScreen .contract .clickArea .dot_12_3{left: 892px; top: 607px; width: 97px; height: 41px;}
+.contents.fullScreen .contract .clickArea .dot_13{left: 114px; top: 287px; width: 590px; height: 250px;} /* step09 */
+.contents.fullScreen .contract .clickArea .dot_14{left: 608px; top: 610px; width: 95px; height: 39px;} /* step10 */
+.contents.fullScreen .contract .clickArea .dot_15{left: 267px; top: 247px; width: 281px; height: 279px;} /* step12 */
+.contents.fullScreen .contract .clickArea .dot_16{left: 704px; top: 207px; width: 37px; height: 32px;} /* step13 */
+.contents.fullScreen .contract .clickArea .dot_17_1{left: 134px; top: 541px; width: 33px; height: 36px;} /* step14 */
+.contents.fullScreen .contract .clickArea .dot_17_2{left: 583px; top: 596px; width: 165px; height: 52px;}
+.contents.fullScreen .contract .clickArea .dot_18_1{left: 407px; top: 135px; width: 320px; height: 429px;} /* step15 */
+.contents.fullScreen .contract .clickArea .dot_18_2{left: 479px; top: 564px; width: 127px; height: 42px;}
+.contents.fullScreen .contract .clickArea .dot_19_1{left: 116px; top: 301px; width: 872px; height: 37px;}
+.contents.fullScreen .contract .clickArea .dot_19_2{left: 893px; top: 599px; width: 95px; height: 35px;}
+.contents.fullScreen .contract .clickArea .dot_20_1{left: 115px; top: 273px; width: 589px; height: 259px;} /* step17 */
+.contents.fullScreen .contract .clickArea .dot_20_2{left: 607px; top: 599px; width: 97px; height: 38px;}
+.contents.fullScreen .contract .clickArea .dot_21{left: 3px; top: 392px; width: 105px; height: 31px;}
+.contents.fullScreen .contract .clickArea .dot_22_1{left: 115px; top: 216px; width: 24px; height: 138px;}
+.contents.fullScreen .contract .clickArea .dot_22_2{left: 540px; top: 616px; width: 90px; height: 33px;}
+.contents.fullScreen .contract .clickArea .dot_23_1{left: 302px; top: 312px; width: 537px; height: 108px;}/* step22 */
+.contents.fullScreen .contract .clickArea .dot_23_2{left: 463px; top: 624px; width: 224px; height: 40px;}
+.contents.fullScreen .contract .clickArea .dot_24{left: 490px; top: 214px; width: 64px; height: 145px;}
+.contents.fullScreen .contract .clickArea .dot_25_1{left: 115px; top: 216px; width: 24px; height: 138px;}
+.contents.fullScreen .contract .clickArea .dot_25_2{left: 629px; top: 616px; width: 92px; height: 32px;}
+.contents.fullScreen .contract .clickArea .dot_26_1{left: 411px; top: 163px; width: 360px; height: 92px;}
+.contents.fullScreen .contract .clickArea .dot_26_2{left: 499px; top: 607px; width: 127px; height: 42px;}
+.contents.fullScreen .contract .clickArea .dot_27_1{left: 784px; top: 213px; width: 95px; height: 149px;}
+.contents.fullScreen .contract .clickArea .dot_27_2{left: 784px; top: 213px; width: 95px; height: 190px;}
+.contents.fullScreen .contract .clickArea .dot_28_1{left: 857px; top: 213px; width: 82px; height: 149px;}
+.contents.fullScreen .contract .clickArea .dot_28_2{left: 857px; top: 213px; width: 82px; height: 190px;}

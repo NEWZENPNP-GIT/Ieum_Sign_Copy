@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/annual_manage.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+</head>
+<body>
+	<div id="annual_wrap" class="">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연차 관리 ＞ 시스템 설정 ＞</span><span class="loc_sub NanumSquare_R">휴가별 설정</span></div>
+			<div class="pagtit"><span class="NanumSquare_R">휴가별 설정</span></div>
+			<div class="tit_dec NanumRound"><span class="speaker"></span><span> 알림 ㅣ 미승인 연차신청서가 5건 존재합니다. </span></div>
+			
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">휴가 추가 및 사용 관리</span>
+					</div>
+					<div class="box_wrap topBlue">
+						<ul class="NanumSquare_R field_area" >
+							<li class="selBox year">
+								<select>
+									<option value="" class="">2018년</option>
+									<option value="" class="">2017년</option>
+								</select>
+							</li>
+							
+						</ul>
+						<div class="group_table">
+							<table class="NanumSquare_R hasChk">
+								<colgroup>
+									<col width="4%">
+									<col width="24%">
+									<col width="24%">
+									<col width="24%">
+									<col width="24%">
+								</colgroup>
+								<thead>
+								<tr>
+									<th class="chk_area"><input type="checkbox"></th>
+									<th>연차 종류</th>
+									<th>연차 소진 여부 </th>
+									<th>연차 소진 수</th>
+									<th>사용 여부</th>
+								</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="chk_area"><input type="checkbox"></td>
+										<td class="value input"><input type="text" value="연차" /></td>
+										<td class="value userCk">
+											<div><input type="radio" name="rad1-1" id="ck1-1"/><label for="ck1-1">여</label></div>
+											<div><input type="radio" name="rad1-1" id="ck1-2" class="orange"/><label for="ck1-2">부</label></div>
+										</td>
+										<td class="value input"><input type="number" value="1" /></td>
+										<td class="value userCk">
+											<div><input type="radio" name="rad1-2" id="ck2-1"/><label for="ck2-1">여</label></div>
+											<div><input type="radio" name="rad1-2" id="ck2-2" class="orange"/><label for="ck2-2">부</label></div>
+										</td>
+									</tr>
+									<tr>
+										<td class="chk_area"><input type="checkbox"></td>
+										<td class="value input"><input type="text" value="반차" /></td>
+										<td class="value userCk">
+											<div><input type="radio" name="rad2-1" id="ck3-1"/><label for="ck3-1">여</label></div>
+											<div><input type="radio" name="rad2-1" id="ck3-2"class="orange"/><label for="ck3-2">부</label></div>
+										</td>
+										<td class="value input"><input type="number" value="0.5" />
+										</td>
+										<td class="value userCk">
+											<div><input type="radio" name="rad2-2" id="ck4-1"/><label for="ck4-1">여</label></div>
+											<div><input type="radio" name="rad2-2" id="ck4-2" class="orange"/><label for="ck4-2">부</label></div>
+										</td>
+									</tr>
+									<tr>
+										<td class="chk_area"><input type="checkbox"></td>
+										<td class="value input"><input type="text" value="병가" /></td>
+										<td class="value userCk">
+											<div><input type="radio" name="rad3-1" id="ck5-1"/><label for="ck5-1">여</label></div>
+											<div><input type="radio" name="rad3-1" id="ck5-2" class="orange"/><label for="ck5-2">부</label></div>
+										</td>
+										<td class="value input"><input type="number" value="0" /></td>
+										<td class="value userCk">
+											<div><input type="radio" name="rad3-2" id="ck6-1"/><label for="ck6-1">여</label></div>
+											<div><input type="radio" name="rad3-2" id="ck6-2" class="orange"/><label for="ck6-2">부</label></div>
+										</td>
+									</tr>
+									
+								</tbody>
+							</table>
+							<!-- 
+							<div class="bot_btn">
+								<a class="NanumSquare_R btn_type"><span class="icon_plus">+</span>휴가 추가</a>
+							</div>
+							 -->
+						</div>
+						
+					</div>
+				</div>
+				<div class="NanumSquare_R btn_group ">
+					<a class="btn_type type1">추가하기</a>
+					<a class="btn_type type4">삭제하기</a>
+					<a class="btn_type default"><span class="icon_check"></span>적용하기</a>
+				</div>
+			</div> <!--  contents -->
+				
+			
+		</div> <!--  container -->
+	</div>
+</body>
+</html>

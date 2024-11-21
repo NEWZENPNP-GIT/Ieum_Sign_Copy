@@ -1,0 +1,1101 @@
+
+	<!--****************************************************************************************************************
+	* 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+	* 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+	********************************************************************************************************************
+	--------------------------------------------------------------------------------------------------------------------
+	* 회사       : 뉴젠피앤피
+	* 화면명     : 완료계약 문서함 페이지
+	* 화면설명   : 전자문서 > 전자계약(양식변환) > 전자문서 목록
+	* 작성자     :
+	* 생성일     :
+	--------------------------------------------------------------------------------------------------------------------
+	* 수정자     : 이정훈
+	* 수정일     : 2024.02.19
+	* 수정내용   :
+	------------------------------------------------------------------------------------------------------------------->
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/contract_write.css">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+	<!-- bootPag -->
+	<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+
+	<!-- 공인인증서 관련 -->
+	<script type="text/javascript" src="/js/nxts/nxts.min.js"></script>
+	<script type="text/javascript" src="/js/nxts/nxtspki_config.js"></script>
+	<script type="text/javascript" src="/js/nxts/nxtspki.js"></script>
+	<script type="text/javascript" src="/js/ui.biz.core.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<style>
+		#contractList_wrap .field_area .pointSetting {display: inline-block;padding: 12px 0 0 10px;font-size: 13px;font-weight: 700;}
+		#contractList_wrap .field_area .pointSetting > b {display: inline-block;font-family: inherit;font-size: inherit;color: #007fff;}
+	</style>
+	<script>
+
+		var webSocketKey;
+		var bizId;
+		var userId;
+		var lastDate;
+		var afterDate;
+		var curPage;
+		var totPage;
+
+		//***************					윈도우 로딩					***************//
+
+
+		$(document).ready(function() {
+
+			bizId		 = getCookie("contractBizId");
+			userId		 = getCookie("userId");
+			webSocketKey = bizId + userId;
+
+			lastDate  	 = new Date();
+			lastDate.setMonth(lastDate.getMonth() - 1);
+			afterDate 	 = new Date();
+			afterDate.setMonth(afterDate.getMonth() + 1);
+
+			document.getElementById("contractDateFrom").value = lastDate.format('yyyyMMdd');	// 한달전
+			document.getElementById("contractDateTo").value   = afterDate.format('yyyyMMdd');	// 한달후
+			console.log('contract_list.html');
+
+			$(".list").find("th").click(function(e) {
+				$(".list").find("th").removeClass("active");
+				var name  = $(e.currentTarget).attr("sort-name");
+				var order = $(e.currentTarget).attr("sort-order");
+				if (!isNull(name)) {
+					$(e.currentTarget).addClass("active");
+					$("#sortName").val(name);
+					$("#sortOrder").val(order);
+					fn_contractList(1);
+
+					if (order === "ASC") order = "DESC";
+					else 			 	 order = "ASC";
+					$(e.currentTarget).attr("sort-order", order);
+				}
+				$("#sortName").val("A.CONTRACT_DATE");
+				$("#sortOrder").val("DESC");
+			});
+
+			if (getCookie("useContractData") === "Y") $(".DataExcelDown").show();
+			else 									  $(".DataExcelDown").hide();
+
+			$('#searchValue').keypress(function(event) {
+				var keycode = (event.keyCode ? event.keyCode : event.which);
+				if (keycode === '13') fn_contractList(1);
+				event.stopPropagation();
+			});
+
+			getBizGrpCombo();
+			fn_contractList(1);
+
+			nxTSPKI.init(true);
+
+			if (getCookie("useContractMenu") === "Y") $(".pointSetting").hide();
+
+			$("#requestCount").click(function()  { fn_contractApprList(1); });
+			$("#progressCount").click(function() { fn_contractList(1); });
+
+			$("#searchCompanyPoint").text(addCommas($("#searchPoint option:selected").text()));
+			$("#searchCompany").change(function() {
+				$("#searchPoint").val($(this).val())
+				$("#searchCompanyPoint").text(addCommas($("#searchPoint option:selected").text()));
+			});
+		});
+
+
+		//***************					문서 미리보기					***************//
+
+
+		function fn_contractView(contId) { window.open(rootPath+"module/pdfjs/web/viewer.html?contId="+contId, "FormManager", "width=900, height=700, scrollbars=no"); }
+
+
+		//***************					체크박스 전체 선택					***************//
+
+
+		function fn_checkAll() {
+			if ($("#checkall").prop("checked"))	$("input[name=chk]").prop("checked",true);
+			else 								$("input[name=chk]").prop("checked",false);
+		}
+
+
+		//***************					승인 대기문서 리스트 조회					***************//
+
+
+		function fn_contractApprList(page) {
+
+			var url = rootPath+"contract/getContractList.do";
+			if (getCookie("loginType") === "5") url = rootPath+"contract/getContractUserGrpList.do";
+
+			var viewPage = $("#viewPage").val();
+			if (viewPage === "" || viewPage === "0") viewPage = 10;
+
+			if (page === 0) curPage = 0;
+			else 		    curPage = page - 1;
+
+			if (curPage < 0) 				  { curPage  = 0; return; }
+			if (curPage * viewPage > totPage) { curPage -= 1; return; }
+
+			var contractDateFrom = $("#contractDateFrom").val();
+			var contractDateTo	 = $("#contractDateTo").val();
+			var statusCode		 = "REQ";
+			var searchKey		 = $("#searchKey").val();
+			var searchValue		 = $("#searchValue").val();
+			var startPage		 = (curPage * viewPage);
+			var endPage			 = viewPage;
+			var sortName		 = $("#sortName").val();
+			var sortOrder		 = $("#sortOrder").val();
+			var searchCompany	 = $("#searchCompany").val();
+			var bizId			 = getCookie("bizId");
+			var requesterId		 = getCookie("userId");
+
+			if (contractDateFrom.length === 0) { alert("시작날짜를 입력해주시기 바랍니다.\r\n예) 20170101"); return; }
+			if (contractDateTo.length === 0)   { alert("종료날짜를 입력해주시기 바랍니다.\r\n예) 20171231"); return; }
+
+			if (contractDateFrom.length > 0) contractDateFrom = contractDateFrom.replace(/-/gi, "");
+			if (contractDateTo.length > 0)   contractDateTo   = contractDateTo.replace(/-/gi, "");
+
+			if (!checkDateNoHypen(contractDateFrom)) { alert("검색조건 시작날짜가 형식에 맞지 않습니다."); return; }
+			if (!checkDateNoHypen(contractDateTo)) 	 { alert("검색조건 종료날짜가 형식에 맞지 않습니다."); return; }
+
+			$.blockUI();
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"GET",
+				data: {
+					contractDateFrom:contractDateFrom,
+					contractDateTo:contractDateTo,
+					statusCode:statusCode,
+					transType:'Y',
+					searchKey:searchKey,
+					searchValue:searchValue,
+					startPage:startPage,
+					endPage:endPage,
+					sortName:sortName,
+					sortOrder:sortOrder,
+					bizId:bizId,
+					searchCompany:searchCompany,
+					requesterId:requesterId
+				},
+				success:function(result) {
+					var htmlData = "";
+					if (result.success === true) {
+						dataList = result.data;
+						totPage  = result.total;
+						var totalPage = Math.ceil(totPage/viewPage);
+
+						$("#requestCount").text(result.requestCount);
+						$("#btn_approve").show();
+						$("#btn_reject").show();
+
+						$.each(result.data, function(i, row) {
+
+							var num = (curPage * viewPage) + i + 1;
+							htmlData += '<tr class="databox"> ';
+							htmlData += ' <td class="chk_area"><input type="checkbox" id="chk" name="chk" value="'+row.userId+'_'+row.contractDate+'_'+row.contId+'_'+row.hashData+'_'+row.statusCode+'"></td> ';
+							htmlData += ' <td>'+num+'</td> ';
+							htmlData += ' <td>'+row.bizName+'</td> ';
+							htmlData += ' <td class="name">'+row.empName+'</td> ';
+							htmlData += ' <td>'+row.empNo+'</td> ';
+							htmlData += ' <td>'+row.phoneNum+'</td> ';
+							htmlData += ' <td>'+row.EMail+'</td> ';
+							htmlData += ' <td>'+row.deptName+'</td> ';
+							htmlData += ' <td>'+row.statusName+' &nbsp;<span style="cursor:pointer;" class="glyphicon glyphicon-search" onclick="fn_processHistory(\''+row.contId+'\')"></span></td> ';
+							htmlData += ' <td class="complete_date">'+convertDate(row.contractDate).format("yyyy-MM-dd")+'</td> ';
+							htmlData += ' <td class="fileName">'+row.contractFileName+'</td> ';
+
+							if (!isNull(row.sendDate) && row.sendDate !== "0") {
+								htmlData += ' <td>'+convertDateTime(row.sendDate).format("yyyy-MM-dd HH:mm")+' </td> ';
+							} else {
+								htmlData += ' <td></td>';
+							}
+
+							if (!isNull(row.expireDate) && row.expireDate !== "0") {
+								htmlData += ' <td>';
+								var diffCount = dateDiff(convertDate(row.expireDate), convertDate((new Date()).format("yyyyMMdd")));
+								if(diffCount>0) htmlData += '<span style="color:red">[만료]</span>';
+								htmlData += convertDate(row.expireDate).format("yyyy-MM-dd")+'</td> ';
+							} else {
+								htmlData += ' <td></td>';
+							}
+
+							if (!isNull(row.endDate) && row.endDate !== "0") {
+								htmlData += ' <td>'+convertDate(row.endDate).format("yyyy-MM-dd")+'</td> ';
+							} else {
+								htmlData += ' <td></td>';
+							}
+
+							htmlData += ' <td class="iconForm" style="cursor:pointer;" onclick="fn_contractView(\''+row.contId+'\')"><a class="btn_type icon_pdf"></td> ';
+							// 스캔파일 및 완료된 전자문서 파일은 수정불가
+
+							if (row.inputType !== "20" && row.statusCode !== "Y") {
+								htmlData += ' <td><span style="cursor:pointer;" class="glyphicon glyphicon-edit" onclick="fn_contractInfo(\''+row.contId+'\', \''+row.userId+'\', \''+row.contractDate+'\')"></span></td> ';
+							} else {
+								htmlData += ' <td></td>';
+							}
+							htmlData += '</tr> ';
+						});
+
+						if (page === 1) {
+							$('#page-selection').empty();
+							$('#page-selection').removeData("twbs-pagination");
+							$('#page-selection').unbind("page");
+							$('#page-selection').bootpag({
+								total: totalPage,
+								page: page,
+								maxVisible: 10,
+								leaps: true,
+								firstLastUse: true,
+								first: '',
+								last: '',
+								wrapClass: 'pagination',
+								activeClass: 'active',
+								disabledClass: 'disabled',
+								nextClass: 'btn_next',
+								prevClass: 'btn_prev',
+								lastClass: 'end_page',
+								firstClass: 'first_page'
+							}).on("page", function(event, num) { fn_contractApprList(num); });
+						}
+					} else {
+						htmlData += '<tr> <td colspan="16">요청하신 자료가 존재하지 않습니다.</td></tr>';
+						$("#requestCount").text(result.requestCount);
+						$('#page-selection').empty();
+						$('#page-selection').removeData("twbs-pagination");
+						$('#page-selection').unbind("page");
+					}
+					$("#dataList").html(htmlData);
+					$.unblockUI();
+				},
+				error:function(request,status,error){
+					$.unblockUI();
+					if (request.status === "401") { alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다."); location.href = rootPath; }
+					else 						  { alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error); }
+				}
+			});
+		}
+
+
+		//***************					전자문서 리스트 조회					***************//
+
+
+		function fn_contractList(page) {
+
+			var url = rootPath+"contract/getContractList.do";
+			if (getCookie("loginType") === "5") url = rootPath+"contract/getContractUserGrpList.do";
+
+			var viewPage = $("#viewPage").val();
+			if (viewPage === "" || viewPage === "0") viewPage = 10;
+
+			if (page === 0) curPage = 0;
+			else		    curPage = page - 1;
+
+			if (curPage < 0) 				  { curPage  = 0; return; }
+			if (curPage * viewPage > totPage) { curPage -= 1; return; }
+
+			var contractDateFrom = $("#contractDateFrom").val();
+			var contractDateTo	 = $("#contractDateTo").val();
+			var statusCode		 = $("#statusCode").val();
+			var searchKey		 = $("#searchKey").val();
+			var searchValue		 = $("#searchValue").val();
+			var startPage		 = (curPage*viewPage);
+			var endPage			 = viewPage;
+			var sortName		 = $("#sortName").val();
+			var sortOrder		 = $("#sortOrder").val();
+			var searchCompany	 = $("#searchCompany").val();
+			var bizId			 = getCookie("bizId");
+
+			if (contractDateFrom.length === 0) { alert("시작날짜를 입력해주시기 바랍니다.\r\n예) 20170101"); return; }
+			if (contractDateTo.length === 0)   { alert("종료날짜를 입력해주시기 바랍니다.\r\n예) 20171231"); return; }
+
+			if (contractDateFrom.length > 0) contractDateFrom = contractDateFrom.replace(/-/gi, "");
+			if (contractDateTo.length > 0)   contractDateTo   = contractDateTo.replace(/-/gi, "");
+
+			if (!checkDateNoHypen(contractDateFrom)) { alert("검색조건 시작날짜가 형식에 맞지 않습니다."); return; }
+			if (!checkDateNoHypen(contractDateTo))   { alert("검색조건 종료날짜가 형식에 맞지 않습니다."); return; }
+
+			$.blockUI();
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"GET",
+				data: {
+					contractDateFrom:contractDateFrom,
+					contractDateTo:contractDateTo,
+					statusCode:statusCode,
+					transType:'Y',
+					searchKey:searchKey,
+					searchValue:searchValue,
+					startPage:startPage,
+					endPage:endPage,
+					sortName:sortName,
+					sortOrder:sortOrder,
+					bizId:bizId,
+					searchCompany:searchCompany
+				},
+				success:function(result) {
+					var htmlData = "";
+					if (result.success === true) {
+						dataList = result.data;
+						totPage  = result.total;
+						var totalPage = Math.ceil(totPage/viewPage);
+						$('#progressCount').text(totPage); 		 // 진행건수
+						$("#completeCount").text(result.completeCount); // 완료건수
+						$("#requestCount").text(result.requestCount); 	 // 승인대기건수
+						$("#btn_approve").hide();
+						$("#btn_reject").hide();
+
+						// 계약내역
+						$.each(result.data, function(i, row) {
+
+							var num = (curPage * viewPage) + i + 1;
+							htmlData += '<tr class="databox"> ';
+							htmlData += ' <td class="chk_area"><input type="checkbox" id="chk" name="chk" value="'+row.userId+'_'+row.contractDate+'_'+row.contId+'_'+row.hashData+'_'+row.statusCode+'"></td> ';
+							htmlData += ' <td>'+num+'</td> ';
+							htmlData += ' <td>'+row.bizName+'</td> ';
+							htmlData += ' <td class="name">'+row.empName+'</td> ';
+							htmlData += ' <td>'+row.empNo+'</td> ';
+							htmlData += ' <td>'+row.phoneNum+'</td> ';
+							htmlData += ' <td>'+row.EMail+'</td> ';
+							htmlData += ' <td>'+row.deptName+'</td> ';
+							htmlData += ' <td>'+row.statusName+' &nbsp;<span style="cursor:pointer;" class="glyphicon glyphicon-search" onclick="fn_processHistory(\''+row.contId+'\')"></span></td> ';
+							htmlData += ' <td class="complete_date">'+convertDate(row.contractDate).format("yyyy-MM-dd")+'</td> ';
+							htmlData += ' <td class="fileName">'+row.contractFileName+'</td> ';
+
+							if (!isNull(row.sendDate) && row.sendDate !== "0") {
+								htmlData += ' <td>'+convertDateTime(row.sendDate).format("yyyy-MM-dd HH:mm")+' </td> '; // 전송일시 이력 : &nbsp;<span style="cursor:pointer;" class="glyphicon glyphicon-search" data-toggle="modal" data-target="#myModal" onclick="fn_sendInfo(\''+row.userId+'\', \''+row.contractDate+'\')"></span>
+							} else {
+								htmlData += ' <td></td>';
+							}
+
+							if (!isNull(row.expireDate) && row.expireDate !== "0") {
+								htmlData += ' <td>';
+								var diffCount = dateDiff(convertDate(row.expireDate), convertDate((new Date()).format("yyyyMMdd")));
+								if(diffCount>0) htmlData += '<span style="color:red">[만료]</span>';
+								htmlData += convertDate(row.expireDate).format("yyyy-MM-dd")+'</td> ';
+							} else {
+								htmlData += ' <td></td>';
+							}
+
+							if (!isNull(row.endDate) && row.endDate !== "0") {
+								htmlData += ' <td>'+convertDate(row.endDate).format("yyyy-MM-dd")+'</td> ';
+							} else {
+								htmlData += ' <td></td>';
+							}
+
+							htmlData += ' <td class="iconForm" style="cursor:pointer;" onclick="fn_contractView(\''+row.contId+'\')"><a class="btn_type icon_pdf"></td> ';
+
+							// 스캔파일 및 완료된 전자문서 파일은 수정불가
+							if (row.inputType !== "20" && row.statusCode !== "Y"){
+								htmlData += ' <td><span style="cursor:pointer;" class="glyphicon glyphicon-edit" onclick="fn_contractInfo(\''+row.contId+'\', \''+row.userId+'\', \''+row.contractDate+'\')"></span></td> ';
+							} else {
+								htmlData += ' <td></td>';
+							}
+							htmlData += '</tr> ';
+						});
+
+						if (page === 1) {
+							$('#page-selection').empty();
+							$('#page-selection').removeData("twbs-pagination");
+							$('#page-selection').unbind("page");
+							$('#page-selection').bootpag({
+								total: totalPage,
+								page: page,
+								maxVisible: 10,
+								leaps: true,
+								firstLastUse: true,
+								first: '',
+								last: '',
+								wrapClass: 'pagination',
+								activeClass: 'active',
+								disabledClass: 'disabled',
+								nextClass: 'btn_next',
+								prevClass: 'btn_prev',
+								lastClass: 'end_page',
+								firstClass: 'first_page'
+							}).on("page", function(event, num) { fn_contractList(num); });
+						}
+					} else {
+						htmlData += '<tr> <td colspan="16">요청하신 자료가 존재하지 않습니다.</td></tr>';
+						$('#progressCount').text(result.total);		 	// 진행건수
+						$("#completeCount").text(result.completeCount); // 완료건수
+						$("#requestCount").text(result.requestCount);   // 승인대기건수
+						$('#page-selection').empty();
+						$('#page-selection').removeData("twbs-pagination");
+						$('#page-selection').unbind("page");
+					}
+					$("#dataList").html(htmlData);
+					$.unblockUI();
+				},
+				error:function(request,status,error) {
+					$.unblockUI();
+					if (request.status === "401") { alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다."); location.href = rootPath; }
+					else 						  { alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error); }
+				}
+			});
+		}
+
+		var contractData = [];
+
+		function fn_getPointList() {
+			var searchCompany = $("#searchCompany").val();
+			getBizGrpCombo();
+			$("#searchCompany").val(searchCompany);
+			$("#searchPoint").val(searchCompany);
+			$("#searchCompanyPoint").text(addCommas($("#searchPoint option:selected").text()));
+		}
+
+
+		//***************					전자서명					***************//
+
+		function fn_contractSign() {
+
+			var cnt = 0;
+
+			if (!confirm("선택하신 전자문서에 전자서명을 진행하시겠습니까?")) return;
+
+			contractData = [];
+
+			$("input:checkbox[name=chk]:checked").each(function () {
+				var key  = this.value;
+				var data = key.split("_");
+				if (data.length > 3) {
+					if (data[4]==="Y" || data[4]==="3" || data[4]==="2" || data[4]==="REQ" || data[4]==="REJ") cnt++;
+					else { cnt = -1; contractData.push(key); }
+				}
+			});
+			if 		(cnt > 0)   { alert("선택하신 문서중 전자서명이 되었거나 전송된 문서가 존재합니다.\r\n체크를 해제하신 후 진행해주시기 바랍니다."); return; }
+			else if (cnt === 0) { alert("전자서명할 문서를 선택하세요."); return; }
+			getSignBizType(contractData);
+		}
+
+		//***************					회서명 필요 유무 체크					***************//
+
+
+		function getSignBizType(contractData) {
+
+			var multiData = "";
+			var url		  = rootPath+"contract/getContractPersonBizSign.do";
+
+			$("input:checkbox[name=chk]:checked").each(function () {
+				var key    = this.value;
+				var data   = key.split("_");
+				multiData += data[2] + "|";
+			});
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				async:false,
+				data: { multiData:multiData },
+				success:function(result) {
+					if (result.success) {
+						if (result.success && contractData.length > 0) setTimeout("callSignData();", 1000);
+						else 										   alert(result.message);
+					} else { alert(result.message); return "false"; }
+				},
+				error:function(request,status,error) {
+					if (request.status === "401") { alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다."); location.href = rootPath; }
+					else 						  { alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error); return "false"; }
+				}
+			});
+		}
+
+
+		//***************					공인인증서 본인인증					***************//
+
+
+		function callSignData() {
+			var options  = {};
+			var signdata = [];
+
+			for (const element of contractData) { var data = element.split("_"); signdata.push(data[2]); }
+
+			if (signdata.length > 0) nxTSPKI.multiSignData(signdata, options, sign_complete_callback);
+		}
+
+
+		//***************					공인인증 후 서명					***************//
+
+
+		function sign_complete_callback(res) {
+
+			if (res.code === 0) {
+				var multiData = "";
+
+				if (res.data.length !== contractData.length) { alert("전자서명한 문서의 건수가 맞지 않습니다.\r\n다시 전자서명을 진행해주시기 바랍니다."); return; }
+
+				for (var i=0; i<res.data.length; i++) {
+					var digitSign = res.data[i].signedData;
+					var key 	  = contractData.pop(i);
+					var data 	  = key.split("_");
+					multiData    += data[0]+"_"+data[1]+"_"+data[2]+"_"+digitSign+"|";
+				}
+				fn_setSignHashdDataMulti(multiData);
+			}
+			else { alert(res.errorMessage); }
+		}
+
+
+		//***************					전자서명 일괄서명하기					***************//
+
+
+		function fn_setSignHashdDataMulti(multiData) {
+
+			var url 		 = rootPath+"contract/setSignHashdDataMulti.do";
+			var socket       = new WebSocket("wss://" + window.location.host + "/loading/" + webSocketKey);
+			socket.onopen 	 = function(event) { console.log("WebSocket connected."); };
+			socket.onmessage = function(event) { $("#loadingTxt").text(event.data); };
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				data: {
+					multiData:multiData,
+					webSocketKey:webSocketKey
+				},
+				success:function(result) {
+					if (result.success.resultCode === "Y") { alert("전자서명이 완료되었습니다."); fn_contractList(curPage + 1); }
+					else 								   { alert("전자서명을 진행중 실패하였습니다.\r\n" + result.success.resultMessage); }
+				},
+				error:function(request,status,error) {
+					if (request.status === "401") { alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다."); location.href = rootPath; }
+					else						  { alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error); }
+				}
+			});
+		}
+
+
+		//***************					근로계약서 전송					***************//
+
+
+		function fn_contractSend() {
+
+			var cnt 	  = 0;
+			var multiData = "";
+			var bizId 	  = "";
+
+			$("input:checkbox[name=chk]:checked").each(function () {
+				var key  = this.value;
+				var data = key.split("_");
+
+				if (data.length > 3) { if (data[4]==="Y" || data[4]==="REQ" || data[4]==="REJ") cnt++; }
+				multiData += data[2]+"|";
+				bizId 	  += data[5]+"|";
+			});
+
+			if (cnt > 0) { alert("선택하신 문서중 완료된 문서 혹은 결재중, 반려 문서가 존재합니다.\r\n체크를 해제하신 후 진행해주시기 바랍니다."); return; }
+
+			if (multiData.length === 0) { alert("전송할 문서를 먼저 선택해주시기 바랍니다."); return; }
+
+			var searchCompany = $("#searchCompany").val();
+			var url 		  = rootPath+"html/contract/contract_popup_send.html?data="+encodeURIComponent(multiData)+"&bizId="+searchCompany;
+			openWin(url, "send_contract", 560, 550);
+		}
+
+
+		//***************					스캔파일 등록 팝업창					***************//
+
+
+		function fn_uploadContractFile() {
+
+			var userId		 = "";
+			var contractDate = "";
+			var empName		 = "";
+			var phoneNum	 = "";
+			var cnt			 = 0;
+			var bizId		 = $("#searchCompany").val();
+
+			// 스캔된 계약서 업로드 기능
+			$("input:checkbox[name=chk]:checked").each(function() {
+				var key  = this.value;
+				var data = key.split("_");
+				if (data.length > 3) {
+					userId		 = data[0];
+					contractDate = data[1];
+					contId		 = data[2];
+					cnt++;
+				}
+			});
+
+			if (cnt > 0) {
+				// 계약정보 조회
+				$.each(dataList, function(i, row) {
+					if (row.userId === userId && row.contractDate === contractDate) {
+						empName  = encodeURIComponent(row.empName);
+						phoneNum = row.phoneNum;
+					}
+				});
+			}
+			var url = rootPath + "html/contract/contract_popup_upload_file.html?userId="+userId+"&contractDate="+contractDate+"&empName="+empName+"&phoneNum="+phoneNum+"&bizId="+bizId;
+			openWin(url, "uploadContractFile", 500, 490);
+		}
+
+
+		//***************					미완료 계약서 선택삭제					***************//
+
+
+		function fn_contractSelectRemove() {
+
+			if (!confirm("선택된 문서 중 전자문서전송 전 문서만 삭제 가능 합니다. 삭제하시겠습니까?\n\n※ 복구 불가")) return;
+			cnt = 0;
+			var multiData = '';
+
+			$("input:checkbox[name=chk]:checked").each(function () {
+				var key  = this.value;
+				var data = key.split("_");
+				if (data.length > 3) { if (data[4]!=="1" && data[4]!=="REQ" && data[4]!=="REJ" && data[4]!=="APP" && data[4]!=="2") { cnt++; } }
+				multiData += data[0] + "-" + data[1]+ "-" + data[2] + "|";
+			});
+
+			if (cnt > 0) { alert("선택하신 문서중 전송된 문서가 존재합니다."); return; }
+
+			$.blockUI();
+
+			var url = rootPath + "/contract/delContractPersonSelectList.do";
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				async:false,
+				data: {
+					OPEN_KEY:getCookie("OPEN_KEY"),
+					multiData:multiData
+				},
+				success:function(result) {
+					if (result.success) { alert("선택된 문서의 삭제가 완료되었습니다."); fn_contractList(curPage); }
+					else 				{ alert("문서삭제 중 문제가 발생하였습니다."); return "false"; }
+					$.unblockUI();
+				},
+				error:function(request,status,error) { goInvalidPage(request, error); }
+			});
+		}
+
+
+		//***************					기업 조회					***************//
+
+
+		function getBizGrpCombo() {
+
+			var url = rootPath+"biz/getBizGrpCombo.do";
+			$("#searchCompany").html("");
+			$("#searchPoint").html("");
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				async: false,
+				type:"GET",
+				data: { },
+				success:function(result) {
+					if(result.success){
+						var workStatus = result.data;
+						$.each(workStatus, function(i, data){
+							$("#searchCompany").append($("<option>", { value: data.id, text: data.name }));
+							$("#searchPoint").append($("<option>", 	 { value: data.id, text: data.curPoint }));
+						});
+						$("#searchCompany").append($("<option>", { value: '', text: '전체' }));
+					}
+				},
+				error:function(request,status,error) { alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); }
+			});
+		}
+
+
+		//***************					승인 요청					***************//
+
+
+		function fn_approve(type) {
+
+			switch(type) {
+
+				case "request":
+
+				var cnt			 = 0;
+				var contractData = [];
+				var contId		 = "";
+
+				$("input:checkbox[name=chk]:checked").each(function() {
+					var key  = this.value;
+					var data = key.split("_");
+					if (data.length > 3) {
+						if (data[4] !== "1") cnt++;
+						else {
+							if (cnt === 0) cnt = -1;
+							contractData.push(data[2]);
+						}
+					}
+				});
+
+				if 		(cnt > 0)   { alert("선택하신 문서중 작성중 상태가 아닌 문서가 존재합니다.\r\n체크를 해제하신 후 진행해주시기 바랍니다."); return; }
+				else if (cnt === 0) { alert("승인요청할 문서를 선택하세요."); return; }
+
+				for (var i=0; i<contractData.length; i++) {
+					contId += contractData[i];
+					if (i < contractData.length - 1) contId += ",";
+				}
+
+				var url = rootPath + "html/approval/approval_request.html?contId="+contId;
+				openWin(url, "approvalRequest", 886, 500);
+				break;
+
+				case "approve":
+
+				var cnt			 = 0;
+				var chkCnt		 = 0;
+				var contractData = [];
+				var apprData	 = [];
+				var param		 = new Object();
+				var contId		 = "";
+
+				$("input:checkbox[name=chk]:checked").each(function () {
+					var key  = this.value;
+					var data = key.split("_");
+					if (data.length > 3) {
+						if (data[4] !== "REQ") cnt++;
+						else {
+							if (cnt === 0) cnt = -1;
+							contractData.push(data[2]);
+						}
+					}
+					param.name 	   = $(this).parent().parent().children('.name').text();
+					param.fileName = $(this).parent().parent().children('.fileName').text();
+					apprData.push(param);
+					chkCnt++
+				});
+
+				if 		(cnt > 0)   { alert("선택하신 문서중 승인대기 상태가 아닌 문서가 존재합니다.\r\n체크를 해제하신 후 진행해주시기 바랍니다."); return; }
+				else if (cnt === 0) { alert("승인할 문서를 선택하세요."); return; }
+
+				if (chkCnt === 1) { if(!confirm(apprData[0].name + "의 " + apprData[0].fileName + "를 승인 하시겠습니까?")) return; }
+				else if 			  (!confirm(apprData[0].name + "의 " + apprData[0].fileName + "외 " + apprData.length + " 건을 승인 하시겠습니까?")) return;
+
+				for (var i=0; i<contractData.length; i++) {
+					contId += contractData[i];
+					if (i < contractData.length - 1) contId += ",";
+				}
+
+				var url  = rootPath + "approval/updateAppr.do";
+				var data = { contId:contId, apprStatus:"APP" };
+
+				$.ajax({
+					url:url,
+					crossDomain : true,
+					dataType:"json",
+					type:"POST",
+					contentType: "application/json; charset=UTF-8",
+					data:JSON.stringify(data),
+					success:function(result) { if (result.success === true) { alert("처리되었습니다."); fn_contractApprList(1); } },
+					error:function(request,status,error) {
+						if (request.status === "401") { alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다."); location.href = rootPath; }
+						else 						  { alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error); }
+					}
+				});
+				break;
+
+				case "reject":
+
+				var cnt			 = 0;
+				var chkCnt		 = 0;
+				var contractData = [];
+				var apprData	 = [];
+				var param		 = new Object();
+				var contId		 = "";
+
+				$("input:checkbox[name=chk]:checked").each(function() {
+					var key  = this.value;
+					var data = key.split("_");
+					if (data.length > 3) {
+						if (data[4] !== "REQ") cnt++;
+						else {
+							if (cnt === 0) cnt = -1;
+							contractData.push(data[2]);
+						}
+					}
+					param.name 	   = $(this).parent().parent().children('.name').text();
+					param.fileName = $(this).parent().parent().children('.fileName').text();
+					apprData.push(param);
+					chkCnt++
+				});
+
+				if 		(cnt > 0)   { alert("선택하신 문서중 승인대기 상태가 아닌 문서가 존재합니다.\r\n체크를 해제하신 후 진행해주시기 바랍니다."); return; }
+				else if (cnt === 0) { alert("반려할 문서를 선택하세요."); return; }
+
+				if (chkCnt === 1) { if(!confirm(apprData[0].name + "의 " + apprData[0].fileName + "를 반려 하시겠습니까?")) return; }
+				else if 			  (!confirm(apprData[0].name + "의 " + apprData[0].fileName + "외 " + apprData.length + " 건을 반려 하시겠습니까?")) return;
+
+				for (var i=0; i<contractData.length; i++) {
+					contId += contractData[i];
+					if (i < contractData.length - 1) contId += ",";
+				}
+
+				var url  = rootPath + "approval/updateAppr.do";
+				var data = { contId:contId, apprStatus:"REJ" };
+
+				$.ajax({
+					url:url,
+					crossDomain : true,
+					dataType:"json",
+					type:"POST",
+					contentType: "application/json; charset=UTF-8",
+					data:JSON.stringify(data),
+					success:function(result) { if (result.success === true) { alert("처리되었습니다."); fn_contractApprList(1); } },
+					error:function(request,status,error){
+						if (request.status === "401") { alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다."); location.href = rootPath; }
+						else						  { alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error); }
+					}
+				});
+				break;
+			}
+		}
+
+
+		//***************					일괄 다운로드 팝업창					***************//
+
+
+		function fn_contractDataExcelDown() {
+
+			var userId 		 = "";
+			var contractDate = "";
+			var empName		 = "";
+			var phoneNum	 = "";
+			var cnt			 = 0;
+			var bizId		 = $("#searchCompany").val();
+
+			if (cnt > 0) {
+				$.each(dataList, function(i, row) {
+					if (row.userId === userId && row.contractDate === contractDate) {
+						empName  = encodeURIComponent(row.empName);
+						phoneNum = row.phoneNum;
+					}
+				});
+			}
+			var url = rootPath + "html/contract/contract_popup_data_exceldown.html?userId="+userId+"&contractDate="+contractDate+"&empName="+empName+"&phoneNum="+phoneNum+"&bizId="+bizId;
+			openWin(url, "uploadContractFile", 500, 400);
+		}
+
+	</script>
+	</head>
+
+	<body>
+	<input type="hidden" id="reqFlag" value="">
+	<div id="contractList_wrap" class="">
+		<div class="container">
+			<div class="location">
+				<span class="loc_main NanumGothic">전자문서 > 전자계약(양식변환) > </span>
+				<span class="loc_sub NanumGothic">전자계약 목록</span>
+			</div>
+			<div class="field_area">
+				<div class="selBox NanumGothic">
+					<select id="searchCompany" onchange="fn_contractList(1)"></select>
+					<select id="searchPoint" style="display:none;"></select>
+				</div>
+				<p class="NanumGothic pointSetting">잔여 포인트 : <b id="searchCompanyPoint"></b> P</p>
+			</div>
+			<div class="field_area">
+				<div class="inputBox">
+					<input type="text" id="contractDateFrom" class="lt" maxlength="8"/>
+				</div>
+				<div class="inputBox">
+					<input type="text" id="contractDateTo" class="lt" maxlength="8"/>
+				</div>
+				<div class="selBox NanumGothic">
+					<select id="statusCode" class="lt">
+						<option value="" selected>전체</option>
+						<option value="1">문서작성중</option>
+						<option value="REQ">승인 대기중</option>
+						<option value="REJ">반려</option>
+						<option value="APP">승인 완료</option>
+						<option value="2">회사 서명</option>
+						<option value="3">전자문서 전송</option>
+						<option value="4">서명 대기중</option>
+						<option value="5">정정 요청</option>
+						<option value="6">수신자 서명</option>
+						<option value="P1">사전입력 요청</option>
+						<option value="P2">사전입력 확인</option>
+						<option value="P3">사전입력 완료</option>
+						<option value="Y">완료</option>
+					</select>
+				</div>
+				<div class="selBox NanumGothic">
+					<select id="searchKey" class="lt">
+						<option value="empName">성명</option>
+						<option value="eMail">이메일</option>
+						<option value="phoneNum">휴대폰번호</option>
+						<option value="deptName">부서명</option>
+						<option value="contractFileName">양식명</option>
+					</select>
+				</div>
+				<div class="inputBox">
+					<fieldset>
+						<input type="text" id="searchValue" class="word_input NanumGothic">
+						<a class="btn_search btn_type Material_icons" onclick="fn_contractList(1)">search</a>
+					</fieldset>
+				</div>
+				<div class="selBox NanumGothic">
+					<select id="sortName" class="lt" onchange="fn_contractList(1)">
+						<option value="A.INS_DATE" selected>정렬항목</option>
+						<option value="EMP_NAME">성명</option>
+						<option value="EMP_NO">사번/사업자등록번호</option>
+						<option value="E_MAIL">이메일</option>
+						<option value="B1.DEPT_NAME">부서명</option>
+						<option value="PHONE_NUM">휴대폰번호</option>
+						<option value="A.STATUS_CODE">상태</option>
+					</select>
+				</div>
+				<div class="selBox NanumGothic">
+					<select id="sortOrder" class="lt" onchange="fn_contractList(1)">
+						<option value="ASC" selected>정렬기준</option>
+						<option value="ASC">내림차순</option>
+						<option value="DESC">올림차순</option>
+					</select>
+				</div>
+				<div class="selBox NanumGothic">
+					<select id="viewPage" class="lt" onchange="fn_contractList(1)">
+						<option value="10" selected>조회건수</option>
+						<option value="10">10건</option>
+						<option value="20">20건</option>
+						<option value="30">30건</option>
+						<option value="50">50건</option>
+						<option value="100">100건</option>
+						<option value="250">250건</option>
+					</select>
+				</div>
+				<div class="right">
+					<div class="textBox NanumGothic">
+						<div class="tit">승인대기건수</div>
+						<div class="request_count" id="requestCount" style="cursor: pointer;">0</div>
+					</div>
+					<div class="textBox NanumGothic">
+						<div class="tit">진행건수</div>
+						<div class="progress_count" id="progressCount" style="cursor: pointer;">0</div>
+					</div>
+					<div class="textBox NanumGothic">
+						<div class="tit">완료건수</div>
+						<div class="complete_count" id="completeCount">0</div>
+					</div>
+				</div>
+			</div>
+			<div class="table_contents">
+				<div class="list">
+					<table class="NanumGothic">
+						<colgroup>
+							<col width="2%">	<!--체크박스-->
+							<col width="2%">	<!--순번-->
+							<col width="7%">	<!--기업명-->
+							<col width="5%">	<!--수신자-->
+							<col width="7%">	<!--사번/사업자등록번호-->
+							<col width="8%">	<!--휴대폰번호-->
+							<col width="14%">	<!--이메일-->
+							<col width="5%">	<!--부서명-->
+							<col width="8%">	<!--진행상태-->
+							<col width="6%">	<!--생성일자-->
+							<col width="11%">	<!--양식명-->
+							<col width="6%">	<!--전송일시-->
+							<col width="6%">	<!--유효일자-->
+							<col width="6%">	<!--완료일시-->
+							<col width="5%">	<!--미리보기-->
+							<col width="3%">	<!--수정-->
+						</colgroup>
+						<thead>
+							<tr>
+								<th class="chk_area">
+									<input type="checkbox" id="checkall" onclick="fn_checkAll();">
+								</th>
+								<th>순번</th>
+								<th sort-name="D.BIZ_NAME" sort-order="ASC">기업명</th>
+								<th sort-name="EMP_NAME" sort-order="ASC">수신자</th>
+								<th sort-name="EMP_NO" sort-order="ASC">사번/사업자등록번호</th>
+								<th sort-name="PHONE_NUM" sort-order="ASC">휴대폰번호</th>
+								<th sort-name="E_MAIL" sort-order="ASC">이메일</th>
+								<th sort-name="B1.DEPT_NAME" sort-order="ASC">부서명</th>
+								<th sort-name="STATUS_NAME" sort-order="ASC">진행상태</th>
+								<th sort-name="A.CONTRACT_DATE" sort-order="ASC">생성일자</th>
+								<th sort-name="CONTRACT_FILE_NAME" sort-order="ASC">양식명</th>
+								<th sort-name="A.SEND_DATE" sort-order="ASC">전송일시</th>
+								<th sort-name="A.EXPIRE_DATE" sort-order="ASC">유효일자</th>
+								<th sort-name="A.END_DATE" sort-order="ASC">완료일시</th>
+								<th>미리보기</th>
+								<th class="border-right">수정</th>
+							</tr>
+						</thead>
+						<tbody id="dataList">
+							<tr class="databox">
+								<td colspan="14">요청하신 자료가 존재하지 않습니다.</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div id="page-selection" class="pagingnav_wrap">
+				</div>
+			</div>
+			<div class="btn_footGroup NanumGothic">
+				<a class="DataExcelDown btn_type type7" onclick="fn_contractDataExcelDown();" style="display: none;">엑셀일괄 다운로드 </a>
+				<a class="btn_type type3" onclick="fn_approve('request');">승인요청 </a>
+				<a id="btn_approve" class="btn_type type1" onclick="fn_approve('approve');">승인 </a>
+				<a id="btn_reject" class="btn_type type6" onclick="fn_approve('reject');">반려 </a>
+				<a class="btn_type type2" onclick="fn_contractSign();">전자서명 </a>
+				<a class="btn_type type2" onclick="fn_contractSend();">전자문서 전송</a>
+				<a class="btn_type type3" onclick="fn_uploadContractFile();">스캔파일 등록 </a>
+				<a class="btn_type type5" onclick="fn_contractSelectRemove();">선택삭제 </a>
+			</div>
+			<div class="modal fade" id="myModal" role="dialog">
+				<div class="modal-dialog">
+					Modal content
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title"> 진행 현황</h4>
+						</div>
+						<div class="modal-body">
+							<table class="table">
+								<colgroup>
+									<col width="20%">
+									<col width="62%">
+									<col width="18%">
+								</colgroup>
+								<thead>
+									<tr>
+										<th id="head1">문서구분</th>
+										<th id="head2">전송일시</th>
+										<th id="head3">성공여부</th>
+									</tr>
+								</thead>
+								<tbody id="sendList">
+								</tbody>
+							</table>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</body>
+	</html>

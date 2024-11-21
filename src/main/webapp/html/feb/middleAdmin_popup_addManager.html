@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>관리자 정보 등록</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/company_manage.css">
+
+<script type='text/javascript' src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+
+<script>
+	var chkUserId = false;
+
+	$(document).ready(function(){
+	    $('[data-index="1"]').focus();
+		
+		$('#inputForm').on('keydown', 'input', function (event) {
+		    if (event.which == 13) {
+		        event.preventDefault();
+		        var $this = $(event.target);
+		        var index = parseFloat($this.attr('data-index'));
+		        $('[data-index="' + (index + 1).toString() + '"]').focus();
+		    }
+		});
+	});
+
+	// 아이디 중복확인
+	function fn_checkUserId() {
+		var url = rootPath+"user/getUserList.do";
+		
+		var loginId = $("#loginId").val();
+		
+		if (loginId.length==0) {
+			alert("아이디를 입력해주시기 바랍니다.");
+			return;
+		}
+		if(!checkEmail(loginId)) {
+			alert("아이디는 이메일 형식으로 입력해주시기 바랍니다.");
+			return;
+		}
+		chkUserId = false;
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				userId:loginId
+			},
+			success:function(result)
+			{
+				if (result.success==true) {
+					
+					if(result.total==0) {
+						chkUserId = true;
+						alert("사용가능하신 아이디입니다.");
+					} else {
+						alert("입력하신 아이디는 사용중인 아이디입니다.\r\n다시 입력해주시기 바랍니다.");
+					}
+				} else {
+					alert("입력하신 아이디는 사용중인 아이디입니다.\r\n다시 입력해주시기 바랍니다.");
+				}
+			},
+			error:function(request,status,error){
+				alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+		        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+		
+	}
+
+
+	function fn_userSave() {
+		
+		var url = rootPath+"user/insUserAdmin.do";
+		
+		var empNo = $("#empNo").val();
+		var userName = $("#userName").val();
+		var phoneNum = $("#phoneNum").val();
+		var userType = $("#userType").val();
+		var loginId = $("#loginId").val();
+		var userPwd = $("#userPwd").val();
+
+		if(!chkUserId) {
+			alert("아이디 확인을 먼저 진행해주시기 바랍니다.");
+			return;
+		}
+		
+		if(empNo.length==0) {
+			alert("관리자번호를 입력해주시기 바랍니다.");
+			$("#empNo").focus();
+			return;
+		}
+
+		if(userName.length==0) {
+			alert("관리자명를 입력해주시기 바랍니다.");
+			$("#userName").focus();
+			return;
+		}
+
+		if (userName.indexOf("_") != -1) {
+			alert("관리자명에 특수문자(_)를 입력하실  수 없습니다.");
+			return;
+		}
+		if(phoneNum.length==0) {
+			alert("휴대폰번호를 입력해주시기 바랍니다.");
+			$("#phoneNum").focus();
+			return;
+		} else {
+			if(!checkPhoneNum(phoneNum)) {
+				alert("휴대폰번호 형식이 맞지 않습니다.\r\n다시 입력해주시기 바랍니다.");
+				$("#phoneNum").focus();
+				return;
+			}
+		}
+
+		if(loginId.length==0) {
+			alert("이메일을 입력해주시기 바랍니다.");
+			$("#loginId").focus();
+			return;
+		} else {
+			if (!checkEmail(loginId)) {
+				alert("이메일 형식이 맞지 않습니다.\r\n다시 입력해주시기 바랍니다.");
+				$("#loginId").focus();
+				return;
+			}
+		}	
+
+		if(userPwd.length==0) {
+			alert("비밀번호를 입력해주시기 바랍니다.");
+			$("#userPwd").focus();
+			return;
+		}	
+
+		if(!confirm("관리자를 추가하시겠습니까?동일한 사번이 존재하는 경우 추가가 되지 않습니다.")) return;
+		
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				bizId:getCookie("bizId"),
+				empNo:empNo,
+				userName:userName,
+				phoneNum:phoneNum,
+				userType:userType,
+				eMail:loginId,
+				loginId:loginId,
+				userPwd:userPwd
+			},
+			success:function(result)
+			{
+				if (result.success==true) {				
+					alert("직원정보가 추가되었습니다.");
+					window.close();
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+				}
+			},
+			error:function(request,status,error){
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					window.close();
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+		
+	}
+
+</script>
+</head>
+<body>
+<input type="hidden" id="userType" value="5">
+	<div id="company_popup" class="_popup">
+		<div class="container">
+			<div id="popup_tit" class="bot_line">
+				<div class="tit_icon icon_regist"></div>
+				<div class="tit_text col_skyblue NanumSquare_B">중간관리자 정보 등록</div>
+				<div id="popup_close" class="btn_type col_skyblue" onclick="window.close();"></div>
+			</div>
+			<div class="contents" id="inputForm">
+				
+				<div class="input_wrap">
+					<dl class="boxRow input_bx NanumSquare_R">
+						<dt><label class="label_txt NanumGothic">관리자 번호</label></dt>
+						<dd><input type="text" id="empNo" data-index="1" class="input_txt"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumSquare_R">
+						<dt><label class="label_txt NanumGothic">관리자명</label></dt>
+						<dd><input type="text" id="userName" data-index="2" class="input_txt"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumSquare_R">
+						<dt><label class="label_txt NanumGothic">휴대폰 번호</label></dt>
+						<dd><input type="text" id="phoneNum" data-index="3" class="input_txt"></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumSquare_R">
+						<dt><label class="label_txt NanumGothic">아이디</label></dt>
+						<dd class="multiBox"><input type="text" data-index="4" class="input_txt" id="loginId"><div class="NanumSquare_R btn_type btn_idCheck" onclick="fn_checkUserId()">아이디 확인</div></dd>
+					</dl>
+					<dl class="boxRow input_bx NanumSquare_R">
+						<dt><label class="label_txt NanumGothic">비밀번호</label></dt>
+						<dd><input type="password" id="userPwd" data-index="5" class="input_txt NanumGothic"></dd>
+					</dl>
+				</div>
+				<div class="btns sort-right">
+					<div><div class="type2 btn_type NanumSquare_R" onClick="fn_userSave()">저장</div></div>
+					<div><div class="type4 btn_type NanumSquare_R" onClick="window.close()">취소</div></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

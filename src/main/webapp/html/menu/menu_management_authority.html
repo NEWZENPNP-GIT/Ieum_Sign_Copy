@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/menuTree.css">
+<link rel="stylesheet" type="text/css" href="/css/menu_manage.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/menuTree/menuTree.js"></script>
+
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script>
+	
+	// 사용자그룹타입 선택 이벤트
+	function fn_setUserType() {
+		var userTypeName = $("#userType option:selected").text();
+		$("#userTypeName").html(userTypeName);
+		
+		fn_getMenuTreeList();
+	}
+	
+	// 메뉴선택
+	function onTreeClick(event,menuCode) {
+		$("#menuCode").val(menuCode);
+		
+		// 이벤트처리
+		if($(event).hasClass("child-hide")){
+            // 하위 메뉴 보이기 
+            $(event).addClass("child-show").removeClass("child-hide");
+        }else{
+            // 하위 메뉴 숨기기
+            if($(event).attr("parent")=="0"){
+                $(event).next().find("a").addClass("child-hide").removeClass("child-show");
+            }
+            $(event).addClass("child-hide").removeClass("child-show");
+        }
+		
+		// 메뉴조회
+		fn_getMenuList();
+	}
+
+	// 메뉴구성
+	function fn_getMenuList() {
+	
+		var url = rootPath+"menu/getMenuPermList.do";
+		
+		var userType = $("#userType").val();
+		var menuCode = $("#menuCode").val();
+
+        $.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				userType:userType,
+				menuCode:menuCode
+			},
+			success:function(result)
+			{
+				if(result.success) {
+					$.each(result.data, function(i, row) {
+						if(isNull(row.readPerm)) {
+							// 메뉴권한이 없는경우 insert처리
+							$("#inputMode").val("ins");
+						} else {
+							// 메뉴권한이 없는경우 update처리
+							$("#inputMode").val("upd");
+						}
+						var readPerm = isSetNull(row.readPerm, "N");
+						var writePerm = isSetNull(row.writePerm, "N");
+						var editPerm = isSetNull(row.editPerm, "N");
+						var deletePerm = isSetNull(row.deletePerm, "N");
+						var printPerm = isSetNull(row.printPerm, "N");
+						console.log(readPerm);
+						console.log(writePerm);
+						console.log(editPerm);
+						console.log(deletePerm);
+						console.log(printPerm);
+						$("#menuType").val(row.menuType);
+						$("#menuName").html(row.menuName);
+						$("#menuName").html(row.menuName);
+						$("#menuUrl").html(row.menuUrl);
+						$("#menuInfo").html(row.menuInfo);
+						$("#readPerm").val(readPerm);
+						$("#writePerm").val(writePerm);
+						$("#editPerm").val(editPerm);
+						$("#deletePerm").val(deletePerm);
+						$("#printPerm").val(printPerm);
+					});
+				}
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+	
+	// 메뉴 트리구성
+	function fn_getMenuTreeList() {
+
+		var url = rootPath+"menu/getMenuTreeUserList.do";
+		
+		var userType = $("#userType").val();
+
+        $.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"GET",
+			data: {
+				userType:userType
+			},
+			success:function(result)
+			{
+				if(result.success) {
+					treeRender(result.data);
+				}
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+
+	// 메뉴권한저장
+	function fn_saveMenuPerm() {
+		var menuCode = $("#menuCode").val();
+		if(isNull(menuCode)) {
+			alert("메뉴를 먼저 선택해주시기 바랍니다");
+			return;
+		}
+		if(!confirm("권한를 저장하시겠습니까?")) return;
+		
+		var inputMode = $("#inputMode").val();
+		if(inputMode=="ins") {
+			fn_newSave();
+		} else {
+			fn_updSave();
+		}
+	}
+
+	// 신규등록
+	function fn_newSave() {
+		
+		var url = rootPath+"menu/insMenuPerm.do";
+		
+		var menuType = $("#menuType").val();
+		var userType = $("#userType").val();
+		var menuCode = $("#menuCode").val();
+		var readPerm = $("#readPerm").val();
+		var writePerm = $("#writePerm").val();
+		var editPerm = $("#editPerm").val();
+		var deletePerm = $("#deletePerm").val();
+		var printPerm = $("#printPerm").val();
+
+        $.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				menuType:menuType,
+				userType:userType,
+				menuCode:menuCode,
+				readPerm:readPerm,
+				writePerm:writePerm,
+				editPerm:editPerm,
+				deletePerm:deletePerm,
+				printPerm:printPerm
+			},
+			success:function(result)
+			{
+				if(result.success) {
+					alert("메뉴권한을 저장하였습니다.");
+					fn_getMenuTreeList();
+				} else {
+					alert("메뉴권한을 진행중 실패하였습니다.");
+				}
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+
+	// 수정
+	function fn_updSave() {
+
+		var url = rootPath+"menu/updMenuPerm.do";
+
+		var menuType = $("#menuType").val();
+		var userType = $("#userType").val();
+		var menuCode = $("#menuCode").val();
+		var readPerm = $("#readPerm").val();
+		var writePerm = $("#writePerm").val();
+		var editPerm = $("#editPerm").val();
+		var deletePerm = $("#deletePerm").val();
+		var printPerm = $("#printPerm").val();
+
+        $.blockUI();
+	    
+		$.ajax({
+			url:url,
+		    crossDomain : true,
+			dataType:"json",
+			type:"POST",
+			data: {
+				menuType:menuType,
+				userType:userType,
+				menuCode:menuCode,
+				readPerm:readPerm,
+				writePerm:writePerm,
+				editPerm:editPerm,
+				deletePerm:deletePerm,
+				printPerm:printPerm
+			},
+			success:function(result)
+			{
+				if(result.success) {
+					alert("메뉴권한을 저장하였습니다.");
+					fn_getMenuTreeList();
+				} else {
+					alert("메뉴권한을 진행중 실패하였습니다.");
+				}
+				$.unblockUI();
+			},
+			error:function(request,status,error){
+				$.unblockUI();
+				if (request.status=="401") {
+					alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					location.href=rootPath;
+				} else {
+					alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			}
+		});
+	}
+	
+</script>
+</head>
+<body>
+<input type="hidden" id="inputMode" value="ins">
+<input type="hidden" id="pmenuCode" value="ROOT">
+<input type="hidden" id="menuType" value="">
+<input type="hidden" id="menuCode" value="">
+<input type="hidden" id="menuLvl" value="">
+	
+<!-- *********************************************    *********************************************  -->
+<div id="menuManage_wrap" class="">
+	<div class="container">
+		<div class="location"><span class="loc_main NanumGothic">메뉴관리 > </span><span class="loc_sub NanumGothic">상세권한관리</span></div>
+		<div class="pagtit"><span class="NanumGothic">상세권한관리</span></div>
+		
+		<div class="con">
+			<div class="row left">
+				<div class="select_box NanumGothic">
+					<select id="userType" onchange="fn_setUserType()">
+						<option value="1" selected>임직원</option>
+						<option value="5">기업중간관리자</option>
+						<option value="6">기업관리자</option>
+						<option value="7">협력사</option>
+						<option value="8">P&P관리자</option>
+						<option value="9">슈퍼관리자</option>
+					</select>
+				</div>
+				<div class="tree_wrap NanumGothic">
+					<div class="horizontalTreeTop"></div>
+				</div>
+			</div>
+			<div class="row right">
+				<div class="detail NanumGothic">
+					<dl class="input_bx full">
+						<dt><label class="NanumGothic">사용자그룹</label></dt>
+						<dd><div id="userTypeName" class="disable_txt gray">임직원</div></dd>
+					</dl>
+					<dl class="input_bx full">
+						<dt><label class="NanumGothic">메뉴명</label></dt>
+						<dd><div id="menuName" class="disable_txt gray"></div></dd>
+					</dl>
+					<dl class="input_bx full">
+                        <dt><label class="NanumGothic">메뉴URL</label></dt>
+                        <dd><div id="menuUrl" class="disable_txt gray"></div></dd>
+                    </dl>
+                    <dl class="input_bx full">
+                        <dt><label class="NanumGothic">메뉴정보</label></dt>
+                        <dd><div id="menuInfo" class="disable_txt gray"></div></dd>
+                    </dl>
+                    <dl class="multi_select_bx">
+                        <dt><label class="NanumGothic">메뉴권한부여</label></dt>
+                        <dd>
+							<div>
+                            <label class="NanumGothic">조회</label>
+                                <select  id="readPerm">
+                                    <option value="Y">사용</option>
+                                    <option value="N">미사용</option>
+                                </select>
+                            </div>
+                            <div>
+                            <label class="NanumGothic">출력</label>
+                                <select  id="printPerm">
+                                    <option value="Y">사용</option>
+                                    <option value="N">미사용</option>
+                                </select>
+                            </div>
+	                    </dd>
+	                    <dd>
+	                    	<div>
+                            <label class="NanumGothic">입력</label>
+                                <select  id="writePerm">
+                                    <option value="Y">사용</option>
+                                    <option value="N">미사용</option>
+                                </select>
+                            </div>
+                            <div>
+                            <label class="NanumGothic">수정</label>
+                                <select  id="editPerm">
+                                    <option value="Y">사용</option>
+                                    <option value="N">미사용</option>
+                                </select>
+                            </div>
+                            <div>
+                            <label class="NanumGothic">삭제</label>
+                                <select  id="deletePerm">
+                                    <option value="Y">사용</option>
+                                    <option value="N">미사용</option>
+                                </select>
+                            </div>
+                        </dd>
+                    </dl>
+				</div>
+				<div class="desc_group">
+					<span class="NanumGothic">※ 사용자 그룹과 메뉴 타입은 1 : 1 매칭이므로 뉴젠피앤피 IT담당자에게 문의바랍니다.</span>
+				</div>
+				<div class="btn_group single">
+					<div><div class="btn_type Material_icons" onclick="fn_saveMenuPerm()">저장</div></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+
+<script type="text/javascript">
+
+function treeRender(jsonData) {
+	$(".horizontalTreeTop").empty();
+	$(".horizontalTreeTop").zooTree(jsonData, {
+		//forceCreate: true,
+		render: function(data) { // <li>...</li> 태그안에 내용을 커스텀 할 수 있다
+			var _url="";
+			if(data.url == undefined){
+				_url="";
+			}else{
+				_url=data.url;
+			}
+			
+		    var $div = $("<a item='"+data.itemId+"' itemLv='"+data.itemLv+"' parent='"+data.parentId+"' class='child-hide' onclick='onTreeClick(this,"+_url+")'><span class='text'>"+data.label+"</span><span class='icon'></span></a></div>");
+		    return $div;
+		}
+	});
+}
+
+$(document).ready(function(){
+    
+    fn_getMenuTreeList();
+})
+
+</script>
+</html>

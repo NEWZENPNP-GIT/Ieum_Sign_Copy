@@ -1,0 +1,311 @@
+
+	<!--****************************************************************************************************************
+	* 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+	* 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+	********************************************************************************************************************
+	--------------------------------------------------------------------------------------------------------------------
+	* 회사       : 뉴젠피앤피
+	* 화면명     : 전자계약 작성 페이지
+	* 화면설명   : 전자계약 작성 02 > 전자문서 개별등록
+	* 작성자     :
+	* 생성일     :
+	--------------------------------------------------------------------------------------------------------------------
+	* 수정자     : 이정훈
+	* 수정일     : 2024.02.20
+	* 수정내용   :
+	------------------------------------------------------------------------------------------------------------------->
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/contract_write.css">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+	<title>인적자원관리 전문IT기업 - 뉴젠P&amp;P</title>
+
+	<script type="text/javascript">
+
+		var contractFileId = "";
+		var bizId		   = "";
+
+		$(document).ready(function() {
+			contractFileId = getURLParameters("contractFileId");
+			bizId 		   = getURLParameters("bizId");
+
+			$("#contractDate").val(date.format("yyyy-MM-dd"));
+			fn_contractNewList();
+			// 팝업 창 크기를 HTML 크기에 맞추어 자동으로 크기를 조정하는 함수.
+			var strWidth;
+			var strHeight;
+
+			//innerWidth / innerHeight / outerWidth / outerHeight 지원 브라우저
+			if (window.innerWidth && window.innerHeight && window.outerWidth && window.outerHeight) {
+				strWidth  = $('#contract_popup').outerWidth()  + (window.outerWidth  - window.innerWidth);
+				strHeight = $('#contract_popup').outerHeight() + (window.outerHeight - window.innerHeight);
+			} else {
+				var strDocumentWidth  = $(document).outerWidth();
+				var strDocumentHeight = $(document).outerHeight();
+
+				window.resizeTo (strDocumentWidth, strDocumentHeight);
+
+				var strMenuWidth  = strDocumentWidth  - $(window).width();
+				var strMenuHeight = strDocumentHeight - $(window).height();
+
+				strWidth  = $('#contract_popup').outerWidth()  + strMenuWidth;
+				strHeight = $('#contract_popup').outerHeight() + strMenuHeight;
+			}
+			window.resizeTo( strWidth+20, strHeight+20 );
+		});
+
+		function fn_contractNewList() {
+
+			var url = rootPath+"contract/getContractNewList.do";
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"GET",
+				data: {
+					transType:'C',
+					bizId:bizId
+				},
+				success:function(result) {
+					console.log(result);
+					if (result.success) {
+
+						// 계약서양식폼
+						$.each(result.data, function(i, row) {
+							var fileName = cutStr(row.fileName, 42);
+							if (contractFileId === row.contractId) {
+								// 계약서양식폼 파일이름
+								contractFileName = row.fileTitle;
+								$("#contractFileName").val(contractFileName);
+								$("#fileId").val(row.fileId);
+								$("#bizName").val(row.bizName);
+								$("#signCustomerType").val(row.signCustomerType);
+							}
+						});
+					}
+					fn_contractNewFormList();
+				},
+				error:function(request,status,error){
+					if (request.status === "401") { alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다."); window.close(); }
+					else 						  { alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error); }
+				}
+			});
+		}
+
+		function fn_contractNewFormList() {
+
+			var url				 = rootPath + "contract/getContractNewFormList.do";
+			var fileId 			 = $('#fileId').val();
+			var contractFileName = $("#contractFileName").val();
+			var bizName			 = $("#bizName").val();
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"GET",
+				data: {
+					fileId:fileId,
+					bizId:bizId
+				},
+				success:function(result) {
+					console.log(result);
+
+					var dataList = "";
+					dataList += '<dl class="boxRow input_bx NanumGothic">';
+					dataList += '	<dt><label class="label_txt NanumGothic">기업명</label></dt>';
+					dataList += '	<dd><input type="text" readonly disabled class="input_txt" value="' + bizName + '"></dd>';
+					dataList += '</dl>';
+					dataList += '<dl class="boxRow input_bx NanumGothic">';
+					dataList += '	<dt><label class="label_txt NanumGothic">양식명</label></dt>';
+					dataList += '	<dd><input type="text" readonly disabled class="input_txt" value="' + contractFileName + '"></dd>';
+					dataList += '</dl>';
+					dataList += '<dl class="boxRow input_bx NanumGothic">';
+					dataList += '	<dt><label class="label_txt NanumGothic">수신자</label></dt>';
+					if ($("#signCustomerType").val() === "1") {
+						dataList += '	<dd class="search_box NanumGothic"><fieldset><input type="hidden" id="userId"><input type="text" id="empName" readonly><a class="btn_type btn_search Material_icons" onclick="popupCustomer()">search</a></fieldset></dd>';
+					} else {
+						dataList += '	<dd class="search_box NanumGothic"><fieldset><input type="hidden" id="userId"><input type="text" id="empName" readonly><a class="btn_type btn_search Material_icons" onclick="popupEmp()">search</a></fieldset></dd>';
+					}
+					dataList += '</dl>';
+					dataList += '<dl class="boxRow input_bx NanumGothic">';
+					dataList += '	<dt><label class="label_txt NanumGothic">생성일자</label></dt>';
+					dataList += '	<dd><input type="text" id="contractDate" value="' + date.format("yyyyMMdd") + '" class="label_txt NanumGothic"></dd>';
+					dataList += '</dl>';
+					if (result.success) {
+						// 계약정보내역
+						$.each(result.data, function(i, row) {
+							var formName = row.formDataName;
+							if (isNull(formName)) formName = "입력항목" + (i+1);
+
+							dataList += '<dl class="boxRow input_bx NanumGothic">';
+							dataList += '	<dt><label class="label_txt NanumGothic" id="img' + (i+1) + '" alt="' + formName + '">' + formName + '</label></dt>';
+							dataList += '	<dd><input type="hidden" id="id'+(i+1)+'" value="'+row.formDataId+'"><input type="text" id="value' + (i+1) + '" value="" class="input_txt"></dd>' // ' + row.formDataValue + '
+							dataList += '</dl>';
+							totPage=(i+1);
+						});
+					} else { alert("기존양식은 시스템사정으로 변경되어 사용하실 수 없습니다.\r\n 다시 양식을 등록해주시기 바랍니다."); }
+					$("#dataList").html(dataList);
+				},
+				error:function(request,status,error) {
+					if (request.status === "401") { alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다."); window.close(); }
+					else 						  { alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error); }
+				}
+			});
+		}
+
+		//기 등록된 수신자인지 확인
+		function fn_contractList() {
+
+			var url			= rootPath + "contract/getContractList.do";
+			var statusCode	= "1";	// 계약작성중
+			var transType	= "N";	// 처리여부
+			var resultValue = 0;
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"GET",
+				async:false,
+				data: {
+					statusCode:statusCode,
+					transType:transType,
+					contractFileId:contractFileId,
+					empNo:$("#userId").val(),
+					contractDate:$("#contractDate").val(),
+					startPage:-1,
+					endPage:-1,
+					bizId:bizId
+				},
+				success:function(result) 			 { if (result.success) resultValue =  result.data.length; },
+				error:function(request,status,error) { if (request.status === "401") alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다."); }
+			});
+			return resultValue;
+		}
+
+		function fn_saveContractForm() {
+			if (!confirm("입력한 내용을 저장하시겠습니까?\r\n저장한 내용으로 전자문서가 생성됩니다.")) return;
+
+			if (totPage === 0) { alert("변경하실 항목이 존재하지 않습니다."); return; }
+
+			var url			 = rootPath+"contract/createContractForm.do";
+			var userId		 = $("#userId").val();
+			var contractDate = $("#contractDate").val();
+
+			if (userId.length === 0) 	   { alert("사용자를 먼저 선택해주시기 바랍니다."); return; }
+			if (contractDate.length === 0) { alert("기준일자를 입력해주시기 바랍니다."); return; }
+
+			contractDate = contractDate.replace(/-/gi, "");
+
+			if (!checkDateNoHypen(contractDate)) { alert("기준일자가 날짜 형식에 맞지 않습니다.\r\n다시 입력해주시기 바랍니다."); return; }
+
+			//이미 존재하는 데이터일 경우 confirm 메세지
+			var result = fn_contractList();
+
+			if (result > 0) { if(!confirm("기 등록된 수신자의 조건 정보가 있습니다.\r\n추가로 등록하시겠습니까?")) return; }
+
+			var formDataValue = "";
+			for (var i=1; i<totPage+1; i++) {
+				var formName   = $("#img"+i).attr("alt");
+				var formId 	   = $("#id"+i).val();
+				var formValue  = encodingSpecialCharacter(encodeURIComponent($("#value"+i).val()));
+				formDataValue += formId+"^"+formName+"^"+formValue+"|";
+			}
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				data: {
+					userId:userId,
+					contractDate:contractDate,
+					contractFileId:contractFileId,
+					formDataValue:formDataValue,
+					bizId:bizId
+				},
+				success:function(result) {
+					if (result.success) {
+						alert("입력한 내용을 저장하였습니다.");
+						opener.fn_contractList(1);
+						window.close();
+					} else { alert("입력하신 내용을 다시 확인해주시기 바랍니다."); }
+				},
+				error:function(request,status,error) {
+					if (request.status === "401") alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+					else 						  alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error);
+				}
+			});
+		}
+
+		function fn_contractCreate() {
+			if (!confirm("문서를 생성하시겠습니까?")) return;
+			var url = rootPath+"contract/createContractPDF.do";
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				success:function(result) {
+					if (result.success) { alert("문서를 생성하였습니다."); opener.fn_contractList(1); }
+					else 				{ alert("입력하신 문서 정보를 다시 확인해주시기 바랍니다."); }
+				},
+				error:function(request,status,error) {
+					if (request.status === "401") { alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다."); window.close(); }
+					else 						  { alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error); }
+				}
+			});
+		}
+
+		function popupEmp() { var url = rootPath+"html/popup/popup_emp.html?bizId="+bizId; openWin(url, "popupEmp", 600, 470); }
+
+		function popupCustomer() { var url = rootPath+"html/popup/popup_customer.html?bizId="+bizId; openWin(url, "popupCustomer", 600, 470); }
+
+		function fn_setEmpNo(row) { $("#userId").val(row.userId); $("#empName").val(row.empName); }
+
+		function fn_setCustomerId(row) { $("#userId").val(row.customerId); $("#empName").val(row.customerName); }
+
+		function changeFunc(value) { if (value === "") return; fn_contractNewFormList(); }
+
+	</script>
+	</head>
+
+	<body>
+	<input type="hidden" id="userId" value="">
+	<input type="hidden" id="fileId" value="">
+	<input type="hidden" id="contractFileName" value="">
+	<input type="hidden" id="bizName" value="">
+	<input type="hidden" id="signCustomerType" value="">
+	<div id="contract_popup" class="edit">
+		<div class="container">
+			<div id="popup_tit">
+				<div class="tit_icon"></div>
+				<div class="tit_text col_skyblue NanumGothic">전자문서 개별등록</div>
+			</div>
+			<div class="contents">
+				<div class="input_wrap" id="dataList">
+				</div>
+			</div>
+			<div class="btn_group">
+				<a href="javascript:fn_saveContractForm();" class="btn_type type1 NanumGothic">등록하기</a>
+				<a href="javascript:window.close();" class="btn_type type3 NanumGothic">취소</a>
+			</div>
+		</div>
+	</div>
+	</body>
+	</html>

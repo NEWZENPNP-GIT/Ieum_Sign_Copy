@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>주소  검색</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type='text/javascript' src="/js/common.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+
+<script>
+	$(document).ready(function(){
+		$('#placeId').val(getURLParameters("placeId"));
+		$('#addrSearchValue').focus();
+		$('#addrSearchValue').keypress(function(event){
+			var keycode = (event.keyCode ? event.keyCode : event.which);
+			if(keycode == '13'){
+				fn_zipcodeList();
+			}
+		});		
+		fn_zipcodeList();
+		
+		
+	});
+	
+	function fn_zipcodeList() {
+		var url = rootPath+"attend/getZipcodeList.do";
+		var addrSearchValue = isSetNull($("#addrSearchValue").val(), "");
+		
+		if (addrSearchValue != "") {
+
+			$.blockUI();
+
+			$.ajax({
+				url:url,
+			    crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				data: {
+					addrSearchValue:addrSearchValue
+				},
+				success:function(result)
+				{
+					var htmlData = "";
+					if (result.success==true) {
+						
+						$.each(result.zipcodes, function(i, row) {
+							htmlData += "<li>";
+							htmlData += "	<div>"+row.postcd+" "+row.address+"</div><input type='radio' name='address' onclick='setAddr(\""+row.postcd+" "+row.address+"\")'>";
+							htmlData += "	<div>"+row.postcd+" "+row.addrjibun+"</div><input type='radio' name='address'  onclick='setAddr(\""+row.postcd+" "+row.addrjibun+"\")'>";
+							htmlData += "</li>";		
+						});	
+						
+					} else {
+						htmlData += '<li>';
+						htmlData += '	<div>요청하신 자료가 존재하지 않습니다.</div>';
+						htmlData += '</li>';	
+					}
+					$("#addrDataList").html(htmlData);
+					$.unblockUI();
+				},
+				error:function(request,status,error){
+					$.unblockUI();
+					if (request.status=="401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						location.href=rootPath;
+					} else {
+						alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+					}
+				}
+			});
+		}	
+	}
+	
+	function setAddr(addr){
+		var result = new Object();
+	    result.addr = addr;
+		if(isNull($("#placeId").val())){
+			opener.setSearchAddr(result);
+			window.close();
+		}else{	
+			result.placeId = $("#placeId").val();
+			window.close();
+			opener.saveSearchAddr(result);
+		}
+	}	
+</script>
+</head>
+<body>
+	<div id="yearTax_wrap_popup" class="yearTax_popup address">
+		<input type="hidden" id="placeId">
+		<div class="container">
+			<div id="popup_tit">
+				<div class="tit_icon icon_set"></div>
+				<div class="tit_text NanumGothic">주소 검색</div>
+				<div id="popup_close" class="btn_type col_skyblue" onclick="window.close();"></div>
+			</div>
+			<div class="contents">
+				<ul class="tab_container">
+					<li id="tab1" class="tab-content">
+						<div class="text_wrap">
+							<div class="line">검색방법: 도로명 또는 도로명+건물번호를 입력 후 검색 하세요.</div>
+							<div class="line col_gray">예)도로명:버드나무로 또는 도로명+건물번호:버드나무로135(도로명과건물번호 사이 한칸 띄움)</div>
+							<div class="line">*도로명 주소가 검색되지 않는 경우는 행정안전부 새주소안내시스템 (<a class="btn_type col_darkblue" href="http://www.juso.go.kr" target="_blank">http://www.juso.go.kr</a>)<br>&nbsp;에서 확인 바랍니다.</div>
+							<div class="line"><a>*주소표기방법 보기</a></div>
+						</div>
+						<div class="search_wrap">
+							<dl>
+								<dt><label class="NanumGothic">검색어</label></dt>
+								<dd><input type="text" id="addrSearchValue"><a class="Material_icons btn_type btn_search" onclick="fn_zipcodeList()">검색</a></dd>
+							</dl>
+						</div>
+						<!--  검색 전 result_wrap class: hidden 추가  / 검색 후 hidden 클랙스 삭제-->
+						<div class="result_wrap">
+							<div class="thead NanumGothic"><div>주소</div><div>선택</div></div>
+							<ul class="list" id="addrDataList">
+							</ul>
+						</div>
+					</li>
+					
+					
+				</ul>
+				<div class="foot_btn">
+					<a class="btn_type">선택완료</a>
+				</div>
+			</div> <!--  contents -->
+		</div> <!--  container -->
+	</div>
+</body>
+</html>

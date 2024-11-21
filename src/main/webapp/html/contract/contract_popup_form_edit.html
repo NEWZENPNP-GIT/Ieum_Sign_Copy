@@ -1,0 +1,248 @@
+
+
+	<!--****************************************************************************************************************
+	* 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+	* 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+	********************************************************************************************************************
+	--------------------------------------------------------------------------------------------------------------------
+	* 회사       : 뉴젠피앤피
+	* 화면명     : 전자문서 정보 변경 팝업창
+	* 화면설명   : 전자계약(양식변환) > 전자문서 목록 > 수정
+	* 작성자     :
+	* 생성일     :
+	--------------------------------------------------------------------------------------------------------------------
+	* 수정자     : 이정훈
+	* 수정일     : 2024.08.05
+	* 수정내용   :
+	------------------------------------------------------------------------------------------------------------------->
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+
+    <link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+    <link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/contract_write.css">
+
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/ui.biz.core.js"></script>
+	<style>
+		#contract_popup {width: 100%;height: auto;}
+		#contract_popup #popup_tit {margin-bottom: 24px;}
+		#contract_popup .contents.hType2 {height: 380px;padding-top: 0;}
+		#contract_popup .contents .input_wrap .boxRow dt {width: 155px;}
+		#contract_popup .contents .input_wrap .boxRow dd {width: calc(100% - 155px);}
+		#contract_popup .btn_group {margin-top: 24px;}
+	</style>
+    <script>
+
+		//***************					윈도우 로딩					***************//
+
+
+		$(document).ready(function () {
+            console.log('contract_popup_form_edit.html');
+
+            fn_getContractFormList();
+        });
+
+
+		//***************					계약양식 폼 리스트 조회					***************//
+
+
+		function fn_getContractFormList() {
+
+            var url	   = rootPath + "contract/getContractFormList.do";
+            var contId = getURLParameters("contId");
+
+            $.ajax({
+                url: url,
+                crossDomain: true,
+                dataType: "json",
+                type: "GET",
+                data: { contId: contId },
+                success: function (result) {
+
+                    var dataList = "";
+
+                    if (result.success) {
+
+                        $.each(result.data, function (i, row) {
+                            var formName = row.formDataName;
+                            if (isNull(formName)) { formName = "입력항목" + (i + 1); }
+                            dataList += '<dl class="boxRow input_bx NanumGothic">';
+                            dataList += '	<dt><label class="label_txt NanumGothic" id="img' + (i + 1) + '" alt="' + formName + '">' + formName + '</label></dt>';
+                            dataList += '	<dd><input type="hidden" id="id' + (i + 1) + '" value="' + row.formDataId + '"><input type="text" id="value' + (i + 1) + '" value="' + row.formDataValue.replace(/\"/g, "&quot;") + '" class="input_txt"></dd>'
+                            dataList += '</dl>';
+                            totPage = (i + 1);
+                        });
+                    } else {
+                        alert("항목조건이 존재하지 않습니다.");
+                        $("#btnUpdate").hide();
+                        $("#btnGenerate").hide();
+                    }
+                    $("#dataList").html(dataList);
+                },
+                error: function (request, status, error) {
+                    if (request.status === "401") {
+                        alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+                        window.close();
+                    } else { alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error); }
+                }
+            });
+        }
+
+
+		//***************					계약양식 폼 수정					***************//
+
+
+		function fn_updForm() {
+
+            if (!confirm("항목정보를 변경하시겠습니까?")) return;
+
+            if (totPage === 0) { alert("변경하실 항목이 존재하지 않습니다."); return; }
+
+            var url			  = rootPath + "contract/updContractForm.do";
+            var contId		  = getURLParameters("contId");
+            var formDataValue = "";
+
+            for (var i=1; i<totPage+1; i++) {
+                var formId    = $("#id" + i).val();
+                var formValue = encodingSpecialCharacter(encodeURIComponent($("#value" + i).val()));
+                formDataValue += formId + "^" + formValue + "|";
+            }
+
+            $.blockUI();
+
+            $.ajax({
+                url: url,
+                crossDomain: true,
+                dataType: "json",
+                type: "POST",
+                data: {
+                    contId: contId,
+                    formDataValue: formDataValue
+                },
+                success: function (result) {
+                    $.unblockUI();
+                    console.log(result);
+                    if (result.success) alert("항목정보를 변경하였습니다.");
+					else			    alert("입력하신 항목정보를 다시 확인해주시기 바랍니다.");
+                },
+                error: function (request, status, error) {
+                    $.unblockUI();
+                    if (request.status === "401") {
+                        alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+                        window.close();
+                    } else { alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error); }
+                }
+            });
+        }
+
+
+		//***************					계약서 삭제					***************//
+
+
+		function fn_delContract() {
+
+            if (!confirm("전자문서를 삭제하시겠습니까?\r\n삭제시 알림톡으로 전송된 전자문서가 조회불가능합니다.")) return;
+
+            var url			 = rootPath + "contract/delContractPerson.do";
+            var userId		 = getURLParameters("userId");
+            var contractDate = getURLParameters("contractDate");
+            var contId		 = getURLParameters("contId");
+
+            $.blockUI();
+
+            $.ajax({
+                url: url,
+                crossDomain: true,
+                dataType: "json",
+                type: "POST",
+                data: {
+                    userId: userId,
+                    contractDate: contractDate,
+                    contId: contId
+                },
+                success: function (result) {
+                    $.unblockUI();
+                    if (result.success) {
+                        alert("전자문서를 삭제하였습니다.");
+                        opener.fn_contractList(1);
+                        window.close();
+                    } else { alert("전자문서 삭제시 실패하였습니다.\r\n message:" + result.message); }
+                },
+                error: function (request, status, error) {
+                    $.unblockUI();
+                    if (request.status === "401") {
+                        alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+                        window.close();
+                    } else { alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error); }
+                }
+            });
+        }
+
+
+		//***************					계약서 재작성					***************//
+
+
+		function fn_generateContract() {
+
+            if (!confirm("전자문서를 재작성하시겠습니까?\r\n기존 전자문서 파일은 삭제되오니 각별히 유의하시기 바랍니다.")) return;
+
+            var url	   = rootPath + "contract/generateContractPDF.do";
+            var contId = getURLParameters("contId");
+
+            $.blockUI();
+
+            $.ajax({
+                url: url,
+                crossDomain: true,
+                dataType: "json",
+                type: "POST",
+                data: { contId: contId  },
+                success: function (result) {
+                    $.unblockUI();
+                    if (result.success) {
+                        alert("전자문서를 재작성하였습니다.");
+                        opener.fn_contractList(1);
+                        window.close();
+                    } else { alert("전자문서 재작성시 실패하였습니다. \r\n" + result.message + "\r\n 다시 확인해주시기 바랍니다."); }
+                },
+                error: function (request, status, error) {
+                    $.unblockUI();
+                    if (request.status === "401") {
+                        alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+                        window.close();
+                    } else { alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error); }
+                }
+            });
+        }
+
+    </script>
+	</head>
+
+	<body>
+		<div id="contract_popup" class="edit">
+			<div class="container">
+				<div id="popup_tit">
+					<div class="tit_icon"></div>
+					<div class="tit_text col_skyblue NanumGothic">전자문서 정보 변경</div>
+					<div id="popup_close" class="btn_type col_skyblue" onclick="window.close();"></div>
+				</div>
+				<div class="contents hType2">
+					<div class="input_wrap" id="dataList"></div>
+				</div>
+				<div class="btn_group">
+					<a href="javascript:fn_generateContract();" class="btn_type type1 NanumGothic">재생성하기</a>
+					<a href="javascript:fn_delContract();" class="btn_type type2 NanumGothic">삭제하기</a>
+					<a href="javascript:fn_updForm();" class="btn_type type3 NanumGothic">적용하기</a>
+					<a href="javascript:window.close();" class="btn_type type4 NanumGothic">취소</a>
+				</div>
+			</div>
+		</div>
+	</body>
+	</html>

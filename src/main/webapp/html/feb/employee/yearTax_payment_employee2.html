@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>간이지급명세서 > 근로자정보</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+<link rel="stylesheet" type="text/css" href="/css/jquery.alerts.css">
+
+<link rel="stylesheet" href="/css/chosen_v1.8.7/chosen.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/jquery.alerts.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+
+<script type="text/javascript" src="/js/ezsign/session_storage.js"></script>
+
+<!-- 선택창 검색어  -->
+<script src="/js/chosen_v1.8.7/chosen.jquery.js" type="text/javascript"></script>
+<script src="/js/chosen_v1.8.7/docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/chosen_v1.8.7/docsupport/init.js" type="text/javascript" charset="utf-8"></script>
+
+<script type="text/javascript" src="/js/ezsign/yearTax_basicsData_common.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+<script type="text/javascript" src="/js/ezsign/feb/employee/yearTax_payment_employee.js"></script>
+
+<style type="text/css">
+	input:focus { 
+  		background-color: #E6F6FC;
+	}
+	/* .yearTax .grid_field.full ul.gridRow2 li:nth-child(1){width: calc(100%);} */
+</style>
+
+</head>
+<body>
+<form name="frm" id="frm" method="post">
+<input type="hidden" name="근무시기" id="근무시기" value="2" />
+</form>
+
+<div id="yearTax_wrap" class="yearTax">
+  <div class="container">
+    <div class="location"><span class="loc_main NanumSquare_R">간이지급명세서  > 하반기 지급분  > </span><span class="loc_sub NanumSquare_R">근로자정보</span></div>
+    <div class="pagtit NanumSquare_R">
+      <span class="">근로자정보</span>
+      <ul class="top_items NanumSquare_R">
+        <li><a class="btn_type icon_file NanumSquare_R" onClick="openExcel('9')">일괄등록 <span class="icon icon_file"></span></a></li>
+        <li><a class="btn_type btn_excel NanumSquare_R" onClick="downExcel(event)">서식 다운로드 <span class="icon excelDown"></span></a></li>
+      </ul>
+    </div>
+
+    <div class="contents">
+      <div class="group_wrap">
+        <div class="group_tit">
+          <div class="icon"></div>
+          <span class="text NanumSquare_R">근로자 정보</span>
+        </div>
+
+        <div class="grid_field full">
+          <ul class="gridRow2">
+            <li class="search_wrap" appFocusNext>
+              <div class="group_row row4 searchbox">
+                <dl class="NanumSquare_R rat3-7">
+                  <dt><label class="label_txt NanumSquare_R">사업장 : </label></dt>
+                  <dd class="select_box">
+                    <select id="searchParams_사업장ID" data-placeholder="선택하세요." class="chosen-select" onChange="ngSelectPlace();" >
+                    </select>
+                  </dd>
+                </dl>
+                <dl class="NanumSquare_R rat3-7">
+                  <dt><label class="label_txt NanumSquare_R">부서 : </label></dt>
+                  <dd class="select_box">                    
+                    <select id="searchParams_부서ID" data-placeholder="선택하세요." class="chosen-select" >
+                    	<option value=''>전체</option>
+                    </select>
+                  </ng-select>
+                  </dd>
+                </dl>
+                <dl class="NanumSquare_R rat4n-6">
+                  <dt><label class="label_txt NanumSquare_R">근무상태 : </label></dt>
+                  <dd class="select_box">
+                    <select id="searchParams_근무상태" data-placeholder="선택하세요." class="chosen-select" >
+                    </select>
+                  </dd>
+                </dl>
+              </div>
+              <div class="group_row row4">
+                <dl class="NanumSquare_R rat3-7">
+                  <dt><label class="label_txt NanumSquare_R">성명 : </label></dt>
+                  <dd class="input_box"><input class="" type="text" id="searchParams_empName"></dd>
+                </dl>
+                <dl class="NanumSquare_R rat3-7">
+                  <dt><label class="label_txt NanumSquare_R">사번 : </label></dt>
+                  <dd class="input_box"><input class="" type="text" id="searchParams_empNo"></dd>
+                </dl>
+                <dl class="NanumSquare_R rat4n-6">
+                  <dt><label class="label_txt NanumSquare_R">직책(직급) : </label></dt>
+                  <dd class="input_box"><input class="" type="text" id="searchParams_positionName"></dd>
+                </dl>
+                <div class="btns"><a class="btn_type btn_grid_search NanumSquare_R" onClick="srchEmpDetail();"><span class="icon Material_icons">search</span> 검색</a></div>
+              </div>
+            </li>
+            <li class="NanumSquare_R btns sort_right sort_bottom">
+				<div class="sortWrap ">
+					<a class="btn_type type1" onClick="setemployeeDinfo('use');">대상 설정</a><a class="btn_type type2" onClick="setemployeeDinfo('disuse');">미대상 설정</a>
+				</div>
+			</li>
+          </ul>
+        </div>
+
+        <div class="grid_paging">
+          <div class="select_box">
+            <dl>
+              <dt><label class="label_txt NanumSquare_R">Rows</label></dt>
+              <dd class="select_box">
+                <select class="NanumSquare_R" id="perPage" onChange="onChangeperPage()">
+                	<!-- <option value="10">10</option>
+                	<option value="20">20</option>
+                	<option value="30">30</option> -->
+                	<option value="50">50</option>
+                	<option value="100">100</option>                  
+                </select>
+              </dd>
+            </dl>
+          </div>
+          <div id="page-selection" class="pagingnav_wrap_mid"></div>
+        </div>
+        <div class="group_table">
+          <table class="hasHead NanumSquare_R" appFocusNext>
+            <colgroup>
+              <col width="4%">
+              <col width="12%">
+              <col width="10%">
+              <col width="12%">
+              <col width="12%">
+              <col width="15%">
+              <col width="13%">
+              <col width="13%">
+              <col width="9%">
+            </colgroup>
+            <thead>
+              <tr>
+                <th class="chk_area"><input type="checkbox" class="isAllchkShow" id="isAllchkShow"></th>
+                <th>사업장</th>
+                <th>성명</th>
+                <th>사번</th>
+                <th>부서</th>
+                <th>이메일</th>
+                <th>전화번호</th>
+                <th>휴대폰</th>
+                <th>신고대상</th>
+              </tr>
+            </thead>
+            <tbody id="empInfoBody">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+	//input,select focus 이동
+	$('input,select').on('keypress', function (e) {
+		if (e.which == 13) {
+			e.preventDefault();    			
+			var nxtIdex = $('input,select').index(this) + 1;
+			
+			if($('input,select')[nxtIdex].type == 'select-one'){
+				$('#'+$('input,select')[nxtIdex].id).trigger('chosen:activate');
+			}else{
+				$('input,select')[nxtIdex].focus();
+			}
+		}		
+	});
+</script>	
+
+<div id="excel-upload-popup">
+			
+</div>
+<!-- 
+<app-excel (outpupExcel)="closeExcel($event)"></app-excel>
+ -->
+ 
+</body>
+
+</html>	

@@ -1,0 +1,426 @@
+
+	<!--****************************************************************************************************************
+	* 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+	* 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+	********************************************************************************************************************
+	--------------------------------------------------------------------------------------------------------------------
+	* 회사       : 뉴젠피앤피
+	* 화면명     : 전자계약 작성 페이지
+	* 화면설명   : 전자문서 > 전자계약(양식변환) > 전자계약 작성 01
+	* 작성자     :
+	* 생성일     :
+	--------------------------------------------------------------------------------------------------------------------
+	* 수정자     : 이정훈
+	* 수정일     : 2023.12.11
+	* 수정내용   :
+	------------------------------------------------------------------------------------------------------------------->
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/contract_write.css">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+
+	<!-- bootPag -->
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/jquery.bootpag.min.js"></script>
+	<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/ui.biz.core.js"></script>
+	<script type="text/javascript" src="/js/ezsign/session_storage.js"></script>
+
+	<script>
+
+		var webSocketKey;
+
+		//***************					윈도우 로딩					***************//
+
+
+		$(document).ready(function () {
+
+			bizI		 = getCookie("contractBizId");
+			userI 		 = getCookie("userId");
+			webSocketKey = bizId + userId;
+
+			console.log("contract_write_step01.html");
+
+			$(".pointCk").click(function () {
+				$(this).attr("checked", "checked");
+				$(".pointCk").not(this).removeAttr("checked");
+			});
+			getBizGrpCombo();
+			fn_contractNewList(1);
+
+			if (getCookie("useContractMenu") === "Y") $(".pointSetting").hide();
+
+			$("#searchCompanyPoint").text(addCommas($("#searchPoint option:selected").text()));
+			$("#searchCompany").change(function() {
+				$("#searchPoint").val($(this).val());
+				$("#searchCompanyPoint").text(addCommas($("#searchPoint option:selected").text()));
+				fn_contractNewList(1);
+			});
+		});
+
+
+		//***************					전자계약 양식 리스트					***************//
+
+
+		function fn_contractNewList(page) {
+
+			var url			   = rootPath + "contract/getContractNewList.do";
+			var sortName	   = $("#sortName").val();
+			var sortOrder	   = $("#sortOrder").val();
+			var useOtherLayout = 'N';
+			var bizId		   = getCookie("bizId");
+			var userId		   = getCookie("loginId");
+			var searchCompany  = $("#searchCompany").val();
+
+			$.blockUI();
+
+			$.ajax({
+				url: url,
+				crossDomain: true,
+				dataType: "json",
+				type: "GET",
+				data: {
+					transType: 'C',
+					userId: userId,
+					recvType: 'W',
+					useOtherLayout: useOtherLayout,
+					sortName: sortName,
+					sortOrder: sortOrder,
+					searchCompany: searchCompany,
+					bizId: bizId
+				},
+				success: function (result) {
+					if (result.success) {
+						var htmlData = "";
+						// 계약서 양식 리스트
+						$.each(result.data, function (i, row) {
+							if (i === 0) selected = "selected";
+							var fileName = cutStr(row.fileTitle, 42);
+							if (row.viewYn === "N") return true;
+
+							htmlData += '<tr class="databox">';
+							htmlData += '	<td class="chk_area"><input type="radio" name="pointCk" class="pointCk" value="' + row.contractId + '_' + row.bizId + '_' + row.signCustomerType + '"></td>';
+
+							if (row.bookmark === "Y") {
+								htmlData += ' <td>';
+								htmlData += ' <i id="bookmark-' + row.fileId + '" data-value="Y" class="fa fa-bookmark" style="font-size:16px; color:#FFC107" onclick=\'fn_bookmark("' + row.fileId + '","' + getCookie("loginId") + '")\'></i>';
+								htmlData += ' </td>';
+							} else {
+								htmlData += ' <td>';
+								htmlData += ' <i id="bookmark-' + row.fileId + '" data-value="N" class="fa fa-bookmark" style="font-size:16px; color:#EEE" onclick=\'fn_bookmark("' + row.fileId + '","' + getCookie("loginId") + '")\'></i>';
+								htmlData += ' </td>';
+							}
+							htmlData += '	<td class="">' + row.bizName + '</td>';
+							htmlData += '	<td class="">' + fileName + '</td>';
+
+							//서명참여자 추가
+							if (row.signUserType === "1" && row.signBizType === "1" && row.signCustomerType === "0") {
+								htmlData += '	<td class="">회사, 근로자</td>';
+							} else if (row.signUserType === "0" && row.signBizType === "1" && row.signCustomerType === "1") {
+								htmlData += '	<td class="">회사, 거래처</td>';
+							} else if (row.signUserType === "1" && row.signBizType === "0" && row.signCustomerType === "0") {
+								htmlData += '	<td class="">근로자</td>';
+							} else if (row.signUserType === "0" && row.signBizType === "1" && row.signCustomerType === "0") {
+								htmlData += '	<td class="">회사</td>';
+							} else if (row.signUserType === "0" && row.signBizType === "0" && row.signCustomerType === "1") {
+								htmlData += '	<td class="">거래처</td>';
+							} else if (row.signUserType === "0" && row.signBizType === "0" && row.signCustomerType === "0") {
+								htmlData += '	<td class="">해당없음</td>';
+							}
+							htmlData += '	<td class="">' + convertDateTime(row.insDate).format("yyyy-MM-dd") + '</td>';
+							htmlData += '	<td class="iconForm"><a class="btn_type" onclick="fn_fileDownload(\'' + row.dataFileId + '\')"><span class="icon_excel"></span><span class="arrow"></span></a></td>';
+							htmlData += '	<td class="zoom"><a class="btn_type Material_icons zoom_in" onclick="fn_contractFormView(\'' + row.fileId + '\')">zoom_in</a></td>';
+							htmlData += '</tr>';
+						});
+					}
+					$('#contractFileList').html(htmlData);
+					$.unblockUI();
+				},
+				error: function (request, status, error) {
+					$.unblockUI();
+					if (request.status === "401") { alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다."); window.close(); }
+					else 						  { alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error); }
+				}
+			});
+		}
+
+
+		//***************					양식 미리보기					***************//
+
+
+		function fn_contractFormView(fileId) { window.open(rootPath + "module/pdfjs/web/viewer.html?fileId=" + fileId, "FormManager", "width=900, height=700, scrollbars=no"); }
+
+
+		//***************					다음 페이지					***************//
+
+
+		function fn_nextPage() {
+
+			$.blockUI();
+			$('#loadingTxt').html('작업 중입니다').show();
+
+			var socket 		 = new WebSocket("wss://" + window.location.host + "/loading/" + webSocketKey);
+			socket.onopen 	 = function(event) { console.log("WebSocket connected."); };
+			socket.onmessage = function(event) { $("#loadingTxt").text(event.data); };
+
+			var contractFileBizId = $("input:radio[name=pointCk]:checked").val();
+			if (!contractFileBizId) { alert("파일 양식을 선택해주세요"); }
+			else {
+				var url = rootPath + "contract/delContractPersonTemp.do";
+				var contractFileId = contractFileBizId.split("_")[0];
+				var bizId = contractFileBizId.split("_")[1];
+				var signCustomerType = contractFileBizId.split("_")[2];
+				$.ajax({
+					url: url,
+					crossDomain: true,
+					dataType: "json",
+					type: "POST",
+					data: {
+						contractFileId: contractFileId,
+						bizId: bizId,
+						webSocketKey:webSocketKey
+					},
+					success: function (result) {
+						if (result.success) {
+							setCookie("contractFileId", contractFileId);
+							setCookie("contractBizId", bizId);
+							setCookie("signCustomerType", signCustomerType);
+							$("#contents_wrap").empty();
+							$(window).off("resize");
+							$.ajax({
+								url: "/html/contract/contract_write_step02.html",
+								success: function (result) { $("#contents_wrap").html(result); }
+							});
+						} else { alert("다음단계 진행중 문제가 발생하였습니다."); }
+					},
+					error: function (request, status, error) {
+						if (request.status === "401") alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						else 						  alert("입력하신 정보를 다시 확인해주시기 바랍니다." + error);
+					}
+				});
+			}
+		}
+
+
+		//***************					양식 관리 페이지로 이동					***************//
+
+
+		function fn_formRegister(obj, menuCode) {
+
+			var url		= $(obj).attr('data-url');
+			var tagName = $("#nav_list > li:nth-child(2) > label > a").prop('tagName');
+
+			if ($(event.target).hasClass("fa-angle-right")) return;
+
+			if (tagName === "A") {
+
+				$(".nav_list > li").removeClass('active');
+				$(".group-list > li > a").removeClass('active');
+
+				var p_tagName = $("#nav_list > li:nth-child(2) > label > a").parent().parent().prop('tagName');
+
+				if (p_tagName === "UL") {
+					$("#nav_list > li:nth-child(2) > label > a").addClass("active");
+				} else {
+					$(".nav_list").find('input[type="checkbox"]').attr("checked", false);
+					$("#nav_list > li:nth-child(2) > label > a").parent().parent().addClass("active");
+				}
+			} else if (url !== "") {
+				$(".nav_list > li").removeClass('active');
+				$(".group-list > li > a").removeClass('active');
+				$("#nav_list > li:nth-child(2) > label > a").parent().addClass("active");
+			}
+
+			$("#contents_wrap").empty();
+			$(window).off("resize");
+			$.ajax({
+				url: url,
+				success: function (result) { $("#contents_wrap").html(result); }
+			});
+		}
+
+
+		//***************					기업 조회					***************//
+
+
+		function getBizGrpCombo() {
+
+			var url = rootPath + "biz/getBizGrpCombo.do";
+			$("#searchCompany").html("");
+			$("#searchPoint").html("");
+
+			$.ajax({
+				url: url,
+				crossDomain: true,
+				dataType: "json",
+				async: false,
+				type: "GET",
+				data: {},
+				success: function (result) {
+					if (result.success) {
+						var workStatus = result.data;
+						$.each(workStatus, function (i, data) {
+							$("#searchCompany").append($("<option>", { value: data.id, text: data.name }));
+							$("#searchPoint").append($("<option>", 	 { value: data.id, text: data.curPoint }));
+						});
+						$("#searchCompany").append($("<option>", { value: '', text: '전체' }));
+					}
+				},
+				error: function (request, status, error) { alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error); }
+			});
+		}
+
+
+		//***************					중요문서 체크					***************//
+
+
+		function fn_bookmark(fileId, userId) {
+
+			var dbMode = 'D';
+			var url	   = rootPath + 'contract/saveContractSetting.do';
+			var value  = $("#bookmark-" + fileId).attr("data-value");
+
+			if (value === "N") dbMode = "U";
+
+			$.ajax({
+				url: url,
+				crossDomain: true,
+				dataType: "json",
+				type: "POST",
+				data: {
+					OPEN_KEY: getCookie("OPEN_KEY"),
+					dbMode: dbMode,
+					fileId: fileId,
+					userId: userId,
+					recvType: 'W',
+					settingType: 'B',
+					settingValue: 'Y'
+				},
+				success: function (res) {
+					if (value === "Y") {
+						$("#bookmark-" + fileId).attr("data-value", "N");
+						$("#bookmark-" + fileId).css("color", "#EEE");
+					} else {
+						$("#bookmark-" + fileId).attr("data-value", "Y");
+						$("#bookmark-" + fileId).css("color", "#FFC107");
+					}
+				},
+				error: function (request, status, error) { goInvalidPage(request, error); }
+			});
+		}
+
+
+		//***************					양식명 정렬 변경					***************//
+
+
+		$(".list").find("th").click(function(e) {
+			$(".list").find("th").removeClass("active");
+			var name  = $(e.currentTarget).attr("sort-name");
+			var order = $(e.currentTarget).attr("sort-order");
+			if(!isNull(name)) {
+				$(e.currentTarget).addClass("active");
+				$("#sortName").val(name);
+				$("#sortOrder").val(order);
+				fn_contractNewList(1);
+				if (order ==="ASC") order = "DESC";
+				else				order = "ASC";
+
+				$(e.currentTarget).attr("sort-order", order);
+			}
+		});
+
+	</script>
+	</head>
+
+	<body>
+	<input type="hidden" id="sortName" value="A.INS_DATE">
+	<input type="hidden" id="sortOrder" value="DESC">
+	<div id="contract_wrap" class="">
+		<div class="container">
+			<div class="location"><span class="loc_main NanumGothic">전자문서 > 전자계약(양식변환) > </span><span
+					class="loc_sub NanumGothic">전자계약 작성</span></div>
+			<div class="field_area" style="float: none;">
+				<div class="selBox NanumGothic">
+					<select id="searchCompany"></select>
+					<select id="searchPoint" style="display:none;"></select>
+				</div>
+				<span class="NanumGothic pointSetting" style="font-size: 13px; color: #333333; font-weight: bold; line-height: 30px; height: 30px; float: left; margin-top: 3px; margin-left: 15px;">
+					잔여 포인트 :&nbsp;
+					<span id="searchCompanyPoint" class="NanumGothic" style="font-size: 13px; color: blue; font-weight: bold; line-height: 30px; height: 30px; margin-top: 3px;"></span>
+					&nbsp;P
+				</span>
+			</div>
+			<div class="pagtit" style="margin-top: 0px;"><span class="NanumGothic">1.양식 선택</span></div>
+			<div class="tit_dec NanumGothic"><span class="speaker"></span><span>아래 양식을 확인후 선택해주세요. 자사 양식을 전자문서로 등록하고싶으면 </span><span class="point"><a class="btn_type" data-url="/html/contract/contract_form_management.html" onclick="fn_formRegister(this,180622091404016)">[여기]</a></span><span>를 클릭하세요.</span></div>
+			<div class="nav_snb">
+				<ul class="nav_tabGroup tab3">
+					<li class="active">
+						<div class="hor_line"></div>
+						<div class="num"><span>1</span></div>
+						<div class="btn_tab"><span class="tabBox NanumGothic">양식선택</span></div>
+					</li>
+					<li class="">
+						<div class="hor_line"></div>
+						<div class="num"><span>2</span></div>
+						<div class="btn_tab"><span class="tabBox btn_type Material_icons">조건 업로드 및 확인</span></div>
+					</li>
+					<li>
+						<div class="hor_line"></div>
+						<div class="num"><span>3</span></div>
+						<div class="btn_tab"><span class="tabBox btn_type Material_icons">전자문서 확인</span></div>
+					</li>
+					<li>
+						<div class="hor_line"></div>
+						<div class="num"><span>4</span></div>
+						<div class="btn_tab"><span class="tabBox btn_type Material_icons">전자문서 전송</span></div>
+					</li>
+				</ul>
+			</div>
+			<div class="tab_contents">
+				<div class="list">
+					<table>
+						<colgroup>
+							<col width="5%">
+							<col width="5%">
+							<col width="15%">
+							<col width="25%">
+							<col width="15%">
+							<col width="15%">
+							<col width="10%">
+							<col width="10%">
+						</colgroup>
+						<thead>
+							<tr>
+								<th class="chk_area"></th>
+								<th></th>
+								<th>기업명</th>
+								<th sort-name="FILE_NAME" sort-order="ASC">양식명</th>
+								<th>서명참여자</th>
+								<th>등록일</th>
+								<th>조건양식</th>
+								<th>미리보기</th>
+							</tr>
+						</thead>
+						<tbody id="contractFileList"></tbody>
+					</table>
+				</div>
+			</div>
+			<div class="btn_footGroup NanumGothic" id="contractStep01">
+				<a class="btn_type btn_next" onclick="fn_nextPage();">다음 ＞ </a>
+			</div>
+		</div>
+	</div>
+	</body>
+	</html>

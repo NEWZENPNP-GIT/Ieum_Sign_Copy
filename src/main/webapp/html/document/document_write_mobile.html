@@ -1,0 +1,1524 @@
+
+	<!--****************************************************************************************************************
+	* 상기 프로그램에 대한 저작권을 포함한 직접재산권은 NewZen P&P에 있으며 NewZen P&P가 명시적으로 허용하지 않은
+	* 사용, 복사, 변경, 제3자에 의한 공개 배포는 엄격히 금지되며 NewZen P&P의 지적재산권 침해에 해당합니다.
+	********************************************************************************************************************
+	--------------------------------------------------------------------------------------------------------------------
+	* 회사       : 뉴젠피앤피
+	* 화면명     : 전자계약 작성 페이지
+	* 화면설명   : 전자문서 > 전자계약 작성 페이지
+	* 작성자     :
+	* 생성일     :
+	--------------------------------------------------------------------------------------------------------------------
+	* 수정자     : 이정훈
+	* 수정일     : 2023.10.26
+	* 수정내용   :
+	------------------------------------------------------------------------------------------------------------------->
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/myPage.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+	<link rel="stylesheet" type="text/css" href="/css/jquery.alerts.css">
+	<link rel="stylesheet" type="text/css" href="/css/font_awesome/css/all.css">
+	<link rel="stylesheet" type="text/css" href="/css/document_write_mobile.css">
+
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+	<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+	<script type="text/javascript" src="/js/ui.biz.core.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script>
+
+		var curPage		   = 1;
+		var resRList	   = [];
+		var resTList	   = [];
+		var imageList	   = [];
+		var fileId		   = 0;
+		var fieldList	   = [];
+		var attachFileList = []; // 첨부파일
+		var domainName 	   = "";
+		var checkSignWork  = false; // 서명작업진행
+
+		function removePop() { $.unblockUI(); }
+
+
+		//***************					윈도우 로딩					***************//
+
+
+		$(document).ready(function() {
+			getBizGrpCombo();	// 기업 조회
+			page2Init();
+			// 유효기간 설정
+			$('#expireType').click(function() {
+				if ($(this).is(':checked')) {
+					$("#expireDate").val(getToday());
+					$("#expireDate").attr("disabled", false);
+				} else {
+					$("#expireDate").val("");
+					$("#expireDate").attr("disabled", true);
+				}
+			});
+
+			// 계약서 파일 이름 등록
+			$("#orgFile").change(function() {
+				var file = document.getElementsByName("orgFile");
+				for (const element of file) {
+					if (element.files[0] !== undefined) {
+						$("[id=orgFileName]").text(element.files[0].name);
+						if (isNull($("#docuName").val())) $("#docuName").val(element.files[0].name.split('.')[0]);
+					}
+				}
+			});
+
+			// 비밀번호 인증 시 입력창 show/hide
+			$("[name=authType]").click(function(e) {
+				if ($("[name=authType]:checked").val() === "P") $(this).siblings('[name=authCode]').show(150).css('display', 'inline-block');
+				else 										    $(this).closest('.radio_box').find('[name=authCode]').hide(150).val("");
+			});
+
+			// 발송 수단 K : 카카오알림톡 / E : 이메일
+			$("[name=sendType]").change(function(e) { var sendType = $("[name=sendType]:checked").val(); });
+
+			// 전자서명 구분 T : 수기서명 / C : 직인 / TC : 수기서명+직인 / N: 서명없음
+			$("[name=signType]").change(function(e) {
+				var signType = $("[name=signType]:checked").val();
+				// 수기서명 또는 직인일 경우에만 버튼 활성화
+				if (signType !== "N") {
+					$("#popupAddSignP").removeClass("disabled");
+					$("#popupAddSignC").removeClass("disabled");
+					$("#popupAddSignA").removeClass("disabled");
+				} else {
+					$("#popupAddSignP").addClass("disabled");
+					$("#popupAddSignC").addClass("disabled");
+					$("#popupAddSignA").addClass("disabled");
+				}
+			});
+			fn_moveStepPage(1);
+			if (getCookie("useContractMenu") === "Y") $(".pointSetting").hide();
+
+			// 잔여포인트
+			$("#searchCompanyPoint").text(addCommas($("#searchPoint option:selected").text()));
+			$("#searchCompany").change(function() {
+				$("#searchPoint").val($(this).val())
+				$("#searchCompanyPoint").text(addCommas($("#searchPoint option:selected").text()));
+			});
+		});
+
+
+		//***************					이전 페이지					***************//
+
+
+		function fn_prevPage() {
+			var page = curPage - 1;
+			if (page < 1) page = 1;
+			fn_moveStepPage(page);
+		}
+
+
+		//***************					다음 페이지					***************//
+
+
+		function fn_nextPage() {
+			var page = curPage + 1;
+			if (page > 6) page = 6;
+			if (!checkValidation(curPage)) return false;
+			fn_moveStepPage(page);
+		}
+
+
+		//***************					화면별 페이지 표시처리					***************//
+
+
+		function fn_moveStepPage(page) {
+
+			switch ( page ) {
+				case 1:		// 계약자 선택 페이지
+					$("#_prevButton").hide();
+					$("#_nextButton").show();
+					$("#_step1").addClass("clear");
+					$("#_step2").removeClass("clear");
+					$("#_step3").removeClass("clear");
+					$("#_step4").removeClass("clear");
+					$("#_step5").removeClass("clear");
+					$("#_step6").removeClass("clear");
+
+					$("#_step1page").show();
+					$("#_step2page").hide();
+					$("#_step2_1page").hide();
+					$("#_step3page").hide();
+					$("#_step4page").hide();
+					$("#_step5page").hide();
+					$("#_step6page").hide();
+					$("#searchCompany").attr("disabled", false);
+					break;
+				case 2:		// 계약서파일 선택 페이지
+					$("#_prevButton").show();
+					$("#_nextButton").show();
+					$("#_step1").addClass("clear");
+					$("#_step2").addClass("clear");
+					$("#_step3").removeClass("clear");
+					$("#_step4").removeClass("clear");
+					$("#_step5").removeClass("clear");
+					$("#_step6").removeClass("clear");
+
+					$("#_step1page").hide();
+					$("#_step2page").show();
+					$("#_step2_1page").hide();
+					$("#_step3page").hide();
+					$("#_step4page").hide();
+					$("#_step5page").hide();
+					$("#_step6page").hide();
+					$("#searchCompany").attr("disabled", true);
+					break;
+				case 3:		// 계약정보 등록 페이지
+					$("#_prevButton").show();
+					$("#_nextButton").show();
+					$("#_step1").addClass("clear");
+					$("#_step2").addClass("clear");
+					$("#_step3").addClass("clear");
+					$("#_step4").removeClass("clear");
+					$("#_step5").removeClass("clear");
+					$("#_step6").removeClass("clear");
+
+					$("#_step1page").hide();
+					$("#_step2page").hide();
+					$("#_step2_1page").hide();
+					$("#_step3page").show();
+					$("#_step4page").hide();
+					$("#_step5page").hide();
+					$("#_step6page").hide();
+					$("#searchCompany").attr("disabled", true);
+					break;
+				case 4:		// 진행방법 선택 페이지
+					$("#_prevButton").show();
+					$("#_nextButton").show();
+					$("#_step1").addClass("clear");
+					$("#_step2").addClass("clear");
+					$("#_step3").addClass("clear");
+					$("#_step4").addClass("clear");
+					$("#_step5").removeClass("clear");
+					$("#_step6").removeClass("clear");
+
+					$("#_step1page").hide();
+					$("#_step2page").hide();
+					$("#_step2_1page").hide();
+					$("#_step3page").hide();
+					$("#_step4page").show();
+					$("#_step5page").hide();
+					$("#_step6page").hide();
+					$("#searchCompany").attr("disabled", true);
+					break;
+				case 5:		// 전자계약 발송 페이지
+					$("#_prevButton").show();
+					$("#_nextButton").hide();
+					$("#_step1").addClass("clear");
+					$("#_step2").addClass("clear");
+					$("#_step3").addClass("clear");
+					$("#_step4").addClass("clear");
+					$("#_step5").addClass("clear");
+					$("#_step6").removeClass("clear");
+
+					$("#_step1page").hide();
+					$("#_step2page").hide();
+					$("#_step2_1page").hide();
+					$("#_step3page").hide();
+					$("#_step4page").hide();
+					$("#_step5page").show();
+					$("#_step6page").hide();
+					$("#searchCompany").attr("disabled", true);
+					break;
+				case 6:		// 전자계약 완료 페이지
+					$("#_prevButton").hide();
+					$("#_nextButton").hide();
+					$("#_step1").addClass("clear");
+					$("#_step2").addClass("clear");
+					$("#_step3").addClass("clear");
+					$("#_step4").addClass("clear");
+					$("#_step5").addClass("clear");
+					$("#_step6").addClass("clear");
+
+					$("#_step1page").hide();
+					$("#_step2page").hide();
+					$("#_step2_1page").hide();
+					$("#_step3page").hide();
+					$("#_step4page").hide();
+					$("#_step5page").hide();
+					$("#_step6page").show();
+					$("#searchCompany").attr("disabled", true);
+					break;
+				default:
+					alert("페이지 이동을 할 수 없습니다.");
+			}
+			curPage = page;
+		}
+
+
+		//***************					유효성 체크					***************//
+
+
+		function checkValidation(page) {
+			switch ( page ) {
+				case 1:		// 계약자 선택 페이지
+					if (resRList.length === 0) { alert("수신자(계약자)를 선택해주시기 바랍니다."); return false; }
+					if (resRList.length > 9)   { alert("수신자(계약자)를 9명까지 등록할 수 있습니다."); return false; }
+					break;
+				case 2:		// 계약서 파일 선택 페이지
+					var orgFile	 = document.getElementsByName('orgFile');
+					var fileSize = 0;
+					var maxSize	 = 5 * 1024 * 1024 * 10; // 50MB
+
+					if (orgFile.length === 0) { alert("계약서 파일을 선택해주세요."); return false; }
+
+					for (const element of orgFile) {
+						if (element['files'][0] !== undefined && element['files'][0] != null) {
+							if (!checkFileExt(element['files'][0].name, 'pdf')) {
+								alert('파일확장자는 pdf파일만 가능합니다.');
+								return;
+							}
+							fileSize = element['files'][0].size;
+							if (checkSpecial(element['files'][0].name)) {
+								alert('파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.');
+								return false;
+							}
+						} else { alert("계약서 파일을 선택해주세요."); return false; }
+					}
+
+					if (fileSize > maxSize) { alert('파일은 ' + (maxSize / 1024 / 1024) + 'MB 이하의 파일만 첨부 가능합니다',''); return false; }
+
+					//첨부파일
+					maxSize  = 1024 * 1024 * 200; // 200MB
+					var totalSize = 0;
+					for (var i=0; i<attachFileList.length; i++) {
+						if (attachFileList[i].value !== undefined) {
+							totalSize += attachFileList[i].value.size;
+						}
+					}
+
+					if (totalSize > maxSize) 		{ alert("첨부파일은 최대 200M까지 등록 가능합니다."); return false; }
+					if (attachFileList.length >= 5) { alert("첨부파일은 최대 5개 까지 등록 가능합니다."); return false; }
+
+					break;
+				case 3:		// 계약정보 등록 페이지
+					var docuName = $("#docuName").val();
+
+					if (docuName.length === 0) { alert("계약명을 입력해주시기 바랍니다."); return false; }
+
+					var expireDate = $("#expireDate").val();
+					if (expireDate !== "") {
+						var rYY 	 = Number(expireDate.replaceAll("-", "").substring(0,4));
+						var rMM 	 = Number(expireDate.replaceAll("-", "").substring(4,6))-1;
+						var rDD 	 = Number(expireDate.replaceAll("-", "").substring(6,8));
+						var currDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+						var tDate 	 = new Date(rYY, rMM, rDD);
+						if (tDate < currDate) {
+							alert("오늘보다 이전날짜를 선택 할 수 없습니다.");
+							$("#expireDate").val(getToday());
+							return false;
+						}
+					}
+					break;
+				case 4:		// 진행방법 선택 페이지
+					var authType = $("[name=authType]:checked").val();
+					var authCode = $("[name=authCode]").val();
+					if (authType === "P" && isNull(authCode)) {
+						alert("비밀번호를 입력해주세요");
+						$("[name=authCode]").focus();
+						return false;
+					}
+					if (authType === "P" && (authCode.length < 4  || authCode.length > 21)) { alert("비밀번호는 4자리 ~ 20자리로 입력해주세요."); return false; }
+					var signType = $("[name=signType]:checked").val();
+					if (signType === "T" && !checkSignWork) { alert("수기서명 선택시 계약자(수신자)의 서명위치를 지정해야 합니다."); return false; }
+					break;
+				case 5:		// 전자계약 발송 페이지
+					break;
+				case 6:		// 전자계약 완료 페이지
+					break;
+				default:
+					break;
+			}
+			return true;
+		}
+
+
+		//////////////////////////////// 1PAGE 처리 START ////////////////////////////////////////
+
+
+		//*********			직접입력 팝업 - 수신자(계약자) 추가			*********//
+		function addRContact() { openWin ("/html/document/document_write_mobile_popup_contact_add.html?type=R","수신자 등록",325,365); }
+
+		//*********			직접입력 팝업 - 참조자 추가			*********//
+		function addTContact() { openWin ("/html/document/document_write_mobile_popup_contact_add.html?type=T","참조자 등록",325,365); }
+
+		//*********			주소록 선택 팝업			*********//
+		function openContact() {
+			var bizId = $("#searchCompany").val();
+			openWin ("/html/contact/contact_popup_list.html?bizId="+bizId,"주소록 관리",920,660);
+		}
+
+
+		//***************					수신자 등록					***************//
+
+
+		function drawRList(rList) {
+			resRList	 = rList;
+			var htmlData = "";
+			var hasRows	 = false;
+
+			$.each(rList, function(i, row) {
+				htmlData += '<tr class="databox">';
+				htmlData += '	<td class="chk_area">' + row.recvOrd + '</td>';
+				htmlData += '	<td>' + (row.contactType === 'P' ? row.contName : row.corpName) + '</td>';
+				htmlData += '	<td>' + row.phoneNumber + '</td>';
+				htmlData += '	<td>' + row.mailAddr + '</td>';
+				htmlData += '	<td><i class="fas fa-user-times fa-2x" onclick="fn_deleteContact(\'' + row.recvType + '\', ' + row.recvOrd + ')"></i></td>';
+				htmlData += '</tr>';
+				hasRows = true;
+			});
+			if (!hasRows) {
+				htmlData += '<tr class="databox">';
+				htmlData += '	<td colspan="5">수신자(계약자)를 선택해주시기 바랍니다.</td>';
+				htmlData += '</tr>';
+			}
+			$("#rList").html(htmlData);
+			CheckAllContactType(rList);
+		}
+
+
+		//***************					참조자 등록					***************//
+
+
+		function drawTList(tList) {
+
+			resTList	 = tList;
+			var htmlData = "";
+			var hasRows  = false;
+
+			$.each(tList, function(i, row) {
+				htmlData += '<tr class="databox">';
+				htmlData += '	<td class="chk_area">' + row.recvOrd + '</td>';
+				htmlData += '	<td>' + (row.contactType === 'P' ? row.contName : row.corpName) + '</td>';
+				htmlData += '	<td>' + row.phoneNumber + '</td>';
+				htmlData += '	<td>' + row.mailAddr + '</td>';
+				htmlData += '	<td><i class="fas fa-user-times fa-2x" onclick="fn_deleteContact(\'' + row.recvType + '\', ' + row.recvOrd + ')"></i></td>';
+				htmlData += '</tr>';
+				hasRows = true;
+			});
+			if (!hasRows) {
+				htmlData += '<tr class="databox">';
+				htmlData += '	<td colspan="5">참조자를 선택해주시기 바랍니다.</td>';
+				htmlData += '</tr>';
+			}
+			$("#tList").html(htmlData);
+			CheckAllContactType(tList);
+		}
+
+
+		//***************					인사, 거래처, 인사+거래처 구별					***************//
+
+
+		function CheckAllContactType(rList) {
+			var allContactTypeP = 0;
+			var allContactTypeC = 0;
+
+			$.each(rList, function(i, row) {
+				if 		(row.contactType === 'C') allContactTypeC++;
+				else if (row.contactType === 'P') allContactTypeP++;
+			});
+
+			//*********			수신자에 인사만 선택했을 시			*********//
+			if(allContactTypeP > 0 && allContactTypeC === 0){
+
+				$("#Step4AuthTypeAllContactTypeP").show();
+				$("#Step4AuthTypeAllContactTypeC").hide();
+				$("#Step4AuthTypeAllContactType").hide();
+
+				$("#Step4SignTypeAllContactTypeP").show();
+				$("#Step4SignTypeAllContactTypeC").hide();
+				$("#Step4SignTypeAllContactType").hide();
+
+				$("#Step5allContactTypeP").show();
+				$("#Step5allContactTypeC").hide();
+				$("#Step5allContactType").hide();
+
+				$("#Step5allContactTypeP input[name='sendType'][value='K']").prop('checked', true);
+				$("#Step5allContactTypeP input[name='sendOrd'][value='A']").prop('checked', true);
+
+				//*********			수신자에 거래처만 선택했을 시			*********//
+			} else if (allContactTypeP === 0 && allContactTypeC > 0) {
+
+				$("#Step4AuthTypeAllContactTypeP").hide();
+				$("#Step4AuthTypeAllContactTypeC").show();
+				$("#Step4AuthTypeAllContactType").hide();
+
+				$("#Step4SignTypeAllContactTypeP").hide();
+				$("#Step4SignTypeAllContactTypeC").show();
+				$("#Step4SignTypeAllContactType").hide();
+
+				$("#Step5allContactTypeP").hide();
+				$("#Step5allContactTypeC").show();
+				$("#Step5allContactType").hide();
+
+				$("#Step5allContactTypeC input[name='sendType'][value='E']").prop('checked', true);
+				$("#Step5allContactTypeC input[name='sendOrd'][value='A']").prop('checked', true);
+
+				//*********			수신자에 인사+거래처 혼합 선택했을 시			*********//
+			} else if (allContactTypeP > 0 && allContactTypeC > 0) {
+
+				$("#Step4AuthTypeAllContactTypeP").hide();
+				$("#Step4AuthTypeAllContactTypeC").hide();
+				$("#Step4AuthTypeAllContactType").show();
+
+				$("#Step4SignTypeAllContactTypeP").hide();
+				$("#Step4SignTypeAllContactTypeC").hide();
+				$("#Step4SignTypeAllContactType").show();
+
+				$("#Step5allContactTypeP").hide();
+				$("#Step5allContactTypeC").hide();
+				$("#Step5allContactType").show();
+
+				$("#Step5allContactType input[name='sendType'][value='E']").prop('checked', true);
+				$("#Step5allContactType input[name='sendOrd'][value='A']").prop('checked', true);
+			}
+		}
+
+		function getContactRList() { return resRList; }
+		function getContactTList() { return resTList; }
+
+
+		//***************					수신자(계약자) 등록					***************//
+
+
+		function setContactRList(rList) {
+
+			resRList = [];
+
+			for (var i=0; i<rList.length; i++) {
+
+				var contName 	= rList[i].contName;
+				var corpName 	= rList[i].corpName;
+				var phoneNumber = rList[i].phoneNumber;
+				var mailAddr 	= rList[i].mailAddr;
+				var corpBizNum 	= rList[i].corpBizNum;
+				var contactType = rList[i].contactType;
+
+				if 		(contactType === "P" && contName === undefined) return;
+				else if (contactType === "C" && corpName === undefined) return;
+
+				var object = {
+					contName: contName,
+					phoneNumber: phoneNumber,
+					mailAddr: mailAddr,
+					corpName: corpName,
+					corpBizNum: corpBizNum,
+					contactType: contactType,
+					recvOrd: (i + 1),
+					recvType: 'R',
+					recvStatus: '0'
+				};
+				resRList.push(object);
+			}
+			drawRList(resRList);
+		}
+
+
+		//***************					참조자 등록					***************//
+
+
+		function setContactTList(tList) {
+
+			resTList = [];
+
+			for (var i=0; i<tList.length; i++) {
+
+				var contName 	= tList[i].contName;
+				var corpName 	= tList[i].corpName;
+				var phoneNumber = tList[i].phoneNumber;
+				var mailAddr 	= tList[i].mailAddr;
+				var corpBizNum 	= tList[i].corpBizNum;
+				var contactType = tList[i].contactType;
+
+				if 		(contactType === "P" && contName === undefined) return;
+				else if (contactType === "C" && corpName === undefined) return;
+
+				var object = {
+					contName: contName,
+					phoneNumber: phoneNumber,
+					mailAddr: mailAddr,
+					corpName: corpName,
+					corpBizNum: corpBizNum,
+					contactType: contactType,
+					recvOrd: (i + 1),
+					recvType: 'T',
+					recvStatus: '0'
+				};
+				resTList.push(object);
+			}
+			drawTList(resTList);
+		}
+
+		function getItSelf() {
+			var isSelf = $('input[name="isSelf"]').is(":checked");
+			return isSelf
+		}
+
+		function setItSelf(self) { $("[name=isSelf]").prop("checked", self); }
+
+
+		//***************					주소록 삭제					***************//
+
+
+		function fn_deleteContact(recvType, recvOrd) {
+			var row = 1;
+			if (recvType === "R") {
+				rList = resRList;
+				rList.splice(recvOrd-1, 1);
+				for (const r of rList) { rList.recvOrd = row; row++; }
+				resRList = rList;
+				setContactRList(resRList);
+			} else if (recvType === "T") {
+				tList = resTList;
+				tList.splice(recvOrd-1, 1);
+				for (const t of tList) { tList.recvOrd = row; row++; }
+				resTList = tList;
+				setContactTList(resTList);
+			}
+		}
+
+
+		//////////////////////////////// 1PAGE 처리 END ////////////////////////////////////////
+
+		//////////////////////////////// 2PAGE 처리 START ////////////////////////////////////////
+
+
+		//*********			계약서 파일 등록			*********//
+		function fn_orgFileClick() { $("#orgFile").click(); }
+
+		function attachFileDel(fileId) {
+
+			$('*[name=attachFile]').val("");
+			$("#"+fileId).remove();
+
+			if ($("#attachFileList").children().length === 1) $(".nonfile").removeClass("hidden");
+
+			for (var i=0; i<attachFileList.length; i++) {
+				if (attachFileList[i].key === fileId) { attachFileList.splice(i, 1); return; }
+			}
+		}
+
+		function fn_attachFile() {
+			$('*[name=attachFile]').val("");
+			$('*[name=attachFile]').click();
+		}
+
+		function attachFileOk(event) {
+			var file 	  = event.target;
+			var maxSize   = 200 * 1024 * 1024; // 200MB
+			var fileName  = "";
+			var totalSize = 0;
+			var fileCnt	  = 0;
+			var maxFile	  = 5;
+			fileName	  = file.files[0].name;
+
+			for (const element of attachFileList) {
+				if (element.value !== undefined) { totalSize += element.value.size; fileCnt++; }
+			}
+
+			if (fileCnt >= maxFile) 	{ alert("첨부파일은 최대 5개 까지 등록 가능합니다."); return; }
+			if (checkSpecial(fileName)) { alert("파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다."); return; }
+			if (totalSize > maxSize) 	{ alert('파일은 ' + (maxSize / 1024 / 1024) + 'MB 이하의 파일만 첨부 가능합니다'); return; }
+			ParseFile(file.files[0]);
+		}
+
+
+		function Output(msg) { var m = document.getElementById("attachFileList"); m.innerHTML = msg + m.innerHTML; }
+
+
+
+		function FileDragHover(e) {
+			e.stopPropagation();
+			e.preventDefault();
+			if (e.type === "dragover") $("#attachFileList").addClass("hover");
+			else 				       $("#attachFileList").removeClass("hover");
+		}
+
+
+
+
+		function FileSelectHandler(e) {
+			FileDragHover(e);
+			var files = e.target.files || e.dataTransfer.files;
+			for (var i=0,f; f=files[i]; i++) { ParseFile(f); }
+		}
+
+
+
+
+		function ParseFile(file) {
+			fileId++;
+			var m = $("#attachFileList");
+
+			if (!m.find(".nonfile").hasClass("hidden")) m.find(".nonfile").addClass("hidden");
+
+			Output ('<div class="file" id="'+fileId+'"><span class="name">'+file.name+'</span><div class="btn_type btn_delete" onClick="attachFileDel('+fileId+');"></div></div>');
+
+			var oFile = {key:fileId, value:file};
+			attachFileList.push(oFile);
+		}
+
+
+
+
+		function page2Init() {
+
+			var fileselect	 = document.querySelector(".fileselect");
+			var filedrag	 = document.getElementById("attachFileList");
+			var submitbutton =  document.getElementById("submitbutton");
+
+			fileselect.addEventListener("change", FileSelectHandler, false);
+
+			var xhr = new XMLHttpRequest();
+			if (xhr.upload) {
+				filedrag.addEventListener("dragover", FileDragHover, false);
+				filedrag.addEventListener("dragleave", FileDragHover, false);
+				filedrag.addEventListener("drop", FileSelectHandler, false);
+				filedrag.style.display = "block";
+				submitbutton.style.display = "none";
+			}
+		}
+
+		//////////////////////////////// 2PAGE 처리 END ////////////////////////////////////////
+
+		//////////////////////////////// 4PAGE 처리 START ////////////////////////////////////////
+
+		function getLayerSignPopup() {
+			$.blockUI({
+				message:'<iframe id="ifrLayerPop" frameborder="0" allowTransparency="true"  width="100%" height="100%" src="/html/document/document_write_mobile_popup_sign_add.html" ></iframe>',
+				css: { top: '5%', left: '15%', width:'1340px', height:'850px', margin:'0px', cursor : 'pointer'}
+			});
+		}
+
+
+		function fn_addSignDocument() {
+
+			var formData = new FormData();
+			var signType = $("[name=signType]:checked").val();
+
+			if (signType === "N") { alert("수기서명 또는 직인일 경우만 지정이 가능합니다."); return false; }
+
+			// 수기서명 PDF TO IMAGE 변환 작업
+			var orgFile  = document.getElementsByName('orgFile');
+			var fileSize = 0;
+			var maxSize  = 5 * 1024 * 1024 * 10; // 50MB
+
+			if (orgFile.length === 0) { alert("계약서 파일을 선택해주세요."); return false; }
+
+			for (var i=0; i<orgFile.length; i++) {
+				if (orgFile[i]['files'][0] !== undefined && orgFile[i]['files'][0] != null) {
+					if (!checkFileExt(orgFile[i]['files'][0].name, 'pdf')) { alert('파일확장자는 pdf파일만 가능합니다.'); return; }
+					fileSize = orgFile[i]['files'][0].size;
+					if (checkSpecial(orgFile[i]['files'][0].name))		   { alert('파일명에 특수문자가 포함되어 있습니다. 제거하시고 다시 등록해주시기 바랍니다.'); return false; }
+					formData.append('DOCUMENT_FILE' + i, orgFile[i]['files'][0]);
+				} else { alert("계약서 파일을 선택해주세요."); return false; }
+			}
+
+			if (fileSize > maxSize) { alert('파일은 ' + (maxSize / 1024 / 1024) + 'MB 이하의 파일만 첨부 가능합니다'); return false; }
+
+			var url = rootPath + 'content/getPDFToImage.do';
+
+			$.blockUI();
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				type:"POST",
+				processData: false,
+				contentType: false,
+				data:formData,
+				success:function(result) {
+					$.unblockUI();
+
+					if(result.success) {
+						domainName = result.domainName;
+						imageList  = result.data;
+
+						if (imageList.length === 0) { alert("계약서 불러오기를 정상적으로 수행하지 못했습니다."); return false; }
+
+						var imageRotate = true;
+						$.each(result.data, function(i, row) { if (row.width >= row.height) { alert("수기서명에 대한 문서는 세로형식만 지원합니다."); imageRotate = false; } });
+						if (imageRotate) getLayerSignPopup();
+
+					} else { alert("계약서 불러오기를 실패하였습니다."); return false; }
+				},
+				error:function(request,status,error) { $.unblockUI(); }
+			});
+		}
+
+		//////////////////////////////// 4PAGE 처리 END ////////////////////////////////////////
+
+		//////////////////////////////// 5PAGE 처리 START ////////////////////////////////////////
+
+
+		function fn_save() {
+
+			$.blockUI();
+
+			var documentMaster = {};
+			var documentDetail = [];
+			var documentField  = [];
+			var formData 	   = new FormData();
+
+			formData.append("OPEN_KEY", getCookie("OPEN_KEY"));
+			documentMaster.bizId  = $("#searchCompany").val();
+			//요청자
+			documentMaster.userId = getCookie("loginId");
+			// 수신자
+			var row=1;
+			for (const r of resRList) {
+				r.recvOrd 	 = row;
+				r.recvType 	 = 'R';
+				r.recvStatus = '0';
+				documentDetail.push(r);
+				row++;
+			}
+			// 참조자
+			row=1;
+			for (const t of resTList) {
+				t.recvOrd 	 = row;
+				t.recvType 	 = 'T';
+				t.recvStatus = '0';
+				documentDetail.push(t);
+				row++;
+			}
+
+			for (var i=0; i<documentDetail.length; i++) {
+
+				if (documentDetail[i].contactType === "P") {
+					formData.append('documentDetail['+i+'].recvUserName', documentDetail[i].contName);		// 수신/참조자 성명
+				} else if (documentDetail[i].contactType === "C") {
+					formData.append('documentDetail['+i+'].recvUserName', documentDetail[i].corpName);		// 수신/참조자 거래처명
+				}
+				formData.append('documentDetail['+i+'].recvPhone', documentDetail[i].phoneNumber);			// 핸드폰 번호
+				formData.append('documentDetail['+i+'].recvEmail', documentDetail[i].mailAddr);				// 이메일
+				formData.append('documentDetail['+i+'].dbMode', 'C');
+				formData.append('documentDetail['+i+'].recvOrd', documentDetail[i].recvOrd);				// 등록순서
+				formData.append('documentDetail['+i+'].recvType', documentDetail[i].recvType);				// R:수신자 / T:참조자
+				formData.append('documentDetail['+i+'].recvStatus', documentDetail[i].recvStatus);			// 수신처리상태
+				formData.append('documentDetail['+i+'].contactType', documentDetail[i].contactType);		// P:인사 / C:거래처
+			}
+
+			//서명정보 제공
+			for (const file of fieldList) documentField.push(file);
+
+			for (var i=0; i<documentField.length; i++) {
+				formData.append('documentField['+i+'].dbMode', 'C');
+				formData.append('documentField['+i+'].key', documentField[i].key);
+				formData.append('documentField['+i+'].id', documentField[i].id);
+				formData.append('documentField['+i+'].name', documentField[i].name);
+				formData.append('documentField['+i+'].x', documentField[i].x);
+				formData.append('documentField['+i+'].y', documentField[i].pdfY);
+				formData.append('documentField['+i+'].width', documentField[i].width);
+				formData.append('documentField['+i+'].height', documentField[i].height);
+				formData.append('documentField['+i+'].type', documentField[i].type);
+				formData.append('documentField['+i+'].page', documentField[i].page);
+			}
+
+			// 태그
+			var tags = document.querySelectorAll('.tag');
+			for (var i=0; i<tags.length; i++) {
+				var tag = tags[i].innerText;
+				formData.append('documentWord['+i+'].workType', 'TBL_DOCUMENT_MASTER');
+				formData.append('documentWord['+i+'].systemType', 'U');
+				formData.append('documentWord['+i+'].keyName', tag);
+				formData.append('documentWord['+i+'].keyWord', tag);
+			}
+
+			// 요청자메모
+			formData.append('documentMaster.reqComment', '');
+
+			// 계약문서명
+			var docuName = $("#docuName").val();
+			formData.append('documentMaster.docuName', docuName);
+
+			// 인증구분	M / C / MC / P / N
+			var authType = $("[name=authType]:checked").val();
+			formData.append('documentMaster.authType', authType);
+
+			// 비밀번호 인증 - 비밀번호
+			var authCode = $("[name=authCode]").val();
+			if (isNotNull(authCode)) formData.append('documentMaster.authCode', authCode);
+
+			// 서명구분	T / C / TC / N
+			var signType = $("[name=signType]:checked").val();
+			formData.append('documentMaster.signType',  signType);
+
+			// 발송수단	K / E
+			var sendType = $("[name=sendType]:checked").val();
+			formData.append('documentMaster.sendType', sendType);
+
+			// 발송순서 A / S
+			var sendOrd = $("[name=sendOrd]:checked").val();
+			formData.append('documentMaster.sendOrd', sendOrd);
+
+			// 검토여부 S / Y / N
+			var reviewType = $("[name=reviewType]:checked").val();
+			formData.append('documentMaster.reviewType', reviewType);
+
+			// 문서유효기간설정
+			var expireType = $("#expireType:checked").val();
+			if (expireType === undefined) expireType="N";
+			else					      expireType="Y";
+			formData.append('documentMaster.expireType', expireType);
+
+			// 문서유효기간
+			var expireDate = $("#expireDate").val().replace(/-/gi, '');
+			formData.append('documentMaster.expireDate', expireDate);
+
+			// 타임스탬프 발급여부 Y / N
+			var tsaType = $("[name=tsaType]:checked").val();
+			formData.append('documentMaster.tsaType', tsaType);
+
+			// 저장구분
+			formData.append('documentMaster.tempSaveType', 'S');
+			formData.append('documentMaster.docuStatus', '1');
+
+			// 입력경로
+			formData.append('documentMaster.inputType', '0');
+
+			// 수정구분
+			formData.append("dbMode", 'C');
+			formData.append("documentMaster.statusCode", '1');
+			formData.append("documentMaster.userId", getCookie("loginId"));
+
+			var imageFile = document.getElementsByName('orgFile');
+			var fileSize  = 0;
+
+			for (var i = 0; i < imageFile.length; i++) {
+				if (imageFile[i]['files'][0] !== undefined && imageFile[i]['files'][0] != null) {
+					fileSize = imageFile[i]['files'][0].size;
+					formData.append('DOCUMENT_FILE' + i, imageFile[i]['files'][0]);
+				}
+			}
+
+			//이전계약서
+			formData.append('documentMaster.prevDocuId', $("#prevDocuId").val());
+
+			//첨부파일
+			for (var i=0; i<attachFileList.length; i++) {
+				if (attachFileList[i].value !== undefined) formData.append("ATTACH_FILE["+i+"]",attachFileList[i].value);
+			}
+
+			var url = rootPath + 'document/saveDocument.do';
+
+			$.ajax({
+				url:url,
+				crossDomain : true,
+				dataType:"json",
+				async:false,
+				type:"POST",
+				processData: false,
+				contentType: false,
+				data:formData,
+				success:function(res) 				 { $.unblockUI(); fn_nextPage(); },
+				error:function(request,status,error) { $.unblockUI(); alert("포인트가 부족합니다. 충전 후 사용하시기 바랍니다.") }
+			});
+		}
+
+
+		// 전자계약 발송함으로 이동
+		function fn_goSendList() {
+
+			// 좌측 메뉴바 - 전자계약 작성 active 제거
+			var currentActiveItem = document.querySelector('[data-url="/html/document/document_write_mobile.html"].active');
+			if (currentActiveItem) currentActiveItem.classList.remove('active');
+
+			// 좌측 메뉴바 - 전자계약 발송함 acrive 활성화
+			var sendListMenuItem = document.querySelector('[data-url="/html/document/document_send_list.html"]');
+			if (sendListMenuItem) sendListMenuItem.classList.add('active');
+
+			// 전자계약 발송함 으로 이동
+			fn_loadHtml("/html/document/document_send_list.html");
+		}
+		//////////////////////////////// 5PAGE 처리 END ////////////////////////////////////////
+
+	</script>
+	</head>
+
+	<body>
+	<div id="contract_wrap" class="">
+		<div class="container">
+			<div class="location">
+				<span class="loc_main NanumGothic">전자문서 > 전자계약(직접입력) > </span><span class="loc_sub NanumGothic">전자계약 작성</span>
+				<span onclick="openHelpWindow('detailwrite')" class="btn btn-default" style="color:#07a6ff;float:right;"><i class="fa fa-question"></i> 도움말</span>
+			</div>
+			<div class="nav_snb">
+				<ul class="nav_tabGroup">
+					<li class="clear" id="_step1">
+						<div class="btn_tab"><span class="tabBox NanumGothic"> 계약자 선택</span></div>
+					</li>
+					<li class="" id="_step2">
+						<div class="btn_tab"><span class="tabBox NanumGothic">계약서파일 선택</span></div>
+					</li>
+					<li class="" id="_step3">
+						<div class="btn_tab"><span class="tabBox NanumGothic">계약정보 등록 </span></div>
+					</li>
+					<li class="" id="_step4">
+						<div class="btn_tab"><span class="tabBox NanumGothic">진행방법 선택</span></div>
+					</li>
+					<li class="" id="_step5">
+						<div class="btn_tab"><span class="tabBox NanumGothic">전자계약 발송</span></div>
+					</li>
+					<li class="" id="_step6">
+						<div class="btn_tab"><span class="tabBox NanumGothic">전자계약 완료</span></div>
+					</li>
+				</ul>
+			</div>
+
+			<div class="field_area">
+				<div class="selBox NanumGothic">
+					<select id="searchCompany"></select>
+					<select id="searchPoint" style="display:none;"></select>
+				</div>
+				<span class="NanumGothic pointSetting" style="font-size: 13px; color: #333333; font-weight: bold; line-height: 30px; height: 30px; float: left; margin-top: 3px; margin-left: 15px;">
+						잔여 포인트 :&nbsp;
+						<span id="searchCompanyPoint" class="NanumGothic" style="font-size: 13px; color: blue; font-weight: bold; line-height: 30px; height: 30px; margin-top: 3px;"></span>
+						&nbsp;P
+					</span>
+			</div>
+
+			<!-- 본문내용 -->
+			<div class="tab_contents">
+
+				<!--//////////////////////////////// 1PAGE 처리 START ////////////////////////////////////////-->
+
+				<!--////////////////////////// 전자계약 작성 /STEP1 계약자 선택 //////////////////////////////////-->
+
+				<!-- 계약자(수신자/참조자) 선택 -->
+				<div id="_step1page">
+					<span class="btn btn-warning" onclick='openContact()'>
+						<i class="far fa-address-card fa-1x"> 주소록선택</i>
+					</span>
+					<span class="btn btn-success" onclick='addRContact()'>
+						<i class="fas fa-user-plus fa-1x"> 직접입력</i>
+					</span>
+					<span style="font-size: 14px; color:red ; font-weight:bold"> ※ 수신자(계약자)는 최대 9명까지 등록할 수 있습니다. </span>
+					<div class="list">
+						<table>
+							<colgroup>
+								<col width="15%">
+								<col width="30%">
+								<col width="25%">
+								<col width="25%">
+								<col width="10%">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>순번</th>
+									<th>성명 / 거래처명</th>
+									<th>연락처</th>
+									<th>이메일</th>
+									<th>삭제</th>
+								</tr>
+							</thead>
+							<tbody id="rList">
+								<tr>
+									<td colspan="5">수신자(계약자)를 선택해주시기 바랍니다.</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<span class="btn btn-success" onclick='addTContact()'>
+						<i class="fas fa-user-plus fa-1x"> 직접입력</i>
+					</span>
+					<div class="list">
+						<table>
+							<colgroup>
+								<col width="15%">
+								<col width="30%">
+								<col width="25%">
+								<col width="25%">
+								<col width="10%">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>순번</th>
+									<th>성명 / 거래처명</th>
+									<th>연락처</th>
+									<th>이메일</th>
+									<th>삭제</th>
+								</tr>
+							</thead>
+							<tbody id="tList">
+								<tr>
+									<td colspan="5">참조자를 선택해주시기 바랍니다.</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<!--//////////////////////////////// 1PAGE 처리 END ////////////////////////////////////////-->
+
+				<!--//////////////////////////////// 2PAGE 처리 START ////////////////////////////////////////-->
+
+				<!--//////////////////////// 전자계약 작성 /STEP2 계약서파일 선택 ////////////////////////////////-->
+
+				<!-- 계약서 선택 default -->
+				<div id="_step2page" style="display:none;">
+					<div id="contract_popup" class="convert_regist" style="height:427px;">
+						<div class="container">
+							<div class="contents">
+								<div class="input_wrap">
+									<dl class="boxRow default_bx NanumGothic">
+										<dt><label class="label_txt NanumGothic">계약서 파일</label></dt>
+										<dd class="column2">
+											<input type="file" id="orgFile" name="orgFile" class="hidden" accept=".pdf"/>
+											<a class="btn_type " href="javascript:fn_orgFileClick();">파일선택</a>
+											<div class="default_box down_file">
+												<span class="file_icon"></span>
+												<span class="file_name" id="orgFileName">* PDF 파일만 가능하며, 최대 50MB 까지 업로드할 수 있습니다.</span>
+											</div>
+										</dd>
+									</dl>
+
+									<dl class="boxRow default_bx NanumGothic">
+										<dt></dt>
+										<dd></dd>
+									</dl>
+
+									<dl class="boxRow default_bx NanumGothic">
+										<dt>
+											<label class="label_txt NanumGothic">첨부 파일</label>
+										</dt>
+										<dd>
+											<div class="box NanumSquare_R file_list admin" id="attachFileList">
+												<div class="nonfile">
+													<span>첨부파일을 마우스로 옮겨주세요(파일 여러 개 동시 첨부 가능)(최대 200메가)</span>
+												</div>
+											</div>
+											<div id="submitbutton" style="display: none;">
+												<button type="submit">Upload Files</button>
+											</div>
+											<div>
+												<input type="file" id="attachFile" name="attachFile" class="hidden" onChange="attachFileOk(event)">
+												<a class="btn_adress fileselect"  style="margin-right:10px;margin-top:2px;" onclick="fn_attachFile();"> 파일첨부</a>
+											</div>
+										</dd>
+									</dl>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!--//////////////////////////////// 2PAGE 처리 END ////////////////////////////////////////-->
+
+				<!--//////////////////////////////// 3PAGE 처리 START ////////////////////////////////////////-->
+
+				<!--///////////////////////// 전자계약 작성 /STEP3 계약정보 등록 /////////////////////////////////-->
+
+				<div id="_step3page" style="display:none;">
+					<div id="contract_popup" class="convert_regist" style="height:427px;">
+						<div class="container">
+							<div class="contents">
+								<div class="input_wrap">
+									<!-- 일반 input 박스 -->
+									<dl class="boxRow default_bx NanumGothic">
+										<dt>
+											<label class="label_txt NanumGothic">계약명</label>
+										</dt>
+										<dd>
+											<input type="text" id="docuName" class="input_txt" />
+										</dd>
+									</dl>
+									<dl class="boxRow input_bx NanumGothic">
+										<dt>
+											<label class="label_txt NanumGothic">계약유효기간</label>
+											<input type="checkbox" style="margin-left:5px;" id="expireType"/>
+										</dt>
+										<dd class="radio_box NanumGothic">
+											<input type="date" max="9999-12-31" id="expireDate" class="input_txt" disabled />
+										</dd>
+									</dl>
+								</div>
+								<div class="notice NanumGothic">※ 안내사항</div>
+								<div class="foot_box NanumGothic">
+									<dl>
+										<dt>1.</dt>
+										<dd> 유효기간은 오늘, 오늘이후의 날짜만 설정할 수 있습니다. (과거일 설정불가)</dd>
+									</dl>
+									<dl>
+										<dt>2.</dt>
+										<dd> 유효기간 설정시 해당 계약기간이 지나면 계약진행을 완료할 수 없습니다.</dd>
+									</dl>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!--//////////////////////////////// 3PAGE 처리 END ////////////////////////////////////////-->
+
+				<!--//////////////////////////////// 4PAGE 처리 START ////////////////////////////////////////-->
+
+				<!--///////////////////////// 전자계약 작성 /STEP4 진행방법 선택 /////////////////////////////////-->
+
+				<!-- 진행방법 선택 :  hidden -->
+				<div id="_step4page" style="display:none;">
+					<div id="contract_popup" class="convert_regist" style="width: 100%; height:472px;">
+						<div class="container">
+							<div class="contents" style="width: 100%; height: 420px;">
+
+								<div class="input_wrap" >
+									<!-- 일반 input 박스 -->
+									<dl class="boxRow input_bx NanumGothic" style="margin-bottom: 18px;">
+										<dt>
+											<label class="label_txt NanumGothic">본인인증수단</label>
+										</dt>
+										<dd class="radio_box NanumGothic">
+											<!-- 1.수신자가 모두 인사(contactType=P)일 경우 -->
+											<div class="radSet" id="Step4AuthTypeAllContactTypeP">
+												<input type="radio" id="authType" name="authType" value="M">
+												<label>휴대폰 본인인증 <span style="color:red;">(휴대폰 본인인증 선택 시, 발송 건당 1P가 추가로 차감됩니다)</span></label>
+											</div>
+											<!-- 2.수신자가 모두 거래처(contactType=C)일 경우 -->
+											<div class="radSet" id="Step4AuthTypeAllContactTypeC">
+												<input type="radio" id="authType" name="authType" value="C">
+												<label>공인인증서 <span style="color:red;">(인증 선택 시, 발송 건당 1P가 추가로 차감됩니다)</span></label>
+											</div>
+											<!-- 3.수신자가 인사+거래처 섞여있을 경우 -->
+											<div class="radSet"id="Step4AuthTypeAllContactType">
+												<input type="radio" id="authType" name="authType" value="MC">
+												<label>휴대폰 본인인증 또는 공인인증서 <span style="color:red;">(인증 선택 시, 발송 건당 1P가 추가로 차감됩니다)</span></label>
+											</div>
+
+											<div class="radSet" >
+												<input type="radio" id="authType" name="authType" value="P">
+												<label style="display: inline-block; line-height: 30px;">비밀번호 인증</label>
+												<input type="password" name="authCode" maxlength="20" value="" class="inpstyle01">
+											</div>
+											<div class="radSet">
+												<input type="radio" id="authType" name="authType" value="N" checked>
+												<label>인증없음</label>
+											</div>
+										</dd>
+									</dl>
+									<dl class="boxRow input_bx NanumGothic" style="margin-bottom: 18px;">
+										<dt>
+											<label class="label_txt NanumGothic">전자서명구분</label>
+										</dt>
+										<dd class="radio_box NanumGothic">
+											<!-- 1.수신자가 모두 인사(contactType=P)일 경우 -->
+											<div class="radSet" id="Step4SignTypeAllContactTypeP">
+												<input type="radio" id="signType" name="signType" value="T">
+												<label>수기서명</label>&emsp;&emsp;&emsp;&emsp;&emsp;
+												<span class="btn btn-success disabled" id="popupAddSignP" onclick='fn_addSignDocument()'>
+														<i class="fas fa-user-plus fa-1x">위치 지정</i>
+													</span>
+											</div>
+											<!-- 2.수신자가 모두 거래처(contactType=C)일 경우 -->
+											<div class="radSet" id="Step4SignTypeAllContactTypeC">
+												<input type="radio" id="signType" name="signType" value="C">
+												<label>직인</label>&emsp;&emsp;&emsp;&emsp;&emsp;
+												<span class="btn btn-success disabled" id="popupAddSignC" onclick='fn_addSignDocument()'>
+													<i class="fas fa-user-plus fa-1x">위치 지정</i>
+												</span>
+											</div>
+											<!-- 3.수신자가 인사+거래처 섞여있을 경우 -->
+											<div class="radSet" id="Step4SignTypeAllContactType">
+												<input type="radio" id="signType" name="signType" value="TC">
+												<label>수기서명 또는 직인</label>&emsp;&emsp;&emsp;&emsp;&emsp;
+												<span class="btn btn-success disabled" id="popupAddSignA" onclick='fn_addSignDocument()'>
+													<i class="fas fa-user-plus fa-1x">위치 지정</i>
+												</span>
+											</div>
+
+											<div class="radSet">
+												<input type="radio" id="signType" name="signType" value="N" checked>
+												<label>서명없음</label>
+											</div>
+											<div class="radSet"></div>
+										</dd>
+									</dl>
+									<dl class="boxRow input_bx NanumGothic" style="margin-bottom: 18px;">
+										<dt>
+											<label class="label_txt NanumGothic">검토진행여부</label>
+										</dt>
+										<dd class="radio_box NanumGothic">
+											<div class="radSet">
+												<input type="radio" id="reviewType" name="reviewType" value="S" >
+												<label>검토 후 서명요청 <span style="color:red;">(검토 진행 시, 발송 건당 1P가 추가로 차감됩니다)</span></label>
+											</div>
+											<div class="radSet">
+												<input type="radio" id="reviewType" name="reviewType" value="Y" >
+												<label>검토 <span style="color:red;">(검토 진행 시, 발송 건당 1P가 추가로 차감됩니다)</span></label>
+											</div>
+											<div class="radSet">
+												<input type="radio" id="reviewType" name="reviewType" value="N" checked>
+												<label>미검토</label>
+											</div>
+										</dd>
+									</dl>
+									<dl class="boxRow input_bx NanumGothic" style="margin-bottom: 18px;">
+										<dt>
+											<label class="label_txt NanumGothic">문서위변조 방지</label>
+										</dt>
+										<dd class="radio_box NanumGothic">
+											<div class="radSet">
+												<input type="radio" id="tsaType" name="tsaType" value="Y">
+												<label>처리</label>
+											</div>
+											<div class="radSet">
+												<input type="radio" id="tsaType" name="tsaType" value="N" checked>
+												<label>미처리</label>
+											</div>
+											<div class="radSet"></div>
+										</dd>
+									</dl>
+								</div>
+								<div class="notice NanumGothic" style="margin-top: 16px;">※ 주의사항</div>
+								<div class="foot_box NanumGothic">
+									<dl>
+										<dt>1.&nbsp;</dt>
+										<dd> 수신자(계약자) 본인여부 확인을 진행해주시기 바랍니다.</dd>
+									</dl>
+									<dl>
+										<dt>2.&nbsp;</dt>
+										<dd> 계약서 파일을 사전에 충분히 검토 후 계약을 진행해주시기 바랍니다.</dd>
+									</dl>
+									<dl>
+										<dt>3.&nbsp;</dt>
+										<dd> 비밀번호인증 선택시 4~10자리의 숫자로 비밀번호를 설정할 수 있습니다.</dd>
+									</dl>
+									<dl>
+										<dt>4.&nbsp;</dt>
+										<dd> 휴대폰본인인증및 공인인증서 인증을 선택하는 경우, 발송 건당 1P가 추가로 차감됩니다.</dd>
+									</dl>
+									<dl>
+										<dt>5.&nbsp;</dt>
+										<dd> 검토 진행 시, 발송 건당 1P가 추가로 차감됩니다.</dd>
+									</dl>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!--//////////////////////////////// 4PAGE 처리 END ////////////////////////////////////////-->
+
+				<!--//////////////////////////////// 5PAGE 처리 START ////////////////////////////////////////-->
+
+				<!--///////////////////////// 전자계약 작성 /STEP5 전자계약 발송 /////////////////////////////////-->
+
+				<!-- 전자계약 발송 :  hidden -->
+				<div id="_step5page" style="display:none;">
+					<div id="contract_popup" class="convert_regist" style="height:427px;">
+						<div class="container">
+
+							<!-- 1.수신자가 모두 인사(contactType=P)일 경우 -->
+
+							<div class="contents" id="Step5allContactTypeP" style="width: 100%; height: 420px;">
+								<div class="input_wrap">
+									<!-- 일반 input 박스 -->
+									<dl class="boxRow input_bx NanumGothic">
+										<dt>
+											<label class="label_txt NanumGothic">발송 수단</label>
+										</dt>
+										<dd class="radio_box NanumGothic">
+											<div class="radSet">
+												<input type="radio" id="sendType" name="sendType" value="K"><label>카카오알림톡</label>
+											</div>
+											<div class="radSet">
+												<input type="radio" id="sendType" name="sendType" value="E"><label>이메일</label>
+											</div>
+										</dd>
+									</dl>
+									<dl class="boxRow default_bx NanumGothic">
+										<dt>
+											<label class="label_txt NanumGothic">발송 순서</label>
+										</dt>
+										<dd class="radio_box NanumGothic">
+											<div class="radSet">
+												<input type="radio" id="sendOrd" name="sendOrd" value="A"><label>동시발송</label>
+											</div>
+											<div class="radSet">
+												<input type="radio" id="sendOrd" name="sendOrd" value="S"><label>순차발송(참조자는 완료 후 발송)</label>
+											</div>
+										</dd>
+									</dl>
+								</div>
+								<div class="notice NanumGothic">※ 주의사항</div>
+								<div class="foot_box NanumGothic">
+									<dl>
+										<dt>1.</dt>
+										<dd>카카오알림톡은 수신자(계약자) 휴대폰번호으로 발송됩니다.</dd>
+									</dl>
+									<dl>
+										<dt>2.</dt>
+										<dd>카카오톡 PC버젼도 계약진행이 가능합니다.</dd>
+									</dl>
+									<dl>
+										<dt>3.</dt>
+										<dd>즉시계약은 계약생성과 동시에 수신자(계약자) 필히 본인확인 절차를 수행 후 계약완료해주시기 바랍니다.</dd>
+									</dl>
+								</div>
+
+								<div class="input_wrap">
+									<dl class="boxRow default_bx NanumGothic">
+										<dt>
+											<label class="label_txt NanumGothic"></label>
+										</dt>
+										<!--			인사만 선택한 경우 발송 버튼			-->
+										<dd class="btn_search NanumGothic">
+											<a class="btn btn-danger"  style="width:200px; margin-top:10px;" onclick="fn_save();"> <i class="fas fa-paper-plane"></i>계약서 발송</a>
+										</dd>
+									</dl>
+								</div>
+							</div>
+
+							<!-- 2.수신자가 모두 거래처(contactType=C)일 경우 -->
+
+							<div class="contents" id="Step5allContactTypeC" style="width: 100%; height: 420px;">
+								<div class="input_wrap">
+									<!-- 일반 input 박스 -->
+									<dl class="boxRow input_bx NanumGothic">
+										<dt>
+											<label class="label_txt NanumGothic">발송 수단</label>
+										</dt>
+										<dd class="radio_box NanumGothic">
+											<div class="radSet">
+												<input type="radio" id="sendType" name="sendType" value="E"><label>이메일</label>
+											</div>
+										</dd>
+									</dl>
+									<dl class="boxRow default_bx NanumGothic">
+										<dt>
+											<label class="label_txt NanumGothic">발송 순서</label>
+										</dt>
+										<dd class="radio_box NanumGothic">
+											<div class="radSet">
+												<input type="radio" id="sendOrd" name="sendOrd" value="A"><label>동시발송</label>
+											</div>
+											<div class="radSet">
+												<input type="radio" id="sendOrd" name="sendOrd" value="S"><label>순차발송(참조자는 완료 후 발송)</label>
+											</div>
+										</dd>
+									</dl>
+								</div>
+								<div class="notice NanumGothic">※ 주의사항</div>
+								<div class="foot_box NanumGothic">
+									<dl>
+										<dt>1.</dt>
+										<dd>입력하신 담당자 이메일로 발송됩니다.</dd>
+									</dl>
+									<dl>
+										<dt>2.</dt>
+										<dd>수신자가 문서를 수신하기까지 시간이 소요되므로 잠시만 기다려주시기 바랍니다.</dd>
+									</dl>
+								</div>
+
+								<div class="input_wrap">
+									<dl class="boxRow default_bx NanumGothic">
+										<dt>
+											<label class="label_txt NanumGothic"></label>
+										</dt>
+										<!--			거래처만 선택한 경우 발송 버튼			-->
+										<dd class="btn_search NanumGothic">
+											<a class="btn btn-danger"  style="width:200px; margin-top:10px;" onclick="fn_save();"> <i class="fas fa-paper-plane"></i>계약서 발송</a>
+										</dd>
+									</dl>
+								</div>
+							</div>
+
+							<!-- 3.수신자가 인사+거래처 섞여있을 경우 -->
+
+							<div class="contents" id="Step5allContactType" style="width: 100%; height: 420px;">
+								<div class="input_wrap">
+									<!-- 일반 input 박스 -->
+									<dl class="boxRow input_bx NanumGothic">
+										<dt>
+											<label class="label_txt NanumGothic">발송 수단</label>
+										</dt>
+										<dd class="radio_box NanumGothic">
+											<div class="radSet">
+												<input type="radio" id="sendType" name="sendType" value="E"><label>이메일</label>
+											</div>
+										</dd>
+									</dl>
+									<dl class="boxRow default_bx NanumGothic">
+										<dt>
+											<label class="label_txt NanumGothic">발송 순서</label>
+										</dt>
+										<dd class="radio_box NanumGothic">
+											<div class="radSet">
+												<input type="radio" id="sendOrd" name="sendOrd" value="A"><label>동시발송</label>
+											</div>
+											<div class="radSet">
+												<input type="radio" id="sendOrd" name="sendOrd" value="S"><label>순차발송(참조자는 완료 후 발송)</label>
+											</div>
+										</dd>
+									</dl>
+								</div>
+								<div class="notice NanumGothic">※ 주의사항</div>
+								<div class="foot_box NanumGothic">
+									<dl>
+										<dt>1.</dt>
+										<dd>입력하신 담당자 이메일로 발송됩니다.</dd>
+									</dl>
+									<dl>
+										<dt>2.</dt>
+										<dd>수신자가 문서를 수신하기까지 시간이 소요되므로 잠시만 기다려주시기 바랍니다.</dd>
+									</dl>
+								</div>
+
+								<div class="input_wrap">
+									<dl class="boxRow default_bx NanumGothic">
+										<dt>
+											<label class="label_txt NanumGothic"></label>
+										</dt>
+										<!--			인사 + 거래처를 선택한 경우 발송 버튼			-->
+										<dd class="btn_search NanumGothic">
+											<a class="btn btn-danger"  style="width:200px; margin-top:10px;" onclick="fn_save();"> <i class="fas fa-paper-plane"></i>계약서 발송</a>
+										</dd>
+									</dl>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<!--//////////////////////////////// 5PAGE 처리 END ////////////////////////////////////////-->
+
+				<!-- 전자계약 완료 -->
+				<div id="_step6page" style="display:none;">
+					<div id="submit">
+						<div class="iconArea">
+								<span style="color: DeepSkyBlue;">
+									<i class="fas fa-share-square fa-5x"></i>
+								</span>
+							<span class="NanumGothic font_30 col_skyblue">전자계약서 발송완료</span>
+						</div>
+						<div class="textArea NanumGothic font_17 col_gray ">전자문서를 발송하였습니다.<br></div>
+						<div class="btnArea"><a class="btn_type btn_submit " onclick="fn_goSendList()">계약목록 이동<span class="icon Material_icons">play_arrow</span></a></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="btn_footGroup NanumGothic">
+			<a id="_prevButton" class="btn_type btn_prev type4" onclick="fn_prevPage();">＜  이전</a>
+			<a id="_nextButton" class="btn_type btn_next active" onclick="fn_nextPage();">다음 ＞</a>
+		</div>
+	</div>
+	</body>
+	</html>

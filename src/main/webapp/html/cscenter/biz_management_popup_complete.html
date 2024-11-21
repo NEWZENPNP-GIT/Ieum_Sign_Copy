@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/myPage.css">
+<link rel="stylesheet" type="text/css" href="/css/biz_management.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.bootpag_candy.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script>
+
+$(document).ready(function() {
+
+	var param = getParams();
+	
+	$("#bizId").val(param.id);
+	
+	$("#funnel").val(param.funnel);
+	
+	$("#close").click(function(){
+		self.close();
+	});
+
+	$(".onlyAlphabet").keyup(function(event){
+		if (!(event.keyCode >=37 && event.keyCode<=40)) {
+		var inputVal = $(this).val();
+		$(this).val(inputVal.replace(/[^a-z]/gi,''));
+		}
+	});
+	
+	fn_getBiz();
+	
+});
+
+
+function fn_getBiz() {
+	
+	var url = rootPath+"biz/getBizList.do";
+	
+	var bizId = $("#bizId").val();
+	
+	if (bizId.length==0) {
+		alert("다시 조회해주시기 바랍니다.");
+		return false;
+	}
+
+	$.blockUI();
+    
+	$.ajax({
+		url:url,
+	    crossDomain : true,
+		dataType:"json",
+		type:"GET",
+		data: {
+			bizId:bizId,
+			startPage:0,
+			endPage:1
+		},
+		success:function(result)
+		{
+			if(result.success) {
+
+				$.each(result.data, function(i, row) {
+					$("#bizName").val(row.bizName);
+					$("#businessNo").val(row.businessNo);
+					$("#bizStatus").val(row.bizStatus);
+					$("#ownerName").val(row.ownerName);
+					$("#addr1").val(row.addr1);
+					$("#email").val(row.personEMail);
+					$("#phoneNum").val(row.personUserTelNum);
+				});
+			} else {
+				alert("조회하신 사업장이 없습니다.\r\n다시 입력해주시기 바랍니다.");
+			}
+		},
+		error:function(request,status,error){
+			alert("입력하신 정보를 다시 확인해주시기 바랍니다.");
+	        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
+	});
+	$.unblockUI();
+
+}
+
+
+function fn_save() {
+	
+	if(!confirm("완료처리를 하시겠습니까?")) return false;
+	
+	var url = rootPath+"cs/completedBiz.do";
+
+	var bizId = $("#bizId").val();
+	var bizName= $("#bizName").val();
+	var businessNo= $("#businessNo").val();
+	var email = $("#email").val();
+	var phoneNum = $("#phoneNum").val();
+	var funnel = $("#funnel").val();
+
+	if(bizName.length <= 0) {
+		alert("회사명을 입력 해주세요.");
+		return false;
+	}
+	
+	if(email.length <= 0) {
+		alert("이메일을 입력 해주세요.");
+		return false;
+	}else{
+		if(!checkEmail(email)) {
+			alert("이메일 형식이 맞지 않습니다.");
+			return false;
+		}		
+	}	
+	if(phoneNum.length <= 0) {
+		alert("담당자연락처를 입력 해주세요.");
+		return false;
+	}else {
+		if(!checkPhoneNumNoHypen(phoneNum)) {
+			alert("휴대폰번호 형식이 맞지 않습니다.\r\n다시 입력해주시기 바랍니다.");
+			$("#phoneNum").focus();
+			return false;
+		}
+	}
+
+	$.blockUI();
+    
+	$.ajax({
+		url:url,
+	    crossDomain : true,
+		dataType:"json",
+		type:"POST",
+		data: {
+			bizId:bizId,
+			startPage:0,
+			endPage:1,
+			bizName:bizName,
+			businessNo:businessNo,
+			email:email,
+			phoneNum:phoneNum,
+			funnel:funnel,
+			bizStatus:'Z90'
+		},
+		success:function(result)
+		{
+			$.unblockUI();
+			if (result.success==true) {
+							
+				alert("완료처리 되었습니다.");
+				var num = opener.curPage;
+			    opener.fn_searchList(num+1);
+			    self.opener=self;
+			    self.close();
+			
+			}
+			
+		},
+		error:function(request,status,error){
+			$.unblockUI();
+		}
+	});		
+}
+
+</script>
+</head>
+<body>
+<input type="hidden" id="bizId" value="">
+<input type="hidden" id="funnel" value="">
+	<div id="" class="contract_electronic_popup" style="width: 400px">
+		<div class="pop_title">
+ 			<h3>기업 완료처리</h3> 
+			<a class="col_skyblue" id="close"></a>
+		</div>
+
+		<div class="tbstyle01">
+			<table class="NanumSquare_R">
+				<tr>
+					<th>회사명</th>
+					<td>
+						<input type="text" id="bizName" class="inpstyle01">
+					</td>
+				</tr>
+				<tr>
+					<th>사업자번호</th>
+					<td>						
+						<div class="filesearch">
+							<input type="text" id="businessNo" class="inpstyle01" disabled> 
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>대표자명</th>
+					<td>
+						<input type="text" id="ownerName" class="inpstyle01">
+					</td>
+				</tr>
+				<tr>
+					<th>주소</th>
+					<td>
+						<input type="text" id="addr1" class="inpstyle01">
+					</td>
+				</tr>
+				<tr>
+					<th>이메일</th>
+					<td>
+						<input type="text" id="email" class="inpstyle01">
+					</td>
+				</tr>
+				<tr>
+					<th>연락처</th>
+					<td>
+						<input type="text" id="phoneNum" class="inpstyle01">
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="btnstyle01">
+			<a class="NanumRound" onclick="fn_save()">완료처리</a>
+		</div>
+	</div>
+</body>
+</html>

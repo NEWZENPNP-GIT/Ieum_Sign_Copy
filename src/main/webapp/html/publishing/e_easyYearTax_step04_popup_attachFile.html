@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>주택관련 소득공제신청 확인서</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+</head>
+<body>
+	<div id="yearTax_wrap_popup" class="yearTax_popup attach">
+		
+		<div class="container">
+			<div id="popup_tit">
+				<div class="tit_icon icon_file"></div>
+				<div class="tit_text NanumSquare_R"><span class="sky_tit">의료비 </span><span class="black_tit">추가 증빙하기</span></div>
+				<div id="popup_close" class="btn_type col_skyblue" onclick="window.close();"></div>
+			</div>
+			<div class="contents">
+				<div class="left_con">
+					<div class="btns_wrap">
+						<div class="top_btns NanumRound">
+							<div class="pag_group">
+								<a class="btn_type btn_prev"></a>
+								<a class="btn_type btn_next"></a>
+							</div>
+							<div class="btnMask">
+								<div class="btn_list">
+									<a class="btn_type list active"></a>
+									<a class="btn_type list"></a>
+									<a class="btn_type list"></a>
+									<a class="btn_type list"></a>
+									<a class="btn_type list"></a>
+									<a class="btn_type list"></a>
+									<a class="btn_type list"></a>
+									<a class="btn_type list"></a>
+									<a class="btn_type list"></a>
+									<a class="btn_type list"></a>
+									<a class="btn_type list"></a>
+									<a class="btn_type list"></a>
+									<a class="btn_type list"></a>
+								</div>
+							</div>
+						</div>
+						<div class="foot_btns NanumSquare_R">
+							<a class="btn_type btn_del">삭제</a>
+							<a class="btn_type btn_add">추가</a>
+						</div>
+					</div>
+					<div class="img_wrap NanumSquare_R">
+						<div class="overlay_txt">
+							<span class="icon"></span>
+							<span class="t_tit">이미지 업로드</span>
+							<span class="s_tit">이미지 파일만 첨부가 가능합니다.</span>
+						</div>
+						<ul class="img_list">
+							<li><img src="/css/image/resource/sample1.jpg"></li>
+							<li><img src="/css/image/easyTax/receipt_2018.jpg"></li>
+						</ul>
+					</div>
+				</div>
+				<div class="right_con NanumSquare_R">
+					<ul class="file_info">
+						<li class="no">No.</li>
+						<li class="no_val">1</li>
+						<li class="name">파일명</li>
+						<li class="name_val NanumRound">
+							<input type="text" value="첫번째 안경구입비영수증" disabled/>
+						</li>
+						<li class="edit"><a class="btn_type btn_edit">수정</a></li>
+					</ul>
+					<div class="file_type">
+						<div class="part_tit">서류구분</div>
+						<div class="part_con">
+							<div><input type="radio" name="file_type" id="type1"><label for="type1">의료비지급명세서 </label></div>
+							<div><input type="radio" name="file_type" id="type2"><label for="type2">의료비영수증</label></div>
+							<div><input type="radio" name="file_type" id="type3"><label for="type3">안경구입 </label></div>
+							<div><input type="radio" name="file_type" id="type4"><label for="type4">보청기,장애인보장구</label></div>
+							<div><input type="radio" name="file_type" id="type5"><label for="type5">의료기기 </label></div>
+							<div><input type="radio" name="file_type" id="type6"><label for="type6">의료비부담명세서</label></div>
+							<div><input type="radio" name="file_type" id="type7"><label for="type7">난임시술비</label></div>
+							<div><input type="radio" name="file_type" id="type8"><label for="type8">해당없음</label></div>
+						</div>
+					</div>
+					<div class="file_form">
+						<div class="part_dec">
+							<input type="checkbox" id="reg" class="hidden">
+							<label class="check_box" for="reg"></label><div class="txtarea">아래 자료를 입력하여<span>기타자료</span>를<span>추가</span>로 등록합니다.</div>
+						</div>
+						<div class="part_con NanumSquare_R">
+							<dl class="">
+								<dt><label class="label_txt">대상자</label></dt>
+								<dd class="input_box"><input class="" type="text"></dd>
+							</dl>
+							<dl class="">
+								<dt><label class="label_txt">공제종류</label></dt>
+								<dd class="input_box"><select class="NanumSquare_R">
+										<option value="">Y</option>
+										<option value="">2</option>
+									</select></dd>
+							</dl>
+							<dl class="">
+								<dt><label class="label_txt">증빙코드</label></dt>
+								<dd class="input_box">
+									<select class="NanumSquare_R">
+										<option value="">Y</option>
+										<option value="">2</option>
+									</select></dd>
+							</dl>
+							<dl class="">
+								<dt><label class="label_txt">의료비유형</label></dt>
+								<dd class="input_box">
+									<select class="NanumSquare_R">
+										<option value="">Y</option>
+										<option value="">2</option>
+									</select></dd>
+							</dl>
+							<dl class="">
+								<dt><label class="label_txt">사업자번호</label></dt>
+								<dd class="input_box"><input class="" type="text"></dd>
+							</dl>
+							<dl class="">
+								<dt><label class="label_txt">상호</label></dt>
+								<dd class="input_box"><input class="" type="text"></dd>
+							</dl>
+							<dl class="">
+								<dt><label class="label_txt ">지출금액</label></dt>
+								<dd class="input_box"><input class="" type="text"></dd>
+							</dl>
+						</div>
+					</div>
+					<div class="file_comment">
+						<div class="part_tit">남기실 내용</div>
+						<div class="part_textarea">
+							<textarea class="Dotum" placeholder="ex) 안경구입비 영수증입니다."></textarea>
+						</div>
+					</div>
+					<div class="right_foot">
+						<div class="file_save"><a class="btn_type NanumRound">저장</a></div>
+						<div class="notice">
+							<span>1. 추가증빙하는 지출자가 본인이 아닌경우</span>
+							<span class="dep">꼭 기본공제 및 부양 가족의 급여를 확인하세요.</span>
+							<span>2. 모바일캔디(<a class="btn_type url">App.ezsign.co.kr</a>) 를 설치 하시면</span>
+							<span class="dep">쉽게 증빙을 업로드 하실수 있습니다.</span>
+						</div>
+					</div>
+				</div>
+			</div> <!--  contents -->
+		</div>
+		
+		<div class="layerPop_wrap hidden">
+			<div class="popup_bg small">
+			
+				<div class="popup_tit">
+					<div class="popup_close"><a class="btn_type btn_close"></a></div>
+				</div>
+				<ul class="popup_content">
+					<li class="icon"></li>
+					<li class="text NanumRound">
+						<span>올리실 내용이 더 있나요?</span>
+					</li>
+					<li id="pop_btns" class="NanumRound">
+						<a class="btn_type type1">예</a>
+						<a class="btn_type type2">아니오</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	//좌측 버튼 페이징
+	$(document).ready(function(){
+		set_left_btn();
+	});
+	
+	$(window).resize(function(){
+		set_left_btn();
+	});
+	
+	function set_left_btn(){
+		var _btnsH=$(".btn_list").height();
+		var _maskH=$(".btnMask").height();
+		if( _maskH < _btnsH){
+			var gap=_maskH -_btnsH;
+			$(".top_btns").addClass("pageShow");
+			$(".pag_group > .btn_type").off().on("click",function(e){
+				var obj=$(e.currentTarget);
+				var margin=30;
+				if(obj.hasClass("btn_prev")){
+					var _top=$(".btn_list").position().top;
+					var target;
+					console.log(-((_maskH-margin)-(-_top)));
+					console.log(":_maskH =="+_maskH)
+					if(_top < 0 && -((_maskH-margin)-(-_top)) < (_maskH-margin)){
+						target=0;
+					}else{
+						target=_top + (_maskH) - margin;
+					}
+					if($(".btn_list").position().top < 0){
+						//$(".btn_list").animate({top:target}, 500, function() {} );
+						$(".btn_list").css("top",target);
+					}
+				}else{
+					var target=$(".btn_list").position().top - (_maskH) + margin;
+					if(-(target) < _btnsH){
+						//$(".btn_list").animate({top:target}, 500, function() {} );
+						$(".btn_list").css("top",target);
+					}
+				}
+			})
+		}else{;
+			$(".top_btns").removeClass("pageShow");
+		}
+	}
+	//좌측 버튼 이벤트
+	$(".btn_list > .list").click(function(e){
+		var obj=$(e.currentTarget);
+		var _idx=obj.index();
+		
+		//버튼 클릭 액션
+		$(".btn_list > .list").removeClass("active");
+		obj.addClass("active");
+		
+		//타겟 이미지 셋팅
+		$(".img_list").find("li").addClass("hidden"); 
+		
+		$(".img_list > li").eq(_idx).removeClass("hidden");
+	})
+</script>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache"/>
+	<title>종합소득한도초과액</title>
+	
+	<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+	<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+	<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+		
+	<script type='text/javascript' src="/js/jquery.min.js"></script>
+	<script type='text/javascript' src="/js/common.js"></script>
+	<script type='text/javascript' src="/js/ui.biz.core.js"></script>
+	
+	<script>
+		$(document).ready(function() {
+			계약ID = getCookie("yearContractId");
+			사용자ID = getURLParameters("userId");
+			$('#yearContractId').val(계약ID);
+			$('#userId').val(사용자ID);		
+			// 요약 정보 조회
+			fn_getList();
+		});
+		
+		function fn_getList() {
+			var url = rootPath + 'febworker/yw800.do';
+			
+			$.ajax({
+				url:url,
+			    crossDomain : true,
+				dataType:"json",
+				type:"GET",
+				data: {
+					계약ID:계약ID,
+					사용자ID:사용자ID
+				},
+				success:function(result)
+				{
+					if(result.success) {
+						// 기업내역
+						$.each(result.연말정산요약결과, function(i, row) {
+							if(row.사용여부 == '1') {
+								  $('#id1').text(numberWithCommas( Number(row.특별소득_주택원리금_거주자) + Number(row.특별소득_주택원리금_대출기관) ));		
+								  $('#id2').text(numberWithCommas( Number(row.특별소득_장기주택_2011년이전_15년미만) + Number(row.특별소득_장기주택_2012년이후_그밖에) + Number(row.특별소득_장기주택_2011년이전_30년이상)
+                                                                 + Number(row.특별소득_장기주택_2012년이후_고정이거나비거치) + Number(row.특별소득_장기주택_2011년이전_15년29년) + Number(row.특별소득_장기주택_2015년이후_15년이상_고정이면서비거치)
+                                                                  + Number(row.특별소득_장기주택_2015년이후_15년이상_고정이거나비거치) + Number(row.특별소득_장기주택_2015년이후_15년이상_그밖에) + Number(row.특별소득_장기주택_2015년이후_10년15년_고정이거나비거치) ));		
+								  $('#id3').text(numberWithCommas( Number(row.그밖에소득공제_소기업소상공인) ));		
+								  $('#id4').text(numberWithCommas( Number(row.그밖에소득공제_주택마련_근로자주택마련) + Number(row.그밖에소득공제_주택마련_주택청약) + Number(row.그밖에소득공제_주택마련_청약저축) ));		
+								  $('#id5').text(numberWithCommas( Number(row.그밖에소득공제_투자조합출자_조합) ));	
+								  $('#id6').text(numberWithCommas( Number(row.그밖에소득공제_신용카드등) ));			
+								  $('#id7').text(numberWithCommas( Number(row.그밖에소득공제_우리사주조합) ));			
+								  $('#id8').text(numberWithCommas( Number(row.그밖에소득공제_장기집합투자) ));				
+								  $('#id9').text(numberWithCommas( Number(row.특별소득_주택원리금_거주자) + Number(row.특별소득_주택원리금_대출기관) +Number(row.특별소득_장기주택_2011년이전_15년미만) 
+                                                                 + Number(row.특별소득_장기주택_2012년이후_그밖에) + Number(row.특별소득_장기주택_2011년이전_30년이상) + Number(row.특별소득_장기주택_2012년이후_고정이거나비거치) 
+                                                                 + Number(row.특별소득_장기주택_2011년이전_15년29년) + Number(row.특별소득_장기주택_2015년이후_15년이상_고정이면서비거치) + Number(row.특별소득_장기주택_2015년이후_15년이상_고정이거나비거치)
+                                                                 + Number(row.특별소득_장기주택_2015년이후_15년이상_그밖에) + Number(row.특별소득_장기주택_2015년이후_10년15년_고정이거나비거치)		
+                                                                 + Number(row.그밖에소득공제_소기업소상공인) + Number(row.그밖에소득공제_주택마련_근로자주택마련) + Number(row.그밖에소득공제_주택마련_주택청약) + Number(row.그밖에소득공제_주택마련_청약저축)	
+                                                                 + Number(row.그밖에소득공제_투자조합출자_조합) + Number(row.그밖에소득공제_신용카드등) + Number(row.그밖에소득공제_우리사주조합) + Number(row.그밖에소득공제_장기집합투자) ));
+								  total = Number(row.특별소득_주택원리금_거주자) + Number(row.특별소득_주택원리금_대출기관) +Number(row.특별소득_장기주택_2011년이전_15년미만) 
+		                                  + Number(row.특별소득_장기주택_2012년이후_그밖에) + Number(row.특별소득_장기주택_2011년이전_30년이상) + Number(row.특별소득_장기주택_2012년이후_고정이거나비거치) 
+		                                  + Number(row.특별소득_장기주택_2011년이전_15년29년) + Number(row.특별소득_장기주택_2015년이후_15년이상_고정이면서비거치) + Number(row.특별소득_장기주택_2015년이후_15년이상_고정이거나비거치)
+		                                  + Number(row.특별소득_장기주택_2015년이후_15년이상_그밖에) + Number(row.특별소득_장기주택_2015년이후_10년15년_고정이거나비거치)		
+		                                  + Number(row.그밖에소득공제_소기업소상공인) + Number(row.그밖에소득공제_주택마련_근로자주택마련) + Number(row.그밖에소득공제_주택마련_주택청약) + Number(row.그밖에소득공제_주택마련_청약저축)	
+		                                  + Number(row.그밖에소득공제_투자조합출자_조합) + Number(row.그밖에소득공제_신용카드등) + Number(row.그밖에소득공제_우리사주조합) + Number(row.그밖에소득공제_장기집합투자);
+								  resultval = Number(total) - 25000000;
+								  
+								  if (Number(resultval) < 0 ){
+									  resultval = 0;
+								  }
+								  $('#id10').text(numberWithCommas( 25000000 ));		
+								  $('#id11').text(numberWithCommas( resultval ));	
+							} 
+						});	
+					}
+				},
+				error:function(request,status,error){
+					if (request.status=="401") {
+						alert("사용자 권한이 존재하지 않습니다.\r\n다시 접속하여 주시기 바랍니다.");
+						window.close();
+					} else {
+						alert("입력하신 정보를 다시 확인해주시기 바랍니다."+error);
+				        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					}
+				}
+			});
+		}
+			
+		// 세 자릿수 마다 콤마(,) 추가 하는 기능
+        function numberWithCommas(x) {
+    		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
+		
+		function fn_close() {
+			window.opener.callFunc();
+			window.close();
+		}
+	</script>
+	</head>
+	<body>
+		<div id="yearTax_wrap_popup" class="yearTax_popup summary2">
+		  <div class="container">
+		    <div id="popup_tit">
+		      <div class="tit_icon icon_set"></div>
+		      <div class="tit_text NanumSquare_B">종합소득한도초과액</div>
+		      <div id="popup_close" class="btn_type col_skyblue" onclick="fn_close();"></div>
+		    </div>
+		    <div class="contents">
+		
+		      <div class="explain_wrap NanumSquare_R mar-bot-10">* 다음 항목의 공제금액 합계액이 2천 5백만원을 초과하는 경우 그 초과금액은 과세표준으로 합산됩니다. </div>
+		      <div class="group-cell mar-bot-10 NanumSquare_R">
+		        <ul class="fix_viewer h35 sort_left">
+		          <li class="thead">구분</li>
+		          <li class="">① 주택임차차입금원리금상환액</li>
+		          <li class="">② 장기주택저당차입금이자상환액</li>
+		          <li class="">③ 소기업소상공인 공제부금</li>
+		          <li class="">④ 주택마련저축</li>
+		          <li class="">⑤ 투자조합등출자_개인 벤처기업 투자분 제외</li>
+		          <li class="">⑥ 신용카드 등 사용금액</li>
+		          <li class="">⑦ 우리사주조합출연금</li>
+		          <li class="">⑧ 장기집합투자증권저축</li>
+		          <li class="">⑨ 합계(① + ~ + ⑧)</li>
+		          <li class="">⑩ 특별공제 종합한도액</li>
+		          <li class="tfoot col_red">⑪ 특별공제 종합한도 초과액 MAX(0, ⑨ - ⑩)</li>
+		        </ul>
+		        <div class="column_viewer">
+		          <ul class="column_data h35">
+		            <li class="thead">공제 금액</li>
+		            <li id="id1"></li>
+		            <li id="id2"></li>
+		            <li id="id3"></li>
+		            <li id="id4"></li>
+		            <li id="id5"></li>
+		            <li id="id6"></li>
+		            <li id="id7"></li>
+		            <li id="id8"></li>
+		            <li id="id9"></li>
+		            <li id="id10"></li>
+		            <li id="id11" class="tfoot col_red"></li>
+		          </ul>
+		
+		        </div> <!-- column_viewer -->
+		      </div> <!--  group-cell -->
+		
+		
+		      <div class="foot_btn">
+		        <a class="btn_type"  onclick="fn_close();">확인</a>
+		      </div>
+		    </div> <!--  contents -->
+		  </div> <!--  container -->
+		</div>
+  
+	</body>
+</html>

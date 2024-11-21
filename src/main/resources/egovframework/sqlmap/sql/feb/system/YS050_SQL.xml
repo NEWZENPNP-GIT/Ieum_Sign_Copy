@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="febsystem">
+	<typeAlias alias="ys050VO" type="com.ezsign.feb.system.vo.YS050VO" />
+	<resultMap id="ys050ListMap" class="ys050VO">
+		<result property="계약ID" column="계약ID"/>
+		<result property="급여" column="급여"/>
+		<result property="상여" column="상여"/>
+		<result property="인정상여" column="인정상여"/>
+		<result property="주식매수선택권행사이익" column="주식매수선택권행사이익"/>
+		<result property="우리사주조합인출금" column="우리사주조합인출금"/>
+		<result property="임원퇴직소득금액한도초과액" column="임원퇴직소득금액한도초과액"/>
+		<result property="소득세" column="소득세"/>
+		<result property="지방소득세" column="지방소득세"/>
+		<result property="건강보험료" column="건강보험료"/>
+		<result property="장기요양보험료" column="장기요양보험료"/>
+		<result property="국민연금보험료" column="국민연금보험료"/>
+		<result property="고용보험료" column="고용보험료"/>
+		<result property="납부특례세액_소득세" column="납부특례세액_소득세"/>
+		<result property="납부특례세액_지방소득세" column="납부특례세액_지방소득세"/>
+		<result property="납부특례세액_농어촌특별세" column="납부특례세액_농어촌특별세"/>
+		<result property="M01" column="M01"/>
+		<result property="M02" column="M02"/>
+		<result property="M03" column="M03"/>
+		<result property="O01" column="O01"/>
+		<result property="Q01" column="Q01"/>
+		<result property="H08" column="H08"/>
+		<result property="H09" column="H09"/>
+		<result property="H10" column="H10"/>
+		<result property="G01" column="G01"/>
+		<result property="H11" column="H11"/>
+		<result property="H12" column="H12"/>
+		<result property="H13" column="H13"/>
+		<result property="H01" column="H01"/>
+		<result property="K01" column="K01"/>
+		<result property="S01" column="S01"/>
+		<result property="T01" column="T01"/>
+		<result property="Y02" column="Y02"/>
+		<result property="Y03" column="Y03"/>
+		<result property="Y04" column="Y04"/>
+		<result property="H05" column="H05"/>
+		<result property="I01" column="I01"/>
+		<result property="R10" column="R10"/>
+		<result property="H14" column="H14"/>
+		<result property="H15" column="H15"/>
+		<result property="T10" column="T10"/>
+		<result property="T11" column="T11"/>
+		<result property="T12" column="T12"/>
+		<result property="T20" column="T20"/>
+		<result property="H16" column="H16"/>
+		<result property="R11" column="R11"/>
+		<result property="H06" column="H06"/>
+		<result property="H07" column="H07"/>
+		<result property="Y22" column="Y22"/>
+		<result property="직무발명보상금" column="직무발명보상금"/>
+		<result property="T13" column="T13"/>
+		<result property="H17" column="H17"/>
+		<result property="U01" column="U01"/>
+		<result property="공무원연금" column="공무원연금"/>
+		<result property="군인연금" column="군인연금"/>
+		<result property="사립학교교직원연금" column="사립학교교직원연금"/>
+		<result property="별정우체국연금" column="별정우체국연금"/>
+		<result property="비과세한도초과액" column="비과세한도초과액"/>
+		<result property="등록일시" column="등록일시"/>
+		<result property="수정일시" column="수정일시"/>
+	</resultMap>
+	
+	<select id="ys050DAO.getYS050" resultClass="ys050VO" resultMap="ys050ListMap">
+		SELECT 계약ID, 급여, 상여, 인정상여, 주식매수선택권행사이익, 우리사주조합인출금, 임원퇴직소득금액한도초과액, 소득세, 지방소득세, 건강보험료, 장기요양보험료, 국민연금보험료, 고용보험료, 
+				납부특례세액_소득세,납부특례세액_지방소득세, 납부특례세액_농어촌특별세, 직무발명보상금, 공무원연금, 군인연금, 사립학교교직원연금, 별정우체국연금, 비과세한도초과액,  
+				M01, M02, M03, O01, Q01, H08, H09, H10, G01, H11, H12, H13, H01, K01, S01, T01, Y02, Y03, Y04, 
+				H05, I01, R10, H14, H15, T10, T11, T12, T20, H16, R11, H06, H07, Y22, T13, H17, U01, 등록일시, 수정일시 
+		FROM tbl_ys050
+		WHERE	계약ID = #계약ID#
+	</select>
+	
+	<insert id="ys050DAO.insYS050" parameterClass="ys050VO">
+		INSERT INTO tbl_ys050 (
+			계약ID, 급여, 상여, 인정상여, 주식매수선택권행사이익, 우리사주조합인출금, 임원퇴직소득금액한도초과액, 소득세, 지방소득세, 건강보험료, 장기요양보험료, 국민연금보험료, 고용보험료, 
+			납부특례세액_소득세,납부특례세액_지방소득세, 납부특례세액_농어촌특별세, 직무발명보상금, 공무원연금, 군인연금, 사립학교교직원연금, 별정우체국연금, 비과세한도초과액,
+			M01, M02, M03, O01, Q01, H08, H09, H10, G01, H11, H12, H13, H01, K01, S01, T01, Y02, Y03, Y04, H05, I01, R10, H14, H15, T10, T11, T12, T20, H16, R11, H06, H07, Y22, T13, H17, U01, 등록일시, 수정일시
+		) VALUES (
+		   #계약ID#, #급여#, #상여#, #인정상여#, #주식매수선택권행사이익#, #우리사주조합인출금#, #임원퇴직소득금액한도초과액#, #소득세#, #지방소득세#, #건강보험료#, #장기요양보험료#, #국민연금보험료#, #고용보험료#,
+			#납부특례세액_소득세#,#납부특례세액_지방소득세#, #납부특례세액_농어촌특별세#, #직무발명보상금#, #공무원연금#, #군인연금#, #사립학교교직원연금#, #별정우체국연금#, #비과세한도초과액#,
+		   #M01#, #M02#, #M03#, #O01#, #Q01#, #H08#, #H09#, #H10#, #G01#, #H11#, #H12#, #H13#, #H01#, #K01#, #S01#, #T01#, #Y02#, #Y03#, #Y04#, #H05#, #I01#, #R10#, #H14#, #H15#, #T10#, #T11#, #T12#, #T20#, #H16#, #R11#, #H06#, #H07#, #Y22#, #T13#, #H17#, #U01#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+	
+	<update id="ys050DAO.updYS050" parameterClass="ys050VO">
+		UPDATE tbl_ys050
+		SET	
+		<isNotNull property="급여">
+		    <isNotEmpty property="급여">
+			급여			= #급여#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="상여">
+		    <isNotEmpty property="상여">
+			상여			= #상여#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="인정상여">
+		    <isNotEmpty property="인정상여">
+			인정상여			= #인정상여#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="주식매수선택권행사이익">
+		    <isNotEmpty property="주식매수선택권행사이익">
+			주식매수선택권행사이익			= #주식매수선택권행사이익#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="우리사주조합인출금">
+		    <isNotEmpty property="우리사주조합인출금">
+			우리사주조합인출금			= #우리사주조합인출금#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="임원퇴직소득금액한도초과액">
+		    <isNotEmpty property="임원퇴직소득금액한도초과액">
+			임원퇴직소득금액한도초과액			= #임원퇴직소득금액한도초과액#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="소득세">
+		    <isNotEmpty property="소득세">
+			소득세			= #소득세#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="지방소득세">
+		    <isNotEmpty property="지방소득세">
+			지방소득세			= #지방소득세#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="건강보험료">
+		    <isNotEmpty property="건강보험료">
+			건강보험료			= #건강보험료#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="장기요양보험료">
+		    <isNotEmpty property="장기요양보험료">
+			장기요양보험료			= #장기요양보험료#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="국민연금보험료">
+		    <isNotEmpty property="국민연금보험료">
+			국민연금보험료			= #국민연금보험료#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="고용보험료">
+		    <isNotEmpty property="고용보험료">
+			고용보험료			= #고용보험료#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="납부특례세액_소득세">
+		    <isNotEmpty property="납부특례세액_소득세">
+			납부특례세액_소득세			= #납부특례세액_소득세#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="납부특례세액_지방소득세">
+		    <isNotEmpty property="납부특례세액_지방소득세">
+			납부특례세액_지방소득세			= #납부특례세액_지방소득세#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="납부특례세액_농어촌특별세">
+		    <isNotEmpty property="납부특례세액_농어촌특별세">
+			납부특례세액_농어촌특별세			= #납부특례세액_농어촌특별세#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="M01">
+		    <isNotEmpty property="M01">
+			M01			= #M01#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="M02">
+		    <isNotEmpty property="M02">
+			M02			= #M02#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="M03">
+		    <isNotEmpty property="M03">
+			M03			= #M03#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="O01">
+		    <isNotEmpty property="O01">
+			O01			= #O01#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="Q01">
+		    <isNotEmpty property="Q01">
+			Q01			= #Q01#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="H08">
+		    <isNotEmpty property="H08">
+			H08			= #H08#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="H09">
+		    <isNotEmpty property="H09">
+			H09			= #H09#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="H10">
+		    <isNotEmpty property="H10">
+			H10			= #H10#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="G01">
+		    <isNotEmpty property="G01">
+			G01			= #G01#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="H11">
+		    <isNotEmpty property="H11">
+			H11			= #H11#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="H12">
+		    <isNotEmpty property="H12">
+			H12			= #H12#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="H13">
+		    <isNotEmpty property="H13">
+			H13			= #H13#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="H01">
+		    <isNotEmpty property="H01">
+			H01			= #H01#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="K01">
+		    <isNotEmpty property="K01">
+			K01			= #K01#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="S01">
+		    <isNotEmpty property="S01">
+			S01			= #S01#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="T01">
+		    <isNotEmpty property="T01">
+			T01			= #T01#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="Y02">
+		    <isNotEmpty property="Y02">
+			Y02			= #Y02#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="Y03">
+		    <isNotEmpty property="Y03">
+			Y03			= #Y03#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="Y04">
+		    <isNotEmpty property="Y04">
+			Y04			= #Y04#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="H05">
+		    <isNotEmpty property="H05">
+			H05			= #H05#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="I01">
+		    <isNotEmpty property="I01">
+			I01			= #I01#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="R10">
+		    <isNotEmpty property="R10">
+			R10			= #R10#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="H14">
+		    <isNotEmpty property="H14">
+			H14			= #H14#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="H15">
+		    <isNotEmpty property="H15">
+			H15			= #H15#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="T10">
+		    <isNotEmpty property="T10">
+			T10			= #T10#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="T11">
+		    <isNotEmpty property="T11">
+			T11			= #T11#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="T12">
+		    <isNotEmpty property="T12">
+			T12			= #T12#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="T20">
+		    <isNotEmpty property="T20">
+			T20			= #T20#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="H16">
+		    <isNotEmpty property="H16">
+			H16			= #H16#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="R11">
+		    <isNotEmpty property="R11">
+			R11			= #R11#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="H06">
+		    <isNotEmpty property="H06">
+			H06			= #H06#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="H07">
+		    <isNotEmpty property="H07">
+			H07			= #H07#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="Y22">
+		    <isNotEmpty property="Y22">
+			Y22			= #Y22#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="직무발명보상금">
+		    <isNotEmpty property="직무발명보상금">
+			직무발명보상금			= #직무발명보상금#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="T13">
+		    <isNotEmpty property="T13">
+			T13			= #T13#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="H17">
+		    <isNotEmpty property="H17">
+			H17			= #H17#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="U01">
+		    <isNotEmpty property="U01">
+			U01			= #U01#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="공무원연금">
+		    <isNotEmpty property="공무원연금">
+			공무원연금			= #공무원연금#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="군인연금">
+		    <isNotEmpty property="군인연금">
+			군인연금			= #군인연금#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="사립학교교직원연금">
+		    <isNotEmpty property="사립학교교직원연금">
+			사립학교교직원연금			= #사립학교교직원연금#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="별정우체국연금">
+		    <isNotEmpty property="별정우체국연금">
+			별정우체국연금			= #별정우체국연금#,
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="비과세한도초과액">
+		    <isNotEmpty property="비과세한도초과액">
+			비과세한도초과액			= #비과세한도초과액#,
+			</isNotEmpty>
+		</isNotNull>
+			수정일시			= DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		WHERE	계약ID    = #계약ID#
+	</update>
+	
+	<delete id="ys050DAO.delYS050" parameterClass="ys050VO">
+		DELETE FROM tbl_ys050
+		WHERE	계약ID    = #계약ID# 
+	</delete>
+</sqlMap>

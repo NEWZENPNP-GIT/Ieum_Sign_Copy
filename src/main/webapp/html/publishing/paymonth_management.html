@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/personnel_management.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+
+</head>
+<body>
+	
+<!-- *********************************************  계약 관리  *********************************************  -->
+<div id="personList_wrap" class="">
+	<div class="container">
+		<div class="location"><span class="loc_main NanumSquare_R">급여명세서관리 > </span><span class="loc_sub NanumSquare_R">급여명세서관리</span></div>
+		
+		<div class="field_area">
+			<div class="selBox NanumSquare_R">
+				<select id="searchKey">
+					<option value="empName" class="lt">성명</option>
+					<option value="eMail" class="lt">이메일</option>
+					<option value="phoneNum" class="lt">휴대폰</option>
+					<option value="loginId" class="lt">로그인ID</option>
+					<option value="deptName" class="lt">부서명</option>
+				</select>
+			</div>
+			<div class="inputBox">
+				<fieldset>
+					<input type="text" id="searchValue" class="word_input NanumSquare_R">
+					<a class="btn_search btn_type Material_icons">search</a>
+				</fieldset>
+			</div>
+			<div class="selBox NanumSquare_R">
+				<select id="sortName">
+					<option value="A.JOIN_DATE" selected>정렬항목</option>
+					<option value="A.EMP_NAME">성명</option>
+					<option value="A.EMP_NO">사번</option>
+					<option value="A.DEPT_NAME">부서명</option>
+					<option value="A.JOIN_DATE">입사일자</option>
+					<option value="A.LEAVE_DATE">퇴사일자</option>
+					<option value="A.USER_DATE">생년월일</option>
+					<option value="A.E_MAIL">이메일</option>
+					<option value="A.PHONE_NUM">휴대폰</option>
+				</select>
+			</div>
+			<div class="selBox NanumSquare_R">
+				<select id="sortOrder" >
+					<option value="DESC" selected>정렬기준</option>
+					<option value="DESC">내림차순</option>
+					<option value="ASC">올림차순</option>
+				</select>
+			</div>
+			<div class="selBox NanumSquare_R">
+				<select id="viewPage">
+					<option value="10" selected>조회건수</option>
+					<option value="10">10건</option>
+					<option value="20">20건</option>
+					<option value="30">30건</option>
+					<option value="50">50건</option>
+					<option value="100">100건</option>
+					<option value="250">250건</option>
+				</select>
+			</div>
+		</div>
+		<div class="table_contents">
+			<div class="list">
+				<table class="NanumSquare_R">
+					<colgroup>
+						<col width="6%">
+						<col width="6%">
+						<col width="8%">
+						<col width="11%">
+						<col width="11%">
+						<col width="11%">
+						<col width="8%">
+						<col width="8%" >
+						<col width="8%" >
+						<col width="10%" >
+						<col width="13%" >
+					</colgroup>
+					<thead>
+						<tr>
+							<th class="chk_area"><input type="checkbox" id="checkall" ></th>							
+							<th>성명</th>
+							<th>사번</th>
+							<th>급여년월</th>
+							<th>지급일자</th> 
+							<th>수당총액</th>
+							<th>공제총액</th>
+							<th>차인지급액</th>
+							<th>전송일자</th>
+							<th>확인여부</th>
+							<th>보기</th>
+						</tr>
+					</thead>
+					<tbody id="dataList">
+						<tr class="databox">
+							<td class=""></td>
+							<td colspan="11">
+								정보가 존재하지 않습니다.
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div id="page-selection" class="pagingnav_wrap"></div>
+			
+		</div>
+		<div class="btn_footGroup NanumSquare_R">
+			<a class="btn_type type1" >급여명세업로드</a>
+			<a class="btn_type type2" >삭제 </a>
+		</div>
+	</div>
+</div>
+</body>
+
+</html>

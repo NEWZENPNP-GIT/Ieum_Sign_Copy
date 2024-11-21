@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache"/>
+<title>연말정산 결과</title>
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap_candy.css">
+<link rel="stylesheet" type="text/css" href="/css/yearTax_common.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+</head>
+<body>
+	<div id="yearTax_wrap" class="yearTax">
+		
+		<div class="container">
+			<div class="location"><span class="loc_main NanumSquare_R">연말정산 > </span><span class="loc_sub NanumSquare_R">연말정산 결과</span></div>
+			<div class="pagtit">
+				<span class="NanumSquare_R">연말정산 결과</span>
+				<ul class="top_items NanumSquare_R">
+					<li><a class="btn_type btn_download">선택 다운로드 </a></li>
+					<li><a class="btn_type btn_download">일괄 다운로드</a></li>
+				</ul>
+			</div>
+			
+			<div class="contents">
+				<div class="group_wrap">
+					<div class="group_tit">
+						<div class="icon"></div>
+						<span class="text NanumSquare_R">근로자 정보</span>
+					</div>
+				
+					<div class="grid_field full">
+						<ul class="gridRow2">
+							<li class="search_wrap">
+								<div class="group_row row4">
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">사업장 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R">
+												<option value="" >전체</option>
+											</select>
+										</dd>
+									</dl>
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">부서 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R">
+												<option value="" >전체</option>
+											</select>
+										</dd>
+									</dl>
+									<dl class="NanumSquare_R rat4n-6">
+										<dt><label class="label_txt NanumSquare_R">근무상태 : </label></dt>
+										<dd class="select_box">
+											<select class="NanumSquare_R">
+												<option value="" >전체</option>
+												<option value="" >계속근로</option>
+												<option value="" >중도퇴사</option>
+											</select>
+										</dd>
+									</dl>
+								</div>
+								<div class="group_row row4">
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">성명 : </label></dt>
+										<dd class="input_box"><input class="" type="text" ></dd>
+									</dl>
+									<dl class="NanumSquare_R rat3-7">
+										<dt><label class="label_txt NanumSquare_R">사번 : </label></dt>
+										<dd class="input_box"><input class="" type="text" ></dd>
+									</dl>
+									<dl class="NanumSquare_R rat4n-6">
+										<dt><label class="label_txt NanumSquare_R">마감상태 : </label></dt>
+										<dd class="input_box"><input class="" type="text" ></dd>
+									</dl>
+									<div class="btns"><a class="btn_type btn_grid_search NanumSquare_R"><span class="icon Material_icons">search</span> 검색</a></div>
+								</div>
+							</li>
+						</ul>
+					</div>
+					
+					<div class="grid_paging">
+						<div class="select_box">
+							<dl>
+								<dt><label class="label_txt NanumSquare_R">Rows</label></dt>
+								<dd class="select_box">
+									<select class="NanumSquare_R">
+										<option value="" >10</option>
+									</select>
+								</dd>
+							</dl>
+						</div>
+						<div id="page-selection" class="pagingnav_wrap_mid"></div>
+					</div>
+					<div class="group_table">
+						<table class="hasHead NanumSquare_R">
+							<colgroup>
+								<col width="4%">
+								<col width="11%">
+								<col width="10%">
+								<col width="13%">
+								<col width="14%">
+								<col width="12%">
+								<col width="12%">
+								<col width="12%">
+								<col width="12%">
+							</colgroup>
+							<thead>
+								<tr>
+									<th class="chk_area"><input type="checkbox"></th>
+									<th>사업장</th>
+									<th>성명</th>
+									<th>사번</th>
+									<th>부서</th>
+									<th>원천징수영수증 확인일자</th>
+									<th>소득공제신고서 확인일자</th>
+									<th>의료비 명세서  확인일자</th>
+									<th>기부금 명세서 확인일자</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="chk_area"><input type="checkbox"></td>
+									<td class="value">뉴젠</td>
+									<td class="value"><a class="btn_type btn_detailView">이름입니다</a></td>
+									<td class="value">201701010001</td>
+									<td class="value">설계1팀</td>
+									<td class="value">2018-05-20</td>
+									<td class="value">2018-05-20</td>
+									<td class="value">2018-05-20</td>
+									<td class="value">2018-05-20</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div> <!--  contents -->
+			
+		</div>
+		
+		<!--  layer popup -->
+		<!--  선택한 확인 요청 popup -->
+		<div class="layerPop_wrap select">
+			<div class="popup_bg">
+			
+				<div class="popup_tit">
+					<div class="popup_close"><a class="btn_type btn_close workCheck"></a></div>
+				</div>
+				<ul class="popup_content">
+					<li class="icon"></li>
+					<li class="text NanumRound">
+						<span>선택한 사원의 PDF 결과물을 다운받습니다.</span>
+					</li>
+					<li class="dec NanumRound">
+						<span>※ 환경에 따라 작업시간이 1분 이상<br> 소요될 수 있습니다.</span>
+					</li>
+					<li class="selectWrap NanumRound">
+						<div class="checkWrap"><input type="checkbox" id="file01" checked="checked" disabled="disabled"><label for="file01">원천징수 영수증</label></div>
+						<div class="checkWrap"><input type="checkbox" id="file02"><label for="file02">소득공제신고서</label></div>
+						<div class="checkWrap"><input type="checkbox" id="file03"><label for="file03">의료비명세서</label></div>
+						<div class="checkWrap"><input type="checkbox" id="file04"><label for="file04">기부금명세서</label></div>
+					</li>
+				</ul>
+				<div id="foot_btns" class="floating NanumRound">
+					<a class="btn_type type1 yes">확인</a>
+					<a class="btn_type type2 no">취소</a>
+				</div>
+			</div>
+		</div>
+		
+		<!--  일괄 선택한 확인 요청 popup -->
+		<div class="layerPop_wrap allSelect">
+			<div class="popup_bg">
+			
+				<div class="popup_tit">
+					<div class="popup_close"><a class="btn_type btn_close workCheck"></a></div>
+				</div>
+				<ul class="popup_content">
+					<li class="icon"></li>
+					<li class="text NanumRound">
+						<span>모든 사원의 PDF 결과물을 다운받습니다.</span>
+					</li>
+					<li class="dec NanumRound">
+						<span>※ 환경에 따라 작업시간이 1분 이상<br> 소요될 수 있습니다.</span>
+					</li>
+					<li class="selectWrap NanumRound">
+						<div class="checkWrap"><input type="checkbox" id="file01" checked="checked" disabled="disabled"><label for="file01">원천징수 영수증</label></div>
+						<div class="checkWrap"><input type="checkbox" id="file02"><label for="file02">소득공제신고서</label></div>
+						<div class="checkWrap"><input type="checkbox" id="file03"><label for="file03">의료비명세서</label></div>
+						<div class="checkWrap"><input type="checkbox" id="file04"><label for="file04">기부금명세서</label></div>
+					</li>
+				</ul>
+				<div id="foot_btns" class="floating NanumRound">
+					<a class="btn_type type1 yes">확인</a>
+					<a class="btn_type type2 no">취소</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script type="text/javascript">
+/*  *************** 근로자 리스트 스크롤 위치에 따라 이동   ***************  */ 
+$(document).ready(function(){
+	var _scrollTop=$("#main_wrap").scrollTop();
+	var _posY=($("#main_wrap").height()/2 + 40)+_scrollTop-57;
+
+	if($("#yearTax_wrap").height() < $("#main_wrap").height()){
+		$("#employ-list-wrap").css("height",$("#main_contents").height()-10)
+	}
+	$(".btn_emplist").css("top",_posY);
+
+})
+
+$("#main_wrap").scroll(function(){
+	var _scrollTop=$("#main_wrap").scrollTop();
+	var _posY=($("#main_wrap").height()/2 + 40)+_scrollTop-57;
+	$(".btn_emplist").css("top",_posY);
+})
+
+</script>
+</html>

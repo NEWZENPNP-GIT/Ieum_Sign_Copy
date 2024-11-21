@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no">
+
+<link rel="stylesheet" type="text/css" href="/css/font_pc.css">
+<link rel="stylesheet" type="text/css" href="/css/material-icons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/userGuide_css/jRoll.min.css">
+<link rel="stylesheet" type="text/css" href="/css/userGuide_css/personnel_userGuide.css">
+
+<link rel="stylesheet" type="text/css" href="/css/userGuide_css/jRoll.min.css">
+<link rel="stylesheet" type="text/css" href="/css/userGuide_css/userGuide_action_common.css">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/underscore-min.js"></script>
+
+</head>
+<body>
+	<div id="userGuide_wrap" class="">
+		<div id="guide_popup_bg">
+			<div class="btn_type popup_close Material_icons">close</div>
+			<div class="guide_tit">
+				<span class="title NanumSquare_B">인사관리 사용 가이드</span>
+				<span class="subTit NanumGothic">서비스 이용에 필수인 인사데이터, 인사데이터를 통해 이음싸인 서비스와 연계</span>
+			</div>
+			<div class="guide_main">
+				<ul>
+					<li class="selBox NanumGothic">
+						<select>
+							<option value=""> 직원 인사데이터 엑셀다운로드(양식)</option>
+						</select>
+					</li>
+					<li class="contents">
+						<div class="btn_zoom"><a class="btn_type Material_icons zoom_in">zoom_in</a></div>
+						<div id="motion_wrap" class="action_wrap personnel" >
+							<div id="bg_wrap">
+								<div id="bg" class="screen_01"></div>
+								<!-- <li class="screen_03 hidden"></li>  -->
+							</div>
+							<ul id="layerPop" class="">
+								<li class="row2">
+									<div id="step04_1" class="hidden"> <img src="/css/image/guide_motion/ug_personnel_step04_pop01.jpg"></div>
+									<div id="step04_2" class="hidden"><img src="/css/image/guide_motion/ug_personnel_step04_pop02.jpg"></div>
+								</li>
+								<li class="row1 full">
+									<div id="step05" class="hidden"><img src="/css/image/guide_motion/ug_personnel_step05_pop01.jpg" ></div>
+								</li>
+								<li class="row1">
+									<div id="step06_1" class="hidden"> <img src="/css/image/guide_motion/ug_personnel_step04_pop01.jpg"></div>
+								</li>
+								<li class="row1 full">
+									<div id="step06_2" class="hidden"><img src="/css/image/guide_motion/ug_personnel_step06_pop02.jpg"></div>
+								</li>
+								<li class="row1">
+									<div id="step06_4" class="hidden"> <img src="/css/image/guide_motion/ug_personnel_step06_pop01.jpg"></div>
+								</li>
+								<li class="row2">
+									<div id="step07_1" class="hidden"> <img src="/css/image/guide_motion/ug_personnel_step07_pop01.jpg"></div>
+									<div id="step07_2" class="hidden"><img src="/css/image/guide_motion/ug_personnel_step07_pop02.jpg"></div>
+								</li>
+								<li class="row2">
+									<div id="step10_1" class="hidden"> <img src="/css/image/guide_motion/ug_personnel_step10_pop01.jpg"></div>
+									<div id="step10_2" class="hidden"><img src="/css/image/guide_motion/ug_personnel_step10_pop02.jpg"></div>
+								</li>
+								<li><div class="next hidden"></div></li>
+							</ul>
+							<div class="clickArea">
+								<div class="dot_01"></div>
+							</div>
+							<div id="heartbeat"></div>
+							<div id="arrow"></div>
+							<div id="guide_pop" class="hidden">
+								<div class="NanumBarunGothic tit"></div>
+								<div class="NanumSquare_R box">
+									<span class="subtit"></span>
+									<span class="subcon"></span>
+								</div>
+							</div>
+						
+						</div> <!--  action_wrap -->
+						
+					</li>
+					<li class="btn_group">
+					<div><a class="btn_type btn_prev NanumSquare_R">이전</a><a class="btn_type btn_next able NanumSquare_R">다음</a></div>
+					</li>
+				</ul>
+			</div>
+			<div class="guide_menu">
+				<ul class="nav_group">
+					<li><div><a class="btn_type NanumSquare_R">직원 인사데이터<br>엑셀다운로드(양식)</a></div></li>
+					<li><div><a class="btn_type NanumSquare_R">직원 인사데이터<br>일괄등록(엑셀)</a></div></li>
+					<li><div><a class="btn_type NanumSquare_R">직원 인사데이터<br>개별등록</a></div></li>
+					<!-- <li><div><a class="btn_type NanumSquare_R">캔디 가입 알림톡(SMS)<br>발송기능</a></div></li>
+					<li><div><a class="btn_type NanumSquare_R middle">직원계정 삭제기능</a></div></li>
+					<li><div><a class="btn_type NanumSquare_R">인사관리 서비스 해지<br>(회원탈퇴)</a></div></li> -->
+				</ul>
+			</div>
+		</div>
+	</div><!-- guide_popup_bg -->
+	<!-- *********************************************  사용 가이드  html 끝  부분  body안에 붙여 넣으시면 됩니다.  *********************************************  -->
+</body>
+<script type="text/javascript" src="/js/personnel_userGuide.js"></script>
+ <script type="text/javascript" src="/js/userGuide_plugin/jRoll.min.js"></script>
+<script type="text/javascript" src="/js/userGuide_plugin/action_guide_order.js"></script>
+<script type="text/javascript">
+var _mMoveTime=1000; //마우스 커서 이동시간
+var _mClickTime=800; //마우스 클릭 후 동작 시간
+var popOpenTime=800; //popupOpen 
+var nextTime= 800 //화면 전환 
+var viewTime=3500;
+var stageNo=0;
+var easeName="linear"; 
+var openLayerName=[]; //팝업창을 닫기위해 클래스 이름을 저장한다.
+var menuChapter=[2,3,29] //
+var actionTimer;
+
+$(document).ready(function(){
+	/* MENU EVENT Setting  */
+	$.fn.guideSetting("guide_main","guide_menu");
+	
+	//action start
+	actionTimer=setTimeout(function (){
+		nextStage(stageNo);
+	},1000);
+
+})
+//버튼 이벤트 들 
+$(".btn_zoom").find(".btn_type").click(function(){
+	
+	actionReset();
+	
+	actionTimer=setTimeout(function (){
+		//stageNo++;
+		nextStage(stageNo);
+	},500)
+})
+$(".nav_group").find(".btn_type").click(function(){
+	
+	var idx=$(this).parent().parent().index();
+
+	stageNo=menuChapter[idx];
+	
+	actionReset();
+	
+	for(i in openLayerName){
+		$("#layerPop").find("[id*='"+openLayerName[i]+"']").addClass("hidden");	
+	}
+	if(!$("#layerPop").find(".next").hasClass("hidden")){
+		$("#layerPop").find(".next").addClass("hidden");	
+	}
+	openLayerName=[];
+	
+	actionTimer=setTimeout(function (){
+		//stageNo++;
+		nextStage(stageNo);
+	},500)
+});
+$(".btn_group").find(".btn_type").click(function(){
+	
+	if($(this).hasClass("able")){
+		if($(this).hasClass("btn_next")){
+			stageNo=menuChapter[$.fn.stepIndex+1];
+		}else{
+			stageNo=menuChapter[$.fn.stepIndex-1];
+		}
+		
+		actionReset();
+		
+		for(i in openLayerName){
+			$("#layerPop").find("[id*='"+openLayerName[i]+"']").addClass("hidden");	
+		}
+		if(!$("#layerPop").find(".next").hasClass("hidden")){
+			$("#layerPop").find(".next").addClass("hidden");	
+		}
+		openLayerName=[];
+		
+		actionTimer=setTimeout(function (){
+			//stageNo++;
+			nextStage(stageNo);
+		},500);
+	}
+});
+
+function actionReset(){
+	clearTimeout(actionTimer);
+	$("#arrow").stop();
+	
+	if(!$("#guide_pop").hasClass("hidden")){
+		$("#guide_pop").addClass("hidden");
+	}
+	
+	if(!$("#heartbeat").hasClass("hidden")){
+		$("#heartbeat").addClass("hidden");
+		$("#heartbeat").empty();
+	}
+	
+	/* for(i in openLayerName){
+		$("#layerPop").find("[id*='"+openLayerName[i]+"']").addClass("hidden");	
+	}
+	openLayerName=[]; */
+	
+	$(".clickArea").find("div").attr("class","");
+	$(".clickArea").find("div").off();
+}
+function nextStage(no){
+	if(no == personnelOrder.length){
+		$("#arrow").addClass("hidden");
+		return;
+	}else{
+		if($("#arrow").hasClass("hidden")){
+			$("#arrow").removeClass("hidden");
+		}
+	}
+	
+	//nav setting
+	if(_.indexOf(menuChapter,no) !=  -1 ){
+		$.fn.stepIndex=_.indexOf(menuChapter,no);
+		$.fn.move_step($.fn.stepIndex);
+	}
+	
+	//guide_pop
+	var _this=personnelOrder[no];
+	
+	//배경 설정
+	var bgName= $("#bg_wrap").find("#bg").attr("class");
+	
+	if(bgName != _this.bg){
+		$("#bg_wrap").find("#bg").attr("class", _this.bg);
+	}
+	
+	if(_this.layerName != ""){
+		$("#layerPop").removeClass("hidden");
+		$("#layerPop").find("[id*='"+_this.layerName+"']").removeClass("hidden");	
+		openLayerName.push(_this.layerName);
+	}
+	
+	$("#guide_pop").find(".tit").text(_this.label);
+	$("#guide_pop").find(".subtit").text(_this.subtit);
+	$("#guide_pop").find(".subcon").text(_this.subcon);
+	
+	if(_this.startEvt=="imageChange"){
+		var _targetObj=$("[id='"+_this.layerName+"']");
+		var url=_this.imgURL;
+		_targetObj.find("img").attr("src",url);
+	}
+	
+	if(_this.startEvt=="popClose"){
+		$("#layerPop").addClass("hidden");
+		
+		for(i in openLayerName){
+			$("#layerPop").find("[id*='"+openLayerName[i]+"']").addClass("hidden");	
+		}
+		openLayerName=[];
+		
+		$("#layerPop").find(".next").addClass("hidden");
+		
+		actionStart(_this);
+	}else if(_this.startEvt=="arrowAction"){
+
+		$("#layerPop").find(".next").removeClass("hidden");
+		
+		actionTimer=setTimeout(function(){
+			actionStart(_this);
+		},popOpenTime);
+	}else{
+		actionStart(_this);
+	}
+
+}
+
+function actionStart(_this){
+	$(".clickArea > div").attr("class",_this.target);
+	
+	if(_this.target != '' && _this.action=="clickNguide"){
+		clickToGuide(_this);
+	}else if(_this.target == '' && _this.action=="moveNguide"){
+		moveToGuide(_this);
+	}else if(_this.target == '' && _this.action=="popup"){
+		openLayer(_this);
+	}else if(_this.target != '' && _this.action=="effect"){
+		moveToEffect(_this);
+	}else if(_this.target != '' && _this.action=="click"){
+		moveToClick(_this);
+	}else if(_this.target != '' && _this.action=="guide"){
+		showGuide(_this);
+	}
+}
+
+function clickToGuide(_this){
+	console.log(" target = "+_this.target)
+	var _targetObj=$("[class*='"+_this.target+"']");
+	var _targetX=_targetObj.position().left + (_targetObj.width()/2);
+	var _targetY=_targetObj.position().top + (_targetObj.height()/2);
+	
+	$("#arrow").animate({left:_targetX, top:_targetY},_mMoveTime,easeName,function(){
+		
+		//마우스  클릭 효과
+		$("#heartbeat").css("left",$("#arrow").position().left-48).css("top",$("#arrow").position().top-48);
+		$("#heartbeat").removeClass("hidden");
+		$("#heartbeat").jRoll({radius: 48,animation: "heartbeat"});
+		$("#arrow").addClass("pointer");
+
+		actionTimer=setTimeout(function(){			
+			//마우스 클릭 후 action
+			$("#heartbeat").addClass("hidden");
+			$("#heartbeat").empty();
+			$("#heartbeat").removeAttr("style");
+			
+			showGuide(_this);
+			
+		},_mClickTime);
+	})
+}
+
+function openLayer(obj){
+	var _thisLayer=obj;
+	$("#layerPop").removeClass("hidden");
+	
+	$("#layerPop").find("[id*='"+_thisLayer.layerName+"']").removeClass("hidden");
+	openLayerName.push(_thisLayer.layerName);
+	
+	actionTimer=setTimeout(function(){
+		//다음스텝으로 이동
+		stageNo++;
+		if(stageNo <= personnelOrder.length){
+			nextStage(stageNo);	
+		}
+	}, nextTime);
+}
+
+function moveToEffect(_this){
+	var _targetObj=$("[class*='"+_this.target+"']")
+	var _targetX=_targetObj.position().left + (_targetObj.width()/2);
+	var _targetY=_targetObj.position().top + (_targetObj.height()/2);
+	
+	$("#arrow").animate({left:_targetX, top:_targetY},_mMoveTime,easeName,function(){
+		_targetObj.addClass("effect");
+	},800);
+	
+	_targetObj.on("webkitAnimationEnd oanimationEnd oAnimationEnd msAnimationEnd animationend", function() {
+		_targetObj.removeClass("effect");
+		_targetObj.off();
+		//다음스텝으로 이동
+		stageNo++;
+		if(stageNo <= personnelOrder.length){
+			nextStage(stageNo);	
+		}
+	});
+}
+
+
+function moveToClick(_this){
+	var _targetObj=$("[class='"+_this.target+"']");
+	var _targetX=_targetObj.position().left + (_targetObj.width()/2);
+	var _targetY=_targetObj.position().top + (_targetObj.height()/2);
+	
+	$("#arrow").animate({left:_targetX, top:_targetY},_mMoveTime,easeName,function(){
+		//마우스  클릭 효과
+		$("#heartbeat").css("left",$("#arrow").position().left-48).css("top",$("#arrow").position().top-48);
+		$("#heartbeat").removeClass("hidden");
+		$("#heartbeat").jRoll({radius: 48,animation: "heartbeat"});
+		$("#arrow").addClass("pointer");
+		
+		actionTimer=setTimeout(function(){
+			//마우스 클릭 후 action
+			$("#heartbeat").addClass("hidden");
+			$("#heartbeat").empty();
+			$("#heartbeat").removeAttr("style");
+			
+			$("#arrow").removeClass("pointer");
+			
+			//다음스텝으로 이동
+			stageNo++;
+			if(stageNo <= personnelOrder.length){
+				nextStage(stageNo);	
+			}
+		},_mClickTime);
+	});
+}
+
+function showGuide(_this){
+	//설명글의 위치를 지정
+	var _alertLeft;
+	var _alertTop;
+	
+	if(_this.pos=="B/R"){
+		_alertLeft=$("#arrow").position().left+($("#arrow").width()/2);
+		_alertTop=$("#arrow").position().top+($("#arrow").height()/2);
+	}else if(_this.pos=="B/C"){
+		_alertLeft=$("#arrow").position().left-($("#arrow").width()/2);
+		_alertTop=$("#arrow").position().top+$("#arrow").height();	
+	}else if(_this.pos=="T/L"){
+		_alertLeft=$("#arrow").position().left-$("#guide_pop").width();
+		_alertTop=$("#arrow").position().top-$("#guide_pop").height();
+	}
+	
+	//설명글 띄우기
+	$("#guide_pop").css("left",_alertLeft).css("top",_alertTop).css('opacity',0); 
+	
+	if(_this.subtit != ''){
+		$("#guide_pop").removeClass("hidden").animate({opacity:1},function(){});
+	}
+	$("#arrow").removeClass("pointer");
+	
+	actionTimer=setTimeout(function(){
+		//설명글 숨기기
+		$("#guide_pop").addClass("hidden");
+			//다음스텝으로 이동
+			stageNo++;
+			if(stageNo <= personnelOrder.length){
+				nextStage(stageNo);	
+			}
+	}, viewTime);
+}
+/*  */ 
+</script>
+</html>

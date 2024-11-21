@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="febhometax">
+
+	<typeAlias alias="yp800VO" type="com.ezsign.feb.hometax.vo.YP800VO" />
+	<typeAlias alias="aRecordPayVO" type="com.ezsign.feb.hometax.vo.PaymentARecordVO" />
+	<typeAlias alias="bRecordPayVO" type="com.ezsign.feb.hometax.vo.PaymentBRecordVO" />
+	<typeAlias alias="cRecordPayVO" type="com.ezsign.feb.hometax.vo.PaymentCRecordVO" />
+	
+	<resultMap id="yp800ListMap" class="yp800VO">
+		<result property="계약ID" column="계약ID"/>
+		<result property="사업장ID" column="사업장ID"/>
+		<result property="bizId" column="BIZ_ID"/>
+		<result property="지점여부" column="지점여부"/>
+		<result property="사업장명" column="사업장명"/>
+		<result property="사업자등록번호" column="사업자등록번호"/>
+		<result property="종사업자일련번호" column="종사업자일련번호"/>
+		<result property="단위과세자여부" column="단위과세자여부"/>
+		<result property="근로자인원수" column="근로자인원수"/>
+		<result property="신고대상수" column="신고대상수"/>
+		<result property="과세소득" column="과세소득"/>
+		<result property="비과세소득" column="비과세소득"/>
+		<result property="제작여부" column="제작여부"/>
+		<result property="전자신고ID" column="전자신고ID"/>
+		<result property="근무시기" column="근무시기"/>
+		<result property="제출대상구분코드" column="제출대상구분코드"/>
+		<result property="제출년월일" column="제출년월일"/>
+		<result property="파일위치" column="파일위치"/>
+		<result property="파일명" column="파일명"/>
+		<result property="등록일시" column="등록일시"/>
+	</resultMap>
+	
+	
+	<!-- A레코드  -->
+	<resultMap id="aRecordPayMap" class="aRecordPayVO">
+		<result property="A3" column="A3"/>			<!-- 관할세무서코드 -->
+		<result property="A5" column="A5"/>			<!-- 제출자구분 -->
+		<result property="A7" column="A7"/>			<!-- 홈택스아이디 -->
+		<result property="A9" column="A9"/>			<!-- 사업자등록번호 -->
+		<result property="A10" column="A10"/>		<!-- 사업장명 -->
+		<result property="A11" column="A11"/>		<!-- 제출담당부서명 -->
+		<result property="A12" column="A12"/>		<!-- 제출담당자성명 -->
+		<result property="A13" column="A13"/>		<!-- 제출담당자전화번호 -->
+		<result property="A14" column="A14"/>		<!-- 신고의무자수 -->
+	</resultMap>
+	
+	<!-- B레코드  -->
+	<resultMap id="bRecordPayMap" class="bRecordPayVO">	
+		<result property="B3" column="B3"/>			<!-- 관할세무서코드 -->
+		<result property="B5" column="B5"/>			<!-- 사업자등록번호 -->
+		<result property="B6" column="B6"/>			<!-- 사업장명 -->
+		<result property="B7" column="B7"/>			<!-- 대표자명 -->
+		<result property="B8" column="B8"/>			<!-- 법인등록번호_개인식별번호 -->		
+		<result property="B11" column="B11"/>		<!-- 근로자수 -->
+		<result property="B12" column="B12"/>		<!-- 과세소득합계 -->
+		<result property="B13" column="B13"/>		<!-- 비과세소득합계-->		
+	</resultMap>
+	
+	<!-- C레코드  -->
+	<resultMap id="cRecordPayMap" class="cRecordPayVO">	
+		<result property="C3" column="C3"/>			<!-- 세무서코드 -->
+		<result property="C5" column="C5"/>			<!-- 사업자등록번호 -->
+		<result property="C6" column="C6"/>			<!-- 주민등록번호 -->
+		<result property="C7" column="C7"/>			<!-- 성명 -->
+		<result property="C8" column="C8"/>			<!-- 전화번호 -->
+		<result property="C9" column="C9"/>			<!-- 내.외국인 -->
+		<result property="C10" column="C10"/>		<!-- 거주자구분 -->
+		<result property="C11" column="C11"/>		<!-- 거주지국코드 -->
+		<result property="C12" column="C12"/>		<!-- 근무기간시작년월일 -->
+		<result property="C13" column="C13"/>		<!-- 근무기간종료년월일 -->
+		<result property="C14" column="C14"/>		<!-- 과세소득 -->
+		<result property="C15" column="C15"/>		<!-- 비과세소득 -->		
+	</resultMap>	
+	
+	
+	<!-- 전자신고 리스트 -->
+	<select id="yp800DAO.getYP800List" parameterClass="yp800VO" resultMap="yp800ListMap">
+		SELECT       
+  			계약ID,사업장ID,BIZ_ID,지점여부,사업장명,사업자등록번호,종사업자일련번호,단위과세자여부,근무시기,제출대상구분코드,
+  			SUM(과세소득) AS 과세소득,
+  			SUM(비과세소득) AS 비과세소득,
+  			COUNT(사용자ID) AS 근로자인원수,       
+  			SUM(신고대상수) AS 신고대상수,        
+  			제작여부,전자신고ID,       
+  			제출년월일, 파일위치, 파일명, 등록일시           
+		FROM(        
+      		SELECT          
+          		B.계약ID, B.사업장ID,  A.BIZ_ID, B.지점여부, B.사업장명, B.사업자등록번호, B.종사업자일련번호, B.단위과세자여부,               
+          		C.사용자ID,   
+          		C.근무시기,
+          		(E.급여+E.상여+E.인정상여+E.직무발명보상금+E.주식매수선택권행사이익+E.우리사주조합인출금+E.임원퇴직소득금액한도초과액+E.비과세한도초과액) AS 과세소득,
+          		<!-- 
+          		(E.M01+E.M02+E.M03+E.O01+E.Q01+E.H08+E.H09+E.H10+E.G01+E.H11+E.H12+E.H13+E.H01+E.K01+E.S01+E.T01+E.Y02+E.Y03+
+              	 E.Y04+E.H05+E.I01+E.R10+E.H14+E.H15+E.T10+E.T11+E.T12+E.T13+E.T20+E.H16+E.H17+E.U01+E.R11+E.H06+E.H07+E.Y22) AS 비과세소득,
+              	 -->
+              	 (G.비과세합계) AS 비과세소득,
+          		(                 
+            		SELECT                      
+              			COUNT(YP000.사용자ID)                 
+            		FROM TBL_YP000 YP000                 
+            		WHERE YP000.계약ID = C.계약ID      
+            		AND YP000.사업장ID = B.사업장ID
+            		AND YP000.사용자ID = C.사용자ID                 
+            		AND YP000.근무시기 = #근무시기#
+            		AND YP000.사용여부 = '1'                 
+            		AND YP000.진행상태코드 = '1'         
+         		) AS 신고대상수,                                   
+          		CASE WHEN F.전자신고ID IS NULL THEN 0 ELSE 1 END 제작여부, 
+          		F.전자신고ID,               
+          		F.제출대상구분코드, F.제출년월일, F.파일위치, F.파일명, F.등록일시               
+      		FROM TBL_YS000 A          
+          		INNER JOIN TBL_YS030 B             
+          		ON A.계약ID = B.계약ID AND B.신고대상 = '1'          
+          		INNER JOIN TBL_YP000 C             
+          		ON B.계약ID = C.계약ID AND B.사업장ID = C.사업장ID AND C.사용여부 = '1' AND C.근무시기 = #근무시기#
+          		INNER JOIN TBL_EMP D         
+          		ON C.사용자ID = D.USER_ID AND D.USE_YN = 'Y'                
+          		INNER JOIN TBL_YP003 E
+          		ON C.계약ID = E.계약ID AND C.사용자ID = E.사용자ID AND C.근무시기 = E.근무시기
+          		INNER JOIN TBL_YP040 G
+                ON E.계약ID = G.계약ID AND E.사용자ID = G.사용자ID AND E.근무시기 = G.근무시기              
+          		LEFT OUTER JOIN TBL_YP800 F          
+          		ON C.계약ID = F.계약ID AND E.근무시기 = F.근무시기 AND F.사용여부 = '1' AND F.구분자코드 = 'SC'       
+          	WHERE A.계약ID = #계약ID#
+			<isNotEmpty property="사업장ID">
+			AND	B.사업장ID = #사업장ID#
+			</isNotEmpty>      		
+		) TAB   
+		GROUP BY 계약ID,사업장ID,BIZ_ID,지점여부,사업장명,사업자등록번호,종사업자일련번호,단위과세자여부,근무시기,제출대상구분코드
+		ORDER BY 계약ID,BIZ_ID,근무시기
+	</select>
+	
+	<select id="yp800DAO.getYP800Cnt" parameterClass="yp800VO" resultClass="java.lang.Integer">
+		SELECT
+  			COUNT(계약ID)			
+		FROM TBL_YP800
+		WHERE 계약ID = #계약ID#
+		AND 구분자코드 = #구분자코드#		
+		<isNotEmpty property="근무시기">
+		AND 근무시기 = #근무시기#
+		</isNotEmpty>
+		<isNotEmpty property="제출대상구분코드">
+		AND 제출대상구분코드 = #제출대상구분코드#
+		</isNotEmpty>
+		<isNotEmpty property="전자신고ID">
+		AND 전자신고ID = #전자신고ID#
+		</isNotEmpty>
+		<isNotEmpty property="사용여부">
+		AND 사용여부 = #사용여부#
+		</isNotEmpty>		
+	</select>
+	
+	<insert id="yp800DAO.insYP800" parameterClass="yp800VO">
+		<selectKey resultClass="java.lang.String" keyProperty="전자신고ID">
+			SELECT  getTableKey('TBL_YP800')
+		</selectKey>
+		INSERT INTO TBL_YP800 (
+  			계약ID,
+  			전자신고ID,
+  			근무시기,
+  			제출대상구분코드,
+  			<isNotEmpty property="제출년월일">
+  			제출년월일,
+  			</isNotEmpty>
+  			<isNotEmpty property="작업자ID">
+  			작업자ID,
+  			</isNotEmpty>
+  			<isNotEmpty property="파일위치">
+  			파일위치,
+  			</isNotEmpty>
+  			<isNotEmpty property="파일명">
+  			파일명,
+  			</isNotEmpty>
+  			구분자코드,
+  			사용여부,
+  			등록일시
+		) VALUES (
+			#계약ID#,
+			#전자신고ID#,
+			#근무시기#,
+			#제출대상구분코드#,
+			<isNotEmpty property="제출년월일">
+			#제출년월일#,
+			</isNotEmpty>
+			<isNotEmpty property="작업자ID">
+			#작업자ID#,
+			</isNotEmpty>
+			<isNotEmpty property="파일위치">
+			#파일위치#,
+			</isNotEmpty>
+			<isNotEmpty property="파일명">
+			#파일명#,
+			</isNotEmpty>
+			#구분자코드#,
+			#사용여부#,
+			DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+		)
+	</insert>	  
+
+	<update id="yp800DAO.updYP800" parameterClass="yp800VO">	
+		UPDATE TBL_YP800
+		set 작업자ID = #작업자ID#,
+			사용여부 = '0'
+		WHERE 계약ID = #계약ID#
+		AND 근무시기 = #근무시기#
+		AND 제출대상구분코드 = #제출대상구분코드#
+		<isNotEmpty property="구분자코드">
+		AND 구분자코드 = #구분자코드#
+		</isNotEmpty>
+	</update>
+	
+	<!-- A레코드 (본점정보)-->
+	<select id="yp800DAO.getARecordInfo" parameterClass="yp800VO" resultMap="aRecordPayMap">
+		SELECT
+			IFNULL(C.관할세무서코드, '101') AS A3, 
+     		CASE
+     			WHEN B.BIZ_TYPE = '1' THEN '2'
+     			WHEN B.BIZ_TYPE = '2' THEN '3'
+     			ELSE ''
+     		END AS A5, C.홈택스아이디 AS A7,
+     		C.사업자등록번호 AS A9,C.사업장명 AS A10,
+     		C.제출담당부서명 AS A11, C.제출담당자성명 AS A12, C.제출담당자전화번호 AS A13,
+     		( SELECT COUNT(사업장ID)
+      		  FROM(
+        		SELECT T1.계약ID, T1.사업장ID
+        		FROM TBL_YS030 T1
+             		 INNER JOIN TBL_YP000 T2
+             		 ON T1.계약ID = T2.계약ID  AND T1.사업장ID = T2.사업장ID  AND T2.사용여부 = '1' AND T2.진행상태코드 = '1' AND T2.근무시기 = #근무시기#
+        		WHERE T1.계약ID = #계약ID#
+        		AND T1.사용여부 = '1'
+        		AND T1.신고대상 = '1'
+        		GROUP BY T1.계약ID, T1.사업장ID
+      		) TAB)  AS A14        
+		FROM TBL_YS000 A
+			INNER JOIN TBL_BIZ B
+			ON A.BIZ_ID = B.BIZ_ID
+			INNER JOIN TBL_YS030 C
+			ON A.계약ID = C.계약ID AND C.지점여부 = '0' AND C.사용여부 = '1'
+			WHERE C.계약ID = #계약ID#
+	</select>
+	
+	
+	<!-- B레코드 -->
+	<select id="yp800DAO.getBRecordInfo" parameterClass="yp800VO" resultMap="bRecordPayMap">
+		SELECT
+    		IFNULL(관할세무서코드, '101') AS B3,
+			사업장명 AS B5,
+			대표자명 AS B6,        
+        	사업자등록번호 AS B7,
+    		법인등록번호_개인식별번호 AS B8,        
+    		SUM(근로자수) AS B11,
+        	SUM(과세소득합계) AS B12,
+        	SUM(비과세소득합계) AS B13
+		FROM(
+			SELECT 
+				C.관할세무서코드, 
+     			C.사업자등록번호, 
+     			C.사업장명,
+     			C.대표자명, 
+     			C.법인등록번호_개인식별번호,       		
+     			COUNT(D.사용자ID) AS 근로자수,
+          		SUM(F.급여+F.상여+F.인정상여+F.직무발명보상금+F.주식매수선택권행사이익+F.우리사주조합인출금+F.임원퇴직소득금액한도초과액+F.비과세한도초과액) AS 과세소득합계,
+          		<!-- 
+          		SUM(F.M01+F.M02+F.M03+F.O01+F.Q01+F.H08+F.H09+F.H10+F.G01+F.H11+F.H12+F.H13+F.H01+F.K01+F.S01+F.T01+F.Y02+F.Y03+
+              	F.Y04+F.H05+F.I01+F.R10+F.H14+F.H15+F.T10+F.T11+F.T12+F.T13+F.T20+F.H16+F.H17+F.U01+F.R11+F.H06+F.H07+F.Y22) AS 비과세소득합계
+              	 -->
+              	 SUM(G.비과세합계) AS 비과세소득합계
+			FROM TBL_YS000 A
+    			 INNER JOIN TBL_BIZ B
+    			 ON A.BIZ_ID = B.BIZ_ID
+    			 INNER JOIN TBL_YS030 C
+    			 ON A.계약ID = C.계약ID AND C.사용여부 = '1' AND C.신고대상 = '1'
+    			 INNER JOIN TBL_YP000 D
+    			 ON A.계약ID = D.계약ID  AND C.사업장ID = D.사업장ID  AND D.사용여부 = '1' AND D.진행상태코드 = '1' AND D.근무시기 = #근무시기#
+    			 INNER JOIN TBL_EMP E
+    			 ON D.사용자ID = E.USER_ID AND E.USE_YN = 'Y'
+	         	 INNER JOIN TBL_YP003 F
+	         	 ON D.계약ID = F.계약ID AND D.사용자ID = F.사용자ID AND F.근무시기 = #근무시기#
+	         	 INNER JOIN TBL_YP040 G
+              	 ON F.계약ID = G.계약ID AND F.사용자ID = G.사용자ID AND F.근무시기 = G.근무시기              
+			WHERE C.계약ID = #계약ID#
+    		AND C.사업장ID = #사업장ID#        
+		)TAB
+		GROUP BY 관할세무서코드,사업자등록번호,사업장명,대표자명,법인등록번호_개인식별번호
+	</select>
+	
+	<!-- C레코드 -->
+	<select id="yp800DAO.getCRecordInfo" parameterClass="yp800VO" resultMap="cRecordPayMap">
+			
+		SELECT
+    		IFNULL(관할세무서코드, '101') AS C3,
+      		사업자등록번호 AS C5,
+      		개인식별번호 AS C6,
+      		EMP_NAME AS C7,
+      		PHONE_NUM AS C8,
+      		내외국인 AS C9,
+      		거주구분 AS C10,
+      		거주지국코드 AS C11,
+      		근무기간시작년월일 AS C12,
+      		근무기간종료년월일 AS C13,
+      		과세소득 AS C14,
+      		비과세소득 AS C15
+		FROM(
+			SELECT 
+				<![CDATA[ 
+				C.관할세무서코드, 
+     			C.사업자등록번호, 
+          		D.개인식별번호,
+          		E.EMP_NAME,
+          		IFNULL(E.PHONE_NUM, C.회사전화1) AS PHONE_NUM,
+          		CASE 
+              		WHEN D.내외국인구분 = '1' THEN '1'
+              		WHEN D.내외국인구분 = '2' THEN '9'
+              		ELSE '1'
+          		END AS 내외국인,
+          		D.거주구분,
+          		CASE
+              		WHEN D.거주구분 = '1' THEN 'KR'
+            		WHEN D.거주구분 = '2' THEN D.거주지국코드
+          		END AS 거주지국코드,
+          		CASE             
+              		WHEN #근무시기# = '1' THEN             
+                  		CASE
+                    		WHEN SUBSTRING(E.JOIN_DATE,1,4) = #귀속년도# THEN E.JOIN_DATE  
+                    		WHEN SUBSTRING(E.JOIN_DATE,1,4) < #귀속년도# THEN CONCAT(#귀속년도#,'0101') 
+                    		ELSE E.JOIN_DATE
+                  		END
+              		WHEN #근무시기# = '2' THEN
+                  		CASE
+                    		WHEN SUBSTRING(E.JOIN_DATE,1,8) < CONCAT(#귀속년도#,'0701') THEN CONCAT(#귀속년도#,'0701') 
+                      		WHEN SUBSTRING(E.JOIN_DATE,1,8) >= CONCAT(#귀속년도#,'0701') THEN E.JOIN_DATE
+                    		ELSE E.JOIN_DATE
+                  		END
+          		END AS 근무기간시작년월일,    
+          		CASE   
+            		WHEN #근무시기# = '1' THEN 
+            			CASE 
+							WHEN E.LEAVE_DATE = '0' THEN CONCAT(#귀속년도#,'0630')
+    						WHEN E.LEAVE_DATE = '00000000' THEN CONCAT(#귀속년도#,'0630')
+    						WHEN E.LEAVE_DATE = '00000101' THEN CONCAT(#귀속년도#,'0630')
+  							WHEN IFNULL(E.LEAVE_DATE,'') = '' THEN CONCAT(#귀속년도#,'0630')
+  							WHEN SUBSTRING(E.LEAVE_DATE,1,8) > CONCAT(#귀속년도#,'0630') THEN CONCAT(#귀속년도#,'0630')
+                			WHEN SUBSTRING(E.LEAVE_DATE,1,8) <= CONCAT(#귀속년도#,'0630') THEN E.LEAVE_DATE
+  							WHEN SUBSTRING(E.LEAVE_DATE,1,4) > #귀속년도# THEN CONCAT(#귀속년도#,'0630')
+  							ELSE E.LEAVE_DATE
+  						END            		
+            		WHEN #근무시기# = '2' THEN
+              			CASE 
+            				WHEN E.LEAVE_DATE = '0' THEN CONCAT(#귀속년도#,'1231')
+      			    		WHEN E.LEAVE_DATE = '00000000' THEN CONCAT(#귀속년도#,'1231')
+      			    		WHEN E.LEAVE_DATE = '00000101' THEN CONCAT(#귀속년도#,'1231')
+              				WHEN IFNULL(E.LEAVE_DATE,'') = '' THEN CONCAT(#귀속년도#,'1231')
+              				WHEN SUBSTRING(E.LEAVE_DATE,1,4) > #귀속년도# THEN CONCAT(#귀속년도#,'1231') 
+              				ELSE E.LEAVE_DATE
+          	  			END
+          		END AS 근무기간종료년월일, 
+          		(F.급여+F.상여+F.인정상여+F.직무발명보상금+F.주식매수선택권행사이익+F.우리사주조합인출금+F.임원퇴직소득금액한도초과액+F.비과세한도초과액) AS 과세소득,  
+              	(G.비과세합계) AS 비과세소득
+              	 ]]>
+			FROM TBL_YS000 A
+    			 INNER JOIN TBL_BIZ B
+    			 ON A.BIZ_ID = B.BIZ_ID
+    			 INNER JOIN TBL_YS030 C
+    			 ON A.계약ID = C.계약ID AND C.사용여부 = '1' AND C.신고대상 = '1'
+    			 INNER JOIN TBL_YP000 D
+    			 ON A.계약ID = D.계약ID  AND C.사업장ID = D.사업장ID  AND D.사용여부 = '1' AND D.진행상태코드 = '1' AND D.근무시기 = #근무시기#
+    			 INNER JOIN TBL_EMP E
+    			 ON D.사용자ID = E.USER_ID AND E.USE_YN = 'Y'
+	         	 INNER JOIN TBL_YP003 F
+	         	 ON D.계약ID = F.계약ID AND D.사용자ID = F.사용자ID AND D.근무시기 = F.근무시기
+	         	 INNER JOIN TBL_YP040 G
+              	 ON F.계약ID = G.계약ID AND F.사용자ID = G.사용자ID AND F.근무시기 = G.근무시기
+			WHERE C.계약ID = #계약ID#
+    		AND C.사업장ID = #사업장ID#
+        	AND D.사용자ID = #사용자ID#
+		)TAB
+	</select>	
+	
+	<!-- 근무처의 사용자 아이디 정보를 조회한다. -->
+	<select id="yp800DAO.getEmpList" remapResults="true" parameterClass="yp800VO" resultClass="java.util.HashMap">
+		SELECT
+  			D.사용자ID
+		FROM TBL_YS000 A
+	 		INNER JOIN TBL_BIZ B
+	 		ON A.BIZ_ID = B.BIZ_ID
+	 		INNER JOIN TBL_YS030 C
+	 		ON A.계약ID = C.계약ID AND C.사용여부 = '1' AND C.신고대상 = '1'
+	 		INNER JOIN TBL_YP000 D
+	 		ON A.계약ID = D.계약ID  AND C.사업장ID = D.사업장ID  AND D.사용여부 = '1' AND D.진행상태코드 = '1' AND D.근무시기 = #근무시기#
+	 		INNER JOIN TBL_EMP E
+	 		ON D.사용자ID = E.USER_ID AND E.USE_YN = 'Y'
+      		INNER JOIN TBL_YP003 F
+      		ON D.계약ID = F.계약ID AND D.사용자ID = F.사용자ID AND D.근무시기 = F.근무시기
+      		INNER JOIN TBL_YP040 G
+			ON F.계약ID = G.계약ID AND F.사용자ID = G.사용자ID AND F.근무시기 = G.근무시기
+		WHERE C.계약ID = #계약ID#
+		AND C.사업장ID = #사업장ID#
+		ORDER BY E.EMP_NO
+	</select>
+	
+</sqlMap>

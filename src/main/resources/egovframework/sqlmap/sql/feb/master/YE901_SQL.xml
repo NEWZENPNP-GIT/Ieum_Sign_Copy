@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="febmaster">
+    <typeAlias alias="ye901VO" type="com.ezsign.feb.master.vo.YE901VO"/>
+	<resultMap id="ye901ListMap" class="ye901VO">
+		<result property="계약ID" column="계약ID"/>
+		<result property="사용자ID" column="사용자ID"/>
+		<result property="진행현황코드" column="진행현황코드"/>
+		<result property="작업자ID" column="작업자ID"/>
+		<result property="등록일시" column="등록일시"/>
+		<result property="수정일시" column="수정일시"/>
+	</resultMap>
+
+    <insert id="ye901DAO.insYE901" parameterClass="ye901VO">
+        INSERT INTO tbl_ye901 (
+            계약ID, 사용자ID, 진행현황코드, 작업자ID, 등록일시, 수정일시
+        ) VALUES (
+            #계약ID#, #사용자ID#, #진행현황코드#, #작업자ID#, DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s'), DATE_FORMAT(SYSDATE(), '%Y%m%d%H%i%s')
+        )
+    </insert>
+    
+    <select id="ye901DAO.getYE901List" parameterClass="ye901VO" resultMap="ye901ListMap">
+		SELECT 계약ID, 사용자ID, 진행현황코드, 작업자ID, 등록일시, 수정일시
+		FROM tbl_ye901
+		WHERE 	계약ID		= #계약ID#
+		AND		사용자ID		= #사용자ID#
+	</select>
+</sqlMap>
